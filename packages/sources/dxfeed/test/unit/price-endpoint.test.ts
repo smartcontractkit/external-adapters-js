@@ -22,6 +22,22 @@ describe('price endpoint (spec data_source_endpoints price / ws transport)', () 
     expect(endpoint.getTransportNameForRequest(restRequest, {} as any)).toBe('rest')
   })
 
+  it('routes the spec example request (from/to aliases, transport=ws) to the ws transport', () => {
+    // Spec endpoint_request_response_examples[1]: {"endpoint": "stock", "from":
+    // "AAPL", "to": "USD", "transport": "ws"} — alias-resolved params must
+    // validate and still pin the dxLink ws transport
+    const wsRequest = { body: { data: { from: 'AAPL', to: 'USD', transport: 'ws' } } } as any
+    expect(endpoint.getTransportNameForRequest(wsRequest, {} as any)).toBe('ws')
+    expect(endpoint.inputParameters.validateInput({ from: 'AAPL', to: 'USD' })).toEqual({
+      base: 'AAPL',
+      quote: 'USD',
+    })
+
+    // The same request without transport falls back to the defaultTransport
+    const noTransportRequest = { body: { data: { from: 'AAPL', to: 'USD' } } } as any
+    expect(endpoint.getTransportNameForRequest(noTransportRequest, {} as any)).toBe('rest')
+  })
+
   it('rejects transport values outside the registered ws|rest routes with a 400', () => {
     // Spec: transport is optional, "ws" (dxLink) or "rest". It is a
     // framework-reserved routing param (not re-declarable in InputParameters
@@ -34,14 +50,17 @@ describe('price endpoint (spec data_source_endpoints price / ws transport)', () 
     )
   })
 
-  it('declares exactly the spec input parameters: base (aliased) and quote', () => {
+  it('declares exactly the spec input parameters: base (aliased), quote, and optional transport', () => {
     const definition = priceInputParameters.definition as any
-    expect(Object.keys(definition).sort()).toEqual(['base', 'quote'])
+    expect(Object.keys(definition).sort()).toEqual(['base', 'quote', 'transport'])
     // Spec price input_parameters: base with the shared alias set, required
     expect(definition.base.required).toBe(true)
     expect(definition.base.aliases).toEqual(['from', 'symbol', 'asset', 'coin', 'ticker', 'market'])
     expect(definition.quote.required).toBe(true)
     expect(definition.quote.aliases).toEqual(['to'])
+    // Spec price input_parameters: transport optional, "ws" (dxLink) or "rest"
+    expect(definition.transport.required).toBe(false)
+    expect(definition.transport.options).toEqual(['ws', 'rest'])
   })
 
   it('validates the spec example request, resolving the from/to aliases', () => {

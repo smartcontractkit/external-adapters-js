@@ -43,7 +43,12 @@ describe('execute', () => {
       mockPriceEndpoint()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
+      // Spec price response shape: data.result and result carry the provider's
+      // last trade price (endpoint_request_response_examples.price).
+      expect(response.json()).toMatchObject({
+        data: { result: 239.255 },
+        result: 239.255,
+      })
     })
   })
 })
