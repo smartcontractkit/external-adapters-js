@@ -3257,7 +3257,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/ssh2-sftp-client": "npm:^9.0.5"
-    csv-parse: "npm:7.0.2"
+    csv-parse: "npm:7.0.3"
     decimal.js: "npm:^10.5.0"
     jest: "npm:^29.7.0"
     jest-util: "npm:^29.7.0"
@@ -4039,7 +4039,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:29.5.14"
     "@types/node": "npm:22.14.1"
-    csv-parse: "npm:7.0.2"
+    csv-parse: "npm:7.0.3"
     date-fns: "npm:3.6.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.6.3"
@@ -4174,7 +4174,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     command-line-args: "npm:5.2.1"
     command-line-usage: "npm:6.1.3"
-    csv-parse: "npm:7.0.2"
+    csv-parse: "npm:7.0.3"
     date-fns: "npm:^4.1.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -13543,10 +13543,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csv-parse@npm:7.0.2":
-  version: 7.0.2
-  resolution: "csv-parse@npm:7.0.2"
-  checksum: 10/66158491d25b2070908c6d28130c1d439bec0e0d1ab3fad372973909e573bcc85a46ca317ae410f0178157f272112e3741b164aaf850d8241128c30ea2137670
+"csv-parse@npm:7.0.3":
+  version: 7.0.3
+  resolution: "csv-parse@npm:7.0.3"
+  checksum: 10/98d80273b47603cbf754f4b75e7ea769ea63eb83fa18e4c92061e64b3575694eb98151100ddbb907670e7210ef7eac594ef850ecd3f23119062eeb8d9a2e2684
   languageName: node
   linkType: hard
 

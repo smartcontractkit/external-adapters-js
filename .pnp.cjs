@@ -5489,7 +5489,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/ssh2-sftp-client", "npm:9.0.6"],\
-          ["csv-parse", "npm:7.0.2"],\
+          ["csv-parse", "npm:7.0.3"],\
           ["decimal.js", "npm:10.5.0"],\
           ["jest", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:29.7.0"],\
           ["jest-util", "npm:29.7.0"],\
@@ -6375,7 +6375,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/s3-csv-reader-adapter", "workspace:packages/sources/s3-csv-reader"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["csv-parse", "npm:7.0.2"],\
+          ["csv-parse", "npm:7.0.3"],\
           ["date-fns", "npm:3.6.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.6.3"],\
@@ -6526,7 +6526,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["command-line-args", "npm:5.2.1"],\
           ["command-line-usage", "npm:6.1.3"],\
-          ["csv-parse", "npm:7.0.2"],\
+          ["csv-parse", "npm:7.0.3"],\
           ["date-fns", "npm:4.1.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -18667,10 +18667,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["csv-parse", [\
-      ["npm:7.0.2", {\
-        "packageLocation": "./.yarn/cache/csv-parse-npm-7.0.2-ebf349712a-66158491d2.zip/node_modules/csv-parse/",\
+      ["npm:7.0.3", {\
+        "packageLocation": "./.yarn/cache/csv-parse-npm-7.0.3-f0dfb851f8-98d80273b4.zip/node_modules/csv-parse/",\
         "packageDependencies": [\
-          ["csv-parse", "npm:7.0.2"]\
+          ["csv-parse", "npm:7.0.3"]\
         ],\
         "linkType": "HARD"\
       }]\
