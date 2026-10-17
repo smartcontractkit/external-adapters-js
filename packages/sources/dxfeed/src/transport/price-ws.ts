@@ -1,12 +1,6 @@
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { BaseEndpointTypes, priceInputParameters } from '../endpoint/price'
-import {
-  buildDxLinkWsTransport,
-  DxLinkRawResult,
-  DxLinkRecord,
-  DxLinkSubscriptionEntry,
-  parseNumeric,
-} from './ws'
+import * as dxlinkWs from './ws'
 
 // FEED_CONFIG eventFields.Trade positions (spec price sample_response)
 // The Trade/TradeETH COMPACT record -> price result mapping below is the
@@ -51,7 +45,7 @@ export class TradeProcessor {
    * deleting the symbol's newest-time entry there keeps this map bounded
    * across subscription churn. A later resubscription starts fresh.
    */
-  unsubscribe(entries: DxLinkSubscriptionEntry[]): void {
+  unsubscribe(entries: dxlinkWs.DxLinkSubscriptionEntry[]): void {
     for (const { symbol, type } of entries) {
       if (type === 'Trade' || type === 'TradeETH') {
         delete this.latestTimeBySymbol[symbol.toUpperCase()]
@@ -61,9 +55,9 @@ export class TradeProcessor {
 
   processRecord(
     eventType: string,
-    record: DxLinkRecord,
+    record: dxlinkWs.DxLinkRecord,
     params: TypeFromDefinition<typeof priceInputParameters.definition>,
-  ): DxLinkRawResult | undefined {
+  ): dxlinkWs.DxLinkRawResult | undefined {
     if (eventType !== 'Trade' && eventType !== 'TradeETH') {
       return undefined
     }
@@ -75,8 +69,8 @@ export class TradeProcessor {
     // casing share the dedupe state, so an older record can never be served
     // after a newer one on any of them
     const eventSymbol = String(record[EVENT_SYMBOL_INDEX]).toUpperCase()
-    const time = parseNumeric(record[TIME_INDEX])
-    const price = parseNumeric(record[PRICE_INDEX])
+    const time = dxlinkWs.parseNumeric(record[TIME_INDEX])
+    const price = dxlinkWs.parseNumeric(record[PRICE_INDEX])
     const latestTime = this.latestTimeBySymbol[eventSymbol]
     // Reference semantics (spec reference_ea: preserve endpoint semantics
     // exactly): only strictly older records are ignored; an equal-time record
@@ -124,7 +118,7 @@ export class TradeProcessor {
  */
 export const buildPriceWsTransport = () => {
   const tradeProcessor = new TradeProcessor()
-  return buildDxLinkWsTransport<BaseEndpointTypes>({
+  return dxlinkWs.buildDxLinkWsTransport<BaseEndpointTypes>({
     formatTickers: (params) => tradeTickers(params.base),
     processRecord: (eventType, record, params) =>
       tradeProcessor.processRecord(eventType, record, params),

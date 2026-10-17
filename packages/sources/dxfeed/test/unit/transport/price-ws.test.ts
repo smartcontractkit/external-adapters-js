@@ -5,7 +5,7 @@ import {
   TradeProcessor,
   tradeTickers,
 } from '../../../src/transport/price-ws'
-import type { DxLinkRecord } from '../../../src/transport/ws'
+import type { DxLinkMessage, DxLinkRecord } from '../../../src/transport/ws'
 import { DxLinkFeed, DxLinkFeedDeps } from '../../../src/transport/ws'
 import frames from '../fixtures/dxlink-frames.json'
 
@@ -13,6 +13,44 @@ import frames from '../fixtures/dxlink-frames.json'
 LoggerFactoryProvider.set()
 
 const PARAMS = { base: 'AAPL:USLF24', quote: 'USD' }
+
+type Listener = (event: { data?: unknown; code?: number }) => void
+
+/** Minimal fake connection capturing the handshake frames the open gate sends. */
+const makeConnection = () => {
+  const sent: DxLinkMessage[] = []
+  const listeners = new Map<string, Set<Listener>>()
+  return {
+    sent,
+    send: (data: string) => sent.push(JSON.parse(data)),
+    addEventListener: (event: 'message' | 'close', listener: Listener) => {
+      const set = listeners.get(event) ?? new Set<Listener>()
+      set.add(listener)
+      listeners.set(event, set)
+    },
+    removeEventListener: (event: 'message' | 'close', listener: Listener) => {
+      listeners.get(event)?.delete(listener)
+    },
+    emit: (frame: unknown) => {
+      for (const listener of [...(listeners.get('message') ?? [])]) {
+        listener({ data: JSON.stringify(frame) })
+      }
+    },
+  }
+}
+
+/** Resolves 'pending' for an unsettled promise, else its settled state. */
+const settledState = (p: Promise<unknown>) =>
+  Promise.race([
+    p.then(
+      () => 'resolved' as const,
+      () => 'rejected' as const,
+    ),
+    Promise.resolve().then(() => 'pending' as const),
+  ])
+
+// WS_CONNECTION_OPEN_TIMEOUT unset: the open gate runs without the timeout race
+const OPEN_CONTEXT = { adapterSettings: {} } as any
 
 // Spec price sample_response FEED_CONFIG field layout: index 2 = time, 3 = price
 const tradeRecord = (time: number, price: number) => [
@@ -343,5 +381,172 @@ describe('the 502 result never carries a NaN or null providerIndicatedTimeUnixMs
     // Served without a provider timestamp: the non-finite time is omitted,
     // never NaN/null in a number-typed field
     expect(result.timestamps).toBeUndefined()
+  })
+})
+
+describe('price WS transport handshake sequence (spec primary_command: SETUP -> CHANNEL_REQUEST -> FEED_SETUP, open resolves only after FEED_CONFIG)', () => {
+  it('sends the three spec primary_command handshake frames in order with their exact shapes', async () => {
+    const transport = buildPriceWsTransport()
+    const connection = makeConnection()
+
+    const opened = (transport as any).config.handlers.open(connection, OPEN_CONTEXT)
+
+    // Spec primary_command, in order: SETUP, CHANNEL_REQUEST, FEED_SETUP
+    expect(connection.sent.map((m: DxLinkMessage) => m.type)).toEqual([
+      'SETUP',
+      'CHANNEL_REQUEST',
+      'FEED_SETUP',
+    ])
+    const [setup, channelRequest, feedSetup] = connection.sent
+    // Spec primary_command SETUP message
+    expect(setup).toEqual({
+      type: 'SETUP',
+      channel: 0,
+      version: '0.1-js/1.0.0',
+      keepaliveTimeout: 60,
+      acceptKeepaliveTimeout: 60,
+    })
+    // Spec primary_command CHANNEL_REQUEST message
+    expect(channelRequest).toEqual({
+      type: 'CHANNEL_REQUEST',
+      channel: 1,
+      service: 'FEED',
+      parameters: { contract: 'AUTO' },
+    })
+    // Spec primary_command FEED_SETUP message
+    expect(feedSetup).toMatchObject({
+      type: 'FEED_SETUP',
+      channel: 1,
+      acceptAggregationPeriod: 1,
+      acceptDataFormat: 'COMPACT',
+    })
+
+    // The open gate stays pending until the provider answers FEED_CONFIG
+    connection.emit(frames.keepaliveFrame)
+    expect(await settledState(opened)).toBe('pending')
+    connection.emit(frames.priceFeedConfig)
+    await expect(opened).resolves.toBeUndefined()
+  })
+})
+
+describe('price WS transport auth header (spec data_source_authentication.usage.handshake_header: Authorization: Basic <base64(API_USERNAME:API_PASSWORD)>)', () => {
+  it('options() returns the Basic Authorization header built from the credential pair, never a URL credential', () => {
+    const transport = buildPriceWsTransport()
+    expect(
+      (transport as any).config.options({
+        adapterSettings: { API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' },
+      }),
+    ).toEqual({
+      headers: {
+        Authorization: `Basic ${Buffer.from('dxfeed-user:dxfeed-pass').toString('base64')}`,
+      },
+    })
+  })
+})
+
+describe('price WS transport FEED_SUBSCRIPTION frames (spec primary_command FEED_SUBSCRIPTION add/remove per (symbol, eventType))', () => {
+  const uslfParams = { base: 'AAPL:USLF24', quote: 'USD' }
+  const builder = (transport: unknown, subscriptions: unknown): DxLinkMessage[] =>
+    (
+      transport as {
+        config: { builders: { customSubscriptionMessages: (c: unknown, s: unknown) => unknown } }
+      }
+    ).config.builders.customSubscriptionMessages({}, subscriptions) as DxLinkMessage[]
+
+  it('subscribes both Trade and TradeETH entries for a :USLF24 symbol', () => {
+    const transport = buildPriceWsTransport()
+    expect(builder(transport, { desired: [uslfParams], new: [uslfParams], stale: [] })).toEqual([
+      {
+        type: 'FEED_SUBSCRIPTION',
+        channel: 1,
+        add: [
+          { symbol: 'AAPL:USLF24', type: 'Trade' },
+          { symbol: 'AAPL:USLF24', type: 'TradeETH' },
+        ],
+      },
+    ])
+  })
+
+  it('unsubscribes with FEED_SUBSCRIPTION remove entries for the same (symbol, eventType) keys', () => {
+    const transport = buildPriceWsTransport()
+    builder(transport, { desired: [uslfParams], new: [uslfParams], stale: [] })
+    expect(builder(transport, { desired: [], new: [], stale: [uslfParams] })).toEqual([
+      {
+        type: 'FEED_SUBSCRIPTION',
+        channel: 1,
+        remove: [
+          { symbol: 'AAPL:USLF24', type: 'Trade' },
+          { symbol: 'AAPL:USLF24', type: 'TradeETH' },
+        ],
+      },
+    ])
+  })
+})
+
+describe('price WS transport COMPACT parsing and control-frame filtering (spec price sample_response, acceptDataFormat=COMPACT)', () => {
+  it('rejects a Trade price carried as the JSON string "NaN" as an invalid (502) result (spec valueRangeScalingNotes)', () => {
+    const transport = connectedTransport(buildPriceWsTransport(), PARAMS)
+    const nanFrame = {
+      type: 'FEED_DATA',
+      channel: 1,
+      data: [
+        'Trade',
+        [
+          'Trade',
+          'AAPL:USLF24',
+          1760000000000,
+          'NaN',
+          10,
+          12345,
+          'V',
+          0.12,
+          5000000,
+          999000000,
+          'UP',
+          false,
+        ],
+      ],
+    }
+
+    const results = transportMessage(transport, nanFrame)
+    expect(results).toHaveLength(1)
+    expect(results[0].response.statusCode).toBe(502)
+    expect(results[0].response.errorMessage).toContain('invalid')
+    expect(results[0].response.result).toBeUndefined()
+  })
+
+  it('truncates a trailing partial record: the complete record is served, the torn tail is not', () => {
+    const transport = connectedTransport(buildPriceWsTransport(), PARAMS)
+    // One complete 12-field Trade record followed by a torn 4-field tail
+    const tornTailFrame = {
+      type: 'FEED_DATA',
+      channel: 1,
+      data: [
+        'Trade',
+        [
+          ...frames.priceTradeFrame.data[1],
+          // Torn second record: only 4 of the 12 fields arrived
+          'Trade',
+          'AAPL:USLF24',
+          1760000001000,
+          999.99,
+        ],
+      ],
+    }
+
+    const results = transportMessage(transport, tornTailFrame)
+    expect(results).toHaveLength(1)
+    // The COMPLETE record (spec sample: 189.98 at t=1760000000000) is served...
+    expect(results[0].response.result).toBe(189.98)
+    expect(results[0].response.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+    // ...and the torn tail's values never surface as a result
+    expect(results.some((r: any) => r.response.result === 999.99)).toBe(false)
+  })
+
+  it('produces no results for ERROR, KEEPALIVE and CHANNEL_CLOSED control frames (owner decision degraded_stream_alerting=metrics_counters_only)', () => {
+    const transport = connectedTransport(buildPriceWsTransport(), PARAMS)
+    for (const frame of [frames.errorFrame, frames.keepaliveFrame, frames.channelClosedFrame]) {
+      expect(transportMessage(transport, frame)).toEqual([])
+    }
   })
 })

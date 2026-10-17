@@ -108,29 +108,53 @@ describe('config surface (plan CONF-ENV-MISMATCH: the spec lists four environmen
   })
 })
 
-describe('WS settings are startup-required (plan CONF-ENV-MISMATCH proving test: the spec environment_variables mark API_USERNAME, API_PASSWORD and WS_API_ENDPOINT required)', () => {
+describe('WS settings are NOT startup-required (plan item 1: the spec requires the credential pair and the dxLink URL on WS paths only — the REST-only boot keeps working with no WS variables at all)', () => {
   const STARTUP_ENV = { ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }
 
-  it('fails startup with a validation error naming API_USERNAME when it is unset', () => {
-    withSettings({ ...STARTUP_ENV, API_USERNAME: undefined }, () =>
-      expect(() => config.validate()).toThrow(/API_USERNAME/),
+  it('boots with NO WS variables set — none of the three is startup-required', () => {
+    withSettings(
+      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: undefined },
+      () => expect(() => config.validate()).not.toThrow(),
     )
   })
 
-  it('fails startup with a validation error naming API_PASSWORD when it is unset', () => {
-    withSettings({ ...STARTUP_ENV, API_PASSWORD: undefined }, () =>
-      expect(() => config.validate()).toThrow(/API_PASSWORD/),
+  it('boots when WS_API_ENDPOINT alone is unset — the URL checks run only when a value is set', () => {
+    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: undefined }, () =>
+      expect(() => config.validate()).not.toThrow(),
     )
   })
 
-  it('fails startup with a validation error naming WS_API_ENDPOINT when it is unset', () => {
-    withSettings({ ...STARTUP_ENV, WS_API_ENDPOINT: undefined }, () =>
-      expect(() => config.validate()).toThrow(/WS_API_ENDPOINT/),
+  it('boots when only the credential pair is unset — the pair is a WS-path request-time requirement, not a startup one', () => {
+    withSettings(
+      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: DXLINK_ENDPOINT },
+      () => expect(() => config.validate()).not.toThrow(),
     )
   })
 
   it('passes startup when all three are set with a clean dxLink WS_API_ENDPOINT', () => {
     withSettings(STARTUP_ENV, () => expect(() => config.validate()).not.toThrow())
+  })
+
+  it('keeps the spec-declared required:true on the three WS settings definitions (the spec environment_variables table — what the REST-only boot relaxes is the STARTUP enforcement, never the declaration)', () => {
+    const definitions = (
+      config as unknown as {
+        settingsDefinition: Record<string, { required: boolean }>
+      }
+    ).settingsDefinition
+    expect(definitions['API_USERNAME'].required).toBe(true)
+    expect(definitions['API_PASSWORD'].required).toBe(true)
+    expect(definitions['WS_API_ENDPOINT'].required).toBe(true)
+  })
+
+  it('startup still rejects a WS_API_ENDPOINT value that fails the breaking-change URL checks while the credential pair is unset (only the requiredness checks are relaxed)', () => {
+    withSettings(
+      {
+        API_USERNAME: undefined,
+        API_PASSWORD: undefined,
+        WS_API_ENDPOINT: 'wss://dxlink.fake.test/chainlink/cometd',
+      },
+      () => expect(() => config.validate()).toThrow(/cometd/),
+    )
   })
 
   it('a REST-path price request is still not gated by the WS env checks (the checks key off the resolved transport, ws only)', () => {

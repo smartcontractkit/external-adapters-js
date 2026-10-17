@@ -7,36 +7,28 @@ import nock from 'nock'
 import { FAKE_REST_ENDPOINT, mockBatchedRestTransport } from './rest-mocks'
 
 /**
- * Plan item proving test (OPDATA-9200): the REST transport
- * (transport/price-http.ts, defaultTransport "rest") stays untouched by the
- * dxLink migration (owner decision rest_transport_scope=keep_untouched) — a
- * price request with no transport param still boots the adapter and serves
- * through the nock-intercepted fake REST host, never the WS transport.
- *
- * The boot env supplies the startup-required WS settings (API_USERNAME,
- * API_PASSWORD, WS_API_ENDPOINT — spec environment_variables mark all three
- * required: true, plan CONF-ENV-MISMATCH: the dxLink Basic auth handshake
- * needs them). That does not route anything through WS: the requests below
- * carry no transport param, fall through to defaultTransport "rest", and the
- * nock interception on the fake REST host is the proof the untouched REST
- * transport served them.
+ * Plan item 1 proving test (OPDATA-9200): the adapter boots with ONLY
+ * API_ENDPOINT set. API_USERNAME, API_PASSWORD and WS_API_ENDPOINT are NOT
+ * startup-required — the spec requires them on WS paths only (the config
+ * gates them with the WS_API_ENDPOINT validate fns and the endpoints'
+ * customInputValidation), so a REST-only boot must succeed and the untouched
+ * REST transport (owner decision rest_transport_scope=keep_untouched) must
+ * serve requests unchanged. The boot itself — under an environment with no WS
+ * variables at all — is the first assertion.
  */
 
-describe('REST transport untouched (defaultTransport rest, no transport param)', () => {
+describe('REST-only boot (no WS env vars set)', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    // Startup-required WS settings (spec environment_variables, plan
-    // CONF-ENV-MISMATCH): the boot fails without them, so the mocked values
-    // satisfy config.validate() — they open no connection here (the REST-path
-    // requests below never touch the WS transport)
-    process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
-    process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
-    process.env['WS_API_ENDPOINT'] =
-      process.env['WS_API_ENDPOINT'] ?? 'wss://dxlink.fake.test/dxlink-chainlink'
+    // The plan's REST-only boot environment: API_USERNAME, API_PASSWORD and
+    // WS_API_ENDPOINT are deleted — the boot must not require them
+    for (const name of ['API_USERNAME', 'API_PASSWORD', 'WS_API_ENDPOINT']) {
+      delete process.env[name]
+    }
     // Fake REST host (test_fake_urls): the untouched REST transport reads
     // API_ENDPOINT from settings, so the nock interceptor in rest-mocks.ts is
     // what the requests hit — never a real provider host
@@ -47,6 +39,8 @@ describe('REST transport untouched (defaultTransport rest, no transport param)',
 
     const adapter = (await import('./../../src')).adapter as unknown as Adapter
     adapter.rateLimiting = undefined
+    // Batched REST mock (the untouched REST transport batches the desired
+    // symbol set into one request); see rest-mocks.ts
     mockBatchedRestTransport()
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
@@ -63,11 +57,12 @@ describe('REST transport untouched (defaultTransport rest, no transport param)',
     spy.mockRestore()
   })
 
-  it('serves a price request through the REST transport when no transport param is given', async () => {
+  it('boots with only API_ENDPOINT set and serves a price request through the REST transport', async () => {
     // No transport param: the request falls through to defaultTransport "rest"
     // (owner decision rest_transport_scope=keep_untouched). The nock
     // interception on the fake REST host is the proof the REST transport
-    // handled it.
+    // handled it — and that the WS transport (and its missing credentials)
+    // played no part.
     const response = await testAdapter.request({ base: 'TSLA', to: 'USD' })
     expect(response.statusCode).toBe(200)
     // Spec price response shape: data.result and result carry the provider's

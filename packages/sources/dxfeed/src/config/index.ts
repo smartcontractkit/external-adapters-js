@@ -80,12 +80,12 @@ export const validateWsApiEndpoint = (value?: string): string => {
 /**
  * Spec data_source_authentication breaking_change_env_checks: the Basic
  * credential pair (the dxLink AUTH message exists but is NOT used; credentials
- * ride the Authorization header only). API_USERNAME, API_PASSWORD and
- * WS_API_ENDPOINT are declared required in the AdapterConfig below (spec
- * environment_variables mark all three required: true — plan CONF-ENV-MISMATCH),
- * so startup fails without them. This request-time check is kept as
- * defense-in-depth: the endpoints' customInputValidation runs it on requests
- * whose resolved transport is ws, with a clear per-request error.
+ * ride the Authorization header only). The WS settings are NOT
+ * startup-required — the spec requires them on WS paths only, and the
+ * REST-only boot (owner decision rest_transport_scope=keep_untouched) must
+ * keep working with no WS variables at all. This request-time check is the
+ * WS-path gate: the endpoints' customInputValidation runs it on requests whose
+ * resolved transport is ws, with a clear per-request error.
  */
 export const missingWsCredentials = (settings: {
   API_USERNAME?: string
@@ -145,6 +145,39 @@ export class AdapterConfig<
     super.buildCensorList()
     return CensorList.getAll()
   }
+
+  /**
+   * Plan item 1 (owner decision rest_transport_scope=keep_untouched): the spec
+   * environment_variables mark API_USERNAME, API_PASSWORD and WS_API_ENDPOINT
+   * required — they gate WS-path use — but they are NOT startup-required: the
+   * REST-only boot must keep working with no WS variables at all, and the
+   * requirement is enforced on the WS path at request time instead
+   * (wsEnvInputValidationError through the endpoints' customInputValidation).
+   * Startup validation therefore skips ONLY those three requiredness checks and
+   * keeps every other one (types, the WS_API_ENDPOINT breaking-change URL
+   * checks, the framework's own settings).
+   */
+  validate(): void {
+    const wsSettings = ['API_USERNAME', 'API_PASSWORD', 'WS_API_ENDPOINT']
+    const config = this as unknown as {
+      settingsDefinition: Record<string, { required: boolean } | undefined>
+    }
+    const relaxed: { required: boolean }[] = []
+    for (const name of wsSettings) {
+      const definition = config.settingsDefinition[name]
+      if (definition?.required) {
+        definition.required = false
+        relaxed.push(definition)
+      }
+    }
+    try {
+      super.validate()
+    } finally {
+      for (const definition of relaxed) {
+        definition.required = true
+      }
+    }
+  }
 }
 
 /**
@@ -157,14 +190,19 @@ export class AdapterConfig<
 export const buildAdapterConfig = () =>
   new AdapterConfig(
     {
-      // Spec environment_variables mark API_USERNAME, API_PASSWORD and
-      // WS_API_ENDPOINT required: true (plan CONF-ENV-MISMATCH: the AdapterConfig
-      // must match the spec surface) — the dxLink WS transport cannot build the
-      // Basic auth handshake header or the endpoint URL without them, so startup
-      // fails when any is unset. The breaking-change env checks stay: the
-      // WS_API_ENDPOINT validate fn below rejects the legacy cometd path and
-      // embedded ://user:pass@ credentials, and wsEnvInputValidationError keeps
-      // gating requests whose resolved transport is ws.
+      // The spec environment_variables mark API_USERNAME, API_PASSWORD and
+      // WS_API_ENDPOINT required: true (they gate WS-path use — the dxLink WS
+      // transport cannot build the Basic auth handshake header or the endpoint
+      // URL without them). They are NOT startup-required (plan item 1): the
+      // REST-only boot (owner decision rest_transport_scope=keep_untouched)
+      // must keep working with none of them set, so the AdapterConfig's
+      // validate() override below skips ONLY these three requiredness checks at
+      // startup and the WS-path requirement is enforced at request time
+      // (wsEnvInputValidationError through the endpoints' customInputValidation
+      // on requests whose resolved transport is ws). The breaking-change env
+      // checks stay: the WS_API_ENDPOINT validate fn below runs ONLY when a
+      // value is set (the framework skips validate fns for unset settings) and
+      // rejects the legacy cometd path and embedded ://user:pass@ credentials.
       API_USERNAME: {
         description: 'username for dxfeed API',
         type: 'string',
@@ -180,10 +218,6 @@ export const buildAdapterConfig = () =>
       WS_API_ENDPOINT: {
         description: 'The websocket url for dxfeed (dxLink endpoint)',
         type: 'string',
-        // Startup-required (spec environment_variables.WS_API_ENDPOINT
-        // required: true, no default). The breaking-change validate fn below
-        // rejects the legacy cometd path and embedded credentials whenever a
-        // value is set.
         required: true,
         sensitive: true,
         validate: {
