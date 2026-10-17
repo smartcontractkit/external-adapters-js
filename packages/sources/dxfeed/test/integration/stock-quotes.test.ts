@@ -181,7 +181,12 @@ describe('stock_quotes endpoint semantics on the dxLink transport', () => {
     // Spec stock_quotes: "requireVolume errors on invalid volumes"
     const response = await requestUntilCached(quoteRequest('NVOL', { requireVolume: true }))
     expect(response.statusCode).toBe(502)
-    expect(response.json()).toMatchObject({ errorMessage: expect.anything() })
+    expect(response.json()).toMatchObject({
+      errorMessage: expect.anything(),
+      // The provider timestamp is a report field on EVERY result (spec
+      // intake.purposeHowUsed): the failed record's own Quote time rides the 502
+      timestamps: { providerIndicatedTimeUnixMs: 1760000003000 },
+    })
   })
 
   it('passes invalid volumes through unchanged (null on the wire) without requireVolume and keeps the mid', async () => {
@@ -228,6 +233,29 @@ describe('stock_quotes endpoint semantics on the dxLink transport', () => {
       result: 100.5,
       timestamps: {
         providerIndicatedTimeUnixMs: 1760000005000,
+      },
+    })
+  })
+
+  it('fans one wire key out per params: the record isOvernight=true drops serves the same symbol without it', async () => {
+    // Plan item (per-params fan-out): the dxLink fan-out keys results by exact
+    // params through the wire-key reverse index, so ONE wire record
+    // (Quote:NVCE:USLF24) serves each params combo its own result — the
+    // isOvernight=true request above stays unserved (504) while the same symbol
+    // WITHOUT isOvernight is served that same record.
+    const response = await requestUntilCached(quoteRequest('NVCE'))
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchObject({
+      data: {
+        mid_price: 100.5,
+        bid_price: 100,
+        bid_volume: 10,
+        ask_price: 101,
+        ask_volume: 11,
+      },
+      result: 100.5,
+      timestamps: {
+        providerIndicatedTimeUnixMs: 1760000006000,
       },
     })
   })

@@ -72,12 +72,12 @@ export const validateWsApiEndpoint = (value?: string): string => {
 /**
  * Spec data_source_authentication breaking_change_env_checks: the Basic
  * credential pair (the dxLink AUTH message exists but is NOT used; credentials
- * ride the Authorization header only). The spec declares API_USERNAME,
- * API_PASSWORD and WS_API_ENDPOINT required=true, so the AdapterConfig marks
- * all three required and a deployment boots only with them set. The WS-path
- * request-time check below re-enforces the pair on requests whose resolved
- * transport is ws, with a clear per-request error — defense in depth behind
- * the startup gate.
+ * ride the Authorization header only). API_USERNAME and API_PASSWORD are
+ * required at startup (spec environment_variables); WS_API_ENDPOINT is
+ * request-time only (the REST-only deployment downgrade). The WS-path
+ * request-time check below re-enforces the pair — plus WS_API_ENDPOINT
+ * presence — on requests whose resolved transport is ws, with a clear
+ * per-request error.
  */
 export const missingWsCredentials = (settings: {
   API_USERNAME?: string
@@ -142,7 +142,17 @@ export const config = new AdapterConfig(
     WS_API_ENDPOINT: {
       description: 'The websocket url for dxfeed (dxLink endpoint)',
       type: 'string',
-      required: true,
+      // NOT required at startup (plan item: config downgrade): a REST-only
+      // dxfeed deployment (owner decision rest_transport_scope=keep_untouched —
+      // RDD's 3 lastTradedPrice params without a transport param fall through
+      // to defaultTransport rest) must boot without a WS endpoint. The WS
+      // requirement moves to REQUEST time: wsEnvInputValidationError gates
+      // every ws-path request on WS_API_ENDPOINT presence, the credential pair
+      // and the breaking-change checks. This deviates from the spec env block
+      // (required:true) — the spec owner confirms the downgrade at the HITL
+      // gate. The breaking-change validate fn below still runs at startup
+      // whenever WS_API_ENDPOINT IS set.
+      required: false,
       sensitive: true,
       validate: {
         meta: {

@@ -63,12 +63,11 @@ describe('reconnect window (owner decision reconnect_cache_behavior=serve_cached
   it('CHANNEL_CLOSED drops no mapping state and the last value stays servable across the reconnect + re-handshake', () => {
     const feed = quoteFeed()
 
-    // Last value before the stream drops — the spec example record of the
-    // aggregated frame per wire key (the golden vector's first-record mapping),
-    // timestamp 1760000000000
+    // Last value before the stream drops — the newest record of the aggregated
+    // frame per wire key (last-record-wins), timestamp 1760000001000
     const last = feed.message(frames.stockQuotesFrame as any)
     expect((last[0] as any).result).toBe(190)
-    expect((last[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+    expect((last[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000001000 })
 
     // Stream dies: a control frame only — no error result is produced
     expect(feed.message(frames.channelClosedFrame as any)).toEqual([])
@@ -81,7 +80,7 @@ describe('reconnect window (owner decision reconnect_cache_behavior=serve_cached
     const again = feed.message(frames.stockQuotesFrame as any)
     expect(again).toHaveLength(1)
     expect((again[0] as any).errorMessage).toBeUndefined()
-    expect((again[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+    expect((again[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000001000 })
   })
 })
 

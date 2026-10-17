@@ -247,24 +247,23 @@ describe('FEED_SUBSCRIPTION fanout (spec primary_command; owner decision tradete
 })
 
 describe('COMPACT FEED_DATA parsing (spec acceptDataFormat=COMPACT / sample_response frames)', () => {
-  it('serves the spec example record of an aggregated Quote frame (spec endpoint_request_response_examples[0]: the golden vector maps the first record of the sample frame)', () => {
+  it('serves the newest record of an aggregated Quote frame (last record per wire key wins)', () => {
     const results = quoteFeed().message(frames.stockQuotesFrame as any)
 
     // The spec sample frame concatenates two Quote records for AAPL:USLF24 with
-    // different bid/ask values; the spec example response maps the FIRST one —
-    // time 1760000000000, bid 189.95/100, ask 190.05/200, V/V, mid 190. The
-    // agent-unwritable golden vector gates exactly this mapping.
+    // different bid/ask values; the LAST one is the freshest quote —
+    // time 1760000001000, bid 189.90/50, ask 190.10/80, V/V, mid 190.
     expect(results).toHaveLength(1)
     const response = results[0] as any
     expect(response.result).toBe(190)
     expect(response.data).toEqual({
       mid_price: 190,
-      bid_price: 189.95,
-      bid_volume: 100,
-      ask_price: 190.05,
-      ask_volume: 200,
+      bid_price: 189.9,
+      bid_volume: 50,
+      ask_price: 190.1,
+      ask_volume: 80,
     })
-    expect(response.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+    expect(response.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000001000 })
   })
 
   it('treats a "NaN" bidPrice as invalid (spec valueRangeScalingNotes)', () => {
@@ -429,8 +428,7 @@ describe('stale serving + reconnect window (owner decisions stale_quote_serving,
     const out = feed.message(frames.stockQuotesFrame as any)
     expect(out).toHaveLength(1)
     expect((out[0] as any).result).toBe(190)
-    // The spec example record of the aggregated frame per wire key (the golden
-    // vector's first-record mapping)
-    expect((out[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+    // The newest record of the aggregated frame per wire key (last-record-wins)
+    expect((out[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000001000 })
   })
 })

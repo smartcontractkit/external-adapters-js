@@ -7,6 +7,7 @@ import { buildDxLinkWsTransport, DxLinkRawResult, DxLinkRecord, parseNumeric } f
 // adapter-authored parse-frame substitution (spec price response_mapping,
 // newest-time selection per the reference adapter).
 // TEMPLATE-EXTENSION: parse-frame
+const EVENT_SYMBOL_INDEX = 1
 const TIME_INDEX = 2
 const PRICE_INDEX = 3
 
@@ -43,16 +44,22 @@ export class TradeProcessor {
     }
 
     const base = params.base
+    // One newest-time state per WIRE symbol (the record's eventSymbol,
+    // upper-cased), matching the reference adapter's one-stream-per-symbol
+    // behavior: params sets that share a wire key through different base
+    // casing share the dedupe state, so an older record can never be served
+    // after a newer one on any of them
+    const eventSymbol = String(record[EVENT_SYMBOL_INDEX]).toUpperCase()
     const time = parseNumeric(record[TIME_INDEX])
     const price = parseNumeric(record[PRICE_INDEX])
-    const latestTime = this.latestTimeBySymbol[base]
+    const latestTime = this.latestTimeBySymbol[eventSymbol]
     // Reference semantics (spec reference_ea: preserve endpoint semantics
     // exactly): only strictly older records are ignored; an equal-time record
     // is served like the newest one
     if (latestTime !== undefined && time < latestTime) {
       return undefined
     }
-    this.latestTimeBySymbol[base] = time
+    this.latestTimeBySymbol[eventSymbol] = time
 
     if (Number.isNaN(price)) {
       return {

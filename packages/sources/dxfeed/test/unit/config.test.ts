@@ -125,14 +125,13 @@ const withRecordingLogger = (fn: (validate: typeof validateWsApiEndpoint) => voi
   return warnings
 }
 
-describe('WS settings required at startup (spec environment_variables: API_USERNAME, API_PASSWORD, WS_API_ENDPOINT required=true)', () => {
-  it('fails startup when API_USERNAME, API_PASSWORD, and WS_API_ENDPOINT are all unset', () => {
+describe('WS settings at startup (API_USERNAME/API_PASSWORD required; WS_API_ENDPOINT downgraded to request-time per the REST-only deployment plan item)', () => {
+  it('fails startup when API_USERNAME and API_PASSWORD are unset', () => {
     withSettings(
       { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: undefined },
       () => {
         expect(() => config.validate()).toThrow(/API_USERNAME/)
         expect(() => config.validate()).toThrow(/API_PASSWORD/)
-        expect(() => config.validate()).toThrow(/WS_API_ENDPOINT/)
       },
     )
   })
@@ -159,14 +158,19 @@ describe('WS settings required at startup (spec environment_variables: API_USERN
     )
   })
 
-  it('fails startup when only WS_API_ENDPOINT is unset', () => {
+  it('BOOTS with WS_API_ENDPOINT unset (REST-only deployment: owner decision rest_transport_scope=keep_untouched)', () => {
+    // The RDD has 3 lastTradedPrice params with no transport param that fall
+    // through to defaultTransport rest: a deployment serving only those cannot
+    // provide a WS endpoint, so the boot must not demand one. The WS requirement
+    // is enforced per-request by wsEnvInputValidationError instead.
     withSettings(
       {
         API_USERNAME: CREDENTIALS.API_USERNAME,
         API_PASSWORD: CREDENTIALS.API_PASSWORD,
         WS_API_ENDPOINT: undefined,
+        API_ENDPOINT: 'https://rest.fake.test/webservice/rest',
       },
-      () => expect(() => config.validate()).toThrow(/WS_API_ENDPOINT/),
+      () => expect(() => config.validate()).not.toThrow(),
     )
   })
 
@@ -269,6 +273,14 @@ describe('loopback ws:// acceptance (plan item 1: ws:// loopback passes with a w
       },
       () => expect(() => config.validate()).not.toThrow(),
     )
+  })
+
+  it('accepts ws://[::1] (the third loopback form) while ws:// on any non-loopback host stays rejected', () => {
+    // Loopback IPv6 literal: accepted like localhost and 127.0.0.1
+    expect(validateWsApiEndpoint('ws://[::1]:9090/dxlink-chainlink')).toBe('')
+
+    // Non-loopback ws:// fails closed regardless of host
+    expect(validateWsApiEndpoint('ws://dxlink.fake.test/dxlink-chainlink')).toContain('wss://')
   })
 
   it('starts cleanly with the flag set: a loopback ws:// WS_API_ENDPOINT passes config.validate()', () => {

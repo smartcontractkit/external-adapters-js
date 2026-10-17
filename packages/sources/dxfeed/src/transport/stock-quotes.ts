@@ -50,6 +50,12 @@ export const quoteRecordToResult = (
     return {
       statusCode: 502,
       errorMessage: `Bid price: ${record[BID_PRICE_INDEX]} or Ask price: ${record[ASK_PRICE_INDEX]} for ${base} is invalid.`,
+      // The record's own time rides even the error result (the price-ws
+      // TradeProcessor error branch shape), so downstream freshness reporting
+      // keeps the provider timestamp of this record
+      timestamps: {
+        providerIndicatedTimeUnixMs: parseNumeric(record[QUOTE_TIME_INDEX]),
+      },
     }
   }
 
@@ -77,6 +83,10 @@ export const quoteRecordToResult = (
     return {
       statusCode: 502,
       errorMessage: `Bid volume: ${record[BID_SIZE_INDEX]} or Ask volume: ${record[ASK_SIZE_INDEX]} for ${base} is invalid.`,
+      // Same error-shape rule: the provider timestamp rides the error result
+      timestamps: {
+        providerIndicatedTimeUnixMs: parseNumeric(record[QUOTE_TIME_INDEX]),
+      },
     }
   }
 

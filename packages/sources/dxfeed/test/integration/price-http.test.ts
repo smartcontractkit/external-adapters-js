@@ -15,12 +15,12 @@ import { FAKE_REST_ENDPOINT, mockBatchedRestTransport } from './rest-mocks'
  * defaultTransport stays "rest" and a request without a transport param is
  * served by this untouched REST path.
  *
- * The credential pair and WS_API_ENDPOINT are set for boot even though plan
- * item 3 moved their requirement out of AdapterConfig into WS-path input
- * validation (a REST-only deployment boots without them — proven in
- * test/unit/config.test.ts). The WS-path request-time env checks stay out of
- * scope here: this suite owns only the untouched defaultTransport "rest" smoke
- * flow.
+ * The credential pair and WS_API_ENDPOINT are set for boot even though the
+ * plan's config downgrade (WS_API_ENDPOINT required:false) moves the WS
+ * endpoint requirement out of AdapterConfig into WS-path input validation (a
+ * REST-only deployment boots without it — proven in rest-only-boot.test.ts).
+ * The WS-path request-time env checks stay out of scope here: this suite owns
+ * only the untouched defaultTransport "rest" smoke flow.
  */
 describe('price REST transport (defaultTransport rest, keep_untouched)', () => {
   let spy: jest.SpyInstance
@@ -29,8 +29,10 @@ describe('price REST transport (defaultTransport rest, keep_untouched)', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    // A fake pair and a clean dxLink URL: not required at boot any more (plan
-    // item 3) but set so the WS-path input-validation gate can never trip
+    // A fake pair and a clean dxLink URL: WS_API_ENDPOINT not required at boot
+    // any more (plan item: required:false downgrade), the credential pair still
+    // is (spec env block) — all set so the WS-path input-validation gate can
+    // never trip
     process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
     process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
     // A clean wss:// dxLink URL (never a cometd path, no embedded credentials)
@@ -116,7 +118,7 @@ describe('price REST transport (defaultTransport rest, keep_untouched)', () => {
 
   // The WS-path env checks (cometd path, embedded credentials, credential
   // pair, WS_API_ENDPOINT presence) live in the WS-path input validation, not
-  // the AdapterConfig required flags (plan item 3: a REST-only deployment
-  // boots without the WS settings). They are proven in
-  // test/unit/config.test.ts and test/unit/config/env-validation.test.ts.
+  // the AdapterConfig required flags (plan item: WS_API_ENDPOINT required:false
+  // — a REST-only deployment boots without it). They are proven in
+  // rest-only-boot.test.ts and test/unit/config/env-validation.test.ts.
 })

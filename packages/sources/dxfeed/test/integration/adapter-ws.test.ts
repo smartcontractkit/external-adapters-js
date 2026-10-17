@@ -138,7 +138,14 @@ describe('dxLink websocket smoke flows', () => {
       expect(response.statusCode).toBe(502)
       // Stream error results ride the response cache, so the error body carries
       // a top-level errorMessage (not the thrown-error { error } envelope)
-      expect(response.json()).toMatchObject({ errorMessage: expect.anything() })
+      expect(response.json()).toMatchObject({
+        errorMessage: expect.anything(),
+        // timestamps.providerIndicatedTimeUnixMs is a downstream report field on
+        // EVERY result (spec intake.purposeHowUsed): the failed record's own
+        // Quote time must ride the 502 so freshness reporting keeps a provider
+        // timestamp
+        timestamps: { providerIndicatedTimeUnixMs: 1760000002000 },
+      })
     })
   })
 

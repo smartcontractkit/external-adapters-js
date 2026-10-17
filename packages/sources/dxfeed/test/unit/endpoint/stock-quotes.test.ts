@@ -19,24 +19,23 @@ const quoteFeed = () => {
 }
 
 describe('stock_quotes over dxLink (spec data_source_endpoints.stock_quotes)', () => {
-  it('the spec sample Quote frame yields mid_price 190.0 with the spec example record (the golden vector): bid 189.95/100, ask 190.05/200, providerIndicatedTimeUnixMs 1760000000000', () => {
+  it('the spec sample Quote frame yields mid_price 190.0 with the newest record of the frame: bid 189.90/50, ask 190.10/80, providerIndicatedTimeUnixMs 1760000001000', () => {
     const results = quoteFeed().message(frames.stockQuotesFrame as any)
 
     expect(results).toHaveLength(1)
     const response = results[0] as any
     // The spec sample frame concatenates two records for the same wire key;
-    // the spec example response (and the agent-unwritable golden vector) maps
-    // the FIRST one.
+    // the LAST one wins (the freshest quote with acceptAggregationPeriod=1).
     expect(response.result).toBe(190.0)
     expect(response.data).toEqual({
       mid_price: 190.0,
-      bid_price: 189.95,
-      bid_volume: 100,
-      ask_price: 190.05,
-      ask_volume: 200,
+      bid_price: 189.9,
+      bid_volume: 50,
+      ask_price: 190.1,
+      ask_volume: 80,
     })
     // Spec stock_quotes data_freshness.timestamp_field = time
-    expect(response.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+    expect(response.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000001000 })
   })
 
   it('requireVolume=true: an invalid ("NaN") volume returns an error, not a zero', () => {

@@ -163,21 +163,20 @@ describe('transport handlers.open wiring (spec: FEED_CONFIG field order gates CO
 
     // A later FEED_DATA frame is parsed with the layout captured at open time.
     // The spec sample frame concatenates two records for the same wire key; the
-    // spec example response (the agent-unwritable golden vector) maps the FIRST
-    // one: mid 190.0, bid 189.95/100, ask 190.05/200,
-    // providerIndicatedTimeUnixMs 1760000000000
+    // LAST one wins (the freshest quote): mid 190.0, bid 189.90/50,
+    // ask 190.10/80, providerIndicatedTimeUnixMs 1760000001000
     const results = transportConfig.handlers.message(frames.stockQuotesFrame)
     expect(results).toHaveLength(1)
     expect(results[0].params).toEqual(QUOTE_PARAMS)
     expect(results[0].response.result).toBe(190)
     expect(results[0].response.data).toEqual({
       mid_price: 190,
-      bid_price: 189.95,
-      bid_volume: 100,
-      ask_price: 190.05,
-      ask_volume: 200,
+      bid_price: 189.9,
+      bid_volume: 50,
+      ask_price: 190.1,
+      ask_volume: 80,
     })
-    expect(results[0].response.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+    expect(results[0].response.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000001000 })
   })
 
   it('drops FEED_DATA for an event type the negotiated FEED_CONFIG never declared', async () => {

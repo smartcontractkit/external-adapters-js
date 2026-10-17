@@ -5,7 +5,7 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 /**
- * Plan item 1 proving test (OPDATA-9200): the adapter boots with a mocked (but
+ * Boot smoke flow (OPDATA-9200): the adapter boots with a mocked (but
  * valid) config and exposes both spec endpoints — price (default) and
  * stock_quotes — through the real request router.
  *
@@ -53,8 +53,9 @@ describe('dxfeed adapter init', () => {
   it('boots with mocked config and exposes both spec endpoints', async () => {
     // Boot itself is the first assertion: an invalid config (cometd path,
     // embedded credentials) would have rejected startWithMockedCache above.
-    // The credential pair itself is not required at boot (plan item 3 moved
-    // its enforcement to WS-path input validation; this suite sets it anyway).
+    // The credential pair is required at boot per the spec env block (this
+    // suite sets it anyway); only WS_API_ENDPOINT is downgraded to request-time
+    // enforcement for REST-only deployments (plan item: required:false).
     const endpointNames = adapter.endpoints.map((e) => e.name.toLowerCase())
     expect(endpointNames).toEqual(expect.arrayContaining(['price', 'stock_quotes']))
 

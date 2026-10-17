@@ -10,7 +10,7 @@ import FakeTimers from '@sinonjs/fake-timers'
 import { dxLinkConnections, mockDxLinkServer, setFeedData } from './fixtures'
 
 /**
- * Plan item 10 proving test (OPDATA-9200 owner decisions, served behaviorally
+ * Owner-decision proving flows (OPDATA-9200, served behaviorally
  * through the real request path):
  * - reconnect_cache_behavior = serve_cached_last_value: after the provider
  *   closes the channel, a request during the reconnect + re-handshake window

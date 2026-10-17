@@ -1,6 +1,11 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import * as priceWs from '../../../src/transport/price-ws'
-import { buildPriceWsTransport, TradeProcessor } from '../../../src/transport/price-ws'
+import {
+  buildPriceWsTransport,
+  TradeProcessor,
+  tradeTickers,
+} from '../../../src/transport/price-ws'
+import { DxLinkFeed, DxLinkFeedDeps } from '../../../src/transport/ws'
 import frames from '../fixtures/dxlink-frames.json'
 
 // The transport module logs via the framework logger, which needs a factory set
@@ -160,5 +165,68 @@ describe('per-transport newest-time state (round-2 item 4 proving test: buildPri
     expect(invalid.statusCode).toBe(502)
     expect(invalid.errorMessage).toContain('invalid')
     expect(invalid.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+  })
+})
+
+describe('newest-time state keyed by the record eventSymbol (plan item: one dedupe state per wire symbol, not per params.base)', () => {
+  // Two params sets whose bases differ only in casing: formatTickers maps both
+  // onto ONE wire key (Trade:AAPL:USLF24), so one provider stream serves both
+  const UPPER = { base: 'AAPL:USLF24', quote: 'USD' }
+  const LOWER = { base: 'aapl:uslf24', quote: 'USD' }
+
+  const sharedKeyTradeFeed = () => {
+    const processor = new TradeProcessor()
+    const feed = new DxLinkFeed({
+      formatTickers: (params: any) => tradeTickers(params.base),
+      processRecord: (eventType, record, params: any) =>
+        processor.processRecord(eventType, record, params),
+    } as DxLinkFeedDeps<any>)
+    feed.onFeedConfig(frames.priceFeedConfig.eventFields)
+    feed.subscriptionMessages({ desired: [UPPER, LOWER], new: [UPPER, LOWER], stale: [] })
+    return feed
+  }
+
+  it('both base casings resolve onto one wire key and one dedupe state: an older record after a newer one is served to NEITHER subscription', () => {
+    const feed = sharedKeyTradeFeed()
+
+    // The newest record (t=2000) fans out to both params sets
+    const newer = feed.message({
+      type: 'FEED_DATA',
+      channel: 1,
+      data: ['Trade', tradeRecord(2000, 189.99)],
+    })
+    expect(newer).toHaveLength(2)
+    expect(newer.map((r) => (r as any).result)).toEqual([189.99, 189.99])
+
+    // An older record (t=1000) arriving late: dropped against the shared
+    // newest-time state, so NEITHER params set is served stale data
+    const older = feed.message({
+      type: 'FEED_DATA',
+      channel: 1,
+      data: ['Trade', tradeRecord(1000, 189.95)],
+    })
+    expect(older).toEqual([])
+  })
+
+  it('the dedupe key is the record eventSymbol itself, so state survives a params set churning', () => {
+    const feed = sharedKeyTradeFeed()
+
+    // A record for the wire symbol arrives while only ONE params set is desired
+    feed.subscriptionMessages({ desired: [UPPER], new: [UPPER], stale: [] })
+    expect(
+      feed.message({ type: 'FEED_DATA', channel: 1, data: ['Trade', tradeRecord(2000, 189.99)] }),
+    ).toHaveLength(1)
+
+    // The second casing subscribes afterwards: the shared (already-seen) newest
+    // time still drops the older record for it too
+    feed.subscriptionMessages({ desired: [UPPER, LOWER], new: [LOWER], stale: [] })
+    expect(
+      feed.message({ type: 'FEED_DATA', channel: 1, data: ['Trade', tradeRecord(1000, 189.95)] }),
+    ).toEqual([])
+
+    // ...while a strictly newer record is served
+    expect(
+      feed.message({ type: 'FEED_DATA', channel: 1, data: ['Trade', tradeRecord(3000, 190.1)] }),
+    ).toHaveLength(2)
   })
 })

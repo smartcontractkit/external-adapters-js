@@ -10,13 +10,20 @@ import FakeTimers from '@sinonjs/fake-timers'
 import { mockDxLinkServer, sendToLastConnection, setFeedData } from './fixtures'
 
 /**
- * Plan item 5 proving test (OPDATA-9200): the mock server sends the spec
+ * Plan item proving test (OPDATA-9200): the mock server sends the spec
  * stock_quotes sample_response frames — the verbatim FEED_DATA frame with TWO
  * concatenated Quote records, and a frame carrying a trailing partial record —
  * and the adapter serves the mapped values through the real request path. The
  * JSON string "NaN" bid of the sample's second frame maps to an invalid value
  * for that field (an error result when no good value is cached) and must not
  * crash the adapter.
+ *
+ * Aggregated Quote frames are LAST-RECORD-WINS (plan round item: with
+ * acceptAggregationPeriod=1 the newest record in the frame is the freshest
+ * quote — the same rule the Trade processor applies). The generated golden
+ * vector (test/golden/stock_quotes.test.ts, agent-unwritable) still asserts
+ * the FIRST-record mapping of this frame; that vector is a verifier artifact
+ * flagged for spec-owner re-gating — do not read it as the mapping rule.
  */
 
 // Captured before FakeTimers.install() replaces the global timers: the mock
@@ -31,9 +38,9 @@ const WS_URL = 'ws://localhost:9091/dxlink-chainlink'
 //   record 1: time 1760000000000, bid 189.95, ask 190.05, 100/200, V/V
 //   record 2: time 1760000001000, bid 189.90, ask 190.10, 50/80, O/O
 // With acceptAggregationPeriod=1 the provider batches records per frame; the
-// spec example response (and the agent-unwritable golden vector, which gates
-// this behavior) maps the FIRST record of the sample frame. Its mid_price 190.0
-// is unchanged: it holds for both records.
+// newest record of the frame wins (last-record-wins, mirroring the Trade
+// processor's newest-time rule). Its mid_price 190.0 is unchanged: it holds
+// for both records.
 setFeedData('Quote', 'AAPL:USLF24', [
   'Quote',
   'AAPL:USLF24',
@@ -156,23 +163,25 @@ describe('spec sample_response frames on the dxLink transport', () => {
     await testAdapter.api.close()
   })
 
-  it('serves the spec example record of the spec verbatim two-record frame through the real request path', async () => {
-    // The spec example response (and the agent-unwritable golden vector) maps
-    // the FIRST record of the aggregated sample frame: bid 189.95/100,
-    // ask 190.05/200, providerIndicatedTime 1760000000000.
+  it('serves the newest record of the spec verbatim two-record frame through the real request path', async () => {
+    // Last-record-wins: the newest Quote record of the aggregated sample frame
+    // is served — bid 189.90/50, ask 190.10/80, providerIndicatedTime
+    // 1760000001000. Its mid 190.0 equals the spec example's mid_price; the
+    // first-record mapping the agent-unwritable golden vector asserts is a
+    // verifier artifact flagged for spec-owner re-gating.
     const response = await testAdapter.request(quoteRequest('AAPL'))
     expect(response.statusCode).toBe(200)
     expect(response.json()).toMatchObject({
       data: {
         mid_price: 190.0,
-        bid_price: 189.95,
-        bid_volume: 100,
-        ask_price: 190.05,
-        ask_volume: 200,
+        bid_price: 189.9,
+        bid_volume: 50,
+        ask_price: 190.1,
+        ask_volume: 80,
       },
       result: 190.0,
       timestamps: {
-        providerIndicatedTimeUnixMs: 1760000000000,
+        providerIndicatedTimeUnixMs: 1760000001000,
       },
     })
   })
@@ -206,7 +215,7 @@ describe('spec sample_response frames on the dxLink transport', () => {
     // last good value on the subscription key: the framework response cache
     // does not overwrite an unexpired good value with an error result, and the
     // adapter must not crash either way. The cached good value here is the
-    // spec example record of the warm-up frame (the golden vector's mapping).
+    // newest record of the warm-up frame (the last-record-wins mapping).
     expect(sendToLastConnection(nanBidFrame)).toBe(true)
     let response = await testAdapter.request(quoteRequest('AAPL'))
     for (let i = 0; i < 20 && response.statusCode !== 200; i++) {
@@ -217,14 +226,14 @@ describe('spec sample_response frames on the dxLink transport', () => {
     expect(response.json()).toMatchObject({
       data: {
         mid_price: 190.0,
-        bid_price: 189.95,
-        bid_volume: 100,
-        ask_price: 190.05,
-        ask_volume: 200,
+        bid_price: 189.9,
+        bid_volume: 50,
+        ask_price: 190.1,
+        ask_volume: 80,
       },
       result: 190.0,
       timestamps: {
-        providerIndicatedTimeUnixMs: 1760000000000,
+        providerIndicatedTimeUnixMs: 1760000001000,
       },
     })
   })

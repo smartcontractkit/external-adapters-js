@@ -323,24 +323,23 @@ describe('FEED_SUBSCRIPTION message building (spec primary_command: FEED_SUBSCRI
 })
 
 describe('COMPACT FEED_DATA parsing (spec acceptDataFormat=COMPACT)', () => {
-  it('splits the spec sample_response Quote frame positionally and maps the spec example record (spec endpoint_request_response_examples[0] — the golden vector)', () => {
+  it('splits the spec sample_response Quote frame positionally and maps the newest record (last record per wire key wins)', () => {
     const results = quoteFeed().message(frames.stockQuotesFrame as any)
 
     expect(results).toHaveLength(1)
     const response = results[0] as any
-    // The spec sample frame concatenates two records for AAPL:USLF24; the spec
-    // example response (and the agent-unwritable golden vector) maps the FIRST
-    // one: mid=(189.95+190.05)/2=190, bid 189.95/100, ask 190.05/200,
-    // time 1760000000000
+    // The spec sample frame concatenates two records for AAPL:USLF24; the LAST
+    // one is the freshest quote: mid=(189.9+190.1)/2=190, bid 189.9/50,
+    // ask 190.1/80, time 1760000001000
     expect(response.result).toBe(190)
     expect(response.data).toEqual({
       mid_price: 190,
-      bid_price: 189.95,
-      bid_volume: 100,
-      ask_price: 190.05,
-      ask_volume: 200,
+      bid_price: 189.9,
+      bid_volume: 50,
+      ask_price: 190.1,
+      ask_volume: 80,
     })
-    expect(response.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+    expect(response.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000001000 })
   })
 
   it('rejects a record whose value is the JSON string "NaN" as invalid', () => {
@@ -500,9 +499,8 @@ describe('stale value serving + reconnect cache (owner decisions stale_quote_ser
     const out = feed.message(frames.stockQuotesFrame as any)
     expect(out).toHaveLength(1)
     expect((out[0] as any).result).toBe(190)
-    // The spec example record of the aggregated frame per wire key (the golden
-    // vector's first-record mapping)
-    expect((out[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+    // The newest record of the aggregated frame per wire key (last-record-wins)
+    expect((out[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000001000 })
   })
 
   it('never hard-fails after repeated ERROR frames (metrics_counters_only)', () => {

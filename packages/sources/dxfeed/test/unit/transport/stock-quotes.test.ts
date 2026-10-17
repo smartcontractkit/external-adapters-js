@@ -41,17 +41,24 @@ describe('Quote providerIndicatedTimeUnixMs (spec data_freshness.timestamp_field
     expect(response.timestamps.providerIndicatedTimeUnixMs).toBe(1760000000000)
   })
 
-  it('reads the time field at its FEED_CONFIG position when the full COMPACT frame parses', () => {
-    // The spec sample frame concatenates two records: the first carries
-    // time=1760000000000, the second time=1760000001000. The spec example
-    // response (the agent-unwritable golden vector) maps the FIRST record per
-    // wire key, so the freshness timestamp is the first record's time field,
-    // read at the protocol-defined index
+  it('serves the NEWEST record of an aggregated frame: the last record per wire key wins, mid and timestamp alike', () => {
+    // The spec sample frame concatenates two records for one wire key: the
+    // first carries time=1760000000000 (bid 189.95/100, ask 190.05/200), the
+    // second time=1760000001000 (bid 189.90/50, ask 190.10/80). With
+    // acceptAggregationPeriod=1 the newest record in the frame is the freshest
+    // quote, so the LAST record's mid and time field are served
     const results = quoteFeed().message(frames.stockQuotesFrame as any)
 
     expect(results).toHaveLength(1)
-    expect((results[0] as any).timestamps.providerIndicatedTimeUnixMs).toBe(1760000000000)
-    expect((results[0] as any).timestamps.providerIndicatedTimeUnixMs).not.toBe(1760000001000)
+    expect((results[0] as any).data).toEqual({
+      mid_price: 190,
+      bid_price: 189.9,
+      bid_volume: 50,
+      ask_price: 190.1,
+      ask_volume: 80,
+    })
+    expect((results[0] as any).timestamps.providerIndicatedTimeUnixMs).toBe(1760000001000)
+    expect((results[0] as any).timestamps.providerIndicatedTimeUnixMs).not.toBe(1760000000000)
   })
 })
 
@@ -184,6 +191,9 @@ describe('Quote guard order (isOvernight exchange-code drop precedes the require
     expect(result.errorMessage).toMatch(/[Vv]olume/)
     expect(result.result).toBeUndefined()
     expect(result.data).toBeUndefined()
+    // The record's own time rides the 502 (price-ws TradeProcessor error branch
+    // shape): downstream freshness reporting keeps the provider timestamp
+    expect(result.timestamps.providerIndicatedTimeUnixMs).toBe(1760000000000)
   })
 
   it('a NaN price errors (502) regardless of the param combo — including isOvernight records a non-O venue would otherwise drop', () => {
@@ -214,6 +224,10 @@ describe('Quote guard order (isOvernight exchange-code drop precedes the require
         expect(result.statusCode).toBe(502)
         expect(result.errorMessage).toMatch(/[Pp]rice/)
         expect(result.result).toBeUndefined()
+        // The record's own time rides the 502 (price-ws TradeProcessor error
+        // branch shape): downstream freshness reporting keeps the provider
+        // timestamp
+        expect(result.timestamps.providerIndicatedTimeUnixMs).toBe(1760000000000)
       }
     }
   })

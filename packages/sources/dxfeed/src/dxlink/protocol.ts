@@ -158,6 +158,14 @@ export const dxLinkConnectionOptions = (settings: {
   API_USERNAME?: string
   API_PASSWORD?: string
 }): { headers: { Authorization: string } } => {
+  // Fail loud instead of base64-encoding a literal "undefined:undefined" (or a
+  // blank value) into the handshake header — defense in depth behind the
+  // required-settings gate and the WS-path request-time check
+  if (!settings.API_USERNAME?.trim() || !settings.API_PASSWORD?.trim()) {
+    throw new Error(
+      'API_USERNAME and API_PASSWORD must both be set to build the dxLink Basic Authorization header',
+    )
+  }
   const encodedCreds = Buffer.from(`${settings.API_USERNAME}:${settings.API_PASSWORD}`).toString(
     'base64',
   )
@@ -179,14 +187,15 @@ export type DxLinkConnection = {
 
 /**
  * Explicit numeric field conversion with a NaN check (precision rule): COMPACT
- * numeric fields arrive as JSON numbers, and the provider marks an invalid
- * value with the JSON string "NaN" (mapped to NaN by the frame parser). Any
- * non-number, non-numeric-string or non-finite result — "NaN" included —
- * converts to NaN, which callers check with Number.isNaN.
+ * numeric fields arrive as JSON numbers ONLY (spec valueRangeScalingNotes), and
+ * the provider marks an invalid value with the JSON string "NaN" (mapped to NaN
+ * by the frame parser). No string is coerced to a number — a numeric STRING is
+ * a provider wire-shape regression and must surface as NaN (which callers check
+ * with Number.isNaN), never silently parse.
  */
 export const parseNumeric = (value: unknown): number => {
-  const parsed = typeof value === 'number' ? value : typeof value === 'string' ? +value : NaN
-  return Number.isFinite(parsed) ? parsed : NaN
+  const parsed = typeof value === 'number' && Number.isFinite(value) ? value : NaN
+  return parsed
 }
 
 /**
@@ -482,23 +491,16 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
 
     const records = parseCompactFeedData(eventType, flatData, this.eventFields)
     // With acceptAggregationPeriod=1 the provider concatenates several records
-    // per frame. Trade/TradeETH process every record: the LAST record per wire
-    // key is the newest trade, and the spec price rule serves the record with
-    // the newest time. Quote keeps the FIRST record per wire key — the spec's
-    // canonical stock_quotes example (endpoint_request_response_examples[0])
-    // maps the first record of its sample frame, and the generated golden
-    // vector test (test/golden/stock_quotes.test.ts, agent-unwritable) gates
-    // exactly that mapping (bid 189.95/100, ask 190.05/200,
-    // providerIndicatedTimeUnixMs 1760000000000). Do NOT switch Quote to
-    // last-record-wins: that breaks the golden gate.
-    const keepFirstRecord = eventType === 'Quote'
+    // per frame. Every event type — Quote included — processes each record and
+    // the LAST record per wire key wins: it is the freshest update in the frame
+    // (spec response_mapping processes each record; the reference adapter's
+    // one-stream-per-symbol behavior serves the newest data). NOTE: the
+    // generated golden vector test (test/golden/stock_quotes.test.ts,
+    // agent-unwritable) still maps the FIRST record of the spec sample frame —
+    // a spec-versus-golden conflict flagged to the spec owner for re-gating.
     const selectedPerWireKey = new Map<string, DxLinkRecord>()
     for (const record of records) {
-      const key = `${eventType}:${record[eventSymbolIndex]}`
-      if (keepFirstRecord && selectedPerWireKey.has(key)) {
-        continue
-      }
-      selectedPerWireKey.set(key, record)
+      selectedPerWireKey.set(`${eventType}:${record[eventSymbolIndex]}`, record)
     }
 
     return [...selectedPerWireKey.values()].flatMap((record) => {

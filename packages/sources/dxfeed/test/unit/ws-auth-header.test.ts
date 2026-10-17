@@ -33,3 +33,36 @@ describe('Basic Authorization handshake header (spec data_source_authentication.
     )
   })
 })
+
+describe('Basic header credential guard (plan item: fail loud instead of encoding a literal "undefined:undefined")', () => {
+  it('throws when API_USERNAME is unset', () => {
+    expect(() => dxLinkConnectionOptions({ API_PASSWORD: 'dxfeed-pass' } as any)).toThrow(
+      /API_USERNAME and API_PASSWORD/,
+    )
+  })
+
+  it('throws when API_PASSWORD is unset', () => {
+    expect(() => dxLinkConnectionOptions({ API_USERNAME: 'dxfeed-user' } as any)).toThrow(
+      /API_USERNAME and API_PASSWORD/,
+    )
+  })
+
+  it('throws when either value is blank or whitespace-only after trim', () => {
+    expect(() =>
+      dxLinkConnectionOptions({ API_USERNAME: '  ', API_PASSWORD: 'dxfeed-pass' } as any),
+    ).toThrow(/API_USERNAME and API_PASSWORD/)
+    expect(() =>
+      dxLinkConnectionOptions({ API_USERNAME: 'dxfeed-user', API_PASSWORD: '' } as any),
+    ).toThrow(/API_USERNAME and API_PASSWORD/)
+  })
+
+  it('still builds the exact spec header when both values are set', () => {
+    expect(
+      dxLinkConnectionOptions({ API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' }),
+    ).toEqual({
+      headers: {
+        Authorization: `Basic ${Buffer.from('dxfeed-user:dxfeed-pass').toString('base64')}`,
+      },
+    })
+  })
+})
