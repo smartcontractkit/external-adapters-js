@@ -1,4 +1,7 @@
-import { AdapterConfig, SettingsDefinitionMap } from '@chainlink/external-adapter-framework/config'
+import {
+  AdapterConfig as FrameworkAdapterConfig,
+  SettingsDefinitionMap,
+} from '@chainlink/external-adapter-framework/config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
@@ -97,16 +100,16 @@ export const REST_API_ENDPOINT_DEFAULT = 'https://tools.dxfeed.com/webservice/re
  * the list itself, so the override returns it while keeping the framework
  * behavior intact.
  */
-class DxFeedAdapterConfig<
+class AdapterConfig<
   T extends SettingsDefinitionMap = SettingsDefinitionMap,
-> extends AdapterConfig<T> {
+> extends FrameworkAdapterConfig<T> {
   buildCensorList(): { key: string; value: RegExp }[] {
     super.buildCensorList()
     return CensorList.getAll()
   }
 }
 
-export const config = new DxFeedAdapterConfig(
+export const config = new AdapterConfig(
   {
     // The spec declares API_USERNAME, API_PASSWORD and WS_API_ENDPOINT
     // required=true: the WS paths cannot run without them, so the config
@@ -127,17 +130,13 @@ export const config = new DxFeedAdapterConfig(
     WS_API_ENDPOINT: {
       description: 'The websocket url for dxfeed (dxLink endpoint)',
       type: 'string',
-      // NOT required at startup (plan item: config downgrade): a REST-only
-      // dxfeed deployment (owner decision rest_transport_scope=keep_untouched —
-      // RDD's 3 lastTradedPrice params without a transport param fall through
-      // to defaultTransport rest) must boot without a WS endpoint. The WS
-      // requirement moves to REQUEST time: wsEnvInputValidationError gates
-      // every ws-path request on WS_API_ENDPOINT presence, the credential pair
-      // and the breaking-change checks. This deviates from the spec env block
-      // (required:true) — the spec owner confirms the downgrade at the HITL
-      // gate. The breaking-change validate fn below still runs at startup
-      // whenever WS_API_ENDPOINT IS set.
-      required: false,
+      // Spec environment_variables declares WS_API_ENDPOINT required=true: the
+      // WS paths cannot run without it, so the config enforces it at startup
+      // (the breaking-change validate fn below rejects the legacy cometd path
+      // and embedded credentials). wsEnvInputValidationError re-enforces the
+      // endpoint, the credential pair and the breaking-change checks on
+      // requests whose resolved transport is ws.
+      required: true,
       sensitive: true,
       validate: {
         meta: {

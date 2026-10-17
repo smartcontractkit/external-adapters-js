@@ -105,7 +105,7 @@ describe('config surface (plan CONF-ENV-MISMATCH: the spec lists four environmen
   })
 })
 
-describe('WS settings at startup (API_USERNAME/API_PASSWORD required; WS_API_ENDPOINT downgraded to request-time per the REST-only deployment plan item)', () => {
+describe('WS settings at startup (API_USERNAME/API_PASSWORD/WS_API_ENDPOINT required — spec environment_variables)', () => {
   it('fails startup when API_USERNAME and API_PASSWORD are unset', () => {
     withSettings(
       { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: undefined },
@@ -138,11 +138,7 @@ describe('WS settings at startup (API_USERNAME/API_PASSWORD required; WS_API_END
     )
   })
 
-  it('BOOTS with WS_API_ENDPOINT unset (REST-only deployment: owner decision rest_transport_scope=keep_untouched)', () => {
-    // The RDD has 3 lastTradedPrice params with no transport param that fall
-    // through to defaultTransport rest: a deployment serving only those cannot
-    // provide a WS endpoint, so the boot must not demand one. The WS requirement
-    // is enforced per-request by wsEnvInputValidationError instead.
+  it('fails startup when WS_API_ENDPOINT is unset (spec environment_variables: required=true)', () => {
     withSettings(
       {
         API_USERNAME: CREDENTIALS.API_USERNAME,
@@ -150,7 +146,7 @@ describe('WS settings at startup (API_USERNAME/API_PASSWORD required; WS_API_END
         WS_API_ENDPOINT: undefined,
         API_ENDPOINT: 'https://rest.fake.test/webservice/rest',
       },
-      () => expect(() => config.validate()).not.toThrow(),
+      () => expect(() => config.validate()).toThrow(/WS_API_ENDPOINT/),
     )
   })
 
