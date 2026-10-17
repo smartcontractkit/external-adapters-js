@@ -348,6 +348,49 @@ func TestAdapterHandler_CacheMiss(t *testing.T) {
 	require.Equal(t, "AdapterError", errResp.Error.Name)
 }
 
+func TestDebugProxyHandler(t *testing.T) {
+	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		require.Equal(t, "/debug/settings/raw", r.URL.Path)
+		require.Equal(t, "a=b", r.URL.RawQuery)
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`[{"name":"API_TIMEOUT","value":10000}]`))
+	}))
+	defer backend.Close()
+
+	origHost, origPort := testSrv.config.EAHost, testSrv.config.EAPort
+	parts := strings.SplitN(strings.TrimPrefix(backend.URL, "http://"), ":", 2)
+	testSrv.config.EAHost = parts[0]
+	testSrv.config.EAPort = parts[1]
+	defer func() {
+		testSrv.config.EAHost = origHost
+		testSrv.config.EAPort = origPort
+	}()
+
+	req := httptest.NewRequest(http.MethodGet, "/debug/settings/raw?a=b", nil)
+	w := httptest.NewRecorder()
+	testSrv.router.ServeHTTP(w, req)
+
+	require.Equal(t, http.StatusOK, w.Code)
+	require.Equal(t, "application/json", w.Header().Get("Content-Type"))
+	require.JSONEq(t, `[{"name":"API_TIMEOUT","value":10000}]`, w.Body.String())
+}
+
+func TestDebugProxyHandler_EAUnavailable(t *testing.T) {
+	origHost, origPort := testSrv.config.EAHost, testSrv.config.EAPort
+	testSrv.config.EAHost = "127.0.0.1"
+	testSrv.config.EAPort = "1"
+	defer func() {
+		testSrv.config.EAHost = origHost
+		testSrv.config.EAPort = origPort
+	}()
+
+	req := httptest.NewRequest(http.MethodGet, "/debug/settings/raw", nil)
+	w := httptest.NewRecorder()
+	testSrv.router.ServeHTTP(w, req)
+
+	require.Equal(t, http.StatusBadGateway, w.Code)
+}
+
 func TestBuildMetricsURL_NoBaseUrl(t *testing.T) {
 	cfg := &config.Config{
 		EAHost:            "localhost",
