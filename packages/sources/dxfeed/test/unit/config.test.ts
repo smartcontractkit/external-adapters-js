@@ -222,26 +222,26 @@ describe('WS_API_ENDPOINT startup checks (spec breaking_change_env_checks)', () 
 })
 
 describe('WS_API_ENDPOINT scheme gate (round-2 security: a plaintext ws:// endpoint sends the Basic Authorization credentials unencrypted)', () => {
-  it('rejects ws://tools.dxfeed.com/dxlink-chainlink with a startup error naming the required wss:// scheme and the plaintext-credential risk', () => {
-    const error = validateWsApiEndpoint('ws://tools.dxfeed.com/dxlink-chainlink')
+  it('rejects ws://dxlink-provider.fake.test/dxlink-chainlink with a startup error naming the required wss:// scheme and the plaintext-credential risk', () => {
+    const error = validateWsApiEndpoint('ws://dxlink-provider.fake.test/dxlink-chainlink')
     expect(error).toContain('wss://')
     expect(error).toContain('ws://')
     expect(error).toMatch(/plaintext|unencrypted/i)
     // The sensitive endpoint value is not echoed back into the error
-    expect(error).not.toContain('tools.dxfeed.com')
+    expect(error).not.toContain('dxlink-provider.fake.test')
   })
 
   it('fails startup when WS_API_ENDPOINT points at a plaintext ws:// provider endpoint', () => {
     withSettings(
-      { ...CREDENTIALS, WS_API_ENDPOINT: 'ws://tools.dxfeed.com/dxlink-chainlink' },
+      { ...CREDENTIALS, WS_API_ENDPOINT: 'ws://dxlink-provider.fake.test/dxlink-chainlink' },
       () => expect(() => config.validate()).toThrow(/wss/),
     )
   })
 
   it('accepts the spec wss:// dxLink endpoint (spec data_source_base_url)', () => {
-    expect(validateWsApiEndpoint('wss://tools.dxfeed.com/dxlink-chainlink')).toBe('')
+    expect(validateWsApiEndpoint('wss://dxlink-provider.fake.test/dxlink-chainlink')).toBe('')
     withSettings(
-      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://tools.dxfeed.com/dxlink-chainlink' },
+      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://dxlink-provider.fake.test/dxlink-chainlink' },
       () => expect(() => config.validate()).not.toThrow(),
     )
   })

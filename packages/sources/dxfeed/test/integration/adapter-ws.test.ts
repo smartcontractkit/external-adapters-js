@@ -10,6 +10,7 @@ import FakeTimers from '@sinonjs/fake-timers'
 import {
   dxLinkConnections,
   mockDxLinkServer,
+  sendToLastConnection,
   setFeedData,
   setFeedDataRecords,
 } from './dxlink-mocks'
@@ -30,6 +31,21 @@ const WS_URL = 'ws://localhost:9090/dxlink-chainlink'
 setFeedDataRecords('Quote', 'AAPL:USLF24', [
   ['Quote', 'AAPL:USLF24', 1760000000000, 189.95, 190.05, 100, 200, 'V', 'V'],
   ['Quote', 'AAPL:USLF24', 1760000001000, 189.9, 190.1, 50, 80, 'O', 'O'],
+])
+
+// A symbol whose stream goes quiet after one quote: the stale-serving flow
+// (owner decision stale_quote_serving = serve_last_value_with_timestamp) runs
+// against it further down
+setFeedData('Quote', 'QUIET:USLF24', [
+  'Quote',
+  'QUIET:USLF24',
+  1760000002000,
+  50.0,
+  50.2,
+  10,
+  20,
+  'V',
+  'V',
 ])
 
 // Spec endpoint_request_response_examples (OPDATA-9200)
@@ -96,6 +112,12 @@ describe('dxLink websocket smoke flows', () => {
     process.env['WS_SUBSCRIPTION_TTL'] = '60000'
     process.env['CACHE_MAX_AGE'] = '600000'
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
+    // Metrics counters on (degraded_stream_alerting = metrics_counters_only):
+    // the ERROR-storm test below scrapes the framework counters through
+    // testAdapter.getMetrics() to prove degradation surfaces there, never as a
+    // hard error. The root test script exports METRICS_ENABLED=false; this
+    // override must precede the adapter import.
+    process.env['METRICS_ENABLED'] = 'true'
 
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockDxLinkServer(WS_URL)
@@ -501,5 +523,159 @@ describe('dxLink websocket smoke flows', () => {
     // transport param is served by the defaultTransport "rest" REST fixture —
     // is asserted in price-http.test.ts (the REST request path runs on real
     // timers, outside this file's fake clock).
+  })
+
+  describe('owner decisions: reconnect cache, staleness, degraded-stream alerting', () => {
+    // Sums every scraped sample of one prom-client metric (TestMetrics keys are
+    // `${metric_name}|${sorted_labels}`)
+    const metricSum = (metrics: { map: Map<string, number> }, name: string): number =>
+      [...metrics.map.entries()]
+        .filter(([key]) => key.startsWith(`${name}|`))
+        .reduce((sum, [, value]) => sum + value, 0)
+
+    it('serves the cached last value through an in-band CHANNEL_CLOSED frame with no hard error', async () => {
+      // Spec reconnect_cache_behavior = serve_cached_last_value: a dxLink
+      // CHANNEL_CLOSED control frame is in-band — the socket stays up — and
+      // requests during the closure window return the cached last value with
+      // statusCode 200 and no error envelope. Pin the cached value first and
+      // assert the frame changed nothing.
+      const before = await testAdapter.request(quoteRequest)
+      expect(before.statusCode).toBe(200)
+      expect(before.json()).toMatchObject({
+        data: {
+          mid_price: 190.25,
+          bid_price: 190.0,
+          bid_volume: 110,
+          ask_price: 190.5,
+          ask_volume: 120,
+        },
+        result: 190.25,
+        timestamps: { providerIndicatedTimeUnixMs: 1760000010000 },
+      })
+
+      expect(
+        sendToLastConnection({
+          type: 'CHANNEL_CLOSED',
+          channel: 1,
+          eventType: 'Quote',
+          symbol: 'AAPL:USLF24',
+        }),
+      ).toBe(true)
+      await step()
+
+      const after = await testAdapter.request(quoteRequest)
+      expect(after.statusCode).toBe(200)
+      expect(after.json()).toMatchObject({
+        data: {
+          mid_price: 190.25,
+          bid_price: 190.0,
+          bid_volume: 110,
+          ask_price: 190.5,
+          ask_volume: 120,
+        },
+        result: 190.25,
+        timestamps: { providerIndicatedTimeUnixMs: 1760000010000 },
+      })
+      expect(after.json().errorMessage).toBeUndefined()
+    })
+
+    it('keeps serving the last value with its original providerIndicatedTimeUnixMs once the stream goes quiet — staleness never rejects', async () => {
+      // Owner decision stale_quote_serving = serve_last_value_with_timestamp:
+      // markets close, the Quote stream goes quiet, and the EA serves the last
+      // value with its ORIGINAL provider timestamp — no max-age rejection, no
+      // error envelope. The freshness guard reports staleness through metrics
+      // only (degraded_stream_alerting = metrics_counters_only).
+      const quietRequest = {
+        endpoint: 'stock_quotes',
+        from: 'QUIET',
+        to: 'USD',
+        overrides: {
+          dxfeed: {
+            QUIET: 'QUIET:USLF24',
+          },
+        },
+      }
+
+      // Warm the QUIET subscription (its only quote ever)
+      const warmed = await requestUntilCached(quietRequest)
+      expect(warmed.statusCode).toBe(200)
+      expect(warmed.json()).toMatchObject({
+        result: 50.1,
+        timestamps: { providerIndicatedTimeUnixMs: 1760000002000 },
+      })
+
+      // Several background cycles run with no frames pushed before the request
+      for (let i = 0; i < 5; i++) {
+        await step()
+      }
+
+      const stale = await testAdapter.request(quietRequest)
+      expect(stale.statusCode).toBe(200)
+      expect(stale.json()).toMatchObject({
+        data: {
+          mid_price: 50.1,
+          bid_price: 50.0,
+          bid_volume: 10,
+          ask_price: 50.2,
+          ask_volume: 20,
+        },
+        result: 50.1,
+        timestamps: {
+          providerIndicatedTimeUnixMs: 1760000002000,
+        },
+      })
+      expect(stale.json().errorMessage).toBeUndefined()
+    })
+
+    it('answers an ERROR storm with the cached last value and metrics counters, never a hard failure', async () => {
+      // Owner decision degraded_stream_alerting = metrics_counters_only: a
+      // storm of provider ERROR control frames plus a forced connection drop
+      // must (a) never surface a hard error — the cached last value keeps
+      // flowing with statusCode 200 — and (b) show up in the framework metrics
+      // counters (ws_connection_closures records every forced reconnect
+      // closure), which is the only alerting channel the owner asked for.
+      const before = await testAdapter.request(quoteRequest)
+      expect(before.statusCode).toBe(200)
+      expect(before.json()).toMatchObject({
+        result: 190.25,
+        timestamps: { providerIndicatedTimeUnixMs: 1760000010000 },
+      })
+
+      for (let i = 0; i < 5; i++) {
+        expect(
+          sendToLastConnection({
+            type: 'ERROR',
+            channel: 1,
+            code: 'UNAUTHORIZED',
+            message: 'test: error storm',
+          }),
+        ).toBe(true)
+      }
+      await step()
+
+      // A forced drop on top of the storm: the framework's reconnect machinery
+      // re-establishes the session (never crashes it), and each closure
+      // increments the ws_connection_closures counter
+      dxLinkConnections[dxLinkConnections.length - 1]?.close()
+      await step()
+
+      const during = await testAdapter.request(quoteRequest)
+      expect(during.statusCode).toBe(200)
+      expect(during.json()).toMatchObject({
+        data: {
+          mid_price: 190.25,
+          bid_price: 190.0,
+          bid_volume: 110,
+          ask_price: 190.5,
+          ask_volume: 120,
+        },
+        result: 190.25,
+        timestamps: { providerIndicatedTimeUnixMs: 1760000010000 },
+      })
+      expect(during.json().errorMessage).toBeUndefined()
+
+      const metrics = await testAdapter.getMetrics()
+      expect(metricSum(metrics, 'ws_connection_closures')).toBeGreaterThan(0)
+    })
   })
 })

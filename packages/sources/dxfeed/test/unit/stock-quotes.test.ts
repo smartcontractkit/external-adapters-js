@@ -5,26 +5,29 @@ import { quoteRecordToResult } from '../../src/transport/stock-quotes'
 
 LoggerFactoryProvider.set()
 
-// Spec stock_quotes sample Quote record (first record of the sample frame):
+// Spec stock_quotes sample Quote records (COMPACT layout):
 // eventType,eventSymbol,time,bidPrice,askPrice,bidSize,askSize,bidExchangeCode,askExchangeCode
 const SPEC_RECORD = ['Quote', 'AAPL:USLF24', 1760000000000, 189.95, 190.05, 100, 200, 'V', 'V']
+// The SECOND record of the sample frame — the one the spec example response shows
+const SPEC_EXAMPLE_RECORD = ['Quote', 'AAPL:USLF24', 1760000001000, 189.9, 190.1, 50, 80, 'O', 'O']
 const PARAMS = { base: 'AAPL:USLF24', quote: 'USD', requireVolume: false, isOvernight: false }
 
 describe('stock_quotes Quote mapping (spec response_mapping)', () => {
   it('maps the spec Quote record to the spec example response', () => {
-    // Spec endpoint_request_response_examples[0]: mid_price 190.0, bid
-    // 189.95/100, ask 190.05/200, result 190.0, providerIndicatedTime 1760000000000
-    const response = quoteRecordToResult(SPEC_RECORD, PARAMS) as any
+    // Spec endpoint_request_response_examples[0].response: mid_price 190.0,
+    // bid_price 189.90, bid_volume 50, ask_price 190.10, ask_volume 80,
+    // result 190.0, providerIndicatedTimeUnixMs 1760000001000
+    const response = quoteRecordToResult(SPEC_EXAMPLE_RECORD, PARAMS) as any
 
     expect(response.result).toBe(190.0)
     expect(response.data).toEqual({
       mid_price: 190.0,
-      bid_price: 189.95,
-      bid_volume: 100,
-      ask_price: 190.05,
-      ask_volume: 200,
+      bid_price: 189.9,
+      bid_volume: 50,
+      ask_price: 190.1,
+      ask_volume: 80,
     })
-    expect(response.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+    expect(response.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000001000 })
   })
 
   it('mids a one-sided book against the live side', () => {

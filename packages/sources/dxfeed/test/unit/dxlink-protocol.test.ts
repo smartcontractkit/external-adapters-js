@@ -1,11 +1,13 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { DxLinkFeed, DxLinkFeedDeps, parseNumeric } from '../../src/dxlink/protocol'
+import { TradeProcessor, tradeTickers } from '../../src/transport/price-ws'
 import { quoteRecordToResult } from '../../src/transport/stock-quotes'
 import frames from './fixtures/dxlink-frames.json'
 
 LoggerFactoryProvider.set()
 
 const PARAMS = { base: 'AAPL:USLF24', quote: 'USD', requireVolume: false, isOvernight: false }
+const PRICE_PARAMS = { base: 'AAPL:USLF24', quote: 'USD' }
 
 /** A Quote feed wired exactly like the stock_quotes transport (spec overrides resolve upstream: params.base is the wire ticker). */
 const specQuoteFeed = (): DxLinkFeed => {
@@ -18,6 +20,16 @@ const specQuoteFeed = (): DxLinkFeed => {
   feed.onFeedConfig(frames.quoteFeedConfig.eventFields)
   feed.subscriptionMessages({ desired: [PARAMS], new: [PARAMS], stale: [] })
   return feed
+}
+
+/** A Trade feed wired exactly like the price WS transport (TradeProcessor newest-time selection). */
+const specTradeFeed = (): DxLinkFeed => {
+  const processor = new TradeProcessor()
+  return new DxLinkFeed({
+    formatTickers: (params: { base: string }) => tradeTickers(params.base),
+    processRecord: (eventType, record, params) =>
+      processor.processRecord(eventType, record, params as any),
+  } as DxLinkFeedDeps<any>)
 }
 
 describe('parseNumeric (spec valueRangeScalingNotes: values arrive as JSON numbers, or the JSON string "NaN" which is invalid)', () => {
@@ -61,5 +73,143 @@ describe('COMPACT FEED_DATA frame with several records (spec stock_quotes sample
     })
     expect(result.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000001000 })
     expect(result.params.base).toBe('AAPL:USLF24')
+  })
+})
+
+describe('price endpoint COMPACT FEED_DATA (spec price sample_response)', () => {
+  it('parses the spec Trade frame to result 189.98 with providerIndicatedTimeUnixMs 1760000000000', () => {
+    const feed = specTradeFeed()
+    feed.onFeedConfig(frames.priceFeedConfig.eventFields)
+    feed.subscriptionMessages({ desired: [PRICE_PARAMS], new: [PRICE_PARAMS], stale: [] })
+
+    const results = feed.message(frames.priceTradeFrame)
+
+    expect(results).toHaveLength(1)
+    const result = results[0] as unknown as {
+      result: number
+      timestamps: { providerIndicatedTimeUnixMs: number }
+      params: { base: string }
+    }
+    expect(result.result).toBe(189.98)
+    // Spec price response_mapping: result = price, provider_timestamp = time
+    expect(result.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+    expect(result.params.base).toBe('AAPL:USLF24')
+  })
+})
+
+describe('"NaN" bidPrice yields an invalid record (spec stock_quotes sample_response second frame; valueRangeScalingNotes: the JSON string "NaN" is invalid)', () => {
+  it('maps to a 502 error result, never a silent zero or a throw', () => {
+    const results = specQuoteFeed().message(frames.stockQuotesInvalidFrame)
+
+    expect(results).toHaveLength(1)
+    const result = results[0] as unknown as {
+      statusCode?: number
+      errorMessage?: string
+      data?: unknown
+    }
+    expect(result.statusCode).toBe(502)
+    expect(result.errorMessage).toContain('Bid price')
+    expect(result.data).toBeUndefined()
+  })
+})
+
+describe('truncated trailing record (spec: a torn COMPACT tail drops without error)', () => {
+  it('serves the complete record and drops the partial tail', () => {
+    const feed = specQuoteFeed()
+
+    // One complete Quote record (9 fields) followed by a torn 4-field tail
+    const tornFrame = {
+      type: 'FEED_DATA',
+      channel: 1,
+      data: [
+        'Quote',
+        [
+          'Quote',
+          'AAPL:USLF24',
+          1760000000000,
+          189.95,
+          190.05,
+          100,
+          200,
+          'V',
+          'V',
+          'Quote',
+          'AAPL:USLF24',
+          1760000001000,
+          189.99,
+        ],
+      ],
+    }
+
+    expect(() => feed.message(tornFrame as any)).not.toThrow()
+    const results = feed.message(tornFrame as any)
+    expect(results).toHaveLength(1)
+    const result = results[0] as unknown as { data: Record<string, number> }
+    // The torn tail's 189.99 @ ...001000 is gone; the complete record is served
+    expect(result.data).toEqual({
+      mid_price: 190.0,
+      bid_price: 189.95,
+      bid_volume: 100,
+      ask_price: 190.05,
+      ask_volume: 200,
+    })
+  })
+})
+
+describe('ERROR / KEEPALIVE / CHANNEL_CLOSED frames produce no data records', () => {
+  it('maps each control frame to an empty result list', () => {
+    const feed = specQuoteFeed()
+    for (const frame of [frames.errorFrame, frames.keepaliveFrame, frames.channelClosedFrame]) {
+      expect(feed.message(frame as any)).toEqual([])
+    }
+  })
+})
+
+describe('FEED_SUBSCRIPTION builder emits the add/remove arrays per (symbol, eventType) (spec primary_command)', () => {
+  it('emits the Quote add entry for a stock_quotes subscription', () => {
+    const feed = new DxLinkFeed({
+      formatTickers: (params: { base: string }) => [
+        { symbol: params.base.toUpperCase(), type: 'Quote' },
+      ],
+      processRecord: () => undefined,
+    } as DxLinkFeedDeps<any>)
+
+    expect(feed.subscriptionMessages({ desired: [PARAMS], new: [PARAMS], stale: [] })).toEqual([
+      { type: 'FEED_SUBSCRIPTION', channel: 1, add: [{ symbol: 'AAPL:USLF24', type: 'Quote' }] },
+    ])
+  })
+
+  it('emits Trade and TradeETH adds for a :USLF24 price subscription, Trade only for a bare symbol (owner decision match_reference)', () => {
+    const uslf = { base: 'AAPL:USLF24', quote: 'USD' }
+    expect(
+      specTradeFeed().subscriptionMessages({ desired: [uslf], new: [uslf], stale: [] }),
+    ).toEqual([
+      {
+        type: 'FEED_SUBSCRIPTION',
+        channel: 1,
+        add: [
+          { symbol: 'AAPL:USLF24', type: 'Trade' },
+          { symbol: 'AAPL:USLF24', type: 'TradeETH' },
+        ],
+      },
+    ])
+
+    const bare = { base: 'SPCX', quote: 'USD' }
+    expect(
+      specTradeFeed().subscriptionMessages({ desired: [bare], new: [bare], stale: [] }),
+    ).toEqual([{ type: 'FEED_SUBSCRIPTION', channel: 1, add: [{ symbol: 'SPCX', type: 'Trade' }] }])
+  })
+
+  it('emits the remove entries once a wire key is no longer desired by any subscription', () => {
+    const feed = specQuoteFeed()
+    feed.subscriptionMessages({ desired: [PARAMS], new: [PARAMS], stale: [] })
+
+    expect(feed.subscriptionMessages({ desired: [], new: [], stale: [PARAMS] })).toEqual([
+      {
+        type: 'FEED_SUBSCRIPTION',
+        channel: 1,
+        remove: [{ symbol: 'AAPL:USLF24', type: 'Quote' }],
+      },
+    ])
   })
 })
