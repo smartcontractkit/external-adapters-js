@@ -7,7 +7,8 @@ import { endpoint as stockQuotesEndpoint } from '../../../src/endpoint/stock-quo
 LoggerFactoryProvider.set()
 
 const CREDENTIALS = { API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' }
-const DXLINK_ENDPOINT = 'wss://tools.dxfeed.com/dxlink-chainlink'
+// Fake host (test_fake_urls): the provider host belongs only in src/config
+const DXLINK_ENDPOINT = 'wss://dxlink.fake.test/dxlink-chainlink'
 
 /**
  * Runs fn with the given env vars set and the config (re)initialized from them,
@@ -40,21 +41,21 @@ const wsRequest = { requestContext: { transportName: 'ws' } } as any
 const restRequest = { requestContext: { transportName: 'rest' } } as any
 
 describe('startup breaking-change env checks (spec data_source_authentication.breaking_change_env_checks)', () => {
-  it('fails startup with WS_API_ENDPOINT=wss://tools.dxfeed.com/chainlink/cometd', () => {
+  it('fails startup with a legacy cometd WS_API_ENDPOINT', () => {
     withSettings(
-      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://tools.dxfeed.com/chainlink/cometd' },
+      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://dxlink.fake.test/chainlink/cometd' },
       () => expect(() => config.validate()).toThrow(/cometd/),
     )
   })
 
   it('fails startup with a WS_API_ENDPOINT carrying embedded credentials', () => {
     withSettings(
-      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://user:pass@tools.dxfeed.com/dxlink-chainlink' },
+      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://user:pass@dxlink.fake.test/dxlink-chainlink' },
       () => expect(() => config.validate()).toThrow(/credentials/),
     )
   })
 
-  it('passes startup with a clean wss://tools.dxfeed.com/dxlink-chainlink and both credentials', () => {
+  it('passes startup with a clean wss:// dxLink endpoint and both credentials', () => {
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () =>
       expect(() => config.validate()).not.toThrow(),
     )
@@ -122,7 +123,7 @@ describe('WS-path credential requirement (spec: require API_USERNAME and API_PAS
   it('reports both check families through one request-time helper', () => {
     expect(
       wsEnvInputValidationError({
-        WS_API_ENDPOINT: 'wss://tools.dxfeed.com/chainlink/cometd',
+        WS_API_ENDPOINT: 'wss://dxlink.fake.test/chainlink/cometd',
         ...CREDENTIALS,
       } as any)?.message,
     ).toContain('cometd')

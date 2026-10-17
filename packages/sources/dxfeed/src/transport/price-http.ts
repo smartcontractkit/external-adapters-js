@@ -3,6 +3,12 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import quoteEventSymbols from '../config/quoteSymbols.json'
 import { BaseEndpointTypes } from '../endpoint/price'
 
+// Preserved REST transport (owner decision rest_transport_scope=
+// keep_untouched): the request shape with its Basic credential attach and
+// the provider response -> result mapping are the adapter-authored
+// auth-request-body and parse-frame substitutions; kept untouched by the
+// dxLink migration (spec exception set).
+// TEMPLATE-EXTENSION: auth-request-body
 const logger = makeLogger('DxFeed Price Batched')
 
 type ProviderResponseBody = {
@@ -114,3 +120,4 @@ export function buildDxFeedHttpTransport(): HttpTransport<HttpTransportTypes> {
     },
   })
 }
+// END TEMPLATE-EXTENSION

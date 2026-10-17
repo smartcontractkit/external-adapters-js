@@ -4,7 +4,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
-import { mockBatchedRestTransport } from './rest-mocks'
+import { FAKE_REST_ENDPOINT, mockBatchedRestTransport } from './rest-mocks'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -16,6 +16,10 @@ describe('execute', () => {
     process.env['API_PASSWORD'] = 'fake-api-password'
     // Required at startup alongside the credentials; only the REST transport is exercised here
     process.env['WS_API_ENDPOINT'] = 'wss://dxlink.localhost.invalid/dxlink-chainlink'
+    // Fake REST host (test_fake_urls): the untouched REST transport reads
+    // API_ENDPOINT from settings, so the nock interceptor in rest-mocks.ts is
+    // what the requests hit — never a real provider host
+    process.env['API_ENDPOINT'] = FAKE_REST_ENDPOINT
     const mockDate = new Date('2022-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 

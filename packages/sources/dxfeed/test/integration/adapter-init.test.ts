@@ -35,7 +35,7 @@ describe('dxfeed adapter init', () => {
     process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
     process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
     process.env['WS_API_ENDPOINT'] =
-      process.env['WS_API_ENDPOINT'] ?? 'wss://tools.dxfeed.com/dxlink-chainlink'
+      process.env['WS_API_ENDPOINT'] ?? 'wss://dxlink.fake.test/dxlink-chainlink'
 
     const imported = (await import('./../../src')).adapter as unknown as Adapter
     imported.rateLimiting = undefined

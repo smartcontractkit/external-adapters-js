@@ -13,6 +13,11 @@ import { inputParameters } from './utils'
 // reads the raw request data.transport against transportRoutes; the declaration
 // adds transport to the validated param set and constrains its values to the
 // registered ws|rest routes.
+// The provider-specific endpoint wiring below (ws|rest transport routes,
+// override layers, WS-path env checks) is preserved adapter code outside
+// the template subset, covered by the declared dxlink-control-protocol
+// exception set.
+// TEMPLATE-EXTENSION: dxlink-control-protocol
 const priceParamsDefinition = {
   ...inputParameters.definition,
   base: {
@@ -69,3 +74,4 @@ export const endpoint = new AdapterEndpoint({
       ? wsEnvInputValidationError(settings)
       : undefined,
 })
+// END TEMPLATE-EXTENSION

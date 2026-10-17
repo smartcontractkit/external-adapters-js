@@ -1,8 +1,12 @@
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { BaseEndpointTypes, priceInputParameters } from '../endpoint/price'
-import { buildDxLinkWsTransport, DxLinkRawResult, DxLinkRecord } from './ws'
+import { buildDxLinkWsTransport, DxLinkRawResult, DxLinkRecord, parseNumeric } from './ws'
 
 // FEED_CONFIG eventFields.Trade positions (spec price sample_response)
+// The Trade/TradeETH COMPACT record -> price result mapping below is the
+// adapter-authored parse-frame substitution (spec price response_mapping,
+// newest-time selection per the reference adapter).
+// TEMPLATE-EXTENSION: parse-frame
 const TIME_INDEX = 2
 const PRICE_INDEX = 3
 
@@ -39,8 +43,8 @@ export class TradeProcessor {
     }
 
     const base = params.base
-    const time = Number(record[TIME_INDEX])
-    const price = Number(record[PRICE_INDEX])
+    const time = parseNumeric(record[TIME_INDEX])
+    const price = parseNumeric(record[PRICE_INDEX])
     const latestTime = this.latestTimeBySymbol[base]
     // Reference semantics (spec reference_ea: preserve endpoint semantics
     // exactly): only strictly older records are ignored; an equal-time record
@@ -90,3 +94,4 @@ export const buildPriceWsTransport = () => {
 }
 
 export const transport = buildPriceWsTransport()
+// END TEMPLATE-EXTENSION

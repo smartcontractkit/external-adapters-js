@@ -117,9 +117,9 @@ describe('Basic Authorization handshake header (spec data_source_authentication.
 
     // Spec data_source_authentication: credentials ride the header, never the URL
     const url = transportConfig.url({
-      adapterSettings: { WS_API_ENDPOINT: 'wss://tools.dxfeed.com/dxlink-chainlink' },
+      adapterSettings: { WS_API_ENDPOINT: 'wss://dxlink.fake.test/dxlink-chainlink' },
     })
-    expect(url).toBe('wss://tools.dxfeed.com/dxlink-chainlink')
+    expect(url).toBe('wss://dxlink.fake.test/dxlink-chainlink')
     expect(url).not.toContain('@')
   })
 })

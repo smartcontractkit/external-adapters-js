@@ -34,7 +34,8 @@ const withSettings = (env: Record<string, string | undefined>, fn: () => void): 
 }
 
 const CREDENTIALS = { API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' }
-const DXLINK_ENDPOINT = 'wss://tools.dxfeed.com/dxlink-chainlink'
+// Fake host (test_fake_urls): the provider host belongs only in src/config
+const DXLINK_ENDPOINT = 'wss://dxlink.fake.test/dxlink-chainlink'
 const LOOPBACK_ENDPOINT = 'ws://localhost:9090/dxlink-chainlink'
 const LOOPBACK_127_ENDPOINT = 'ws://127.0.0.1:9090/dxlink-chainlink'
 
@@ -209,19 +210,19 @@ describe('WS-path request-time credential gate (spec breaking_change_env_checks:
 describe('WS_API_ENDPOINT startup checks (spec breaking_change_env_checks)', () => {
   it('rejects a WS_API_ENDPOINT containing the legacy cometd path', () => {
     withSettings(
-      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://tools.dxfeed.com/chainlink/cometd' },
+      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://dxlink.fake.test/chainlink/cometd' },
       () => expect(() => config.validate()).toThrow(/cometd/),
     )
   })
 
   it('rejects a WS_API_ENDPOINT carrying embedded ://user:pass@ credentials', () => {
     withSettings(
-      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://user:pass@tools.dxfeed.com/dxlink-chainlink' },
+      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://user:pass@dxlink.fake.test/dxlink-chainlink' },
       () => expect(() => config.validate()).toThrow(/credentials/),
     )
   })
 
-  it('accepts wss://tools.dxfeed.com/dxlink-chainlink', () => {
+  it('accepts a clean wss:// dxLink endpoint', () => {
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () =>
       expect(() => config.validate()).not.toThrow(),
     )

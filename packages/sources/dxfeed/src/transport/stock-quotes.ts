@@ -1,7 +1,11 @@
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { BaseEndpointTypes, stockQuotesInputParameters } from '../endpoint/stock-quotes'
-import { buildDxLinkWsTransport, DxLinkRawResult, DxLinkRecord } from './ws'
+import { buildDxLinkWsTransport, DxLinkRawResult, DxLinkRecord, parseNumeric } from './ws'
 
+// The Quote COMPACT record -> stock_quotes result mapping below is the
+// adapter-authored parse-frame substitution (spec stock_quotes
+// response_mapping; reference-adapter semantics preserved).
+// TEMPLATE-EXTENSION: parse-frame
 type Params = TypeFromDefinition<typeof stockQuotesInputParameters.definition>
 
 // FEED_CONFIG eventFields.Quote positions (spec stock_quotes sample_response)
@@ -40,8 +44,8 @@ export const quoteRecordToResult = (
   }
   const base = params.base
 
-  const bidPrice = Number(record[BID_PRICE_INDEX])
-  const askPrice = Number(record[ASK_PRICE_INDEX])
+  const bidPrice = parseNumeric(record[BID_PRICE_INDEX])
+  const askPrice = parseNumeric(record[ASK_PRICE_INDEX])
   if (Number.isNaN(bidPrice) || Number.isNaN(askPrice)) {
     return {
       statusCode: 502,
@@ -52,8 +56,8 @@ export const quoteRecordToResult = (
   // Spec price_mid_scaling: mid of a one-sided book against the live side
   const midPrice = bidPrice === 0 ? askPrice : askPrice === 0 ? bidPrice : (bidPrice + askPrice) / 2
 
-  const bidSize = Number(record[BID_SIZE_INDEX])
-  const askSize = Number(record[ASK_SIZE_INDEX])
+  const bidSize = parseNumeric(record[BID_SIZE_INDEX])
+  const askSize = parseNumeric(record[ASK_SIZE_INDEX])
   const requireVolume = params.requireVolume
   const isOvernight = params.isOvernight
 
@@ -91,7 +95,7 @@ export const quoteRecordToResult = (
       ask_volume: askVolume,
     },
     timestamps: {
-      providerIndicatedTimeUnixMs: Number(record[QUOTE_TIME_INDEX]),
+      providerIndicatedTimeUnixMs: parseNumeric(record[QUOTE_TIME_INDEX]),
     },
   }
 }
@@ -101,3 +105,4 @@ export const transport = buildDxLinkWsTransport<BaseEndpointTypes>({
   processRecord: (eventType, record, params) =>
     eventType === 'Quote' ? quoteRecordToResult(record, params) : undefined,
 })
+// END TEMPLATE-EXTENSION

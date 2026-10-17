@@ -1,5 +1,9 @@
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
+// Preserved shared input-parameter declaration (override layers kept
+// untouched) — adapter code outside the template subset, covered by the
+// declared dxlink-control-protocol exception set.
+// TEMPLATE-EXTENSION: dxlink-control-protocol
 export const inputParameters = new InputParameters(
   {
     base: {
@@ -16,3 +20,4 @@ export const inputParameters = new InputParameters(
     },
   ],
 )
+// END TEMPLATE-EXTENSION

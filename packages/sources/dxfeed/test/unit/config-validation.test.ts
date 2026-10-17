@@ -30,15 +30,16 @@ const withSettings = (env: Record<string, string | undefined>, fn: () => void): 
 }
 
 const CREDENTIALS = { API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' }
-const DXLINK_ENDPOINT = 'wss://tools.dxfeed.com/dxlink-chainlink'
+// Fake host (test_fake_urls): the provider host belongs only in src/config
+const DXLINK_ENDPOINT = 'wss://dxlink.fake.test/dxlink-chainlink'
 
 describe('WS_API_ENDPOINT validation (spec breaking_change_env_checks)', () => {
   it('rejects the deleted legacy cometd endpoint', () => {
-    expect(validateWsApiEndpoint('wss://tools.dxfeed.com/chainlink/cometd')).toContain('cometd')
+    expect(validateWsApiEndpoint('wss://dxlink.fake.test/chainlink/cometd')).toContain('cometd')
   })
 
   it('rejects credentials embedded in the URL', () => {
-    expect(validateWsApiEndpoint('wss://user:pass@tools.dxfeed.com/dxlink-chainlink')).toContain(
+    expect(validateWsApiEndpoint('wss://user:pass@dxlink.fake.test/dxlink-chainlink')).toContain(
       'credentials',
     )
   })
@@ -56,14 +57,14 @@ describe('WS_API_ENDPOINT validation (spec breaking_change_env_checks)', () => {
 
   it('runs the validator at startup: a cometd WS_API_ENDPOINT fails config.validate()', () => {
     withSettings(
-      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://tools.dxfeed.com/chainlink/cometd' },
+      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://dxlink.fake.test/chainlink/cometd' },
       () => expect(() => config.validate()).toThrow(/cometd/),
     )
   })
 
   it('runs the validator at startup: an endpoint with embedded credentials fails config.validate()', () => {
     withSettings(
-      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://user:pass@tools.dxfeed.com/dxlink-chainlink' },
+      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://user:pass@dxlink.fake.test/dxlink-chainlink' },
       () => expect(() => config.validate()).toThrow(/credentials/),
     )
   })
@@ -234,17 +235,15 @@ const captureValidateWarnings = (env: Record<string, string | undefined>): strin
 
 describe('demo REST endpoint startup warning (keep_untouched REST path: pre-migration behaviour)', () => {
   it('warns when API_ENDPOINT keeps the default demo REST endpoint', () => {
-    // API_ENDPOINT: undefined -> the default https://tools.dxfeed.com/webservice/rest applies
+    // API_ENDPOINT: undefined -> the src/config default (the real provider REST
+    // host) applies; test_fake_urls keeps that host out of this file, so the
+    // warning is asserted by its fixed 'Using demo endpoint' prefix
     const warnings = captureValidateWarnings({
       ...CREDENTIALS,
       WS_API_ENDPOINT: DXLINK_ENDPOINT,
       API_ENDPOINT: undefined,
     })
-    expect(
-      warnings.some((w) =>
-        w.includes('Using demo endpoint: https://tools.dxfeed.com/webservice/rest'),
-      ),
-    ).toBe(true)
+    expect(warnings.some((w) => w.includes('Using demo endpoint'))).toBe(true)
   })
 
   it('does not warn when API_ENDPOINT is customized away from the demo default', () => {

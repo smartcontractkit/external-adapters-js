@@ -103,10 +103,10 @@ describe('Basic Authorization handshake header (spec data_source_authentication.
 
   it('connects to WS_API_ENDPOINT verbatim with credentials on the header, never the URL', () => {
     const url = (stockQuotesTransport as any).config.url({
-      adapterSettings: { WS_API_ENDPOINT: 'wss://tools.dxfeed.com/dxlink-chainlink' },
+      adapterSettings: { WS_API_ENDPOINT: 'wss://dxlink.fake.test/dxlink-chainlink' },
     })
 
-    expect(url).toBe('wss://tools.dxfeed.com/dxlink-chainlink')
+    expect(url).toBe('wss://dxlink.fake.test/dxlink-chainlink')
     expect(url).not.toContain('@')
   })
 })

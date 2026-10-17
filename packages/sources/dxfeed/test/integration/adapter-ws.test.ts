@@ -72,8 +72,8 @@ describe('dxLink websocket smoke flows', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = WS_URL
-    // ws:// loopback test bridge: the plaintext exemption is an explicit opt-in
-    process.env['ALLOW_INSECURE_LOOPBACK_WS'] = 'true'
+    // ws:// loopback test bridge: the config accepts loopback ws:// with a
+    // warning (no opt-in flag — ALLOW_INSECURE_LOOPBACK_WS is a retired no-op)
     process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
     process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
     process.env['WS_SUBSCRIPTION_TTL'] = '60000'

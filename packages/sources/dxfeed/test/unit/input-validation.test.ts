@@ -5,7 +5,8 @@ import { endpoint as stockQuotesEndpoint } from '../../src/endpoint/stock-quotes
 
 LoggerFactoryProvider.set()
 
-const DXLINK_ENDPOINT = 'wss://tools.dxfeed.com/dxlink-chainlink'
+// Fake host (test_fake_urls): the provider host belongs only in src/config
+const DXLINK_ENDPOINT = 'wss://dxlink.fake.test/dxlink-chainlink'
 
 const cleanSettings = {
   WS_API_ENDPOINT: DXLINK_ENDPOINT,
@@ -27,7 +28,7 @@ describe('request-time breaking-change env checks (spec data_source_authenticati
   it('rejects a WS-path request whose WS_API_ENDPOINT is the legacy cometd path, naming the legacy path', () => {
     const error = stockQuotesEndpoint.customInputValidation?.(wsRequest, {
       ...cleanSettings,
-      WS_API_ENDPOINT: 'wss://tools.dxfeed.com/chainlink/cometd',
+      WS_API_ENDPOINT: 'wss://dxlink.fake.test/chainlink/cometd',
     } as any)
     expect(errorMessage(error)).toContain('cometd')
   })
@@ -35,7 +36,7 @@ describe('request-time breaking-change env checks (spec data_source_authenticati
   it('rejects a WS-path request whose WS_API_ENDPOINT embeds credentials', () => {
     const error = stockQuotesEndpoint.customInputValidation?.(wsRequest, {
       ...cleanSettings,
-      WS_API_ENDPOINT: 'wss://user:pass@tools.dxfeed.com/dxlink-chainlink',
+      WS_API_ENDPOINT: 'wss://user:pass@dxlink.fake.test/dxlink-chainlink',
     } as any)
     expect(errorMessage(error)).toContain('credentials')
   })
@@ -72,7 +73,7 @@ describe('request-time breaking-change env checks (spec data_source_authenticati
     expect(
       errorMessage(
         wsEnvInputValidationError({
-          WS_API_ENDPOINT: 'wss://tools.dxfeed.com/chainlink/cometd',
+          WS_API_ENDPOINT: 'wss://dxlink.fake.test/chainlink/cometd',
         } as any),
       ),
     ).toContain('cometd')

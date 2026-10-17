@@ -1,6 +1,13 @@
 import nock from 'nock'
 
 /**
+ * Fake REST host the REST suites pin API_ENDPOINT to (test_fake_urls: the real
+ * provider host belongs only in the src/config default). The suites below set
+ * process.env.API_ENDPOINT to this URL before booting the adapter.
+ */
+export const FAKE_REST_ENDPOINT = 'https://rest.fake.test/webservice/rest'
+
+/**
  * REST transport mock for the untouched (pre-migration, batched) price HTTP
  * transport. The transport batches every desired subscription into ONE request
  * (`symbols=A,B,C` — the subscription set accumulates across requests because
@@ -30,18 +37,18 @@ const tradeEntry = (symbol: string, price: number) => ({
 export function mockBatchedRestTransport(): void {
   // Registered first so a batch that includes the FAIL symbol hits the 5xx
   // reply even though the catch-all success interceptor below would also match
-  nock('https://tools.dxfeed.com/webservice/rest')
+  nock(FAKE_REST_ENDPOINT)
     .persist()
     .get('/events.json')
     .query((query) => String(query.symbols ?? '').includes('FAIL'))
     .reply(500, { status: 'INTERNAL_SERVER_ERROR' }, ['Content-Type', 'application/json'])
 
-  nock('https://tools.dxfeed.com/webservice/rest')
+  nock(FAKE_REST_ENDPOINT)
     .persist()
     .get('/events.json')
     .query(true)
     .reply((uri) => {
-      const symbols = new URL(uri, 'https://tools.dxfeed.com').searchParams.get('symbols') ?? ''
+      const symbols = new URL(uri, FAKE_REST_ENDPOINT).searchParams.get('symbols') ?? ''
       const trade: Record<string, unknown> = {}
       for (const symbol of symbols.split(',')) {
         const price = REST_PRICES[symbol]

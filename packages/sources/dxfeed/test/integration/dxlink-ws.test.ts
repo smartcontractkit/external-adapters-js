@@ -56,8 +56,8 @@ describe('dxLink connection: Basic auth header and failed handshakes', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = WS_URL
-    // ws:// loopback test bridge: the plaintext exemption is an explicit opt-in
-    process.env['ALLOW_INSECURE_LOOPBACK_WS'] = 'true'
+    // ws:// loopback test bridge: the config accepts loopback ws:// with a
+    // warning (no opt-in flag — ALLOW_INSECURE_LOOPBACK_WS is a retired no-op)
     process.env['API_USERNAME'] = API_USERNAME
     process.env['API_PASSWORD'] = API_PASSWORD
     // Short budget so the failed-handshake flows fit a handful of fake-clock steps

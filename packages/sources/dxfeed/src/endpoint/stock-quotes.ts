@@ -5,6 +5,11 @@ import overrides from '../config/overrides.json'
 import { transport } from '../transport/stock-quotes'
 import { inputParameters } from './utils'
 
+// The provider-specific stock_quotes endpoint wiring below (requireVolume /
+// isOvernight params, override layers, WS-path env checks) is preserved
+// adapter code outside the template subset, covered by the declared
+// dxlink-control-protocol exception set.
+// TEMPLATE-EXTENSION: dxlink-control-protocol
 export const stockQuotesInputParameters = new InputParameters({
   ...inputParameters.definition,
   base: {
@@ -57,3 +62,4 @@ export const endpoint = new AdapterEndpoint({
   // request time too (same check fns as the startup AdapterConfig validate)
   customInputValidation: (_request, settings) => wsEnvInputValidationError(settings),
 })
+// END TEMPLATE-EXTENSION
