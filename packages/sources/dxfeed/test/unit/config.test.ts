@@ -1,8 +1,10 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as fs from 'fs'
 import * as path from 'path'
 import {
+  buildAdapterConfig,
   config,
   missingWsCredentials,
   REST_API_ENDPOINT_DEFAULT,
@@ -216,6 +218,62 @@ describe('WS_API_ENDPOINT startup checks (spec breaking_change_env_checks)', () 
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: LOOPBACK_ENDPOINT }, () =>
       expect(() => config.validate()).not.toThrow(),
     )
+  })
+})
+
+describe('WS_API_ENDPOINT scheme gate (round-2 security: a plaintext ws:// endpoint sends the Basic Authorization credentials unencrypted)', () => {
+  it('rejects ws://tools.dxfeed.com/dxlink-chainlink with a startup error naming the required wss:// scheme and the plaintext-credential risk', () => {
+    const error = validateWsApiEndpoint('ws://tools.dxfeed.com/dxlink-chainlink')
+    expect(error).toContain('wss://')
+    expect(error).toContain('ws://')
+    expect(error).toMatch(/plaintext|unencrypted/i)
+    // The sensitive endpoint value is not echoed back into the error
+    expect(error).not.toContain('tools.dxfeed.com')
+  })
+
+  it('fails startup when WS_API_ENDPOINT points at a plaintext ws:// provider endpoint', () => {
+    withSettings(
+      { ...CREDENTIALS, WS_API_ENDPOINT: 'ws://tools.dxfeed.com/dxlink-chainlink' },
+      () => expect(() => config.validate()).toThrow(/wss/),
+    )
+  })
+
+  it('accepts the spec wss:// dxLink endpoint (spec data_source_base_url)', () => {
+    expect(validateWsApiEndpoint('wss://tools.dxfeed.com/dxlink-chainlink')).toBe('')
+    withSettings(
+      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://tools.dxfeed.com/dxlink-chainlink' },
+      () => expect(() => config.validate()).not.toThrow(),
+    )
+  })
+
+  it('accepts ws:// loopback URLs so the mock-server test bridge keeps working (127.0.0.1, localhost, ::1)', () => {
+    expect(validateWsApiEndpoint('ws://127.0.0.1:9090/dxlink-chainlink')).toBe('')
+    expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe('')
+    expect(validateWsApiEndpoint('ws://[::1]:9090/dxlink-chainlink')).toBe('')
+  })
+
+  it('still rejects ws:// on a non-loopback hostname other than the provider host too (the allowance is loopback-only)', () => {
+    expect(validateWsApiEndpoint('ws://dxlink.fake.test/dxlink-chainlink')).toContain('wss://')
+  })
+})
+
+describe('AdapterConfig construction and the censor list (round-2: no double registration of sensitive values)', () => {
+  it('two AdapterConfig constructions in the same process leave exactly one censor entry for API_PASSWORD and one for WS_API_ENDPOINT after each construction', () => {
+    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () => {
+      const entriesFor = (key: string): number =>
+        CensorList.getAll().filter(({ key: entryKey }) => entryKey === key).length
+
+      for (let construction = 1; construction <= 2; construction++) {
+        // Each construction reads the environment through its own initialize()
+        // (the framework populates settings there, and buildCensorList
+        // registers the sensitive settings' values)
+        const built = buildAdapterConfig()
+        built.initialize()
+        built.buildCensorList()
+        expect(entriesFor('API_PASSWORD')).toBe(1)
+        expect(entriesFor('WS_API_ENDPOINT')).toBe(1)
+      }
+    })
   })
 })
 

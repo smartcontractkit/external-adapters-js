@@ -21,6 +21,17 @@ const realSetTimeout = setTimeout
 
 const WS_URL = 'ws://localhost:9090/dxlink-chainlink'
 
+// The spec stock_quotes sample_response's verbatim FEED_DATA frame: ONE COMPACT
+// row concatenating TWO Quote records for AAPL:USLF24 (the
+// acceptAggregationPeriod=1 batching). Overrides the single-record
+// dxlink-mocks.ts frame for this suite: the spec golden example response
+// derives from the newest (second) record — bid 189.90/50, ask 190.10/80,
+// time 1760000001000.
+setFeedDataRecords('Quote', 'AAPL:USLF24', [
+  ['Quote', 'AAPL:USLF24', 1760000000000, 189.95, 190.05, 100, 200, 'V', 'V'],
+  ['Quote', 'AAPL:USLF24', 1760000001000, 189.9, 190.1, 50, 80, 'O', 'O'],
+])
+
 // Spec endpoint_request_response_examples (OPDATA-9200)
 const quoteRequest = {
   endpoint: 'stock_quotes',
@@ -97,7 +108,7 @@ describe('dxLink websocket smoke flows', () => {
     })
 
     // Warm the cache for both endpoints sharing the single dxLink connection
-    await requestUntilCached(quoteRequest)
+    await requestUntilCached(quoteRequest, 1760000001000)
     await requestUntilCached(priceRequest)
   })
 
@@ -110,19 +121,23 @@ describe('dxLink websocket smoke flows', () => {
 
   describe('stock_quotes (Quote events)', () => {
     it('serves the spec example response', async () => {
+      // Spec endpoint_request_response_examples (stock_quotes, AAPL): the golden
+      // example response derives from the freshest (second) record of the spec
+      // sample_response's two-record Quote frame — mid 190.0 over bid 189.90 /
+      // ask 190.10, volumes 50/80, providerIndicatedTimeUnixMs 1760000001000
       const response = await testAdapter.request(quoteRequest)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchObject({
         data: {
           mid_price: 190.0,
-          bid_price: 189.95,
-          bid_volume: 100,
-          ask_price: 190.05,
-          ask_volume: 200,
+          bid_price: 189.9,
+          bid_volume: 50,
+          ask_price: 190.1,
+          ask_volume: 80,
         },
         result: 190.0,
         timestamps: {
-          providerIndicatedTimeUnixMs: 1760000000000,
+          providerIndicatedTimeUnixMs: 1760000001000,
         },
       })
     })
@@ -169,7 +184,7 @@ describe('dxLink websocket smoke flows', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchObject({
         result: 190.0,
-        timestamps: { providerIndicatedTimeUnixMs: 1760000000000 },
+        timestamps: { providerIndicatedTimeUnixMs: 1760000001000 },
       })
     })
   })
@@ -196,14 +211,14 @@ describe('dxLink websocket smoke flows', () => {
       expect(duringReconnect.json()).toMatchObject({
         data: {
           mid_price: 190.0,
-          bid_price: 189.95,
-          bid_volume: 100,
-          ask_price: 190.05,
-          ask_volume: 200,
+          bid_price: 189.9,
+          bid_volume: 50,
+          ask_price: 190.1,
+          ask_volume: 80,
         },
         result: 190.0,
         timestamps: {
-          providerIndicatedTimeUnixMs: 1760000000000,
+          providerIndicatedTimeUnixMs: 1760000001000,
         },
       })
 

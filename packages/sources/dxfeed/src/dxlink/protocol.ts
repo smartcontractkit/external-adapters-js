@@ -370,6 +370,13 @@ export type DxLinkFeedDeps<T extends DxLinkTransportGenerics> = {
     record: DxLinkRecord,
     params: TypeFromDefinition<T['Parameters']>,
   ) => DxLinkRawResult | undefined
+  /**
+   * Notified with the wire entries actually removed (the last subscription for
+   * that wire key is gone) after a FEED_SUBSCRIPTION remove message is built —
+   * the customSubscriptionMessages remove path, where per-key state can be
+   * cleaned up so it cannot grow without bound across subscription churn.
+   */
+  onUnsubscribe?: (entries: DxLinkSubscriptionEntry[]) => void
 }
 
 export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGenerics> {
@@ -433,6 +440,9 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
     const messages: DxLinkMessage[] = []
     if (remove.length > 0) {
       messages.push({ type: 'FEED_SUBSCRIPTION', channel: DXLINK_FEED_CHANNEL, remove })
+      // The remove list already excludes wire keys still desired by another
+      // params combo: every entry here is a last-removal
+      this.deps.onUnsubscribe?.(remove)
     }
     if (add.length > 0) {
       messages.push({ type: 'FEED_SUBSCRIPTION', channel: DXLINK_FEED_CHANNEL, add })

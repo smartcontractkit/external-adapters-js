@@ -1,6 +1,12 @@
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { BaseEndpointTypes, priceInputParameters } from '../endpoint/price'
-import { buildDxLinkWsTransport, DxLinkRawResult, DxLinkRecord, parseNumeric } from './ws'
+import {
+  buildDxLinkWsTransport,
+  DxLinkRawResult,
+  DxLinkRecord,
+  DxLinkSubscriptionEntry,
+  parseNumeric,
+} from './ws'
 
 // FEED_CONFIG eventFields.Trade positions (spec price sample_response)
 // The Trade/TradeETH COMPACT record -> price result mapping below is the
@@ -32,7 +38,26 @@ export const tradeTickers = (base: string): { symbol: string; type: string }[] =
  * stale/late records are not surfaced as errors).
  */
 export class TradeProcessor {
-  private readonly latestTimeBySymbol: Record<string, number> = {}
+  /**
+   * Newest provider time seen per WIRE symbol. Read-only for callers (tests
+   * observe the unsubscribe cleanup through it); mutated only by processRecord
+   * and unsubscribe below.
+   */
+  readonly latestTimeBySymbol: Record<string, number> = {}
+
+  /**
+   * Unsubscribe cleanup (round-2): the customSubscriptionMessages remove path
+   * notifies the transport when the last subscription for a wire key is gone;
+   * deleting the symbol's newest-time entry there keeps this map bounded
+   * across subscription churn. A later resubscription starts fresh.
+   */
+  unsubscribe(entries: DxLinkSubscriptionEntry[]): void {
+    for (const { symbol, type } of entries) {
+      if (type === 'Trade' || type === 'TradeETH') {
+        delete this.latestTimeBySymbol[symbol.toUpperCase()]
+      }
+    }
+  }
 
   processRecord(
     eventType: string,
@@ -97,6 +122,9 @@ export const buildPriceWsTransport = () => {
     formatTickers: (params) => tradeTickers(params.base),
     processRecord: (eventType, record, params) =>
       tradeProcessor.processRecord(eventType, record, params),
+    // The remove path of customSubscriptionMessages drops the symbol's
+    // newest-time state once its last subscription is gone
+    onUnsubscribe: (entries) => tradeProcessor.unsubscribe(entries),
   })
 }
 

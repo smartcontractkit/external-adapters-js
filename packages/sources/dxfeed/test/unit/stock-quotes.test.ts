@@ -62,6 +62,20 @@ describe('requireVolume (spec stock_quotes input_parameters: error, not zero, on
     expect(error.data).toBeUndefined()
   })
 
+  it('names the post-override wire ticker in the error message (round-2: params.base is the resolved override target AAPL -> AAPL:USLF24)', () => {
+    // Overrides resolve upstream of the transport, so an overridden request
+    // reaches quoteRecordToResult with base = the wire ticker; the error must
+    // name 'AAPL:USLF24' — the ticker that owns the record on the wire — and
+    // not the client ticker 'AAPL'
+    const error = quoteRecordToResult(nanVolumeRecord, {
+      ...PARAMS,
+      base: 'AAPL:USLF24',
+      requireVolume: true,
+    }) as any
+    expect(error.statusCode).toBe(502)
+    expect(error.errorMessage).toContain('AAPL:USLF24')
+  })
+
   it('passes invalid volumes through unchanged (NaN — null on the wire), not an error, when requireVolume=false', () => {
     const ok = quoteRecordToResult(nanVolumeRecord, { ...PARAMS, requireVolume: false }) as any
     expect(ok.statusCode).toBeUndefined()
