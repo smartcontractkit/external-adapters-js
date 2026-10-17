@@ -283,16 +283,5 @@ describe('credential censoring (spec: WS_API_ENDPOINT and API_PASSWORD are sensi
   })
 })
 
-describe('framework pin (spec framework_version 2.20.0)', () => {
-  it('resolves @chainlink/external-adapter-framework to >= 2.20.0 (customSubscriptionMessages availability)', () => {
-    const packageJson = JSON.parse(
-      fs.readFileSync(path.resolve(__dirname, '../../package.json'), 'utf8'),
-    ) as { dependencies: Record<string, string> }
-    const version = packageJson.dependencies['@chainlink/external-adapter-framework']
-    expect(version).toBeDefined()
-
-    const [major, minor] = version.split('.').map(Number)
-    const atLeast_2_20 = major > 2 || (major === 2 && minor >= 20)
-    expect(atLeast_2_20).toBe(true)
-  })
-})
+// The framework pin (spec framework_version 2.20.0) is proven in
+// test/unit/adapter.test.ts — the plan's round1-scaffold proving test.
