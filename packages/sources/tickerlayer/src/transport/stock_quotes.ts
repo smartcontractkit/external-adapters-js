@@ -10,6 +10,8 @@ export interface WSResponse {
   symbol: string
   bid: number | string
   ask: number | string
+  mid: number | string
+  session: string
   bid_size: number | string
   ask_size: number | string
   ts: number
@@ -46,32 +48,51 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
             !message.symbol ||
             !bid_price ||
             !ask_price ||
-            !bid_volume ||
-            !ask_volume ||
             !providerIndicatedTimeUnixMs
           ) {
             logger.warn({ msg: 'Ignoring unexpected message', ignoredMessage: message })
             return
           }
+          if (message.session !== 'overnight' && (!bid_volume || !ask_volume)) {
+            logger.warn({
+              msg: 'Ignoring unexpected non-overnight message',
+              ignoredMessage: message,
+            })
+            return
+          }
 
-          const mid_price = (bid_price + ask_price) / 2
+          const mid_price = toNumber(message.mid) || (bid_price + ask_price) / 2
+
+          const params = {
+            base: message.symbol,
+            assetType: message.asset,
+            isOvernight: message.session === 'overnight',
+          }
+          const response = {
+            result: null,
+            data: {
+              mid_price,
+              bid_price,
+              ask_price,
+              bid_volume,
+              ask_volume,
+            },
+            timestamps: {
+              providerIndicatedTimeUnixMs,
+            },
+          }
 
           return [
+            { params: { ...params, requireVolume: false }, response },
             {
-              params: { base: message.symbol, assetType: message.asset },
-              response: {
-                result: null,
-                data: {
-                  mid_price,
-                  bid_price,
-                  ask_price,
-                  bid_volume,
-                  ask_volume,
-                },
-                timestamps: {
-                  providerIndicatedTimeUnixMs,
-                },
-              },
+              params: { ...params, requireVolume: true },
+              response:
+                bid_volume && ask_volume
+                  ? response
+                  : {
+                      statusCode: 502,
+                      errorMessage: `Bid volume: ${bid_volume} or Ask volume: ${ask_volume} for ${params.base} is invalid.`,
+                    },
             },
           ]
         },
@@ -80,14 +101,15 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
         subscribeMessage: (params) => {
           return {
             action: 'subscribe',
-            channels: [`${params.assetType}.quotes`],
+            channels: [params.isOvernight ? 'overnight.quotes' : `${params.assetType}.quotes`],
             symbols: [params.base],
+            ...(params.isOvernight && { spread: 'full' }),
           }
         },
         unsubscribeMessage: (params) => {
           return {
             action: 'unsubscribe',
-            channels: [`${params.assetType}.quotes`],
+            channels: [params.isOvernight ? 'overnight.quotes' : `${params.assetType}.quotes`],
             symbols: [params.base],
           }
         },
