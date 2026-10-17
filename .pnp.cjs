@@ -5798,7 +5798,7 @@ const RAW_RUNTIME_STATE =
           ["@kaiko-data/sdk-node", "npm:1.27.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["exponential-backoff", "npm:3.1.2"],\
+          ["exponential-backoff", "npm:3.1.3"],\
           ["nock", "npm:13.5.6"],\
           ["rxjs", "npm:7.8.2"],\
           ["tslib", "npm:2.4.1"],\
@@ -19814,6 +19814,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/exponential-backoff-npm-3.1.2-e030c582de-ca2f01f1aa.zip/node_modules/exponential-backoff/",\
         "packageDependencies": [\
           ["exponential-backoff", "npm:3.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:3.1.3", {\
+        "packageLocation": "./.yarn/cache/exponential-backoff-npm-3.1.3-28be78d98e-ca25962b4b.zip/node_modules/exponential-backoff/",\
+        "packageDependencies": [\
+          ["exponential-backoff", "npm:3.1.3"]\
         ],\
         "linkType": "HARD"\
       }]\
