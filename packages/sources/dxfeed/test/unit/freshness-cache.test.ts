@@ -1,5 +1,5 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import { tradeProcessor } from '../../src/transport/price-ws'
+import { TradeProcessor } from '../../src/transport/price-ws'
 import { quoteRecordToResult } from '../../src/transport/stock-quotes'
 import { DxLinkFeed, DxLinkFeedDeps } from '../../src/transport/ws'
 import frames from './fixtures/dxlink-frames.json'
@@ -41,7 +41,7 @@ describe('stale quote serving (owner decision stale_quote_serving=serve_last_val
   })
 
   it('the same holds on the price path for stale trades', () => {
-    const response = tradeProcessor.processRecord(
+    const response = new TradeProcessor().processRecord(
       'Trade',
       frames.priceTradeFrame.data[1] as any,
       { base: 'AAPL:USLF24', quote: 'USD' } as any,

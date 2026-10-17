@@ -1,8 +1,8 @@
-import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import { LoggerFactory, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as fs from 'fs'
 import * as path from 'path'
-import { config, missingWsCredentials } from '../../src/config'
+import { config, missingWsCredentials, validateWsApiEndpoint } from '../../src/config'
 import { endpoint as stockQuotesEndpoint } from '../../src/endpoint/stock-quotes'
 
 // The pre-migration demo REST endpoint startup warning logs from the config
@@ -35,45 +35,119 @@ const withSettings = (env: Record<string, string | undefined>, fn: () => void): 
 
 const CREDENTIALS = { API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' }
 const DXLINK_ENDPOINT = 'wss://tools.dxfeed.com/dxlink-chainlink'
+const LOOPBACK_ENDPOINT = 'ws://localhost:9090/dxlink-chainlink'
 
 // The framework resolves requestContext.transportName (ws|rest) BEFORE calling
 // customInputValidation, so a WS-path request is exactly a request whose
 // resolved transport is "ws".
 const wsRequest = { requestContext: { transportName: 'ws' } } as any
 
-describe('credential pair required at startup (spec environment_variables: API_USERNAME/API_PASSWORD required: true)', () => {
-  it('fails startup with a clear error when API_USERNAME is unset', () => {
-    withSettings(
-      {
-        API_USERNAME: undefined,
-        API_PASSWORD: CREDENTIALS.API_PASSWORD,
-        WS_API_ENDPOINT: DXLINK_ENDPOINT,
-      },
-      () => expect(() => config.validate()).toThrow(/API_USERNAME/),
-    )
-  })
+/** Runs fn with NODE_ENV patched, restoring it afterwards. */
+const withNodeEnv = (value: string | undefined, fn: () => void): void => {
+  const oldNodeEnv = process.env.NODE_ENV
+  try {
+    if (value === undefined) {
+      delete process.env.NODE_ENV
+    } else {
+      process.env.NODE_ENV = value
+    }
+    fn()
+  } finally {
+    if (oldNodeEnv === undefined) {
+      delete process.env.NODE_ENV
+    } else {
+      process.env.NODE_ENV = oldNodeEnv
+    }
+  }
+}
 
-  it('fails startup with a clear error when API_PASSWORD is unset', () => {
-    withSettings(
-      {
-        API_USERNAME: CREDENTIALS.API_USERNAME,
-        API_PASSWORD: undefined,
-        WS_API_ENDPOINT: DXLINK_ENDPOINT,
-      },
-      () => expect(() => config.validate()).toThrow(/API_PASSWORD/),
-    )
-  })
+/**
+ * Captures the warnings a FRESH config module emits while fn runs. The config
+ * module binds its logger on the first log call, so the capture wires a
+ * recording factory into an isolated module registry before loading the module.
+ */
+const withRecordingLogger = (fn: (validate: typeof validateWsApiEndpoint) => void): string[] => {
+  const warnings: string[] = []
+  const recordingFactory: LoggerFactory = {
+    child: () => {
+      const levels = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'] as const
+      const methods: Record<string, (...args: unknown[]) => void> = {}
+      for (const level of levels) {
+        methods[level] = (...args: unknown[]) => {
+          if (level === 'warn') {
+            warnings.push(args.map((arg) => String(arg)).join(' '))
+          }
+        }
+      }
+      return methods as unknown as ReturnType<LoggerFactory['child']>
+    },
+  }
 
-  it('fails startup when both credentials are unset', () => {
+  jest.isolateModules(() => {
+    // The isolated registry holds fresh copies of the framework modules too,
+    // so the recorder must be set on THAT registry's provider
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+    const framework = require('@chainlink/external-adapter-framework/util') as {
+      LoggerFactoryProvider: typeof LoggerFactoryProvider
+    }
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+    const configModule = require('../../src/config') as typeof import('../../src/config')
+    const { validateWsApiEndpoint: freshValidate } = configModule
+
+    framework.LoggerFactoryProvider.set(recordingFactory)
+    try {
+      fn(freshValidate)
+    } finally {
+      framework.LoggerFactoryProvider.set()
+    }
+  })
+  return warnings
+}
+
+describe('credential pair optional at startup (round-2 item 1: REST-only deployments boot)', () => {
+  it('builds and validates the adapter config with API_USERNAME and API_PASSWORD unset', () => {
+    // The spec scopes the credential requirement to WS paths; the REST
+    // transport (owner decision rest_transport_scope=keep_untouched) runs
+    // without them, so startup must not fail when the pair is unset
     withSettings(
       { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: DXLINK_ENDPOINT },
-      () => expect(() => config.validate()).toThrow(/API_USERNAME/),
+      () => expect(() => config.validate()).not.toThrow(),
     )
   })
 
-  it('starts when both credentials are set with the dxLink endpoint', () => {
+  it('still starts when both credentials are set with the dxLink endpoint', () => {
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () =>
       expect(() => config.validate()).not.toThrow(),
+    )
+  })
+})
+
+describe('WS-path request-time credential gate (spec breaking_change_env_checks: require API_USERNAME and API_PASSWORD to be set (WS paths))', () => {
+  it('rejects a stock_quotes request without credentials with a validation error naming the pair', () => {
+    // stock_quotes is WS-only: its customInputValidation enforces the
+    // credential pair with a clear per-request error — the ONLY credential
+    // gate now that startup does not require the pair
+    const error = stockQuotesEndpoint.customInputValidation?.(wsRequest, {
+      WS_API_ENDPOINT: DXLINK_ENDPOINT,
+    } as any)
+    expect(error?.message).toContain('API_USERNAME')
+    expect(error?.message).toContain('API_PASSWORD')
+  })
+
+  it('accepts a WS-path request when the pair is set', () => {
+    const error = stockQuotesEndpoint.customInputValidation?.(wsRequest, {
+      ...CREDENTIALS,
+      WS_API_ENDPOINT: DXLINK_ENDPOINT,
+    } as any)
+    expect(error).toBeUndefined()
+  })
+
+  it('fails the WS-path check when either one of the pair is unset', () => {
+    expect(missingWsCredentials({})).toContain('API_USERNAME')
+    expect(missingWsCredentials({ API_USERNAME: 'dxfeed-user' })).toContain('API_PASSWORD')
+    expect(missingWsCredentials({ API_PASSWORD: 'dxfeed-pass' })).toContain('API_USERNAME')
+    expect(missingWsCredentials({ API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' })).toBe(
+      '',
     )
   })
 })
@@ -100,24 +174,61 @@ describe('WS_API_ENDPOINT startup checks (spec breaking_change_env_checks)', () 
   })
 })
 
-describe('WS-path request-time credential gate (spec breaking_change_env_checks: require API_USERNAME and API_PASSWORD to be set (WS paths))', () => {
-  it('rejects a stock_quotes request without credentials with a validation error naming the pair', () => {
-    // stock_quotes is WS-only: its customInputValidation enforces the
-    // credential pair with a clear per-request error
-    const error = stockQuotesEndpoint.customInputValidation?.(wsRequest, {
-      WS_API_ENDPOINT: DXLINK_ENDPOINT,
-    } as any)
-    expect(error?.message).toContain('API_USERNAME')
-    expect(error?.message).toContain('API_PASSWORD')
+describe('loopback ws:// exemption gated on NODE_ENV=test (round-2 item 5: no cleartext Basic auth outside tests)', () => {
+  it('accepts ws://localhost when NODE_ENV=test (in-process test bridges)', () => {
+    withNodeEnv('test', () => expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).toBe(''))
   })
 
-  it('fails the WS-path check when either one of the pair is unset', () => {
-    expect(missingWsCredentials({})).toContain('API_USERNAME')
-    expect(missingWsCredentials({ API_USERNAME: 'dxfeed-user' })).toContain('API_PASSWORD')
-    expect(missingWsCredentials({ API_PASSWORD: 'dxfeed-pass' })).toContain('API_USERNAME')
-    expect(missingWsCredentials({ API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' })).toBe(
-      '',
+  it('rejects ws://localhost when NODE_ENV=production', () => {
+    withNodeEnv('production', () =>
+      expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).toContain('wss://'),
     )
+  })
+
+  it('rejects ws://localhost when NODE_ENV is unset', () => {
+    withNodeEnv(undefined, () =>
+      expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).toContain('wss://'),
+    )
+  })
+
+  it('enforces the gate at startup: a loopback ws:// WS_API_ENDPOINT fails config.validate() outside NODE_ENV=test', () => {
+    withNodeEnv('production', () =>
+      withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: LOOPBACK_ENDPOINT }, () =>
+        expect(() => config.validate()).toThrow(/wss:\/\//),
+      ),
+    )
+  })
+
+  it('still rejects a non-loopback ws:// endpoint even under NODE_ENV=test', () => {
+    withNodeEnv('test', () =>
+      expect(validateWsApiEndpoint('ws://example.com/dxlink-chainlink')).toContain('wss://'),
+    )
+  })
+})
+
+describe('loopback warning censoring (round-2 item 6: the sensitive WS_API_ENDPOINT value never reaches the logs)', () => {
+  it('logs the parsed host and scheme but not the full WS_API_ENDPOINT value', () => {
+    withNodeEnv('test', () => {
+      const warnings = withRecordingLogger((validate) => {
+        expect(validate(LOOPBACK_ENDPOINT)).toBe('')
+      })
+
+      expect(warnings).toHaveLength(1)
+      // The parsed scheme and host are in the log entry...
+      expect(warnings[0]).toContain('ws://')
+      expect(warnings[0]).toContain('localhost')
+      // ...the raw sensitive value (and any unique part of it) is not
+      expect(warnings[0]).not.toContain(LOOPBACK_ENDPOINT)
+      expect(warnings[0]).not.toContain('/dxlink-chainlink')
+      expect(warnings[0]).not.toContain(':9090/dxlink')
+    })
+  })
+
+  it('emits no loopback warning for the encrypted wss:// dxLink endpoint', () => {
+    const warnings = withRecordingLogger((validate) => {
+      expect(validate(DXLINK_ENDPOINT)).toBe('')
+    })
+    expect(warnings).toHaveLength(0)
   })
 })
 

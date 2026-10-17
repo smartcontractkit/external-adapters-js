@@ -1,6 +1,6 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { quoteRecordToResult } from '../../../src/transport/stock-quotes'
-import { DxLinkFeed, DxLinkFeedDeps } from '../../../src/transport/ws'
+import { assertAcceptedEventFields, DxLinkFeed, DxLinkFeedDeps } from '../../../src/transport/ws'
 import frames from '../fixtures/dxlink-frames.json'
 
 LoggerFactoryProvider.set()
@@ -54,5 +54,81 @@ describe('Quote providerIndicatedTimeUnixMs (spec data_freshness.timestamp_field
     )
     expect((results[0] as any).timestamps.providerIndicatedTimeUnixMs).toBe(1760000000000)
     expect((results[0] as any).timestamps.providerIndicatedTimeUnixMs).not.toBe(1760000001000)
+  })
+})
+
+describe('FEED_CONFIG eventFields order guard (round-2 item 3: fixed COMPACT indices must match the negotiated layout)', () => {
+  // Same fields as the spec sample FEED_CONFIG but with askPrice ahead of
+  // bidPrice — a divergent accepted order would silently misread every field
+  const REORDERED_QUOTE_FIELDS = [
+    'eventType',
+    'eventSymbol',
+    'time',
+    'askPrice',
+    'bidPrice',
+    'bidSize',
+    'askSize',
+    'bidExchangeCode',
+    'askExchangeCode',
+  ]
+
+  it('raises the assertion error when the accepted Quote field order diverges from the requested acceptEventFields', () => {
+    expect(() => assertAcceptedEventFields({ Quote: REORDERED_QUOTE_FIELDS })).toThrow(/diverge/)
+  })
+
+  it('accepts the requested (spec sample_response) Quote field order', () => {
+    expect(() => assertAcceptedEventFields({ Quote: QUOTE_FIELDS })).not.toThrow()
+  })
+
+  it('a reordered FEED_CONFIG fails the channel: a later FEED_DATA frame parses no records', () => {
+    const feed = new DxLinkFeed({
+      formatTickers: (params: any) => [
+        { symbol: String(params.base).toUpperCase(), type: 'Quote' },
+      ],
+      processRecord: (eventType, record, params: any) =>
+        eventType === 'Quote' ? quoteRecordToResult(record, params) : undefined,
+    } as DxLinkFeedDeps<any>)
+
+    // The divergent FEED_CONFIG arrives on the wire: no throw, no results...
+    expect(
+      feed.message({
+        type: 'FEED_CONFIG',
+        channel: 1,
+        eventFields: { Quote: REORDERED_QUOTE_FIELDS },
+      } as any),
+    ).toEqual([])
+
+    feed.subscriptionMessages({ desired: [PARAMS], new: [PARAMS], stale: [] })
+
+    // ...and the channel is failed: the spec sample frame is NOT misread at the
+    // wrong indices (bidPrice/askPrice swapped would map 189.95 to ask_price)
+    expect(feed.message(frames.stockQuotesFrame as any)).toEqual([])
+  })
+
+  it('the verified order parses bid/ask price, size, time and exchange codes at their fixed indices', () => {
+    // Exchange codes sit at the last two positions: with isOvernight=true the
+    // record is kept only when BOTH sides quote on 'O' (Blue Ocean) — proof the
+    // codes are read at their verified indices, not defaulted
+    const overnightRecord = quoteRecordToResult(
+      ['Quote', 'AAPL:USLF24', 1760000000000, 189.95, 190.05, 100, 200, 'O', 'O'],
+      { ...PARAMS, isOvernight: true },
+    ) as any
+    // Spec endpoint_request_response_examples[0].response
+    expect(overnightRecord.data).toEqual({
+      mid_price: 190,
+      bid_price: 189.95,
+      bid_volume: 100,
+      ask_price: 190.05,
+      ask_volume: 200,
+    })
+    expect(overnightRecord.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+
+    // Same record with regular-venue codes on both sides: dropped
+    expect(
+      quoteRecordToResult(
+        ['Quote', 'AAPL:USLF24', 1760000000000, 189.95, 190.05, 100, 200, 'V', 'V'],
+        { ...PARAMS, isOvernight: true },
+      ),
+    ).toBeUndefined()
   })
 })

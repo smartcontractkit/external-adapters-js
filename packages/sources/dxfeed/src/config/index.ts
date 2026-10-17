@@ -30,8 +30,10 @@ const wsApiEndpointBreakingChangeError = (value?: string): string => {
  * Startup validate fn for WS_API_ENDPOINT: the breaking-change checks above
  * plus the encrypted-scheme requirement — the handshake sends the Basic
  * Authorization header, so a plaintext ws:// endpoint would put the
- * credentials on the wire in cleartext. Only loopback ws:// URLs are accepted
- * (in-process test bridges bind there; no real provider is loopback).
+ * credentials on the wire in cleartext. Only loopback ws:// URLs under
+ * NODE_ENV=test are accepted (in-process test bridges bind there; no real
+ * provider is loopback, and a production deployment must never send the Basic
+ * Authorization header unencrypted — not even over loopback).
  * Request-time customInputValidation deliberately does NOT repeat this scheme
  * check: the startup gate owns it.
  */
@@ -45,12 +47,15 @@ export const validateWsApiEndpoint = (value?: string): string => {
     /^wss?:\/\/(localhost|127\.0\.0\.1|\[::1\])([:/?#]|$)/.test(endpoint)
 
   if (value && !value.startsWith('wss://')) {
-    if (isLoopbackUrl(value)) {
+    if (isLoopbackUrl(value) && process.env.NODE_ENV === 'test') {
       // Loopback exemption for in-process test bridges: still accepted, but the
       // Basic Authorization header would cross even a loopback wire unencrypted —
-      // signal it so a misconfigured production endpoint does not pass silently
+      // signal it so a misconfigured endpoint does not pass silently. The log
+      // carries the parsed host and scheme ONLY: WS_API_ENDPOINT is
+      // sensitive: true, its raw value must never reach the logs.
+      const url = new URL(value)
       logger.warn(
-        `WS_API_ENDPOINT ${value} uses unencrypted ws:// on a loopback address: the Basic Authorization header (API_USERNAME/API_PASSWORD) rides the handshake unencrypted; use wss:// outside local test bridges`,
+        `WS_API_ENDPOINT uses unencrypted ${url.protocol}//${url.host} on a loopback address: the Basic Authorization header (API_USERNAME/API_PASSWORD) rides the handshake unencrypted; use wss:// outside local test bridges`,
       )
     } else {
       return 'WS_API_ENDPOINT must use the encrypted wss:// scheme; the Basic Authorization header rides the handshake and must not cross the wire in cleartext'
@@ -63,10 +68,12 @@ export const validateWsApiEndpoint = (value?: string): string => {
 /**
  * Spec data_source_authentication breaking_change_env_checks: the Basic
  * credential pair (the dxLink AUTH message exists but is NOT used; credentials
- * ride the Authorization header only). The spec environment_variables table
- * marks both required: true at the AdapterConfig level, so startup fails fast
- * when either is unset; the WS-path request-time check below repeats it so a
- * WS misconfiguration fails with a clear per-request error as well.
+ * ride the Authorization header only). The spec scopes the credential
+ * requirement to WS paths, so the pair is NOT required at the AdapterConfig
+ * level (a REST-only deployment — owner decision
+ * rest_transport_scope=keep_untouched — boots without it); the WS-path
+ * request-time check below fails a WS misconfiguration with a clear
+ * per-request error instead.
  */
 export const missingWsCredentials = (settings: {
   API_USERNAME?: string
@@ -105,18 +112,19 @@ export const wsEnvInputValidationError = (settings: {
 
 export const config = new AdapterConfig(
   {
-    // Spec environment_variables: both credentials required: true (the WS
-    // handshake needs them for the Basic Authorization header)
+    // Spec environment_variables mark both credentials required: true for WS
+    // paths; AdapterConfig leaves them optional so a REST-only deployment
+    // boots, and wsEnvInputValidationError enforces the pair per WS request
     API_USERNAME: {
       description: 'username for dxfeed API',
       type: 'string',
-      required: true,
+      required: false,
       sensitive: false,
     },
     API_PASSWORD: {
       description: 'password for dxfeed API',
       type: 'string',
-      required: true,
+      required: false,
       sensitive: true,
     },
     WS_API_ENDPOINT: {

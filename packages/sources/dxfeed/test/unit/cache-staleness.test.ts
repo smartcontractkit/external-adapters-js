@@ -1,5 +1,5 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import { tradeProcessor } from '../../src/transport/price-ws'
+import { TradeProcessor } from '../../src/transport/price-ws'
 import { quoteRecordToResult } from '../../src/transport/stock-quotes'
 
 LoggerFactoryProvider.set()
@@ -36,7 +36,7 @@ describe('stale value serving (owner decisions stale_quote_serving + reconnect_c
       'UP',
       false,
     ]
-    const response = tradeProcessor.processRecord('Trade', staleRecord, {
+    const response = new TradeProcessor().processRecord('Trade', staleRecord, {
       base: 'AAPL:USLF24',
       quote: 'USD',
     } as any) as any

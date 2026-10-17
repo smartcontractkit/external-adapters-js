@@ -1,6 +1,6 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { config } from '../../src/config'
-import { tradeProcessor, tradeTickers } from '../../src/transport/price-ws'
+import { TradeProcessor, tradeTickers } from '../../src/transport/price-ws'
 import {
   quoteRecordToResult,
   transport as stockQuotesTransport,
@@ -34,10 +34,12 @@ const quoteFeed = () => {
 }
 
 const tradeFeed = () => {
+  // One processor per feed: newest-time state is per transport instance
+  const processor = new TradeProcessor()
   const feed = new DxLinkFeed({
     formatTickers: (params: any) => tradeTickers(params.base),
     processRecord: (eventType, record, params: any) =>
-      tradeProcessor.processRecord(eventType, record, params),
+      processor.processRecord(eventType, record, params),
   } as DxLinkFeedDeps<any>)
   feed.onFeedConfig(frames.priceFeedConfig.eventFields)
   feed.subscriptionMessages({ desired: [TRADE_PARAMS], new: [TRADE_PARAMS], stale: [] })

@@ -54,6 +54,11 @@ export class TradeProcessor {
       return {
         statusCode: 502,
         errorMessage: `Price: ${record[PRICE_INDEX]} for ${base} is invalid.`,
+        // The record's own time rides even the invalid result, so downstream
+        // freshness reporting keeps the provider timestamp of this record
+        timestamps: {
+          providerIndicatedTimeUnixMs: time,
+        },
       }
     }
 
@@ -69,10 +74,19 @@ export class TradeProcessor {
   }
 }
 
-export const tradeProcessor = new TradeProcessor()
+/**
+ * Builds the price WS transport with its OWN TradeProcessor: the newest-time
+ * state is per transport instance, never shared (round-2 fix — the former
+ * module-level singleton leaked state across transport instances and grew
+ * without bound).
+ */
+export const buildPriceWsTransport = () => {
+  const tradeProcessor = new TradeProcessor()
+  return buildDxLinkWsTransport<BaseEndpointTypes>({
+    formatTickers: (params) => tradeTickers(params.base),
+    processRecord: (eventType, record, params) =>
+      tradeProcessor.processRecord(eventType, record, params),
+  })
+}
 
-export const transport = buildDxLinkWsTransport<BaseEndpointTypes>({
-  formatTickers: (params) => tradeTickers(params.base),
-  processRecord: (eventType, record, params) =>
-    tradeProcessor.processRecord(eventType, record, params),
-})
+export const transport = buildPriceWsTransport()

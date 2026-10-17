@@ -1,5 +1,5 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import { tradeProcessor } from '../../src/transport/price-ws'
+import { TradeProcessor } from '../../src/transport/price-ws'
 import { quoteRecordToResult } from '../../src/transport/stock-quotes'
 import { DxLinkFeed, DxLinkFeedDeps } from '../../src/transport/ws'
 import frames from './fixtures/dxlink-frames.json'
@@ -95,13 +95,16 @@ describe('COMPACT FEED_DATA parsing (spec acceptDataFormat=COMPACT)', () => {
   })
 
   it('serves the newest-time record when both Trade and TradeETH exist for a symbol', () => {
+    // One processor for the whole sequence: the newest-time state lives on the
+    // transport instance (round-2 item 4)
+    const processor = new TradeProcessor()
     const feed = new DxLinkFeed({
       formatTickers: () => [
         { symbol: 'AAPL:USLF24', type: 'Trade' },
         { symbol: 'AAPL:USLF24', type: 'TradeETH' },
       ],
       processRecord: (eventType, record, params: any) =>
-        tradeProcessor.processRecord(eventType, record, params),
+        processor.processRecord(eventType, record, params),
     } as DxLinkFeedDeps<any>)
     feed.onFeedConfig(frames.priceFeedConfig.eventFields)
     feed.subscriptionMessages({ desired: [TRADE_PARAMS], new: [TRADE_PARAMS], stale: [] })

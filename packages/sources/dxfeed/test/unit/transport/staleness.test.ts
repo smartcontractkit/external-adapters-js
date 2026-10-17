@@ -1,5 +1,5 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import { tradeProcessor } from '../../../src/transport/price-ws'
+import { TradeProcessor } from '../../../src/transport/price-ws'
 import { quoteRecordToResult } from '../../../src/transport/stock-quotes'
 import { DxLinkFeed, DxLinkFeedDeps } from '../../../src/transport/ws'
 import frames from '../fixtures/dxlink-frames.json'
@@ -46,7 +46,7 @@ describe('stale-quote serving (owner decision stale_quote_serving=serve_last_val
   })
 
   it('a stale trade is served the same way — no max-age rejection exists on the price path', () => {
-    const response = tradeProcessor.processRecord(
+    const response = new TradeProcessor().processRecord(
       'Trade',
       frames.priceTradeFrame.data[1] as any,
       TRADE_PARAMS as any,

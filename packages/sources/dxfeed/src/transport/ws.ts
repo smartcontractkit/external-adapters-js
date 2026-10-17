@@ -113,6 +113,38 @@ export const dxLinkHandshakeMessages = (): DxLinkMessage[] => [
   },
 ]
 
+/** The acceptEventFields orders the handshake requests, per event type */
+export const REQUESTED_EVENT_FIELDS: Record<string, string[]> = {
+  Quote: QUOTE_EVENT_FIELDS,
+  Trade: TRADE_EVENT_FIELDS,
+  TradeETH: TRADE_EVENT_FIELDS,
+}
+
+/**
+ * quoteRecordToResult and TradeProcessor read COMPACT records at fixed indices
+ * derived from the requested acceptEventFields order (the order is
+ * live-verified, so fixed indices — not a dynamic index map — are correct).
+ * A provider-accepted FEED_CONFIG whose field ORDER diverges from the request
+ * would therefore silently misread price, size, time and exchange codes: the
+ * assertion below is the guard that turns that class loud. Event types the
+ * provider did not echo back simply yield no data and are not asserted.
+ */
+export const assertAcceptedEventFields = (
+  accepted: Record<string, string[]>,
+  requested: Record<string, string[]> = REQUESTED_EVENT_FIELDS,
+): void => {
+  for (const [eventType, acceptedFields] of Object.entries(accepted)) {
+    const requestedFields = requested[eventType]
+    if (requestedFields && acceptedFields.join(',') !== requestedFields.join(',')) {
+      throw new Error(
+        `Accepted FEED_CONFIG eventFields for ${eventType} diverge from the requested acceptEventFields order: [${acceptedFields.join(
+          ', ',
+        )}]`,
+      )
+    }
+  }
+}
+
 /** Spec keepalive: KEEPALIVE frame on channel 0, every WS_HEARTBEAT_INTERVAL_MS (30s) */
 export const dxLinkKeepaliveMessage = (): DxLinkMessage => ({
   type: 'KEEPALIVE',
@@ -136,6 +168,11 @@ export type DxLinkConnection = {
     event: 'message' | 'close',
     listener: (event: { data?: unknown; code?: number }) => void,
   ) => void
+  // Optional: the framework's ws client implements it; minimal test fakes may not
+  removeEventListener?: (
+    event: 'message' | 'close',
+    listener: (event: { data?: unknown; code?: number }) => void,
+  ) => void
 }
 
 /**
@@ -143,9 +180,10 @@ export type DxLinkConnection = {
  * CHANNEL_REQUEST and FEED_SETUP, then resolve only once FEED_CONFIG arrives —
  * the whole sequence must fit WS_CONNECTION_OPEN_TIMEOUT. An ERROR frame from
  * the provider (e.g. unauthorized) or a connection close before FEED_CONFIG
- * rejects immediately instead of waiting out the timeout. The open listeners
- * are removed once open resolves, so the FEED_CONFIG field layout is handed to
- * the caller and all later frames go through the regular message handler.
+ * rejects immediately instead of waiting out the timeout. settle() removes the
+ * open-gate listeners, so the FEED_CONFIG field layout is handed to the caller
+ * and every later frame is handled — and parsed — exactly once by the regular
+ * transport message handler.
  */
 export const openDxLinkConnection = (
   connection: DxLinkConnection,
@@ -154,35 +192,8 @@ export const openDxLinkConnection = (
 ): Promise<void> =>
   new Promise((resolve, reject) => {
     let settled = false
-    const settle = (error?: Error) => {
-      if (settled) {
-        return
-      }
-      settled = true
-      if (openTimeout) {
-        clearTimeout(openTimeout)
-      }
-      if (error) {
-        reject(error)
-      } else {
-        resolve()
-      }
-    }
 
-    let openTimeout: NodeJS.Timeout | undefined
-    if (openTimeoutMs !== undefined) {
-      openTimeout = setTimeout(
-        () =>
-          settle(
-            new Error(
-              `dxLink handshake did not complete within ${openTimeoutMs}ms (no FEED_CONFIG received)`,
-            ),
-          ),
-        openTimeoutMs,
-      )
-    }
-
-    connection.addEventListener('message', (event) => {
+    const onMessage = (event: { data?: unknown }) => {
       let message: DxLinkMessage
       try {
         message = JSON.parse(String(event.data))
@@ -207,16 +218,51 @@ export const openDxLinkConnection = (
         onFeedConfig?.(message.eventFields ?? {})
         settle()
       }
-    })
+    }
 
     // A provider that drops the connection before FEED_CONFIG (e.g. rejected
     // credentials) fails the handshake immediately — settle() no-ops once the
-    // gate has resolved, so post-handshake closes are left to the framework
-    connection.addEventListener('close', (event) => {
+    // gate has settled, so post-handshake closes are left to the framework
+    const onClose = (event: { code?: number }) =>
       settle(
         new Error(`dxLink connection closed before FEED_CONFIG (code ${event.code ?? 'unknown'})`),
       )
-    })
+
+    const settle = (error?: Error) => {
+      if (settled) {
+        return
+      }
+      settled = true
+      // The open-gate listeners must not outlive the handshake: leaving them
+      // attached would JSON.parse every later frame a second time for the
+      // connection's lifetime, the transport handler being the sole parser
+      connection.removeEventListener?.('message', onMessage)
+      connection.removeEventListener?.('close', onClose)
+      if (openTimeout) {
+        clearTimeout(openTimeout)
+      }
+      if (error) {
+        reject(error)
+      } else {
+        resolve()
+      }
+    }
+
+    let openTimeout: NodeJS.Timeout | undefined
+    if (openTimeoutMs !== undefined) {
+      openTimeout = setTimeout(
+        () =>
+          settle(
+            new Error(
+              `dxLink handshake did not complete within ${openTimeoutMs}ms (no FEED_CONFIG received)`,
+            ),
+          ),
+        openTimeoutMs,
+      )
+    }
+
+    connection.addEventListener('message', onMessage)
+    connection.addEventListener('close', onClose)
 
     for (const message of dxLinkHandshakeMessages()) {
       connection.send(JSON.stringify(message))
@@ -301,7 +347,21 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
   constructor(private readonly deps: DxLinkFeedDeps<T>) {}
 
   onFeedConfig(eventFields: Record<string, string[]> | undefined): void {
-    this.eventFields = eventFields ?? {}
+    const accepted = eventFields ?? {}
+    try {
+      assertAcceptedEventFields(accepted)
+    } catch (error) {
+      // Treat the channel as failed: parse nothing rather than silently
+      // misreading COMPACT records at the wrong field indices
+      logger.error(
+        `dxLink FEED_CONFIG rejected: ${
+          (error as Error).message
+        }; the feed channel will serve no data`,
+      )
+      this.eventFields = {}
+      return
+    }
+    this.eventFields = accepted
   }
 
   /**
