@@ -194,10 +194,27 @@ export const mockDxLinkServer = (url: string): MockWebsocketServer => {
     const serverFrames: string[] = []
     clientFrameLog.push(clientFrames)
     serverFrameLog.push(serverFrames)
+    // Mock-socket bridge workaround, applied here in the test setup before the
+    // transport sends anything through this connection (moved out of
+    // src/transport/ws.ts — no test-only code ships in src/): the in-process
+    // bridge shares one socket object between this mock server and the client
+    // connection, so an instance-level override of `send` shadows the standard
+    // send path. The wrapper keeps the server->client frame log AND routes
+    // every frame through the standard prototype send captured before the
+    // override, so frames the adapter emits after the handshake
+    // (FEED_SUBSCRIPTION updates, KEEPALIVE) still reach the server-side
+    // message handler.
+    const standardSend = Object.getPrototypeOf(connection)?.send as
+      | ((data: string) => void)
+      | undefined
     const upstreamSend = connection.send.bind(connection)
     connection.send = (data: string) => {
       serverFrames.push(String(data))
-      upstreamSend(data)
+      if (typeof standardSend === 'function') {
+        standardSend.call(connection, data)
+      } else {
+        upstreamSend(data)
+      }
     }
     socket.on('message', (raw: unknown) => {
       clientFrames.push(String(raw))

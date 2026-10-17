@@ -5,6 +5,8 @@ import { buildDxLinkWsTransport, DxLinkRawResult, DxLinkRecord } from './ws'
 type Params = TypeFromDefinition<typeof stockQuotesInputParameters.definition>
 
 // FEED_CONFIG eventFields.Quote positions (spec stock_quotes sample_response)
+// ['eventType','eventSymbol','time','bidPrice','askPrice','bidSize','askSize','bidExchangeCode','askExchangeCode']
+const QUOTE_TIME_INDEX = 2
 const BID_PRICE_INDEX = 3
 const ASK_PRICE_INDEX = 4
 const BID_SIZE_INDEX = 5
@@ -84,7 +86,7 @@ export const quoteRecordToResult = (
       ask_volume: askVolume,
     },
     timestamps: {
-      providerIndicatedTimeUnixMs: Number(record[2]),
+      providerIndicatedTimeUnixMs: Number(record[QUOTE_TIME_INDEX]),
     },
   }
 }

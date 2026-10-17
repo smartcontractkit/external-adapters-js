@@ -415,25 +415,6 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
   }
 }
 
-/**
- * Re-asserts the standard prototype send on the connection. In-process WS test
- * bridges (mock-socket) share one socket object between the mock server and the
- * client connection, so a mock server that overrides `send` to log
- * server->client frames shadows the client's own send, and frames the adapter
- * emits after the handshake never reach the server-side message handler.
- * Rebinding the prototype implementation after the handshake puts every later
- * frame back on the normal send path. Against a real provider this is a no-op:
- * the instance send already is the prototype method.
- */
-export const restoreStandardSend = (connection: DxLinkConnection): void => {
-  const standardSend = Object.getPrototypeOf(connection)?.send as
-    | ((data: string) => void)
-    | undefined
-  if (typeof standardSend === 'function' && connection.send !== standardSend) {
-    connection.send = (data: string) => standardSend.call(connection, data)
-  }
-}
-
 export function buildDxLinkWsTransport<T extends BaseTransportTypes>(
   deps: DxLinkFeedDeps<T & DxLinkProviderTypes>,
 ): WebSocketTransport<T & DxLinkProviderTypes> {
@@ -451,7 +432,6 @@ export function buildDxLinkWsTransport<T extends BaseTransportTypes>(
           (fields) => feed.onFeedConfig(fields),
           context.adapterSettings.WS_CONNECTION_OPEN_TIMEOUT,
         )
-        restoreStandardSend(connection)
       },
 
       heartbeat: (connection) => {

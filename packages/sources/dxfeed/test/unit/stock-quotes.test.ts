@@ -128,8 +128,11 @@ describe('stock_quotes endpoint wiring (spec external_adapter_specifications.sto
     })
   })
 
-  it('resolves the AAPL override onto the DP ticker the transport subscribes', () => {
-    // Spec example request carries overrides.dxfeed {AAPL: AAPL:USLF24}
-    expect(overrides.dxfeed.AAPL).toBe('AAPL:USLF24')
+  it('preserves the hardcoded override layer (spec overrides=preserve: pre-migration entries intact)', () => {
+    // The hardcoded override layer is out of scope for the dxLink migration:
+    // its pre-migration entries are preserved as-is (overrides=preserve); the
+    // spec example's AAPL->AAPL:USLF24 mapping arrives per-request
+    // (overrides.dxfeed in the request body), not through this file
+    expect(overrides.dxfeed.WTI).toBe('USO/USD:AFX')
   })
 })

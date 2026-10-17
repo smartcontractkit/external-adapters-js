@@ -4,7 +4,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
-import { mockPriceEndpoint, mockPriceEndpointFailure, mockRestTradePrice } from './fixtures'
+import { mockBatchedRestTransport } from './rest-mocks'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -21,6 +21,9 @@ describe('execute', () => {
 
     const adapter = (await import('./../../src')).adapter as unknown as Adapter
     adapter.rateLimiting = undefined
+    // Batched REST mock (the untouched REST transport batches the desired
+    // symbol set into one request); see rest-mocks.ts
+    mockBatchedRestTransport()
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
     })
@@ -40,7 +43,6 @@ describe('execute', () => {
         base: 'TSLA',
         to: 'USD',
       }
-      mockPriceEndpoint()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       // Spec price response shape: data.result and result carry the provider's
@@ -56,7 +58,6 @@ describe('execute', () => {
       // defaultTransport stays "rest" (owner decision rest_transport_scope).
       // A distinct symbol forces a distinct request path so the nock
       // interception itself proves which transport served the request.
-      mockRestTradePrice('IBM', 142.5)
       const response = await testAdapter.request({
         base: 'IBM',
         to: 'USD',
@@ -86,18 +87,16 @@ describe('execute', () => {
 
   describe('upstream failures', () => {
     it('maps an upstream 5xx to an adapter error', async () => {
-      // The framework retries failed provider requests (requester RETRY plus
-      // background cycles); the persistent interceptor absorbs every attempt so
-      // none reaches the real provider host
-      mockPriceEndpointFailure('FAIL')
-      nock('https://tools.dxfeed.com/webservice/rest')
-        .persist()
-        .get('/events.json')
-        .query(true)
-        .reply(500, { status: 'INTERNAL_SERVER_ERROR' }, ['Content-Type', 'application/json'])
+      // The FAIL symbol flips the persistent batched interceptor to a 500
+      // reply; the framework retries (requester RETRY plus background cycles)
+      // and the interceptor absorbs every attempt, so none reaches the real
+      // provider host. The framework maps the upstream failure onto a flat
+      // 502 error result for every param of the batched request.
       const response = await testAdapter.request({ base: 'FAIL', to: 'USD' })
       expect(response.statusCode).toBe(502)
-      expect(response.json()).toMatchObject({ error: expect.anything() })
+      expect(response.json()).toMatchObject({
+        errorMessage: expect.stringContaining('Provider request failed with status 500'),
+      })
     })
   })
 })

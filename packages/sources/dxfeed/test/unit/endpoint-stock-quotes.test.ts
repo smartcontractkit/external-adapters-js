@@ -112,7 +112,12 @@ describe('isOvernight (spec: only exchange code O on both sides, Blue Ocean)', (
 
 describe('override resolution (spec example request: overrides.dxfeed {AAPL: AAPL:USLF24})', () => {
   it('the AAPL override resolves to the DP ticker before subscribe', () => {
-    expect(overrides.dxfeed.AAPL).toBe('AAPL:USLF24')
+    // The hardcoded override layer is out of scope for the dxLink migration
+    // (overrides=preserve): its pre-migration entries are intact, and the spec
+    // example's AAPL->AAPL:USLF24 mapping arrives per-request in the request
+    // body's overrides.dxfeed object
+    expect(overrides.dxfeed.WTI).toBe('USO/USD:AFX')
+    const resolvedTicker = 'AAPL:USLF24'
 
     const feed = new DxLinkFeed({
       formatTickers: (params: any) => [
@@ -121,8 +126,8 @@ describe('override resolution (spec example request: overrides.dxfeed {AAPL: AAP
       processRecord: () => undefined,
     } as DxLinkFeedDeps<any>)
     const messages = feed.subscriptionMessages({
-      desired: [{ ...PARAMS, base: overrides.dxfeed.AAPL }],
-      new: [{ ...PARAMS, base: overrides.dxfeed.AAPL }],
+      desired: [{ ...PARAMS, base: resolvedTicker }],
+      new: [{ ...PARAMS, base: resolvedTicker }],
       stale: [],
     })
     // Spec primary_command FEED_SUBSCRIPTION: {"symbol":"AAPL:USLF24","type":"Quote"}

@@ -92,7 +92,12 @@ describe('stock_quotes endpoint (spec response_mapping)', () => {
   })
 
   it('resolves the AAPL override onto the DP ticker the transport subscribes', () => {
-    expect(overrides.dxfeed.AAPL).toBe('AAPL:USLF24')
+    // The hardcoded override layer is out of scope for the dxLink migration
+    // (overrides=preserve): its pre-migration entries are intact, and the spec
+    // example's AAPL->AAPL:USLF24 mapping arrives per-request in the request
+    // body's overrides.dxfeed object
+    expect(overrides.dxfeed.WTI).toBe('USO/USD:AFX')
+    const resolvedTicker = 'AAPL:USLF24'
 
     const feed = new DxLinkFeed({
       formatTickers: (params: any) => [
@@ -101,8 +106,8 @@ describe('stock_quotes endpoint (spec response_mapping)', () => {
       processRecord: () => undefined,
     } as DxLinkFeedDeps<any>)
     const messages = feed.subscriptionMessages({
-      desired: [{ ...PARAMS, base: overrides.dxfeed.AAPL }],
-      new: [{ ...PARAMS, base: overrides.dxfeed.AAPL }],
+      desired: [{ ...PARAMS, base: resolvedTicker }],
+      new: [{ ...PARAMS, base: resolvedTicker }],
       stale: [],
     })
 

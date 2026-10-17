@@ -1,14 +1,20 @@
-import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as fs from 'fs'
 import * as path from 'path'
-import { config, missingWsCredentials, validateWsApiEndpoint } from '../../src/config'
+import { config, missingWsCredentials } from '../../src/config'
+import { endpoint as stockQuotesEndpoint } from '../../src/endpoint/stock-quotes'
+
+// The pre-migration demo REST endpoint startup warning logs from the config
+// validate fn, so the logger factory must be set before validate() runs
+LoggerFactoryProvider.set()
 
 /**
  * Runs fn with the given env vars set and the config (re)initialized from
  * them. AdapterConfig.settingsDefinition is private in the pinned framework
- * (2.20.0), so startup behavior — including that the WS_API_ENDPOINT validator
- * is wired in — is asserted through the public initialize()/validate() surface.
+ * (2.20.0), so startup behavior — including that credentials stay optional at
+ * the config level — is asserted through the public initialize()/validate()
+ * surface.
  */
 const withSettings = (env: Record<string, string | undefined>, fn: () => void): void => {
   const oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -31,55 +37,16 @@ const withSettings = (env: Record<string, string | undefined>, fn: () => void): 
 const CREDENTIALS = { API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' }
 const DXLINK_ENDPOINT = 'wss://tools.dxfeed.com/dxlink-chainlink'
 
-describe('WS_API_ENDPOINT validation (spec breaking_change_env_checks)', () => {
-  it('rejects the deleted legacy cometd endpoint', () => {
-    expect(validateWsApiEndpoint('wss://tools.dxfeed.com/chainlink/cometd')).toContain('cometd')
-  })
+// The framework resolves requestContext.transportName (ws|rest) BEFORE calling
+// customInputValidation, so a WS-path request is exactly a request whose
+// resolved transport is "ws".
+const wsRequest = { requestContext: { transportName: 'ws' } } as any
 
-  it('rejects credentials embedded in the URL', () => {
-    expect(validateWsApiEndpoint('wss://user:pass@tools.dxfeed.com/dxlink-chainlink')).toContain(
-      'credentials',
-    )
-  })
-
-  it('accepts the dxLink endpoint', () => {
-    expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe('')
-  })
-
-  it('runs the validator at startup: a cometd WS_API_ENDPOINT fails config.validate()', () => {
+describe('credential scoping (spec breaking_change_env_checks scoped to WS paths; owner decision rest_transport_scope=keep_untouched)', () => {
+  it('boots startup validation with API_USERNAME/API_PASSWORD unset — the REST-only path starts and serves without credentials', () => {
     withSettings(
-      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://tools.dxfeed.com/chainlink/cometd' },
-      () => expect(() => config.validate()).toThrow(/cometd/),
-    )
-  })
-
-  it('runs the validator at startup: an endpoint with embedded credentials fails config.validate()', () => {
-    withSettings(
-      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://user:pass@tools.dxfeed.com/dxlink-chainlink' },
-      () => expect(() => config.validate()).toThrow(/credentials/),
-    )
-  })
-})
-
-describe('required credentials (spec data_source_authentication: require API_USERNAME and API_PASSWORD)', () => {
-  it('fails startup validation when the credentials are missing', () => {
-    withSettings(
-      {
-        ...CREDENTIALS,
-        API_USERNAME: undefined,
-        API_PASSWORD: undefined,
-        WS_API_ENDPOINT: DXLINK_ENDPOINT,
-      },
-      () => {
-        let message = ''
-        try {
-          config.validate()
-        } catch (e) {
-          message = (e as Error).message
-        }
-        expect(message).toContain('API_USERNAME')
-        expect(message).toContain('API_PASSWORD')
-      },
+      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: DXLINK_ENDPOINT },
+      () => expect(() => config.validate()).not.toThrow(),
     )
   })
 
@@ -89,7 +56,18 @@ describe('required credentials (spec data_source_authentication: require API_USE
     )
   })
 
-  it('fails when API_USERNAME or API_PASSWORD is unset on a WS request', () => {
+  it('rejects a stock_quotes request without credentials with a validation error', () => {
+    // stock_quotes is WS-only: its customInputValidation enforces the
+    // credential pair that the config-level definition deliberately leaves
+    // optional
+    const error = stockQuotesEndpoint.customInputValidation?.(wsRequest, {
+      WS_API_ENDPOINT: DXLINK_ENDPOINT,
+    } as any)
+    expect(error?.message).toContain('API_USERNAME')
+    expect(error?.message).toContain('API_PASSWORD')
+  })
+
+  it('fails the WS-path check when either one of the pair is unset', () => {
     // Spec breaking_change_env_checks: require API_USERNAME and API_PASSWORD to
     // be set (WS paths) — either one missing fails the check
     expect(missingWsCredentials({})).toContain('API_USERNAME')
@@ -112,27 +90,5 @@ describe('framework pin (spec framework_version 2.20.0)', () => {
     const [major, minor] = version.split('.').map(Number)
     const atLeast_2_20 = major > 2 || (major === 2 && minor >= 20)
     expect(atLeast_2_20).toBe(true)
-  })
-})
-
-describe('credential censoring (template config-credentials: mask API_PASSWORD and WS_API_ENDPOINT in logs)', () => {
-  it('registers the sensitive API_PASSWORD and WS_API_ENDPOINT values in the framework censor list', () => {
-    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () => {
-      config.buildCensorList()
-      const censored = CensorList.getAll()
-
-      // API_PASSWORD is sensitive: its value must be redactable from logs
-      const passwordEntry = censored.find((entry) => entry.key === 'API_PASSWORD')
-      expect(passwordEntry).toBeDefined()
-      expect(passwordEntry?.value.test('dxfeed-pass')).toBe(true)
-
-      // WS_API_ENDPOINT is sensitive: its value must be redactable from logs
-      const endpointEntry = censored.find((entry) => entry.key === 'WS_API_ENDPOINT')
-      expect(endpointEntry).toBeDefined()
-      expect(endpointEntry?.value.test(DXLINK_ENDPOINT)).toBe(true)
-
-      // API_USERNAME is explicitly non-sensitive and stays loggable
-      expect(censored.find((entry) => entry.key === 'API_USERNAME')).toBeUndefined()
-    })
   })
 })

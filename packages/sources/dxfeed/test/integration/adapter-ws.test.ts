@@ -345,4 +345,44 @@ describe('dxLink websocket smoke flows', () => {
       })
     })
   })
+
+  describe('transport routing: transport="ws" routes to the dxLink socket', () => {
+    it('serves a Trade price from the mock dxLink socket when transport="ws"', async () => {
+      // Bare ticker, no override: the price ws transport subscribes the Trade
+      // entry for the uppercased base as given. No REST interceptor exists for
+      // WSRT, so the served value proves the ws transport handled the request.
+      setFeedData('Trade', 'WSRT', [
+        'Trade',
+        'WSRT',
+        1760000008000,
+        187.25,
+        10,
+        12345,
+        'V',
+        0.12,
+        5000000,
+        999000000,
+        'UP',
+        false,
+      ])
+
+      const response = await requestUntilCached(
+        { endpoint: 'stock', from: 'WSRT', to: 'USD', transport: 'ws' },
+        1760000008000,
+      )
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchObject({
+        data: { result: 187.25 },
+        result: 187.25,
+        timestamps: {
+          providerIndicatedTimeUnixMs: 1760000008000,
+        },
+      })
+    })
+
+    // The complementary half of the routing pair — the same request WITHOUT a
+    // transport param is served by the defaultTransport "rest" REST fixture —
+    // is asserted in price-http.test.ts (the REST request path runs on real
+    // timers, outside this file's fake clock).
+  })
 })

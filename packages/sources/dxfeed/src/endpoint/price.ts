@@ -11,9 +11,10 @@ import { inputParameters } from './utils'
 
 // Spec price input_parameters: `transport` ("ws" (dxLink) or "rest", optional;
 // overnight streams pin "ws"). The framework reserves `transport` as a routing
-// param name at the type level (its definition guard excludes it), so the
-// declaration below is cast past that guard — the runtime validator enforces
-// the ws|rest options alongside the transportRoutes check in the default router.
+// param name at the type level only (the ProperInputParametersDefinition guard
+// excludes it); the runtime InputParameters validator accepts the declaration
+// and enforces the ws|rest options — proven by the transport-routing
+// integration tests, and the default router reads data.transport for routing.
 const transportParam: InputParameter = {
   description: '"ws" (dxLink stream) or "rest" (HTTP API); overnight streams pin "ws"',
   options: ['ws', 'rest'],
@@ -40,7 +41,7 @@ const priceParamsDefinition = {
 } as const
 
 export const priceInputParameters = new InputParameters(
-  priceParamsDefinition as unknown as Omit<typeof priceParamsDefinition, 'transport'>,
+  priceParamsDefinition as Omit<typeof priceParamsDefinition, 'transport'>,
 )
 
 export type BaseEndpointTypes = {

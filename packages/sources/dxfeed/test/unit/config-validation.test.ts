@@ -1,6 +1,9 @@
+import { LoggerFactory, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { config, validateWsApiEndpoint } from '../../src/config'
+
+LoggerFactoryProvider.set()
 
 /**
  * Runs fn with the given env vars set and the config (re)initialized from
@@ -40,7 +43,14 @@ describe('WS_API_ENDPOINT validation (spec breaking_change_env_checks)', () => {
     )
   })
 
-  it('accepts the dxLink endpoint', () => {
+  it('rejects a plaintext ws:// endpoint — the Basic credentials would cross the wire unencrypted', () => {
+    // Spec data_source_base_url / usage.handshake_header: the endpoint is
+    // wss:// and the Authorization: Basic header rides the handshake, so only
+    // the encrypted scheme is acceptable
+    expect(validateWsApiEndpoint('ws://example.com/dxlink-chainlink')).toContain('wss://')
+  })
+
+  it('accepts the wss:// dxLink endpoint', () => {
     expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe('')
   })
 
@@ -57,34 +67,90 @@ describe('WS_API_ENDPOINT validation (spec breaking_change_env_checks)', () => {
       () => expect(() => config.validate()).toThrow(/credentials/),
     )
   })
-})
 
-describe('required credentials (spec data_source_authentication: require API_USERNAME and API_PASSWORD)', () => {
-  it('fails startup validation when the credentials are missing', () => {
-    withSettings(
-      {
-        ...CREDENTIALS,
-        API_USERNAME: undefined,
-        API_PASSWORD: undefined,
-        WS_API_ENDPOINT: DXLINK_ENDPOINT,
-      },
-      () => {
-        let message = ''
-        try {
-          config.validate()
-        } catch (e) {
-          message = (e as Error).message
-        }
-        expect(message).toContain('API_USERNAME')
-        expect(message).toContain('API_PASSWORD')
-      },
+  it('runs the validator at startup: a plaintext ws:// WS_API_ENDPOINT fails config.validate()', () => {
+    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: 'ws://example.com/dxlink-chainlink' }, () =>
+      expect(() => config.validate()).toThrow(/wss:\/\//),
     )
   })
+})
 
-  it('passes startup validation with credentials and a dxLink endpoint set', () => {
-    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () =>
-      expect(() => config.validate()).not.toThrow(),
-    )
+/**
+ * Captures the warnings a FRESH config module emits while validate() runs.
+ * The config module binds its logger on the first log call, so each capture
+ * builds the config in an isolated module registry wired to a recording
+ * factory — that keeps the two cases (default vs custom API_ENDPOINT)
+ * independent instead of sharing one logger instance.
+ */
+const captureValidateWarnings = (env: Record<string, string | undefined>): string[] => {
+  const warnings: string[] = []
+  const recordingFactory: LoggerFactory = {
+    child: () => {
+      const levels = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'] as const
+      const methods: Record<string, (...args: unknown[]) => void> = {}
+      for (const level of levels) {
+        methods[level] = (...args: unknown[]) => {
+          if (level === 'warn') {
+            warnings.push(args.map((arg) => String(arg)).join(' '))
+          }
+        }
+      }
+      return methods as unknown as ReturnType<LoggerFactory['child']>
+    },
+  }
+
+  jest.isolateModules(() => {
+    // The isolated registry holds fresh copies of the framework modules too,
+    // so the recorder must be set on THAT registry's provider
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+    const framework = require('@chainlink/external-adapter-framework/util') as {
+      LoggerFactoryProvider: typeof LoggerFactoryProvider
+    }
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+    const { config: freshConfig } = require('../../src/config') as typeof import('../../src/config')
+
+    framework.LoggerFactoryProvider.set(recordingFactory)
+    const oldEnv = JSON.parse(JSON.stringify(process.env))
+    try {
+      for (const [name, value] of Object.entries(env)) {
+        if (value === undefined) {
+          delete process.env[name]
+        } else {
+          process.env[name] = value
+        }
+      }
+      freshConfig.initialize()
+      freshConfig.validate()
+    } finally {
+      setEnvVariables(oldEnv)
+      framework.LoggerFactoryProvider.set()
+    }
+  })
+  return warnings
+}
+
+describe('demo REST endpoint startup warning (keep_untouched REST path: pre-migration behaviour)', () => {
+  it('warns when API_ENDPOINT keeps the default demo REST endpoint', () => {
+    // API_ENDPOINT: undefined -> the default https://tools.dxfeed.com/webservice/rest applies
+    const warnings = captureValidateWarnings({
+      ...CREDENTIALS,
+      WS_API_ENDPOINT: DXLINK_ENDPOINT,
+      API_ENDPOINT: undefined,
+    })
+    expect(
+      warnings.some((w) =>
+        w.includes('Using demo endpoint: https://tools.dxfeed.com/webservice/rest'),
+      ),
+    ).toBe(true)
+  })
+
+  it('does not warn when API_ENDPOINT is customized away from the demo default', () => {
+    const warnings = captureValidateWarnings({
+      ...CREDENTIALS,
+      WS_API_ENDPOINT: DXLINK_ENDPOINT,
+      API_ENDPOINT: 'https://custom.dxfeed.example.com/webservice/rest',
+    })
+    expect(warnings.some((w) => w.includes('Using demo endpoint'))).toBe(false)
   })
 })
 
