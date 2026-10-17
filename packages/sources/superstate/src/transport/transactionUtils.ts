@@ -45,8 +45,13 @@ export const getTransactions = async (
   return Array.from(new Map(filtered.map((t) => [t.created_at, t])).values())
 }
 
-export const getNavPrice = async (fundId: number) => {
-  const report = await navTransport.execute(fundId, NetAssetValue)
+export const getNavPrice = async (fundId: number, startTime: string, endTime: string) => {
+  const report = await navTransport.execute({
+    fundId,
+    reportValue: NetAssetValue,
+    startTime,
+    endTime,
+  })
   if (!report || !report.result || report.result == 0) {
     throw new Error(`Unable to fetch nav for ${fundId}, received ${JSON.stringify(report)}`)
   } else {
