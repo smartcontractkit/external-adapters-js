@@ -104,18 +104,40 @@ const withRecordingLogger = (fn: (validate: typeof validateWsApiEndpoint) => voi
   return warnings
 }
 
-describe('credential pair optional at startup (round-2 item 1: REST-only deployments boot)', () => {
-  it('builds and validates the adapter config with API_USERNAME and API_PASSWORD unset', () => {
-    // The spec scopes the credential requirement to WS paths; the REST
-    // transport (owner decision rest_transport_scope=keep_untouched) runs
-    // without them, so startup must not fail when the pair is unset
+describe('credential pair required at startup (spec environment_variables required=true / CONF-ENV-MISMATCH:API_USERNAME+API_PASSWORD)', () => {
+  // With a clean wss:// dxLink WS_API_ENDPOINT, the ONLY possible validation
+  // failure is the missing credential, so a plain toThrow() pins the startup
+  // gate without coupling to the framework's error wording
+  it('fails config validation when both API_USERNAME and API_PASSWORD are unset', () => {
     withSettings(
       { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: DXLINK_ENDPOINT },
-      () => expect(() => config.validate()).not.toThrow(),
+      () => expect(() => config.validate()).toThrow(),
     )
   })
 
-  it('still starts when both credentials are set with the dxLink endpoint', () => {
+  it('fails config validation when only API_USERNAME is unset', () => {
+    withSettings(
+      {
+        API_USERNAME: undefined,
+        API_PASSWORD: CREDENTIALS.API_PASSWORD,
+        WS_API_ENDPOINT: DXLINK_ENDPOINT,
+      },
+      () => expect(() => config.validate()).toThrow(),
+    )
+  })
+
+  it('fails config validation when only API_PASSWORD is unset', () => {
+    withSettings(
+      {
+        API_USERNAME: CREDENTIALS.API_USERNAME,
+        API_PASSWORD: undefined,
+        WS_API_ENDPOINT: DXLINK_ENDPOINT,
+      },
+      () => expect(() => config.validate()).toThrow(),
+    )
+  })
+
+  it('passes config validation when both credentials are set with the dxLink endpoint', () => {
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () =>
       expect(() => config.validate()).not.toThrow(),
     )
@@ -124,9 +146,9 @@ describe('credential pair optional at startup (round-2 item 1: REST-only deploym
 
 describe('WS-path request-time credential gate (spec breaking_change_env_checks: require API_USERNAME and API_PASSWORD to be set (WS paths))', () => {
   it('rejects a stock_quotes request without credentials with a validation error naming the pair', () => {
-    // stock_quotes is WS-only: its customInputValidation enforces the
-    // credential pair with a clear per-request error — the ONLY credential
-    // gate now that startup does not require the pair
+    // stock_quotes is WS-only: its customInputValidation repeats the
+    // credential-pair check with a clear per-request error — defense in depth
+    // behind the startup AdapterConfig requirement
     const error = stockQuotesEndpoint.customInputValidation?.(wsRequest, {
       WS_API_ENDPOINT: DXLINK_ENDPOINT,
     } as any)

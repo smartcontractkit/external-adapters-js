@@ -68,12 +68,11 @@ export const validateWsApiEndpoint = (value?: string): string => {
 /**
  * Spec data_source_authentication breaking_change_env_checks: the Basic
  * credential pair (the dxLink AUTH message exists but is NOT used; credentials
- * ride the Authorization header only). The spec scopes the credential
- * requirement to WS paths, so the pair is NOT required at the AdapterConfig
- * level (a REST-only deployment — owner decision
- * rest_transport_scope=keep_untouched — boots without it); the WS-path
- * request-time check below fails a WS misconfiguration with a clear
- * per-request error instead.
+ * ride the Authorization header only). The spec marks both variables
+ * required=true, so the AdapterConfig level enforces the pair at startup (a
+ * missing credential must fail startup, never the dxLink handshake). The
+ * WS-path request-time check below stays as a redundant fast-fail for a WS
+ * misconfiguration with a clear per-request error.
  */
 export const missingWsCredentials = (settings: {
   API_USERNAME?: string
@@ -112,19 +111,20 @@ export const wsEnvInputValidationError = (settings: {
 
 export const config = new AdapterConfig(
   {
-    // Spec environment_variables mark both credentials required: true for WS
-    // paths; AdapterConfig leaves them optional so a REST-only deployment
-    // boots, and wsEnvInputValidationError enforces the pair per WS request
+    // Spec environment_variables mark both credentials required: true — the
+    // dxLink handshake needs both for the Basic Authorization header, so a
+    // missing credential fails startup (CONF-ENV-MISMATCH:API_USERNAME+API_PASSWORD),
+    // and wsEnvInputValidationError repeats the check per WS request
     API_USERNAME: {
       description: 'username for dxfeed API',
       type: 'string',
-      required: false,
+      required: true,
       sensitive: false,
     },
     API_PASSWORD: {
       description: 'password for dxfeed API',
       type: 'string',
-      required: false,
+      required: true,
       sensitive: true,
     },
     WS_API_ENDPOINT: {

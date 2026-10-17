@@ -40,8 +40,6 @@ const makeConnection = () => {
   }
 }
 
-type TestConnection = ReturnType<typeof makeConnection>
-
 describe('open-gate listener lifetime (round-2 item 2: the transport handler is the sole frame parser after open)', () => {
   it('leaves exactly the transport message listener registered once the open gate resolves', async () => {
     const connection = makeConnection()
