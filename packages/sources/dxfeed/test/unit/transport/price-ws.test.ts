@@ -193,7 +193,7 @@ describe('per-transport newest-time state (round-2 item 4 proving test: buildPri
     expect(results[0].response.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
   })
 
-  it('serves a NaN trade price as an invalid (502) result carrying the record time', () => {
+  it('serves a NaN trade price as an invalid (502) result with NO timestamps (reference error shape)', () => {
     const processor = new TradeProcessor()
     const invalid = processor.processRecord(
       'Trade',
@@ -203,7 +203,8 @@ describe('per-transport newest-time state (round-2 item 4 proving test: buildPri
 
     expect(invalid.statusCode).toBe(502)
     expect(invalid.errorMessage).toContain('invalid')
-    expect(invalid.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+    // The reference adapter's 502 carried no providerIndicatedTimeUnixMs
+    expect(invalid.timestamps).toBeUndefined()
   })
 })
 
@@ -270,8 +271,8 @@ describe('newest-time state keyed by the record eventSymbol (plan item: one dedu
   })
 })
 
-describe('invalid records do not advance the newest-time cursor (round-2: a malformed newer record must not suppress valid older records)', () => {
-  it('valid Trade t1, invalid NaN-price Trade t2>t1, valid TradeETH t3 with t1<t3<t2: t3 is served', () => {
+describe('an invalid newer Trade tick advances the staleness cursor (round-2: reference-adapter ordering — the cursor moves before the NaN price check)', () => {
+  it('valid Trade t1, invalid NaN-price Trade t2>t1, valid TradeETH t3 with t1<t3<t2: t3 is DROPPED like the reference adapter', () => {
     const processor = new TradeProcessor()
     const T1 = 1760000000000
     const T2 = T1 + 1000
@@ -282,18 +283,24 @@ describe('invalid records do not advance the newest-time cursor (round-2: a malf
       189.98,
     )
 
-    // t2: an invalid (NaN price) Trade — the 502 path, and the cursor does NOT
-    // advance to t2
+    // t2: an invalid (NaN price) Trade — the 502 path, and the cursor ADVANCES
+    // to t2 (the reference transport wrote updatedTime[base] before the NaN
+    // check; the 502 carries no timestamps like the reference error shape)
     const invalid = processor.processRecord('Trade', tradeRecord(T2, NaN), PARAMS as any) as any
     expect(invalid.statusCode).toBe(502)
+    expect(invalid.timestamps).toBeUndefined()
+    expect(processor.latestTimeBySymbol['AAPL:USLF24']).toBe(T2)
 
-    // t3: a valid TradeETH with t1 < t3 < t2 — SERVED, proving the invalid t2
-    // record did not advance the cursor (the former code wrote the cursor
-    // before the price check and dropped this record)
+    // t3: a valid TradeETH with t1 < t3 < t2 — DROPPED, matching the reference
+    // adapter: the malformed newer record moved the staleness cursor
     expect(
-      processor.processRecord('TradeETH', tradeEthRecord(T3, 190.02), PARAMS as any)?.result,
-    ).toBe(190.02)
-    expect(processor.latestTimeBySymbol['AAPL:USLF24']).toBe(T3)
+      processor.processRecord('TradeETH', tradeEthRecord(T3, 190.02), PARAMS as any),
+    ).toBeUndefined()
+
+    // ...while a record newer than the invalid t2 is still served
+    expect(
+      processor.processRecord('TradeETH', tradeEthRecord(T2 + 1, 190.4), PARAMS as any)?.result,
+    ).toBe(190.4)
   })
 })
 
@@ -347,7 +354,7 @@ describe('the 502 result never carries a NaN or null providerIndicatedTimeUnixMs
     expect(result.timestamps).toBeUndefined()
   })
 
-  it('a finite time still rides the 502 — freshness reporting keeps the provider timestamp of the record', () => {
+  it('a finite time still yields a 502 with NO timestamps — the reference adapter error shape', () => {
     const result = new TradeProcessor().processRecord(
       'Trade',
       tradeAt(1760000000000),
@@ -355,7 +362,7 @@ describe('the 502 result never carries a NaN or null providerIndicatedTimeUnixMs
     ) as any
 
     expect(result.statusCode).toBe(502)
-    expect(result.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+    expect(result.timestamps).toBeUndefined()
   })
 
   it('a valid-price Trade with a nonnumeric time is served without a NaN provider timestamp (never emit NaN in a number-typed field)', () => {

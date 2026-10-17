@@ -7,9 +7,10 @@ import {
  * Plan item 1 proving test (OPDATA-9200): the spec's breaking-change env
  * checks on WS_API_ENDPOINT (data_source_authentication.breaking_change_env_checks),
  * proven through the real boot path. The adapter constructs its AdapterConfig
- * at module import and runs config.validate() there (src/index.ts), so a
- * rejected environment makes the import itself fail — no WS connection, no
- * request, no mock server involved.
+ * at module import (src/index.ts performs NO validation there — round-2 deleted
+ * the import-time config.validate()); the framework runs config.validate()
+ * inside adapter.initialize() (expose), so a rejected environment rejects
+ * initialize() — no WS connection, no request, no mock server involved.
  *
  * The two URL checks run only when WS_API_ENDPOINT is set: the legacy cometd
  * path (/chainlink/cometd — the transport this migration deletes) and embedded
@@ -42,9 +43,10 @@ describe('breaking-change config rejections', () => {
 
   /**
    * Boots the adapter from scratch under the given env: resets the module
-   * registry, applies the env, then imports src — whose top-level
-   * `config.validate()` runs the AdapterConfig validate fns against the env. A
-   * rejected environment rejects the import (the spec's "startup checks").
+   * registry, applies the env, then imports src and returns the module. The
+   * import itself never throws (round-2: module import performs no config
+   * validation) — the startup checks run inside the framework's
+   * adapter.initialize().
    */
   const boot = (env: Record<string, string | undefined>): Promise<typeof import('../../src')> => {
     jest.resetModules()
@@ -64,18 +66,20 @@ describe('breaking-change config rejections', () => {
     API_ENDPOINT: FAKE_REST,
   })
 
-  it('rejects a legacy cometd WS_API_ENDPOINT at startup', async () => {
+  it('rejects a legacy cometd WS_API_ENDPOINT through the framework initialize() path', async () => {
     // Spec breaking_change_env_checks[0]: the cometd transport is deleted —
-    // pointing WS_API_ENDPOINT at it must fail the boot
-    await expect(boot(fullEnv('wss://dxlink.fake.test/chainlink/cometd'))).rejects.toThrow(/cometd/)
+    // pointing WS_API_ENDPOINT at it must fail the boot. The import succeeds
+    // (no import-time validation), the framework's initialize() runs
+    // config.validate() and rejects.
+    const { adapter } = await boot(fullEnv('wss://dxlink.fake.test/chainlink/cometd'))
+    await expect(adapter.initialize()).rejects.toThrow(/cometd/)
   })
 
-  it('rejects a WS_API_ENDPOINT with embedded ://user:pass@ credentials at startup', async () => {
+  it('rejects a WS_API_ENDPOINT with embedded ://user:pass@ credentials through the framework initialize() path', async () => {
     // Spec breaking_change_env_checks[1]: credentials ride the Basic
     // Authorization header, never the URL
-    await expect(
-      boot(fullEnv('wss://user:pass@dxlink.fake.test/dxlink-chainlink')),
-    ).rejects.toThrow(/credentials/)
+    const { adapter } = await boot(fullEnv('wss://user:pass@dxlink.fake.test/dxlink-chainlink'))
+    await expect(adapter.initialize()).rejects.toThrow(/credentials/)
   })
 
   it('boots when WS_API_ENDPOINT is unset — the URL checks run only when a value is set', async () => {

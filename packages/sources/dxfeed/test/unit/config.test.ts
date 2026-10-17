@@ -136,15 +136,15 @@ describe('WS settings are NOT startup-required (plan item 1: the spec requires t
     withSettings(STARTUP_ENV, () => expect(() => config.validate()).not.toThrow())
   })
 
-  it('keeps the spec-declared required:true on the three WS settings definitions (the spec environment_variables table — what the REST-only boot relaxes is the STARTUP enforcement, never the declaration)', () => {
+  it('declares the three WS settings required:false (round-2: the spec requires them on WS paths only — the request-time gate enforces the pair, no validate() override mutates the definitions)', () => {
     const definitions = (
       config as unknown as {
         settingsDefinition: Record<string, { required: boolean }>
       }
     ).settingsDefinition
-    expect(definitions['API_USERNAME'].required).toBe(true)
-    expect(definitions['API_PASSWORD'].required).toBe(true)
-    expect(definitions['WS_API_ENDPOINT'].required).toBe(true)
+    expect(definitions['API_USERNAME'].required).toBe(false)
+    expect(definitions['API_PASSWORD'].required).toBe(false)
+    expect(definitions['WS_API_ENDPOINT'].required).toBe(false)
   })
 
   it('startup still rejects a WS_API_ENDPOINT value that fails the breaking-change URL checks while the credential pair is unset (only the requiredness checks are relaxed)', () => {
@@ -262,20 +262,13 @@ describe('WS_API_ENDPOINT startup checks (spec breaking_change_env_checks)', () 
   })
 })
 
-describe('WS_API_ENDPOINT scheme gate (round-2 security: a plaintext ws:// endpoint sends the Basic Authorization credentials unencrypted)', () => {
-  it('rejects ws://dxlink-provider.fake.test/dxlink-chainlink with a startup error naming the required wss:// scheme and the plaintext-credential risk', () => {
-    const error = validateWsApiEndpoint('ws://dxlink-provider.fake.test/dxlink-chainlink')
-    expect(error).toContain('wss://')
-    expect(error).toContain('ws://')
-    expect(error).toMatch(/plaintext|unencrypted/i)
-    // The sensitive endpoint value is not echoed back into the error
-    expect(error).not.toContain('dxlink-provider.fake.test')
-  })
-
-  it('fails startup when WS_API_ENDPOINT points at a plaintext ws:// provider endpoint', () => {
+describe('WS_API_ENDPOINT scheme handling (round-2: the spec breaking_change_env_checks declare ONLY the cometd-path and embedded-credential checks — no scheme gate)', () => {
+  it('accepts a plaintext ws:// endpoint without those defects (the spec declares no scheme check)', () => {
+    expect(validateWsApiEndpoint('ws://dxlink-provider.fake.test/dxlink-chainlink')).toBe('')
+    expect(validateWsApiEndpoint('ws://dxlink.fake.test/dxlink-chainlink')).toBe('')
     withSettings(
       { ...CREDENTIALS, WS_API_ENDPOINT: 'ws://dxlink-provider.fake.test/dxlink-chainlink' },
-      () => expect(() => config.validate()).toThrow(/wss/),
+      () => expect(() => config.validate()).not.toThrow(),
     )
   })
 
@@ -293,8 +286,11 @@ describe('WS_API_ENDPOINT scheme gate (round-2 security: a plaintext ws:// endpo
     expect(validateWsApiEndpoint('ws://[::1]:9090/dxlink-chainlink')).toBe('')
   })
 
-  it('still rejects ws:// on a non-loopback hostname other than the provider host too (the allowance is loopback-only)', () => {
-    expect(validateWsApiEndpoint('ws://dxlink.fake.test/dxlink-chainlink')).toContain('wss://')
+  it('still rejects the cometd path and embedded credentials at startup (the two spec-declared checks stay)', () => {
+    expect(validateWsApiEndpoint('wss://dxlink.fake.test/chainlink/cometd')).toContain('cometd')
+    expect(validateWsApiEndpoint('wss://user:pass@dxlink.fake.test/dxlink-chainlink')).toContain(
+      'credentials',
+    )
   })
 })
 
@@ -321,29 +317,19 @@ const withNodeEnv = (nodeEnv: string | undefined, fn: () => void): void => {
   }
 }
 
-describe('ws:// loopback allowance is a test-run-only bypass (round-2: a deployed boot pointed at ws:// would send the Basic auth header in plaintext)', () => {
-  it('accepts ws://localhost when NODE_ENV is test', () => {
-    withNodeEnv('test', () =>
-      expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe(''),
-    )
+describe('ws:// acceptance is unconditional (round-2: the scheme gate is deleted; the spec declares only the cometd-path and embedded-credential checks)', () => {
+  it('accepts ws://localhost in every NODE_ENV mode', () => {
+    for (const nodeEnv of ['test', 'production', undefined]) {
+      withNodeEnv(nodeEnv, () =>
+        expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe(''),
+      )
+    }
   })
 
-  it('rejects ws://localhost when NODE_ENV is production', () => {
-    withNodeEnv('production', () =>
-      expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toContain('wss://'),
-    )
-  })
-
-  it('rejects ws://localhost when NODE_ENV is unset', () => {
-    withNodeEnv(undefined, () =>
-      expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toContain('wss://'),
-    )
-  })
-
-  it('rejects the other loopback hosts outside a test run too — the allowance is test-run-scoped, not just loopback-scoped', () => {
+  it('accepts the loopback hosts in every NODE_ENV mode too', () => {
     withNodeEnv('production', () => {
-      expect(validateWsApiEndpoint('ws://127.0.0.1:9090/dxlink-chainlink')).toContain('wss://')
-      expect(validateWsApiEndpoint('ws://[::1]:9090/dxlink-chainlink')).toContain('wss://')
+      expect(validateWsApiEndpoint('ws://127.0.0.1:9090/dxlink-chainlink')).toBe('')
+      expect(validateWsApiEndpoint('ws://[::1]:9090/dxlink-chainlink')).toBe('')
     })
   })
 

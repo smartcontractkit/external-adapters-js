@@ -43,11 +43,13 @@ describe('input validation (spec external_adapter_specifications.price input_par
     ).toThrow(/No transport found for key "graphql"/)
   })
 
-  it('declares base (spec alias set), quote ("to") and the optional transport param (ws|rest) with defaultTransport "rest"', () => {
+  it('declares base (spec alias set) and quote ("to") with defaultTransport "rest"; transport is the framework-reserved routing param, not a declared one', () => {
     const definition = priceInputParameters.definition as any
-    expect(Object.keys(definition).sort()).toEqual(['base', 'quote', 'transport'])
-    expect(definition.transport.options).toEqual(['ws', 'rest'])
-    expect(definition.transport.required).toBe(false)
+    // Runtime definition and exported type are identical (round-2: no Omit
+    // cast) — the reserved `transport` key is absent from both; the router
+    // reads the raw request data.transport and validates it against the
+    // registered ws|rest routes
+    expect(Object.keys(definition).sort()).toEqual(['base', 'quote'])
     expect(definition.base.required).toBe(true)
     expect(definition.base.aliases).toEqual(['from', 'symbol', 'asset', 'coin', 'ticker', 'market'])
     expect(definition.quote.required).toBe(true)

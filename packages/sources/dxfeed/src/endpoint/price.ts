@@ -8,11 +8,12 @@ import { buildDxFeedHttpTransport } from '../transport/price-http'
 import { transport as wsTransport } from '../transport/price-ws'
 import { inputParameters } from './utils'
 
-// Spec price input_parameters: base, quote and the optional `transport` param
-// ("ws" (dxLink stream) or "rest"; overnight streams pin "ws"). Routing itself
-// reads the raw request data.transport against transportRoutes; the declaration
-// adds transport to the validated param set and constrains its values to the
-// registered ws|rest routes.
+// Spec price input_parameters: base and quote. The optional `transport` param
+// ("ws" (dxLink stream) or "rest"; overnight streams pin "ws") is a framework
+// reserved param name: the router reads the raw request data.transport and
+// validates it against the registered transportRoutes ("No transport found for
+// key ..." for anything but ws|rest), so it is deliberately absent from the
+// declaration and the exported params type is exactly the runtime definition.
 // The provider-specific endpoint wiring below (ws|rest transport routes,
 // override layers, WS-path env checks) is preserved adapter code outside
 // the template subset, covered by the declared dxlink-control-protocol
@@ -33,22 +34,9 @@ const priceParamsDefinition = {
     required: true,
     type: 'string',
   },
-  transport: {
-    description:
-      'Transport to use for the request: "ws" (dxLink stream) or "rest". Overnight streams pin "ws".',
-    options: ['ws', 'rest'],
-    required: false,
-    type: 'string',
-  },
 } as const
 
-// `transport` sits in the framework's type-level reserved param names (the
-// defaultRouter reads the raw request data.transport for routing), so the
-// constructor's type argument omits the key while the runtime definition keeps
-// it — the runtime validator enforces the ws|rest options like any other param
-export const priceInputParameters = new InputParameters(
-  priceParamsDefinition as Omit<typeof priceParamsDefinition, 'transport'>,
-)
+export const priceInputParameters = new InputParameters(priceParamsDefinition)
 
 export type BaseEndpointTypes = {
   Parameters: typeof priceInputParameters.definition

@@ -49,16 +49,17 @@ describe('price endpoint (spec data_source_endpoints price / ws transport)', () 
     )
   })
 
-  it('declares exactly the spec input parameters: base (aliased), quote and the optional transport param (ws|rest)', () => {
+  it('declares exactly the spec input parameters: base (aliased) and quote; transport is the framework-reserved routing param (round-2: runtime definition and exported type are identical)', () => {
     const definition = priceInputParameters.definition as any
-    expect(Object.keys(definition).sort()).toEqual(['base', 'quote', 'transport'])
-    expect(definition.transport.options).toEqual(['ws', 'rest'])
-    expect(definition.transport.required).toBe(false)
+    expect(Object.keys(definition).sort()).toEqual(['base', 'quote'])
     // Spec price input_parameters: base with the shared alias set, required
     expect(definition.base.required).toBe(true)
     expect(definition.base.aliases).toEqual(['from', 'symbol', 'asset', 'coin', 'ticker', 'market'])
     expect(definition.quote.required).toBe(true)
     expect(definition.quote.aliases).toEqual(['to'])
+    // transport=ws still routes to the WS transport through the framework router
+    const wsRequest = { body: { data: { base: 'AAPL', quote: 'USD', transport: 'ws' } } } as any
+    expect(endpoint.getTransportNameForRequest(wsRequest, {} as any)).toBe('ws')
   })
 
   it('validates the spec example request, resolving the from/to aliases', () => {

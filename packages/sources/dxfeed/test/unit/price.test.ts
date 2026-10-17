@@ -16,16 +16,17 @@ describe('price endpoint wiring (spec external_adapter_specifications.price)', (
     expect(endpoint.aliases).toEqual(['crypto', 'stock', 'forex', 'commodities'])
   })
 
-  it('declares base, quote and the optional transport param (ws|rest options)', () => {
+  it('declares base and quote; transport is the framework-reserved routing param, not a declared one (round-2: runtime definition and exported type are identical)', () => {
     const definition = priceInputParameters.definition as any
-    expect(Object.keys(definition).sort()).toEqual(['base', 'quote', 'transport'])
-    expect(definition.transport.options).toEqual(['ws', 'rest'])
-    expect(definition.transport.required).toBe(false)
+    expect(Object.keys(definition).sort()).toEqual(['base', 'quote'])
     // Spec price input_parameters: base with the shared alias set, required
     expect(definition.base.required).toBe(true)
     expect(definition.base.aliases).toEqual(['from', 'symbol', 'asset', 'coin', 'ticker', 'market'])
     expect(definition.quote.required).toBe(true)
     expect(definition.quote.aliases).toEqual(['to'])
+    // transport=ws still routes to the WS transport through the framework router
+    const wsRequest = { body: { data: { base: 'AAPL', quote: 'USD', transport: 'ws' } } } as any
+    expect(endpoint.getTransportNameForRequest(wsRequest, {} as any)).toBe('ws')
   })
 
   it('resolves defaultTransport to rest when transport is absent (owner decision rest_transport_scope)', () => {

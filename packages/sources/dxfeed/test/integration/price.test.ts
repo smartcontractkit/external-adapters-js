@@ -248,11 +248,15 @@ describe('price endpoint on the dxLink transport (ws)', () => {
     })
   })
 
-  it('serves a valid Trade older than a malformed newer one: a bad record never advances the newest-time cursor', async () => {
-    // Spec price: "serve the record with the newest time" — newest among VALID
-    // records. A malformed (NaN price) Trade at t2 must not raise the
-    // newest-served bar to t2: a later-arriving valid Trade at t3 with
-    // t1 < t3 < t2 must still be served.
+  it('a malformed newer Trade advances the staleness cursor (reference-adapter ordering): an older valid record is dropped, a newer one is served', async () => {
+    // Spec reference_ea: the reference transport wrote updatedTime[base] BEFORE
+    // the NaN price check, so a malformed (NaN price) Trade at t2 raises the
+    // newest-seen bar to t2: a later-arriving valid Trade at t3 with
+    // t1 < t3 < t2 is dropped. (The 502 itself does not surface here: the
+    // framework cache never overwrites a fresh successful value with an error
+    // — owner decision reconnect_cache_behavior=serve_cached_last_value. The
+    // 502 result shape and the cursor write are proven at the processor level
+    // in test/unit/transport/price-ws.test.ts.)
     const cursorRequest = priceRequest('price', 'CUR')
     const pushTrade = (time: number, price: number | string) =>
       expect(
@@ -303,19 +307,31 @@ describe('price endpoint on the dxLink transport (ws)', () => {
       timestamps: { providerIndicatedTimeUnixMs: 1760000100000 },
     })
 
-    // Malformed Trade at t2 > t1: the invalid price must not advance the
-    // newest-served bar
+    // Malformed Trade at t2 > t1: the invalid record advances the newest-time
+    // cursor to t2 (reference ordering); the cached last value keeps serving
     pushTrade(1760000120000, 'NaN')
     await step()
 
-    // Valid Trade at t3, t1 < t3 < t2: served despite being older than t2
+    // Valid Trade at t3, t1 < t3 < t2: DROPPED, matching the reference adapter —
+    // the malformed newer record moved the staleness cursor past it, so the
+    // cached t1 value is still what requests get
     pushTrade(1760000110000, 11)
-    const t3 = await requestUntilCached(cursorRequest, 1760000110000)
+    await step()
+    const t3 = await testAdapter.request(cursorRequest)
     expect(t3.statusCode).toBe(200)
     expect(t3.json()).toMatchObject({
-      data: { result: 11 },
-      result: 11,
-      timestamps: { providerIndicatedTimeUnixMs: 1760000110000 },
+      result: 10,
+      timestamps: { providerIndicatedTimeUnixMs: 1760000100000 },
+    })
+
+    // ...while a valid record newer than the cursor (t2) is served
+    pushTrade(1760000130000, 12)
+    const t4 = await requestUntilCached(cursorRequest, 1760000130000)
+    expect(t4.statusCode).toBe(200)
+    expect(t4.json()).toMatchObject({
+      data: { result: 12 },
+      result: 12,
+      timestamps: { providerIndicatedTimeUnixMs: 1760000130000 },
     })
   })
 })

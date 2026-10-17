@@ -88,13 +88,11 @@ describe('WS_API_ENDPOINT validation (spec breaking_change_env_checks)', () => {
     )
   })
 
-  it('accepts ws://localhost ONLY inside a test run (NODE_ENV=test) and rejects it when NODE_ENV is production or unset', () => {
+  it('accepts ws://localhost in every NODE_ENV mode (round-2: the spec declares no scheme check)', () => {
     const loopbackUrl = 'ws://localhost:9090/dxlink-chainlink'
     withNodeEnv('test', () => expect(validateWsApiEndpoint(loopbackUrl)).toBe(''))
-    // Outside a test run a plaintext ws:// target sends the Basic
-    // Authorization header — the API credentials — unencrypted
-    withNodeEnv('production', () => expect(validateWsApiEndpoint(loopbackUrl)).toContain('wss://'))
-    withNodeEnv(undefined, () => expect(validateWsApiEndpoint(loopbackUrl)).toContain('wss://'))
+    withNodeEnv('production', () => expect(validateWsApiEndpoint(loopbackUrl)).toBe(''))
+    withNodeEnv(undefined, () => expect(validateWsApiEndpoint(loopbackUrl)).toBe(''))
   })
 
   it('wss:// stays accepted in every NODE_ENV mode', () => {
@@ -178,6 +176,27 @@ describe('demo REST endpoint startup warning (keep_untouched REST path: pre-migr
       API_ENDPOINT: 'https://custom.dxfeed.example.com/webservice/rest',
     })
     expect(warnings.some((w) => w.includes('Using demo endpoint'))).toBe(false)
+  })
+})
+
+describe('plaintext ws:// loopback acceptance warns loudly (round-2: a boot with real credentials on ws:// would send the Basic Authorization header unencrypted with no signal)', () => {
+  it('emits the warning and passes validation for WS_API_ENDPOINT=ws://localhost under NODE_ENV=test', () => {
+    // jest runs with NODE_ENV=test; the loopback ws:// acceptance logs the
+    // plaintext-credential warning while validation still passes
+    const warnings = captureValidateWarnings({
+      ...CREDENTIALS,
+      WS_API_ENDPOINT: 'ws://localhost:9090/dxlink-chainlink',
+    })
+    expect(warnings.some((w) => w.includes('plaintext ws://'))).toBe(true)
+    expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe('')
+  })
+
+  it('emits no plaintext warning for the wss:// endpoint', () => {
+    const warnings = captureValidateWarnings({
+      ...CREDENTIALS,
+      WS_API_ENDPOINT: DXLINK_ENDPOINT,
+    })
+    expect(warnings.some((w) => w.includes('plaintext ws://'))).toBe(false)
   })
 })
 

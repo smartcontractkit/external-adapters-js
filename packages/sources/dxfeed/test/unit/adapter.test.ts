@@ -1,6 +1,22 @@
 import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as fs from 'fs'
 import * as path from 'path'
+import { config } from '../../src/config'
+
+/** Runs fn with the given env vars set, restoring the environment afterwards. */
+const withEnv = (env: Record<string, string>, fn: () => void): void => {
+  const oldEnv = JSON.parse(JSON.stringify(process.env))
+  try {
+    for (const [name, value] of Object.entries(env)) {
+      process.env[name] = value
+    }
+    config.initialize()
+    fn()
+  } finally {
+    setEnvVariables(oldEnv)
+    config.initialize()
+  }
+}
 
 /**
  * Plan round1-scaffold proving test (spec description, framework_version
@@ -64,6 +80,70 @@ describe('dxfeed adapter boot (plan round1-scaffold)', () => {
     )
     const stockQuotes = adapter.endpoints.find((e) => e.name === 'stock_quotes')
     expect(stockQuotes?.aliases).toEqual([])
+  })
+})
+
+describe('module import performs no config validation (round-2: startup validation belongs to the framework initialize() path)', () => {
+  /**
+   * Imports src/index.ts fresh (isolated module registry) under the given env
+   * and reports whether the import threw.
+   */
+  const importAdapter = (env: Record<string, string | undefined>): { threw: boolean } => {
+    const oldEnv = JSON.parse(JSON.stringify(process.env))
+    try {
+      for (const [name, value] of Object.entries(env)) {
+        if (value === undefined) {
+          delete process.env[name]
+        } else {
+          process.env[name] = value
+        }
+      }
+      let threw = false
+      jest.isolateModules(() => {
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+          require('../../src')
+        } catch {
+          threw = true
+        }
+      })
+      return { threw }
+    } finally {
+      setEnvVariables(oldEnv)
+    }
+  }
+
+  it('importing src with NO WS variables set does not throw (the REST-only boot)', () => {
+    expect(
+      importAdapter({
+        API_USERNAME: undefined,
+        API_PASSWORD: undefined,
+        WS_API_ENDPOINT: undefined,
+        API_ENDPOINT: 'https://rest.fake.test/webservice/rest',
+      }).threw,
+    ).toBe(false)
+  })
+
+  it('importing src with an INVALID WS_API_ENDPOINT (legacy cometd path) does not throw — the framework rejects it at startup, not at import', () => {
+    expect(
+      importAdapter({
+        API_USERNAME: 'dxfeed-user',
+        API_PASSWORD: 'dxfeed-pass',
+        WS_API_ENDPOINT: 'wss://dxlink.fake.test/chainlink/cometd',
+        API_ENDPOINT: 'https://rest.fake.test/webservice/rest',
+      }).threw,
+    ).toBe(false)
+  })
+
+  it('a config with an invalid WS_API_ENDPOINT still fails through the framework error path (config.validate() at startup)', () => {
+    withEnv(
+      {
+        API_USERNAME: 'dxfeed-user',
+        API_PASSWORD: 'dxfeed-pass',
+        WS_API_ENDPOINT: 'wss://dxlink.fake.test/chainlink/cometd',
+      },
+      () => expect(() => config.validate()).toThrow(/cometd/),
+    )
   })
 })
 
