@@ -53,8 +53,8 @@ describe('dxfeed adapter init', () => {
   it('boots with mocked config and exposes both spec endpoints', async () => {
     // Boot itself is the first assertion: an invalid config (cometd path,
     // embedded credentials) would have rejected startWithMockedCache above.
-    // The credential pair and WS_API_ENDPOINT are both required at boot per
-    // the spec env block (this suite sets them anyway).
+    // The WS-only settings set here gate the WS request path, not startup —
+    // the boot passes without them (rest-only-boot.test.ts proves that half).
     const endpointNames = adapter.endpoints.map((e) => e.name.toLowerCase())
     expect(endpointNames).toEqual(expect.arrayContaining(['price', 'stock_quotes']))
 

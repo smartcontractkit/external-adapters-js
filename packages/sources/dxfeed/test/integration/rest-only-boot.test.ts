@@ -12,6 +12,11 @@ import { FAKE_REST_ENDPOINT, mockBatchedRestTransport } from './rest-mocks'
  * dxLink migration (owner decision rest_transport_scope=keep_untouched) — a
  * price request with no transport param still boots the adapter and serves
  * through the nock-intercepted fake REST host, never the WS transport.
+ *
+ * The boot runs with the WS-only settings (API_USERNAME, API_PASSWORD,
+ * WS_API_ENDPOINT) UNSET: config.validate() must pass without them — they gate
+ * the WS request path, not startup (the WS-only-settings plan item) — so a
+ * REST-only deployment boots on API_ENDPOINT alone.
  */
 
 describe('REST transport untouched (defaultTransport rest, no transport param)', () => {
@@ -21,11 +26,14 @@ describe('REST transport untouched (defaultTransport rest, no transport param)',
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
-    process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
-    // Spec environment_variables: WS_API_ENDPOINT is required at startup (the
-    // four-var config surface). Fake host (test_fake_urls) — never a real one.
-    process.env['WS_API_ENDPOINT'] = 'wss://dxlink.fake.test/dxlink-chainlink'
+    // Delete the WS-only settings outright: the REST-only deployment sets none
+    // of them, and the boot must pass config.validate() without them (the
+    // WS-only-settings plan item). A WS-path request under this env fails at
+    // request time (wsEnvInputValidationError) — proven in
+    // breaking-change-config.test.ts.
+    for (const name of ['API_USERNAME', 'API_PASSWORD', 'WS_API_ENDPOINT']) {
+      delete process.env[name]
+    }
     // Fake REST host (test_fake_urls): the untouched REST transport reads
     // API_ENDPOINT from settings, so the nock interceptor in rest-mocks.ts is
     // what the requests hit — never a real provider host

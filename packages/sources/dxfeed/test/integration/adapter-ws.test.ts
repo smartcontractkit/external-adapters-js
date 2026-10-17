@@ -8,6 +8,7 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
 import {
+  clientFrameLog,
   dxLinkConnections,
   mockDxLinkServer,
   sendToLastConnection,
@@ -533,12 +534,13 @@ describe('dxLink websocket smoke flows', () => {
         .filter(([key]) => key.startsWith(`${name}|`))
         .reduce((sum, [, value]) => sum + value, 0)
 
-    it('serves the cached last value through an in-band CHANNEL_CLOSED frame with no hard error', async () => {
-      // Spec reconnect_cache_behavior = serve_cached_last_value: a dxLink
-      // CHANNEL_CLOSED control frame is in-band — the socket stays up — and
-      // requests during the closure window return the cached last value with
-      // statusCode 200 and no error envelope. Pin the cached value first and
-      // assert the frame changed nothing.
+    it('reconnects and resubscribes on a CHANNEL_CLOSED frame, serving the cached last value through the window with no hard error', async () => {
+      // Spec reconnect_cache_behavior = serve_cached_last_value, plan item
+      // (framework WebSocketTransport): a CHANNEL_CLOSED frame must close the
+      // transport connection so the framework runs its reconnect +
+      // resubscribe path — the re-established session's wire carries the
+      // FEED_SUBSCRIPTION add for the desired symbols again — and the cached
+      // last value is served during that window, never an error.
       const before = await testAdapter.request(quoteRequest)
       expect(before.statusCode).toBe(200)
       expect(before.json()).toMatchObject({
@@ -561,8 +563,32 @@ describe('dxLink websocket smoke flows', () => {
           symbol: 'AAPL:USLF24',
         }),
       ).toBe(true)
-      await step()
 
+      // The frame closes the socket: the framework reconnects (a new
+      // connection is registered) and resubscribes (its wire carries the
+      // FEED_SUBSCRIPTION add for the desired symbols).
+      const connectionsBefore = dxLinkConnections.length
+      let resubscribed = false
+      for (let i = 0; i < 20 && !resubscribed; i++) {
+        await step()
+        const adds = (clientFrameLog[clientFrameLog.length - 1] ?? [])
+          .map((raw) => {
+            try {
+              return JSON.parse(raw)
+            } catch {
+              return undefined
+            }
+          })
+          .filter((m: any) => m?.type === 'FEED_SUBSCRIPTION')
+          .flatMap((m: any) => m.add ?? [])
+        resubscribed = adds.some((e: any) => e?.symbol === 'AAPL:USLF24' && e?.type === 'Quote')
+      }
+      expect(dxLinkConnections.length).toBeGreaterThan(connectionsBefore)
+      expect(resubscribed).toBe(true)
+
+      // Through the reconnect + re-handshake window the cached last value
+      // keeps serving — statusCode 200, original provider timestamp, no
+      // error envelope.
       const after = await testAdapter.request(quoteRequest)
       expect(after.statusCode).toBe(200)
       expect(after.json()).toMatchObject({

@@ -43,6 +43,10 @@ export function buildDxLinkWsTransport<T extends BaseTransportTypes>(
 
     handlers: {
       open: async (connection, context) => {
+        // Captured so an in-band CHANNEL_CLOSED frame can close THIS socket and
+        // the framework runs its reconnect + resubscribe path; re-captured on
+        // every reconnect
+        feed.setConnection(connection)
         await dxlink.openDxLinkConnection(
           connection,
           (fields) => feed.onFeedConfig(fields),

@@ -15,10 +15,11 @@ import { FAKE_REST_ENDPOINT, mockBatchedRestTransport } from './rest-mocks'
  * defaultTransport stays "rest" and a request without a transport param is
  * served by this untouched REST path.
  *
- * The credential pair and WS_API_ENDPOINT are set for boot (both required at
- * startup per the spec env block). The WS-path request-time env checks stay
- * out of scope here: this suite owns only the untouched defaultTransport
- * "rest" smoke flow.
+ * The credential pair and WS_API_ENDPOINT are set anyway so the WS-path
+ * request-time env gate can never trip (they are not startup-required —
+ * rest-only-boot.test.ts proves the boot without them). The WS-path
+ * request-time env checks stay out of scope here: this suite owns only the
+ * untouched defaultTransport "rest" smoke flow.
  */
 describe('price REST transport (defaultTransport rest, keep_untouched)', () => {
   let spy: jest.SpyInstance
@@ -27,9 +28,9 @@ describe('price REST transport (defaultTransport rest, keep_untouched)', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    // A fake pair and a clean dxLink URL: the credential pair and
-    // WS_API_ENDPOINT are both required at boot (spec env block) — all set so
-    // the WS-path input-validation gate can never trip
+    // A fake pair and a clean dxLink URL: set so the WS-path request-time
+    // input-validation gate can never trip (the WS-only settings are not
+    // startup-required)
     process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
     process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
     // A clean wss:// dxLink URL (never a cometd path, no embedded credentials)

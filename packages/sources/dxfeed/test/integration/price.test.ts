@@ -7,7 +7,7 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { mockDxLinkServer, setFeedData } from './dxlink-mocks'
+import { mockDxLinkServer, sendToLastConnection, setFeedData } from './dxlink-mocks'
 
 // Captured before FakeTimers.install() replaces the global timers: the mock
 // socket bridge delivers frames on a REAL timer, so every step yields fake
@@ -245,6 +245,77 @@ describe('price endpoint on the dxLink transport (ws)', () => {
       timestamps: {
         providerIndicatedTimeUnixMs: 1760000007000,
       },
+    })
+  })
+
+  it('serves a valid Trade older than a malformed newer one: a bad record never advances the newest-time cursor', async () => {
+    // Spec price: "serve the record with the newest time" — newest among VALID
+    // records. A malformed (NaN price) Trade at t2 must not raise the
+    // newest-served bar to t2: a later-arriving valid Trade at t3 with
+    // t1 < t3 < t2 must still be served.
+    const cursorRequest = priceRequest('price', 'CUR')
+    const pushTrade = (time: number, price: number | string) =>
+      expect(
+        sendToLastConnection({
+          type: 'FEED_DATA',
+          channel: 1,
+          data: [
+            'Trade',
+            [
+              'Trade',
+              'CUR:USLF24',
+              time,
+              price,
+              10,
+              12345,
+              'V',
+              0.12,
+              5000000,
+              999000000,
+              'UP',
+              false,
+            ],
+          ],
+        }),
+      ).toBe(true)
+
+    // Subscribe CUR and pin the first valid record (t1). The mock server
+    // delivers the registered frame when the wire FEED_SUBSCRIPTION add goes
+    // out, so the cached t1 value proves the subscription is live.
+    setFeedData('Trade', 'CUR:USLF24', [
+      'Trade',
+      'CUR:USLF24',
+      1760000100000,
+      10,
+      10,
+      12345,
+      'V',
+      0.12,
+      5000000,
+      999000000,
+      'UP',
+      false,
+    ])
+    const t1 = await requestUntilCached(cursorRequest, 1760000100000)
+    expect(t1.statusCode).toBe(200)
+    expect(t1.json()).toMatchObject({
+      result: 10,
+      timestamps: { providerIndicatedTimeUnixMs: 1760000100000 },
+    })
+
+    // Malformed Trade at t2 > t1: the invalid price must not advance the
+    // newest-served bar
+    pushTrade(1760000120000, 'NaN')
+    await step()
+
+    // Valid Trade at t3, t1 < t3 < t2: served despite being older than t2
+    pushTrade(1760000110000, 11)
+    const t3 = await requestUntilCached(cursorRequest, 1760000110000)
+    expect(t3.statusCode).toBe(200)
+    expect(t3.json()).toMatchObject({
+      data: { result: 11 },
+      result: 11,
+      timestamps: { providerIndicatedTimeUnixMs: 1760000110000 },
     })
   })
 })

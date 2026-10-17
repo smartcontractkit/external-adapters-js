@@ -232,3 +232,61 @@ describe('Quote guard order (isOvernight exchange-code drop precedes the require
     }
   })
 })
+
+describe('zero / NaN outcome table (round-2: the 502-versus-result decision for zero, NaN and one-sided books must match the legacy dxfeed stock_quotes transport bit for bit)', () => {
+  // Spec stock_quotes COMPACT record layout: bidPrice index 3, askPrice index 4
+  const record = (bidPrice: number | string, askPrice: number | string) => [
+    'Quote',
+    'AAPL:USLF24',
+    1760000000000,
+    bidPrice,
+    askPrice,
+    100,
+    200,
+    'V',
+    'V',
+  ]
+
+  const expectServedWithMid = (
+    bidPrice: number | string,
+    askPrice: number | string,
+    mid: number,
+  ) => {
+    const result = quoteRecordToResult(record(bidPrice, askPrice), PARAMS) as any
+    expect(result.statusCode).toBeUndefined()
+    expect(result.errorMessage).toBeUndefined()
+    expect(result.result).toBe(mid)
+    expect(result.data.mid_price).toBe(mid)
+  }
+
+  const expectRejected502 = (bidPrice: number | string, askPrice: number | string) => {
+    const result = quoteRecordToResult(record(bidPrice, askPrice), PARAMS) as any
+    expect(result.statusCode).toBe(502)
+    expect(result.errorMessage).toMatch(/[Pp]rice/)
+    expect(result.result).toBeUndefined()
+  }
+
+  it('bid=0 one-sided book: mid against the live ask side (legacy bidPrice == 0 branch)', () => {
+    expectServedWithMid(0, 190.05, 190.05)
+  })
+
+  it('ask=0 one-sided book: mid against the live bid side (legacy askPrice == 0 branch)', () => {
+    expectServedWithMid(189.95, 0, 189.95)
+  })
+
+  it('both sides zero: served with mid 0, NOT a 502 (legacy bidPrice == 0 branch wins)', () => {
+    expectServedWithMid(0, 0, 0)
+  })
+
+  it('bid=NaN: rejected 502 like the legacy invalid-price branch', () => {
+    expectRejected502('NaN', 190.05)
+  })
+
+  it('ask=NaN: rejected 502 like the legacy invalid-price branch', () => {
+    expectRejected502(189.95, 'NaN')
+  })
+
+  it('both NaN: rejected 502 like the legacy invalid-price branch', () => {
+    expectRejected502('NaN', 'NaN')
+  })
+})

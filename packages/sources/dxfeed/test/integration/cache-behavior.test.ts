@@ -148,10 +148,13 @@ describe('reconnect cache and staleness behavior on the dxLink transport', () =>
     await testAdapter.api.close()
   })
 
-  it('serves the cached last value with its original timestamp through a provider CHANNEL_CLOSED frame with no hard error', async () => {
-    // Spec reconnect_cache_behavior = serve_cached_last_value: the dxLink
-    // CHANNEL_CLOSED control frame is in-band — the socket stays up, and the
-    // caller is served the cached last value, not an error.
+  it('reconnects on a provider CHANNEL_CLOSED frame and serves the cached last value with its original timestamp through the window, with no hard error', async () => {
+    // Spec reconnect_cache_behavior = serve_cached_last_value, plan item
+    // (framework WebSocketTransport): a CHANNEL_CLOSED frame closes the
+    // transport connection so the framework reconnect + resubscribe runs; the
+    // caller is served the cached last value through that window, not an
+    // error (the closure surfaces through the framework metrics counters only,
+    // per degraded_stream_alerting = metrics_counters_only).
     expect(
       sendToLastConnection({
         type: 'CHANNEL_CLOSED',
@@ -160,7 +163,13 @@ describe('reconnect cache and staleness behavior on the dxLink transport', () =>
         symbol: 'AAPL:USLF24',
       }),
     ).toBe(true)
-    await step()
+
+    // The frame closed the socket: the framework re-establishes the session
+    const connectionsBefore = dxLinkConnections.length
+    for (let i = 0; i < 20 && dxLinkConnections.length <= connectionsBefore; i++) {
+      await step()
+    }
+    expect(dxLinkConnections.length).toBeGreaterThan(connectionsBefore)
 
     const response = await testAdapter.request(quoteRequest)
     expect(response.statusCode).toBe(200)
@@ -170,10 +179,11 @@ describe('reconnect cache and staleness behavior on the dxLink transport', () =>
 
   it('serves the cached last value with its original providerIndicatedTimeUnixMs during the re-handshake window, then the fresh value', async () => {
     // Provider drops the connection outright: the adapter reconnects and
-    // re-handshakes. Only the stock_quotes endpoint runs in this suite, so
-    // connection 0 is its dxLink session: closing it is the reconnect trigger.
+    // re-handshakes. Only the stock_quotes endpoint runs in this suite, so the
+    // live connection (the most recent one registered) is its dxLink session:
+    // closing it is the reconnect trigger.
     const connectionsBefore = dxLinkConnections.length
-    dxLinkConnections[0]?.close()
+    dxLinkConnections[dxLinkConnections.length - 1]?.close()
     // Wait for the re-established connection to be registered
     for (let i = 0; i < 20 && dxLinkConnections.length <= connectionsBefore; i++) {
       await step()

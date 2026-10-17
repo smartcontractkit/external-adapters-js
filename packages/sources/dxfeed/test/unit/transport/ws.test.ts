@@ -25,7 +25,8 @@ const makeConnection = () => {
     sent,
     send: (data: string) => sent.push(JSON.parse(data)),
     // The underlying ws client's close: the CHANNEL_CLOSED assertions spy it to
-    // prove the in-band channel close never tears the socket down
+    // prove the in-band channel close tears the socket down (framework
+    // reconnect path)
     close: jest.fn(),
     addEventListener: (event: 'message' | 'close', listener: Listener) => {
       const set = listeners.get(event) ?? new Set<Listener>()
@@ -317,8 +318,8 @@ describe('open-gate listener lifetime (round-2 item 2: the transport handler is 
   })
 })
 
-describe('CHANNEL_CLOSED is an in-band dxLink message (no error result, no reconnect)', () => {
-  it('handlers.message emits no result, never closes the socket and never re-runs the handshake', async () => {
+describe('CHANNEL_CLOSED closes the socket so the framework reconnects and resubscribes (round-2: the former code swallowed it, leaving the socket open with no resubscription)', () => {
+  it('handlers.message emits no result but closes the transport connection — no in-band re-handshake on the dead socket', async () => {
     const connection = makeConnection()
 
     // Open the real transport handlers against the fake connection: the dxLink
@@ -328,21 +329,94 @@ describe('CHANNEL_CLOSED is an in-band dxLink message (no error result, no recon
     })
     connection.emit(frames.quoteFeedConfig)
     await opened
-    const handshakeCount = connection.sent.length
-    expect(handshakeCount).toBe(3)
+    ;(stockQuotesTransport as any).config.builders.customSubscriptionMessages(
+      {},
+      { desired: [QUOTE_PARAMS], new: [QUOTE_PARAMS], stale: [] },
+    )
+    expect(connection.sent).toHaveLength(3)
 
-    // The provider closes the dxLink feed channel in-band; the WebSocket
-    // itself stays open
+    // The provider closes the dxLink feed channel in-band
     const results = (stockQuotesTransport as any).config.handlers.message(
       frames.channelClosedFrame as any,
     )
 
-    // (a) no result at all is emitted — in particular no error result
+    // (a) no result at all is emitted — in particular no error result; the
+    // cached last value keeps serving across the reconnect window (owner
+    // decision reconnect_cache_behavior=serve_cached_last_value)
     expect(results).toEqual([])
 
-    // (b) no reconnect: the socket is not closed and no re-handshake is sent —
-    // the cached last value keeps serving across the channel-close window
-    expect(connection.close).not.toHaveBeenCalled()
-    expect(connection.sent).toHaveLength(handshakeCount)
+    // (b) the transport connection is closed, which runs the framework's
+    // reconnect path — and no re-handshake is sent on the closing socket
+    expect(connection.close).toHaveBeenCalledTimes(1)
+    expect(connection.sent).toHaveLength(3)
+  })
+
+  it('after the reconnect, customSubscriptionMessages re-sends the FEED_SUBSCRIPTION add for the desired symbols', async () => {
+    // First connection: handshake, subscribe, CHANNEL_CLOSED tears it down
+    const connection = makeConnection()
+    const transportConfig = (stockQuotesTransport as any).config
+    const opened = transportConfig.handlers.open(connection, { adapterSettings: {} })
+    connection.emit(frames.quoteFeedConfig)
+    await opened
+    transportConfig.handlers.message(frames.channelClosedFrame as any)
+    expect(connection.close).toHaveBeenCalledTimes(1)
+
+    // The framework dials a NEW connection and re-runs handlers.open on it
+    const reconnected = makeConnection()
+    const reopened = transportConfig.handlers.open(reconnected, { adapterSettings: {} })
+    reconnected.emit(frames.quoteFeedConfig)
+    await reopened
+
+    // ...and re-delivers the full desired set as `new`: the builder re-sends
+    // the FEED_SUBSCRIPTION add for the desired symbols
+    expect(
+      transportConfig.builders.customSubscriptionMessages(
+        {},
+        {
+          desired: [QUOTE_PARAMS],
+          new: [QUOTE_PARAMS],
+          stale: [],
+        },
+      ),
+    ).toEqual([
+      {
+        type: 'FEED_SUBSCRIPTION',
+        channel: 1,
+        add: [{ symbol: 'AAPL:USLF24', type: 'Quote' }],
+      },
+    ])
+  })
+})
+
+describe('open-gate timeout cleanup (round-2: the timeout race must not leave the gate listeners attached)', () => {
+  it('when the open budget exhausts with no FEED_CONFIG, openDxLinkConnection rejects and the socket has zero remaining open-gate message and close listeners', async () => {
+    jest.useFakeTimers()
+    try {
+      const connection = makeConnection()
+
+      // The framework registers its own message and close handlers before
+      // running handlers.open
+      connection.addEventListener('message', jest.fn())
+      connection.addEventListener('close', jest.fn())
+
+      const opened = openDxLinkConnection(connection, undefined, 10_000)
+      // The open gate added exactly one message and one close listener
+      expect(connection.listenerCount('message')).toBe(2)
+      expect(connection.listenerCount('close')).toBe(2)
+
+      // No FEED_CONFIG ever arrives: the budget exhausts. The rejection
+      // expectation is attached BEFORE the clock advances — `opened` rejects
+      // mid-advance, and a handler attached only afterwards would surface as
+      // an unhandled (asynchronously handled) rejection
+      const rejection = expect(opened).rejects.toThrow(/handshake did not complete/)
+      await jest.advanceTimersByTimeAsync(10_000)
+      await rejection
+
+      // The open-gate listeners are GONE too — only the framework's remain
+      expect(connection.listenerCount('message')).toBe(1)
+      expect(connection.listenerCount('close')).toBe(1)
+    } finally {
+      jest.useRealTimers()
+    }
   })
 })

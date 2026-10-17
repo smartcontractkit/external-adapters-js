@@ -30,6 +30,28 @@ const withSettings = (env: Record<string, string | undefined>, fn: () => void): 
 }
 
 const CREDENTIALS = { API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' }
+
+/**
+ * Runs fn with NODE_ENV pinned (and restored after): validateWsApiEndpoint
+ * reads NODE_ENV directly to gate the ws:// loopback test-run exception.
+ */
+const withNodeEnv = (nodeEnv: string | undefined, fn: () => void): void => {
+  const oldEnv = process.env.NODE_ENV
+  try {
+    if (nodeEnv === undefined) {
+      delete process.env.NODE_ENV
+    } else {
+      process.env.NODE_ENV = nodeEnv
+    }
+    fn()
+  } finally {
+    if (oldEnv === undefined) {
+      delete process.env.NODE_ENV
+    } else {
+      process.env.NODE_ENV = oldEnv
+    }
+  }
+}
 // Fake host (test_fake_urls): the provider host belongs only in src/config
 const DXLINK_ENDPOINT = 'wss://dxlink.fake.test/dxlink-chainlink'
 
@@ -64,6 +86,21 @@ describe('WS_API_ENDPOINT validation (spec breaking_change_env_checks)', () => {
       { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://user:pass@dxlink.fake.test/dxlink-chainlink' },
       () => expect(() => config.validate()).toThrow(/credentials/),
     )
+  })
+
+  it('accepts ws://localhost ONLY inside a test run (NODE_ENV=test) and rejects it when NODE_ENV is production or unset', () => {
+    const loopbackUrl = 'ws://localhost:9090/dxlink-chainlink'
+    withNodeEnv('test', () => expect(validateWsApiEndpoint(loopbackUrl)).toBe(''))
+    // Outside a test run a plaintext ws:// target sends the Basic
+    // Authorization header — the API credentials — unencrypted
+    withNodeEnv('production', () => expect(validateWsApiEndpoint(loopbackUrl)).toContain('wss://'))
+    withNodeEnv(undefined, () => expect(validateWsApiEndpoint(loopbackUrl)).toContain('wss://'))
+  })
+
+  it('wss:// stays accepted in every NODE_ENV mode', () => {
+    for (const nodeEnv of ['test', 'production', undefined]) {
+      withNodeEnv(nodeEnv, () => expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe(''))
+    }
   })
 })
 

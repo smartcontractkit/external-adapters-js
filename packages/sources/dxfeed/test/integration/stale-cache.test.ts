@@ -200,16 +200,18 @@ describe('stale cache serving on the dxLink transport', () => {
     })
   })
 
-  it('serves the cached last value through a provider CHANNEL_CLOSED frame with no hard error', async () => {
-    // dxLink CHANNEL_CLOSED is an in-band control frame: the socket stays up,
-    // and the caller is served the cached last value, not an error
+  it('reconnects on a provider CHANNEL_CLOSED frame and serves the cached last value through the window with no hard error', async () => {
+    // Plan item (framework WebSocketTransport): a CHANNEL_CLOSED frame closes
+    // the transport connection so the framework reconnect + resubscribe runs —
+    // it is not silently swallowed. Through that window the cached last value
+    // keeps serving with its original providerIndicatedTimeUnixMs
     // (reconnect_cache_behavior = serve_cached_last_value; the closure is
     // reported through the framework metrics counters only).
     // The currently cached last value is whatever the previous test left
-    // (the fresh post-reconnect quote): pin it before the frame and assert
-    // the SAME value after — the frame must change nothing.
+    // (the fresh post-reconnect quote): pin it before the frame.
     const before = await testAdapter.request(quoteRequest)
     expect(before.statusCode).toBe(200)
+    const cachedValues = before.json()
 
     expect(
       sendToLastConnection({
@@ -219,11 +221,25 @@ describe('stale cache serving on the dxLink transport', () => {
         symbol: 'AAPL:USLF24',
       }),
     ).toBe(true)
-    await step()
+
+    // The frame closed the socket: the framework re-establishes the session
+    const connectionsBefore = dxLinkConnections.length
+    for (let i = 0; i < 20 && dxLinkConnections.length <= connectionsBefore; i++) {
+      await step()
+    }
+    expect(dxLinkConnections.length).toBeGreaterThan(connectionsBefore)
 
     const after = await testAdapter.request(quoteRequest)
     expect(after.statusCode).toBe(200)
-    expect(after.json()).toEqual(before.json())
+    // Same cached market values and original provider timestamp — only the
+    // transport's own receipt metadata may differ across the reconnect
+    expect(after.json()).toMatchObject({
+      data: cachedValues.data,
+      result: cachedValues.result,
+      timestamps: {
+        providerIndicatedTimeUnixMs: cachedValues.timestamps.providerIndicatedTimeUnixMs,
+      },
+    })
     expect(after.json().errorMessage).toBeUndefined()
   })
 

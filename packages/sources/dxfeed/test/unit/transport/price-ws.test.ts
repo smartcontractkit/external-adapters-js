@@ -230,3 +230,113 @@ describe('newest-time state keyed by the record eventSymbol (plan item: one dedu
     ).toHaveLength(2)
   })
 })
+
+describe('invalid records do not advance the newest-time cursor (round-2: a malformed newer record must not suppress valid older records)', () => {
+  it('valid Trade t1, invalid NaN-price Trade t2>t1, valid TradeETH t3 with t1<t3<t2: t3 is served', () => {
+    const processor = new TradeProcessor()
+    const T1 = 1760000000000
+    const T2 = T1 + 1000
+    const T3 = T1 + 500
+
+    // t1: a valid Trade — served, cursor advances to t1
+    expect(processor.processRecord('Trade', tradeRecord(T1, 189.98), PARAMS as any)?.result).toBe(
+      189.98,
+    )
+
+    // t2: an invalid (NaN price) Trade — the 502 path, and the cursor does NOT
+    // advance to t2
+    const invalid = processor.processRecord('Trade', tradeRecord(T2, NaN), PARAMS as any) as any
+    expect(invalid.statusCode).toBe(502)
+
+    // t3: a valid TradeETH with t1 < t3 < t2 — SERVED, proving the invalid t2
+    // record did not advance the cursor (the former code wrote the cursor
+    // before the price check and dropped this record)
+    expect(
+      processor.processRecord('TradeETH', tradeEthRecord(T3, 190.02), PARAMS as any)?.result,
+    ).toBe(190.02)
+    expect(processor.latestTimeBySymbol['AAPL:USLF24']).toBe(T3)
+  })
+})
+
+describe('the 502 result never carries a NaN or null providerIndicatedTimeUnixMs (round-2: nonnumeric time must not serialize NaN into a number-typed field)', () => {
+  // Spec price Trade record layout with the time field (index 2) unusable and
+  // the price (index 3) the JSON string "NaN" -> invalid
+  const tradeAt = (time: unknown) => [
+    'Trade',
+    'AAPL:USLF24',
+    time,
+    'NaN',
+    10,
+    12345,
+    'V',
+    0.12,
+    5000000,
+    999000000,
+    'UP',
+    false,
+  ]
+
+  it('a NaN-price Trade with a MISSING time field yields a 502 with no NaN/null provider timestamp', () => {
+    const result = new TradeProcessor().processRecord(
+      'Trade',
+      // The time field (index 2) is absent from the COMPACT row
+      tradeAt(undefined),
+      PARAMS as any,
+    ) as any
+
+    expect(result.statusCode).toBe(502)
+    expect(result.errorMessage).toContain('invalid')
+    // "Include providerIndicatedTimeUnixMs only when the parsed time is
+    // finite": a non-finite time means NO timestamps field at all — the field
+    // is omitted, never a NaN or null number
+    expect(result.timestamps).toBeUndefined()
+  })
+
+  it('a NaN-price Trade with a NONNUMERIC time yields a 502 with no NaN/null provider timestamp', () => {
+    const result = new TradeProcessor().processRecord(
+      'Trade',
+      tradeAt('not-a-number'),
+      PARAMS as any,
+    ) as any
+
+    expect(result.statusCode).toBe(502)
+    // Same rule: the non-finite time is omitted, not NaN/null
+    expect(result.timestamps).toBeUndefined()
+  })
+
+  it('a finite time still rides the 502 — freshness reporting keeps the provider timestamp of the record', () => {
+    const result = new TradeProcessor().processRecord(
+      'Trade',
+      tradeAt(1760000000000),
+      PARAMS as any,
+    ) as any
+
+    expect(result.statusCode).toBe(502)
+    expect(result.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+  })
+
+  it('a valid-price Trade with a nonnumeric time is served without a NaN provider timestamp (never emit NaN in a number-typed field)', () => {
+    const processor = new TradeProcessor()
+    const record = [
+      'Trade',
+      'AAPL:USLF24',
+      'not-a-number',
+      189.98,
+      10,
+      12345,
+      'V',
+      0.12,
+      5000000,
+      999000000,
+      'UP',
+      false,
+    ]
+    const result = processor.processRecord('Trade', record, PARAMS as any) as any
+
+    expect(result.statusCode).toBeUndefined()
+    expect(result.result).toBe(189.98)
+    // Served without a provider timestamp: the non-finite time is omitted,
+    // never NaN/null in a number-typed field
+    expect(result.timestamps).toBeUndefined()
+  })
+})

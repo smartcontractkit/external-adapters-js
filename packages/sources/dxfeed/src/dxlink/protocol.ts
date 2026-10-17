@@ -187,6 +187,10 @@ export type DxLinkConnection = {
     event: 'message' | 'close',
     listener: (event: { data?: unknown; code?: number }) => void,
   ) => void
+  // The framework's ws client implements close(): an in-band CHANNEL_CLOSED
+  // frame tears the socket down so the framework runs its reconnect +
+  // resubscribe path; minimal test fakes may not implement it
+  close?: () => void
 }
 
 /**
@@ -222,6 +226,12 @@ export const openDxLinkConnection = (
   onFeedConfig?: (eventFields: Record<string, string[]>) => void,
   openTimeoutMs?: number,
 ): Promise<void> => {
+  // Settle handle for the open gate, so the timeout race below can run the SAME
+  // settle path (which removes the open-gate listeners) the gate's own
+  // rejections run. Assigned synchronously by the executor below — always set
+  // by the time the timeout race's catch can call it.
+  let settleGate: ((error?: Error) => void) | undefined
+
   const gate = new Promise<void>((resolve, reject) => {
     let settled = false
 
@@ -276,6 +286,7 @@ export const openDxLinkConnection = (
         resolve()
       }
     }
+    settleGate = settle
 
     connection.addEventListener('message', onMessage)
     connection.addEventListener('close', onClose)
@@ -293,9 +304,15 @@ export const openDxLinkConnection = (
     // rejection); a gate rejection of its own (ERROR frame, close) keeps its
     // original message
     if (error instanceof Error && error.message.includes('took longer than')) {
-      throw new Error(
+      const timeoutError = new Error(
         `dxLink handshake did not complete within ${openTimeoutMs}ms (no FEED_CONFIG received)`,
       )
+      // Settle the gate with the timeout error so its settle path removes the
+      // open-gate message and close listeners — one cleanup path covers both
+      // outcomes (the former code rejected without settling, leaving the
+      // listeners attached for the connection's lifetime)
+      settleGate?.(timeoutError)
+      throw timeoutError
     }
     throw error
   })
@@ -382,8 +399,19 @@ export type DxLinkFeedDeps<T extends DxLinkTransportGenerics> = {
 export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGenerics> {
   private eventFields: Record<string, string[]> = {}
   private subsByWireKey = new Map<string, TypeFromDefinition<T['Parameters']>[]>([])
+  private connection?: DxLinkConnection
 
   constructor(private readonly deps: DxLinkFeedDeps<T>) {}
+
+  /**
+   * Captured from the transport's open handler — re-captured on every
+   * reconnect — so an in-band CHANNEL_CLOSED frame can close the socket. The
+   * framework WebSocketTransport owns the reconnect + resubscribe cycle that
+   * must follow (it re-delivers the full desired set as subscriptions.new).
+   */
+  setConnection(connection: DxLinkConnection): void {
+    this.connection = connection
+  }
 
   onFeedConfig(eventFields: Record<string, string[]> | undefined): void {
     const accepted = eventFields ?? {}
@@ -473,8 +501,14 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
             message.eventType ?? 'all events'
           } ${
             message.symbol ?? ''
-          }: this is an in-band dxLink message — the WebSocket stays open and no reconnect or resubscribe is triggered by it; the cached last value keeps serving`,
+          }: closing the WebSocket so the framework reconnects and resubscribes (the cached last value serves during the reconnect window)`,
         )
+        // An in-band CHANNEL_CLOSED frame carries no socket handle — closing
+        // the WebSocket here makes the framework run its reconnect and
+        // resubscribe path (on reconnect subscriptions.new = the full desired
+        // set); the response cache serves the last value during that window
+        // (owner decision reconnect_cache_behavior=serve_cached_last_value)
+        this.connection?.close?.()
         return []
       case 'KEEPALIVE':
         return []

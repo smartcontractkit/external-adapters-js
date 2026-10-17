@@ -46,21 +46,31 @@ export const quoteRecordToResult = (
 
   const bidPrice = parseNumeric(record[BID_PRICE_INDEX])
   const askPrice = parseNumeric(record[ASK_PRICE_INDEX])
+
+  // The record's own time rides every result for downstream freshness
+  // reporting — but NEVER as NaN (a missing/nonnumeric provider time would
+  // otherwise serialize as null in a number-typed field): a record with no
+  // finite time carries no provider timestamp
+  const time = parseNumeric(record[QUOTE_TIME_INDEX])
+  const timestamps = Number.isFinite(time) ? { providerIndicatedTimeUnixMs: time } : undefined
+
+  // Reference branch order (legacy dxfeed stock_quotes transport, preserved bit
+  // for bit per spec reference_ea): the one-sided zero-price mid calculation
+  // runs FIRST, then the invalid-price (NaN) check — the 502-versus-result
+  // decision for zero, NaN and one-sided books matches the legacy transport
+  const midPrice = bidPrice === 0 ? askPrice : askPrice === 0 ? bidPrice : (bidPrice + askPrice) / 2
+
   if (Number.isNaN(bidPrice) || Number.isNaN(askPrice)) {
     return {
       statusCode: 502,
       errorMessage: `Bid price: ${record[BID_PRICE_INDEX]} or Ask price: ${record[ASK_PRICE_INDEX]} for ${base} is invalid.`,
       // The record's own time rides even the error result (the price-ws
       // TradeProcessor error branch shape), so downstream freshness reporting
-      // keeps the provider timestamp of this record
-      timestamps: {
-        providerIndicatedTimeUnixMs: parseNumeric(record[QUOTE_TIME_INDEX]),
-      },
+      // keeps the provider timestamp of this record — omitted when that time
+      // is not finite (never NaN in a number-typed field)
+      ...(timestamps ? { timestamps } : {}),
     }
   }
-
-  // Spec price_mid_scaling: mid of a one-sided book against the live side
-  const midPrice = bidPrice === 0 ? askPrice : askPrice === 0 ? bidPrice : (bidPrice + askPrice) / 2
 
   const bidSize = parseNumeric(record[BID_SIZE_INDEX])
   const askSize = parseNumeric(record[ASK_SIZE_INDEX])
@@ -83,10 +93,9 @@ export const quoteRecordToResult = (
     return {
       statusCode: 502,
       errorMessage: `Bid volume: ${record[BID_SIZE_INDEX]} or Ask volume: ${record[ASK_SIZE_INDEX]} for ${base} is invalid.`,
-      // Same error-shape rule: the provider timestamp rides the error result
-      timestamps: {
-        providerIndicatedTimeUnixMs: parseNumeric(record[QUOTE_TIME_INDEX]),
-      },
+      // Same error-shape rule: the provider timestamp rides the error result —
+      // omitted when that time is not finite
+      ...(timestamps ? { timestamps } : {}),
     }
   }
 
@@ -104,9 +113,7 @@ export const quoteRecordToResult = (
       ask_price: askPrice,
       ask_volume: askVolume,
     },
-    timestamps: {
-      providerIndicatedTimeUnixMs: parseNumeric(record[QUOTE_TIME_INDEX]),
-    },
+    ...(timestamps ? { timestamps } : {}),
   }
 }
 

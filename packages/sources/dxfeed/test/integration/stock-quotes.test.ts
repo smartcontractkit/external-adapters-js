@@ -82,6 +82,21 @@ setFeedData('Quote', 'ONE:USLF24', [
   'V',
 ])
 
+// Malformed record: invalid price ("NaN") AND a nonnumeric time — nothing
+// about it is usable as a number-typed report field (plan item: never emit
+// NaN in a number-typed field)
+setFeedData('Quote', 'BADT:USLF24', [
+  'Quote',
+  'BADT:USLF24',
+  'not-a-time',
+  'NaN',
+  190.05,
+  100,
+  200,
+  'V',
+  'V',
+])
+
 const quoteRequest = (from: string, extra?: Record<string, unknown>) => ({
   endpoint: 'stock_quotes',
   from,
@@ -293,5 +308,21 @@ describe('stock_quotes endpoint semantics on the dxLink transport', () => {
         providerIndicatedTimeUnixMs: 1760000004000,
       },
     })
+  })
+
+  it('emits no providerIndicatedTimeUnixMs on a 502 whose record time is nonnumeric — never NaN, never null', async () => {
+    // Plan item (never emit NaN in a number-typed field): the BADT record is
+    // malformed on both counts — the JSON string "NaN" bid price AND a
+    // nonnumeric time. The 502 error result must omit
+    // timestamps.providerIndicatedTimeUnixMs entirely (a serialized NaN or an
+    // explicit null in the report field is exactly what this forbids —
+    // timestamps.providerIndicatedTimeUnixMs is a downstream report field per
+    // spec intake.purposeHowUsed). A valid-time 502 record keeps its numeric
+    // provider timestamp: the NVOL=true flow above asserts that half.
+    const response = await requestUntilCached(quoteRequest('BADT'))
+    expect(response.statusCode).toBe(502)
+    expect(response.json()).toMatchObject({ errorMessage: expect.anything() })
+    const timestamps = response.json().timestamps ?? {}
+    expect(timestamps.providerIndicatedTimeUnixMs).toBeUndefined()
   })
 })

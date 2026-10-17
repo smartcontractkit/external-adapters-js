@@ -84,18 +84,26 @@ export class TradeProcessor {
     if (latestTime !== undefined && time < latestTime) {
       return undefined
     }
-    this.latestTimeBySymbol[eventSymbol] = time
+
+    // The record's own time rides every result for downstream freshness
+    // reporting — but NEVER as NaN (a missing/nonnumeric provider time would
+    // otherwise serialize as null in a number-typed field): a record with no
+    // finite time carries no provider timestamp and advances no cursor
+    const timestamps = Number.isFinite(time) ? { providerIndicatedTimeUnixMs: time } : undefined
 
     if (Number.isNaN(price)) {
+      // Invalid records return the 502 path WITHOUT advancing the newest-time
+      // cursor: a malformed newer record must not suppress valid older records
       return {
         statusCode: 502,
         errorMessage: `Price: ${record[PRICE_INDEX]} for ${base} is invalid.`,
-        // The record's own time rides even the invalid result, so downstream
-        // freshness reporting keeps the provider timestamp of this record
-        timestamps: {
-          providerIndicatedTimeUnixMs: time,
-        },
+        ...(timestamps ? { timestamps } : {}),
       }
+    }
+
+    // The cursor advances only after the price validation passes
+    if (Number.isFinite(time)) {
+      this.latestTimeBySymbol[eventSymbol] = time
     }
 
     return {
@@ -103,9 +111,7 @@ export class TradeProcessor {
       data: {
         result: price,
       },
-      timestamps: {
-        providerIndicatedTimeUnixMs: time,
-      },
+      ...(timestamps ? { timestamps } : {}),
     }
   }
 }

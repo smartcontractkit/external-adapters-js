@@ -11,6 +11,7 @@ import {
   validateWsApiEndpoint,
   wsEnvInputValidationError,
 } from '../../src/config'
+import { endpoint as priceEndpoint } from '../../src/endpoint/price'
 import { endpoint as stockQuotesEndpoint } from '../../src/endpoint/stock-quotes'
 
 // The pre-migration demo REST endpoint startup warning logs from the config
@@ -107,48 +108,62 @@ describe('config surface (plan CONF-ENV-MISMATCH: the spec lists four environmen
   })
 })
 
-describe('WS settings at startup (API_USERNAME/API_PASSWORD/WS_API_ENDPOINT required — spec environment_variables)', () => {
-  it('fails startup when API_USERNAME and API_PASSWORD are unset', () => {
+describe('WS settings are request-scoped, not startup-required (round-2: the preserved REST-only deployment must boot without them)', () => {
+  it('passes config.validate() with WS_API_ENDPOINT, API_USERNAME and API_PASSWORD all unset', () => {
+    withSettings(
+      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: undefined },
+      () => expect(() => config.validate()).not.toThrow(),
+    )
+  })
+
+  it('a REST-path price request succeeds with the WS settings unset (owner decision rest_transport_scope=keep_untouched: defaultTransport rest is untouched)', () => {
     withSettings(
       { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: undefined },
       () => {
-        expect(() => config.validate()).toThrow(/API_USERNAME/)
-        expect(() => config.validate()).toThrow(/API_PASSWORD/)
+        // The framework resolves transportName (rest) BEFORE customInputValidation;
+        // the WS env checks only ever gate requests whose resolved transport is ws
+        const restRequest = { requestContext: { transportName: 'rest' } } as any
+        expect(
+          priceEndpoint.customInputValidation?.(restRequest, config.settings as any),
+        ).toBeUndefined()
       },
     )
   })
 
-  it('fails startup when only API_USERNAME is unset', () => {
+  it('a WS request without credentials fails at request time with wsEnvInputValidationError (spec breaking_change_env_checks: require the pair on WS paths)', () => {
+    withSettings(
+      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: undefined },
+      () => {
+        const error = wsEnvInputValidationError({} as any)
+        expect(error?.statusCode).toBe(400)
+        expect(error?.message).toContain('API_USERNAME')
+
+        // Through both endpoints' customInputValidation on the ws path
+        for (const endpoint of [priceEndpoint, stockQuotesEndpoint]) {
+          const wsError = endpoint.customInputValidation?.(wsRequest, {} as any)
+          expect(wsError?.statusCode).toBe(400)
+          expect(wsError?.message).toContain('API_USERNAME')
+        }
+      },
+    )
+  })
+
+  it('a WS_API_ENDPOINT containing /chainlink/cometd or ://user:pass@ is still rejected at startup WHEN present', () => {
     withSettings(
       {
         API_USERNAME: undefined,
-        API_PASSWORD: CREDENTIALS.API_PASSWORD,
-        WS_API_ENDPOINT: DXLINK_ENDPOINT,
-      },
-      () => expect(() => config.validate()).toThrow(/API_USERNAME/),
-    )
-  })
-
-  it('fails startup when only API_PASSWORD is unset', () => {
-    withSettings(
-      {
-        API_USERNAME: CREDENTIALS.API_USERNAME,
         API_PASSWORD: undefined,
-        WS_API_ENDPOINT: DXLINK_ENDPOINT,
+        WS_API_ENDPOINT: 'wss://dxlink.fake.test/chainlink/cometd',
       },
-      () => expect(() => config.validate()).toThrow(/API_PASSWORD/),
+      () => expect(() => config.validate()).toThrow(/cometd/),
     )
-  })
-
-  it('fails startup when WS_API_ENDPOINT is unset (spec environment_variables: required=true)', () => {
     withSettings(
       {
-        API_USERNAME: CREDENTIALS.API_USERNAME,
-        API_PASSWORD: CREDENTIALS.API_PASSWORD,
-        WS_API_ENDPOINT: undefined,
-        API_ENDPOINT: 'https://rest.fake.test/webservice/rest',
+        API_USERNAME: undefined,
+        API_PASSWORD: undefined,
+        WS_API_ENDPOINT: 'wss://user:pass@dxlink.fake.test/dxlink-chainlink',
       },
-      () => expect(() => config.validate()).toThrow(/WS_API_ENDPOINT/),
+      () => expect(() => config.validate()).toThrow(/credentials/),
     )
   })
 
@@ -162,8 +177,8 @@ describe('WS settings at startup (API_USERNAME/API_PASSWORD/WS_API_ENDPOINT requ
 describe('WS-path request-time credential gate (spec breaking_change_env_checks: require API_USERNAME and API_PASSWORD to be set (WS paths))', () => {
   it('rejects a stock_quotes request without credentials with a validation error naming the pair', () => {
     // stock_quotes is WS-only: its customInputValidation repeats the
-    // credential-pair check with a clear per-request error — defense in depth
-    // behind the startup AdapterConfig requirement
+    // credential-pair check with a clear per-request error — this request-time
+    // gate is the enforcement point (the settings are not startup-required)
     const error = stockQuotesEndpoint.customInputValidation?.(wsRequest, {
       WS_API_ENDPOINT: DXLINK_ENDPOINT,
     } as any)
@@ -254,6 +269,62 @@ describe('WS_API_ENDPOINT scheme gate (round-2 security: a plaintext ws:// endpo
 
   it('still rejects ws:// on a non-loopback hostname other than the provider host too (the allowance is loopback-only)', () => {
     expect(validateWsApiEndpoint('ws://dxlink.fake.test/dxlink-chainlink')).toContain('wss://')
+  })
+})
+
+/**
+ * Runs fn with NODE_ENV set to the given value, restoring it afterwards. The
+ * ws:// loopback allowance keys off NODE_ENV — the existing process signal, no
+ * new config key (round-2).
+ */
+const withNodeEnv = (nodeEnv: string | undefined, fn: () => void): void => {
+  const oldNodeEnv = process.env.NODE_ENV
+  try {
+    if (nodeEnv === undefined) {
+      delete process.env.NODE_ENV
+    } else {
+      process.env.NODE_ENV = nodeEnv
+    }
+    fn()
+  } finally {
+    if (oldNodeEnv === undefined) {
+      delete process.env.NODE_ENV
+    } else {
+      process.env.NODE_ENV = oldNodeEnv
+    }
+  }
+}
+
+describe('ws:// loopback allowance is a test-run-only bypass (round-2: a deployed boot pointed at ws:// would send the Basic auth header in plaintext)', () => {
+  it('accepts ws://localhost when NODE_ENV is test', () => {
+    withNodeEnv('test', () =>
+      expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe(''),
+    )
+  })
+
+  it('rejects ws://localhost when NODE_ENV is production', () => {
+    withNodeEnv('production', () =>
+      expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toContain('wss://'),
+    )
+  })
+
+  it('rejects ws://localhost when NODE_ENV is unset', () => {
+    withNodeEnv(undefined, () =>
+      expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toContain('wss://'),
+    )
+  })
+
+  it('rejects the other loopback hosts outside a test run too — the allowance is test-run-scoped, not just loopback-scoped', () => {
+    withNodeEnv('production', () => {
+      expect(validateWsApiEndpoint('ws://127.0.0.1:9090/dxlink-chainlink')).toContain('wss://')
+      expect(validateWsApiEndpoint('ws://[::1]:9090/dxlink-chainlink')).toContain('wss://')
+    })
+  })
+
+  it('wss:// stays accepted in all modes', () => {
+    for (const nodeEnv of ['test', 'production', undefined]) {
+      withNodeEnv(nodeEnv, () => expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe(''))
+    }
   })
 })
 
