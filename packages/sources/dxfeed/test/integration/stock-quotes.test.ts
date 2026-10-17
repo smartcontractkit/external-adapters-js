@@ -7,7 +7,7 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { mockDxLinkServer, setFeedData } from './fixtures'
+import { mockDxLinkServer, setFeedData, setFeedDataRecords } from './fixtures'
 
 // Captured before FakeTimers.install() replaces the global timers: the mock
 // socket bridge delivers frames on a REAL timer, so every step yields fake
@@ -19,6 +19,17 @@ const WS_URL = 'ws://localhost:9097/dxlink-chainlink'
 // Spec stock_quotes sample_response Quote field order:
 // eventType,eventSymbol,time,bidPrice,askPrice,bidSize,askSize,
 // bidExchangeCode,askExchangeCode
+
+// Spec stock_quotes sample_response, second FEED_DATA frame: TWO Quote records
+// for AAPL:USLF24 concatenated in one COMPACT frame (the acceptAggregationPeriod=1
+// batching). Overrides the single-record fixtures.ts frame for this suite: the
+// adapter processes both records and serves the LAST (freshest) one per wire
+// key — the spec endpoint_request_response_examples response derives from that
+// second record (providerIndicatedTimeUnixMs 1760000001000).
+setFeedDataRecords('Quote', 'AAPL:USLF24', [
+  ['Quote', 'AAPL:USLF24', 1760000000000, 189.95, 190.05, 100, 200, 'V', 'V'],
+  ['Quote', 'AAPL:USLF24', 1760000001000, 189.9, 190.1, 50, 80, 'O', 'O'],
+])
 
 // requireVolume flow: prices valid, both volumes the JSON string "NaN"
 setFeedData('Quote', 'NVOL:USLF24', [
@@ -160,19 +171,23 @@ describe('stock_quotes endpoint semantics on the dxLink transport', () => {
   })
 
   it('serves the spec example response', async () => {
-    const response = await requestUntilCached(aaplRequest)
+    // Spec endpoint_request_response_examples (stock_quotes, AAPL): the golden
+    // example response derives from the freshest (second) record of the spec
+    // sample_response's two-record Quote frame — mid 190.0 over bid 189.90 /
+    // ask 190.10, volumes 50/80, providerIndicatedTimeUnixMs 1760000001000
+    const response = await requestUntilCached(aaplRequest, 1760000001000)
     expect(response.statusCode).toBe(200)
     expect(response.json()).toMatchObject({
       data: {
         mid_price: 190.0,
-        bid_price: 189.95,
-        bid_volume: 100,
-        ask_price: 190.05,
-        ask_volume: 200,
+        bid_price: 189.9,
+        bid_volume: 50,
+        ask_price: 190.1,
+        ask_volume: 80,
       },
       result: 190.0,
       timestamps: {
-        providerIndicatedTimeUnixMs: 1760000000000,
+        providerIndicatedTimeUnixMs: 1760000001000,
       },
     })
   })
