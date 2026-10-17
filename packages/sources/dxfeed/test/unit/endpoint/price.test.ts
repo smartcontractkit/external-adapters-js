@@ -153,6 +153,71 @@ describe('Trade / TradeETH newest-time selection (spec price endpoint descriptio
     expect(late).toBeUndefined()
   })
 
+  it('serves a newer regular-hours Trade when TradeETH arrived first (newest time wins in either direction)', () => {
+    // Extended-hours TradeETH at t=1760000000000 (the spec sample time)
+    tradeProcessor.processRecord(
+      'TradeETH',
+      [
+        'TradeETH',
+        'AAPL:USLF24',
+        1760000000000,
+        190.02,
+        5,
+        12346,
+        'V',
+        0.13,
+        5000001,
+        999000001,
+        'DOWN',
+        true,
+      ],
+      { base: 'AAPL:USLF24', quote: 'USD' } as any,
+    )
+
+    // A newer regular-hours Trade record wins the newest-time selection
+    const newer = tradeProcessor.processRecord(
+      'Trade',
+      [
+        'Trade',
+        'AAPL:USLF24',
+        1760000000500,
+        189.98,
+        10,
+        12348,
+        'V',
+        0.12,
+        5000000,
+        999000000,
+        'UP',
+        false,
+      ],
+      { base: 'AAPL:USLF24', quote: 'USD' } as any,
+    ) as any
+    expect(newer.result).toBe(189.98)
+    expect(newer.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000500 })
+
+    // An older, late-arriving TradeETH record is dropped, not served
+    const late = tradeProcessor.processRecord(
+      'TradeETH',
+      [
+        'TradeETH',
+        'AAPL:USLF24',
+        1760000000200,
+        190.5,
+        3,
+        12347,
+        'V',
+        0.14,
+        5000002,
+        999000002,
+        'DOWN',
+        true,
+      ],
+      { base: 'AAPL:USLF24', quote: 'USD' } as any,
+    )
+    expect(late).toBeUndefined()
+  })
+
   it('serves an equal-time record like the newest one (reference_ea: preserve endpoint semantics exactly)', () => {
     // The reference price transport ignores only strictly older records
     // (updatedTime[base] > time): a record tying the newest time is served
