@@ -72,12 +72,12 @@ export const validateWsApiEndpoint = (value?: string): string => {
 /**
  * Spec data_source_authentication breaking_change_env_checks: the Basic
  * credential pair (the dxLink AUTH message exists but is NOT used; credentials
- * ride the Authorization header only). The spec scopes the credential
- * requirement to WS paths — a REST-only deployment (defaultTransport rest,
- * owner decision rest_transport_scope=keep_untouched) must boot without them —
- * so the AdapterConfig does NOT mark the WS settings required. The WS-path
- * request-time check below enforces all three WS settings on requests whose
- * resolved transport is ws, with a clear per-request error.
+ * ride the Authorization header only). The spec declares API_USERNAME,
+ * API_PASSWORD and WS_API_ENDPOINT required=true, so the AdapterConfig marks
+ * all three required and a deployment boots only with them set. The WS-path
+ * request-time check below re-enforces the pair on requests whose resolved
+ * transport is ws, with a clear per-request error — defense in depth behind
+ * the startup gate.
  */
 export const missingWsCredentials = (settings: {
   API_USERNAME?: string
@@ -123,25 +123,26 @@ export const wsEnvInputValidationError = (settings: {
 
 export const config = new AdapterConfig(
   {
-    // The WS settings are NOT required at the AdapterConfig level: the spec
-    // scopes the credential/endpoint requirement to WS paths, and a REST-only
-    // deployment (3 lastTradedPrice params fall through to defaultTransport
-    // rest, owner decision rest_transport_scope=keep_untouched) must boot
-    // without them. wsEnvInputValidationError enforces all three on requests
-    // whose resolved transport is ws
+    // The spec declares API_USERNAME, API_PASSWORD and WS_API_ENDPOINT
+    // required=true: the WS paths cannot run without them, so the config
+    // enforces them at startup. wsEnvInputValidationError re-enforces them on
+    // requests whose resolved transport is ws
     API_USERNAME: {
       description: 'username for dxfeed API',
       type: 'string',
+      required: true,
       sensitive: false,
     },
     API_PASSWORD: {
       description: 'password for dxfeed API',
       type: 'string',
+      required: true,
       sensitive: true,
     },
     WS_API_ENDPOINT: {
       description: 'The websocket url for dxfeed (dxLink endpoint)',
       type: 'string',
+      required: true,
       sensitive: true,
       validate: {
         meta: {

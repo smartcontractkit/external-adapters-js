@@ -87,7 +87,7 @@ describe('WS-path credential requirement (spec: require API_USERNAME and API_PAS
     ).toBeUndefined()
   })
 
-  it('rejects a ws-path request missing any of the three WS settings (plan item 3: WS_API_ENDPOINT, API_USERNAME and API_PASSWORD are enforced by the WS-path input validation, not the startup config)', () => {
+  it('rejects a ws-path request missing any of the three WS settings (defense in depth behind the startup AdapterConfig required gate)', () => {
     // Nothing set at all
     for (const endpoint of [priceEndpoint, stockQuotesEndpoint]) {
       const error = endpoint.customInputValidation?.(wsRequest, {} as any)

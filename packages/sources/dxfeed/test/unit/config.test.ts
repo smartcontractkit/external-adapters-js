@@ -124,47 +124,52 @@ const withRecordingLogger = (fn: (validate: typeof validateWsApiEndpoint) => voi
   return warnings
 }
 
-describe('credential pair NOT required at startup (plan item 3: the WS credential requirement moves from AdapterConfig required flags into WS-path input validation; REST-only deployments boot)', () => {
-  it('boots with no API_USERNAME, API_PASSWORD, or WS_API_ENDPOINT at all', () => {
+describe('WS settings required at startup (spec environment_variables: API_USERNAME, API_PASSWORD, WS_API_ENDPOINT required=true)', () => {
+  it('fails startup when API_USERNAME, API_PASSWORD, and WS_API_ENDPOINT are all unset', () => {
     withSettings(
       { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: undefined },
       () => {
-        expect(() => config.initialize()).not.toThrow()
-        expect(() => config.validate()).not.toThrow()
+        expect(() => config.validate()).toThrow(/API_USERNAME/)
+        expect(() => config.validate()).toThrow(/API_PASSWORD/)
+        expect(() => config.validate()).toThrow(/WS_API_ENDPOINT/)
       },
     )
   })
 
-  it('passes config validation when both credentials are unset (WS_API_ENDPOINT clean)', () => {
-    withSettings(
-      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: DXLINK_ENDPOINT },
-      () => expect(() => config.validate()).not.toThrow(),
-    )
-  })
-
-  it('passes config validation when only API_USERNAME is unset', () => {
+  it('fails startup when only API_USERNAME is unset', () => {
     withSettings(
       {
         API_USERNAME: undefined,
         API_PASSWORD: CREDENTIALS.API_PASSWORD,
         WS_API_ENDPOINT: DXLINK_ENDPOINT,
       },
-      () => expect(() => config.validate()).not.toThrow(),
+      () => expect(() => config.validate()).toThrow(/API_USERNAME/),
     )
   })
 
-  it('passes config validation when only API_PASSWORD is unset', () => {
+  it('fails startup when only API_PASSWORD is unset', () => {
     withSettings(
       {
         API_USERNAME: CREDENTIALS.API_USERNAME,
         API_PASSWORD: undefined,
         WS_API_ENDPOINT: DXLINK_ENDPOINT,
       },
-      () => expect(() => config.validate()).not.toThrow(),
+      () => expect(() => config.validate()).toThrow(/API_PASSWORD/),
     )
   })
 
-  it('passes config validation when both credentials are set with the dxLink endpoint', () => {
+  it('fails startup when only WS_API_ENDPOINT is unset', () => {
+    withSettings(
+      {
+        API_USERNAME: CREDENTIALS.API_USERNAME,
+        API_PASSWORD: CREDENTIALS.API_PASSWORD,
+        WS_API_ENDPOINT: undefined,
+      },
+      () => expect(() => config.validate()).toThrow(/WS_API_ENDPOINT/),
+    )
+  })
+
+  it('passes startup when all three are set with a clean dxLink WS_API_ENDPOINT', () => {
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () =>
       expect(() => config.validate()).not.toThrow(),
     )
