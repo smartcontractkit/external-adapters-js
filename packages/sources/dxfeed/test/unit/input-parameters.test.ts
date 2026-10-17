@@ -4,17 +4,17 @@ import { endpoint, priceInputParameters } from '../../src/endpoint/price'
 LoggerFactoryProvider.set()
 
 /**
- * Plan round-2 item 3 proving test: `transport` is a framework-RESERVED routing
- * param — the router reads data.transport for routing WITHOUT a declaration in
- * the InputParameters. The former type-cast smuggling of the key into the
- * runtime definition is gone.
+ * Spec price input_parameters: base, quote and the optional `transport` param
+ * ("ws" (dxLink stream) or "rest"; overnight streams pin "ws").
  */
 describe('price endpoint input parameters (spec external_adapter_specifications.price input_parameters)', () => {
-  it('does NOT declare the framework-reserved transport routing param (round-2 item 3 fix)', () => {
+  it('declares the optional transport param with the ws|rest options', () => {
     const definition = priceInputParameters.definition as any
 
-    expect(definition.transport).toBeUndefined()
-    expect(Object.keys(definition).sort()).toEqual(['base', 'quote'])
+    expect(definition.transport).toBeDefined()
+    expect(definition.transport.options).toEqual(['ws', 'rest'])
+    expect(definition.transport.required).toBe(false)
+    expect(Object.keys(definition).sort()).toEqual(['base', 'quote', 'transport'])
   })
 
   it('declares base (required, spec alias set) and quote (required, "to" alias) alongside transport', () => {

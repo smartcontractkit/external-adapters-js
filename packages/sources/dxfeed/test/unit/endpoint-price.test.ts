@@ -34,8 +34,7 @@ describe('input validation (spec external_adapter_specifications.price input_par
     ).toBe('rest')
 
     // Any other value resolves to no registered route and must be rejected —
-    // transport is a framework-reserved ROUTING param (round-2 item 3): the
-    // registered transportRoutes own its validation, not the InputParameters
+    // the router owns the ws|rest check against the registered transportRoutes
     expect(() =>
       endpoint.getTransportNameForRequest(
         { body: { data: { base: 'AAPL', quote: 'USD', transport: 'graphql' } } } as any,
@@ -44,10 +43,11 @@ describe('input validation (spec external_adapter_specifications.price input_par
     ).toThrow(/No transport found for key "graphql"/)
   })
 
-  it('declares base (spec alias set) and quote ("to") only — no transport declaration — with defaultTransport "rest"', () => {
+  it('declares base (spec alias set), quote ("to") and the optional transport param (ws|rest) with defaultTransport "rest"', () => {
     const definition = priceInputParameters.definition as any
-    expect(Object.keys(definition).sort()).toEqual(['base', 'quote'])
-    expect(definition.transport).toBeUndefined()
+    expect(Object.keys(definition).sort()).toEqual(['base', 'quote', 'transport'])
+    expect(definition.transport.options).toEqual(['ws', 'rest'])
+    expect(definition.transport.required).toBe(false)
     expect(definition.base.required).toBe(true)
     expect(definition.base.aliases).toEqual(['from', 'symbol', 'asset', 'coin', 'ticker', 'market'])
     expect(definition.quote.required).toBe(true)

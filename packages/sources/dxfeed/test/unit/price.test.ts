@@ -16,10 +16,11 @@ describe('price endpoint wiring (spec external_adapter_specifications.price)', (
     expect(endpoint.aliases).toEqual(['crypto', 'stock', 'forex', 'commodities'])
   })
 
-  it('does not declare the framework-reserved transport routing param; base and quote only (round-2 item 3 fix)', () => {
+  it('declares base, quote and the optional transport param (ws|rest options)', () => {
     const definition = priceInputParameters.definition as any
-    expect(Object.keys(definition).sort()).toEqual(['base', 'quote'])
-    expect(definition.transport).toBeUndefined()
+    expect(Object.keys(definition).sort()).toEqual(['base', 'quote', 'transport'])
+    expect(definition.transport.options).toEqual(['ws', 'rest'])
+    expect(definition.transport.required).toBe(false)
     // Spec price input_parameters: base with the shared alias set, required
     expect(definition.base.required).toBe(true)
     expect(definition.base.aliases).toEqual(['from', 'symbol', 'asset', 'coin', 'ticker', 'market'])

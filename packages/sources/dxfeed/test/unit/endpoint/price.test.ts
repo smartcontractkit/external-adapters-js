@@ -50,9 +50,8 @@ describe('price endpoint (spec data_source_endpoints price / ws transport)', () 
   })
 
   it('rejects transport values outside the registered ws|rest routes with a 400', () => {
-    // Spec: transport is optional, "ws" (dxLink) or "rest". It is a
-    // framework-reserved routing param (not re-declarable in InputParameters
-    // in 2.20.0), validated against the registered transportRoutes.
+    // Spec: transport is optional, "ws" (dxLink) or "rest"; a value outside the
+    // registered transportRoutes is rejected by the router
     const badRequest = {
       body: { data: { base: 'AAPL', quote: 'USD', transport: 'graphql' } },
     } as any
@@ -61,10 +60,11 @@ describe('price endpoint (spec data_source_endpoints price / ws transport)', () 
     )
   })
 
-  it('declares exactly the spec input parameters: base (aliased) and quote — transport stays an undeclared framework-reserved routing param', () => {
+  it('declares exactly the spec input parameters: base (aliased), quote and the optional transport param (ws|rest)', () => {
     const definition = priceInputParameters.definition as any
-    expect(Object.keys(definition).sort()).toEqual(['base', 'quote'])
-    expect(definition.transport).toBeUndefined()
+    expect(Object.keys(definition).sort()).toEqual(['base', 'quote', 'transport'])
+    expect(definition.transport.options).toEqual(['ws', 'rest'])
+    expect(definition.transport.required).toBe(false)
     // Spec price input_parameters: base with the shared alias set, required
     expect(definition.base.required).toBe(true)
     expect(definition.base.aliases).toEqual(['from', 'symbol', 'asset', 'coin', 'ticker', 'market'])

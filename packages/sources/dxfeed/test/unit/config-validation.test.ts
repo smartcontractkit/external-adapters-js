@@ -107,8 +107,8 @@ const withRecordingLogger = (fn: (validate: typeof validateWsApiEndpoint) => voi
       LoggerFactoryProvider: typeof LoggerFactoryProvider
     }
     // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-    const { validateWsApiEndpoint: freshValidate } =
-      require('../../src/config') as typeof import('../../src/config')
+    const configModule = require('../../src/config') as typeof import('../../src/config')
+    const { validateWsApiEndpoint: freshValidate } = configModule
 
     framework.LoggerFactoryProvider.set(recordingFactory)
     try {
