@@ -1,0 +1,36 @@
+{
+  "status": "OK",
+  "Trade": {
+    "AAPL:USLF24": {
+      "eventSymbol": "AAPL:USLF24",
+      "eventTime": 1760000000000,
+      "time": 1760000000000,
+      "timeNanoPart": 0,
+      "sequence": 12345,
+      "exchangeCode": "V",
+      "price": 189.98,
+      "change": 0.12,
+      "size": 10,
+      "dayVolume": 5000000,
+      "dayTurnover": 999000000,
+      "tickDirection": "UP",
+      "extendedTradingHours": false
+    }
+  },
+  "Quote": {
+    "USO/USD:AFX": {
+      "eventSymbol": "USO/USD:AFX",
+      "eventTime": 1760000000000,
+      "timeNanoPart": 0,
+      "bidTime": 1760000000000,
+      "bidExchangeCode": "V",
+      "bidPrice": 189.9,
+      "bidSize": 50,
+      "askTime": 1760000000000,
+      "askExchangeCode": "V",
+      "askPrice": 190.1,
+      "askSize": 80,
+      "sequence": 12345
+    }
+  }
+}

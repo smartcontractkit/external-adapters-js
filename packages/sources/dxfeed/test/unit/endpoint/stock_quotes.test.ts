@@ -3,6 +3,7 @@ import overrides from '../../../src/config/overrides.json'
 import { endpoint } from '../../../src/endpoint/stock-quotes'
 import { quoteRecordToResult } from '../../../src/transport/stock-quotes'
 import { DxLinkFeed, DxLinkFeedDeps } from '../../../src/transport/ws'
+import frames from '../fixtures/dxlink-frames.json'
 
 LoggerFactoryProvider.set()
 
@@ -10,7 +11,41 @@ LoggerFactoryProvider.set()
 const SPEC_RECORD = ['Quote', 'AAPL:USLF24', 1760000000000, 189.95, 190.05, 100, 200, 'V', 'V']
 const PARAMS = { base: 'AAPL:USLF24', quote: 'USD', requireVolume: false, isOvernight: false }
 
+/** The production quote-feed wiring: real ticker mapper + real record mapper. */
+const quoteFeed = () => {
+  const feed = new DxLinkFeed({
+    formatTickers: (params: any) => [{ symbol: String(params.base).toUpperCase(), type: 'Quote' }],
+    processRecord: (eventType, record, params: any) =>
+      eventType === 'Quote' ? quoteRecordToResult(record, params) : undefined,
+  } as DxLinkFeedDeps<any>)
+  feed.onFeedConfig(frames.quoteFeedConfig.eventFields)
+  feed.subscriptionMessages({ desired: [PARAMS], new: [PARAMS], stale: [] })
+  return feed
+}
+
 describe('stock_quotes endpoint (spec response_mapping)', () => {
+  it('returns the spec example response for the spec example request (AAPL override -> AAPL:USLF24)', () => {
+    // Spec endpoint_request_response_examples[0]: request {"from": "AAPL",
+    // "to": "USD", overrides {"dxfeed": {"AAPL": "AAPL:USLF24"}}} resolves onto
+    // the subscribed AAPL:USLF24 Quote stream, and the sample frame's newest
+    // record is the served quote — the exact spec example response values
+    const results = quoteFeed().message(frames.stockQuotesFrame as any)
+
+    expect(results).toHaveLength(1)
+    const response = results[0] as any
+    expect(response.data).toEqual({
+      mid_price: 190.0,
+      bid_price: 189.9,
+      bid_volume: 50,
+      ask_price: 190.1,
+      ask_volume: 80,
+    })
+    expect(response.result).toBe(190.0)
+    expect(response.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000001000 })
+    expect(response.statusCode).toBeUndefined()
+    expect(response.errorMessage).toBeUndefined()
+  })
+
   it('maps the spec Quote record to the spec example response (mid 190.0, bid 189.95/100, ask 190.05/200)', () => {
     const response = quoteRecordToResult(SPEC_RECORD, PARAMS) as any
 
