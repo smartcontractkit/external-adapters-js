@@ -20,10 +20,11 @@ import { mockDxLinkServer, sendToLastConnection, setFeedData } from './dxlink-mo
  *
  * Aggregated Quote frames are LAST-RECORD-WINS (plan round item: with
  * acceptAggregationPeriod=1 the newest record in the frame is the freshest
- * quote — the same rule the Trade processor applies). The generated golden
- * vector (test/golden/stock_quotes.test.ts, agent-unwritable) still asserts
- * the FIRST-record mapping of this frame; that vector is a verifier artifact
- * flagged for spec-owner re-gating — do not read it as the mapping rule.
+ * quote — the same rule the Trade processor applies). This matches the
+ * generated golden vector (test/golden/stock_quotes.test.ts, agent-unwritable):
+ * its expectedResponse is the newest (second) record of the spec frame —
+ * bid 189.90 / ask 190.10, volumes 50/80, providerIndicatedTime 1760000001000 —
+ * so the spec example, the golden vector and the served behavior all agree.
  */
 
 // Captured before FakeTimers.install() replaces the global timers: the mock
@@ -166,9 +167,9 @@ describe('spec sample_response frames on the dxLink transport', () => {
   it('serves the newest record of the spec verbatim two-record frame through the real request path', async () => {
     // Last-record-wins: the newest Quote record of the aggregated sample frame
     // is served — bid 189.90/50, ask 190.10/80, providerIndicatedTime
-    // 1760000001000. Its mid 190.0 equals the spec example's mid_price; the
-    // first-record mapping the agent-unwritable golden vector asserts is a
-    // verifier artifact flagged for spec-owner re-gating.
+    // 1760000001000. Its mid 190.0 equals the spec example's mid_price; this is
+    // exactly the response the generated golden vector
+    // (test/golden/stock_quotes.test.ts) expects for this frame.
     const response = await testAdapter.request(quoteRequest('AAPL'))
     expect(response.statusCode).toBe(200)
     expect(response.json()).toMatchObject({
