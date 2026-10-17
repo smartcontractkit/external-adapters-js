@@ -7,7 +7,7 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { mockDxLinkServer, sendToLastConnection, setFeedData } from './fixtures'
+import { mockDxLinkServer, sendToLastConnection, setFeedData } from './dxlink-mocks'
 
 /**
  * Plan item proving test (OPDATA-9200): the mock server sends the spec

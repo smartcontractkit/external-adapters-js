@@ -7,7 +7,12 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { dxLinkConnections, mockDxLinkServer, setFeedData, setFeedDataRecords } from './fixtures'
+import {
+  dxLinkConnections,
+  mockDxLinkServer,
+  setFeedData,
+  setFeedDataRecords,
+} from './dxlink-mocks'
 
 // Captured before FakeTimers.install() replaces the global timers: the mock
 // socket bridge delivers frames on a REAL timer, so every step yields fake

@@ -1,5 +1,5 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import { quoteRecordToResult } from '../../../src/transport/stock-quotes'
+import { quoteRecordToResult, quoteTickers } from '../../../src/transport/stock-quotes'
 import { DxLinkFeed, DxLinkFeedDeps } from '../../../src/transport/ws'
 import frames from '../fixtures/dxlink-frames.json'
 
@@ -96,5 +96,16 @@ describe('stock_quotes over dxLink (spec data_source_endpoints.stock_quotes)', (
         requireVolume: false,
       } as any),
     ).toBeDefined()
+  })
+
+  it('subscribes the post-override ticker, suffixes passing through as given (spec base description: overrides.dxfeed resolves AAPL to AAPL:USLF24)', () => {
+    // The framework applies the spec example request's overrides.dxfeed
+    // ({AAPL: 'AAPL:USLF24'}) before the transport sees params; the transport
+    // then subscribes the resolved DP ticker upper-cased, suffix intact
+    expect(quoteTickers('AAPL:USLF24')).toEqual([{ symbol: 'AAPL:USLF24', type: 'Quote' }])
+
+    // Suffixes pass through as given (:OCEA, :XNYM), case-normalised
+    expect(quoteTickers('cl:ocea')).toEqual([{ symbol: 'CL:OCEA', type: 'Quote' }])
+    expect(quoteTickers('cl:xnym')).toEqual([{ symbol: 'CL:XNYM', type: 'Quote' }])
   })
 })

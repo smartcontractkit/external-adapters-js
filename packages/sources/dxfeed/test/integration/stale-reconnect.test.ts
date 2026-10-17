@@ -7,7 +7,7 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { dxLinkConnections, mockDxLinkServer, setFeedData } from './fixtures'
+import { dxLinkConnections, mockDxLinkServer, setFeedData } from './dxlink-mocks'
 
 /**
  * Owner-decision proving flows (OPDATA-9200, served behaviorally

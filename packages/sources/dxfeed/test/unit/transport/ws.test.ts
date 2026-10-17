@@ -1,6 +1,11 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import { transport as priceWsTransport } from '../../../src/transport/price-ws'
 import { transport as stockQuotesTransport } from '../../../src/transport/stock-quotes'
-import { DxLinkMessage, openDxLinkConnection } from '../../../src/transport/ws'
+import {
+  DxLinkMessage,
+  dxLinkConnectionOptions,
+  openDxLinkConnection,
+} from '../../../src/transport/ws'
 import frames from '../fixtures/dxlink-frames.json'
 
 // The feed logs via the framework logger, which needs a factory set
@@ -43,6 +48,199 @@ const makeConnection = () => {
     },
   }
 }
+
+const QUOTE_PARAMS = { base: 'AAPL:USLF24', quote: 'USD', requireVolume: false, isOvernight: false }
+
+describe('open handler emits the dxLink handshake and resolves only on FEED_CONFIG (spec primary_command)', () => {
+  it('sends SETUP, CHANNEL_REQUEST, FEED_SETUP in order with the spec message shapes', async () => {
+    const connection = makeConnection()
+    const opened = (stockQuotesTransport as any).config.handlers.open(connection, {
+      adapterSettings: {},
+    })
+    connection.emit(frames.quoteFeedConfig)
+    await opened
+
+    expect(connection.sent.map((m) => m.type)).toEqual(['SETUP', 'CHANNEL_REQUEST', 'FEED_SETUP'])
+
+    const [setup, channelRequest, feedSetup] = connection.sent
+    // Spec primary_command message 1
+    expect(setup).toEqual({
+      type: 'SETUP',
+      channel: 0,
+      version: '0.1-js/1.0.0',
+      keepaliveTimeout: 60,
+      acceptKeepaliveTimeout: 60,
+    })
+    // Spec primary_command message 2 — the FEED channel id stays on the
+    // transport instance (channel 1)
+    expect(channelRequest).toEqual({
+      type: 'CHANNEL_REQUEST',
+      channel: 1,
+      service: 'FEED',
+      parameters: { contract: 'AUTO' },
+    })
+    // Spec primary_command message 3 — COMPACT format and the ticket field lists
+    expect(feedSetup).toEqual({
+      type: 'FEED_SETUP',
+      channel: 1,
+      acceptAggregationPeriod: 1,
+      acceptDataFormat: 'COMPACT',
+      acceptEventFields: {
+        Quote: frames.quoteFeedConfig.eventFields.Quote,
+        Trade: frames.priceFeedConfig.eventFields.Trade,
+        TradeETH: frames.priceFeedConfig.eventFields.TradeETH,
+      },
+    })
+  })
+
+  it('stays pending until FEED_CONFIG arrives, then resolves', async () => {
+    const connection = makeConnection()
+    const opened = (stockQuotesTransport as any).config.handlers.open(connection, {
+      adapterSettings: {},
+    })
+
+    connection.emit(frames.keepaliveFrame)
+    expect(
+      await Promise.race([
+        opened.then(() => 'resolved' as const),
+        Promise.resolve().then(() => 'pending' as const),
+      ]),
+    ).toBe('pending')
+
+    connection.emit(frames.quoteFeedConfig)
+    await expect(opened).resolves.toBeUndefined()
+  })
+})
+
+describe('Authorization header is Basic base64(API_USERNAME:API_PASSWORD) (spec data_source_authentication.usage.handshake_header)', () => {
+  it('is built by the transport options() hook from the adapter settings', () => {
+    expect(
+      (stockQuotesTransport as any).config.options({
+        adapterSettings: { API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' },
+      }),
+    ).toEqual({
+      headers: {
+        Authorization: `Basic ${Buffer.from('dxfeed-user:dxfeed-pass').toString('base64')}`,
+      },
+    })
+
+    expect(
+      dxLinkConnectionOptions({ API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' }),
+    ).toEqual({
+      headers: {
+        Authorization: `Basic ${Buffer.from('dxfeed-user:dxfeed-pass').toString('base64')}`,
+      },
+    })
+  })
+})
+
+describe('customSubscriptionMessages emits FEED_SUBSCRIPTION add/remove per (symbol, eventType) (spec primary_command)', () => {
+  it('adds the post-override Quote ticker on channel 1', () => {
+    const messages = (stockQuotesTransport as any).config.builders.customSubscriptionMessages(
+      {},
+      { desired: [QUOTE_PARAMS], new: [QUOTE_PARAMS], stale: [] },
+    )
+    expect(messages).toEqual([
+      {
+        type: 'FEED_SUBSCRIPTION',
+        channel: 1,
+        add: [{ symbol: 'AAPL:USLF24', type: 'Quote' }],
+      },
+    ])
+  })
+
+  it('removes a stale ticker with the matching (symbol, eventType) entry', () => {
+    const messages = (stockQuotesTransport as any).config.builders.customSubscriptionMessages(
+      {},
+      { desired: [], new: [], stale: [{ ...QUOTE_PARAMS, base: 'TSLA' }] },
+    )
+    expect(messages).toEqual([
+      {
+        type: 'FEED_SUBSCRIPTION',
+        channel: 1,
+        remove: [{ symbol: 'TSLA', type: 'Quote' }],
+      },
+    ])
+  })
+
+  it('adds both Trade and TradeETH entries for an :USLF24 price ticker (owner decision match_reference)', () => {
+    const messages = (priceWsTransport as any).config.builders.customSubscriptionMessages(
+      {},
+      {
+        desired: [{ base: 'AAPL:USLF24', quote: 'USD' }],
+        new: [{ base: 'AAPL:USLF24', quote: 'USD' }],
+        stale: [],
+      },
+    )
+    expect(messages).toEqual([
+      {
+        type: 'FEED_SUBSCRIPTION',
+        channel: 1,
+        add: [
+          { symbol: 'AAPL:USLF24', type: 'Trade' },
+          { symbol: 'AAPL:USLF24', type: 'TradeETH' },
+        ],
+      },
+    ])
+  })
+})
+
+describe('handlers.message parses COMPACT FEED_DATA and filters control frames (spec sample_response)', () => {
+  const openFeed = async () => {
+    const connection = makeConnection()
+    const opened = (stockQuotesTransport as any).config.handlers.open(connection, {
+      adapterSettings: {},
+    })
+    connection.emit(frames.quoteFeedConfig)
+    await opened
+    ;(stockQuotesTransport as any).config.builders.customSubscriptionMessages(
+      {},
+      { desired: [QUOTE_PARAMS], new: [QUOTE_PARAMS], stale: [] },
+    )
+  }
+
+  it('parses the spec Quote frame to the mapped fields, serving the newest record of the aggregated frame', async () => {
+    await openFeed()
+
+    const results = (stockQuotesTransport as any).config.handlers.message(frames.stockQuotesFrame)
+
+    expect(results).toHaveLength(1)
+    // The transport wraps the raw result as {params, response}
+    expect(results[0].params).toEqual(QUOTE_PARAMS)
+    // The spec sample frame concatenates two records; the LAST one is the
+    // freshest quote: mid 190, bid 189.90/50, ask 190.10/80
+    expect(results[0].response.data).toEqual({
+      mid_price: 190.0,
+      bid_price: 189.9,
+      bid_volume: 50,
+      ask_price: 190.1,
+      ask_volume: 80,
+    })
+    // Spec stock_quotes data_freshness.timestamp_field = time
+    expect(results[0].response.timestamps).toEqual({
+      providerIndicatedTimeUnixMs: 1760000001000,
+    })
+  })
+
+  it('maps the JSON string "NaN" to an invalid (502) result', async () => {
+    await openFeed()
+
+    const results = (stockQuotesTransport as any).config.handlers.message(
+      frames.stockQuotesInvalidFrame,
+    )
+    expect(results).toHaveLength(1)
+    expect(results[0].response.statusCode).toBe(502)
+    expect(results[0].response.errorMessage).toContain('invalid')
+  })
+
+  it('emits no data for ERROR, KEEPALIVE and CHANNEL_CLOSED frames', async () => {
+    await openFeed()
+
+    for (const frame of [frames.errorFrame, frames.keepaliveFrame, frames.channelClosedFrame]) {
+      expect((stockQuotesTransport as any).config.handlers.message(frame)).toEqual([])
+    }
+  })
+})
 
 describe('open-gate listener lifetime (round-2 item 2: the transport handler is the sole frame parser after open)', () => {
   it('leaves exactly the transport message listener registered once the open gate resolves', async () => {

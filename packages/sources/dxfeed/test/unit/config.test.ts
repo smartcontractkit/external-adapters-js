@@ -2,7 +2,13 @@ import { LoggerFactory, LoggerFactoryProvider } from '@chainlink/external-adapte
 import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as fs from 'fs'
 import * as path from 'path'
-import { config, missingWsCredentials, validateWsApiEndpoint } from '../../src/config'
+import {
+  config,
+  missingWsCredentials,
+  REST_API_ENDPOINT_DEFAULT,
+  validateWsApiEndpoint,
+  wsEnvInputValidationError,
+} from '../../src/config'
 import { endpoint as stockQuotesEndpoint } from '../../src/endpoint/stock-quotes'
 
 // The pre-migration demo REST endpoint startup warning logs from the config
@@ -330,6 +336,48 @@ describe('loopback warning content (plan item 4: the flag is for local test brid
       expect(validate(DXLINK_ENDPOINT)).toBe('')
     })
     expect(warnings).toHaveLength(0)
+  })
+})
+
+describe('REST contract untouched by the migration (spec environment_variables.API_ENDPOINT)', () => {
+  it('keeps the API_ENDPOINT default at the REST webservice URL', () => {
+    withSettings({ API_ENDPOINT: undefined }, () =>
+      // The default value itself lives only in src/config (test_fake_urls)
+      expect(config.settings.API_ENDPOINT).toBe(REST_API_ENDPOINT_DEFAULT),
+    )
+  })
+})
+
+describe('credential censoring (spec: WS_API_ENDPOINT and API_PASSWORD are sensitive)', () => {
+  it('never embeds the password or the endpoint value in a breaking-change error message', () => {
+    const withCreds = {
+      WS_API_ENDPOINT: 'wss://dxfeed-user:dxfeed-pass@dxlink.fake.test/chainlink/cometd',
+      API_USERNAME: 'dxfeed-user',
+      API_PASSWORD: 'dxfeed-pass',
+    }
+
+    // The cometd rejection fires first; whichever check rejects, neither the
+    // password nor the sensitive endpoint value may leak into the message
+    const error = wsEnvInputValidationError(withCreds)
+    expect(error).toBeDefined()
+    expect(error?.message).toMatch(/cometd/)
+    expect(error?.message).not.toContain('dxfeed-pass')
+    expect(error?.message).not.toContain(withCreds.WS_API_ENDPOINT)
+
+    // The embedded-credential rejection censors the values too
+    const embedded = wsEnvInputValidationError({
+      ...withCreds,
+      WS_API_ENDPOINT: 'wss://dxfeed-user:dxfeed-pass@dxlink.fake.test/dxlink-chainlink',
+    })
+    expect(embedded?.message).toMatch(/credentials/)
+    expect(embedded?.message).not.toContain('dxfeed-pass')
+
+    // And the validate fn used at startup behaves the same
+    const startup = validateWsApiEndpoint(
+      'wss://dxfeed-user:dxfeed-pass@dxlink.fake.test/chainlink/cometd',
+    )
+    expect(startup).toMatch(/cometd/)
+    expect(startup).not.toContain('dxfeed-pass')
   })
 })
 

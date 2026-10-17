@@ -7,7 +7,7 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { mockDxLinkServer } from './fixtures'
+import { mockDxLinkServer, setFeedDataRecords } from './dxlink-mocks'
 
 /**
  * OPDATA-9200 definition of done, mock-only (owner decision
@@ -52,14 +52,23 @@ const stockExampleRequest = {
   },
 }
 
-// Spec endpoint_request_response_examples responses
+// The spec stock_quotes sample_response's verbatim FEED_DATA frame: ONE COMPACT
+// row concatenating TWO Quote records (9 eventFields each). The spec golden
+// example response derives from the newest (second) record — bid 189.90/50,
+// ask 190.10/80, time 1760000001000.
+setFeedDataRecords('Quote', 'AAPL:USLF24', [
+  ['Quote', 'AAPL:USLF24', 1760000000000, 189.95, 190.05, 100, 200, 'V', 'V'],
+  ['Quote', 'AAPL:USLF24', 1760000001000, 189.9, 190.1, 50, 80, 'O', 'O'],
+])
+
+// Spec endpoint_request_response_examples responses, verbatim
 const stockQuotesExampleResponse = {
   data: {
     mid_price: 190.0,
-    bid_price: 189.95,
-    bid_volume: 100,
-    ask_price: 190.05,
-    ask_volume: 200,
+    bid_price: 189.9,
+    bid_volume: 50,
+    ask_price: 190.1,
+    ask_volume: 80,
   },
   result: 190.0,
   statusCode: 200,
@@ -129,8 +138,9 @@ describe('acceptance: spec examples field-for-field (mock-only)', () => {
     expect(response.statusCode).toBe(stockQuotesExampleResponse.statusCode)
 
     const actual = response.json()
-    // Spec example response timestamps, verbatim
-    expect(actual.timestamps.providerIndicatedTimeUnixMs).toBe(1760000000000)
+    // Spec example response timestamps, verbatim: the golden example derives
+    // from the newest (second) record of the spec sample_response frame
+    expect(actual.timestamps.providerIndicatedTimeUnixMs).toBe(1760000001000)
     delete actual.meta
     delete actual.timestamps
     expect(actual).toEqual(stockQuotesExampleResponse)

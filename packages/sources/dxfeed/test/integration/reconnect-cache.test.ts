@@ -7,7 +7,7 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { dxLinkConnections, mockDxLinkServer, setFeedData } from './fixtures'
+import { dxLinkConnections, mockDxLinkServer, setFeedData } from './dxlink-mocks'
 
 /**
  * Plan proving test (round1-cache-and-freshness): after the channel closes, a

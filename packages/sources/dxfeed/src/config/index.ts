@@ -121,6 +121,9 @@ export const wsEnvInputValidationError = (settings: {
   return undefined
 }
 
+/** Spec environment_variables.API_ENDPOINT default — unchanged by the migration. */
+export const REST_API_ENDPOINT_DEFAULT = 'https://tools.dxfeed.com/webservice/rest'
+
 export const config = new AdapterConfig(
   {
     // The spec declares API_USERNAME, API_PASSWORD and WS_API_ENDPOINT
@@ -164,13 +167,13 @@ export const config = new AdapterConfig(
     API_ENDPOINT: {
       description: 'The API url for dxfeed',
       type: 'string',
-      default: 'https://tools.dxfeed.com/webservice/rest',
+      default: REST_API_ENDPOINT_DEFAULT,
       validate: {
         meta: {
           details: 'API endpoint warning',
         },
         fn: (value?: string): string => {
-          if (value === 'https://tools.dxfeed.com/webservice/rest') {
+          if (value === REST_API_ENDPOINT_DEFAULT) {
             logger.warn(
               `Using demo endpoint: https://tools.dxfeed.com/webservice/rest (Please do not use in production!)`,
             )
