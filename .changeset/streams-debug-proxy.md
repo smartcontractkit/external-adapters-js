@@ -1,0 +1,53 @@
+---
+'@chainlink/aleno-adapter': minor
+'@chainlink/allium-state-adapter': minor
+'@chainlink/anchorage-adapter': minor
+'@chainlink/backed-fi-adapter': minor
+'@chainlink/blocksize-capital-adapter': minor
+'@chainlink/blocksize-capital-state-adapter': minor
+'@chainlink/cfbenchmarks-adapter': minor
+'@chainlink/coingecko-adapter': minor
+'@chainlink/coinmetrics-adapter': minor
+'@chainlink/coinpaprika-adapter': minor
+'@chainlink/coinpaprika-state-adapter': minor
+'@chainlink/data-engine-adapter': minor
+'@chainlink/deutsche-boerse-adapter': minor
+'@chainlink/dlc-cbtc-por-adapter': minor
+'@chainlink/dxfeed-adapter': minor
+'@chainlink/elwood-adapter': minor
+'@chainlink/expand-network-adapter': minor
+'@chainlink/finage-adapter': minor
+'@chainlink/finalto-adapter': minor
+'@chainlink/finnhub-adapter': minor
+'@chainlink/generic-api-adapter': minor
+'@chainlink/glv-token-adapter': minor
+'@chainlink/gmx-tokens-adapter': minor
+'@chainlink/gsr-adapter': minor
+'@chainlink/hastra-adapter': minor
+'@chainlink/ice-adapter': minor
+'@chainlink/lo-tech-adapter': minor
+'@chainlink/market-status-adapter': minor
+'@chainlink/matrixdock-adapter': minor
+'@chainlink/matrixedlink-state-adapter': minor
+'@chainlink/mobula-state-adapter': minor
+'@chainlink/nav-fund-services-adapter': minor
+'@chainlink/ncfx-adapter': minor
+'@chainlink/nobi-adapter': minor
+'@chainlink/nomia2-adapter': minor
+'@chainlink/onre-adapter': minor
+'@chainlink/proof-of-reserves-v2-adapter': minor
+'@chainlink/r25-adapter': minor
+'@chainlink/solana-functions-adapter': minor
+'@chainlink/superstate-adapter': minor
+'@chainlink/t-rize-proof-of-insurance-adapter': minor
+'@chainlink/the-network-firm-adapter': minor
+'@chainlink/tickerlayer-adapter': minor
+'@chainlink/tiingo-adapter': minor
+'@chainlink/tiingo-state-adapter': minor
+'@chainlink/tp-adapter': minor
+'@chainlink/truflation-adapter': minor
+'@chainlink/view-function-adapter': minor
+'@chainlink/view-function-multi-chain-adapter': minor
+---
+
+Proxy JS adapter debug endpoints (e.g. /debug/settings/raw) through the streams adapter

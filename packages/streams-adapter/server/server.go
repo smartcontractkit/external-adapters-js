@@ -9,6 +9,7 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
@@ -165,6 +166,8 @@ func (s *Server) setupRoutes() {
 	group.GET("/health", s.healthHandler)
 	// Cache debug endpoint
 	group.GET("/cache", s.cacheHandler)
+	// JS adapter debug endpoints (e.g. /debug/settings/raw)
+	group.GET("/debug/*path", s.debugProxyHandler)
 	// Main adapter endpoint
 	group.POST("", s.adapterHandler)
 }
@@ -441,6 +444,28 @@ func (s *Server) respondWithObservation(c *gin.Context, item *types.CacheItem) {
 		Timestamps:   obs.Timestamps,
 		StatusCode:   http.StatusBadGateway,
 	})
+}
+
+// debugProxyHandler forwards a GET request for a debug endpoint to the JS adapter
+// and returns its response unchanged.
+func (s *Server) debugProxyHandler(c *gin.Context) {
+	url := fmt.Sprintf("http://%s:%s%s", s.config.EAHost, s.config.EAPort, c.Request.URL.RequestURI())
+	req, err := http.NewRequestWithContext(c.Request.Context(), http.MethodGet, url, nil)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	resp, err := s.httpClient.Do(req)
+	if err != nil {
+		// The error contains the request path, so remove line breaks to prevent log injection
+		errMsg := strings.ReplaceAll(strings.ReplaceAll(err.Error(), "\n", ""), "\r", "")
+		s.logger.Error("Failed to proxy debug request to JS adapter", "error", errMsg)
+		c.JSON(http.StatusBadGateway, gin.H{"error": "JS adapter unavailable"})
+		return
+	}
+	defer resp.Body.Close()
+
+	c.DataFromReader(resp.StatusCode, resp.ContentLength, resp.Header.Get("Content-Type"), resp.Body, nil)
 }
 
 // postToAdapter marshals data as {"data": ...} and POSTs it to the JS adapter.
