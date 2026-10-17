@@ -5,6 +5,7 @@ import {
   TradeProcessor,
   tradeTickers,
 } from '../../../src/transport/price-ws'
+import type { DxLinkRecord } from '../../../src/transport/ws'
 import { DxLinkFeed, DxLinkFeedDeps } from '../../../src/transport/ws'
 import frames from '../fixtures/dxlink-frames.json'
 
@@ -260,21 +261,25 @@ describe('invalid records do not advance the newest-time cursor (round-2: a malf
 
 describe('the 502 result never carries a NaN or null providerIndicatedTimeUnixMs (round-2: nonnumeric time must not serialize NaN into a number-typed field)', () => {
   // Spec price Trade record layout with the time field (index 2) unusable and
-  // the price (index 3) the JSON string "NaN" -> invalid
-  const tradeAt = (time: unknown) => [
-    'Trade',
-    'AAPL:USLF24',
-    time,
-    'NaN',
-    10,
-    12345,
-    'V',
-    0.12,
-    5000000,
-    999000000,
-    'UP',
-    false,
-  ]
+  // the price (index 3) the JSON string "NaN" -> invalid. The time argument is
+  // deliberately loose (the missing-time case feeds a hole at index 2, so the
+  // literal widens to unknown[]), hence the assertion to the DxLinkRecord
+  // wire-record type the COMPACT parser accepts.
+  const tradeAt = (time: unknown): DxLinkRecord =>
+    [
+      'Trade',
+      'AAPL:USLF24',
+      time,
+      'NaN',
+      10,
+      12345,
+      'V',
+      0.12,
+      5000000,
+      999000000,
+      'UP',
+      false,
+    ] as DxLinkRecord
 
   it('a NaN-price Trade with a MISSING time field yields a 502 with no NaN/null provider timestamp', () => {
     const result = new TradeProcessor().processRecord(
@@ -317,7 +322,7 @@ describe('the 502 result never carries a NaN or null providerIndicatedTimeUnixMs
 
   it('a valid-price Trade with a nonnumeric time is served without a NaN provider timestamp (never emit NaN in a number-typed field)', () => {
     const processor = new TradeProcessor()
-    const record = [
+    const record: DxLinkRecord = [
       'Trade',
       'AAPL:USLF24',
       'not-a-number',

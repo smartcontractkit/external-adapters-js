@@ -14,9 +14,9 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['API_USERNAME'] = 'fake-api-username'
     process.env['API_PASSWORD'] = 'fake-api-password'
-    // Set so the WS-path request-time env gate can never trip; only the REST
-    // transport is exercised here (the WS-only settings are not
-    // startup-required — see rest-only-boot.test.ts)
+    // Startup-required (spec environment_variables, plan CONF-ENV-MISMATCH)
+    // and set so the WS-path request-time env gate can never trip; only the
+    // REST transport is exercised here
     process.env['WS_API_ENDPOINT'] = 'wss://dxlink.localhost.invalid/dxlink-chainlink'
     // Fake REST host (test_fake_urls): the untouched REST transport reads
     // API_ENDPOINT from settings, so the nock interceptor in rest-mocks.ts is

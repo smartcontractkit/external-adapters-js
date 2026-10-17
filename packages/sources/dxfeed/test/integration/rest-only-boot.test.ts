@@ -13,10 +13,13 @@ import { FAKE_REST_ENDPOINT, mockBatchedRestTransport } from './rest-mocks'
  * price request with no transport param still boots the adapter and serves
  * through the nock-intercepted fake REST host, never the WS transport.
  *
- * The boot runs with the WS-only settings (API_USERNAME, API_PASSWORD,
- * WS_API_ENDPOINT) UNSET: config.validate() must pass without them — they gate
- * the WS request path, not startup (the WS-only-settings plan item) — so a
- * REST-only deployment boots on API_ENDPOINT alone.
+ * The boot env supplies the startup-required WS settings (API_USERNAME,
+ * API_PASSWORD, WS_API_ENDPOINT — spec environment_variables mark all three
+ * required: true, plan CONF-ENV-MISMATCH: the dxLink Basic auth handshake
+ * needs them). That does not route anything through WS: the requests below
+ * carry no transport param, fall through to defaultTransport "rest", and the
+ * nock interception on the fake REST host is the proof the untouched REST
+ * transport served them.
  */
 
 describe('REST transport untouched (defaultTransport rest, no transport param)', () => {
@@ -26,14 +29,14 @@ describe('REST transport untouched (defaultTransport rest, no transport param)',
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    // Delete the WS-only settings outright: the REST-only deployment sets none
-    // of them, and the boot must pass config.validate() without them (the
-    // WS-only-settings plan item). A WS-path request under this env fails at
-    // request time (wsEnvInputValidationError) — proven in
-    // breaking-change-config.test.ts.
-    for (const name of ['API_USERNAME', 'API_PASSWORD', 'WS_API_ENDPOINT']) {
-      delete process.env[name]
-    }
+    // Startup-required WS settings (spec environment_variables, plan
+    // CONF-ENV-MISMATCH): the boot fails without them, so the mocked values
+    // satisfy config.validate() — they open no connection here (the REST-path
+    // requests below never touch the WS transport)
+    process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
+    process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
+    process.env['WS_API_ENDPOINT'] =
+      process.env['WS_API_ENDPOINT'] ?? 'wss://dxlink.fake.test/dxlink-chainlink'
     // Fake REST host (test_fake_urls): the untouched REST transport reads
     // API_ENDPOINT from settings, so the nock interceptor in rest-mocks.ts is
     // what the requests hit — never a real provider host

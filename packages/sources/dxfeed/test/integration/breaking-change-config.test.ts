@@ -11,12 +11,13 @@ import {
  * mock server involved.
  *
  * The startup rejections are the two URL checks (legacy cometd path, embedded
- * ://user:pass@ credentials) and they run only when WS_API_ENDPOINT is set.
- * The WS-only settings (API_USERNAME, API_PASSWORD, WS_API_ENDPOINT) are NOT
- * startup-required — config.validate() must pass without them so the preserved
- * REST-only deployment boots (owner decision rest_transport_scope); they gate
- * the WS request path instead, through wsEnvInputValidationError at request
- * time, which this suite also proves end-to-end.
+ * ://user:pass@ credentials) plus requiredness: the spec environment_variables
+ * mark API_USERNAME, API_PASSWORD and WS_API_ENDPOINT required (plan
+ * CONF-ENV-MISMATCH — the dxLink WS transport cannot build the Basic auth
+ * handshake header or the endpoint URL without them), so a boot without any
+ * one of the three fails config.validate() at import. The URL checks keep
+ * gating every boot that points WS_API_ENDPOINT at the deleted cometd
+ * transport or embeds credentials in it.
  */
 
 // Fake hosts only (test_fake_urls): the real provider hosts live only in
@@ -78,45 +79,38 @@ describe('breaking-change config rejections at startup', () => {
     ).rejects.toThrow(/credentials/)
   })
 
-  it('boots with the WS-only settings unset and gates WS-path requests at request time instead', async () => {
-    // Plan item (config-sessions): API_USERNAME, API_PASSWORD and
-    // WS_API_ENDPOINT are WS-request-path requirements, not startup ones —
-    // config.validate() must pass with all three unset so the preserved
-    // REST-only deployment boots. The spec's request-time gate
-    // (wsEnvInputValidationError) then fails every WS-path request with a 400
-    // until the environment supplies them.
-    const booted = await boot({
-      API_USERNAME: undefined,
-      API_PASSWORD: undefined,
-      WS_API_ENDPOINT: undefined,
-      API_ENDPOINT: FAKE_REST,
-    })
-    // Boot itself is the first assertion: a startup-required rejection would
-    // have rejected the import above.
-    expect(booted.adapter).toBeDefined()
+  it('rejects startup when API_USERNAME, API_PASSWORD or WS_API_ENDPOINT is unset (spec environment_variables: all three required)', async () => {
+    // Plan CONF-ENV-MISMATCH proving flow: the dxLink WS transport needs the
+    // Basic auth handshake pair and the dxLink URL, so the spec marks all
+    // three required — a boot without any one of them must fail the import
+    // with a validation error naming the missing variable. Each is probed
+    // alone, with the other two set to valid values.
+    await expect(
+      boot({
+        API_USERNAME: undefined,
+        API_PASSWORD: CREDENTIALS.API_PASSWORD,
+        WS_API_ENDPOINT: FAKE_DXLINK,
+        API_ENDPOINT: FAKE_REST,
+      }),
+    ).rejects.toThrow(/API_USERNAME/)
 
-    // jest.resetModules() in boot() means the harness helpers must come from
-    // the SAME fresh registry (see the control test below).
-    const { TestAdapter: FreshTestAdapter } = await import(
-      '@chainlink/external-adapter-framework/util/testing-utils'
-    )
-    const testAdapter = await FreshTestAdapter.startWithMockedCache(booted.adapter, {
-      testAdapter: {} as TestAdapter<never>,
-    })
+    await expect(
+      boot({
+        API_USERNAME: CREDENTIALS.API_USERNAME,
+        API_PASSWORD: undefined,
+        WS_API_ENDPOINT: FAKE_DXLINK,
+        API_ENDPOINT: FAKE_REST,
+      }),
+    ).rejects.toThrow(/API_PASSWORD/)
 
-    // Every WS-path request fails fast at request time (400, the
-    // wsEnvInputValidationError credential message) — no transport attempt,
-    // no hang. Both WS endpoints probe the gate.
-    for (const data of [
-      { endpoint: 'price', base: 'AAPL', to: 'USD', transport: 'ws' },
-      { endpoint: 'stock_quotes', from: 'AAPL', to: 'USD' },
-    ]) {
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(400)
-      expect(JSON.stringify(response.json())).toMatch(/API_USERNAME/)
-    }
-
-    await testAdapter.api.close()
+    await expect(
+      boot({
+        API_USERNAME: CREDENTIALS.API_USERNAME,
+        API_PASSWORD: CREDENTIALS.API_PASSWORD,
+        WS_API_ENDPOINT: undefined,
+        API_ENDPOINT: FAKE_REST,
+      }),
+    ).rejects.toThrow(/WS_API_ENDPOINT/)
   })
 
   it('boots with a clean dxLink config (valid startup control)', async () => {

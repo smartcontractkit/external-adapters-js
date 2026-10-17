@@ -81,13 +81,11 @@ export const validateWsApiEndpoint = (value?: string): string => {
  * Spec data_source_authentication breaking_change_env_checks: the Basic
  * credential pair (the dxLink AUTH message exists but is NOT used; credentials
  * ride the Authorization header only). API_USERNAME, API_PASSWORD and
- * WS_API_ENDPOINT are required ONLY on the WS request path
- * (breaking_change_env_checks: "require API_USERNAME and API_PASSWORD to be
- * set (WS paths)"): the startup config leaves them unset-able so the preserved
- * REST-only deployment (owner decision rest_transport_scope=keep_untouched)
- * still boots — the WS-path request-time check below enforces the pair plus
- * WS_API_ENDPOINT presence on requests whose resolved transport is ws, with a
- * clear per-request error.
+ * WS_API_ENDPOINT are declared required in the AdapterConfig below (spec
+ * environment_variables mark all three required: true — plan CONF-ENV-MISMATCH),
+ * so startup fails without them. This request-time check is kept as
+ * defense-in-depth: the endpoints' customInputValidation runs it on requests
+ * whose resolved transport is ws, with a clear per-request error.
  */
 export const missingWsCredentials = (settings: {
   API_USERNAME?: string
@@ -159,33 +157,34 @@ export class AdapterConfig<
 export const buildAdapterConfig = () =>
   new AdapterConfig(
     {
-      // The spec breaking_change_env_checks scope the credential pair and the
-      // WS endpoint to the WS paths ("require API_USERNAME and API_PASSWORD to
-      // be set (WS paths)"), so none of the three is startup-required: a
-      // REST-only deployment (owner decision rest_transport_scope=
-      // keep_untouched) boots and serves the defaultTransport rest without
-      // them. wsEnvInputValidationError enforces all three at request time on
-      // requests whose resolved transport is ws.
+      // Spec environment_variables mark API_USERNAME, API_PASSWORD and
+      // WS_API_ENDPOINT required: true (plan CONF-ENV-MISMATCH: the AdapterConfig
+      // must match the spec surface) — the dxLink WS transport cannot build the
+      // Basic auth handshake header or the endpoint URL without them, so startup
+      // fails when any is unset. The breaking-change env checks stay: the
+      // WS_API_ENDPOINT validate fn below rejects the legacy cometd path and
+      // embedded ://user:pass@ credentials, and wsEnvInputValidationError keeps
+      // gating requests whose resolved transport is ws.
       API_USERNAME: {
         description: 'username for dxfeed API',
         type: 'string',
-        required: false,
+        required: true,
         sensitive: false,
       },
       API_PASSWORD: {
         description: 'password for dxfeed API',
         type: 'string',
-        required: false,
+        required: true,
         sensitive: true,
       },
       WS_API_ENDPOINT: {
         description: 'The websocket url for dxfeed (dxLink endpoint)',
         type: 'string',
-        // Not startup-required (a REST-only deployment boots without it); the
-        // breaking-change validate fn below runs only when a value is set — it
-        // rejects the legacy cometd path and embedded credentials. Presence on
-        // the WS path is enforced by wsEnvInputValidationError at request time.
-        required: false,
+        // Startup-required (spec environment_variables.WS_API_ENDPOINT
+        // required: true, no default). The breaking-change validate fn below
+        // rejects the legacy cometd path and embedded credentials whenever a
+        // value is set.
+        required: true,
         sensitive: true,
         validate: {
           meta: {

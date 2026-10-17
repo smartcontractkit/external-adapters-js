@@ -108,68 +108,69 @@ describe('config surface (plan CONF-ENV-MISMATCH: the spec lists four environmen
   })
 })
 
-describe('WS settings are request-scoped, not startup-required (round-2: the preserved REST-only deployment must boot without them)', () => {
-  it('passes config.validate() with WS_API_ENDPOINT, API_USERNAME and API_PASSWORD all unset', () => {
-    withSettings(
-      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: undefined },
-      () => expect(() => config.validate()).not.toThrow(),
+describe('WS settings are startup-required (plan CONF-ENV-MISMATCH proving test: the spec environment_variables mark API_USERNAME, API_PASSWORD and WS_API_ENDPOINT required)', () => {
+  const STARTUP_ENV = { ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }
+
+  it('fails startup with a validation error naming API_USERNAME when it is unset', () => {
+    withSettings({ ...STARTUP_ENV, API_USERNAME: undefined }, () =>
+      expect(() => config.validate()).toThrow(/API_USERNAME/),
     )
   })
 
-  it('a REST-path price request succeeds with the WS settings unset (owner decision rest_transport_scope=keep_untouched: defaultTransport rest is untouched)', () => {
-    withSettings(
-      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: undefined },
-      () => {
-        // The framework resolves transportName (rest) BEFORE customInputValidation;
-        // the WS env checks only ever gate requests whose resolved transport is ws
-        const restRequest = { requestContext: { transportName: 'rest' } } as any
-        expect(
-          priceEndpoint.customInputValidation?.(restRequest, config.settings as any),
-        ).toBeUndefined()
-      },
+  it('fails startup with a validation error naming API_PASSWORD when it is unset', () => {
+    withSettings({ ...STARTUP_ENV, API_PASSWORD: undefined }, () =>
+      expect(() => config.validate()).toThrow(/API_PASSWORD/),
     )
   })
 
-  it('a WS request without credentials fails at request time with wsEnvInputValidationError (spec breaking_change_env_checks: require the pair on WS paths)', () => {
-    withSettings(
-      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: undefined },
-      () => {
-        const error = wsEnvInputValidationError({} as any)
-        expect(error?.statusCode).toBe(400)
-        expect(error?.message).toContain('API_USERNAME')
-
-        // Through both endpoints' customInputValidation on the ws path
-        for (const endpoint of [priceEndpoint, stockQuotesEndpoint]) {
-          const wsError = endpoint.customInputValidation?.(wsRequest, {} as any)
-          expect(wsError?.statusCode).toBe(400)
-          expect(wsError?.message).toContain('API_USERNAME')
-        }
-      },
+  it('fails startup with a validation error naming WS_API_ENDPOINT when it is unset', () => {
+    withSettings({ ...STARTUP_ENV, WS_API_ENDPOINT: undefined }, () =>
+      expect(() => config.validate()).toThrow(/WS_API_ENDPOINT/),
     )
   })
 
-  it('a WS_API_ENDPOINT containing /chainlink/cometd or ://user:pass@ is still rejected at startup WHEN present', () => {
+  it('passes startup when all three are set with a clean dxLink WS_API_ENDPOINT', () => {
+    withSettings(STARTUP_ENV, () => expect(() => config.validate()).not.toThrow())
+  })
+
+  it('a REST-path price request is still not gated by the WS env checks (the checks key off the resolved transport, ws only)', () => {
+    withSettings(STARTUP_ENV, () => {
+      // The framework resolves transportName (rest) BEFORE customInputValidation;
+      // the WS env checks only ever gate requests whose resolved transport is ws
+      const restRequest = { requestContext: { transportName: 'rest' } } as any
+      expect(
+        priceEndpoint.customInputValidation?.(restRequest, config.settings as any),
+      ).toBeUndefined()
+    })
+  })
+
+  it('a WS request without credentials still fails at request time (wsEnvInputValidationError kept as defense-in-depth on the WS path)', () => {
+    const error = wsEnvInputValidationError({} as any)
+    expect(error?.statusCode).toBe(400)
+    expect(error?.message).toContain('API_USERNAME')
+
+    // Through both endpoints' customInputValidation on the ws path
+    for (const endpoint of [priceEndpoint, stockQuotesEndpoint]) {
+      const wsError = endpoint.customInputValidation?.(wsRequest, {} as any)
+      expect(wsError?.statusCode).toBe(400)
+      expect(wsError?.message).toContain('API_USERNAME')
+    }
+  })
+
+  it('a WS_API_ENDPOINT containing /chainlink/cometd or ://user:pass@ is still rejected at startup (the breaking-change validate fns stay)', () => {
     withSettings(
       {
-        API_USERNAME: undefined,
-        API_PASSWORD: undefined,
+        ...STARTUP_ENV,
         WS_API_ENDPOINT: 'wss://dxlink.fake.test/chainlink/cometd',
       },
       () => expect(() => config.validate()).toThrow(/cometd/),
     )
     withSettings(
       {
-        API_USERNAME: undefined,
-        API_PASSWORD: undefined,
+        ...STARTUP_ENV,
         WS_API_ENDPOINT: 'wss://user:pass@dxlink.fake.test/dxlink-chainlink',
       },
       () => expect(() => config.validate()).toThrow(/credentials/),
-    )
-  })
-
-  it('passes startup when all three are set with a clean dxLink WS_API_ENDPOINT', () => {
-    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () =>
-      expect(() => config.validate()).not.toThrow(),
     )
   })
 })
@@ -177,8 +178,8 @@ describe('WS settings are request-scoped, not startup-required (round-2: the pre
 describe('WS-path request-time credential gate (spec breaking_change_env_checks: require API_USERNAME and API_PASSWORD to be set (WS paths))', () => {
   it('rejects a stock_quotes request without credentials with a validation error naming the pair', () => {
     // stock_quotes is WS-only: its customInputValidation repeats the
-    // credential-pair check with a clear per-request error — this request-time
-    // gate is the enforcement point (the settings are not startup-required)
+    // credential-pair check with a clear per-request error (defense-in-depth
+    // under the startup-required settings surface)
     const error = stockQuotesEndpoint.customInputValidation?.(wsRequest, {
       WS_API_ENDPOINT: DXLINK_ENDPOINT,
     } as any)
