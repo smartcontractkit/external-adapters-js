@@ -7,7 +7,13 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { clientFrameLog, mockDxLinkServer, setFeedData, setFeedDataRecords } from './dxlink-mocks'
+import {
+  clientFrameLog,
+  dxLinkConnections,
+  mockDxLinkServer,
+  setFeedData,
+  setFeedDataRecords,
+} from './dxlink-mocks'
 
 // Captured before FakeTimers.install() replaces the global timers: the mock
 // socket bridge delivers frames on a REAL timer, so every step yields fake
@@ -110,6 +116,34 @@ setFeedData('Trade', 'BARE', [
   999000000,
   'UP',
   false,
+])
+
+// Stale-serving flow: a symbol whose stream goes quiet after its one quote
+// (owner decision stale_quote_serving = serve_last_value_with_timestamp)
+setFeedData('Quote', 'QUIET:USLF24', [
+  'Quote',
+  'QUIET:USLF24',
+  1760000002000,
+  50.0,
+  50.2,
+  10,
+  20,
+  'V',
+  'V',
+])
+
+// Reconnect flow: a symbol whose quote the re-subscription picks up after the
+// re-handshake (owner decision reconnect_cache_behavior = serve_cached_last_value)
+setFeedData('Quote', 'RECONN:USLF24', [
+  'Quote',
+  'RECONN:USLF24',
+  1760000070000,
+  10.0,
+  11.0,
+  1,
+  2,
+  'V',
+  'V',
 ])
 
 // Spec endpoint_request_response_examples request (stock_quotes, AAPL)
@@ -294,6 +328,59 @@ describe('execute', () => {
         },
       })
     })
+
+    it('serves the last value with its original provider timestamp after the stream goes quiet', async () => {
+      // Owner decision stale_quote_serving = serve_last_value_with_timestamp:
+      // markets close, the Quote stream goes quiet, and the last value keeps
+      // flowing with its ORIGINAL provider timestamp — no max-age rejection,
+      // no error envelope (the staleness guard reports through metrics only)
+      const warmed = await requestUntilCached({
+        endpoint: 'stock_quotes',
+        from: 'QUIET',
+        to: 'USD',
+        overrides: {
+          dxfeed: {
+            QUIET: 'QUIET:USLF24',
+          },
+        },
+      })
+      expect(warmed.statusCode).toBe(200)
+      expect(warmed.json()).toMatchObject({
+        result: 50.1,
+        timestamps: { providerIndicatedTimeUnixMs: 1760000002000 },
+      })
+
+      // Several background cycles run with no frames pushed and no requests
+      for (let i = 0; i < 5; i++) {
+        await step()
+      }
+
+      const stale = await testAdapter.request({
+        endpoint: 'stock_quotes',
+        from: 'QUIET',
+        to: 'USD',
+        overrides: {
+          dxfeed: {
+            QUIET: 'QUIET:USLF24',
+          },
+        },
+      })
+      expect(stale.statusCode).toBe(200)
+      expect(stale.json()).toMatchObject({
+        data: {
+          mid_price: 50.1,
+          bid_price: 50.0,
+          bid_volume: 10,
+          ask_price: 50.2,
+          ask_volume: 20,
+        },
+        result: 50.1,
+        timestamps: {
+          providerIndicatedTimeUnixMs: 1760000002000,
+        },
+      })
+      expect(stale.json().errorMessage).toBeUndefined()
+    })
   })
 
   describe('price', () => {
@@ -356,6 +443,107 @@ describe('execute', () => {
         .flatMap((m: any) => m.add ?? [])
       expect(subscriptionAdds).toContainEqual({ symbol: 'BARE', type: 'Trade' })
       expect(subscriptionAdds).not.toContainEqual({ symbol: 'BARE', type: 'TradeETH' })
+    })
+  })
+
+  describe('reconnect cache behavior', () => {
+    // Connections closed by earlier reconnect rounds of this test; the array
+    // only grows (the framework re-registers each re-established connection),
+    // so closing is indexed to avoid closing an already-closed socket twice
+    let closedCount = 0
+    const closeOpenConnections = () => {
+      for (let i = closedCount; i < dxLinkConnections.length; i++) {
+        dxLinkConnections[i]?.close()
+      }
+      closedCount = dxLinkConnections.length
+    }
+
+    const reconnRequest = {
+      endpoint: 'stock_quotes',
+      from: 'RECONN',
+      to: 'USD',
+      overrides: {
+        dxfeed: {
+          RECONN: 'RECONN:USLF24',
+        },
+      },
+    }
+
+    it('serves the cached last value during the reconnect window, then the fresh value after the re-handshake', async () => {
+      // Owner decision reconnect_cache_behavior = serve_cached_last_value:
+      // dropping the dxLink connection forces the framework's reconnect +
+      // re-handshake (open gate) + resubscribe cycle, and a request arriving
+      // during that window returns the cached last value with its ORIGINAL
+      // provider timestamp, statusCode 200, and no error envelope
+      const warmed = await requestUntilCached(reconnRequest, 1760000070000)
+      expect(warmed.statusCode).toBe(200)
+      expect(warmed.json()).toMatchObject({
+        data: {
+          mid_price: 10.5,
+          bid_price: 10.0,
+          bid_volume: 1,
+          ask_price: 11.0,
+          ask_volume: 2,
+        },
+        result: 10.5,
+        timestamps: { providerIndicatedTimeUnixMs: 1760000070000 },
+      })
+
+      // Drop every open connection (both endpoint transports share the mock
+      // server) and wait for the framework to register a re-established one
+      const connectionsBefore = dxLinkConnections.length
+      closeOpenConnections()
+      for (let i = 0; i < 20 && dxLinkConnections.length <= connectionsBefore; i++) {
+        await step()
+      }
+      expect(dxLinkConnections.length).toBeGreaterThan(connectionsBefore)
+
+      // The reconnect-window request: the cached value, original timestamp
+      const duringReconnect = await testAdapter.request(reconnRequest)
+      expect(duringReconnect.statusCode).toBe(200)
+      expect(duringReconnect.json()).toMatchObject({
+        data: {
+          mid_price: 10.5,
+          bid_price: 10.0,
+          bid_volume: 1,
+          ask_price: 11.0,
+          ask_volume: 2,
+        },
+        result: 10.5,
+        timestamps: { providerIndicatedTimeUnixMs: 1760000070000 },
+      })
+      expect(duringReconnect.json().errorMessage).toBeUndefined()
+
+      // The quote the re-subscription receives after the NEXT re-handshake:
+      // the mock server re-delivers the currently registered frame on each
+      // FEED_SUBSCRIPTION re-add, so register the fresh quote, then drop the
+      // re-established connection to make the resubscription pick it up
+      setFeedData('Quote', 'RECONN:USLF24', [
+        'Quote',
+        'RECONN:USLF24',
+        1760000080000,
+        20.0,
+        21.0,
+        3,
+        4,
+        'V',
+        'V',
+      ])
+      closeOpenConnections()
+
+      const afterReconnect = await requestUntilCached(reconnRequest, 1760000080000)
+      expect(afterReconnect.statusCode).toBe(200)
+      expect(afterReconnect.json()).toMatchObject({
+        data: {
+          mid_price: 20.5,
+          bid_price: 20.0,
+          bid_volume: 3,
+          ask_price: 21.0,
+          ask_volume: 4,
+        },
+        result: 20.5,
+        timestamps: { providerIndicatedTimeUnixMs: 1760000080000 },
+      })
     })
   })
 })

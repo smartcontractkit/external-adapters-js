@@ -11,6 +11,7 @@ import {
   validateWsApiEndpoint,
   wsEnvInputValidationError,
 } from '../../src/config'
+import quoteEventSymbols from '../../src/config/quoteSymbols.json'
 import { endpoint as priceEndpoint } from '../../src/endpoint/price'
 import { endpoint as stockQuotesEndpoint } from '../../src/endpoint/stock-quotes'
 
@@ -437,5 +438,25 @@ describe('credential censoring (spec: WS_API_ENDPOINT and API_PASSWORD are sensi
   })
 })
 
-// The framework pin (spec framework_version 2.20.0) is proven in
-// test/unit/adapter.test.ts — the plan's round1-scaffold proving test.
+describe('adapter scaffold (plan round1-scaffold proving test)', () => {
+  it('pins @chainlink/external-adapter-framework at >= 2.20.0 (spec framework_version 2.20.0)', () => {
+    const packageJson = JSON.parse(
+      fs.readFileSync(path.resolve(__dirname, '../../package.json'), 'utf8'),
+    ) as { dependencies: Record<string, string> }
+    const version = packageJson.dependencies['@chainlink/external-adapter-framework']
+    expect(version).toBeDefined()
+    const [major, minor] = version.split('.').map(Number)
+    expect(major > 2 || (major === 2 && minor >= 20)).toBe(true)
+  })
+
+  it('resolves the price endpoint defaultTransport to rest (spec endpoints.price.default_transport)', () => {
+    expect(priceEndpoint.defaultTransport).toBe('rest')
+  })
+
+  it('loads config/quoteSymbols.json unchanged (owner decision rest_transport_scope = keep_untouched)', () => {
+    expect(quoteEventSymbols).toEqual({ 'USO/USD:AFX': true })
+  })
+})
+
+// The framework pin (spec framework_version 2.20.0) is also proven in
+// test/unit/adapter.test.ts.
