@@ -1,9 +1,17 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { endpoint, priceInputParameters } from '../../../src/endpoint/price'
-import { tradeProcessor, tradeTickers } from '../../../src/transport/price-ws'
+import { TradeProcessor, tradeTickers } from '../../../src/transport/price-ws'
 import frames from '../fixtures/dxlink-frames.json'
 
 LoggerFactoryProvider.set()
+
+// A fresh processor per test: TradeProcessor has no reset() (round-2 item 4
+// deleted the dead member) — isolation comes from a new instance, exactly like
+// production reconnect behavior (module-level latestTimeBySymbol state persists)
+let processor: TradeProcessor
+beforeEach(() => {
+  processor = new TradeProcessor()
+})
 
 describe('price endpoint (spec data_source_endpoints price / ws transport)', () => {
   it('exposes the price endpoint under all its spec aliases', () => {
@@ -53,17 +61,15 @@ describe('price endpoint (spec data_source_endpoints price / ws transport)', () 
     )
   })
 
-  it('declares exactly the spec input parameters: base (aliased), quote, and optional transport', () => {
+  it('declares exactly the spec input parameters: base (aliased) and quote — transport stays an undeclared framework-reserved routing param', () => {
     const definition = priceInputParameters.definition as any
-    expect(Object.keys(definition).sort()).toEqual(['base', 'quote', 'transport'])
+    expect(Object.keys(definition).sort()).toEqual(['base', 'quote'])
+    expect(definition.transport).toBeUndefined()
     // Spec price input_parameters: base with the shared alias set, required
     expect(definition.base.required).toBe(true)
     expect(definition.base.aliases).toEqual(['from', 'symbol', 'asset', 'coin', 'ticker', 'market'])
     expect(definition.quote.required).toBe(true)
     expect(definition.quote.aliases).toEqual(['to'])
-    // Spec price input_parameters: transport optional, "ws" (dxLink) or "rest"
-    expect(definition.transport.required).toBe(false)
-    expect(definition.transport.options).toEqual(['ws', 'rest'])
   })
 
   it('validates the spec example request, resolving the from/to aliases', () => {
@@ -79,10 +85,8 @@ describe('price endpoint (spec data_source_endpoints price / ws transport)', () 
 })
 
 describe('Trade / TradeETH newest-time selection (spec price endpoint description)', () => {
-  beforeEach(() => tradeProcessor.reset())
-
   it('serves the spec Trade record with result=price and providerIndicatedTimeUnixMs=time', () => {
-    const response = tradeProcessor.processRecord(
+    const response = processor.processRecord(
       'Trade',
       frames.priceTradeFrame.data[1] as any,
       {
@@ -100,7 +104,7 @@ describe('Trade / TradeETH newest-time selection (spec price endpoint descriptio
 
   it('serves the newer TradeETH record when both Trade and TradeETH arrive for the symbol', () => {
     // Regular-hours Trade at t=1760000000000 (the spec sample)
-    tradeProcessor.processRecord(
+    processor.processRecord(
       'Trade',
       frames.priceTradeFrame.data[1] as any,
       {
@@ -110,7 +114,7 @@ describe('Trade / TradeETH newest-time selection (spec price endpoint descriptio
     )
 
     // Newer extended-hours TradeETH at t=1760000000500 wins
-    const newer = tradeProcessor.processRecord(
+    const newer = processor.processRecord(
       'TradeETH',
       [
         'TradeETH',
@@ -132,7 +136,7 @@ describe('Trade / TradeETH newest-time selection (spec price endpoint descriptio
     expect(newer.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000500 })
 
     // A late-arriving older record is dropped, not served
-    const late = tradeProcessor.processRecord(
+    const late = processor.processRecord(
       'Trade',
       [
         'Trade',
@@ -155,7 +159,7 @@ describe('Trade / TradeETH newest-time selection (spec price endpoint descriptio
 
   it('serves a newer regular-hours Trade when TradeETH arrived first (newest time wins in either direction)', () => {
     // Extended-hours TradeETH at t=1760000000000 (the spec sample time)
-    tradeProcessor.processRecord(
+    processor.processRecord(
       'TradeETH',
       [
         'TradeETH',
@@ -175,7 +179,7 @@ describe('Trade / TradeETH newest-time selection (spec price endpoint descriptio
     )
 
     // A newer regular-hours Trade record wins the newest-time selection
-    const newer = tradeProcessor.processRecord(
+    const newer = processor.processRecord(
       'Trade',
       [
         'Trade',
@@ -197,7 +201,7 @@ describe('Trade / TradeETH newest-time selection (spec price endpoint descriptio
     expect(newer.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000500 })
 
     // An older, late-arriving TradeETH record is dropped, not served
-    const late = tradeProcessor.processRecord(
+    const late = processor.processRecord(
       'TradeETH',
       [
         'TradeETH',
@@ -221,7 +225,7 @@ describe('Trade / TradeETH newest-time selection (spec price endpoint descriptio
   it('serves an equal-time record like the newest one (reference_ea: preserve endpoint semantics exactly)', () => {
     // The reference price transport ignores only strictly older records
     // (updatedTime[base] > time): a record tying the newest time is served
-    tradeProcessor.processRecord(
+    processor.processRecord(
       'Trade',
       frames.priceTradeFrame.data[1] as any,
       {
@@ -230,7 +234,7 @@ describe('Trade / TradeETH newest-time selection (spec price endpoint descriptio
       } as any,
     )
 
-    const tie = tradeProcessor.processRecord(
+    const tie = processor.processRecord(
       'TradeETH',
       [
         'TradeETH',
@@ -253,7 +257,7 @@ describe('Trade / TradeETH newest-time selection (spec price endpoint descriptio
   })
 
   it('errors (502) on a trade whose price is the invalid "NaN" string', () => {
-    const response = tradeProcessor.processRecord(
+    const response = processor.processRecord(
       'Trade',
       [
         'Trade',

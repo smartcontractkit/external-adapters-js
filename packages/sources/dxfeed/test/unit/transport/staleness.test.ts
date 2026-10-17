@@ -46,8 +46,6 @@ describe('stale-quote serving (owner decision stale_quote_serving=serve_last_val
   })
 
   it('a stale trade is served the same way — no max-age rejection exists on the price path', () => {
-    tradeProcessor.reset()
-
     const response = tradeProcessor.processRecord(
       'Trade',
       frames.priceTradeFrame.data[1] as any,

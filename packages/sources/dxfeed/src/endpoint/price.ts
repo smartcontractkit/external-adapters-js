@@ -2,26 +2,18 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { InputParameter } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config, wsEnvInputValidationError } from '../config'
 import overrides from '../config/overrides.json'
 import { buildDxFeedHttpTransport } from '../transport/price-http'
 import { transport as wsTransport } from '../transport/price-ws'
 import { inputParameters } from './utils'
 
-// Spec price input_parameters: `transport` ("ws" (dxLink) or "rest", optional;
-// overnight streams pin "ws"). The framework reserves `transport` as a routing
-// param name at the type level only (the ProperInputParametersDefinition guard
-// excludes it); the runtime InputParameters validator accepts the declaration
-// and enforces the ws|rest options — proven by the transport-routing
-// integration tests, and the default router reads data.transport for routing.
-const transportParam: InputParameter = {
-  description: '"ws" (dxLink stream) or "rest" (HTTP API); overnight streams pin "ws"',
-  options: ['ws', 'rest'],
-  required: false,
-  type: 'string',
-}
-
+// Spec price input_parameters: base and quote. `transport` ("ws" (dxLink
+// stream) or "rest", optional; overnight streams pin "ws") is deliberately NOT
+// declared here: it is a framework-reserved ROUTING param — the router reads
+// request data.transport and resolves it against transportRoutes without a
+// declaration, and the registered routes own its validation (a value outside
+// ws|rest finds no transport route and is rejected)
 const priceParamsDefinition = {
   ...inputParameters.definition,
   base: {
@@ -37,12 +29,9 @@ const priceParamsDefinition = {
     required: true,
     type: 'string',
   },
-  transport: transportParam,
 } as const
 
-export const priceInputParameters = new InputParameters(
-  priceParamsDefinition as Omit<typeof priceParamsDefinition, 'transport'>,
-)
+export const priceInputParameters = new InputParameters(priceParamsDefinition)
 
 export type BaseEndpointTypes = {
   Parameters: typeof priceInputParameters.definition

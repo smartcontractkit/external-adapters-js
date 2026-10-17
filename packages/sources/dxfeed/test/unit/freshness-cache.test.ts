@@ -41,7 +41,6 @@ describe('stale quote serving (owner decision stale_quote_serving=serve_last_val
   })
 
   it('the same holds on the price path for stale trades', () => {
-    tradeProcessor.reset()
     const response = tradeProcessor.processRecord(
       'Trade',
       frames.priceTradeFrame.data[1] as any,

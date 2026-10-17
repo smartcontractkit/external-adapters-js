@@ -54,10 +54,11 @@ describe('stock_quotes over dxLink (spec data_source_endpoints.stock_quotes)', (
     expect(error.statusCode).toBe(502)
     expect(error.errorMessage).toContain('invalid')
 
-    // Without requireVolume the invalid volume maps to zero and the quote stays valid
+    // Without requireVolume the invalid volume passes through unchanged (NaN —
+    // null on the wire; plan round-2 item 1) and the quote stays valid
     const ok = quoteRecordToResult(nanVolumeRecord, PARAMS) as any
     expect(ok.statusCode).toBeUndefined()
-    expect(ok.data.bid_volume).toBe(0)
+    expect(ok.data.bid_volume).toBeNaN()
     expect(ok.data.ask_volume).toBe(200)
     expect(ok.data.mid_price).toBe(190.0)
   })

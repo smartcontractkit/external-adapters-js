@@ -16,17 +16,15 @@ describe('price endpoint wiring (spec external_adapter_specifications.price)', (
     expect(endpoint.aliases).toEqual(['crypto', 'stock', 'forex', 'commodities'])
   })
 
-  it('declares the transport input param with the ws|rest values (closes CONF-PARAM-MISMATCH)', () => {
+  it('does not declare the framework-reserved transport routing param; base and quote only (round-2 item 3 fix)', () => {
     const definition = priceInputParameters.definition as any
-    expect(Object.keys(definition).sort()).toEqual(['base', 'quote', 'transport'])
+    expect(Object.keys(definition).sort()).toEqual(['base', 'quote'])
+    expect(definition.transport).toBeUndefined()
     // Spec price input_parameters: base with the shared alias set, required
     expect(definition.base.required).toBe(true)
     expect(definition.base.aliases).toEqual(['from', 'symbol', 'asset', 'coin', 'ticker', 'market'])
     expect(definition.quote.required).toBe(true)
     expect(definition.quote.aliases).toEqual(['to'])
-    // Spec: transport optional, "ws" (dxLink) or "rest"
-    expect(definition.transport.required).toBe(false)
-    expect(definition.transport.options).toEqual(['ws', 'rest'])
   })
 
   it('resolves defaultTransport to rest when transport is absent (owner decision rest_transport_scope)', () => {

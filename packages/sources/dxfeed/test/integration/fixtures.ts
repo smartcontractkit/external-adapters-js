@@ -101,6 +101,25 @@ export const setFeedData = (
   })
 }
 
+/**
+ * Registers a COMPACT FEED_DATA frame carrying SEVERAL concatenated records for
+ * one (eventType, symbol) wire key — the batching the provider does with
+ * acceptAggregationPeriod=1 (spec suggested_implementation point 5; the spec
+ * stock_quotes sample_response itself concatenates two Quote records in one
+ * frame).
+ */
+export const setFeedDataRecords = (
+  eventType: string,
+  symbol: string,
+  records: (string | number | boolean)[][],
+): void => {
+  dataFrames.set(`${eventType}:${symbol}`, {
+    type: 'FEED_DATA',
+    channel: 1,
+    data: [eventType, records.flat()],
+  })
+}
+
 // Spec sample records (OPDATA-9200 endpoint_request_response_examples +
 // data_source_endpoints[].sample_response). One COMPACT record per frame.
 // Quote fields: eventType,eventSymbol,time,bidPrice,askPrice,bidSize,askSize,

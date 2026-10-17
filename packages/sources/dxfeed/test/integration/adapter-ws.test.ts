@@ -7,7 +7,7 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { dxLinkConnections, mockDxLinkServer, setFeedData } from './fixtures'
+import { dxLinkConnections, mockDxLinkServer, setFeedData, setFeedDataRecords } from './fixtures'
 
 // Captured before FakeTimers.install() replaces the global timers: the mock
 // socket bridge delivers frames on a REAL timer, so every step yields fake
@@ -291,6 +291,67 @@ describe('dxLink websocket smoke flows', () => {
         result: 101.5,
         timestamps: {
           providerIndicatedTimeUnixMs: 1760000005000,
+        },
+      })
+    })
+
+    it('serves the newest-time record when ONE COMPACT frame concatenates two Trade records for the symbol', async () => {
+      // Plan round-2 item 2: with acceptAggregationPeriod=1 the provider batches
+      // several Trade records into one COMPACT FEED_DATA frame, and every record
+      // in the frame must be processed — the spec price rule ("serve the record
+      // with the newest time") then serves the LATER record of the ascending-time
+      // pair, not the first one in the frame.
+      setFeedDataRecords('Trade', 'TWO:USLF24', [
+        [
+          'Trade',
+          'TWO:USLF24',
+          1760000000000,
+          100.0,
+          10,
+          12345,
+          'V',
+          0.12,
+          5000000,
+          999000000,
+          'UP',
+          false,
+        ],
+        [
+          'Trade',
+          'TWO:USLF24',
+          1760000001000,
+          100.5,
+          10,
+          12346,
+          'V',
+          0.13,
+          5000001,
+          999000001,
+          'UP',
+          false,
+        ],
+      ])
+
+      const response = await requestUntilCached(
+        {
+          endpoint: 'price',
+          base: 'TWO',
+          to: 'USD',
+          transport: 'ws',
+          overrides: {
+            dxfeed: {
+              TWO: 'TWO:USLF24',
+            },
+          },
+        },
+        1760000001000,
+      )
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchObject({
+        data: { result: 100.5 },
+        result: 100.5,
+        timestamps: {
+          providerIndicatedTimeUnixMs: 1760000001000,
         },
       })
     })

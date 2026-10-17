@@ -44,8 +44,17 @@ export const validateWsApiEndpoint = (value?: string): string => {
   const isLoopbackUrl = (endpoint: string): boolean =>
     /^wss?:\/\/(localhost|127\.0\.0\.1|\[::1\])([:/?#]|$)/.test(endpoint)
 
-  if (value && !value.startsWith('wss://') && !isLoopbackUrl(value)) {
-    return 'WS_API_ENDPOINT must use the encrypted wss:// scheme; the Basic Authorization header rides the handshake and must not cross the wire in cleartext'
+  if (value && !value.startsWith('wss://')) {
+    if (isLoopbackUrl(value)) {
+      // Loopback exemption for in-process test bridges: still accepted, but the
+      // Basic Authorization header would cross even a loopback wire unencrypted —
+      // signal it so a misconfigured production endpoint does not pass silently
+      logger.warn(
+        `WS_API_ENDPOINT ${value} uses unencrypted ws:// on a loopback address: the Basic Authorization header (API_USERNAME/API_PASSWORD) rides the handshake unencrypted; use wss:// outside local test bridges`,
+      )
+    } else {
+      return 'WS_API_ENDPOINT must use the encrypted wss:// scheme; the Basic Authorization header rides the handshake and must not cross the wire in cleartext'
+    }
   }
 
   return ''

@@ -67,10 +67,12 @@ describe('requireVolume (spec: if true, error — not zero — on invalid bid/as
     expect(error.data).toBeUndefined()
   })
 
-  it('requireVolume=false tolerates it (invalid volumes map to zero)', () => {
+  it('requireVolume=false tolerates it (the invalid volume passes through unchanged — NaN, null on the wire)', () => {
     const ok = quoteRecordToResult(nanVolumeRecord, PARAMS) as any
     expect(ok.statusCode).toBeUndefined()
-    expect(ok.data.bid_volume).toBe(0)
+    // Reference semantics (plan round-2 item 1): NaN passes through, it is not
+    // coerced to 0 anywhere in the stock_quotes path
+    expect(ok.data.bid_volume).toBeNaN()
     expect(ok.data.ask_volume).toBe(200)
     expect(ok.data.mid_price).toBe(190)
   })

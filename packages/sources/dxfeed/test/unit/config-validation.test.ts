@@ -76,6 +76,78 @@ describe('WS_API_ENDPOINT validation (spec breaking_change_env_checks)', () => {
 })
 
 /**
+ * Captures the warnings the config module's logger emits while
+ * validateWsApiEndpoint runs directly. Same fresh-module isolation as
+ * captureValidateWarnings below: the config module binds its logger on the
+ * first log call, so the recording factory must be wired before the module
+ * loads in the isolated registry.
+ */
+const withRecordingLogger = (fn: (validate: typeof validateWsApiEndpoint) => void): string[] => {
+  const warnings: string[] = []
+  const recordingFactory: LoggerFactory = {
+    child: () => {
+      const levels = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'] as const
+      const methods: Record<string, (...args: unknown[]) => void> = {}
+      for (const level of levels) {
+        methods[level] = (...args: unknown[]) => {
+          if (level === 'warn') {
+            warnings.push(args.map((arg) => String(arg)).join(' '))
+          }
+        }
+      }
+      return methods as unknown as ReturnType<LoggerFactory['child']>
+    },
+  }
+
+  jest.isolateModules(() => {
+    // The isolated registry holds fresh copies of the framework modules too,
+    // so the recorder must be set on THAT registry's provider
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+    const framework = require('@chainlink/external-adapter-framework/util') as {
+      LoggerFactoryProvider: typeof LoggerFactoryProvider
+    }
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+    const { validateWsApiEndpoint: freshValidate } =
+      require('../../src/config') as typeof import('../../src/config')
+
+    framework.LoggerFactoryProvider.set(recordingFactory)
+    try {
+      fn(freshValidate)
+    } finally {
+      framework.LoggerFactoryProvider.set()
+    }
+  })
+  return warnings
+}
+
+describe('loopback ws:// exemption warning (plan round-2 item 5: the plaintext handshake carries the Basic credentials)', () => {
+  it('accepts a ws:// loopback URL (in-process test bridge) AND emits exactly one warning that the credentials ride an unencrypted connection', () => {
+    const warnings = withRecordingLogger((validate) => {
+      // Acceptance behavior unchanged: loopback ws:// stays accepted
+      expect(validate('ws://localhost:9090/dxlink-chainlink')).toBe('')
+    })
+    expect(warnings).toHaveLength(1)
+    // The warning states the Basic auth credentials cross the wire unencrypted
+    expect(warnings[0]).toMatch(/encrypt|plaintext|cleartext/i)
+  })
+
+  it('still rejects a non-loopback ws:// endpoint with no exemption (acceptance behavior unchanged)', () => {
+    const warnings = withRecordingLogger((validate) => {
+      expect(validate('ws://example.com/dxlink-chainlink')).toContain('wss://')
+    })
+    // A rejected URL never becomes an accepted plaintext handshake
+    expect(warnings).toHaveLength(0)
+  })
+
+  it('emits no warning for the encrypted wss:// dxLink endpoint', () => {
+    const warnings = withRecordingLogger((validate) => {
+      expect(validate(DXLINK_ENDPOINT)).toBe('')
+    })
+    expect(warnings).toHaveLength(0)
+  })
+})
+
+/**
  * Captures the warnings a FRESH config module emits while validate() runs.
  * The config module binds its logger on the first log call, so each capture
  * builds the config in an isolated module registry wired to a recording

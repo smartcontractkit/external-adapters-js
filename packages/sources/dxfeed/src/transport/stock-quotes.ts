@@ -64,9 +64,10 @@ export const quoteRecordToResult = (
     }
   }
 
-  // Without requireVolume an invalid volume maps to zero instead of erroring
-  const bidVolume = Number.isNaN(bidSize) ? 0 : bidSize
-  const askVolume = Number.isNaN(askSize) ? 0 : askSize
+  // Reference semantics: without requireVolume the parsed size value passes
+  // through unchanged, NaN included — JSON serializes NaN to null on the wire
+  const bidVolume = bidSize
+  const askVolume = askSize
 
   const bidExchangeCode = String(record[BID_EXCHANGE_CODE_INDEX])
   const askExchangeCode = String(record[ASK_EXCHANGE_CODE_INDEX])

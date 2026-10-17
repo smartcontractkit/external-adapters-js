@@ -182,17 +182,20 @@ describe('stock_quotes endpoint semantics on the dxLink transport', () => {
     expect(response.json()).toMatchObject({ errorMessage: expect.anything() })
   })
 
-  it('maps invalid volumes to zero without requireVolume and keeps the mid', async () => {
-    // Default requireVolume=false: the invalid sizes zero out, the mid is intact
+  it('passes invalid volumes through unchanged (null on the wire) without requireVolume and keeps the mid', async () => {
+    // Plan round-2 item 1 (reference semantics): without requireVolume the parsed
+    // bidSize/askSize value passes through unchanged, NaN included — JSON
+    // serializes NaN to null on the wire. No code path may coerce the invalid
+    // volume to 0. The requireVolume=true error flow is asserted above.
     const response = await requestUntilCached(quoteRequest('NVOL'))
     expect(response.statusCode).toBe(200)
     expect(response.json()).toMatchObject({
       data: {
         mid_price: 190.0,
         bid_price: 189.95,
-        bid_volume: 0,
+        bid_volume: null,
         ask_price: 190.05,
-        ask_volume: 0,
+        ask_volume: null,
       },
       result: 190.0,
       timestamps: {

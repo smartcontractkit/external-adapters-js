@@ -158,7 +158,6 @@ describe('COMPACT FEED_DATA parsing (spec sample_response frames, acceptDataForm
   })
 
   it('parses the Trade frame to a typed trade record', () => {
-    tradeProcessor.reset()
     const results = tradeFeed().message(frames.priceTradeFrame as any)
     expect(results).toHaveLength(1)
     // Spec endpoint_request_response_examples[1].response

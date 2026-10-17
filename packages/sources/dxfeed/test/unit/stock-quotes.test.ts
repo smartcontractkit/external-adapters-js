@@ -62,11 +62,13 @@ describe('requireVolume (spec stock_quotes input_parameters: error, not zero, on
     expect(error.data).toBeUndefined()
   })
 
-  it('returns zero volumes (not an error) when requireVolume=false', () => {
+  it('passes invalid volumes through unchanged (NaN — null on the wire), not an error, when requireVolume=false', () => {
     const ok = quoteRecordToResult(nanVolumeRecord, { ...PARAMS, requireVolume: false }) as any
     expect(ok.statusCode).toBeUndefined()
     expect(ok.result).toBe(190.0)
-    expect(ok.data.bid_volume).toBe(0)
+    // Reference semantics (plan round-2 item 1): the parsed size passes through
+    // unchanged, NaN included — JSON serializes NaN to null on the wire
+    expect(ok.data.bid_volume).toBeNaN()
     expect(ok.data.ask_volume).toBe(200)
   })
 })

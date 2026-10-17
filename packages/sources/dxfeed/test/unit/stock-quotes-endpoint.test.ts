@@ -27,7 +27,7 @@ describe('stock_quotes endpoint (spec response_mapping)', () => {
     })
   })
 
-  it('errors (not zeroes) on invalid bid/ask volume only when requireVolume is set', () => {
+  it('errors on invalid bid/ask volume only when requireVolume is set; otherwise the invalid volume passes through unchanged (NaN)', () => {
     const nanVolumeRecord = [...SPEC_RECORD]
     nanVolumeRecord[5] = 'NaN'
 
@@ -38,6 +38,9 @@ describe('stock_quotes endpoint (spec response_mapping)', () => {
     const ok = quoteRecordToResult(nanVolumeRecord, PARAMS) as any
     expect(ok.statusCode).toBeUndefined()
     expect(ok.result).toBe(190)
+    // Reference semantics (plan round-2 item 1): NaN passes through — JSON
+    // serializes it to null on the wire; no zeroing coercion exists
+    expect(ok.data.bid_volume).toBeNaN()
   })
 
   it('with isOvernight, keeps only records quoting on the O venue on both sides', () => {

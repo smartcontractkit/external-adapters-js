@@ -22,7 +22,6 @@ describe('stale value serving (owner decisions stale_quote_serving + reconnect_c
   })
 
   it('serves stale trades as success with the original provider timestamp, without any max-age error', () => {
-    tradeProcessor.reset()
     const staleRecord = [
       'Trade',
       'AAPL:USLF24',

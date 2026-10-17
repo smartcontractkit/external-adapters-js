@@ -400,19 +400,22 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
     const flatData = data.flatMap((value) => (Array.isArray(value) ? value : [value]))
 
     const records = parseCompactFeedData(eventType, flatData, this.eventFields)
-    // The spec's stock_quotes sample_response frame concatenates two Quote
-    // records for the same symbol, and its canonical response example maps the
-    // FIRST one; later records for an already-seen wire key in the same frame
-    // are dropped (newer values arrive in later frames).
-    const firstRecordPerWireKey = new Map<string, DxLinkRecord>()
+    // With acceptAggregationPeriod=1 the provider concatenates several records
+    // per frame. Trade/TradeETH process every record: the LAST record per wire
+    // key is the newest trade, and the spec price rule serves the record with
+    // the newest time. Quote keeps the FIRST record per wire key — the spec's
+    // canonical stock_quotes example maps the first record of its sample frame.
+    const keepFirstRecord = eventType === 'Quote'
+    const selectedPerWireKey = new Map<string, DxLinkRecord>()
     for (const record of records) {
       const key = `${eventType}:${record[eventSymbolIndex]}`
-      if (!firstRecordPerWireKey.has(key)) {
-        firstRecordPerWireKey.set(key, record)
+      if (keepFirstRecord && selectedPerWireKey.has(key)) {
+        continue
       }
+      selectedPerWireKey.set(key, record)
     }
 
-    return [...firstRecordPerWireKey.values()].flatMap((record) => {
+    return [...selectedPerWireKey.values()].flatMap((record) => {
       const subs = this.subsByWireKey.get(`${eventType}:${record[eventSymbolIndex]}`) ?? []
       return subs
         .map((params) => {

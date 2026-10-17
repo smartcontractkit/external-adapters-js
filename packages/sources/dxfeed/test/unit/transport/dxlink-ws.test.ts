@@ -319,7 +319,6 @@ describe('COMPACT FEED_DATA parsing (spec acceptDataFormat=COMPACT / sample_resp
   })
 
   it('serves the newest-time record when Trade and a newer TradeETH both arrive', () => {
-    tradeProcessor.reset()
     const feed = tradeFeed()
 
     // Spec price sample_response: Trade at t=1760000000000, price 189.98

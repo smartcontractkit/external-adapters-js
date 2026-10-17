@@ -4,18 +4,17 @@ import { endpoint, priceInputParameters } from '../../src/endpoint/price'
 LoggerFactoryProvider.set()
 
 /**
- * Plan proving test for finding CONF-PARAM-MISMATCH: the spec declares the
- * `transport` input parameter on endpoint price ("ws" (dxLink) or "rest",
- * optional) and the InputParameters must include it.
+ * Plan round-2 item 3 proving test: `transport` is a framework-RESERVED routing
+ * param — the router reads data.transport for routing WITHOUT a declaration in
+ * the InputParameters. The former type-cast smuggling of the key into the
+ * runtime definition is gone.
  */
 describe('price endpoint input parameters (spec external_adapter_specifications.price input_parameters)', () => {
-  it('declares the optional transport parameter with the ws|rest options (CONF-PARAM-MISMATCH fix)', () => {
+  it('does NOT declare the framework-reserved transport routing param (round-2 item 3 fix)', () => {
     const definition = priceInputParameters.definition as any
 
-    expect(definition.transport).toBeDefined()
-    // Spec price input_parameters: transport required=false, "ws" or "rest"
-    expect(definition.transport.required).toBe(false)
-    expect(definition.transport.options).toEqual(['ws', 'rest'])
+    expect(definition.transport).toBeUndefined()
+    expect(Object.keys(definition).sort()).toEqual(['base', 'quote'])
   })
 
   it('declares base (required, spec alias set) and quote (required, "to" alias) alongside transport', () => {

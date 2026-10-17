@@ -95,7 +95,6 @@ describe('COMPACT FEED_DATA parsing (spec acceptDataFormat=COMPACT)', () => {
   })
 
   it('serves the newest-time record when both Trade and TradeETH exist for a symbol', () => {
-    tradeProcessor.reset()
     const feed = new DxLinkFeed({
       formatTickers: () => [
         { symbol: 'AAPL:USLF24', type: 'Trade' },

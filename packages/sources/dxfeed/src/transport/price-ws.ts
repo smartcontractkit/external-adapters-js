@@ -29,12 +29,6 @@ export const tradeTickers = (base: string): { symbol: string; type: string }[] =
 export class TradeProcessor {
   private readonly latestTimeBySymbol: Record<string, number> = {}
 
-  reset(): void {
-    for (const key of Object.keys(this.latestTimeBySymbol)) {
-      delete this.latestTimeBySymbol[key]
-    }
-  }
-
   processRecord(
     eventType: string,
     record: DxLinkRecord,
