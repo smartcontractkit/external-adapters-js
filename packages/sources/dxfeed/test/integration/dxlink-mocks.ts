@@ -1,8 +1,8 @@
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 /**
- * dxLink mock server for the OPDATA-9200 migration
- * (https://docs.dxfeed.com/dxlink-ws/).
+ * dxLink mock server for the OPDATA-9200 migration, per the vendor's
+ * dxLink WS protocol documentation.
  *
  * Behavior-based, driven by the spec's endpoint sample_response frames:
  * - client handshake: SETUP -> CHANNEL_REQUEST -> FEED_SETUP

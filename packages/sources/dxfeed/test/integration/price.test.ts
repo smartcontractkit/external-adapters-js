@@ -211,4 +211,37 @@ describe('price endpoint on the dxLink transport (ws)', () => {
       },
     })
   })
+
+  it('serves the TradeETH record when it is the only record the symbol has sent', async () => {
+    // Spec price endpoint: "Subscribe BOTH event types for every symbol;
+    // Symbols without an ETH session simply yield no TradeETH events" — the
+    // mirror case: a symbol whose ONLY record so far is the extended-hours
+    // TradeETH is served from it; the regular-hours Trade side simply has no
+    // data yet. Receiving the value at all proves the TradeETH subscription
+    // went out next to the Trade one (owner decision
+    // tradeteth_subscription_policy = match_reference, :USLF24 ticker).
+    setFeedData('TradeETH', 'ETHS:USLF24', [
+      'TradeETH',
+      'ETHS:USLF24',
+      1760000007000,
+      102.25,
+      5,
+      12347,
+      'V',
+      0.2,
+      5200000,
+      1010000000,
+      'UP',
+      true,
+    ])
+    const response = await requestUntilCached(priceRequest('price', 'ETHS'), 1760000007000)
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchObject({
+      data: { result: 102.25 },
+      result: 102.25,
+      timestamps: {
+        providerIndicatedTimeUnixMs: 1760000007000,
+      },
+    })
+  })
 })

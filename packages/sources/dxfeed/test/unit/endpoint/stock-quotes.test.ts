@@ -64,6 +64,24 @@ describe('stock_quotes over dxLink (spec data_source_endpoints.stock_quotes)', (
     expect(ok.data.mid_price).toBe(190.0)
   })
 
+  it('mids a one-sided book against the live side (spec response_mapping mid_price = (bidPrice + askPrice) / 2; the dead side quotes 0)', () => {
+    // Bid-only book: bid 189.90 live, ask 0 dead -> mid = bid
+    const bidOnlyRecord = ['Quote', 'AAPL:USLF24', 1760000000000, 189.9, 0, 50, 0, 'O', 'O']
+    const bidSide = quoteRecordToResult(bidOnlyRecord, PARAMS) as any
+    expect(bidSide.data.mid_price).toBe(189.9)
+    expect(bidSide.data.bid_price).toBe(189.9)
+    expect(bidSide.data.ask_price).toBe(0)
+    expect(bidSide.result).toBe(189.9)
+
+    // Ask-only book: ask 190.10 live, bid 0 dead -> mid = ask
+    const askOnlyRecord = ['Quote', 'AAPL:USLF24', 1760000000000, 0, 190.1, 0, 80, 'O', 'O']
+    const askSide = quoteRecordToResult(askOnlyRecord, PARAMS) as any
+    expect(askSide.data.mid_price).toBe(190.1)
+    expect(askSide.data.bid_price).toBe(0)
+    expect(askSide.data.ask_price).toBe(190.1)
+    expect(askSide.result).toBe(190.1)
+  })
+
   it("isOvernight=true: rejects a Quote with bidExchangeCode 'V', accepts 'O'/'O', and tolerates the parameter's absence", () => {
     const overnightRecord = [
       'Quote',
