@@ -147,8 +147,15 @@ describe('dxLink websocket smoke flows', () => {
       // = serve_cached_last_value). Each endpoint's ws transport holds its own
       // dxLink connection; drop the stock_quotes one so its reconnect is what
       // this test observes.
+      const connectionsBefore = dxLinkConnections.length
       dxLinkConnections[0]?.close()
-      await step()
+      // Wait for the re-established quote connection to be registered, so the
+      // second drop below targets the quote session's fresh connection rather
+      // than racing onto the price endpoint's connection
+      for (let i = 0; i < 20 && dxLinkConnections.length <= connectionsBefore; i++) {
+        await step()
+      }
+      expect(dxLinkConnections.length).toBeGreaterThan(connectionsBefore)
 
       const duringReconnect = await testAdapter.request(quoteRequest)
       expect(duringReconnect.statusCode).toBe(200)

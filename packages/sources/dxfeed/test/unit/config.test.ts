@@ -12,9 +12,8 @@ LoggerFactoryProvider.set()
 /**
  * Runs fn with the given env vars set and the config (re)initialized from
  * them. AdapterConfig.settingsDefinition is private in the pinned framework
- * (2.20.0), so startup behavior — including that credentials stay optional at
- * the config level — is asserted through the public initialize()/validate()
- * surface.
+ * (2.20.0), so startup behavior is asserted through the public
+ * initialize()/validate() surface.
  */
 const withSettings = (env: Record<string, string | undefined>, fn: () => void): void => {
   const oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -42,24 +41,69 @@ const DXLINK_ENDPOINT = 'wss://tools.dxfeed.com/dxlink-chainlink'
 // resolved transport is "ws".
 const wsRequest = { requestContext: { transportName: 'ws' } } as any
 
-describe('credential scoping (spec breaking_change_env_checks scoped to WS paths; owner decision rest_transport_scope=keep_untouched)', () => {
-  it('boots startup validation with API_USERNAME/API_PASSWORD unset — the REST-only path starts and serves without credentials', () => {
+describe('credential pair required at startup (spec environment_variables: API_USERNAME/API_PASSWORD required: true)', () => {
+  it('fails startup with a clear error when API_USERNAME is unset', () => {
     withSettings(
-      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: DXLINK_ENDPOINT },
-      () => expect(() => config.validate()).not.toThrow(),
+      {
+        API_USERNAME: undefined,
+        API_PASSWORD: CREDENTIALS.API_PASSWORD,
+        WS_API_ENDPOINT: DXLINK_ENDPOINT,
+      },
+      () => expect(() => config.validate()).toThrow(/API_USERNAME/),
     )
   })
 
-  it('passes startup validation with credentials and a dxLink endpoint set', () => {
+  it('fails startup with a clear error when API_PASSWORD is unset', () => {
+    withSettings(
+      {
+        API_USERNAME: CREDENTIALS.API_USERNAME,
+        API_PASSWORD: undefined,
+        WS_API_ENDPOINT: DXLINK_ENDPOINT,
+      },
+      () => expect(() => config.validate()).toThrow(/API_PASSWORD/),
+    )
+  })
+
+  it('fails startup when both credentials are unset', () => {
+    withSettings(
+      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: DXLINK_ENDPOINT },
+      () => expect(() => config.validate()).toThrow(/API_USERNAME/),
+    )
+  })
+
+  it('starts when both credentials are set with the dxLink endpoint', () => {
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () =>
       expect(() => config.validate()).not.toThrow(),
     )
   })
+})
 
-  it('rejects a stock_quotes request without credentials with a validation error', () => {
+describe('WS_API_ENDPOINT startup checks (spec breaking_change_env_checks)', () => {
+  it('rejects a WS_API_ENDPOINT containing the legacy cometd path', () => {
+    withSettings(
+      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://tools.dxfeed.com/chainlink/cometd' },
+      () => expect(() => config.validate()).toThrow(/cometd/),
+    )
+  })
+
+  it('rejects a WS_API_ENDPOINT carrying embedded ://user:pass@ credentials', () => {
+    withSettings(
+      { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://user:pass@tools.dxfeed.com/dxlink-chainlink' },
+      () => expect(() => config.validate()).toThrow(/credentials/),
+    )
+  })
+
+  it('accepts wss://tools.dxfeed.com/dxlink-chainlink', () => {
+    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () =>
+      expect(() => config.validate()).not.toThrow(),
+    )
+  })
+})
+
+describe('WS-path request-time credential gate (spec breaking_change_env_checks: require API_USERNAME and API_PASSWORD to be set (WS paths))', () => {
+  it('rejects a stock_quotes request without credentials with a validation error naming the pair', () => {
     // stock_quotes is WS-only: its customInputValidation enforces the
-    // credential pair that the config-level definition deliberately leaves
-    // optional
+    // credential pair with a clear per-request error
     const error = stockQuotesEndpoint.customInputValidation?.(wsRequest, {
       WS_API_ENDPOINT: DXLINK_ENDPOINT,
     } as any)
@@ -68,8 +112,6 @@ describe('credential scoping (spec breaking_change_env_checks scoped to WS paths
   })
 
   it('fails the WS-path check when either one of the pair is unset', () => {
-    // Spec breaking_change_env_checks: require API_USERNAME and API_PASSWORD to
-    // be set (WS paths) — either one missing fails the check
     expect(missingWsCredentials({})).toContain('API_USERNAME')
     expect(missingWsCredentials({ API_USERNAME: 'dxfeed-user' })).toContain('API_PASSWORD')
     expect(missingWsCredentials({ API_PASSWORD: 'dxfeed-pass' })).toContain('API_USERNAME')

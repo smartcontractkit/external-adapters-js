@@ -52,12 +52,12 @@ export const validateWsApiEndpoint = (value?: string): string => {
 }
 
 /**
- * Spec data_source_authentication breaking_change_env_checks: WS paths require
- * the Basic credential pair (the dxLink AUTH message exists but is NOT used;
- * credentials ride the Authorization header only). The pair is deliberately
- * left OPTIONAL at the config level — the untouched REST-only path starts and
- * serves without credentials (owner decision rest_transport_scope=keep_untouched;
- * RDD: three lastTradedPrice streams fall through to defaultTransport rest).
+ * Spec data_source_authentication breaking_change_env_checks: the Basic
+ * credential pair (the dxLink AUTH message exists but is NOT used; credentials
+ * ride the Authorization header only). The spec environment_variables table
+ * marks both required: true at the AdapterConfig level, so startup fails fast
+ * when either is unset; the WS-path request-time check below repeats it so a
+ * WS misconfiguration fails with a clear per-request error as well.
  */
 export const missingWsCredentials = (settings: {
   API_USERNAME?: string
@@ -96,16 +96,18 @@ export const wsEnvInputValidationError = (settings: {
 
 export const config = new AdapterConfig(
   {
-    // Optional at the config level: the credential pair is enforced per-request
-    // on the WS paths only (missingWsCredentials above)
+    // Spec environment_variables: both credentials required: true (the WS
+    // handshake needs them for the Basic Authorization header)
     API_USERNAME: {
       description: 'username for dxfeed API',
       type: 'string',
+      required: true,
       sensitive: false,
     },
     API_PASSWORD: {
       description: 'password for dxfeed API',
       type: 'string',
+      required: true,
       sensitive: true,
     },
     WS_API_ENDPOINT: {

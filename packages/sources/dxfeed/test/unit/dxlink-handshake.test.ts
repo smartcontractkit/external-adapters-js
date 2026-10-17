@@ -9,21 +9,32 @@ LoggerFactoryProvider.set()
 type TestConnection = {
   sent: DxLinkMessage[]
   send: (data: string) => void
-  addEventListener: (event: 'message', listener: (event: { data: unknown }) => void) => void
+  addEventListener: (
+    event: 'message' | 'close',
+    listener: (event: { data?: unknown; code?: number }) => void,
+  ) => void
   emit: (frame: DxLinkMessage | string) => void
 }
 
 const makeConnection = (): TestConnection => {
   const sent: DxLinkMessage[] = []
-  let messageListener: ((event: { data: unknown }) => void) | undefined
+  const listeners = new Map<
+    string,
+    ((event: { data?: unknown; code?: number }) => void) | undefined
+  >()
   return {
     sent,
     send: (data: string) => sent.push(JSON.parse(data)),
-    addEventListener: (_event: 'message', listener: (event: { data: unknown }) => void) => {
-      messageListener = listener
+    addEventListener: (
+      event: 'message' | 'close',
+      listener: (event: { data?: unknown; code?: number }) => void,
+    ) => {
+      listeners.set(event, listener)
     },
     emit: (frame: DxLinkMessage | string) =>
-      messageListener?.({ data: typeof frame === 'string' ? frame : JSON.stringify(frame) }),
+      listeners.get('message')?.({
+        data: typeof frame === 'string' ? frame : JSON.stringify(frame),
+      }),
   }
 }
 

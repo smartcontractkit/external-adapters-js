@@ -132,17 +132,20 @@ export const dxLinkConnectionOptions = (settings: {
 
 export type DxLinkConnection = {
   send: (data: string) => void
-  addEventListener: (event: 'message', listener: (event: { data: unknown }) => void) => void
+  addEventListener: (
+    event: 'message' | 'close',
+    listener: (event: { data?: unknown; code?: number }) => void,
+  ) => void
 }
 
 /**
  * dxLink handshake open gate (finalto quote.ts pattern): send SETUP,
  * CHANNEL_REQUEST and FEED_SETUP, then resolve only once FEED_CONFIG arrives —
- * the whole sequence must fit WS_CONNECTION_OPEN_TIMEOUT, and an ERROR frame
- * from the provider (e.g. unauthorized) rejects immediately instead of waiting
- * out the timeout. The open listeners are removed once open resolves, so the
- * FEED_CONFIG field layout is handed to the caller and all later frames go
- * through the regular message handler.
+ * the whole sequence must fit WS_CONNECTION_OPEN_TIMEOUT. An ERROR frame from
+ * the provider (e.g. unauthorized) or a connection close before FEED_CONFIG
+ * rejects immediately instead of waiting out the timeout. The open listeners
+ * are removed once open resolves, so the FEED_CONFIG field layout is handed to
+ * the caller and all later frames go through the regular message handler.
  */
 export const openDxLinkConnection = (
   connection: DxLinkConnection,
@@ -204,6 +207,15 @@ export const openDxLinkConnection = (
         onFeedConfig?.(message.eventFields ?? {})
         settle()
       }
+    })
+
+    // A provider that drops the connection before FEED_CONFIG (e.g. rejected
+    // credentials) fails the handshake immediately — settle() no-ops once the
+    // gate has resolved, so post-handshake closes are left to the framework
+    connection.addEventListener('close', (event) => {
+      settle(
+        new Error(`dxLink connection closed before FEED_CONFIG (code ${event.code ?? 'unknown'})`),
+      )
     })
 
     for (const message of dxLinkHandshakeMessages()) {

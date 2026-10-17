@@ -46,21 +46,34 @@ const tradeFeed = () =>
 type TestConnection = {
   sent: DxLinkMessage[]
   send: (data: string) => void
-  addEventListener: (event: 'message', listener: (event: { data: unknown }) => void) => void
+  addEventListener: (
+    event: 'message' | 'close',
+    listener: (event: { data?: unknown; code?: number }) => void,
+  ) => void
   emit: (frame: DxLinkMessage | string) => void
+  emitClose: (code?: number) => void
 }
 
 const makeConnection = (): TestConnection => {
   const sent: DxLinkMessage[] = []
-  let messageListener: ((event: { data: unknown }) => void) | undefined
+  const listeners = new Map<
+    string,
+    ((event: { data?: unknown; code?: number }) => void) | undefined
+  >()
   return {
     sent,
     send: (data: string) => sent.push(JSON.parse(data)),
-    addEventListener: (_event: 'message', listener: (event: { data: unknown }) => void) => {
-      messageListener = listener
+    addEventListener: (
+      event: 'message' | 'close',
+      listener: (event: { data?: unknown; code?: number }) => void,
+    ) => {
+      listeners.set(event, listener)
     },
     emit: (frame: DxLinkMessage | string) =>
-      messageListener?.({ data: typeof frame === 'string' ? frame : JSON.stringify(frame) }),
+      listeners.get('message')?.({
+        data: typeof frame === 'string' ? frame : JSON.stringify(frame),
+      }),
+    emitClose: (code = 1006) => listeners.get('close')?.({ code }),
   }
 }
 
@@ -164,6 +177,34 @@ describe('dxLink handshake open gate (spec primary_command)', () => {
       expect(await settledState(opened)).toBe('pending')
       await jest.advanceTimersByTimeAsync(10_000)
       await expect(opened).rejects.toThrow(/handshake did not complete/)
+    } finally {
+      jest.useRealTimers()
+    }
+  })
+
+  it('rejects when the server closes the connection before FEED_CONFIG arrives', async () => {
+    const connection = makeConnection()
+    const opened = openDxLinkConnection(connection, undefined, 10_000)
+
+    // The provider drops the handshake mid-flight — the gate rejects on the
+    // close instead of waiting out the open timeout
+    connection.emitClose(1006)
+    await expect(opened).rejects.toThrow(/closed before FEED_CONFIG/)
+  })
+
+  it('completes the handshake within the connection-open timeout budget', async () => {
+    jest.useFakeTimers()
+    try {
+      const connection = makeConnection()
+      const opened = openDxLinkConnection(connection, undefined, 10_000)
+
+      // FEED_CONFIG arrives one tick before the budget expires: the gate
+      // resolves, and the timeout never fires
+      await jest.advanceTimersByTimeAsync(9_999)
+      connection.emit(frames.quoteFeedConfig)
+      await expect(opened).resolves.toBeUndefined()
+      await jest.advanceTimersByTimeAsync(10_000)
+      await expect(opened).resolves.toBeUndefined()
     } finally {
       jest.useRealTimers()
     }
