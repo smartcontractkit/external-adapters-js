@@ -1,5 +1,6 @@
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { AdapterConfig, SettingsDefinitionMap } from '@chainlink/external-adapter-framework/config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 const logger = makeLogger('Config')
@@ -90,7 +91,22 @@ export const wsEnvInputValidationError = (settings: {
 /** Spec environment_variables.API_ENDPOINT default — unchanged by the migration. */
 export const REST_API_ENDPOINT_DEFAULT = 'https://tools.dxfeed.com/webservice/rest'
 
-export const config = new AdapterConfig(
+/**
+ * dxFeed AdapterConfig: the framework's buildCensorList populates the static
+ * CensorList for log censoring but returns void. The adapter (and tests) need
+ * the list itself, so the override returns it while keeping the framework
+ * behavior intact.
+ */
+class DxFeedAdapterConfig<
+  T extends SettingsDefinitionMap = SettingsDefinitionMap,
+> extends AdapterConfig<T> {
+  buildCensorList(): { key: string; value: RegExp }[] {
+    super.buildCensorList()
+    return CensorList.getAll()
+  }
+}
+
+export const config = new DxFeedAdapterConfig(
   {
     // The spec declares API_USERNAME, API_PASSWORD and WS_API_ENDPOINT
     // required=true: the WS paths cannot run without them, so the config

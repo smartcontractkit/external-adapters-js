@@ -1,4 +1,5 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import { TradeProcessor } from '../../src/transport/price-ws'
 import { quoteRecordToResult } from '../../src/transport/stock-quotes'
 import {
   DxLinkFeed,
@@ -24,6 +25,7 @@ LoggerFactoryProvider.set()
  */
 const QUOTE_EVENT_FIELDS = frames.quoteFeedConfig.eventFields
 const QUOTE_PARAMS = { base: 'AAPL:USLF24', quote: 'USD', requireVolume: false, isOvernight: false }
+const TRADE_PARAMS = { base: 'AAPL:USLF24', quote: 'USD' }
 
 /** Position of a Quote field in the spec FEED_CONFIG acceptEventFields.Quote order */
 const fieldIndex = (field: string): number => QUOTE_EVENT_FIELDS.Quote.indexOf(field)
@@ -173,5 +175,49 @@ describe('COMPACT FEED_DATA frame parsing (plan round1-compact-parsing / spec st
     for (const frame of [frames.errorFrame, frames.keepaliveFrame, frames.channelClosedFrame]) {
       expect(feed.message(frame as any)).toEqual([])
     }
+  })
+})
+
+describe('COMPACT Trade frame parsing (plan round1-compact-parsing / spec price sample_response)', () => {
+  // The subscribed trade feed, wired exactly like the price endpoint transport
+  const tradeFeed = () => {
+    const processor = new TradeProcessor()
+    const feed = new DxLinkFeed({
+      formatTickers: (params: any) => [
+        { symbol: String(params.base).toUpperCase(), type: 'Trade' },
+      ],
+      processRecord: (eventType, record, params: any) =>
+        processor.processRecord(eventType, record, params),
+    } as DxLinkFeedDeps<any>)
+    feed.onFeedConfig(frames.priceFeedConfig.eventFields)
+    feed.subscriptionMessages({ desired: [TRADE_PARAMS], new: [TRADE_PARAMS], stale: [] })
+    return feed
+  }
+
+  it('maps the spec Trade record positionally with the FEED_SETUP acceptEventFields.Trade order', () => {
+    // Spec price FEED_CONFIG acceptEventFields.Trade:
+    // eventType,eventSymbol,time,price,size,sequence,exchangeCode,change,dayVolume,dayTurnover,tickDirection,extendedTradingHours
+    const tradeFields = frames.priceFeedConfig.eventFields.Trade
+    const records = parseCompactFeedData(
+      'Trade',
+      frames.priceTradeFrame.data[1] as DxLinkRecord,
+      frames.priceFeedConfig.eventFields,
+    )
+
+    expect(records).toHaveLength(1)
+    expect(records[0]).toHaveLength(tradeFields.length)
+    expect(records[0][tradeFields.indexOf('eventSymbol')]).toBe('AAPL:USLF24')
+    expect(records[0][tradeFields.indexOf('time')]).toBe(1760000000000)
+    expect(records[0][tradeFields.indexOf('price')]).toBe(189.98)
+    expect(records[0][tradeFields.indexOf('size')]).toBe(10)
+    expect(records[0][tradeFields.indexOf('exchangeCode')]).toBe('V')
+
+    // The parsed record flows to the subscriber params: the spec "stock"
+    // endpoint example response — data.result 189.98 and
+    // timestamps.providerIndicatedTimeUnixMs 1760000000000
+    const out = tradeFeed().message(frames.priceTradeFrame as any)
+    expect(out).toHaveLength(1)
+    expect((out[0] as any).result).toBe(189.98)
+    expect((out[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
   })
 })

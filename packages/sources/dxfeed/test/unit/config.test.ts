@@ -263,6 +263,28 @@ describe('credential censoring (spec: WS_API_ENDPOINT and API_PASSWORD are sensi
     expect(startup).toMatch(/cometd/)
     expect(startup).not.toContain('dxfeed-pass')
   })
+
+  it('puts the sensitive settings (API_PASSWORD, WS_API_ENDPOINT) on the log censor list and leaves the others off it', () => {
+    // Spec environment_variables: API_PASSWORD and WS_API_ENDPOINT are
+    // sensitive=true; API_USERNAME and API_ENDPOINT are sensitive=false. The
+    // framework builds the log-censoring list from exactly those flags.
+    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () => {
+      const censorList = config.buildCensorList()
+      const censoredKeys = censorList.map(({ key }) => key)
+
+      expect(censoredKeys).toContain('API_PASSWORD')
+      expect(censoredKeys).toContain('WS_API_ENDPOINT')
+      expect(censoredKeys).not.toContain('API_USERNAME')
+      expect(censoredKeys).not.toContain('API_ENDPOINT')
+
+      // Each censor entry matches the real sensitive value, so the value is
+      // what gets redacted from logs
+      const passwordEntry = censorList.find(({ key }) => key === 'API_PASSWORD')
+      expect(passwordEntry?.value.test(CREDENTIALS.API_PASSWORD)).toBe(true)
+      const endpointEntry = censorList.find(({ key }) => key === 'WS_API_ENDPOINT')
+      expect(endpointEntry?.value.test(DXLINK_ENDPOINT)).toBe(true)
+    })
+  })
 })
 
 describe('framework pin (spec framework_version 2.20.0)', () => {
