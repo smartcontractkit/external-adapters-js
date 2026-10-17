@@ -7,28 +7,27 @@ import nock from 'nock'
 import { FAKE_REST_ENDPOINT, mockBatchedRestTransport } from './rest-mocks'
 
 /**
- * Plan item 1 proving test (OPDATA-9200): the adapter boots with ONLY
- * API_ENDPOINT set. API_USERNAME, API_PASSWORD and WS_API_ENDPOINT are NOT
- * startup-required — the spec requires them on WS paths only (the config
- * gates them with the WS_API_ENDPOINT validate fns and the endpoints'
- * customInputValidation), so a REST-only boot must succeed and the untouched
- * REST transport (owner decision rest_transport_scope=keep_untouched) must
- * serve requests unchanged. The boot itself — under an environment with no WS
- * variables at all — is the first assertion.
+ * REST-path proving test (OPDATA-9200): the untouched REST transport
+ * (owner decision rest_transport_scope=keep_untouched) serves requests
+ * unchanged. Round-2 (CONF-ENV-MISMATCH) makes API_USERNAME, API_PASSWORD and
+ * WS_API_ENDPOINT startup-required (spec environment_variables required: true
+ * — the dxLink WS transport cannot start without them), so the boot environment
+ * now carries the three WS vars alongside the REST one; the REST request path
+ * itself is untouched by them.
  */
 
-describe('REST-only boot (no WS env vars set)', () => {
+describe('REST boot (untouched REST transport)', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    // The plan's REST-only boot environment: API_USERNAME, API_PASSWORD and
-    // WS_API_ENDPOINT are deleted — the boot must not require them
-    for (const name of ['API_USERNAME', 'API_PASSWORD', 'WS_API_ENDPOINT']) {
-      delete process.env[name]
-    }
+    // Round-2 (CONF-ENV-MISMATCH): the three WS vars are startup-required, so
+    // the boot environment sets them — fake hosts only (test_fake_urls)
+    process.env['API_USERNAME'] = 'dxfeed-user'
+    process.env['API_PASSWORD'] = 'dxfeed-pass'
+    process.env['WS_API_ENDPOINT'] = 'wss://dxlink.fake.test/dxlink-chainlink'
     // Fake REST host (test_fake_urls): the untouched REST transport reads
     // API_ENDPOINT from settings, so the nock interceptor in rest-mocks.ts is
     // what the requests hit — never a real provider host
@@ -57,12 +56,11 @@ describe('REST-only boot (no WS env vars set)', () => {
     spy.mockRestore()
   })
 
-  it('boots with only API_ENDPOINT set and serves a price request through the REST transport', async () => {
+  it('boots and serves a price request through the untouched REST transport', async () => {
     // No transport param: the request falls through to defaultTransport "rest"
     // (owner decision rest_transport_scope=keep_untouched). The nock
     // interception on the fake REST host is the proof the REST transport
-    // handled it — and that the WS transport (and its missing credentials)
-    // played no part.
+    // handled it — and that the WS transport played no part.
     const response = await testAdapter.request({ base: 'TSLA', to: 'USD' })
     expect(response.statusCode).toBe(200)
     // Spec price response shape: data.result and result carry the provider's

@@ -4,16 +4,21 @@ import { endpoint, priceInputParameters } from '../../src/endpoint/price'
 LoggerFactoryProvider.set()
 
 /**
- * Spec price input_parameters: base and quote. The optional `transport` param
- * ("ws" (dxLink stream) or "rest"; overnight streams pin "ws") is a framework
- * reserved param handled by the router, not a declared one (round-2).
+ * Spec price input_parameters: base and quote, plus the optional `transport`
+ * param ("ws" (dxLink stream) or "rest"; overnight streams pin "ws") declared
+ * on the definition (plan CONF-PARAM-MISMATCH) — the router also owns ws|rest
+ * routing off the same raw request field.
  */
 describe('price endpoint input parameters (spec external_adapter_specifications.price input_parameters)', () => {
-  it('keeps the reserved transport param out of the definition (the router owns ws|rest routing)', () => {
+  it('declares the optional transport param (type string, required false, spec description)', () => {
     const definition = priceInputParameters.definition as any
 
-    expect(definition.transport).toBeUndefined()
-    expect(Object.keys(definition).sort()).toEqual(['base', 'quote'])
+    expect(Object.keys(definition).sort()).toEqual(['base', 'quote', 'transport'])
+    expect(definition.transport).toEqual({
+      description: '"ws" (dxLink) or "rest". Overnight streams pin "ws".',
+      required: false,
+      type: 'string',
+    })
   })
 
   it('declares base (required, spec alias set) and quote (required, "to" alias)', () => {

@@ -109,45 +109,74 @@ describe('config surface (plan CONF-ENV-MISMATCH: the spec lists four environmen
   })
 })
 
-describe('WS settings are NOT startup-required (plan item 1: the spec requires the credential pair and the dxLink URL on WS paths only — the REST-only boot keeps working with no WS variables at all)', () => {
+describe('WS settings are startup-required (plan CONF-ENV-MISMATCH: the spec environment_variables mark API_USERNAME, API_PASSWORD and WS_API_ENDPOINT required: true — the dxLink WS transport cannot build the Basic auth handshake header or the endpoint URL without them)', () => {
   const STARTUP_ENV = { ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }
 
-  it('boots with NO WS variables set — none of the three is startup-required', () => {
-    withSettings(
-      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: undefined },
-      () => expect(() => config.validate()).not.toThrow(),
-    )
+  const missingRequiredError = (env: Record<string, string | undefined>) => {
+    let message = ''
+    withSettings(env, () => {
+      try {
+        config.validate()
+      } catch (error) {
+        message = (error as Error).message
+      }
+    })
+    return message
+  }
+
+  it('fails startup when API_USERNAME is unset, with a clear error naming the variable', () => {
+    const message = missingRequiredError({
+      API_USERNAME: undefined,
+      API_PASSWORD: CREDENTIALS.API_PASSWORD,
+      WS_API_ENDPOINT: DXLINK_ENDPOINT,
+    })
+    expect(message).toContain('API_USERNAME')
+    expect(message).toContain('Value is required')
   })
 
-  it('boots when WS_API_ENDPOINT alone is unset — the URL checks run only when a value is set', () => {
-    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: undefined }, () =>
-      expect(() => config.validate()).not.toThrow(),
-    )
+  it('fails startup when API_PASSWORD is unset, with a clear error naming the variable', () => {
+    const message = missingRequiredError({
+      API_USERNAME: CREDENTIALS.API_USERNAME,
+      API_PASSWORD: undefined,
+      WS_API_ENDPOINT: DXLINK_ENDPOINT,
+    })
+    expect(message).toContain('API_PASSWORD')
+    expect(message).toContain('Value is required')
   })
 
-  it('boots when only the credential pair is unset — the pair is a WS-path request-time requirement, not a startup one', () => {
-    withSettings(
-      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: DXLINK_ENDPOINT },
-      () => expect(() => config.validate()).not.toThrow(),
-    )
+  it('fails startup when WS_API_ENDPOINT is unset, with a clear error naming the variable', () => {
+    const message = missingRequiredError({ ...CREDENTIALS, WS_API_ENDPOINT: undefined })
+    expect(message).toContain('WS_API_ENDPOINT')
+    expect(message).toContain('Value is required')
+  })
+
+  it('fails startup with no WS variables at all, naming every missing one', () => {
+    const message = missingRequiredError({
+      API_USERNAME: undefined,
+      API_PASSWORD: undefined,
+      WS_API_ENDPOINT: undefined,
+    })
+    expect(message).toContain('API_USERNAME')
+    expect(message).toContain('API_PASSWORD')
+    expect(message).toContain('WS_API_ENDPOINT')
   })
 
   it('passes startup when all three are set with a clean dxLink WS_API_ENDPOINT', () => {
     withSettings(STARTUP_ENV, () => expect(() => config.validate()).not.toThrow())
   })
 
-  it('declares the three WS settings required:false (round-2: the spec requires them on WS paths only — the request-time gate enforces the pair, no validate() override mutates the definitions)', () => {
+  it('declares the three WS settings required:true (CONF-ENV-MISMATCH: the config surface must match the spec environment_variables)', () => {
     const definitions = (
       config as unknown as {
         settingsDefinition: Record<string, { required: boolean }>
       }
     ).settingsDefinition
-    expect(definitions['API_USERNAME'].required).toBe(false)
-    expect(definitions['API_PASSWORD'].required).toBe(false)
-    expect(definitions['WS_API_ENDPOINT'].required).toBe(false)
+    expect(definitions['API_USERNAME'].required).toBe(true)
+    expect(definitions['API_PASSWORD'].required).toBe(true)
+    expect(definitions['WS_API_ENDPOINT'].required).toBe(true)
   })
 
-  it('startup still rejects a WS_API_ENDPOINT value that fails the breaking-change URL checks while the credential pair is unset (only the requiredness checks are relaxed)', () => {
+  it('startup still rejects a WS_API_ENDPOINT value that fails the breaking-change URL checks while the credential pair is unset (all validation errors are reported together)', () => {
     withSettings(
       {
         API_USERNAME: undefined,

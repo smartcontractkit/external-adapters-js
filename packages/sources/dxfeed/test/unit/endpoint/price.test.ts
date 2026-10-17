@@ -60,15 +60,33 @@ describe('price endpoint (spec data_source_endpoints price / ws transport)', () 
     )
   })
 
-  it('declares exactly the spec input parameters: base (aliased) and quote; transport is the framework-reserved routing param (round-2: runtime definition and exported type are identical)', () => {
+  it('declares exactly the spec input parameters: base (aliased), quote, and the optional transport param (plan CONF-PARAM-MISMATCH: spec param transport present in InputParameters)', () => {
     const definition = priceInputParameters.definition as any
-    expect(Object.keys(definition).sort()).toEqual(['base', 'quote'])
+    expect(Object.keys(definition).sort()).toEqual(['base', 'quote', 'transport'])
     // Spec price input_parameters: base with the shared alias set, required
     expect(definition.base.required).toBe(true)
     expect(definition.base.aliases).toEqual(['from', 'symbol', 'asset', 'coin', 'ticker', 'market'])
     expect(definition.quote.required).toBe(true)
     expect(definition.quote.aliases).toEqual(['to'])
-    // transport=ws still routes to the WS transport through the framework router
+    // Spec price input_parameters: transport optional, type string, spec description
+    expect(definition.transport.required).toBe(false)
+    expect(definition.transport.type).toBe('string')
+    expect(definition.transport.description).toBe(
+      '"ws" (dxLink) or "rest". Overnight streams pin "ws".',
+    )
+  })
+
+  it('a request with transport=ws validates and routes to the WS transport (plan CONF-PARAM-MISMATCH proving test)', () => {
+    // The declared optional param validates through InputParameters...
+    expect(
+      priceInputParameters.validateInput({ base: 'AAPL', quote: 'USD', transport: 'ws' }),
+    ).toEqual({
+      base: 'AAPL',
+      quote: 'USD',
+      transport: 'ws',
+    })
+    // ...and the same value routes to the dxLink WS transport through the
+    // framework router, which reads the raw request data.transport
     const wsRequest = { body: { data: { base: 'AAPL', quote: 'USD', transport: 'ws' } } } as any
     expect(endpoint.getTransportNameForRequest(wsRequest, {} as any)).toBe('ws')
   })
