@@ -6,12 +6,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |      Name       |                         Description                          |  Type  | Options |                  Default                   |
-| :-------: | :-------------: | :----------------------------------------------------------: | :----: | :-----: | :----------------------------------------: |
-|           |  API_USERNAME   |                   username for dxfeed API                    | string |         |                                            |
-|           |  API_PASSWORD   |                   password for dxfeed API                    | string |         |                                            |
-|           | WS_API_ENDPOINT | The websocket url for dxfeed including username and password | string |         |                                            |
-|           |  API_ENDPOINT   |                    The API url for dxfeed                    | string |         | `https://tools.dxfeed.com/webservice/rest` |
+| Required? |       Name        |                  Description                   |  Type  | Options |                  Default                   |
+| :-------: | :---------------: | :--------------------------------------------: | :----: | :-----: | :----------------------------------------: |
+|    ✅     |  `API_USERNAME`   |            username for dxfeed API             | string |         |                                            |
+|    ✅     |  `API_PASSWORD`   |            password for dxfeed API             | string |         |                                            |
+|    ✅     | `WS_API_ENDPOINT` | The websocket url for dxfeed (dxLink endpoint) | string |         |                                            |
+|           |  `API_ENDPOINT`   |             The API url for dxfeed             | string |         | `https://tools.dxfeed.com/webservice/rest` |
 
 ---
 
@@ -35,22 +35,15 @@ Supported names for this endpoint are: `commodities`, `crypto`, `forex`, `price`
 
 ### Input Params
 
-| Required? | Name |                        Aliases                        |                                          Description                                          |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :---------------------------------------------------: | :-------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `asset`, `coin`, `from`, `market`, `symbol`, `ticker` | The symbol of the stock to query, append `:USLF24` to the end for after hours on ws endpoints | string |         |         |            |                |
+| Required? |   Name    |                        Aliases                        |                                          Description                                          |  Type  |   Options    | Default | Depends On | Not Valid With |
+| :-------: | :-------: | :---------------------------------------------------: | :-------------------------------------------------------------------------------------------: | :----: | :----------: | :-----: | :--------: | :------------: |
+|    ✅     |   base    | `asset`, `coin`, `from`, `market`, `symbol`, `ticker` | The symbol of the stock to query, append `:USLF24` to the end for after hours on ws endpoints | string |              |         |            |                |
+|    ✅     |   quote   |                         `to`                          |                        The quote currency to convert the base price to                        | string |              |         |            |                |
+|           | transport |                                                       | Transport to use for the request: "ws" (dxLink stream) or "rest". Overnight streams pin "ws". | string | `rest`, `ws` |         |            |                |
 
 ### Example
 
-Request:
-
-```json
-{
-  "data": {
-    "endpoint": "price",
-    "base": "TSLA"
-  }
-}
-```
+There are no examples for this endpoint.
 
 ---
 
@@ -63,6 +56,7 @@ Request:
 | Required? |     Name      |                        Aliases                        |                                          Description                                          |  Type   | Options | Default | Depends On | Not Valid With |
 | :-------: | :-----------: | :---------------------------------------------------: | :-------------------------------------------------------------------------------------------: | :-----: | :-----: | :-----: | :--------: | :------------: |
 |    ✅     |     base      | `asset`, `coin`, `from`, `market`, `symbol`, `ticker` | The symbol of the stock to query, append `:USLF24` to the end for after hours on ws endpoints | string  |         |         |            |                |
+|    ✅     |     quote     |                         `to`                          |                             The quote currency of the stock quote                             | string  |         |         |            |                |
 |           | requireVolume |                                                       |                       If true, throw error if bid/ask volume is invalid                       | boolean |         |         |            |                |
 |           |  isOvernight  |                                                       |                     If true, only accept O exchange codes for bid and ask                     | boolean |         |         |            |                |
 

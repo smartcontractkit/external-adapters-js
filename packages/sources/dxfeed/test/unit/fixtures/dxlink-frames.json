@@ -1,0 +1,121 @@
+{
+  "quoteFeedConfig": {
+    "type": "FEED_CONFIG",
+    "channel": 1,
+    "eventFields": {
+      "Quote": [
+        "eventType",
+        "eventSymbol",
+        "time",
+        "bidPrice",
+        "askPrice",
+        "bidSize",
+        "askSize",
+        "bidExchangeCode",
+        "askExchangeCode"
+      ]
+    }
+  },
+  "priceFeedConfig": {
+    "type": "FEED_CONFIG",
+    "channel": 1,
+    "eventFields": {
+      "Trade": [
+        "eventType",
+        "eventSymbol",
+        "time",
+        "price",
+        "size",
+        "sequence",
+        "exchangeCode",
+        "change",
+        "dayVolume",
+        "dayTurnover",
+        "tickDirection",
+        "extendedTradingHours"
+      ],
+      "TradeETH": [
+        "eventType",
+        "eventSymbol",
+        "time",
+        "price",
+        "size",
+        "sequence",
+        "exchangeCode",
+        "change",
+        "dayVolume",
+        "dayTurnover",
+        "tickDirection",
+        "extendedTradingHours"
+      ]
+    }
+  },
+  "stockQuotesFrame": {
+    "type": "FEED_DATA",
+    "channel": 1,
+    "data": [
+      "Quote",
+      [
+        "Quote",
+        "AAPL:USLF24",
+        1760000000000,
+        189.95,
+        190.05,
+        100,
+        200,
+        "V",
+        "V",
+        "Quote",
+        "AAPL:USLF24",
+        1760000001000,
+        189.9,
+        190.1,
+        50,
+        80,
+        "O",
+        "O"
+      ]
+    ]
+  },
+  "stockQuotesInvalidFrame": {
+    "type": "FEED_DATA",
+    "channel": 1,
+    "data": ["Quote", ["Quote", "AAPL:USLF24", 1760000000000, "NaN", 190.05, 100, 200, "V", "V"]]
+  },
+  "priceTradeFrame": {
+    "type": "FEED_DATA",
+    "channel": 1,
+    "data": [
+      "Trade",
+      [
+        "Trade",
+        "AAPL:USLF24",
+        1760000000000,
+        189.98,
+        10,
+        12345,
+        "V",
+        0.12,
+        5000000,
+        999000000,
+        "UP",
+        false
+      ]
+    ]
+  },
+  "errorFrame": {
+    "type": "ERROR",
+    "channel": 1,
+    "code": "UNAUTHORIZED",
+    "message": "Unauthorized"
+  },
+  "keepaliveFrame": {
+    "type": "KEEPALIVE",
+    "channel": 0
+  },
+  "channelClosedFrame": {
+    "type": "CHANNEL_CLOSED",
+    "channel": 1,
+    "channelNumber": 1
+  }
+}
