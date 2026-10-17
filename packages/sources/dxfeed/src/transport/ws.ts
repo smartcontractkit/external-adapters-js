@@ -18,14 +18,7 @@ import { TransportGenerics } from '@chainlink/external-adapter-framework/transpo
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import {
-  DxLinkFeed,
-  DxLinkFeedDeps,
-  DxLinkProviderTypes,
-  dxLinkConnectionOptions,
-  dxLinkKeepaliveMessage,
-  openDxLinkConnection,
-} from '../dxlink/protocol'
+import * as dxlink from '../dxlink/protocol'
 
 // The hook wiring below substitutes the template's open-handler extension
 // point with the dxLink handshake gate, KEEPALIVE frame, COMPACT fan-out and
@@ -39,18 +32,18 @@ type BaseTransportTypes = {
 }
 
 export function buildDxLinkWsTransport<T extends BaseTransportTypes>(
-  deps: DxLinkFeedDeps<T & DxLinkProviderTypes>,
-): WebSocketTransport<T & DxLinkProviderTypes> {
-  const feed = new DxLinkFeed<T & DxLinkProviderTypes>(deps)
+  deps: dxlink.DxLinkFeedDeps<T & dxlink.DxLinkProviderTypes>,
+): WebSocketTransport<T & dxlink.DxLinkProviderTypes> {
+  const feed = new dxlink.DxLinkFeed<T & dxlink.DxLinkProviderTypes>(deps)
 
-  return new WebSocketTransport<T & DxLinkProviderTypes>({
+  return new WebSocketTransport<T & dxlink.DxLinkProviderTypes>({
     url: (context) => context.adapterSettings.WS_API_ENDPOINT || '',
 
-    options: (context) => dxLinkConnectionOptions(context.adapterSettings),
+    options: (context) => dxlink.dxLinkConnectionOptions(context.adapterSettings),
 
     handlers: {
       open: async (connection, context) => {
-        await openDxLinkConnection(
+        await dxlink.openDxLinkConnection(
           connection,
           (fields) => feed.onFeedConfig(fields),
           context.adapterSettings.WS_CONNECTION_OPEN_TIMEOUT,
@@ -58,7 +51,7 @@ export function buildDxLinkWsTransport<T extends BaseTransportTypes>(
       },
 
       heartbeat: (connection) => {
-        connection.send(JSON.stringify(dxLinkKeepaliveMessage()))
+        connection.send(JSON.stringify(dxlink.dxLinkKeepaliveMessage()))
       },
 
       message: (message) =>
@@ -66,7 +59,7 @@ export function buildDxLinkWsTransport<T extends BaseTransportTypes>(
           .message(message)
           .map(
             ({ params, ...response }) =>
-              ({ params, response } as ProviderResult<T & DxLinkProviderTypes>),
+              ({ params, response } as ProviderResult<T & dxlink.DxLinkProviderTypes>),
           ),
     },
 
