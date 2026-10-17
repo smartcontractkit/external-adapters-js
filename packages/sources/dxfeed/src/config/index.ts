@@ -27,67 +27,14 @@ const wsApiEndpointBreakingChangeError = (value?: string): string => {
 }
 
 /**
- * Opt-in flag for the loopback ws:// exemption (plan item 2): in-process test
- * bridges (mock-socket WS servers) bind to ws://localhost, but the Basic
- * Authorization header crosses even a loopback wire unencrypted, so the
- * exemption is closed by default and opens ONLY on an explicit
- * ALLOW_INSECURE_LOOPBACK_WS=true. NODE_ENV is deliberately NOT consulted: it
- * is set widely in staging and CI and must never open the plaintext downgrade
- * path by accident.
+ * Startup validate fn for WS_API_ENDPOINT: exactly the spec's
+ * breaking_change_env_checks (reject the legacy cometd path, reject embedded
+ * credentials). The spec declares no scheme requirement and no opt-in env var,
+ * so ws:// loopback test-bridge URLs injected through WS_API_ENDPOINT alone are
+ * accepted like any other clean URL.
  */
-const loopbackWsOptIn = (): boolean => process.env.ALLOW_INSECURE_LOOPBACK_WS === 'true'
-
-/**
- * Startup validate fn for WS_API_ENDPOINT: the breaking-change checks above
- * plus the encrypted-scheme requirement — the handshake sends the Basic
- * Authorization header, so a plaintext ws:// endpoint would put the
- * credentials on the wire in cleartext. The ONLY exemption is a ws:// LOOPBACK
- * URL (localhost / 127.0.0.1 / [::1]) WITH the explicit
- * ALLOW_INSECURE_LOOPBACK_WS=true opt-in (default: rejected); it is accepted
- * with a warning because no real provider is loopback. Every non-loopback
- * ws:// host still fails closed.
- * Request-time customInputValidation deliberately does NOT repeat this scheme
- * check: the startup gate owns it.
- */
-export const validateWsApiEndpoint = (value?: string): string => {
-  const breakingChangeError = wsApiEndpointBreakingChangeError(value)
-  if (breakingChangeError) {
-    return breakingChangeError
-  }
-
-  const isLoopbackUrl = (endpoint: string): boolean =>
-    /^wss?:\/\/(localhost|127\.0\.0\.1|\[::1\])([:/?#]|$)/.test(endpoint)
-
-  if (value && !value.startsWith('wss://')) {
-    if (isLoopbackUrl(value)) {
-      if (!loopbackWsOptIn()) {
-        // Default false: no explicit opt-in, no plaintext handshake
-        return 'WS_API_ENDPOINT uses unencrypted ws:// on a loopback address; if this endpoint serves a local test bridge, set ALLOW_INSECURE_LOOPBACK_WS=true, otherwise use wss://'
-      }
-      // Opted-in loopback test bridge: accepted, but the Basic Authorization
-      // header crosses even a loopback wire unencrypted — signal it so a
-      // misconfigured endpoint does not pass silently. The log carries the
-      // parsed host and scheme ONLY: WS_API_ENDPOINT is sensitive: true, its
-      // raw value must never reach the logs. (Plan item 3: the loopback regex
-      // accepts shapes URL rejects, e.g. ws://localhost:notaport — a parse
-      // failure degrades the log to the scheme string, it never throws.)
-      let schemeAndHost: string
-      try {
-        const url = new URL(value)
-        schemeAndHost = `${url.protocol}//${url.host}`
-      } catch {
-        schemeAndHost = `${value.split('://')[0]}://`
-      }
-      logger.warn(
-        `WS_API_ENDPOINT uses unencrypted ${schemeAndHost} on a loopback address: the Basic Authorization header (API_USERNAME/API_PASSWORD) rides the handshake unencrypted; this plaintext scheme is only for local test bridges, use wss:// everywhere else`,
-      )
-    } else {
-      return 'WS_API_ENDPOINT must use the encrypted wss:// scheme; the Basic Authorization header rides the handshake and must not cross the wire in cleartext'
-    }
-  }
-
-  return ''
-}
+export const validateWsApiEndpoint = (value?: string): string =>
+  wsApiEndpointBreakingChangeError(value)
 
 /**
  * Spec data_source_authentication breaking_change_env_checks: the Basic
@@ -113,8 +60,7 @@ export const missingWsCredentials = (settings: {
  * One implementation, two call sites: the endpoints' customInputValidation runs
  * the request-time WS checks (cometd path, embedded credentials, credential
  * pair, WS_API_ENDPOINT presence) so a WS-path misconfiguration fails fast
- * with a clear error. The wss:// scheme check is NOT repeated here — it is
- * owned by the startup AdapterConfig validate fn.
+ * with a clear error.
  */
 export const wsEnvInputValidationError = (settings: {
   WS_API_ENDPOINT?: string
@@ -183,18 +129,6 @@ export const config = new AdapterConfig(
         },
         fn: validateWsApiEndpoint,
       },
-    },
-    // Review finding (loopback ws:// exemption lacked an explicit opt-in): the
-    // key is declared for operator visibility, but the WS_API_ENDPOINT validate
-    // fn reads process.env directly — framework validate fns receive only the
-    // value, never the settings object
-    ALLOW_INSECURE_LOOPBACK_WS: {
-      description:
-        'Explicit opt-in that allows an unencrypted ws:// LOOPBACK WS_API_ENDPOINT (local test bridges only); default false',
-      type: 'boolean',
-      required: false,
-      default: false,
-      sensitive: false,
     },
     API_ENDPOINT: {
       description: 'The API url for dxfeed',

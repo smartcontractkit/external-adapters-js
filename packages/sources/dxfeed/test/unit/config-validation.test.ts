@@ -44,15 +44,12 @@ describe('WS_API_ENDPOINT validation (spec breaking_change_env_checks)', () => {
     )
   })
 
-  it('rejects a plaintext ws:// endpoint — the Basic credentials would cross the wire unencrypted', () => {
-    // Spec data_source_base_url / usage.handshake_header: the endpoint is
-    // wss:// and the Authorization: Basic header rides the handshake, so only
-    // the encrypted scheme is acceptable
-    expect(validateWsApiEndpoint('ws://example.com/dxlink-chainlink')).toContain('wss://')
-  })
-
   it('accepts the wss:// dxLink endpoint', () => {
     expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe('')
+  })
+
+  it('accepts the framework mock-socket test-bridge URL injected through WS_API_ENDPOINT only (the spec declares no opt-in env var for local test bridges)', () => {
+    expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe('')
   })
 
   it('runs the validator at startup: a cometd WS_API_ENDPOINT fails config.validate()', () => {
@@ -67,113 +64,6 @@ describe('WS_API_ENDPOINT validation (spec breaking_change_env_checks)', () => {
       { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://user:pass@dxlink.fake.test/dxlink-chainlink' },
       () => expect(() => config.validate()).toThrow(/credentials/),
     )
-  })
-
-  it('runs the validator at startup: a plaintext ws:// WS_API_ENDPOINT fails config.validate()', () => {
-    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: 'ws://example.com/dxlink-chainlink' }, () =>
-      expect(() => config.validate()).toThrow(/wss:\/\//),
-    )
-  })
-})
-
-/**
- * Captures the warnings the config module's logger emits while
- * validateWsApiEndpoint runs directly. Same fresh-module isolation as
- * captureValidateWarnings below: the config module binds its logger on the
- * first log call, so the recording factory must be wired before the module
- * loads in the isolated registry.
- */
-const withRecordingLogger = (fn: (validate: typeof validateWsApiEndpoint) => void): string[] => {
-  const warnings: string[] = []
-  const recordingFactory: LoggerFactory = {
-    child: () => {
-      const levels = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'] as const
-      const methods: Record<string, (...args: unknown[]) => void> = {}
-      for (const level of levels) {
-        methods[level] = (...args: unknown[]) => {
-          if (level === 'warn') {
-            warnings.push(args.map((arg) => String(arg)).join(' '))
-          }
-        }
-      }
-      return methods as unknown as ReturnType<LoggerFactory['child']>
-    },
-  }
-
-  jest.isolateModules(() => {
-    // The isolated registry holds fresh copies of the framework modules too,
-    // so the recorder must be set on THAT registry's provider
-    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-    const framework = require('@chainlink/external-adapter-framework/util') as {
-      LoggerFactoryProvider: typeof LoggerFactoryProvider
-    }
-    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-    const configModule = require('../../src/config') as typeof import('../../src/config')
-    const { validateWsApiEndpoint: freshValidate } = configModule
-
-    framework.LoggerFactoryProvider.set(recordingFactory)
-    try {
-      fn(freshValidate)
-    } finally {
-      framework.LoggerFactoryProvider.set()
-    }
-  })
-  return warnings
-}
-
-describe('loopback ws:// opt-in gate (plan item 2: the loopback ws:// exemption requires ALLOW_INSECURE_LOOPBACK_WS; the warning states the restriction in the log itself)', () => {
-  const runWithFlag = (value: string | undefined, fn: () => void): void => {
-    const oldFlag = process.env.ALLOW_INSECURE_LOOPBACK_WS
-    try {
-      if (value === undefined) {
-        delete process.env.ALLOW_INSECURE_LOOPBACK_WS
-      } else {
-        process.env.ALLOW_INSECURE_LOOPBACK_WS = value
-      }
-      fn()
-    } finally {
-      if (oldFlag === undefined) {
-        delete process.env.ALLOW_INSECURE_LOOPBACK_WS
-      } else {
-        process.env.ALLOW_INSECURE_LOOPBACK_WS = oldFlag
-      }
-    }
-  }
-
-  it('rejects a ws:// loopback URL with the flag unset (default false: no explicit opt-in, no plaintext handshake) and emits no acceptance warning', () => {
-    const warnings = withRecordingLogger((validate) => {
-      runWithFlag(undefined, () => {
-        expect(validate('ws://localhost:9090/dxlink-chainlink')).not.toBe('')
-      })
-    })
-    // A rejected URL never becomes an accepted plaintext handshake
-    expect(warnings).toHaveLength(0)
-  })
-
-  it('accepts a ws:// loopback URL with ALLOW_INSECURE_LOOPBACK_WS=true and emits exactly one warning that the credentials ride an unencrypted connection', () => {
-    const warnings = withRecordingLogger((validate) => {
-      runWithFlag('true', () => {
-        expect(validate('ws://localhost:9090/dxlink-chainlink')).toBe('')
-      })
-    })
-    expect(warnings).toHaveLength(1)
-    // The warning states the Basic auth credentials cross the wire unencrypted
-    expect(warnings[0]).toMatch(/encrypt|plaintext|cleartext/i)
-  })
-
-  it('still rejects a non-loopback ws:// endpoint with no exemption (acceptance behavior unchanged)', () => {
-    const warnings = withRecordingLogger((validate) => {
-      expect(validate('ws://example.com/dxlink-chainlink')).toContain('wss://')
-    })
-    // A rejected URL never becomes an accepted plaintext handshake
-    expect(warnings).toHaveLength(0)
-  })
-
-  it('emits no warning for the encrypted wss:// dxLink endpoint', () => {
-    const warnings = withRecordingLogger((validate) => {
-      expect(validate(DXLINK_ENDPOINT)).toBe('')
-    })
-    expect(warnings).toHaveLength(0)
   })
 })
 

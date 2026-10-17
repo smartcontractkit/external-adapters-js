@@ -136,11 +136,9 @@ describe('spec sample_response frames on the dxLink transport', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = WS_URL
-    // ws:// loopback test bridge: the loopback ws:// exemption is OPT-IN —
-    // ALLOW_INSECURE_LOOPBACK_WS (default false) gates it, because the Basic
-    // Authorization header must not cross even a loopback wire unencrypted
-    // unless the deployment explicitly opted in
-    process.env['ALLOW_INSECURE_LOOPBACK_WS'] = 'true'
+    // ws:// loopback test bridge served by the framework's mock-socket test
+    // support: the URL is injected through WS_API_ENDPOINT only — the spec
+    // declares no extra env var for it
     process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
     process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
     process.env['WS_SUBSCRIPTION_TTL'] = '60000'

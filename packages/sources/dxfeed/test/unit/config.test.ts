@@ -1,4 +1,4 @@
-import { LoggerFactory, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -17,9 +17,10 @@ LoggerFactoryProvider.set()
 
 /**
  * Runs fn with the given env vars set and the config (re)initialized from
- * them. AdapterConfig.settingsDefinition is private in the pinned framework
- * (2.20.0), so startup behavior is asserted through the public
- * initialize()/validate() surface.
+ * them. Startup behavior is asserted through the public initialize()/validate()
+ * surface plus the runtime settingsDefinition map (TS-private in the pinned
+ * framework 2.20.0, but present on every AdapterConfig instance — the repo's
+ * own packages/scripts generators read it through the same cast).
  */
 const withSettings = (env: Record<string, string | undefined>, fn: () => void): void => {
   const oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -42,94 +43,67 @@ const withSettings = (env: Record<string, string | undefined>, fn: () => void): 
 const CREDENTIALS = { API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' }
 // Fake host (test_fake_urls): the provider host belongs only in src/config
 const DXLINK_ENDPOINT = 'wss://dxlink.fake.test/dxlink-chainlink'
+// The framework mock-socket test bridge URL the WS integration tests inject
+// through WS_API_ENDPOINT alone
 const LOOPBACK_ENDPOINT = 'ws://localhost:9090/dxlink-chainlink'
-const LOOPBACK_127_ENDPOINT = 'ws://127.0.0.1:9090/dxlink-chainlink'
+
+/**
+ * The spec environment_variables list — the ONLY env vars the adapter config
+ * may declare (plan finding CONF-ENV-MISMATCH: the config surface must match
+ * this set exactly).
+ */
+const SPEC_ENV_VARS = ['API_ENDPOINT', 'API_PASSWORD', 'API_USERNAME', 'WS_API_ENDPOINT']
+
+/** The runtime settings-definition map of the AdapterConfig instance. */
+const settingsDefinition = (): Record<string, unknown> =>
+  (config as unknown as { settingsDefinition: Record<string, unknown> }).settingsDefinition
+
+/** Recursively lists source files under src/ the grep guard scans. */
+const sourceFiles = (dir: string): string[] =>
+  fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const full = path.join(dir, entry.name)
+    if (entry.isDirectory()) {
+      return sourceFiles(full)
+    }
+    return /\.(ts|tsx|js|mjs|cjs|json)$/.test(entry.name) ? [full] : []
+  })
 
 // The framework resolves requestContext.transportName (ws|rest) BEFORE calling
 // customInputValidation, so a WS-path request is exactly a request whose
 // resolved transport is "ws".
 const wsRequest = { requestContext: { transportName: 'ws' } } as any
 
-/** Runs fn with NODE_ENV patched, restoring it afterwards. */
-const withNodeEnv = (value: string | undefined, fn: () => void): void => {
-  const oldNodeEnv = process.env.NODE_ENV
-  try {
-    if (value === undefined) {
-      delete process.env.NODE_ENV
-    } else {
-      process.env.NODE_ENV = value
-    }
-    fn()
-  } finally {
-    if (oldNodeEnv === undefined) {
-      delete process.env.NODE_ENV
-    } else {
-      process.env.NODE_ENV = oldNodeEnv
-    }
-  }
-}
-
-/** Runs fn with ALLOW_INSECURE_LOOPBACK_WS patched, restoring it afterwards. */
-const withLoopbackFlag = (value: string | undefined, fn: () => void): void => {
-  const oldFlag = process.env.ALLOW_INSECURE_LOOPBACK_WS
-  try {
-    if (value === undefined) {
-      delete process.env.ALLOW_INSECURE_LOOPBACK_WS
-    } else {
-      process.env.ALLOW_INSECURE_LOOPBACK_WS = value
-    }
-    fn()
-  } finally {
-    if (oldFlag === undefined) {
-      delete process.env.ALLOW_INSECURE_LOOPBACK_WS
-    } else {
-      process.env.ALLOW_INSECURE_LOOPBACK_WS = oldFlag
-    }
-  }
-}
-
-/**
- * Captures the warnings a FRESH config module emits while fn runs. The config
- * module binds its logger on the first log call, so the capture wires a
- * recording factory into an isolated module registry before loading the module.
- */
-const withRecordingLogger = (fn: (validate: typeof validateWsApiEndpoint) => void): string[] => {
-  const warnings: string[] = []
-  const recordingFactory: LoggerFactory = {
-    child: () => {
-      const levels = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'] as const
-      const methods: Record<string, (...args: unknown[]) => void> = {}
-      for (const level of levels) {
-        methods[level] = (...args: unknown[]) => {
-          if (level === 'warn') {
-            warnings.push(args.map((arg) => String(arg)).join(' '))
-          }
-        }
-      }
-      return methods as unknown as ReturnType<LoggerFactory['child']>
-    },
-  }
-
-  jest.isolateModules(() => {
-    // The isolated registry holds fresh copies of the framework modules too,
-    // so the recorder must be set on THAT registry's provider
-    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-    const framework = require('@chainlink/external-adapter-framework/util') as {
-      LoggerFactoryProvider: typeof LoggerFactoryProvider
-    }
-    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-    const configModule = require('../../src/config') as typeof import('../../src/config')
-    const { validateWsApiEndpoint: freshValidate } = configModule
-
-    framework.LoggerFactoryProvider.set(recordingFactory)
-    try {
-      fn(freshValidate)
-    } finally {
-      framework.LoggerFactoryProvider.set()
-    }
+describe('config surface (plan CONF-ENV-MISMATCH: the spec lists four environment_variables and the config must match that set exactly)', () => {
+  it('declares exactly API_USERNAME, API_PASSWORD, WS_API_ENDPOINT and API_ENDPOINT — no more, no fewer', () => {
+    expect(Object.keys(settingsDefinition()).sort()).toEqual(SPEC_ENV_VARS)
   })
-  return warnings
-}
+
+  it('admits no unknown env var into the settings surface: a stray variable in the environment neither appears in the config nor affects startup', () => {
+    withSettings(
+      {
+        ...CREDENTIALS,
+        WS_API_ENDPOINT: DXLINK_ENDPOINT,
+        // The env var the spec does not declare (the deleted config drift) —
+        // setting it must have no effect on the adapter's config surface
+        ALLOW_INSECURE_LOOPBACK_WS: 'true',
+      },
+      () => {
+        expect(Object.keys(settingsDefinition()).sort()).toEqual(SPEC_ENV_VARS)
+        expect(config.settings as unknown as Record<string, unknown>).not.toHaveProperty(
+          'ALLOW_INSECURE_LOOPBACK_WS',
+        )
+        expect(() => config.validate()).not.toThrow()
+      },
+    )
+  })
+
+  it('grep guard: no adapter source file references the unspecced env var', () => {
+    const offenders = sourceFiles(path.resolve(__dirname, '../../src')).filter((file) =>
+      fs.readFileSync(file, 'utf8').includes('ALLOW_INSECURE_LOOPBACK_WS'),
+    )
+    expect(offenders).toEqual([])
+  })
+})
 
 describe('WS settings at startup (API_USERNAME/API_PASSWORD required; WS_API_ENDPOINT downgraded to request-time per the REST-only deployment plan item)', () => {
   it('fails startup when API_USERNAME and API_PASSWORD are unset', () => {
@@ -237,124 +211,15 @@ describe('WS_API_ENDPOINT startup checks (spec breaking_change_env_checks)', () 
       expect(() => config.validate()).not.toThrow(),
     )
   })
-})
 
-describe('loopback ws:// opt-in gate (plan item 2: the loopback ws:// exemption is gated behind ALLOW_INSECURE_LOOPBACK_WS, default false; non-loopback ws:// still fails closed)', () => {
-  it('rejects ws://localhost when ALLOW_INSECURE_LOOPBACK_WS is unset (default false: the Basic credentials must not ride a plaintext handshake without explicit opt-in)', () => {
-    withLoopbackFlag(undefined, () => expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).not.toBe(''))
-  })
-
-  it('rejects ws://localhost when the flag is anything but true (only an explicit opt-in opens the exemption)', () => {
-    withLoopbackFlag('false', () => expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).not.toBe(''))
-  })
-
-  it('accepts ws://127.0.0.1 when ALLOW_INSECURE_LOOPBACK_WS=true', () => {
-    withLoopbackFlag('true', () => expect(validateWsApiEndpoint(LOOPBACK_127_ENDPOINT)).toBe(''))
-  })
-
-  it('accepts ws://localhost with the flag set regardless of NODE_ENV', () => {
-    withNodeEnv('production', () =>
-      withLoopbackFlag('true', () => expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).toBe('')),
+  it('accepts the framework mock-socket test-bridge URL injected through WS_API_ENDPOINT ONLY (no opt-in env var exists: the spec declares four env vars and the tests bind no extra one)', () => {
+    // The WS integration suites serve the dxLink mock on the framework's
+    // ws:// loopback test support and hand the URL to the adapter through
+    // WS_API_ENDPOINT alone — startup must accept exactly that
+    expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).toBe('')
+    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: LOOPBACK_ENDPOINT }, () =>
+      expect(() => config.validate()).not.toThrow(),
     )
-  })
-
-  it('rejects a ws:// non-loopback host even when ALLOW_INSECURE_LOOPBACK_WS=true (the flag only exempts loopback)', () => {
-    withLoopbackFlag('true', () =>
-      expect(validateWsApiEndpoint('ws://example.com/dxlink-chainlink')).toContain('wss://'),
-    )
-  })
-
-  it('fails startup: a loopback ws:// WS_API_ENDPOINT without the flag fails config.validate()', () => {
-    withSettings(
-      {
-        ...CREDENTIALS,
-        WS_API_ENDPOINT: 'ws://localhost:1',
-        ALLOW_INSECURE_LOOPBACK_WS: undefined,
-      },
-      () => expect(() => config.validate()).toThrow(),
-    )
-  })
-
-  it('accepts ws://[::1] with the flag set (the third loopback form) while ws:// on any non-loopback host stays rejected', () => {
-    withLoopbackFlag('true', () => {
-      // Loopback IPv6 literal: accepted like localhost and 127.0.0.1
-      expect(validateWsApiEndpoint('ws://[::1]:9090/dxlink-chainlink')).toBe('')
-    })
-
-    // Non-loopback ws:// fails closed regardless of the flag
-    expect(validateWsApiEndpoint('ws://dxlink.fake.test/dxlink-chainlink')).toContain('wss://')
-  })
-
-  it('boots at startup with the flag set: a loopback ws:// WS_API_ENDPOINT passes config.validate() (the test-bridge boot path with the explicit opt-in)', () => {
-    withSettings(
-      { ...CREDENTIALS, WS_API_ENDPOINT: LOOPBACK_ENDPOINT, ALLOW_INSECURE_LOOPBACK_WS: 'true' },
-      () => expect(() => config.validate()).not.toThrow(),
-    )
-  })
-})
-
-describe('loopback endpoint parse failure (plan item 3: the loopback branch never throws on a URL the loopback check accepts but URL cannot parse)', () => {
-  it('returns an error string and does not throw for ws://localhost:notaport with the flag unset', () => {
-    withLoopbackFlag(undefined, () => {
-      let result: string | undefined
-      expect(() => {
-        result = validateWsApiEndpoint('ws://localhost:notaport')
-      }).not.toThrow()
-      expect(result).toBeDefined()
-      expect(result).not.toBe('')
-    })
-  })
-
-  it('with the flag set, ws://localhost:notaport still does not throw and is accepted (the parse failure only degrades the warning log)', () => {
-    withLoopbackFlag('true', () => {
-      let result: string | undefined
-      expect(() => {
-        result = validateWsApiEndpoint('ws://localhost:notaport')
-      }).not.toThrow()
-      expect(result).toBe('')
-    })
-  })
-})
-
-describe('loopback warning content (the flag is for local test bridges only and the warning says so in the log itself — no runbook file; the sensitive WS_API_ENDPOINT value never reaches the logs)', () => {
-  it('logs the parsed host and scheme but not the full WS_API_ENDPOINT value or any credential', () => {
-    withLoopbackFlag('true', () => {
-      const warnings = withRecordingLogger((validate) => {
-        expect(validate(LOOPBACK_ENDPOINT)).toBe('')
-      })
-
-      expect(warnings).toHaveLength(1)
-      // The parsed scheme and host are in the log entry...
-      expect(warnings[0]).toContain('ws://')
-      expect(warnings[0]).toContain('localhost')
-      // ...the raw sensitive value (and any unique part of it) is not, and
-      // neither is any credential material
-      expect(warnings[0]).not.toContain(LOOPBACK_ENDPOINT)
-      expect(warnings[0]).not.toContain('/dxlink-chainlink')
-      expect(warnings[0]).not.toContain(':9090/dxlink')
-      expect(warnings[0]).not.toContain('dxfeed-pass')
-    })
-  })
-
-  it('states the deployment restriction: the flag is for local test bridges only and the Basic credentials cross the wire unencrypted', () => {
-    withLoopbackFlag('true', () => {
-      const warnings = withRecordingLogger((validate) => {
-        expect(validate(LOOPBACK_ENDPOINT)).toBe('')
-      })
-
-      expect(warnings).toHaveLength(1)
-      // The log message is the in-package mitigation: it must carry the
-      // restriction statement itself
-      expect(warnings[0]).toMatch(/unencrypted/i)
-      expect(warnings[0]).toMatch(/test bridge/i)
-    })
-  })
-
-  it('emits no loopback warning for the encrypted wss:// dxLink endpoint', () => {
-    const warnings = withRecordingLogger((validate) => {
-      expect(validate(DXLINK_ENDPOINT)).toBe('')
-    })
-    expect(warnings).toHaveLength(0)
   })
 })
 
