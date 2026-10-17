@@ -36,6 +36,7 @@ const withSettings = (env: Record<string, string | undefined>, fn: () => void): 
 const CREDENTIALS = { API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' }
 const DXLINK_ENDPOINT = 'wss://tools.dxfeed.com/dxlink-chainlink'
 const LOOPBACK_ENDPOINT = 'ws://localhost:9090/dxlink-chainlink'
+const LOOPBACK_127_ENDPOINT = 'ws://127.0.0.1:9090/dxlink-chainlink'
 
 // The framework resolves requestContext.transportName (ws|rest) BEFORE calling
 // customInputValidation, so a WS-path request is exactly a request whose
@@ -57,6 +58,25 @@ const withNodeEnv = (value: string | undefined, fn: () => void): void => {
       delete process.env.NODE_ENV
     } else {
       process.env.NODE_ENV = oldNodeEnv
+    }
+  }
+}
+
+/** Runs fn with ALLOW_INSECURE_LOOPBACK_WS patched, restoring it afterwards. */
+const withLoopbackFlag = (value: string | undefined, fn: () => void): void => {
+  const oldFlag = process.env.ALLOW_INSECURE_LOOPBACK_WS
+  try {
+    if (value === undefined) {
+      delete process.env.ALLOW_INSECURE_LOOPBACK_WS
+    } else {
+      process.env.ALLOW_INSECURE_LOOPBACK_WS = value
+    }
+    fn()
+  } finally {
+    if (oldFlag === undefined) {
+      delete process.env.ALLOW_INSECURE_LOOPBACK_WS
+    } else {
+      process.env.ALLOW_INSECURE_LOOPBACK_WS = oldFlag
     }
   }
 }
@@ -196,41 +216,57 @@ describe('WS_API_ENDPOINT startup checks (spec breaking_change_env_checks)', () 
   })
 })
 
-describe('loopback ws:// exemption gated on NODE_ENV=test (round-2 item 5: no cleartext Basic auth outside tests)', () => {
-  it('accepts ws://localhost when NODE_ENV=test (in-process test bridges)', () => {
-    withNodeEnv('test', () => expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).toBe(''))
-  })
-
-  it('rejects ws://localhost when NODE_ENV=production', () => {
-    withNodeEnv('production', () =>
-      expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).toContain('wss://'),
-    )
-  })
-
-  it('rejects ws://localhost when NODE_ENV is unset', () => {
-    withNodeEnv(undefined, () =>
-      expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).toContain('wss://'),
-    )
-  })
-
-  it('enforces the gate at startup: a loopback ws:// WS_API_ENDPOINT fails config.validate() outside NODE_ENV=test', () => {
-    withNodeEnv('production', () =>
-      withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: LOOPBACK_ENDPOINT }, () =>
-        expect(() => config.validate()).toThrow(/wss:\/\//),
+describe('loopback ws:// exemption gated on ALLOW_INSECURE_LOOPBACK_WS (explicit opt-in: no NODE_ENV fallback)', () => {
+  it('rejects ws://127.0.0.1 even under NODE_ENV=test when ALLOW_INSECURE_LOOPBACK_WS is unset', () => {
+    // NODE_ENV is set widely in staging and CI: it must NOT open the plaintext
+    // downgrade path — only the explicit opt-in flag does
+    withNodeEnv('test', () =>
+      withLoopbackFlag(undefined, () =>
+        expect(validateWsApiEndpoint(LOOPBACK_127_ENDPOINT)).toContain('wss://'),
       ),
     )
   })
 
-  it('still rejects a non-loopback ws:// endpoint even under NODE_ENV=test', () => {
-    withNodeEnv('test', () =>
+  it('accepts ws://127.0.0.1 when ALLOW_INSECURE_LOOPBACK_WS=true', () => {
+    withLoopbackFlag('true', () => expect(validateWsApiEndpoint(LOOPBACK_127_ENDPOINT)).toBe(''))
+  })
+
+  it('accepts ws://localhost with the flag set regardless of NODE_ENV', () => {
+    withNodeEnv('production', () =>
+      withLoopbackFlag('true', () => expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).toBe('')),
+    )
+  })
+
+  it('rejects ws://localhost when the flag is anything other than true (default unset fails closed)', () => {
+    withLoopbackFlag('false', () =>
+      expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).toContain('wss://'),
+    )
+  })
+
+  it('rejects a ws:// non-loopback host even when ALLOW_INSECURE_LOOPBACK_WS=true', () => {
+    withLoopbackFlag('true', () =>
       expect(validateWsApiEndpoint('ws://example.com/dxlink-chainlink')).toContain('wss://'),
+    )
+  })
+
+  it('enforces the gate at startup: a loopback ws:// WS_API_ENDPOINT fails config.validate() with the flag unset', () => {
+    withSettings(
+      { ...CREDENTIALS, WS_API_ENDPOINT: LOOPBACK_ENDPOINT, ALLOW_INSECURE_LOOPBACK_WS: undefined },
+      () => expect(() => config.validate()).toThrow(/wss:\/\//),
+    )
+  })
+
+  it('starts cleanly with the flag set: a loopback ws:// WS_API_ENDPOINT passes config.validate()', () => {
+    withSettings(
+      { ...CREDENTIALS, WS_API_ENDPOINT: LOOPBACK_ENDPOINT, ALLOW_INSECURE_LOOPBACK_WS: 'true' },
+      () => expect(() => config.validate()).not.toThrow(),
     )
   })
 })
 
 describe('loopback warning censoring (round-2 item 6: the sensitive WS_API_ENDPOINT value never reaches the logs)', () => {
   it('logs the parsed host and scheme but not the full WS_API_ENDPOINT value', () => {
-    withNodeEnv('test', () => {
+    withLoopbackFlag('true', () => {
       const warnings = withRecordingLogger((validate) => {
         expect(validate(LOOPBACK_ENDPOINT)).toBe('')
       })

@@ -1,4 +1,5 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import { transport as stockQuotesTransport } from '../../../src/transport/stock-quotes'
 import { DxLinkMessage, openDxLinkConnection } from '../../../src/transport/ws'
 import frames from '../fixtures/dxlink-frames.json'
 
@@ -18,6 +19,9 @@ const makeConnection = () => {
   return {
     sent,
     send: (data: string) => sent.push(JSON.parse(data)),
+    // The underlying ws client's close: the CHANNEL_CLOSED assertions spy it to
+    // prove the in-band channel close never tears the socket down
+    close: jest.fn(),
     addEventListener: (event: 'message' | 'close', listener: Listener) => {
       const set = listeners.get(event) ?? new Set<Listener>()
       set.add(listener)
@@ -112,5 +116,35 @@ describe('open-gate listener lifetime (round-2 item 2: the transport handler is 
     // still fires (post-handshake closes are framework business)
     expect(() => connection.emitClose()).not.toThrow()
     expect(transportCloseHandler).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('CHANNEL_CLOSED is an in-band dxLink message (no error result, no reconnect)', () => {
+  it('handlers.message emits no result, never closes the socket and never re-runs the handshake', async () => {
+    const connection = makeConnection()
+
+    // Open the real transport handlers against the fake connection: the dxLink
+    // handshake (SETUP, CHANNEL_REQUEST, FEED_SETUP) goes out exactly once
+    const opened = (stockQuotesTransport as any).config.handlers.open(connection, {
+      adapterSettings: {},
+    })
+    connection.emit(frames.quoteFeedConfig)
+    await opened
+    const handshakeCount = connection.sent.length
+    expect(handshakeCount).toBe(3)
+
+    // The provider closes the dxLink feed channel in-band; the WebSocket
+    // itself stays open
+    const results = (stockQuotesTransport as any).config.handlers.message(
+      frames.channelClosedFrame as any,
+    )
+
+    // (a) no result at all is emitted — in particular no error result
+    expect(results).toEqual([])
+
+    // (b) no reconnect: the socket is not closed and no re-handshake is sent —
+    // the cached last value keeps serving across the channel-close window
+    expect(connection.close).not.toHaveBeenCalled()
+    expect(connection.sent).toHaveLength(handshakeCount)
   })
 })

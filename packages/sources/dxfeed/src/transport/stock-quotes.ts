@@ -57,6 +57,18 @@ export const quoteRecordToResult = (
   const requireVolume = params.requireVolume
   const isOvernight = params.isOvernight
 
+  // Reference adapter semantics (legacy WS transport stock-quotes.ts): the
+  // isOvernight exchange-code filter runs BEFORE the requireVolume check — a
+  // record quoting on a non-'O' venue is dropped entirely, so an invalid
+  // volume on such a record yields no result, never a 502
+  const bidExchangeCode = String(record[BID_EXCHANGE_CODE_INDEX])
+  const askExchangeCode = String(record[ASK_EXCHANGE_CODE_INDEX])
+  if (isOvernight && !(bidExchangeCode === 'O' && askExchangeCode === 'O')) {
+    // Spec: with is_overnight, keep only records quoting on the overnight venue
+    // on both sides; drop the record otherwise.
+    return undefined
+  }
+
   if (requireVolume && (Number.isNaN(bidSize) || Number.isNaN(askSize))) {
     return {
       statusCode: 502,
@@ -68,14 +80,6 @@ export const quoteRecordToResult = (
   // through unchanged, NaN included — JSON serializes NaN to null on the wire
   const bidVolume = bidSize
   const askVolume = askSize
-
-  const bidExchangeCode = String(record[BID_EXCHANGE_CODE_INDEX])
-  const askExchangeCode = String(record[ASK_EXCHANGE_CODE_INDEX])
-  if (isOvernight && !(bidExchangeCode === 'O' && askExchangeCode === 'O')) {
-    // Spec: with is_overnight, keep only records quoting on the overnight venue
-    // on both sides; drop the record otherwise.
-    return undefined
-  }
 
   return {
     result: midPrice,

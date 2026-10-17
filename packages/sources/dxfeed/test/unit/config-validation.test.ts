@@ -121,10 +121,20 @@ const withRecordingLogger = (fn: (validate: typeof validateWsApiEndpoint) => voi
 }
 
 describe('loopback ws:// exemption warning (plan round-2 item 5: the plaintext handshake carries the Basic credentials)', () => {
-  it('accepts a ws:// loopback URL (in-process test bridge) AND emits exactly one warning that the credentials ride an unencrypted connection', () => {
+  it('accepts a ws:// loopback URL with the explicit ALLOW_INSECURE_LOOPBACK_WS opt-in AND emits exactly one warning that the credentials ride an unencrypted connection', () => {
     const warnings = withRecordingLogger((validate) => {
-      // Acceptance behavior unchanged: loopback ws:// stays accepted
-      expect(validate('ws://localhost:9090/dxlink-chainlink')).toBe('')
+      const oldFlag = process.env.ALLOW_INSECURE_LOOPBACK_WS
+      process.env.ALLOW_INSECURE_LOOPBACK_WS = 'true'
+      try {
+        // Opt-in acceptance: loopback ws:// stays accepted with the flag set
+        expect(validate('ws://localhost:9090/dxlink-chainlink')).toBe('')
+      } finally {
+        if (oldFlag === undefined) {
+          delete process.env.ALLOW_INSECURE_LOOPBACK_WS
+        } else {
+          process.env.ALLOW_INSECURE_LOOPBACK_WS = oldFlag
+        }
+      }
     })
     expect(warnings).toHaveLength(1)
     // The warning states the Basic auth credentials cross the wire unencrypted

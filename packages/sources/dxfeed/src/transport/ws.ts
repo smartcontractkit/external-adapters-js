@@ -427,9 +427,11 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
         return []
       case 'CHANNEL_CLOSED':
         logger.warn(
-          `dxLink channel ${message.channel} closed for ${message.eventType ?? 'all events'} ${
+          `dxLink channel ${message.channel} closed by the server for ${
+            message.eventType ?? 'all events'
+          } ${
             message.symbol ?? ''
-          }; the framework will reconnect and resubscribe the desired set`,
+          }: this is an in-band dxLink message — the WebSocket stays open and no reconnect or resubscribe is triggered by it; the cached last value keeps serving`,
         )
         return []
       case 'KEEPALIVE':

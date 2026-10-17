@@ -30,10 +30,14 @@ const wsApiEndpointBreakingChangeError = (value?: string): string => {
  * Startup validate fn for WS_API_ENDPOINT: the breaking-change checks above
  * plus the encrypted-scheme requirement — the handshake sends the Basic
  * Authorization header, so a plaintext ws:// endpoint would put the
- * credentials on the wire in cleartext. Only loopback ws:// URLs under
- * NODE_ENV=test are accepted (in-process test bridges bind there; no real
- * provider is loopback, and a production deployment must never send the Basic
- * Authorization header unencrypted — not even over loopback).
+ * credentials on the wire in cleartext. The ONLY exemption is an explicit
+ * ALLOW_INSECURE_LOOPBACK_WS=true opt-in on a ws:// loopback URL
+ * (127.0.0.1 / localhost) for in-process test bridges, which bind there; no
+ * real provider is loopback, and a production deployment must never send the
+ * Basic Authorization header unencrypted — not even over loopback. The flag
+ * defaults to unset/false and fails closed: NODE_ENV is deliberately NOT
+ * consulted, because it is set widely in staging and CI and must never open
+ * the plaintext downgrade path by accident.
  * Request-time customInputValidation deliberately does NOT repeat this scheme
  * check: the startup gate owns it.
  */
@@ -47,12 +51,13 @@ export const validateWsApiEndpoint = (value?: string): string => {
     /^wss?:\/\/(localhost|127\.0\.0\.1|\[::1\])([:/?#]|$)/.test(endpoint)
 
   if (value && !value.startsWith('wss://')) {
-    if (isLoopbackUrl(value) && process.env.NODE_ENV === 'test') {
-      // Loopback exemption for in-process test bridges: still accepted, but the
-      // Basic Authorization header would cross even a loopback wire unencrypted —
-      // signal it so a misconfigured endpoint does not pass silently. The log
-      // carries the parsed host and scheme ONLY: WS_API_ENDPOINT is
-      // sensitive: true, its raw value must never reach the logs.
+    if (isLoopbackUrl(value) && process.env.ALLOW_INSECURE_LOOPBACK_WS === 'true') {
+      // Explicit opt-in loopback exemption for in-process test bridges: still
+      // accepted, but the Basic Authorization header would cross even a
+      // loopback wire unencrypted — signal it so a misconfigured endpoint does
+      // not pass silently. The log carries the parsed host and scheme ONLY:
+      // WS_API_ENDPOINT is sensitive: true, its raw value must never reach
+      // the logs.
       const url = new URL(value)
       logger.warn(
         `WS_API_ENDPOINT uses unencrypted ${url.protocol}//${url.host} on a loopback address: the Basic Authorization header (API_USERNAME/API_PASSWORD) rides the handshake unencrypted; use wss:// outside local test bridges`,

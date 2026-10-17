@@ -108,6 +108,8 @@ describe('dxLink wire protocol', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = WS_URL
+    // ws:// loopback test bridge: the plaintext exemption is an explicit opt-in
+    process.env['ALLOW_INSECURE_LOOPBACK_WS'] = 'true'
     process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
     process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
     // Short enough that the unsubscribe window fits the fake-clock ticks of the
