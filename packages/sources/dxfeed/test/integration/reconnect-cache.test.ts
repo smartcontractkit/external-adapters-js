@@ -25,7 +25,7 @@ const realSetTimeout = setTimeout
 const WS_URL = 'ws://localhost:9100/dxlink-chainlink'
 
 // Spec endpoint_request_response_examples request (stock_quotes, AAPL); the
-// fixtures.ts frame carries the spec sample values for AAPL:USLF24
+// dxlink-mocks.ts frame carries the spec sample values for AAPL:USLF24
 const quoteRequest = {
   endpoint: 'stock_quotes',
   from: 'AAPL',

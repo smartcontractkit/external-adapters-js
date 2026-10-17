@@ -22,7 +22,7 @@ const WS_URL = 'ws://localhost:9097/dxlink-chainlink'
 
 // Spec stock_quotes sample_response, second FEED_DATA frame: TWO Quote records
 // for AAPL:USLF24 concatenated in one COMPACT frame (the acceptAggregationPeriod=1
-// batching). Overrides the single-record fixtures.ts frame for this suite: the
+// batching). Overrides the single-record dxlink-mocks.ts frame for this suite: the
 // adapter processes both records and serves the LAST (freshest) one per wire
 // key — the spec endpoint_request_response_examples response derives from that
 // second record (providerIndicatedTimeUnixMs 1760000001000).

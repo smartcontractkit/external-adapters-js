@@ -212,15 +212,17 @@ export const mockDxLinkServer = (url: string): MockWebsocketServer => {
 /**
  * Handshake-failure dxLink mock server: proves the adapter surfaces connection
  * errors instead of hanging when the provider never completes the handshake.
- * Two modes, switchable mid-test through setMode:
+ * Three modes, switchable mid-test through setMode:
  * - 'no-feed-config': accepts the connection and answers nothing — SETUP,
  *   CHANNEL_REQUEST and FEED_SETUP are received and deliberately never
  *   acknowledged with FEED_CONFIG
+ * - 'error': answers the handshake with a single dxLink ERROR control frame
+ *   (the provider's unauthorized-credential reply shape) instead of FEED_CONFIG
  * - 'reject': closes every connection immediately (the behavioral stand-in for
  *   the provider rejecting the handshake — the mock-socket bridge carries no
  *   upgrade headers, so rejection is expressed as an immediate close)
  */
-export type DxLinkHandshakeFailureMode = 'no-feed-config' | 'reject'
+export type DxLinkHandshakeFailureMode = 'no-feed-config' | 'error' | 'reject'
 
 export type DxLinkHandshakeFailureServer = MockWebsocketServer & {
   setMode: (mode: DxLinkHandshakeFailureMode) => void
@@ -240,9 +242,27 @@ export const mockDxLinkHandshakeFailureServer = (url: string): DxLinkHandshakeFa
     connections.push(connection)
     const frames: string[] = []
     framesByConnection.push(frames)
+    let sentError = false
     socket.on('message', (raw: unknown) => {
       frames.push(String(raw))
-      // No reply in any mode: FEED_SETUP never gets its FEED_CONFIG
+      // 'error' mode: the unauthorized-credential reply — a single dxLink ERROR
+      // control frame where FEED_CONFIG would be. One reply per connection: the
+      // client handshake stops at the rejection.
+      if (mode.current === 'error') {
+        if (!sentError) {
+          sentError = true
+          connection.send(
+            JSON.stringify({
+              type: 'ERROR',
+              channel: 1,
+              code: 'UNAUTHORIZED',
+              message: 'test: not authorized',
+            }),
+          )
+        }
+        return
+      }
+      // No reply in the other modes: FEED_SETUP never gets its FEED_CONFIG
     })
     if (mode.current === 'reject') {
       connection.close()

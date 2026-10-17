@@ -153,6 +153,25 @@ describe('dxLink websocket smoke flows', () => {
         timestamps: { providerIndicatedTimeUnixMs: 1760000002000 },
       })
     })
+
+    it('ignores a server KEEPALIVE frame: no result, stream untouched', async () => {
+      // Spec keepalive.interval_seconds=30 cuts both ways: the server also sends
+      // KEEPALIVE control frames on the connection. A KEEPALIVE must produce no
+      // result and leave the subscription stream untouched — the last value
+      // keeps serving with its original timestamp.
+      // The quote endpoint's connection is the first the adapter opened
+      const quoteConnection = dxLinkConnections[0]
+      expect(quoteConnection).toBeDefined()
+      quoteConnection?.send(JSON.stringify({ type: 'KEEPALIVE', channel: 0 }))
+      await step()
+
+      const response = await testAdapter.request(quoteRequest)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchObject({
+        result: 190.0,
+        timestamps: { providerIndicatedTimeUnixMs: 1760000000000 },
+      })
+    })
   })
 
   describe('reconnect', () => {

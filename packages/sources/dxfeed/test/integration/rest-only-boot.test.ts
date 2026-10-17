@@ -64,4 +64,26 @@ describe('REST transport untouched (defaultTransport rest, no transport param)',
       result: 239.255,
     })
   })
+
+  it('still resolves overrides on the REST path', async () => {
+    // Spec endpoint_request_response_examples request shape: the override layer
+    // is preserved untouched by the migration ("overrides": "preserve"). The
+    // dxfeed override resolves base AAPL -> IBM before the untouched REST
+    // transport builds its request, and the served value is the resolved
+    // symbol's provider price from the fake-host mock.
+    const response = await testAdapter.request({
+      base: 'AAPL',
+      to: 'USD',
+      overrides: {
+        dxfeed: {
+          AAPL: 'IBM',
+        },
+      },
+    })
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchObject({
+      data: { result: 142.5 },
+      result: 142.5,
+    })
+  })
 })

@@ -63,6 +63,15 @@ describe('dxLink connection: Basic auth header and failed handshakes', () => {
     process.env['API_PASSWORD'] = API_PASSWORD
     // Short budget so the failed-handshake flows fit a handful of fake-clock steps
     process.env['WS_CONNECTION_OPEN_TIMEOUT'] = '2000'
+    // Every handshake in this suite fails, and the framework backs off
+    // exponentially across streamHandler failures (100ms * 3^n, up to 20min by
+    // default) — cumulative failures from earlier tests would push the next
+    // reconnect attempt outside this test's fake-clock window. Factor 1 keeps
+    // every retry at STREAM_HANDLER_RETRY_MIN_MS so reconnects stay prompt and
+    // deterministic regardless of how many failures came before.
+    process.env['STREAM_HANDLER_RETRY_MIN_MS'] = '100'
+    process.env['STREAM_HANDLER_RETRY_EXP_FACTOR'] = '1'
+    process.env['STREAM_HANDLER_RETRY_MAX_MS'] = '3000'
     process.env['WS_SUBSCRIPTION_TTL'] = '60000'
     process.env['CACHE_MAX_AGE'] = '600000'
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
@@ -150,6 +159,35 @@ describe('dxLink connection: Basic auth header and failed handshakes', () => {
     }
     const after = await testAdapter.request(quoteRequest)
     expect(after.statusCode).toBe(504)
+  })
+
+  it('surfaces the provider ERROR frame as a handshake failure: the open gate rejects and no value is served', async () => {
+    // The provider's unauthorized-credential reply: an ERROR control frame
+    // instead of FEED_CONFIG (spec data_source_authentication — Basic auth is
+    // what the prod endpoint verifies; the dxLink AUTH message is NOT used).
+    // The open gate must reject on the ERROR frame — the caller gets an error,
+    // never a value, and never the open timeout waited out in vain.
+    failureServer.setMode('error')
+    const connIndex = await reconnect()
+
+    const response = await testAdapter.request(quoteRequest)
+    expect(response.statusCode).toBe(504)
+
+    // The spec handshake still went out on the wire before the ERROR arrived;
+    // the reply the mock sent back is the ERROR frame, not FEED_CONFIG
+    for (let i = 0; i < 5 && (failureServer.framesByConnection[connIndex] ?? []).length < 3; i++) {
+      await step()
+    }
+    const types = (failureServer.framesByConnection[connIndex] ?? [])
+      .map((raw) => {
+        try {
+          return JSON.parse(raw).type as string
+        } catch {
+          return undefined
+        }
+      })
+      .filter((t): t is string => Boolean(t))
+    expect(types.slice(0, 3)).toEqual(['SETUP', 'CHANNEL_REQUEST', 'FEED_SETUP'])
   })
 
   it('surfaces a connection error and stays up when the provider rejects the connection', async () => {
