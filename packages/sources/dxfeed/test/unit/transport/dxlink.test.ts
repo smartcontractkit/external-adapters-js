@@ -323,13 +323,15 @@ describe('FEED_SUBSCRIPTION message building (spec primary_command: FEED_SUBSCRI
 })
 
 describe('COMPACT FEED_DATA parsing (spec acceptDataFormat=COMPACT)', () => {
-  it('splits the spec sample_response Quote frame positionally and maps the first record', () => {
+  it('splits the spec sample_response Quote frame positionally and maps the spec example record (spec endpoint_request_response_examples[0] — the golden vector)', () => {
     const results = quoteFeed().message(frames.stockQuotesFrame as any)
 
     expect(results).toHaveLength(1)
     const response = results[0] as any
-    // Spec stock_quotes sample_response, first record:
-    // mid=(189.95+190.05)/2=190, bid 189.95/100, ask 190.05/200, time 1760000000000
+    // The spec sample frame concatenates two records for AAPL:USLF24; the spec
+    // example response (and the agent-unwritable golden vector) maps the FIRST
+    // one: mid=(189.95+190.05)/2=190, bid 189.95/100, ask 190.05/200,
+    // time 1760000000000
     expect(response.result).toBe(190)
     expect(response.data).toEqual({
       mid_price: 190,
@@ -498,6 +500,8 @@ describe('stale value serving + reconnect cache (owner decisions stale_quote_ser
     const out = feed.message(frames.stockQuotesFrame as any)
     expect(out).toHaveLength(1)
     expect((out[0] as any).result).toBe(190)
+    // The spec example record of the aggregated frame per wire key (the golden
+    // vector's first-record mapping)
     expect((out[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
   })
 

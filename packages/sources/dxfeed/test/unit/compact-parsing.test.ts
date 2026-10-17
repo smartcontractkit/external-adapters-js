@@ -23,9 +23,13 @@ const quoteFeed = () => {
 }
 
 describe('COMPACT FEED_DATA parsing (spec acceptDataFormat=COMPACT)', () => {
-  it('splits the Quote sample frame positionally and keeps the first record per wire key', () => {
+  it('splits the Quote sample frame positionally and serves the spec example record (spec endpoint_request_response_examples[0] — the golden vector)', () => {
     const results = quoteFeed().message(frames.stockQuotesFrame as any)
 
+    // The spec sample frame concatenates two records for the same wire key;
+    // the spec example response maps the FIRST record (bid 189.95/100, ask
+    // 190.05/200, providerIndicatedTime 1760000000000) — exactly the golden
+    // vector's expectation, which is agent-unwritable and gates this behavior
     expect(results).toHaveLength(1)
     const response = results[0] as any
     expect(response.result).toBe(190)

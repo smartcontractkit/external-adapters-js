@@ -52,8 +52,9 @@ describe('dxfeed adapter init', () => {
 
   it('boots with mocked config and exposes both spec endpoints', async () => {
     // Boot itself is the first assertion: an invalid config (cometd path,
-    // embedded credentials, missing credential pair) would have rejected
-    // startWithMockedCache above.
+    // embedded credentials) would have rejected startWithMockedCache above.
+    // The credential pair itself is not required at boot (plan item 3 moved
+    // its enforcement to WS-path input validation; this suite sets it anyway).
     const endpointNames = adapter.endpoints.map((e) => e.name.toLowerCase())
     expect(endpointNames).toEqual(expect.arrayContaining(['price', 'stock_quotes']))
 

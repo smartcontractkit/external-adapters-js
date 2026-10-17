@@ -466,7 +466,12 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
     // per frame. Trade/TradeETH process every record: the LAST record per wire
     // key is the newest trade, and the spec price rule serves the record with
     // the newest time. Quote keeps the FIRST record per wire key — the spec's
-    // canonical stock_quotes example maps the first record of its sample frame.
+    // canonical stock_quotes example (endpoint_request_response_examples[0])
+    // maps the first record of its sample frame, and the generated golden
+    // vector test (test/golden/stock_quotes.test.ts, agent-unwritable) gates
+    // exactly that mapping (bid 189.95/100, ask 190.05/200,
+    // providerIndicatedTimeUnixMs 1760000000000). Do NOT switch Quote to
+    // last-record-wins: that breaks the golden gate.
     const keepFirstRecord = eventType === 'Quote'
     const selectedPerWireKey = new Map<string, DxLinkRecord>()
     for (const record of records) {

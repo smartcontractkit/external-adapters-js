@@ -247,13 +247,15 @@ describe('FEED_SUBSCRIPTION fanout (spec primary_command; owner decision tradete
 })
 
 describe('COMPACT FEED_DATA parsing (spec acceptDataFormat=COMPACT / sample_response frames)', () => {
-  it('parses a Quote frame into the bid/ask fields of the spec first record', () => {
+  it('serves the spec example record of an aggregated Quote frame (spec endpoint_request_response_examples[0]: the golden vector maps the first record of the sample frame)', () => {
     const results = quoteFeed().message(frames.stockQuotesFrame as any)
 
+    // The spec sample frame concatenates two Quote records for AAPL:USLF24 with
+    // different bid/ask values; the spec example response maps the FIRST one —
+    // time 1760000000000, bid 189.95/100, ask 190.05/200, V/V, mid 190. The
+    // agent-unwritable golden vector gates exactly this mapping.
     expect(results).toHaveLength(1)
     const response = results[0] as any
-    // Spec stock_quotes sample_response, first record:
-    // mid=(189.95+190.05)/2=190, bid 189.95/100, ask 190.05/200, time 1760000000000
     expect(response.result).toBe(190)
     expect(response.data).toEqual({
       mid_price: 190,
@@ -427,6 +429,8 @@ describe('stale serving + reconnect window (owner decisions stale_quote_serving,
     const out = feed.message(frames.stockQuotesFrame as any)
     expect(out).toHaveLength(1)
     expect((out[0] as any).result).toBe(190)
+    // The spec example record of the aggregated frame per wire key (the golden
+    // vector's first-record mapping)
     expect((out[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
   })
 })

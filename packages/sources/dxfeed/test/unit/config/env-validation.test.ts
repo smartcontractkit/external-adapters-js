@@ -87,6 +87,30 @@ describe('WS-path credential requirement (spec: require API_USERNAME and API_PAS
     ).toBeUndefined()
   })
 
+  it('rejects a ws-path request missing any of the three WS settings (plan item 3: WS_API_ENDPOINT, API_USERNAME and API_PASSWORD are enforced by the WS-path input validation, not the startup config)', () => {
+    // Nothing set at all
+    for (const endpoint of [priceEndpoint, stockQuotesEndpoint]) {
+      const error = endpoint.customInputValidation?.(wsRequest, {} as any)
+      expect(error?.statusCode).toBe(400)
+      expect(error?.message).toBeTruthy()
+    }
+
+    // Credentials set but WS_API_ENDPOINT unset
+    const noEndpoint = priceEndpoint.customInputValidation?.(wsRequest, {
+      API_USERNAME: CREDENTIALS.API_USERNAME,
+      API_PASSWORD: CREDENTIALS.API_PASSWORD,
+    } as any)
+    expect(noEndpoint?.statusCode).toBe(400)
+    expect(noEndpoint?.message).toContain('WS_API_ENDPOINT')
+
+    // Endpoint set but the credential pair missing (the pre-existing gate)
+    const noCreds = priceEndpoint.customInputValidation?.(wsRequest, {
+      WS_API_ENDPOINT: DXLINK_ENDPOINT,
+    } as any)
+    expect(noCreds?.statusCode).toBe(400)
+    expect(noCreds?.message).toContain('API_USERNAME')
+  })
+
   it('leaves rest-path price requests ungated by the WS checks (owner decision rest_transport_scope=keep_untouched)', () => {
     expect(
       priceEndpoint.customInputValidation?.(restRequest, {

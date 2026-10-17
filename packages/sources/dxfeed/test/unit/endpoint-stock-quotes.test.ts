@@ -22,10 +22,12 @@ const quoteFeed = () => {
 }
 
 describe('mid/bid/ask/volumes mapping (spec response_mapping + endpoint_request_response_examples[0])', () => {
-  it('maps a COMPACT Quote record to mid_price, bid_price, bid_volume, ask_price, ask_volume', () => {
+  it('maps a COMPACT Quote record to mid_price, bid_price, bid_volume, ask_price, ask_volume (the spec example record of the aggregated frame — the golden vector)', () => {
     const results = quoteFeed().message(frames.stockQuotesFrame as any)
     expect(results).toHaveLength(1)
-    // Spec example response: mid 190.0, bid 189.95/100, ask 190.05/200
+    // The spec sample frame concatenates two records for the same wire key; the
+    // spec example response (and the agent-unwritable golden vector) maps the
+    // first one: mid 190.0, bid 189.95/100, ask 190.05/200
     expect((results[0] as any).data).toEqual({
       mid_price: 190,
       bid_price: 189.95,

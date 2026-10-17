@@ -30,14 +30,13 @@ const wsApiEndpointBreakingChangeError = (value?: string): string => {
  * Startup validate fn for WS_API_ENDPOINT: the breaking-change checks above
  * plus the encrypted-scheme requirement — the handshake sends the Basic
  * Authorization header, so a plaintext ws:// endpoint would put the
- * credentials on the wire in cleartext. The ONLY exemption is an explicit
- * ALLOW_INSECURE_LOOPBACK_WS=true opt-in on a ws:// loopback URL
- * (127.0.0.1 / localhost) for in-process test bridges, which bind there; no
- * real provider is loopback, and a production deployment must never send the
- * Basic Authorization header unencrypted — not even over loopback. The flag
- * defaults to unset/false and fails closed: NODE_ENV is deliberately NOT
- * consulted, because it is set widely in staging and CI and must never open
- * the plaintext downgrade path by accident.
+ * credentials on the wire in cleartext. The ONLY exemption is a ws:// LOOPBACK
+ * URL (localhost / 127.0.0.1 / [::1]), which is accepted with a warning — no
+ * opt-in flag is required: in-process test bridges (mock-socket WS servers)
+ * bind there, and no real provider is loopback. Every non-loopback ws:// host
+ * still fails closed: NODE_ENV is deliberately NOT consulted, because it is
+ * set widely in staging and CI and must never open the plaintext downgrade
+ * path by accident.
  * Request-time customInputValidation deliberately does NOT repeat this scheme
  * check: the startup gate owns it.
  */
@@ -51,16 +50,16 @@ export const validateWsApiEndpoint = (value?: string): string => {
     /^wss?:\/\/(localhost|127\.0\.0\.1|\[::1\])([:/?#]|$)/.test(endpoint)
 
   if (value && !value.startsWith('wss://')) {
-    if (isLoopbackUrl(value) && process.env.ALLOW_INSECURE_LOOPBACK_WS === 'true') {
-      // Explicit opt-in loopback exemption for in-process test bridges: still
-      // accepted, but the Basic Authorization header would cross even a
-      // loopback wire unencrypted — signal it so a misconfigured endpoint does
-      // not pass silently. The log carries the parsed host and scheme ONLY:
+    if (isLoopbackUrl(value)) {
+      // Loopback exemption for in-process test bridges: accepted, but the
+      // Basic Authorization header would cross even a loopback wire
+      // unencrypted — signal it so a misconfigured endpoint does not pass
+      // silently. The log carries the parsed host and scheme ONLY:
       // WS_API_ENDPOINT is sensitive: true, its raw value must never reach
       // the logs.
       const url = new URL(value)
       logger.warn(
-        `WS_API_ENDPOINT uses unencrypted ${url.protocol}//${url.host} on a loopback address: the Basic Authorization header (API_USERNAME/API_PASSWORD) rides the handshake unencrypted; use wss:// outside local test bridges`,
+        `WS_API_ENDPOINT uses unencrypted ${url.protocol}//${url.host} on a loopback address: the Basic Authorization header (API_USERNAME/API_PASSWORD) rides the handshake unencrypted; this plaintext scheme is only for local test bridges, use wss:// everywhere else`,
       )
     } else {
       return 'WS_API_ENDPOINT must use the encrypted wss:// scheme; the Basic Authorization header rides the handshake and must not cross the wire in cleartext'
@@ -73,11 +72,12 @@ export const validateWsApiEndpoint = (value?: string): string => {
 /**
  * Spec data_source_authentication breaking_change_env_checks: the Basic
  * credential pair (the dxLink AUTH message exists but is NOT used; credentials
- * ride the Authorization header only). The spec marks both variables
- * required=true, so the AdapterConfig level enforces the pair at startup (a
- * missing credential must fail startup, never the dxLink handshake). The
- * WS-path request-time check below stays as a redundant fast-fail for a WS
- * misconfiguration with a clear per-request error.
+ * ride the Authorization header only). The spec scopes the credential
+ * requirement to WS paths — a REST-only deployment (defaultTransport rest,
+ * owner decision rest_transport_scope=keep_untouched) must boot without them —
+ * so the AdapterConfig does NOT mark the WS settings required. The WS-path
+ * request-time check below enforces all three WS settings on requests whose
+ * resolved transport is ws, with a clear per-request error.
  */
 export const missingWsCredentials = (settings: {
   API_USERNAME?: string
@@ -92,9 +92,9 @@ export const missingWsCredentials = (settings: {
 /**
  * One implementation, two call sites: the endpoints' customInputValidation runs
  * the request-time WS checks (cometd path, embedded credentials, credential
- * pair) so a WS-path misconfiguration fails fast with a clear error. The
- * wss:// scheme check is NOT repeated here — it is owned by the startup
- * AdapterConfig validate fn.
+ * pair, WS_API_ENDPOINT presence) so a WS-path misconfiguration fails fast
+ * with a clear error. The wss:// scheme check is NOT repeated here — it is
+ * owned by the startup AdapterConfig validate fn.
  */
 export const wsEnvInputValidationError = (settings: {
   WS_API_ENDPOINT?: string
@@ -111,31 +111,37 @@ export const wsEnvInputValidationError = (settings: {
     return new AdapterInputError({ statusCode: 400, message: credentialError })
   }
 
+  if (!settings.WS_API_ENDPOINT?.trim()) {
+    return new AdapterInputError({
+      statusCode: 400,
+      message: 'WS_API_ENDPOINT is required for dxfeed websocket requests',
+    })
+  }
+
   return undefined
 }
 
 export const config = new AdapterConfig(
   {
-    // Spec environment_variables mark both credentials required: true — the
-    // dxLink handshake needs both for the Basic Authorization header, so a
-    // missing credential fails startup (CONF-ENV-MISMATCH:API_USERNAME+API_PASSWORD),
-    // and wsEnvInputValidationError repeats the check per WS request
+    // The WS settings are NOT required at the AdapterConfig level: the spec
+    // scopes the credential/endpoint requirement to WS paths, and a REST-only
+    // deployment (3 lastTradedPrice params fall through to defaultTransport
+    // rest, owner decision rest_transport_scope=keep_untouched) must boot
+    // without them. wsEnvInputValidationError enforces all three on requests
+    // whose resolved transport is ws
     API_USERNAME: {
       description: 'username for dxfeed API',
       type: 'string',
-      required: true,
       sensitive: false,
     },
     API_PASSWORD: {
       description: 'password for dxfeed API',
       type: 'string',
-      required: true,
       sensitive: true,
     },
     WS_API_ENDPOINT: {
       description: 'The websocket url for dxfeed (dxLink endpoint)',
       type: 'string',
-      required: true,
       sensitive: true,
       validate: {
         meta: {

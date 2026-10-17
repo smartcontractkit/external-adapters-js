@@ -15,11 +15,12 @@ import { mockBatchedRestTransport } from './rest-mocks'
  * defaultTransport stays "rest" and a request without a transport param is
  * served by this untouched REST path.
  *
- * The credential pair (API_USERNAME/API_PASSWORD) is required: true at the
- * AdapterConfig level (spec environment_variables; startup gate proven in
- * test/unit/config.test.ts), so this suite boots with a fake pair set. The
- * WS-path request-time env checks those tests cover stay out of scope here:
- * this suite owns only the untouched defaultTransport "rest" smoke flow.
+ * The credential pair and WS_API_ENDPOINT are set for boot even though plan
+ * item 3 moved their requirement out of AdapterConfig into WS-path input
+ * validation (a REST-only deployment boots without them — proven in
+ * test/unit/config.test.ts). The WS-path request-time env checks stay out of
+ * scope here: this suite owns only the untouched defaultTransport "rest" smoke
+ * flow.
  */
 describe('price REST transport (defaultTransport rest, keep_untouched)', () => {
   let spy: jest.SpyInstance
@@ -28,13 +29,11 @@ describe('price REST transport (defaultTransport rest, keep_untouched)', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    // The credential pair is required at the config level (spec
-    // environment_variables required: true) — boot needs a fake pair set
-    // whatever previous suites left behind
+    // A fake pair and a clean dxLink URL: not required at boot any more (plan
+    // item 3) but set so the WS-path input-validation gate can never trip
     process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
     process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
-    // Required at the config level; a clean wss:// dxLink URL (never a
-    // cometd path, no embedded credentials)
+    // A clean wss:// dxLink URL (never a cometd path, no embedded credentials)
     process.env['WS_API_ENDPOINT'] = 'wss://dxlink.localhost.invalid/dxlink-chainlink'
 
     const mockDate = new Date('2022-01-01T11:11:11.111Z')
@@ -111,10 +110,9 @@ describe('price REST transport (defaultTransport rest, keep_untouched)', () => {
     })
   })
 
-  // The former "WS-path credential gate" case (boot without the credential
-  // pair, expect a 400 on stock_quotes) no longer exists as an integration
-  // scenario: the spec environment_variables table marks the pair required:
-  // true at the AdapterConfig level, so an adapter without credentials never
-  // boots. The startup failure and the WS-path request-time checks are proven
-  // in test/unit/config.test.ts.
+  // The WS-path env checks (cometd path, embedded credentials, credential
+  // pair, WS_API_ENDPOINT presence) live in the WS-path input validation, not
+  // the AdapterConfig required flags (plan item 3: a REST-only deployment
+  // boots without the WS settings). They are proven in
+  // test/unit/config.test.ts and test/unit/config/env-validation.test.ts.
 })

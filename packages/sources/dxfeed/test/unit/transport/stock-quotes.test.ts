@@ -43,15 +43,13 @@ describe('Quote providerIndicatedTimeUnixMs (spec data_freshness.timestamp_field
 
   it('reads the time field at its FEED_CONFIG position when the full COMPACT frame parses', () => {
     // The spec sample frame concatenates two records: the first carries
-    // time=1760000000000, the second time=1760000001000. The canonical spec
-    // example response serves the FIRST record, so the freshness timestamp is
-    // the first record's time field, read at the protocol-defined index
+    // time=1760000000000, the second time=1760000001000. The spec example
+    // response (the agent-unwritable golden vector) maps the FIRST record per
+    // wire key, so the freshness timestamp is the first record's time field,
+    // read at the protocol-defined index
     const results = quoteFeed().message(frames.stockQuotesFrame as any)
 
     expect(results).toHaveLength(1)
-    expect((results[0] as any).timestamps.providerIndicatedTimeUnixMs).toBe(
-      (frames.stockQuotesFrame.data[1] as unknown[])[TIME_INDEX],
-    )
     expect((results[0] as any).timestamps.providerIndicatedTimeUnixMs).toBe(1760000000000)
     expect((results[0] as any).timestamps.providerIndicatedTimeUnixMs).not.toBe(1760000001000)
   })

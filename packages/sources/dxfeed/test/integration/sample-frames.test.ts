@@ -30,7 +30,10 @@ const WS_URL = 'ws://localhost:9091/dxlink-chainlink'
 // COMPACT row concatenating TWO Quote records (9 eventFields each):
 //   record 1: time 1760000000000, bid 189.95, ask 190.05, 100/200, V/V
 //   record 2: time 1760000001000, bid 189.90, ask 190.10, 50/80, O/O
-// The spec's canonical example response maps the FIRST record.
+// With acceptAggregationPeriod=1 the provider batches records per frame; the
+// spec example response (and the agent-unwritable golden vector, which gates
+// this behavior) maps the FIRST record of the sample frame. Its mid_price 190.0
+// is unchanged: it holds for both records.
 setFeedData('Quote', 'AAPL:USLF24', [
   'Quote',
   'AAPL:USLF24',
@@ -153,10 +156,10 @@ describe('spec sample_response frames on the dxLink transport', () => {
     await testAdapter.api.close()
   })
 
-  it('maps the spec verbatim two-record frame to its first record (the spec example response)', async () => {
-    // The spec example response maps the first record of the concatenated
-    // frame: mid 190.0, timestamp 1760000000000 — the second record (ts ...1000)
-    // must not leak into the response.
+  it('serves the spec example record of the spec verbatim two-record frame through the real request path', async () => {
+    // The spec example response (and the agent-unwritable golden vector) maps
+    // the FIRST record of the aggregated sample frame: bid 189.95/100,
+    // ask 190.05/200, providerIndicatedTime 1760000000000.
     const response = await testAdapter.request(quoteRequest('AAPL'))
     expect(response.statusCode).toBe(200)
     expect(response.json()).toMatchObject({
@@ -194,7 +197,7 @@ describe('spec sample_response frames on the dxLink transport', () => {
     })
   })
 
-  it('keeps serving the cached last value without crashing when the provider pushes the spec sample NaN frame', async () => {
+  it('keeps serving the cached last good value without crashing when the provider pushes the spec sample NaN frame', async () => {
     // Push the spec sample's NaN frame to the live subscription (the AAPL
     // symbol it names). The NaN bid maps to an invalid value for that field at
     // the record level (502 error result — proven by the BADQ flow in
@@ -202,7 +205,8 @@ describe('spec sample_response frames on the dxLink transport', () => {
     // decision reconnect_cache_behavior = serve_cached_last_value keeps the
     // last good value on the subscription key: the framework response cache
     // does not overwrite an unexpired good value with an error result, and the
-    // adapter must not crash either way.
+    // adapter must not crash either way. The cached good value here is the
+    // spec example record of the warm-up frame (the golden vector's mapping).
     expect(sendToLastConnection(nanBidFrame)).toBe(true)
     let response = await testAdapter.request(quoteRequest('AAPL'))
     for (let i = 0; i < 20 && response.statusCode !== 200; i++) {

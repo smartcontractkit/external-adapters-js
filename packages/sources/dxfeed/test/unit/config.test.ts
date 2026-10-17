@@ -124,36 +124,43 @@ const withRecordingLogger = (fn: (validate: typeof validateWsApiEndpoint) => voi
   return warnings
 }
 
-describe('credential pair required at startup (spec environment_variables required=true / CONF-ENV-MISMATCH:API_USERNAME+API_PASSWORD)', () => {
-  // With a clean wss:// dxLink WS_API_ENDPOINT, the ONLY possible validation
-  // failure is the missing credential, so a plain toThrow() pins the startup
-  // gate without coupling to the framework's error wording
-  it('fails config validation when both API_USERNAME and API_PASSWORD are unset', () => {
+describe('credential pair NOT required at startup (plan item 3: the WS credential requirement moves from AdapterConfig required flags into WS-path input validation; REST-only deployments boot)', () => {
+  it('boots with no API_USERNAME, API_PASSWORD, or WS_API_ENDPOINT at all', () => {
     withSettings(
-      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: DXLINK_ENDPOINT },
-      () => expect(() => config.validate()).toThrow(),
+      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: undefined },
+      () => {
+        expect(() => config.initialize()).not.toThrow()
+        expect(() => config.validate()).not.toThrow()
+      },
     )
   })
 
-  it('fails config validation when only API_USERNAME is unset', () => {
+  it('passes config validation when both credentials are unset (WS_API_ENDPOINT clean)', () => {
+    withSettings(
+      { API_USERNAME: undefined, API_PASSWORD: undefined, WS_API_ENDPOINT: DXLINK_ENDPOINT },
+      () => expect(() => config.validate()).not.toThrow(),
+    )
+  })
+
+  it('passes config validation when only API_USERNAME is unset', () => {
     withSettings(
       {
         API_USERNAME: undefined,
         API_PASSWORD: CREDENTIALS.API_PASSWORD,
         WS_API_ENDPOINT: DXLINK_ENDPOINT,
       },
-      () => expect(() => config.validate()).toThrow(),
+      () => expect(() => config.validate()).not.toThrow(),
     )
   })
 
-  it('fails config validation when only API_PASSWORD is unset', () => {
+  it('passes config validation when only API_PASSWORD is unset', () => {
     withSettings(
       {
         API_USERNAME: CREDENTIALS.API_USERNAME,
         API_PASSWORD: undefined,
         WS_API_ENDPOINT: DXLINK_ENDPOINT,
       },
-      () => expect(() => config.validate()).toThrow(),
+      () => expect(() => config.validate()).not.toThrow(),
     )
   })
 
@@ -216,13 +223,13 @@ describe('WS_API_ENDPOINT startup checks (spec breaking_change_env_checks)', () 
   })
 })
 
-describe('loopback ws:// exemption gated on ALLOW_INSECURE_LOOPBACK_WS (explicit opt-in: no NODE_ENV fallback)', () => {
-  it('rejects ws://127.0.0.1 even under NODE_ENV=test when ALLOW_INSECURE_LOOPBACK_WS is unset', () => {
-    // NODE_ENV is set widely in staging and CI: it must NOT open the plaintext
-    // downgrade path — only the explicit opt-in flag does
+describe('loopback ws:// acceptance (plan item 1: ws:// loopback passes with a warning, no opt-in flag; non-loopback ws:// still fails closed)', () => {
+  it('accepts ws://127.0.0.1 even under NODE_ENV=test with no opt-in flag (loopback warns instead of failing)', () => {
+    // NODE_ENV is set widely in staging and CI: it neither opens nor closes the
+    // loopback path — loopback hosts are accepted with a warning, period
     withNodeEnv('test', () =>
       withLoopbackFlag(undefined, () =>
-        expect(validateWsApiEndpoint(LOOPBACK_127_ENDPOINT)).toContain('wss://'),
+        expect(validateWsApiEndpoint(LOOPBACK_127_ENDPOINT)).toBe(''),
       ),
     )
   })
@@ -237,22 +244,24 @@ describe('loopback ws:// exemption gated on ALLOW_INSECURE_LOOPBACK_WS (explicit
     )
   })
 
-  it('rejects ws://localhost when the flag is anything other than true (default unset fails closed)', () => {
-    withLoopbackFlag('false', () =>
-      expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).toContain('wss://'),
-    )
+  it('accepts ws://localhost when the flag is anything other than true (the flag no longer gates the loopback case)', () => {
+    withLoopbackFlag('false', () => expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).toBe(''))
   })
 
-  it('rejects a ws:// non-loopback host even when ALLOW_INSECURE_LOOPBACK_WS=true', () => {
+  it('rejects a ws:// non-loopback host even when ALLOW_INSECURE_LOOPBACK_WS=true (plan item 1: the hard error stays for non-wss:// non-loopback hosts)', () => {
     withLoopbackFlag('true', () =>
       expect(validateWsApiEndpoint('ws://example.com/dxlink-chainlink')).toContain('wss://'),
     )
   })
 
-  it('enforces the gate at startup: a loopback ws:// WS_API_ENDPOINT fails config.validate() with the flag unset', () => {
+  it('boots at startup: a loopback ws:// WS_API_ENDPOINT passes config.validate() with no flag (the golden-test boot path, WS_API_ENDPOINT=ws://localhost:1)', () => {
     withSettings(
-      { ...CREDENTIALS, WS_API_ENDPOINT: LOOPBACK_ENDPOINT, ALLOW_INSECURE_LOOPBACK_WS: undefined },
-      () => expect(() => config.validate()).toThrow(/wss:\/\//),
+      {
+        ...CREDENTIALS,
+        WS_API_ENDPOINT: 'ws://localhost:1',
+        ALLOW_INSECURE_LOOPBACK_WS: undefined,
+      },
+      () => expect(() => config.validate()).not.toThrow(),
     )
   })
 
@@ -264,8 +273,8 @@ describe('loopback ws:// exemption gated on ALLOW_INSECURE_LOOPBACK_WS (explicit
   })
 })
 
-describe('loopback warning censoring (round-2 item 6: the sensitive WS_API_ENDPOINT value never reaches the logs)', () => {
-  it('logs the parsed host and scheme but not the full WS_API_ENDPOINT value', () => {
+describe('loopback warning content (plan item 4: the flag is for local test bridges only and the warning says so in the log itself — no runbook file; the sensitive WS_API_ENDPOINT value never reaches the logs)', () => {
+  it('logs the parsed host and scheme but not the full WS_API_ENDPOINT value or any credential', () => {
     withLoopbackFlag('true', () => {
       const warnings = withRecordingLogger((validate) => {
         expect(validate(LOOPBACK_ENDPOINT)).toBe('')
@@ -275,10 +284,26 @@ describe('loopback warning censoring (round-2 item 6: the sensitive WS_API_ENDPO
       // The parsed scheme and host are in the log entry...
       expect(warnings[0]).toContain('ws://')
       expect(warnings[0]).toContain('localhost')
-      // ...the raw sensitive value (and any unique part of it) is not
+      // ...the raw sensitive value (and any unique part of it) is not, and
+      // neither is any credential material
       expect(warnings[0]).not.toContain(LOOPBACK_ENDPOINT)
       expect(warnings[0]).not.toContain('/dxlink-chainlink')
       expect(warnings[0]).not.toContain(':9090/dxlink')
+      expect(warnings[0]).not.toContain('dxfeed-pass')
+    })
+  })
+
+  it('states the deployment restriction: the flag is for local test bridges only and the Basic credentials cross the wire unencrypted', () => {
+    withLoopbackFlag('true', () => {
+      const warnings = withRecordingLogger((validate) => {
+        expect(validate(LOOPBACK_ENDPOINT)).toBe('')
+      })
+
+      expect(warnings).toHaveLength(1)
+      // Plan item 4 fix_shape: the log message is the in-package mitigation —
+      // it must carry the restriction statement itself
+      expect(warnings[0]).toMatch(/unencrypted/i)
+      expect(warnings[0]).toMatch(/test bridge/i)
     })
   })
 

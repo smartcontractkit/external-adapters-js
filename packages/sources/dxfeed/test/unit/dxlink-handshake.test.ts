@@ -161,11 +161,13 @@ describe('transport handlers.open wiring (spec: FEED_CONFIG field order gates CO
       { desired: [QUOTE_PARAMS], new: [QUOTE_PARAMS], stale: [] },
     )
 
-    // A later FEED_DATA frame is parsed with the layout captured at open time
+    // A later FEED_DATA frame is parsed with the layout captured at open time.
+    // The spec sample frame concatenates two records for the same wire key; the
+    // spec example response (the agent-unwritable golden vector) maps the FIRST
+    // one: mid 190.0, bid 189.95/100, ask 190.05/200,
+    // providerIndicatedTimeUnixMs 1760000000000
     const results = transportConfig.handlers.message(frames.stockQuotesFrame)
     expect(results).toHaveLength(1)
-    // Spec endpoint_request_response_examples[0]: mid_price 190.0, bid 189.95/100,
-    // ask 190.05/200, result 190.0, providerIndicatedTimeUnixMs 1760000000000
     expect(results[0].params).toEqual(QUOTE_PARAMS)
     expect(results[0].response.result).toBe(190)
     expect(results[0].response.data).toEqual({

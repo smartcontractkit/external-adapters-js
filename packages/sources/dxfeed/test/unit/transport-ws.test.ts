@@ -146,16 +146,21 @@ describe('dxLink handshake open gate (spec primary_command)', () => {
 })
 
 describe('COMPACT FEED_DATA parsing (spec sample_response frames, acceptDataFormat=COMPACT)', () => {
-  it('parses the Quote frame to typed quote records', () => {
+  it('parses the Quote frame to typed quote records, serving the spec example record (spec endpoint_request_response_examples[0] — the golden vector)', () => {
     const results = quoteFeed().message(frames.stockQuotesFrame as any)
     expect(results).toHaveLength(1)
-    // Spec endpoint_request_response_examples[0].response
+    // The spec sample frame concatenates two records for the same wire key;
+    // the spec example response maps the FIRST record (providerIndicatedTime
+    // 1760000000000) — the agent-unwritable golden vector gates this behavior
     expect((results[0] as any).data).toEqual({
       mid_price: 190,
       bid_price: 189.95,
       bid_volume: 100,
       ask_price: 190.05,
       ask_volume: 200,
+    })
+    expect((results[0] as any).timestamps).toEqual({
+      providerIndicatedTimeUnixMs: 1760000000000,
     })
   })
 

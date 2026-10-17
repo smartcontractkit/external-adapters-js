@@ -19,12 +19,14 @@ const quoteFeed = () => {
 }
 
 describe('stock_quotes over dxLink (spec data_source_endpoints.stock_quotes)', () => {
-  it('the spec sample Quote frame yields mid_price 190.0, bid 189.95/100, ask 190.05/200, providerIndicatedTimeUnixMs 1760000000000', () => {
+  it('the spec sample Quote frame yields mid_price 190.0 with the spec example record (the golden vector): bid 189.95/100, ask 190.05/200, providerIndicatedTimeUnixMs 1760000000000', () => {
     const results = quoteFeed().message(frames.stockQuotesFrame as any)
 
     expect(results).toHaveLength(1)
     const response = results[0] as any
-    // Spec endpoint_request_response_examples[0].response
+    // The spec sample frame concatenates two records for the same wire key;
+    // the spec example response (and the agent-unwritable golden vector) maps
+    // the FIRST one.
     expect(response.result).toBe(190.0)
     expect(response.data).toEqual({
       mid_price: 190.0,

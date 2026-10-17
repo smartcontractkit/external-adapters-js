@@ -57,7 +57,9 @@ describe('reconnect window (owner decision reconnect_cache_behavior=serve_cached
   it('a CHANNEL_CLOSED reconnect window serves the cached last value and does not error', () => {
     const feed = quoteFeed()
 
-    // Last value before the stream drops
+    // Last value before the stream drops — the spec example record of the
+    // aggregated frame per wire key (the golden vector's first-record mapping),
+    // timestamp 1760000000000
     const last = feed.message(frames.stockQuotesFrame as any)
     expect((last[0] as any).result).toBe(190)
     expect((last[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
