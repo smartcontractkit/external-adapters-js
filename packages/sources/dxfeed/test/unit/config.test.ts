@@ -239,15 +239,13 @@ describe('WS_API_ENDPOINT startup checks (spec breaking_change_env_checks)', () 
   })
 })
 
-describe('loopback ws:// acceptance (plan item 1: ws:// loopback passes with a warning, no opt-in flag; non-loopback ws:// still fails closed)', () => {
-  it('accepts ws://127.0.0.1 even under NODE_ENV=test with no opt-in flag (loopback warns instead of failing)', () => {
-    // NODE_ENV is set widely in staging and CI: it neither opens nor closes the
-    // loopback path — loopback hosts are accepted with a warning, period
-    withNodeEnv('test', () =>
-      withLoopbackFlag(undefined, () =>
-        expect(validateWsApiEndpoint(LOOPBACK_127_ENDPOINT)).toBe(''),
-      ),
-    )
+describe('loopback ws:// opt-in gate (plan item 2: the loopback ws:// exemption is gated behind ALLOW_INSECURE_LOOPBACK_WS, default false; non-loopback ws:// still fails closed)', () => {
+  it('rejects ws://localhost when ALLOW_INSECURE_LOOPBACK_WS is unset (default false: the Basic credentials must not ride a plaintext handshake without explicit opt-in)', () => {
+    withLoopbackFlag(undefined, () => expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).not.toBe(''))
+  })
+
+  it('rejects ws://localhost when the flag is anything but true (only an explicit opt-in opens the exemption)', () => {
+    withLoopbackFlag('false', () => expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).not.toBe(''))
   })
 
   it('accepts ws://127.0.0.1 when ALLOW_INSECURE_LOOPBACK_WS=true', () => {
@@ -260,36 +258,34 @@ describe('loopback ws:// acceptance (plan item 1: ws:// loopback passes with a w
     )
   })
 
-  it('accepts ws://localhost when the flag is anything other than true (the flag no longer gates the loopback case)', () => {
-    withLoopbackFlag('false', () => expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).toBe(''))
-  })
-
-  it('rejects a ws:// non-loopback host even when ALLOW_INSECURE_LOOPBACK_WS=true (plan item 1: the hard error stays for non-wss:// non-loopback hosts)', () => {
+  it('rejects a ws:// non-loopback host even when ALLOW_INSECURE_LOOPBACK_WS=true (the flag only exempts loopback)', () => {
     withLoopbackFlag('true', () =>
       expect(validateWsApiEndpoint('ws://example.com/dxlink-chainlink')).toContain('wss://'),
     )
   })
 
-  it('boots at startup: a loopback ws:// WS_API_ENDPOINT passes config.validate() with no flag (the golden-test boot path, WS_API_ENDPOINT=ws://localhost:1)', () => {
+  it('fails startup: a loopback ws:// WS_API_ENDPOINT without the flag fails config.validate()', () => {
     withSettings(
       {
         ...CREDENTIALS,
         WS_API_ENDPOINT: 'ws://localhost:1',
         ALLOW_INSECURE_LOOPBACK_WS: undefined,
       },
-      () => expect(() => config.validate()).not.toThrow(),
+      () => expect(() => config.validate()).toThrow(),
     )
   })
 
-  it('accepts ws://[::1] (the third loopback form) while ws:// on any non-loopback host stays rejected', () => {
-    // Loopback IPv6 literal: accepted like localhost and 127.0.0.1
-    expect(validateWsApiEndpoint('ws://[::1]:9090/dxlink-chainlink')).toBe('')
+  it('accepts ws://[::1] with the flag set (the third loopback form) while ws:// on any non-loopback host stays rejected', () => {
+    withLoopbackFlag('true', () => {
+      // Loopback IPv6 literal: accepted like localhost and 127.0.0.1
+      expect(validateWsApiEndpoint('ws://[::1]:9090/dxlink-chainlink')).toBe('')
+    })
 
-    // Non-loopback ws:// fails closed regardless of host
+    // Non-loopback ws:// fails closed regardless of the flag
     expect(validateWsApiEndpoint('ws://dxlink.fake.test/dxlink-chainlink')).toContain('wss://')
   })
 
-  it('starts cleanly with the flag set: a loopback ws:// WS_API_ENDPOINT passes config.validate()', () => {
+  it('boots at startup with the flag set: a loopback ws:// WS_API_ENDPOINT passes config.validate() (the test-bridge boot path with the explicit opt-in)', () => {
     withSettings(
       { ...CREDENTIALS, WS_API_ENDPOINT: LOOPBACK_ENDPOINT, ALLOW_INSECURE_LOOPBACK_WS: 'true' },
       () => expect(() => config.validate()).not.toThrow(),
@@ -297,7 +293,30 @@ describe('loopback ws:// acceptance (plan item 1: ws:// loopback passes with a w
   })
 })
 
-describe('loopback warning content (plan item 4: the flag is for local test bridges only and the warning says so in the log itself — no runbook file; the sensitive WS_API_ENDPOINT value never reaches the logs)', () => {
+describe('loopback endpoint parse failure (plan item 3: the loopback branch never throws on a URL the loopback check accepts but URL cannot parse)', () => {
+  it('returns an error string and does not throw for ws://localhost:notaport with the flag unset', () => {
+    withLoopbackFlag(undefined, () => {
+      let result: string | undefined
+      expect(() => {
+        result = validateWsApiEndpoint('ws://localhost:notaport')
+      }).not.toThrow()
+      expect(result).toBeDefined()
+      expect(result).not.toBe('')
+    })
+  })
+
+  it('with the flag set, ws://localhost:notaport still does not throw and is accepted (the parse failure only degrades the warning log)', () => {
+    withLoopbackFlag('true', () => {
+      let result: string | undefined
+      expect(() => {
+        result = validateWsApiEndpoint('ws://localhost:notaport')
+      }).not.toThrow()
+      expect(result).toBe('')
+    })
+  })
+})
+
+describe('loopback warning content (the flag is for local test bridges only and the warning says so in the log itself — no runbook file; the sensitive WS_API_ENDPOINT value never reaches the logs)', () => {
   it('logs the parsed host and scheme but not the full WS_API_ENDPOINT value or any credential', () => {
     withLoopbackFlag('true', () => {
       const warnings = withRecordingLogger((validate) => {
@@ -324,8 +343,8 @@ describe('loopback warning content (plan item 4: the flag is for local test brid
       })
 
       expect(warnings).toHaveLength(1)
-      // Plan item 4 fix_shape: the log message is the in-package mitigation —
-      // it must carry the restriction statement itself
+      // The log message is the in-package mitigation: it must carry the
+      // restriction statement itself
       expect(warnings[0]).toMatch(/unencrypted/i)
       expect(warnings[0]).toMatch(/test bridge/i)
     })

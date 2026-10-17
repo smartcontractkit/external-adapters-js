@@ -121,7 +121,7 @@ const withRecordingLogger = (fn: (validate: typeof validateWsApiEndpoint) => voi
   return warnings
 }
 
-describe('loopback ws:// warning (plan item 1: loopback passes with a warning, flag or no flag; plan item 4: the warning states the restriction in the log itself)', () => {
+describe('loopback ws:// opt-in gate (plan item 2: the loopback ws:// exemption requires ALLOW_INSECURE_LOOPBACK_WS; the warning states the restriction in the log itself)', () => {
   const runWithFlag = (value: string | undefined, fn: () => void): void => {
     const oldFlag = process.env.ALLOW_INSECURE_LOOPBACK_WS
     try {
@@ -140,26 +140,24 @@ describe('loopback ws:// warning (plan item 1: loopback passes with a warning, f
     }
   }
 
-  it('accepts a ws:// loopback URL even with a stale ALLOW_INSECURE_LOOPBACK_WS set (the flag is now a no-op) and emits exactly one warning that the credentials ride an unencrypted connection', () => {
+  it('rejects a ws:// loopback URL with the flag unset (default false: no explicit opt-in, no plaintext handshake) and emits no acceptance warning', () => {
+    const warnings = withRecordingLogger((validate) => {
+      runWithFlag(undefined, () => {
+        expect(validate('ws://localhost:9090/dxlink-chainlink')).not.toBe('')
+      })
+    })
+    // A rejected URL never becomes an accepted plaintext handshake
+    expect(warnings).toHaveLength(0)
+  })
+
+  it('accepts a ws:// loopback URL with ALLOW_INSECURE_LOOPBACK_WS=true and emits exactly one warning that the credentials ride an unencrypted connection', () => {
     const warnings = withRecordingLogger((validate) => {
       runWithFlag('true', () => {
-        // Unconditional acceptance (plan item 1 dropped the gate): the loopback
-        // case passes whether or not the retired flag happens to be set
         expect(validate('ws://localhost:9090/dxlink-chainlink')).toBe('')
       })
     })
     expect(warnings).toHaveLength(1)
     // The warning states the Basic auth credentials cross the wire unencrypted
-    expect(warnings[0]).toMatch(/encrypt|plaintext|cleartext/i)
-  })
-
-  it('accepts a ws:// loopback URL with NO opt-in flag (plan item 1: the flag no longer gates the loopback case) and still warns', () => {
-    const warnings = withRecordingLogger((validate) => {
-      runWithFlag(undefined, () => {
-        expect(validate('ws://localhost:9090/dxlink-chainlink')).toBe('')
-      })
-    })
-    expect(warnings).toHaveLength(1)
     expect(warnings[0]).toMatch(/encrypt|plaintext|cleartext/i)
   })
 
