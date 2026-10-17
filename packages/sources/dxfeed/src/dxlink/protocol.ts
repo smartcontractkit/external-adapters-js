@@ -37,8 +37,12 @@ export type DxLinkMessage = {
   acceptDataFormat?: string
   acceptEventFields?: Record<string, string[]>
   eventFields?: Record<string, string[]>
-  // COMPACT FEED_DATA: [eventType, flat array of concatenated fixed-width records]
-  data?: [string, DxLinkRecord]
+  // COMPACT FEED_DATA: eventType first, then the record payload — typed as a
+  // variable-length structure so frames with a single element or extra elements
+  // type-check. The runtime parser (DxLinkFeed.onFeedData) validates the shape
+  // itself: it filters non-FEED_DATA/malformed frames and truncates trailing
+  // partial records (parseCompactFeedData).
+  data?: Array<string | DxLinkRecord>
   add?: DxLinkSubscriptionEntry[]
   remove?: DxLinkSubscriptionEntry[]
   symbol?: string
