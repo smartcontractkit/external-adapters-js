@@ -45,7 +45,9 @@ describe('REST transport untouched (defaultTransport rest, no transport param)',
   afterAll(async () => {
     setEnvVariables(oldEnv)
     await testAdapter.api.close()
-    nock.restore()
+    // cleanAll only: nock.restore() kills the interceptor process-wide, so any
+    // suite sharing this jest worker afterwards would hit real DNS instead of
+    // its mock (the repo-wide teardown convention)
     nock.cleanAll()
     spy.mockRestore()
   })
