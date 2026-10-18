@@ -173,7 +173,7 @@ describe('demo REST endpoint startup warning (keep_untouched REST path: pre-migr
     const warnings = captureValidateWarnings({
       ...CREDENTIALS,
       WS_API_ENDPOINT: DXLINK_ENDPOINT,
-      API_ENDPOINT: 'https://custom.dxfeed.example.com/webservice/rest',
+      API_ENDPOINT: 'https://custom-rest.fake.test/webservice/rest',
     })
     expect(warnings.some((w) => w.includes('Using demo endpoint'))).toBe(false)
   })

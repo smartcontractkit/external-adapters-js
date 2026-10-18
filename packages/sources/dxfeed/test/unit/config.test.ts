@@ -281,9 +281,11 @@ describe('WS_API_ENDPOINT startup checks (spec breaking_change_env_checks)', () 
 })
 
 describe('WS_API_ENDPOINT scheme gate (plan ws-plaintext-endpoint-accepted: the transport sends the Basic Authorization header on the handshake, so any scheme other than wss:// is rejected at startup; ws:// only when NODE_ENV is test AND the host is loopback)', () => {
-  it('rejects ws://example.com in a non-test NODE_ENV', () => {
+  it('rejects ws:// on a non-loopback public host in a non-test NODE_ENV', () => {
     withNodeEnv('production', () =>
-      expect(validateWsApiEndpoint('ws://example.com/dxlink-chainlink')).toContain('wss://'),
+      expect(validateWsApiEndpoint('ws://fake-endpoint.invalid/dxlink-chainlink')).toContain(
+        'wss://',
+      ),
     )
     withNodeEnv(undefined, () =>
       expect(validateWsApiEndpoint('ws://dxlink-provider.fake.test/dxlink-chainlink')).toContain(
