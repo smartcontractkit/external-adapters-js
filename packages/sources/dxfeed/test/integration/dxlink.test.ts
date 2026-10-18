@@ -89,6 +89,11 @@ describe('dxLink smoke flows (plan round1-integration-tests)', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = WS_URL
+    // Adapter-owned ALLOW_PLAINTEXT_WS_TEST flag (plan item 1, second call
+    // site): the ONLY thing that admits the plaintext ws:// loopback test
+    // bridge — the config gate no longer reads NODE_ENV, so a process-wide
+    // test-mode setting cannot enable plaintext credentials
+    process.env['ALLOW_PLAINTEXT_WS_TEST'] = 'true'
     process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
     process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
     process.env['WS_SUBSCRIPTION_TTL'] = '60000'

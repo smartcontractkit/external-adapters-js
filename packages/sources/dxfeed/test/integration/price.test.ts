@@ -141,8 +141,11 @@ describe('price endpoint on the dxLink transport (ws)', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = WS_URL
     // ws:// loopback test bridge served by the framework's mock-socket test
-    // support: the URL is injected through WS_API_ENDPOINT only — the spec
-    // declares no extra env var for it
+    // support: the adapter-owned ALLOW_PLAINTEXT_WS_TEST flag (plan item 1,
+    // second call site) is the ONLY thing that admits the plaintext ws://
+    // endpoint — the config gate no longer reads NODE_ENV, so a process-wide
+    // test-mode setting cannot enable plaintext credentials
+    process.env['ALLOW_PLAINTEXT_WS_TEST'] = 'true'
     process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
     process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
     process.env['WS_SUBSCRIPTION_TTL'] = '60000'

@@ -7,12 +7,14 @@ import {
   buildAdapterConfig,
   censorList as censorListEntries,
   config,
+  DXLINK_AUTH_CENSOR_KEY,
   missingWsCredentials,
   REST_API_ENDPOINT_DEFAULT,
   validateWsApiEndpoint,
   wsEnvInputValidationError,
 } from '../../src/config'
 import quoteEventSymbols from '../../src/config/quoteSymbols.json'
+import { dxLinkConnectionOptions } from '../../src/dxlink/protocol'
 import { endpoint as priceEndpoint } from '../../src/endpoint/price'
 import { endpoint as stockQuotesEndpoint } from '../../src/endpoint/stock-quotes'
 
@@ -40,6 +42,14 @@ const withSettings = (env: Record<string, string | undefined>, fn: () => void): 
     config.initialize()
     fn()
   } finally {
+    // setEnvVariables only ASSIGNS snapshot keys — a key added inside this block
+    // (e.g. ALLOW_PLAINTEXT_WS_TEST) would otherwise leak into the rest of the
+    // file and silently enable the plaintext-ws gate for later proving tests
+    for (const key of Object.keys(process.env)) {
+      if (!(key in oldEnv)) {
+        delete process.env[key]
+      }
+    }
     setEnvVariables(oldEnv)
     config.initialize()
   }
@@ -102,11 +112,17 @@ describe('config surface (plan CONF-ENV-MISMATCH: the spec lists four environmen
         // The env var the spec does not declare (the deleted config drift) —
         // setting it must have no effect on the adapter's config surface
         ALLOW_INSECURE_LOOPBACK_WS: 'true',
+        // The adapter-owned plaintext-test gate (plan item 1) is likewise read
+        // from the process environment by the validate fn, never a settings key
+        ALLOW_PLAINTEXT_WS_TEST: 'true',
       },
       () => {
         expect(Object.keys(settingsDefinition()).sort()).toEqual(SPEC_ENV_VARS)
         expect(config.settings as unknown as Record<string, unknown>).not.toHaveProperty(
           'ALLOW_INSECURE_LOOPBACK_WS',
+        )
+        expect(config.settings as unknown as Record<string, unknown>).not.toHaveProperty(
+          'ALLOW_PLAINTEXT_WS_TEST',
         )
         expect(() => config.validate()).not.toThrow()
       },
@@ -269,51 +285,59 @@ describe('WS_API_ENDPOINT startup checks (spec breaking_change_env_checks)', () 
     )
   })
 
-  it('accepts the framework mock-socket test-bridge URL injected through WS_API_ENDPOINT ONLY (no opt-in env var exists: the spec declares four env vars and the tests bind no extra one)', () => {
+  it('accepts the framework mock-socket test-bridge URL only under the adapter-owned ALLOW_PLAINTEXT_WS_TEST flag (the integration-test setup sets exactly this flag)', () => {
     // The WS integration suites serve the dxLink mock on the framework's
     // ws:// loopback test support and hand the URL to the adapter through
-    // WS_API_ENDPOINT alone — startup must accept exactly that
-    expect(validateWsApiEndpoint(LOOPBACK_ENDPOINT)).toBe('')
+    // WS_API_ENDPOINT; the flag admits the plaintext scheme
+    withSettings(
+      { ...CREDENTIALS, WS_API_ENDPOINT: LOOPBACK_ENDPOINT, ALLOW_PLAINTEXT_WS_TEST: 'true' },
+      () => expect(() => config.validate()).not.toThrow(),
+    )
+    // Without the flag the same value fails startup (no NODE_ENV downgrade path)
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: LOOPBACK_ENDPOINT }, () =>
-      expect(() => config.validate()).not.toThrow(),
+      expect(() => config.validate()).toThrow(/wss:\/\//),
     )
   })
 })
 
-describe('WS_API_ENDPOINT scheme gate (plan ws-plaintext-endpoint-accepted: the transport sends the Basic Authorization header on the handshake, so any scheme other than wss:// is rejected at startup; ws:// only when NODE_ENV is test AND the host is loopback)', () => {
-  it('rejects ws:// on a non-loopback public host in a non-test NODE_ENV', () => {
-    withNodeEnv('production', () =>
+describe('WS_API_ENDPOINT scheme gate (plan item 1: the transport sends the Basic Authorization header on the handshake, so any scheme other than wss:// is rejected at startup; ws:// only when the adapter-owned ALLOW_PLAINTEXT_WS_TEST flag is set AND the host is loopback)', () => {
+  it('rejects ws:// on a non-loopback host with or without the flag', () => {
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', undefined, () =>
       expect(validateWsApiEndpoint('ws://fake-endpoint.invalid/dxlink-chainlink')).toContain(
         'wss://',
       ),
     )
-    withNodeEnv(undefined, () =>
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', 'true', () =>
       expect(validateWsApiEndpoint('ws://dxlink-provider.fake.test/dxlink-chainlink')).toContain(
         'wss://',
       ),
     )
   })
 
-  it('rejects ws:// even on a loopback host outside NODE_ENV=test', () => {
-    withNodeEnv('production', () =>
+  it('rejects ws:// on a loopback host without the flag — including when NODE_ENV=test (a process-wide test-mode setting cannot enable plaintext credentials)', () => {
+    withEnvVar('NODE_ENV', 'test', () =>
+      expect(validateWsApiEndpoint('ws://127.0.0.1:9090/dxlink-chainlink')).toContain('wss://'),
+    )
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', undefined, () =>
       expect(validateWsApiEndpoint('ws://127.0.0.1:9090/dxlink-chainlink')).toContain('wss://'),
     )
   })
 
-  it('accepts ws://127.0.0.1 (and the other loopback hosts) ONLY under NODE_ENV=test — the framework mock-socket test bridge', () => {
-    withNodeEnv('test', () => {
+  it('accepts ws://127.0.0.1 (and the other loopback hosts) ONLY under ALLOW_PLAINTEXT_WS_TEST=true — the framework mock-socket test bridge', () => {
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', 'true', () => {
       expect(validateWsApiEndpoint('ws://127.0.0.1:9090/dxlink-chainlink')).toBe('')
       expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe('')
       expect(validateWsApiEndpoint('ws://[::1]:9090/dxlink-chainlink')).toBe('')
     })
   })
 
-  it('accepts the wss:// dxLink endpoint in every NODE_ENV mode (spec data_source_base_url)', () => {
-    for (const nodeEnv of ['test', 'production', undefined]) {
-      withNodeEnv(nodeEnv, () =>
-        expect(validateWsApiEndpoint('wss://dxlink-provider.fake.test/dxlink-chainlink')).toBe(''),
-      )
-    }
+  it('accepts the wss:// dxLink endpoint whether or not the flag is set (spec data_source_base_url)', () => {
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', undefined, () =>
+      expect(validateWsApiEndpoint('wss://dxlink-provider.fake.test/dxlink-chainlink')).toBe(''),
+    )
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', 'true', () =>
+      expect(validateWsApiEndpoint('wss://dxlink-provider.fake.test/dxlink-chainlink')).toBe(''),
+    )
     withSettings(
       { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://dxlink-provider.fake.test/dxlink-chainlink' },
       () => expect(() => config.validate()).not.toThrow(),
@@ -329,54 +353,59 @@ describe('WS_API_ENDPOINT scheme gate (plan ws-plaintext-endpoint-accepted: the 
 })
 
 /**
- * Runs fn with NODE_ENV set to the given value, restoring it afterwards. The
- * ws:// loopback allowance keys off NODE_ENV — the existing process signal, no
- * new config key (round-2).
+ * Runs fn with one env var pinned (and restored afterwards). The ws:// loopback
+ * allowance keys off the adapter-owned ALLOW_PLAINTEXT_WS_TEST flag (plan item
+ * 1) — read directly by the validate fn, never a declared settings key.
  */
-const withNodeEnv = (nodeEnv: string | undefined, fn: () => void): void => {
-  const oldNodeEnv = process.env.NODE_ENV
+const withEnvVar = (name: string, value: string | undefined, fn: () => void): void => {
+  const oldEnv = process.env[name]
   try {
-    if (nodeEnv === undefined) {
-      delete process.env.NODE_ENV
+    if (value === undefined) {
+      delete process.env[name]
     } else {
-      process.env.NODE_ENV = nodeEnv
+      process.env[name] = value
     }
     fn()
   } finally {
-    if (oldNodeEnv === undefined) {
-      delete process.env.NODE_ENV
+    if (oldEnv === undefined) {
+      delete process.env[name]
     } else {
-      process.env.NODE_ENV = oldNodeEnv
+      process.env[name] = oldEnv
     }
   }
 }
 
-describe('ws:// acceptance is scoped to the test-run loopback bridge (plan ws-plaintext-endpoint-accepted proving tests)', () => {
-  it('a plaintext ws:// endpoint on a NON-loopback host fails startup validation in every NODE_ENV mode', () => {
-    for (const nodeEnv of ['test', 'production', undefined]) {
-      withNodeEnv(nodeEnv, () =>
-        expect(validateWsApiEndpoint('ws://dxlink-provider.fake.test/dxlink-chainlink')).toContain(
-          'wss://',
-        ),
-      )
-    }
+describe('ws:// acceptance is scoped to the test-run loopback bridge (plan item 1 proving tests)', () => {
+  it('a plaintext ws:// endpoint on a NON-loopback host fails startup validation with or without the flag', () => {
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', undefined, () =>
+      expect(validateWsApiEndpoint('ws://dxlink-provider.fake.test/dxlink-chainlink')).toContain(
+        'wss://',
+      ),
+    )
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', 'true', () =>
+      expect(validateWsApiEndpoint('ws://dxlink-provider.fake.test/dxlink-chainlink')).toContain(
+        'wss://',
+      ),
+    )
   })
 
-  it('a plaintext ws:// endpoint on a loopback host passes ONLY under NODE_ENV=test', () => {
-    withNodeEnv('test', () =>
+  it('a plaintext ws:// endpoint on a loopback host passes ONLY under ALLOW_PLAINTEXT_WS_TEST=true; NODE_ENV=test alone fails', () => {
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', 'true', () =>
       expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe(''),
     )
-    withNodeEnv('production', () =>
+    withEnvVar('NODE_ENV', 'test', () =>
       expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toContain('wss://'),
     )
-    withNodeEnv(undefined, () =>
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', undefined, () =>
       expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toContain('wss://'),
     )
   })
 
   it('wss:// stays accepted in all modes', () => {
-    for (const nodeEnv of ['test', 'production', undefined]) {
-      withNodeEnv(nodeEnv, () => expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe(''))
+    for (const flag of ['true', undefined]) {
+      withEnvVar('ALLOW_PLAINTEXT_WS_TEST', flag, () =>
+        expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe(''),
+      )
     }
   })
 })
@@ -461,6 +490,27 @@ describe('credential censoring (spec: WS_API_ENDPOINT and API_PASSWORD are sensi
       expect(passwordEntry?.value.test(CREDENTIALS.API_PASSWORD)).toBe(true)
       const endpointEntry = censorList.find(({ key }) => key === 'WS_API_ENDPOINT')
       expect(endpointEntry?.value.test(DXLINK_ENDPOINT)).toBe(true)
+    })
+  })
+
+  it('censors the EXACT Basic Authorization header value that dxLinkConnectionOptions sends (plan item 2 proving test: the censored string and the sent string cannot drift)', () => {
+    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () => {
+      // The value the WS handshake actually sends (spec handshake_header:
+      // "Authorization: Basic <base64(API_USERNAME:API_PASSWORD)>")
+      const sent = dxLinkConnectionOptions(CREDENTIALS).headers.Authorization
+      expect(sent).toBe(`Basic ${Buffer.from('dxfeed-user:dxfeed-pass').toString('base64')}`)
+
+      // The censor list registers exactly that value — base64 is reversible, so
+      // an uncensored connection-options log would leak decodable credentials
+      const authEntry = censorListEntries().find(({ key }) => key === DXLINK_AUTH_CENSOR_KEY)
+      expect(authEntry).toBeDefined()
+      expect(authEntry?.value.test(sent)).toBe(true)
+
+      // And the registered pattern redacts the header out of a serialised
+      // connection-options payload (what a log line would carry)
+      const logged = JSON.stringify(dxLinkConnectionOptions(CREDENTIALS))
+      expect(logged).toContain(sent)
+      expect(logged.replace(authEntry!.value, '[REDACTED]')).not.toContain(sent)
     })
   })
 

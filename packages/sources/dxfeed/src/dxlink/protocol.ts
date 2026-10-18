@@ -18,6 +18,7 @@ import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transp
 import { timeoutPromise } from '@chainlink/external-adapter-framework/util'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { dxLinkBasicAuthHeader } from '../config'
 
 const logger = makeLogger('DxLink Websocket')
 
@@ -169,6 +170,19 @@ export const assertAcceptedEventFields = (
   }
 }
 
+/**
+ * Fixed cap on the characters of a log line carrying a stringified provider
+ * frame (plan item 3): a large or hostile provider frame must not inflate the
+ * logs. One constant, one helper — every protocol.ts log site that stringifies
+ * a provider frame goes through it.
+ */
+export const MAX_PROVIDER_FRAME_LOG_LENGTH = 512
+
+export const truncateForLog = (logged: string): string =>
+  logged.length <= MAX_PROVIDER_FRAME_LOG_LENGTH
+    ? logged
+    : logged.slice(0, MAX_PROVIDER_FRAME_LOG_LENGTH)
+
 /** Spec keepalive: KEEPALIVE frame on channel 0, every WS_HEARTBEAT_INTERVAL_MS (30s) */
 export const dxLinkKeepaliveMessage = (): DxLinkMessage => ({
   type: 'KEEPALIVE',
@@ -180,18 +194,19 @@ export const dxLinkConnectionOptions = (settings: {
   API_USERNAME?: string
   API_PASSWORD?: string
 }): { headers: { Authorization: string } } => {
+  // The header value comes from the ONE shared computation in src/config (plan
+  // item 2): the censor list registers exactly this string, so the censored
+  // value and the sent value cannot drift
+  const authorization = dxLinkBasicAuthHeader(settings)
   // Fail loud instead of base64-encoding a literal "undefined:undefined" (or a
   // blank value) into the handshake header — defense in depth behind the
   // required-settings gate and the WS-path request-time check
-  if (!settings.API_USERNAME?.trim() || !settings.API_PASSWORD?.trim()) {
+  if (!authorization) {
     throw new Error(
       'API_USERNAME and API_PASSWORD must both be set to build the dxLink Basic Authorization header',
     )
   }
-  const encodedCreds = Buffer.from(`${settings.API_USERNAME}:${settings.API_PASSWORD}`).toString(
-    'base64',
-  )
-  return { headers: { Authorization: `Basic ${encodedCreds}` } }
+  return { headers: { Authorization: authorization } }
 }
 
 export type DxLinkConnection = {
@@ -568,7 +583,7 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
     const eventType = message.data?.[0]
     const data = message.data?.[1]
     if (typeof eventType !== 'string' || !Array.isArray(data)) {
-      logger.warn(`Ignoring malformed FEED_DATA frame: ${JSON.stringify(message)}`)
+      logger.warn(truncateForLog(`Ignoring malformed FEED_DATA frame: ${JSON.stringify(message)}`))
       return []
     }
 

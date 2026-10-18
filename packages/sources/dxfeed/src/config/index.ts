@@ -28,12 +28,20 @@ const wsApiEndpointBreakingChangeError = (value?: string): string => {
 }
 
 /**
- * Loopback hosts for which a plaintext ws:// WS_API_ENDPOINT is accepted inside
- * a test run (NODE_ENV === 'test'): the framework's mock-socket test bridge
- * serves the dxLink mock on ws:// loopback and hands the URL to the adapter
- * through WS_API_ENDPOINT alone.
+ * Loopback hosts for which a plaintext ws:// WS_API_ENDPOINT is accepted when
+ * the adapter-owned ALLOW_PLAINTEXT_WS_TEST flag is set (plan item 1): the
+ * integration-test setup that starts the framework's mock-socket test bridge
+ * on ws:// loopback sets exactly this flag alongside WS_API_ENDPOINT.
  */
 const LOOPBACK_WS_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]', '::1'])
+
+/**
+ * The adapter-owned plaintext-test gate (plan item 1): ws:// is admitted only
+ * when THIS variable is explicitly set — never off NODE_ENV, a process-wide
+ * variable that unrelated tooling sets. The spec rule is wss-only with no
+ * downgrade path; the flag exists solely so the loopback test bridge can run.
+ */
+const plaintextWsTestAllowed = (): boolean => process.env.ALLOW_PLAINTEXT_WS_TEST === 'true'
 
 /**
  * Startup validate fn for WS_API_ENDPOINT (runs only when a value is set): the
@@ -41,8 +49,8 @@ const LOOPBACK_WS_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]', '::1'])
  * embedded ://user:pass@ credentials) plus the scheme gate — the Basic
  * Authorization header rides the WS handshake, so any scheme other than wss://
  * is rejected at startup (plan ws-plaintext-endpoint-accepted). ws:// is
- * permitted ONLY when NODE_ENV is 'test' AND the host is loopback (the
- * framework's mock-socket test bridge); such an acceptance logs a loud
+ * permitted ONLY when ALLOW_PLAINTEXT_WS_TEST=true AND the host is loopback
+ * (the framework's mock-socket test bridge); such an acceptance logs a loud
  * plaintext-credential warning.
  */
 export const validateWsApiEndpoint = (value?: string): string => {
@@ -63,13 +71,9 @@ export const validateWsApiEndpoint = (value?: string): string => {
     return ''
   }
 
-  if (
-    url.protocol === 'ws:' &&
-    process.env.NODE_ENV === 'test' &&
-    LOOPBACK_WS_HOSTS.has(url.hostname)
-  ) {
+  if (url.protocol === 'ws:' && plaintextWsTestAllowed() && LOOPBACK_WS_HOSTS.has(url.hostname)) {
     logger.warn(
-      `WS_API_ENDPOINT uses a plaintext ws:// loopback endpoint: the Basic Authorization header (the API credentials) would be sent unencrypted. Acceptance of ws:// is for local test servers only (NODE_ENV=test).`,
+      `WS_API_ENDPOINT uses a plaintext ws:// loopback endpoint: the Basic Authorization header (the API credentials) would be sent unencrypted. Acceptance of ws:// is for local test servers only (ALLOW_PLAINTEXT_WS_TEST=true).`,
     )
     return ''
   }
@@ -139,16 +143,49 @@ export const REST_API_ENDPOINT_DEFAULT = 'https://tools.dxfeed.com/webservice/re
  */
 
 /**
+ * The single computation of the dxLink Basic Authorization header value (spec
+ * data_source_authentication.usage.handshake_header): the censor list below and
+ * dxLinkConnectionOptions (src/dxlink/protocol.ts) both derive the header from
+ * this one function, so the censored string and the sent string cannot drift
+ * (plan item 2). Returns undefined when the credential pair is missing or
+ * blank — dxLinkConnectionOptions turns that into a loud throw; the censor
+ * list simply registers no entry.
+ */
+export const dxLinkBasicAuthHeader = (settings: {
+  API_USERNAME?: string
+  API_PASSWORD?: string
+}): string | undefined =>
+  settings.API_USERNAME?.trim() && settings.API_PASSWORD?.trim()
+    ? `Basic ${Buffer.from(`${settings.API_USERNAME}:${settings.API_PASSWORD}`).toString('base64')}`
+    : undefined
+
+/** The censor-list key under which the Basic Authorization header value is registered. */
+export const DXLINK_AUTH_CENSOR_KEY = 'DXLINK_BASIC_AUTH'
+
+/**
  * The dxfeed censor entries (plan buildcensorlist-subclass-override): the
  * wrapper calls the framework config builder, whose buildCensorList — the
  * pinned framework version 2.20.0 signature returns void — populates the static
  * CensorList from the sensitive settings (API_PASSWORD, WS_API_ENDPOINT); this
  * accessor appends those built entries to the result as a typed list instead of
- * overriding the framework method on a subclass.
+ * overriding the framework method on a subclass. The base64 Authorization
+ * header value (reversible encoding of the credential pair) is appended here
+ * too, computed by the SAME dxLinkBasicAuthHeader the connection options send —
+ * a log of connection options can no longer leak decodable credentials
+ * (plan item 2).
  */
 export const censorList = (): { key: string; value: RegExp }[] => {
   config.buildCensorList()
-  return CensorList.getAll()
+  const entries = CensorList.getAll()
+  const authHeader = dxLinkBasicAuthHeader(config.settings)
+  if (authHeader && !entries.some(({ key }) => key === DXLINK_AUTH_CENSOR_KEY)) {
+    entries.push({
+      key: DXLINK_AUTH_CENSOR_KEY,
+      // Same escaping the framework's buildCensorList applies to sensitive values
+      value: new RegExp(authHeader.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')),
+    })
+  }
+  return entries
 }
 
 /**

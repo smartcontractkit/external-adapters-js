@@ -32,23 +32,24 @@ const withSettings = (env: Record<string, string | undefined>, fn: () => void): 
 const CREDENTIALS = { API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' }
 
 /**
- * Runs fn with NODE_ENV pinned (and restored after): validateWsApiEndpoint
- * reads NODE_ENV directly to gate the ws:// loopback test-run exception.
+ * Runs fn with one env var pinned (and restored after): the plaintext-ws gate
+ * reads the adapter-owned ALLOW_PLAINTEXT_WS_TEST flag, and the plan's proving
+ * test pins NODE_ENV to prove it no longer has any effect on the gate.
  */
-const withNodeEnv = (nodeEnv: string | undefined, fn: () => void): void => {
-  const oldEnv = process.env.NODE_ENV
+const withEnvVar = (name: string, value: string | undefined, fn: () => void): void => {
+  const oldEnv = process.env[name]
   try {
-    if (nodeEnv === undefined) {
-      delete process.env.NODE_ENV
+    if (value === undefined) {
+      delete process.env[name]
     } else {
-      process.env.NODE_ENV = nodeEnv
+      process.env[name] = value
     }
     fn()
   } finally {
     if (oldEnv === undefined) {
-      delete process.env.NODE_ENV
+      delete process.env[name]
     } else {
-      process.env.NODE_ENV = oldEnv
+      process.env[name] = oldEnv
     }
   }
 }
@@ -70,8 +71,10 @@ describe('WS_API_ENDPOINT validation (spec breaking_change_env_checks)', () => {
     expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe('')
   })
 
-  it('accepts the framework mock-socket test-bridge URL injected through WS_API_ENDPOINT only (the spec declares no opt-in env var for local test bridges)', () => {
-    expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe('')
+  it('accepts the framework mock-socket test-bridge URL when the adapter-owned ALLOW_PLAINTEXT_WS_TEST flag is set (the integration-test setup sets exactly this flag)', () => {
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', 'true', () =>
+      expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe(''),
+    )
   })
 
   it('runs the validator at startup: a cometd WS_API_ENDPOINT fails config.validate()', () => {
@@ -88,17 +91,28 @@ describe('WS_API_ENDPOINT validation (spec breaking_change_env_checks)', () => {
     )
   })
 
-  it('accepts ws://localhost ONLY under NODE_ENV=test; a non-test run rejects it (plan ws-plaintext-endpoint-accepted scheme gate)', () => {
-    const loopbackUrl = 'ws://localhost:9090/dxlink-chainlink'
-    withNodeEnv('test', () => expect(validateWsApiEndpoint(loopbackUrl)).toBe(''))
-    withNodeEnv('production', () => expect(validateWsApiEndpoint(loopbackUrl)).toContain('wss://'))
-    withNodeEnv(undefined, () => expect(validateWsApiEndpoint(loopbackUrl)).toContain('wss://'))
+  it('admits ws://127.0.0.1 ONLY with ALLOW_PLAINTEXT_WS_TEST=true; NODE_ENV=test alone no longer enables plaintext credentials (plan item 1 proving test)', () => {
+    const loopbackUrl = 'ws://127.0.0.1:9090/dxlink-chainlink'
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', 'true', () =>
+      expect(validateWsApiEndpoint(loopbackUrl)).toBe(''),
+    )
+    // A process-wide test-mode setting must NOT enable plaintext credentials:
+    // the gate reads only the adapter-owned flag
+    withEnvVar('NODE_ENV', 'test', () =>
+      expect(validateWsApiEndpoint(loopbackUrl)).toContain('wss://'),
+    )
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', undefined, () =>
+      expect(validateWsApiEndpoint(loopbackUrl)).toContain('wss://'),
+    )
   })
 
-  it('wss:// stays accepted in every NODE_ENV mode', () => {
-    for (const nodeEnv of ['test', 'production', undefined]) {
-      withNodeEnv(nodeEnv, () => expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe(''))
-    }
+  it('wss:// stays accepted whether or not the plaintext flag is set (spec data_source_base_url: wss-only, no downgrade path)', () => {
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', undefined, () =>
+      expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe(''),
+    )
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', 'true', () =>
+      expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe(''),
+    )
   })
 })
 
@@ -149,6 +163,14 @@ const captureValidateWarnings = (env: Record<string, string | undefined>): strin
       freshConfig.initialize()
       freshConfig.validate()
     } finally {
+      // setEnvVariables only ASSIGNS snapshot keys — a key added inside this
+      // block (e.g. ALLOW_PLAINTEXT_WS_TEST) would otherwise leak into the rest
+      // of the file and silently enable the plaintext-ws gate for later tests
+      for (const key of Object.keys(process.env)) {
+        if (!(key in oldEnv)) {
+          delete process.env[key]
+        }
+      }
       setEnvVariables(oldEnv)
       framework.LoggerFactoryProvider.set()
     }
@@ -180,15 +202,18 @@ describe('demo REST endpoint startup warning (keep_untouched REST path: pre-migr
 })
 
 describe('plaintext ws:// loopback acceptance warns loudly (round-2: a boot with real credentials on ws:// would send the Basic Authorization header unencrypted with no signal)', () => {
-  it('emits the warning and passes validation for WS_API_ENDPOINT=ws://localhost under NODE_ENV=test', () => {
-    // jest runs with NODE_ENV=test; the loopback ws:// acceptance logs the
-    // plaintext-credential warning while validation still passes
+  it('emits the warning and passes validation for WS_API_ENDPOINT=ws://localhost under ALLOW_PLAINTEXT_WS_TEST=true', () => {
+    // The adapter-owned flag admits the loopback ws:// acceptance, which logs
+    // the plaintext-credential warning while validation still passes
     const warnings = captureValidateWarnings({
       ...CREDENTIALS,
       WS_API_ENDPOINT: 'ws://localhost:9090/dxlink-chainlink',
+      ALLOW_PLAINTEXT_WS_TEST: 'true',
     })
     expect(warnings.some((w) => w.includes('plaintext ws://'))).toBe(true)
-    expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe('')
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', 'true', () =>
+      expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe(''),
+    )
   })
 
   it('emits no plaintext warning for the wss:// endpoint', () => {
