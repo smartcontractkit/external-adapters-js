@@ -1,5 +1,5 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import { parseCompactFeedData } from '../../../src/transport/ws'
+import { DxLinkFrame, parseCompactFeedData } from '../../../src/transport/ws'
 import frames from '../fixtures/dxlink-frames.json'
 
 // The transport modules log via the framework logger, which needs a factory set
@@ -131,19 +131,58 @@ describe('COMPACT FEED_DATA frame parsing (plan round1-compact-parsing / spec sa
     expect(toFieldMap(QUOTE_FIELDS, records[0]).bidPrice).toBe(189.95)
   })
 
+  it('narrows the DxLinkFrame discriminant to FEED_DATA before the data payload is read (spec stock_quotes sample frame)', () => {
+    // The spec sample_response FEED_DATA frame typed as the parse-frame result
+    const frame = frames.stockQuotesFrame as DxLinkFrame
+
+    // Narrowing guard (plan round 2): ONLY the FEED_DATA variant of the
+    // discriminated DxLinkFrame union carries `data` — reading `frame.data`
+    // below compiles exactly because the guard excludes every control variant
+    if (frame.type !== 'FEED_DATA') {
+      throw new Error('expected FEED_DATA')
+    }
+
+    // Spec stock_quotes sample_response frame verbatim: eventType "Quote"
+    // first, then the COMPACT record payload
+    expect(frame.data[0]).toBe('Quote')
+    expect(frame.data[1]).toEqual([
+      'Quote',
+      'AAPL:USLF24',
+      1760000000000,
+      189.95,
+      190.05,
+      100,
+      200,
+      'V',
+      'V',
+      'Quote',
+      'AAPL:USLF24',
+      1760000001000,
+      189.9,
+      190.1,
+      50,
+      80,
+      'O',
+      'O',
+    ])
+  })
+
   it('KEEPALIVE and ERROR frames are control messages: no COMPACT records and no market data', () => {
     // Both frames carry no FEED_DATA payload at all — they are stream-control
     // (exception dxlink-control-protocol) and must yield no records
-    for (const frame of [frames.keepaliveFrame, frames.errorFrame]) {
+    for (const frame of [frames.keepaliveFrame, frames.errorFrame] as DxLinkFrame[]) {
       expect(frame.type === 'KEEPALIVE' || frame.type === 'ERROR').toBe(true)
-      expect(frame.data).toBeUndefined()
-      expect(
-        parseCompactFeedData(
-          'Quote',
-          (frame.data ?? []) as (string | number | boolean)[],
-          frames.quoteFeedConfig.eventFields,
-        ),
-      ).toEqual([])
+      // Narrowing guard (plan round 2): only the FEED_DATA variant of the
+      // discriminated DxLinkFrame union carries `data`; a control frame that
+      // somehow carried one fails loud here instead of being read
+      if (frame.type === 'FEED_DATA') {
+        throw new Error(`control frame ${frame.type} unexpectedly carried a FEED_DATA payload`)
+      }
+      // The narrowed non-FEED_DATA variants structurally have no `data` field —
+      // exactly the spec's "KEEPALIVE and ERROR frames produce no market data"
+      expect('data' in frame).toBe(false)
+      // So the payload reaching the COMPACT parser for a control frame is empty
+      expect(parseCompactFeedData('Quote', [], frames.quoteFeedConfig.eventFields)).toEqual([])
     }
   })
 })

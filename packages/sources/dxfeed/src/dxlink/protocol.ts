@@ -51,6 +51,24 @@ export type DxLinkMessage = {
   code?: string
 }
 
+/**
+ * Parsed inbound dxLink frames as a discriminated union (parse-frame extension
+ * point, template transport-ws-subscribe): every variant carries a
+ * string-literal `type` discriminant so handlers and tests can narrow with a
+ * plain equality check, and ONLY the FEED_DATA variant carries `data` —
+ * control frames (FEED_CONFIG / KEEPALIVE / ERROR / CHANNEL_CLOSED)
+ * structurally have no data payload. Built over DxLinkMessage minus the wide
+ * `type` / `data` pair so the wire shape stays defined in one place. Exported
+ * so the parse-frame tests can narrow before any data access.
+ */
+type DxLinkFrameFields = Omit<DxLinkMessage, 'type' | 'data'>
+export type DxLinkFrame =
+  | (DxLinkFrameFields & { type: 'FEED_DATA'; data: Array<string | DxLinkRecord> })
+  | (DxLinkFrameFields & { type: 'FEED_CONFIG' })
+  | (DxLinkFrameFields & { type: 'KEEPALIVE' })
+  | (DxLinkFrameFields & { type: 'ERROR' })
+  | (DxLinkFrameFields & { type: 'CHANNEL_CLOSED' })
+
 export type DxLinkProviderTypes = {
   Provider: {
     WsMessage: DxLinkMessage
