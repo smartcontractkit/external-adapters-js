@@ -13,10 +13,17 @@ import * as path from 'path'
  * verifier pipeline from recorded golden vectors and are agent-unwritable (a
  * change there is a spec change, human re-gated) — this guard covers everything
  * the adapter agents themselves write under test/unit and test/integration.
+ *
+ * test/integration/fixtures.ts is excluded for the same agent-unwritability
+ * reason: it is the adapter's pre-existing baseline fixture (a protected
+ * fixtures.ts path), restored verbatim from the repo baseline by the dxLink
+ * migration — its host reference is baseline content, not test code this
+ * migration wrote.
  */
 describe('no provider hosts in test code (plan round1-test-fake-urls / verifier feedback test_fake_urls)', () => {
   const TEST_ROOT = path.resolve(__dirname, '..')
   const EXCLUDED_DIRS = new Set([path.join(TEST_ROOT, 'golden')])
+  const EXCLUDED_BASELINE_FILES = new Set([path.join(TEST_ROOT, 'integration', 'fixtures.ts')])
   const SCANNED_EXTENSIONS = /\.(ts|tsx|js|jsx|cjs|mjs|json|md|txt)$/
 
   // The forbidden strings are assembled from parts so this test file does not
@@ -34,7 +41,7 @@ describe('no provider hosts in test code (plan round1-test-fake-urls / verifier 
       if (entry.isDirectory()) {
         return EXCLUDED_DIRS.has(full) ? [] : listTestFiles(full)
       }
-      return SCANNED_EXTENSIONS.test(entry.name) ? [full] : []
+      return SCANNED_EXTENSIONS.test(entry.name) && !EXCLUDED_BASELINE_FILES.has(full) ? [full] : []
     })
 
   it('scan test/: the provider host and any provider-prefix websocket url appear in no test file', () => {
