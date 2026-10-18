@@ -121,33 +121,54 @@ describe('config surface (plan CONF-ENV-MISMATCH: the spec lists four environmen
   })
 })
 
-describe('WS credential triple is NOT startup-required (plan ws-env-triple-required-at-startup: the spec breaking_change_env_checks scope the credential requirement to WS paths — a REST-only pod boots with only API_ENDPOINT set; owner decision rest_transport_scope=keep_untouched)', () => {
+describe('WS credential triple is startup-required (spec environment_variables: API_USERNAME, API_PASSWORD and WS_API_ENDPOINT are each required:true — the plan CONF-ENV-MISMATCH proving test: startup fails when any of the three is missing)', () => {
   const STARTUP_ENV = { ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }
 
-  it('initialises with ONLY API_ENDPOINT set and no WS triple (the REST-only boot)', () => {
-    withSettings(
-      {
-        API_USERNAME: undefined,
-        API_PASSWORD: undefined,
-        WS_API_ENDPOINT: undefined,
-        API_ENDPOINT: 'https://rest.fake.test/webservice/rest',
-      },
-      () => expect(() => config.validate()).not.toThrow(),
+  it('builds the config with all four env vars set', () => {
+    withSettings({ ...STARTUP_ENV, API_ENDPOINT: 'https://rest.fake.test/webservice/rest' }, () =>
+      expect(() => config.validate()).not.toThrow(),
     )
   })
 
-  it('still initialises with the full WS triple set (the WS paths keep working)', () => {
-    withSettings(STARTUP_ENV, () => expect(() => config.validate()).not.toThrow())
+  it('fails startup when API_USERNAME is missing', () => {
+    withSettings(
+      {
+        API_USERNAME: undefined,
+        API_PASSWORD: CREDENTIALS.API_PASSWORD,
+        WS_API_ENDPOINT: DXLINK_ENDPOINT,
+      },
+      () => expect(() => config.validate()).toThrow(/API_USERNAME/),
+    )
   })
 
-  it('declares the three WS settings required:false (the WS requirement moved to request time)', () => {
+  it('fails startup when API_PASSWORD is missing', () => {
+    withSettings(
+      {
+        API_USERNAME: CREDENTIALS.API_USERNAME,
+        API_PASSWORD: undefined,
+        WS_API_ENDPOINT: DXLINK_ENDPOINT,
+      },
+      () => expect(() => config.validate()).toThrow(/API_PASSWORD/),
+    )
+  })
+
+  it('fails startup when WS_API_ENDPOINT is missing', () => {
+    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: undefined }, () =>
+      expect(() => config.validate()).toThrow(/WS_API_ENDPOINT/),
+    )
+  })
+
+  it('declares the three WS settings required:true and API_ENDPOINT optional', () => {
     const definitions = settingsDefinition() as Record<string, { required: boolean }>
-    expect(definitions['API_USERNAME'].required).toBe(false)
-    expect(definitions['API_PASSWORD'].required).toBe(false)
-    expect(definitions['WS_API_ENDPOINT'].required).toBe(false)
+    expect(definitions['API_USERNAME'].required).toBe(true)
+    expect(definitions['API_PASSWORD'].required).toBe(true)
+    expect(definitions['WS_API_ENDPOINT'].required).toBe(true)
+    // API_ENDPOINT omits the required key entirely (the framework treats an
+    // absent flag as optional)
+    expect(definitions['API_ENDPOINT'].required).toBeFalsy()
   })
 
-  it('a WS-transport request in the REST-only state returns the env validation error (the request-time gate wsEnvInputValidationError)', () => {
+  it('a WS-transport request still hits the request-time env gate (defense-in-depth wsEnvInputValidationError)', () => {
     for (const endpoint of [priceEndpoint, stockQuotesEndpoint]) {
       const error = endpoint.customInputValidation?.(wsRequest, {} as any)
       expect(error?.statusCode).toBe(400)
@@ -158,11 +179,10 @@ describe('WS credential triple is NOT startup-required (plan ws-env-triple-requi
     expect(helperError?.message).toContain('API_USERNAME')
   })
 
-  it('startup still rejects a WS_API_ENDPOINT value that fails the breaking-change URL checks while the credential pair is unset (all validation errors are reported together)', () => {
+  it('startup still rejects a WS_API_ENDPOINT value that fails the breaking-change URL checks (all validation errors are reported together)', () => {
     withSettings(
       {
-        API_USERNAME: undefined,
-        API_PASSWORD: undefined,
+        ...CREDENTIALS,
         WS_API_ENDPOINT: 'wss://dxlink.fake.test/chainlink/cometd',
       },
       () => expect(() => config.validate()).toThrow(/cometd/),

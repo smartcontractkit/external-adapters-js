@@ -7,31 +7,28 @@ import nock from 'nock'
 import { FAKE_REST_ENDPOINT, mockBatchedRestTransport } from './rest-mocks'
 
 /**
- * REST-only boot smoke flow (OPDATA-9200): the untouched REST transport
- * (owner decision rest_transport_scope=keep_untouched) serves requests
- * unchanged from a pod that boots with ONLY API_ENDPOINT set.
+ * REST contract flow (OPDATA-9200): the untouched REST transport (owner
+ * decision rest_transport_scope=keep_untouched) serves requests unchanged.
  *
- * Plan item ws-env-triple-required-at-startup: the spec
- * breaking_change_env_checks scope the credential requirement to WS paths —
- * API_USERNAME, API_PASSWORD and WS_API_ENDPOINT are required: false at
- * startup, and the WS-path requirement is enforced at request time by
- * wsEnvInputValidationError (through the endpoints' customInputValidation).
- * A REST-only deployment must therefore boot AND serve with none of the three
- * WS vars set; a WS-transport request in that same state fails fast with the
- * request-time env validation error.
+ * Spec environment_variables declare API_USERNAME, API_PASSWORD and
+ * WS_API_ENDPOINT required:true, so every boot carries the WS credential
+ * triple; the REST path (defaultTransport "rest") still serves from
+ * API_ENDPOINT alone, resolved overrides included. The startup-rejection
+ * half (a boot with none of the three WS vars set) is proven in
+ * breaking-change-config.test.ts through adapter.initialize().
  */
-describe('REST-only boot (no WS credential triple)', () => {
+describe('REST contract under the required config surface', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    // The WS triple is required: false at startup — delete whatever the outer
-    // environment leaked in, so this boot really is REST-only
-    delete process.env['API_USERNAME']
-    delete process.env['API_PASSWORD']
-    delete process.env['WS_API_ENDPOINT']
+    // The WS credential triple is required at startup (spec
+    // environment_variables) — fake values satisfy it without touching a host
+    process.env['API_USERNAME'] = 'fake-api-username'
+    process.env['API_PASSWORD'] = 'fake-api-password'
+    process.env['WS_API_ENDPOINT'] = 'wss://dxlink.fake.test/dxlink-chainlink'
     // Fake REST host (test_fake_urls): the untouched REST transport reads
     // API_ENDPOINT from settings, so the nock interceptor in rest-mocks.ts is
     // what the requests hit — never a real provider host
@@ -42,10 +39,10 @@ describe('REST-only boot (no WS credential triple)', () => {
 
     const adapter = (await import('./../../src')).adapter as unknown as Adapter
     adapter.rateLimiting = undefined
-    // Boot itself is the first assertion: with the WS triple required: false,
-    // initialize() must accept an environment with none of the three set
-    // (batched REST mock — the untouched REST transport batches the desired
-    // symbol set into one request; see rest-mocks.ts)
+    // Boot itself is the first assertion: the required triple plus a fake REST
+    // endpoint is a valid startup environment (batched REST mock — the
+    // untouched REST transport batches the desired symbol set into one
+    // request; see rest-mocks.ts)
     mockBatchedRestTransport()
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
@@ -62,7 +59,7 @@ describe('REST-only boot (no WS credential triple)', () => {
     spy.mockRestore()
   })
 
-  it('boots with only API_ENDPOINT and serves a price request through the untouched REST transport', async () => {
+  it('serves a price request through the untouched REST transport (defaultTransport rest)', async () => {
     // No transport param: the request falls through to defaultTransport "rest"
     // (owner decision rest_transport_scope=keep_untouched). The nock
     // interception on the fake REST host is the proof the REST transport
@@ -97,24 +94,5 @@ describe('REST-only boot (no WS credential triple)', () => {
       data: { result: 142.5 },
       result: 142.5,
     })
-  })
-
-  it('returns the request-time env validation error for a WS-transport request in the same no-triple state', async () => {
-    // The request-time half of the plan item: with no WS triple set, a request
-    // whose resolved transport is ws fails fast at customInputValidation with
-    // the env validation error naming the credentials (spec
-    // breaking_change_env_checks: "require API_USERNAME and API_PASSWORD to be
-    // set (WS paths)") — and never reaches a socket.
-    const response = await testAdapter.request({
-      endpoint: 'stock',
-      base: 'AAPL',
-      to: 'USD',
-      transport: 'ws',
-    })
-    expect(response.statusCode).toBe(400)
-    expect(response.json()).toMatchObject({ error: expect.anything() })
-    // The error names the missing credential pair, wherever the framework
-    // places the message in the error body
-    expect(JSON.stringify(response.json())).toContain('API_USERNAME')
   })
 })

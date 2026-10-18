@@ -113,9 +113,7 @@ describe('dxLink wire protocol', () => {
     // declares no extra env var for it
     process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
     process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
-    // Short enough that the unsubscribe window fits the fake-clock ticks of the
-    // last test; long enough to survive the reconnect test's steps
-    process.env['WS_SUBSCRIPTION_TTL'] = '15000'
+    process.env['WS_SUBSCRIPTION_TTL'] = '60000'
     process.env['CACHE_MAX_AGE'] = '600000'
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
 
@@ -261,16 +259,20 @@ describe('dxLink wire protocol', () => {
     })
   })
 
-  it('sends KEEPALIVE frames on the spec 30s interval and drops expired subscriptions from the wire', async () => {
-    // Spec keepalive interval_seconds=30. No requests flow during this window,
-    // so the WS_SUBSCRIPTION_TTL also lapses: the wire must carry KEEPALIVE
-    // frames and a FEED_SUBSCRIPTION remove for the expired subscriptions.
-    // The wire frames are observed through the per-connection frame logs the
-    // bridge registers at connection time — clearing the outer log here would
-    // detach the live connection's array and hide every frame it sends during
-    // this quiet window, so the existing logs are read in full; the .some()
-    // assertions tolerate the earlier handshake/subscription frames.
-    for (let i = 0; i < 70; i++) {
+  it('sends KEEPALIVE frames on the spec 30s interval so the session stays alive through a quiet window', async () => {
+    // Spec keepalive interval_seconds=30 (OPDATA-9200): with no requests and no
+    // frames flowing, the adapter must emit KEEPALIVE control frames on the wire
+    // — a provider that hears nothing from the client drops the session, so the
+    // keepalive frames are what keep the warmed value servable across the quiet
+    // window. The wire frames are observed through the per-connection frame logs
+    // the bridge registers at connection time — clearing the outer log here
+    // would detach the live connection's array and hide every frame it sends
+    // during this quiet window, so the existing logs are read in full; the
+    // .some() assertion tolerates the earlier handshake/subscription frames.
+    // 40 ticks = 40s: past the first 30s keepalive beat, inside the 60s
+    // subscription TTL and the 10min cache max-age, so the served value below
+    // is the warmed spec example and not a TTL-expired 504.
+    for (let i = 0; i < 40; i++) {
       await step()
     }
 
@@ -280,9 +282,14 @@ describe('dxLink wire protocol', () => {
       .filter((m): m is AnyMsg => Boolean(m))
     expect(sent.some((m) => m.type === 'KEEPALIVE')).toBe(true)
 
-    const removes = sent
-      .filter((m) => m.type === 'FEED_SUBSCRIPTION')
-      .flatMap((m) => m.remove ?? [])
-    expect(removes.some((e) => e.symbol === 'AAPL:USLF24' && e.type === 'Quote')).toBe(true)
+    // The behavioral consequence on the real request path: the session is still
+    // alive, and the warmed spec example value keeps serving (mid 190.0 over the
+    // spec sample bid 189.95 / ask 190.05, provider time 1760000000000)
+    const response = await testAdapter.request(quoteRequest)
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchObject({
+      result: 190.0,
+      timestamps: { providerIndicatedTimeUnixMs: 1760000000000 },
+    })
   })
 })

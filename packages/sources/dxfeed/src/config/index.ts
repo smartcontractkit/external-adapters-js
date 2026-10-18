@@ -130,34 +130,34 @@ export const REST_API_ENDPOINT_DEFAULT = 'https://tools.dxfeed.com/webservice/re
 
 /**
  * The spec settings surface. API_USERNAME, API_PASSWORD and WS_API_ENDPOINT are
- * required: FALSE at startup (plan ws-env-triple-required-at-startup): the spec
- * breaking_change_env_checks scope the credential requirement to WS paths, so a
- * REST-only pod boots with only API_ENDPOINT set. The WS-path requirement is
- * enforced at request time by wsEnvInputValidationError through the endpoints'
- * customInputValidation (defense-in-depth: the WS transport's options() also
- * refuses to build a Basic header from a missing pair).
+ * required: TRUE at startup (spec environment_variables) — a missing WS triple
+ * fails config.validate() inside adapter.initialize(), before any request or
+ * socket. The pair is ALSO enforced at request time by wsEnvInputValidationError
+ * through the endpoints' customInputValidation (defense-in-depth: the WS
+ * transport's options() also refuses to build a Basic header from a missing
+ * pair).
  */
-// `as const` keeps the definition literal (required: false, type: 'string'):
-// the framework's Settings<T> mapped type uses those literals to decide which
-// settings are optional keys — a widened `required: boolean` drops the key from
-// the settings type entirely
+// `as const` keeps the definition literal (required: true/false, type:
+// 'string'): the framework's Settings<T> mapped type uses those literals to
+// decide which settings are optional keys — a widened `required: boolean`
+// drops the key from the settings type entirely
 const dxFeedSettings = {
   API_USERNAME: {
     description: 'username for dxfeed API',
     type: 'string',
-    required: false,
+    required: true,
     sensitive: false,
   },
   API_PASSWORD: {
     description: 'password for dxfeed API',
     type: 'string',
-    required: false,
+    required: true,
     sensitive: true,
   },
   WS_API_ENDPOINT: {
     description: 'The websocket url for dxfeed (dxLink endpoint)',
     type: 'string',
-    required: false,
+    required: true,
     sensitive: true,
     validate: {
       meta: {

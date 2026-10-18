@@ -12,15 +12,13 @@ import {
  * inside adapter.initialize() (expose), so a rejected environment rejects
  * initialize() — no WS connection, no request, no mock server involved.
  *
- * The two URL checks run only when WS_API_ENDPOINT is set: the legacy cometd
+ * The two URL checks run when WS_API_ENDPOINT is set: the legacy cometd
  * path (/chainlink/cometd — the transport this migration deletes) and embedded
  * ://user:pass@ credentials (credentials ride the Basic Authorization header,
- * never the URL). Plan item ws-env-triple-required-at-startup: the
- * breaking_change_env_checks scope the credential requirement to WS paths —
- * API_USERNAME, API_PASSWORD and WS_API_ENDPOINT are required: false at
- * startup, so a boot WITHOUT the triple succeeds (the WS-path requirement is
- * enforced at request time; rest-only-boot.test.ts proves the REST-only boot
- * and the request-time gate through the real request path).
+ * never the URL). The spec environment_variables declare API_USERNAME,
+ * API_PASSWORD and WS_API_ENDPOINT required:true — a boot WITHOUT the triple
+ * is rejected by initialize() (the request-time gate
+ * wsEnvInputValidationError stays as defense-in-depth).
  */
 
 // Fake hosts only (test_fake_urls): the real provider hosts live only in
@@ -85,13 +83,10 @@ describe('breaking-change config rejections', () => {
     await expect(adapter.initialize()).rejects.toThrow(/credentials/)
   })
 
-  it('boots WITHOUT the WS credential triple — the breaking_change_env_checks scope the credential requirement to WS paths', async () => {
-    // Plan item ws-env-triple-required-at-startup: API_USERNAME, API_PASSWORD
-    // and WS_API_ENDPOINT are required: false at startup; only the REST path
-    // needs API_ENDPOINT. A boot with none of the three set must succeed —
-    // the credential requirement is enforced at REQUEST time on WS paths
-    // (wsEnvInputValidationError through the endpoints' customInputValidation;
-    // rest-only-boot.test.ts proves the 400 through the real request path).
+  it('rejects a boot WITHOUT the WS credential triple — the spec environment_variables declare all three required:true', async () => {
+    // Spec environment_variables: API_USERNAME, API_PASSWORD and WS_API_ENDPOINT
+    // are each required — the framework's config.validate() (inside
+    // adapter.initialize()) rejects the boot with none of the three set.
     // The earlier rejection boots above leak their API_USERNAME/API_PASSWORD
     // into this worker's process.env (boot() only writes the keys it is
     // given), so the WS triple is deleted explicitly.
@@ -101,7 +96,7 @@ describe('breaking-change config rejections', () => {
       WS_API_ENDPOINT: undefined,
       API_ENDPOINT: FAKE_REST,
     })
-    await expect(adapter.initialize()).resolves.toBeUndefined()
+    await expect(adapter.initialize()).rejects.toThrow(/WS_API_ENDPOINT/)
   })
 
   it('boots with a clean dxLink config (valid startup control)', async () => {
