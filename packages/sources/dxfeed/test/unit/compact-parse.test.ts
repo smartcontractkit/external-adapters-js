@@ -122,6 +122,28 @@ describe('COMPACT frame parsing (spec acceptDataFormat=COMPACT)', () => {
     }
   })
 
+  it('maps the spec sample frame to the spec response example: mid 190.0, bid 189.90/50, ask 190.10/80, time 1760000001000', () => {
+    // Spec endpoint_request_response_examples.stock_quotes.response — produced
+    // from the SECOND record of the spec sample FEED_DATA frame
+    const records = parseCompactFeedData(
+      'Quote',
+      frames.stockQuotesFrame.data[1] as DxLinkRecord,
+      QUOTE_EVENT_FIELDS,
+    )
+
+    expect(quoteRecordToResult(records[1], QUOTE_PARAMS)).toEqual({
+      result: 190.0,
+      data: {
+        mid_price: 190.0,
+        bid_price: 189.9,
+        bid_volume: 50,
+        ask_price: 190.1,
+        ask_volume: 80,
+      },
+      timestamps: { providerIndicatedTimeUnixMs: 1760000001000 },
+    })
+  })
+
   it('sets providerIndicatedTimeUnixMs from the record time field', () => {
     const records = parseCompactFeedData(
       'Quote',

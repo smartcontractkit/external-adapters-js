@@ -82,6 +82,20 @@ setFeedData('Quote', 'ONE:USLF24', [
   'V',
 ])
 
+// Quiet-stream flow: a symbol whose stream goes quiet after its one quote
+// (owner decision stale_quote_serving = serve_last_value_with_timestamp)
+setFeedData('Quote', 'QUIET:USLF24', [
+  'Quote',
+  'QUIET:USLF24',
+  1760000002000,
+  50.0,
+  50.2,
+  10,
+  20,
+  'V',
+  'V',
+])
+
 // Malformed record: invalid price ("NaN") AND a nonnumeric time — nothing
 // about it is usable as a number-typed report field (plan item: never emit
 // NaN in a number-typed field)
@@ -335,6 +349,45 @@ describe('stock_quotes endpoint semantics on the dxLink transport', () => {
         providerIndicatedTimeUnixMs: 1760000004000,
       },
     })
+  })
+
+  it('keeps serving the last value with its original providerIndicatedTimeUnixMs once the stream goes quiet — staleness never rejects', async () => {
+    // Owner decision stale_quote_serving = serve_last_value_with_timestamp:
+    // markets close, the Quote stream goes quiet, and the EA serves the last
+    // value with its ORIGINAL provider timestamp — no max-age rejection, no
+    // error envelope. The freshness guard reports staleness through metrics
+    // only (owner decision degraded_stream_alerting = metrics_counters_only).
+    const quietRequest = quoteRequest('QUIET')
+
+    // Warm the QUIET subscription (its only quote ever)
+    const warmed = await requestUntilCached(quietRequest)
+    expect(warmed.statusCode).toBe(200)
+    expect(warmed.json()).toMatchObject({
+      result: 50.1,
+      timestamps: { providerIndicatedTimeUnixMs: 1760000002000 },
+    })
+
+    // Several background cycles run with no frames pushed and no requests
+    for (let i = 0; i < 5; i++) {
+      await step()
+    }
+
+    const stale = await testAdapter.request(quietRequest)
+    expect(stale.statusCode).toBe(200)
+    expect(stale.json()).toMatchObject({
+      data: {
+        mid_price: 50.1,
+        bid_price: 50.0,
+        bid_volume: 10,
+        ask_price: 50.2,
+        ask_volume: 20,
+      },
+      result: 50.1,
+      timestamps: {
+        providerIndicatedTimeUnixMs: 1760000002000,
+      },
+    })
+    expect(stale.json().errorMessage).toBeUndefined()
   })
 
   it('emits no providerIndicatedTimeUnixMs on a 502 whose record time is nonnumeric — never NaN, never null', async () => {

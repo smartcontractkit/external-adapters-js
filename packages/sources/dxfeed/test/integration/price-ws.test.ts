@@ -249,6 +249,22 @@ describe('price endpoint transport routing (plan item 5)', () => {
     })
   })
 
+  it('serves the spec stock example response over the ws transport (Trade price 189.98 with its provider timestamp)', async () => {
+    // Spec endpoint_request_response_examples (stock, transport "ws"): the
+    // dxlink-mocks default Trade frame for AAPL:USLF24 is the spec
+    // sample_response's verbatim record — price 189.98, time 1760000000000 —
+    // and the override resolves the request's AAPL onto that wire symbol.
+    const response = await requestUntilCached(wsRequest('AAPL'), 1760000000000)
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchObject({
+      data: { result: 189.98 },
+      result: 189.98,
+      timestamps: {
+        providerIndicatedTimeUnixMs: 1760000000000,
+      },
+    })
+  })
+
   it('routes a transport="rest" request through the REST transport', async () => {
     // Spec price input_parameters: "rest". The served 142.5 can only have come
     // from the nock REST fixture (no dxLink frame exists for IBM), and the
