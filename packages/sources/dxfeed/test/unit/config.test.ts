@@ -83,6 +83,17 @@ describe('config surface (plan CONF-ENV-MISMATCH: the spec lists four environmen
     expect(Object.keys(settingsDefinition()).sort()).toEqual(SPEC_ENV_VARS)
   })
 
+  it('exposes all four spec env vars with their loaded values after initialize (spec environment_variables: API_USERNAME, API_PASSWORD, WS_API_ENDPOINT, API_ENDPOINT)', () => {
+    const API_ENDPOINT = 'https://rest.fake.test/webservice/rest'
+    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT, API_ENDPOINT }, () => {
+      const settings = config.settings as unknown as Record<string, unknown>
+      expect(settings.API_USERNAME).toBe(CREDENTIALS.API_USERNAME)
+      expect(settings.API_PASSWORD).toBe(CREDENTIALS.API_PASSWORD)
+      expect(settings.WS_API_ENDPOINT).toBe(DXLINK_ENDPOINT)
+      expect(settings.API_ENDPOINT).toBe(API_ENDPOINT)
+    })
+  })
+
   it('admits no unknown env var into the settings surface: a stray variable in the environment neither appears in the config nor affects startup', () => {
     withSettings(
       {

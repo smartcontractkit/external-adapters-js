@@ -190,11 +190,21 @@ describe('dxLink connection: Basic auth header and failed handshakes', () => {
     expect(types.slice(0, 3)).toEqual(['SETUP', 'CHANNEL_REQUEST', 'FEED_SETUP'])
   })
 
-  it('surfaces a connection error and stays up when the provider rejects the connection', async () => {
+  it('reconnects with a fresh Basic auth header and surfaces a connection error when the provider rejects the connection', async () => {
     // Provider rejects the handshake (immediate close): the adapter must surface
     // an error to the caller — never a value, never a hang — and stay alive.
+    // reconnect() forces the drop, so the handshake recorded below is the
+    // REPLACEMENT connection's, not the suite's first one.
     failureServer.setMode('reject')
     await reconnect()
+
+    // Reconnect re-authentication (spec data_source_authentication.usage
+    // .handshake_header applies to EVERY WS handshake, not just the first): the
+    // replacement connection opens at WS_API_ENDPOINT and its options carry the
+    // Basic Authorization header built from the API_USERNAME/API_PASSWORD
+    // settings again — the credential pair is re-sent on every reconnect.
+    expect(openedUrls[openedUrls.length - 1]).toBe(WS_URL)
+    expect(upgradeHeaders[upgradeHeaders.length - 1]).toBe(EXPECTED_BASIC_HEADER)
 
     const response = await testAdapter.request(quoteRequest)
     expect(response.statusCode).toBe(504)
