@@ -28,8 +28,10 @@ describe('price REST transport (defaultTransport rest, keep_untouched)', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    // A fake pair and a clean dxLink URL (not startup-required — set only so
-    // the WS-path request-time input-validation gate can never trip)
+    // A fake pair and a clean dxLink URL — the three WS vars are
+    // startup-required (round-2 CONF-ENV-MISMATCH, spec environment_variables
+    // required: true), and setting them also keeps the WS-path request-time
+    // input-validation gate from ever tripping
     process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
     process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
     // A clean wss:// dxLink URL (never a cometd path, no embedded credentials)

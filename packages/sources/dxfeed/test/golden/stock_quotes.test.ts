@@ -36,7 +36,7 @@ describe('golden: stock_quotes (websocket)', () => {
     process.env['API_ENDPOINT'] = 'wss://tools.dxfeed.com/dxlink-chainlink'
     process.env['API_PASSWORD'] = 'golden-test'
     process.env['API_USERNAME'] = 'golden-test'
-    process.env['WS_API_ENDPOINT'] = 'ws://localhost:1'
+    process.env['WS_API_ENDPOINT'] = 'wss://golden-ws.test/v1'
     // mock-socket bridges in-process, matched by URL string: the server and the
     // adapter both use the spec's WS_API_ENDPOINT default — no real network.
     // nock intercepts the HTTP token POST. disableNetConnect is NOT used: it
@@ -51,7 +51,7 @@ describe('golden: stock_quotes (websocket)', () => {
       '{"type":"FEED_DATA","channel":1,"data":["Quote",["Quote","AAPL:USLF24",1760000000000,189.95,190.05,100,200,"V","V","Quote","AAPL:USLF24",1760000001000,189.90,190.10,50,80,"O","O"]]}',
       '{"type":"FEED_DATA","channel":1,"data":["Quote",["Quote","AAPL:USLF24",1760000000000,"NaN",190.05,100,200,"V","V"]]}',
     ]
-    mockWsServer = new MockWebsocketServer('ws://localhost:1', { mock: false })
+    mockWsServer = new MockWebsocketServer('wss://golden-ws.test/v1', { mock: false })
     mockWsServer.on('connection', (socket) => {
       if (frames.length) socket.send(frames[0])
       socket.on('message', (raw) => {

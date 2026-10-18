@@ -11,7 +11,8 @@ const TRADE_PARAMS = { base: 'AAPL:USLF24', quote: 'USD' }
 
 // A fresh processor per test: TradeProcessor has no reset() (round-2 item 4
 // deleted the dead member) — isolation comes from a new instance, exactly like
-// production reconnect behavior (module-level latestTimeBySymbol state persists)
+// production behavior (latestTimeBySymbol is a per-transport-instance field,
+// never a module-level singleton)
 let processor: TradeProcessor
 beforeEach(() => {
   processor = new TradeProcessor()
