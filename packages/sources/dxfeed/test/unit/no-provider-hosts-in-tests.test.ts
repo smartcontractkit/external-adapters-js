@@ -13,17 +13,12 @@ import * as path from 'path'
  * verifier pipeline from recorded golden vectors and are agent-unwritable (a
  * change there is a spec change, human re-gated) — this guard covers everything
  * the adapter agents themselves write under test/unit and test/integration.
- * The protected baseline test/integration/fixtures.ts is excluded for the same
- * agent-unwritable reason: its unused legacy mockPriceEndpoint helper carries
- * the provider host in the upstream baseline, no suite imports it, and editing
- * it is a protected-path change that requires human re-gating.
+ * Every other test file — including the legacy test/integration/fixtures.ts
+ * baseline, whose mock host is now faked — must run against fake hosts only.
  */
 describe('no provider hosts in test code (plan round1-test-fake-urls / verifier feedback test_fake_urls)', () => {
   const TEST_ROOT = path.resolve(__dirname, '..')
   const EXCLUDED_DIRS = new Set([path.join(TEST_ROOT, 'golden')])
-  // Protected baseline file (agent-unwritable, upstream content) — see the
-  // rationale above
-  const EXCLUDED_FILES = new Set([path.join(TEST_ROOT, 'integration', 'fixtures.ts')])
   const SCANNED_EXTENSIONS = /\.(ts|tsx|js|jsx|cjs|mjs|json|md|txt)$/
 
   // The forbidden strings are assembled from parts so this test file does not
@@ -41,7 +36,7 @@ describe('no provider hosts in test code (plan round1-test-fake-urls / verifier 
       if (entry.isDirectory()) {
         return EXCLUDED_DIRS.has(full) ? [] : listTestFiles(full)
       }
-      return SCANNED_EXTENSIONS.test(entry.name) && !EXCLUDED_FILES.has(full) ? [full] : []
+      return SCANNED_EXTENSIONS.test(entry.name) ? [full] : []
     })
 
   it('scan test/: the provider host and any provider-prefix websocket url appear in no test file', () => {
