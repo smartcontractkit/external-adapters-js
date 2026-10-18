@@ -1,4 +1,4 @@
-import { AdapterConfig as FrameworkAdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
@@ -129,69 +129,14 @@ export const wsEnvInputValidationError = (settings: {
 export const REST_API_ENDPOINT_DEFAULT = 'https://tools.dxfeed.com/webservice/rest'
 
 /**
- * The spec settings surface. API_USERNAME, API_PASSWORD and WS_API_ENDPOINT are
- * required: TRUE at startup (spec environment_variables) — a missing WS triple
- * fails config.validate() inside adapter.initialize(), before any request or
- * socket. The pair is ALSO enforced at request time by wsEnvInputValidationError
- * through the endpoints' customInputValidation (defense-in-depth: the WS
- * transport's options() also refuses to build a Basic header from a missing
- * pair).
+ * The spec settings surface (declared inline in buildAdapterConfig below).
+ * API_USERNAME, API_PASSWORD and WS_API_ENDPOINT are required: TRUE at startup
+ * (spec environment_variables) — a missing WS triple fails config.validate()
+ * inside adapter.initialize(), before any request or socket. The pair is ALSO
+ * enforced at request time by wsEnvInputValidationError through the endpoints'
+ * customInputValidation (defense-in-depth: the WS transport's options() also
+ * refuses to build a Basic header from a missing pair).
  */
-// `as const` keeps the definition literal (required: true/false, type:
-// 'string'): the framework's Settings<T> mapped type uses those literals to
-// decide which settings are optional keys — a widened `required: boolean`
-// drops the key from the settings type entirely
-const dxFeedSettings = {
-  API_USERNAME: {
-    description: 'username for dxfeed API',
-    type: 'string',
-    required: true,
-    sensitive: false,
-  },
-  API_PASSWORD: {
-    description: 'password for dxfeed API',
-    type: 'string',
-    required: true,
-    sensitive: true,
-  },
-  WS_API_ENDPOINT: {
-    description: 'The websocket url for dxfeed (dxLink endpoint)',
-    type: 'string',
-    required: true,
-    sensitive: true,
-    validate: {
-      meta: {
-        details: 'The websocket url for dxfeed (dxLink endpoint)',
-      },
-      fn: validateWsApiEndpoint,
-    },
-  },
-  API_ENDPOINT: {
-    description: 'The API url for dxfeed',
-    type: 'string',
-    default: REST_API_ENDPOINT_DEFAULT,
-    validate: {
-      meta: {
-        details: 'API endpoint warning',
-      },
-      fn: (value?: string): string => {
-        if (value === REST_API_ENDPOINT_DEFAULT) {
-          logger.warn(
-            `Using demo endpoint: https://tools.dxfeed.com/webservice/rest (Please do not use in production!)`,
-          )
-        }
-        return ''
-      },
-    },
-    sensitive: false,
-  },
-} as const
-
-/**
- * The adapter config type: the framework config built from the dxfeed settings
- * surface.
- */
-export type DxFeedAdapterConfig = FrameworkAdapterConfig<typeof dxFeedSettings>
 
 /**
  * The dxfeed censor entries (plan buildcensorlist-subclass-override): the
@@ -207,17 +152,69 @@ export const censorList = (): { key: string; value: RegExp }[] => {
 }
 
 /**
- * Wrapper around the framework config builder — NOT an AdapterConfig subclass
- * (plan buildcensorlist-subclass-override: a subclass overriding buildCensorList
- * changes its return type and can silently diverge on a framework upgrade).
- * Pinned framework version: 2.20.0.
+ * The adapter config: the framework AdapterConfig built from the dxfeed
+ * settings surface (declared inline — the settings object is the config's
+ * first constructor argument). Pinned framework version: 2.20.0.
  */
-export const buildAdapterConfig = (): DxFeedAdapterConfig =>
-  new FrameworkAdapterConfig(dxFeedSettings, {
-    envDefaultOverrides: {
-      // Spec data_source_endpoints[].keepalive interval_seconds=30
-      WS_HEARTBEAT_INTERVAL_MS: 30000,
+export const buildAdapterConfig = () =>
+  new AdapterConfig(
+    {
+      API_USERNAME: {
+        description: 'username for dxfeed API',
+        type: 'string',
+        required: true,
+        sensitive: false,
+      },
+      API_PASSWORD: {
+        description: 'password for dxfeed API',
+        type: 'string',
+        required: true,
+        sensitive: true,
+      },
+      WS_API_ENDPOINT: {
+        description: 'The websocket url for dxfeed (dxLink endpoint)',
+        type: 'string',
+        required: true,
+        sensitive: true,
+        validate: {
+          meta: {
+            details: 'The websocket url for dxfeed (dxLink endpoint)',
+          },
+          fn: validateWsApiEndpoint,
+        },
+      },
+      API_ENDPOINT: {
+        description: 'The API url for dxfeed',
+        type: 'string',
+        default: REST_API_ENDPOINT_DEFAULT,
+        validate: {
+          meta: {
+            details: 'API endpoint warning',
+          },
+          fn: (value?: string): string => {
+            if (value === REST_API_ENDPOINT_DEFAULT) {
+              logger.warn(
+                `Using demo endpoint: https://tools.dxfeed.com/webservice/rest (Please do not use in production!)`,
+              )
+            }
+            return ''
+          },
+        },
+        sensitive: false,
+      },
+      // `as const` keeps the definition literal (required: true/false, type:
+      // 'string'): the framework's Settings<T> mapped type uses those literals
+      // to decide which settings are optional keys — a widened
+      // `required: boolean` drops the key from the settings type entirely
+    } as const,
+    {
+      envDefaultOverrides: {
+        // Spec data_source_endpoints[].keepalive interval_seconds=30
+        WS_HEARTBEAT_INTERVAL_MS: 30000,
+      },
     },
-  })
+  )
+
+export type DxFeedAdapterConfig = ReturnType<typeof buildAdapterConfig>
 
 export const config = buildAdapterConfig()

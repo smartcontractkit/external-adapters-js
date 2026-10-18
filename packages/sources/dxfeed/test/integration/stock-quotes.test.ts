@@ -268,7 +268,7 @@ describe('stock_quotes endpoint semantics on the dxLink transport', () => {
     })
   })
 
-  it('fans one wire key out per params: the record isOvernight=true drops serves the same symbol without it', async () => {
+  it('fans one wire key out per params: the record the isOvernight=true request drops serves the same symbol without it', async () => {
     // Plan item (per-params fan-out): the dxLink fan-out keys results by exact
     // params through the wire-key reverse index, so ONE wire record
     // (Quote:NVCE:USLF24) serves each params combo its own result — the
