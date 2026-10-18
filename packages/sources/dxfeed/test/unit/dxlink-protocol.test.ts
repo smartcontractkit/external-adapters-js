@@ -1,5 +1,10 @@
-import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import { DxLinkFeed, DxLinkFeedDeps, parseNumeric } from '../../src/dxlink/protocol'
+import { LoggerFactory, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import {
+  DxLinkFeed,
+  DxLinkFeedDeps,
+  MAX_PROVIDER_FRAME_LOG_LENGTH,
+  parseNumeric,
+} from '../../src/dxlink/protocol'
 import { TradeProcessor, tradeTickers } from '../../src/transport/price-ws'
 import { quoteRecordToResult } from '../../src/transport/stock-quotes'
 import frames from './fixtures/dxlink-frames.json'
@@ -218,6 +223,126 @@ describe('FEED_CONFIG handling (plan feed-config-double-handling: each FEED_CONF
       ask_volume: 80,
     })
     expect((results[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000001000 })
+  })
+})
+
+/**
+ * Runs fn with a FRESH DxLinkFeed built from an isolated module registry wired
+ * to a recording logger, and returns every emitted log line. The protocol
+ * module binds its logger on the FIRST log call, so each capture needs its own
+ * registry (the same pattern captureFeedWarnings uses in log-truncation.test.ts).
+ * Every level is recorded: the ERROR / CHANNEL_CLOSED paths log via warn, the
+ * FEED_CONFIG rejection via error.
+ */
+const captureProtocolLogLines = (run: (feed: DxLinkFeed) => void): string[] => {
+  const lines: string[] = []
+  const recordingFactory: LoggerFactory = {
+    child: () => {
+      const levels = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'] as const
+      const methods: Record<string, (...args: unknown[]) => void> = {}
+      for (const level of levels) {
+        methods[level] = (...args: unknown[]) => {
+          lines.push(args.map((arg) => String(arg)).join(' '))
+        }
+      }
+      return methods as unknown as ReturnType<LoggerFactory['child']>
+    },
+  }
+
+  jest.isolateModules(() => {
+    // The isolated registry holds fresh copies of the framework modules too,
+    // so the recorder must be set on THAT registry's provider
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+    const framework = require('@chainlink/external-adapter-framework/util') as {
+      LoggerFactoryProvider: typeof LoggerFactoryProvider
+    }
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+    const { DxLinkFeed: FreshDxLinkFeed } = require('../../src/dxlink/protocol') as {
+      DxLinkFeed: typeof DxLinkFeed
+    }
+
+    framework.LoggerFactoryProvider.set(recordingFactory)
+    try {
+      const feed = new FreshDxLinkFeed({
+        formatTickers: () => [],
+        processRecord: () => undefined,
+      } as DxLinkFeedDeps<any>)
+      run(feed)
+    } finally {
+      framework.LoggerFactoryProvider.set()
+    }
+  })
+  return lines
+}
+
+describe('provider-controlled log fields are capped (round 2: the ERROR, CHANNEL_CLOSED and FEED_CONFIG-rejection log sites emit provider-controlled strings only through truncateForLog)', () => {
+  // A marker past the cap: it survives only if the provider string is logged untruncated
+  const injected = `\nINJECTED-LOG-LINE`
+  const oversized = (seed: string) => `${seed}${'x'.repeat(MAX_PROVIDER_FRAME_LOG_LENGTH * 2)}`
+
+  it('an ERROR frame with an oversized code and message logs ONE line capped at MAX_PROVIDER_FRAME_LOG_LENGTH with no newline injection', () => {
+    const rawCode = oversized('E')
+    const rawMessage = `provider failure ${oversized('y')}${injected}`
+    // Input sanity: both provider-controlled strings really do exceed the cap
+    expect(rawCode.length).toBeGreaterThan(MAX_PROVIDER_FRAME_LOG_LENGTH)
+    expect(rawMessage.length).toBeGreaterThan(MAX_PROVIDER_FRAME_LOG_LENGTH)
+
+    const lines = captureProtocolLogLines((feed) =>
+      feed.message({ type: 'ERROR', channel: 1, code: rawCode, message: rawMessage } as any),
+    )
+
+    expect(lines).toHaveLength(1)
+    expect(lines[0]).toContain('dxLink ERROR')
+    expect(lines[0].length).toBeLessThanOrEqual(MAX_PROVIDER_FRAME_LOG_LENGTH)
+    expect(lines[0]).not.toContain('\n')
+  })
+
+  it('a CHANNEL_CLOSED frame with an oversized symbol and eventType logs ONE line capped at MAX_PROVIDER_FRAME_LOG_LENGTH with no newline injection', () => {
+    const rawEventType = oversized('Quote')
+    const rawSymbol = `${oversized('AAPL:USLF24')}${injected}`
+    expect(rawEventType.length).toBeGreaterThan(MAX_PROVIDER_FRAME_LOG_LENGTH)
+    expect(rawSymbol.length).toBeGreaterThan(MAX_PROVIDER_FRAME_LOG_LENGTH)
+
+    const lines = captureProtocolLogLines((feed) =>
+      feed.message({
+        type: 'CHANNEL_CLOSED',
+        channel: 1,
+        eventType: rawEventType,
+        symbol: rawSymbol,
+      } as any),
+    )
+
+    expect(lines).toHaveLength(1)
+    expect(lines[0]).toContain('dxLink channel 1 closed')
+    expect(lines[0].length).toBeLessThanOrEqual(MAX_PROVIDER_FRAME_LOG_LENGTH)
+    expect(lines[0]).not.toContain('\n')
+  })
+
+  it('a rejected FEED_CONFIG with an oversized accepted field list logs ONE error line capped at MAX_PROVIDER_FRAME_LOG_LENGTH with no newline injection', () => {
+    // The Quote field ORDER diverges from the requested acceptEventFields (and
+    // the list carries an oversized hostile field name) -> assertAcceptedEventFields
+    // throws and the rejection log prints the accepted field list
+    const rawFields = [
+      'eventSymbol',
+      'eventType',
+      'time',
+      'bidPrice',
+      'askPrice',
+      'bidSize',
+      'askSize',
+      'bidExchangeCode',
+      'askExchangeCode',
+      `${oversized('hostile-field')}${injected}`,
+    ]
+
+    const lines = captureProtocolLogLines((feed) =>
+      feed.message({ type: 'FEED_CONFIG', channel: 1, eventFields: { Quote: rawFields } } as any),
+    )
+
+    expect(lines).toHaveLength(1)
+    expect(lines[0]).toContain('dxLink FEED_CONFIG rejected')
+    expect(lines[0].length).toBeLessThanOrEqual(MAX_PROVIDER_FRAME_LOG_LENGTH)
+    expect(lines[0]).not.toContain('\n')
   })
 })
 

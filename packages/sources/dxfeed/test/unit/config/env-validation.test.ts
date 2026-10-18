@@ -1,6 +1,6 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { config, wsEnvInputValidationError } from '../../../src/config'
+import { config, validateWsApiEndpoint, wsEnvInputValidationError } from '../../../src/config'
 import { endpoint as priceEndpoint } from '../../../src/endpoint/price'
 import { endpoint as stockQuotesEndpoint } from '../../../src/endpoint/stock-quotes'
 
@@ -130,6 +130,44 @@ describe('WS-path credential requirement (spec: require API_USERNAME and API_PAS
     expect(
       wsEnvInputValidationError({ WS_API_ENDPOINT: DXLINK_ENDPOINT } as any)?.message,
     ).toContain('API_USERNAME')
+    expect(
+      wsEnvInputValidationError({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT } as any),
+    ).toBeUndefined()
+  })
+})
+
+describe('request-time wss:// scheme gate (round 2: wsEnvInputValidationError runs the SAME validateWsApiEndpoint as the startup validator — one rule, two enforcement points, no drift)', () => {
+  // Passes BOTH breaking-change checks (no cometd path, no embedded credentials)
+  // but is not wss:// — exactly the value the pre-fix request-time check admitted
+  // while startup rejected it
+  const plaintextEndpoint = 'http://dxlink.fake.test/dxlink-chainlink'
+
+  it('rejects a non-wss WS_API_ENDPOINT at request time with the exact error the startup validate fn produces', () => {
+    // Input sanity: the URL clears the breaking-change checks the request-time
+    // gate already ran — only the scheme gate can reject it
+    expect(validateWsApiEndpoint(plaintextEndpoint)).not.toContain('cometd')
+    expect(validateWsApiEndpoint(plaintextEndpoint)).not.toContain('credentials')
+
+    const requestError = wsEnvInputValidationError({
+      ...CREDENTIALS,
+      WS_API_ENDPOINT: plaintextEndpoint,
+    } as any)
+    expect(requestError?.statusCode).toBe(400)
+    // Same rule, same message: the request-time check IS the startup validator
+    expect(requestError?.message).toBe(validateWsApiEndpoint(plaintextEndpoint))
+    expect(requestError?.message).toContain('wss://')
+  })
+
+  it('rejects the same endpoint through a WS-path endpoint customInputValidation', () => {
+    const error = priceEndpoint.customInputValidation?.(wsRequest, {
+      ...CREDENTIALS,
+      WS_API_ENDPOINT: plaintextEndpoint,
+    } as any)
+    expect(error?.statusCode).toBe(400)
+    expect(error?.message).toContain('wss://')
+  })
+
+  it('still admits the clean wss:// dxLink endpoint at request time', () => {
     expect(
       wsEnvInputValidationError({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT } as any),
     ).toBeUndefined()

@@ -171,10 +171,13 @@ export const assertAcceptedEventFields = (
 }
 
 /**
- * Fixed cap on the characters of a log line carrying a stringified provider
- * frame (plan item 3): a large or hostile provider frame must not inflate the
- * logs. One constant, one helper — every protocol.ts log site that stringifies
- * a provider frame goes through it.
+ * Fixed cap on the characters of a log line carrying provider-controlled
+ * strings (plan item 3; round 2 extends it to one defect class): a large or
+ * hostile provider frame or field — the malformed-FEED_DATA stringification,
+ * the ERROR code/message, the CHANNEL_CLOSED eventType/symbol, and the
+ * rejected-FEED_CONFIG field list — must not inflate the logs. One constant,
+ * one helper — every protocol.ts log site that emits provider-controlled
+ * strings goes through it.
  */
 export const MAX_PROVIDER_FRAME_LOG_LENGTH = 512
 
@@ -283,9 +286,9 @@ export const openDxLinkConnection = (
       if (message.type === 'ERROR') {
         settle(
           new Error(
-            `dxLink ERROR message during handshake: ${
-              message.message ?? message.code ?? 'unknown error'
-            }`,
+            `dxLink ERROR message during handshake: ${truncateForLog(
+              message.message ?? message.code ?? 'unknown error',
+            )}`,
           ),
         )
         return
@@ -360,7 +363,11 @@ export const parseCompactFeedData = (
 ): DxLinkRecord[] => {
   const width = eventFields[eventType]?.length ?? 0
   if (!width) {
-    logger.warn(`No FEED_CONFIG eventFields for event type ${eventType}; dropping FEED_DATA frame`)
+    logger.warn(
+      truncateForLog(
+        `No FEED_CONFIG eventFields for event type ${eventType}; dropping FEED_DATA frame`,
+      ),
+    )
     return []
   }
 
@@ -470,9 +477,11 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
       // drop every later FEED_DATA frame silently (plan
       // feed-config-double-handling)
       logger.error(
-        `dxLink FEED_CONFIG rejected: ${
-          (error as Error).message
-        }; keeping the last accepted eventFields`,
+        truncateForLog(
+          `dxLink FEED_CONFIG rejected: ${
+            (error as Error).message
+          }; keeping the last accepted eventFields`,
+        ),
       )
       return
     }
@@ -553,15 +562,17 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
       case 'FEED_DATA':
         return this.onFeedData(message)
       case 'ERROR':
-        logger.warn(`dxLink ERROR (code ${message.code}): ${message.message}`)
+        logger.warn(truncateForLog(`dxLink ERROR (code ${message.code}): ${message.message}`))
         return []
       case 'CHANNEL_CLOSED':
         logger.warn(
-          `dxLink channel ${message.channel} closed by the server for ${
-            message.eventType ?? 'all events'
-          } ${
-            message.symbol ?? ''
-          }: closing the WebSocket so the framework reconnects and resubscribes (the cached last value serves during the reconnect window)`,
+          truncateForLog(
+            `dxLink channel ${message.channel} closed by the server for ${
+              message.eventType ?? 'all events'
+            } ${
+              message.symbol ?? ''
+            }: closing the WebSocket so the framework reconnects and resubscribes (the cached last value serves during the reconnect window)`,
+          ),
         )
         // An in-band CHANNEL_CLOSED frame carries no socket handle — closing
         // the WebSocket here makes the framework run its reconnect and
@@ -589,7 +600,9 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
 
     const eventSymbolIndex = this.eventFields[eventType]?.indexOf('eventSymbol') ?? -1
     if (eventSymbolIndex < 0) {
-      logger.warn(`No FEED_CONFIG eventFields for ${eventType}; dropping FEED_DATA frame`)
+      logger.warn(
+        truncateForLog(`No FEED_CONFIG eventFields for ${eventType}; dropping FEED_DATA frame`),
+      )
       return []
     }
 

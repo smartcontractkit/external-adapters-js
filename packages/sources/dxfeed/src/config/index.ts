@@ -100,16 +100,18 @@ export const missingWsCredentials = (settings: {
 
 /**
  * One implementation, two call sites: the endpoints' customInputValidation runs
- * the request-time WS checks (cometd path, embedded credentials, credential
- * pair, WS_API_ENDPOINT presence) so a WS-path misconfiguration fails fast
- * with a clear error.
+ * the request-time WS checks — the SAME validateWsApiEndpoint the startup
+ * AdapterConfig validator runs (cometd path, embedded credentials, wss:// scheme
+ * gate: one rule, two enforcement points, no drift), plus the credential pair
+ * and WS_API_ENDPOINT presence checks — so a WS-path misconfiguration fails
+ * fast with a clear error.
  */
 export const wsEnvInputValidationError = (settings: {
   WS_API_ENDPOINT?: string
   API_USERNAME?: string
   API_PASSWORD?: string
 }): AdapterInputError | undefined => {
-  const endpointError = wsApiEndpointBreakingChangeError(settings.WS_API_ENDPOINT)
+  const endpointError = validateWsApiEndpoint(settings.WS_API_ENDPOINT)
   if (endpointError) {
     return new AdapterInputError({ statusCode: 400, message: endpointError })
   }
