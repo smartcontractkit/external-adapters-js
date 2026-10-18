@@ -2,6 +2,7 @@ import { setEnvVariables } from '@chainlink/external-adapter-framework/util/test
 import * as fs from 'fs'
 import * as path from 'path'
 import { config } from '../../src/config'
+import { buildDxFeedHttpTransport } from '../../src/transport/price-http'
 
 /** Runs fn with the given env vars set, restoring the environment afterwards. */
 const withEnv = (env: Record<string, string>, fn: () => void): void => {
@@ -80,6 +81,17 @@ describe('dxfeed adapter boot (plan round1-scaffold)', () => {
     )
     const stockQuotes = adapter.endpoints.find((e) => e.name === 'stock_quotes')
     expect(stockQuotes?.aliases).toEqual([])
+  })
+
+  it('resolves the price endpoint defaultTransport to rest and keeps the price-http REST transport exported (spec endpoints.price.default_transport; owner decision rest_transport_scope=keep_untouched)', () => {
+    // spec endpoints.price.default_transport = "rest": the dxLink WS transport
+    // is opt-in through the `transport` param, the REST path stays the default
+    const price = adapter.endpoints.find((e) => e.name === 'price') as { defaultTransport?: string }
+    expect(price?.defaultTransport).toBe('rest')
+
+    // The batched REST HTTP transport the default route resolves to is still
+    // exported and constructible (transport/price-http.ts untouched)
+    expect(buildDxFeedHttpTransport()).toBeDefined()
   })
 })
 

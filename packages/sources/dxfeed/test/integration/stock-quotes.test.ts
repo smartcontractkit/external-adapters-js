@@ -7,7 +7,7 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { mockDxLinkServer, setFeedData, setFeedDataRecords } from './dxlink-mocks'
+import { clientFrameLog, mockDxLinkServer, setFeedData, setFeedDataRecords } from './dxlink-mocks'
 
 // Captured before FakeTimers.install() replaces the global timers: the mock
 // socket bridge delivers frames on a REAL timer, so every step yields fake
@@ -209,6 +209,30 @@ describe('stock_quotes endpoint semantics on the dxLink transport', () => {
         providerIndicatedTimeUnixMs: 1760000001000,
       },
     })
+  })
+
+  it('resolves the dxfeed override onto the subscribed wire symbol AAPL:USLF24', async () => {
+    // Plan round1-stock-quotes: "override dxfeed AAPL->AAPL:USLF24 resolves the
+    // subscribed symbol". Asserted on the raw FEED_SUBSCRIPTION add frames:
+    // the request's `from: AAPL` with the overrides.dxfeed map went out on the
+    // wire as the Quote entry for the RESOLVED symbol AAPL:USLF24 — and no
+    // bare-AAPL Quote subscription exists on any connection.
+    const adds: { symbol: string; type: string }[] = []
+    for (const frames of clientFrameLog) {
+      for (const frame of frames) {
+        let msg: { type?: string; add?: { symbol: string; type: string }[] }
+        try {
+          msg = JSON.parse(frame)
+        } catch {
+          continue
+        }
+        if (msg?.type === 'FEED_SUBSCRIPTION') {
+          adds.push(...(msg.add ?? []))
+        }
+      }
+    }
+    expect(adds).toContainEqual({ symbol: 'AAPL:USLF24', type: 'Quote' })
+    expect(adds.some((entry) => entry.type === 'Quote' && entry.symbol === 'AAPL')).toBe(false)
   })
 
   it('errors on invalid volumes when requireVolume=true', async () => {

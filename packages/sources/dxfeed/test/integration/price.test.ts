@@ -7,7 +7,7 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { mockDxLinkServer, sendToLastConnection, setFeedData } from './dxlink-mocks'
+import { clientFrameLog, mockDxLinkServer, sendToLastConnection, setFeedData } from './dxlink-mocks'
 
 // Captured before FakeTimers.install() replaces the global timers: the mock
 // socket bridge delivers frames on a REAL timer, so every step yields fake
@@ -108,6 +108,37 @@ const priceRequest = (endpoint: string, base: string) => ({
   },
 })
 
+// A request with NO override: the base reaches the wire as the bare uppercased
+// ticker (plan round1-price-ws: "bare AAPL subscribes Trade only")
+const barePriceRequest = (base: string) => ({
+  endpoint: 'price',
+  base,
+  to: 'USD',
+  transport: 'ws',
+})
+
+// Every FEED_SUBSCRIPTION add entry the adapter has sent on the wire, across
+// all mock-server connections (dxlink-mocks.ts logs the raw client frames).
+// The wire is the only observable that proves WHICH (symbol, eventType) feed
+// entries went out — data arrival proves a subscription only positively.
+const wireSubscriptionAdds = (): { symbol: string; type: string }[] => {
+  const adds: { symbol: string; type: string }[] = []
+  for (const frames of clientFrameLog) {
+    for (const frame of frames) {
+      let msg: { type?: string; add?: { symbol: string; type: string }[] }
+      try {
+        msg = JSON.parse(frame)
+      } catch {
+        continue
+      }
+      if (msg?.type === 'FEED_SUBSCRIPTION') {
+        adds.push(...(msg.add ?? []))
+      }
+    }
+  }
+  return adds
+}
+
 describe('price endpoint on the dxLink transport (ws)', () => {
   let mockWsServer: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
@@ -185,6 +216,46 @@ describe('price endpoint on the dxLink transport (ws)', () => {
         providerIndicatedTimeUnixMs: 1760000000000,
       },
     })
+  })
+
+  it('subscribes BOTH Trade and TradeETH on the wire for the :USLF24 ticker', async () => {
+    // Plan round1-price-ws: "symbol AAPL:USLF24 subscribes Trade and TradeETH"
+    // (owner decision tradeteth_subscription_policy=match_reference, :USLF24
+    // gating). Asserted on the raw FEED_SUBSCRIPTION add frames the warm-up
+    // subscription sent, not inferred from data arrival.
+    const adds = wireSubscriptionAdds()
+    expect(adds).toContainEqual({ symbol: 'AAPL:USLF24', type: 'Trade' })
+    expect(adds).toContainEqual({ symbol: 'AAPL:USLF24', type: 'TradeETH' })
+  })
+
+  it('subscribes Trade ONLY for a bare ticker without :USLF24, and serves its Trade record', async () => {
+    // Plan round1-price-ws: "bare AAPL subscribes Trade only". No override is
+    // sent, so the base reaches the wire as the bare uppercased ticker; the
+    // wire FEED_SUBSCRIPTION adds for it must carry no TradeETH entry.
+    setFeedData('Trade', 'BARE', [
+      'Trade',
+      'BARE',
+      1760000090000,
+      55.25,
+      10,
+      12348,
+      'V',
+      0.1,
+      5000000,
+      999000000,
+      'UP',
+      false,
+    ])
+    const response = await requestUntilCached(barePriceRequest('BARE'), 1760000090000)
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchObject({
+      data: { result: 55.25 },
+      result: 55.25,
+      timestamps: { providerIndicatedTimeUnixMs: 1760000090000 },
+    })
+    expect(wireSubscriptionAdds().filter((entry) => entry.symbol === 'BARE')).toEqual([
+      { symbol: 'BARE', type: 'Trade' },
+    ])
   })
 
   it('serves the TradeETH record when it is newer than the Trade', async () => {

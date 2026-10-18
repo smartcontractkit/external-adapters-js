@@ -231,3 +231,75 @@ describe('heartbeat (spec keepalive interval_seconds=30 / framework WS_HEARTBEAT
     }
   })
 })
+
+describe('transport hook wiring (plan round1-ws-transport proving test: the real transport sends the handshake before open resolves, sends the FEED_SUBSCRIPTION add with the symbol, and emits parsed bid/ask through handlers.message)', () => {
+  it('handlers.open sends SETUP, CHANNEL_REQUEST, FEED_SETUP through the real transport and resolves only on FEED_CONFIG', async () => {
+    const connection = makeConnection()
+    // The open hook is the framework's extension point: it runs the dxLink
+    // open gate against the adapter settings' WS_CONNECTION_OPEN_TIMEOUT
+    const opened = (stockQuotesTransport as any).config.handlers.open(connection, {
+      adapterSettings: { WS_CONNECTION_OPEN_TIMEOUT: 10_000 },
+    })
+
+    // The three spec primary_command frames go out before the gate resolves
+    expect(connection.sent.map(({ type }) => type)).toEqual([
+      'SETUP',
+      'CHANNEL_REQUEST',
+      'FEED_SETUP',
+    ])
+
+    // A control frame ahead of FEED_CONFIG keeps the gate pending
+    connection.emit(frames.keepaliveFrame)
+    const pending = await Promise.race([
+      opened.then(() => 'resolved' as const),
+      Promise.resolve().then(() => 'pending' as const),
+    ])
+    expect(pending).toBe('pending')
+
+    // FEED_CONFIG settles the open
+    connection.emit(frames.quoteFeedConfig)
+    await expect(opened).resolves.toBeUndefined()
+  })
+
+  it('builders.customSubscriptionMessages sends the FEED_SUBSCRIPTION add with the symbol, and handlers.message emits the parsed bid/ask onto the subscribed params', async () => {
+    // Put the FEED_CONFIG field layout in place through the real open hook
+    const connection = makeConnection()
+    const opened = (stockQuotesTransport as any).config.handlers.open(connection, {
+      adapterSettings: { WS_CONNECTION_OPEN_TIMEOUT: 10_000 },
+    })
+    connection.emit(frames.quoteFeedConfig)
+    await opened
+
+    // The subscription delta flows through the real transport builder into the
+    // spec primary_command message 4: FEED_SUBSCRIPTION add with the symbol
+    expect(
+      (stockQuotesTransport as any).config.builders.customSubscriptionMessages(
+        {},
+        { desired: [QUOTE_PARAMS], new: [QUOTE_PARAMS], stale: [] },
+      ),
+    ).toEqual([
+      { type: 'FEED_SUBSCRIPTION', channel: 1, add: [{ symbol: 'AAPL:USLF24', type: 'Quote' }] },
+    ])
+
+    // The COMPACT FEED_DATA Quote frame (spec sample_response, second record:
+    // bid 189.90 / ask 190.10, volumes 50/80, time 1760000001000) maps onto
+    // the subscribed params through handlers.message
+    const results = (stockQuotesTransport as any).config.handlers.message(frames.stockQuotesFrame)
+    expect(results).toEqual([
+      {
+        params: QUOTE_PARAMS,
+        response: {
+          result: 190,
+          data: {
+            mid_price: 190,
+            bid_price: 189.9,
+            bid_volume: 50,
+            ask_price: 190.1,
+            ask_volume: 80,
+          },
+          timestamps: { providerIndicatedTimeUnixMs: 1760000001000 },
+        },
+      },
+    ])
+  })
+})
