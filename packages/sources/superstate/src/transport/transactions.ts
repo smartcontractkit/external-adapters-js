@@ -70,7 +70,7 @@ export class TransactionsTransport extends SubscriptionTransport<BaseEndpointTyp
     )
 
     const nav = transactions.find((t) => !t.dollar_amount && !t.notional_value)
-      ? await getNavPrice(param.fundId)
+      ? await getNavPrice(param.fundId, param.startTime, param.endTime)
       : 0
 
     const hex = transactions

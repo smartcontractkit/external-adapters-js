@@ -1,5 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute price endpoint should return error - malformed startTime 1`] = `
+{
+  "error": {
+    "message": "Input param startTime or endTime must be a time in HH:mm:ss format",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute price endpoint should return error - startTime not before endTime 1`] = `
+{
+  "error": {
+    "message": "Input param "startTime" (12:00:00) must be before "endTime" (09:08:00)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`execute price endpoint should return success - aum 1`] = `
 {
   "data": {
@@ -10,6 +32,24 @@ exports[`execute price endpoint should return success - aum 1`] = `
     "result": 88412710.73007037,
   },
   "result": 88412710.73007037,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute price endpoint should return success - custom startTime/endTime window 1`] = `
+{
+  "data": {
+    "aum": 88412710.73007037,
+    "nav": 10.170643,
+    "navDate": "11/28/2025",
+    "navDateTimestampMs": 1764288000000,
+    "result": 10.170643,
+  },
+  "result": 10.170643,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
