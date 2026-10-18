@@ -56,9 +56,10 @@ describe('transport selection after the cometd deletion', () => {
   describe('REST path (defaultTransport rest, keep_untouched)', () => {
     beforeAll(async () => {
       oldEnv = JSON.parse(JSON.stringify(process.env))
-      // The credential pair and a clean dxLink URL — NOT startup-required (the
-      // breaking_change_env_checks scope the requirements to WS paths), set so
-      // the WS-path request-time env gate can never trip in this REST-only suite
+      // The credential pair and a clean dxLink URL — startup-required (spec
+      // environment_variables declare all three required:true; the missing-triple
+      // rejection is proven in breaking-change-config.test.ts) — set so the
+      // WS-path request-time env gate can never trip in this REST-only suite
       process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
       process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
       process.env['WS_API_ENDPOINT'] = 'wss://dxlink.localhost.invalid/dxlink-chainlink'

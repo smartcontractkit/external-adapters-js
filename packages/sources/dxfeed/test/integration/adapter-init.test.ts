@@ -77,4 +77,12 @@ describe('dxfeed adapter init', () => {
       expect(response.json()).toMatchObject({ error: expect.anything() })
     }
   })
+
+  it('rejects an empty request body with 400', async () => {
+    // Spec endpoints both require `base`: a completely empty body fails input
+    // validation on the default endpoint (price) before any transport runs.
+    const response = await testAdapter.request({})
+    expect(response.statusCode).toBe(400)
+    expect(response.json()).toMatchObject({ error: expect.anything() })
+  })
 })
