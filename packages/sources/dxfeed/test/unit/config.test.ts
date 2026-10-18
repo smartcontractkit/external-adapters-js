@@ -5,6 +5,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import {
   buildAdapterConfig,
+  censorList as censorListEntries,
   config,
   missingWsCredentials,
   REST_API_ENDPOINT_DEFAULT,
@@ -109,71 +110,41 @@ describe('config surface (plan CONF-ENV-MISMATCH: the spec lists four environmen
   })
 })
 
-describe('WS settings are startup-required (plan CONF-ENV-MISMATCH: the spec environment_variables mark API_USERNAME, API_PASSWORD and WS_API_ENDPOINT required: true — the dxLink WS transport cannot build the Basic auth handshake header or the endpoint URL without them)', () => {
+describe('WS credential triple is NOT startup-required (plan ws-env-triple-required-at-startup: the spec breaking_change_env_checks scope the credential requirement to WS paths — a REST-only pod boots with only API_ENDPOINT set; owner decision rest_transport_scope=keep_untouched)', () => {
   const STARTUP_ENV = { ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }
 
-  const missingRequiredError = (env: Record<string, string | undefined>) => {
-    let message = ''
-    withSettings(env, () => {
-      try {
-        config.validate()
-      } catch (error) {
-        message = (error as Error).message
-      }
-    })
-    return message
-  }
-
-  it('fails startup when API_USERNAME is unset, with a clear error naming the variable', () => {
-    const message = missingRequiredError({
-      API_USERNAME: undefined,
-      API_PASSWORD: CREDENTIALS.API_PASSWORD,
-      WS_API_ENDPOINT: DXLINK_ENDPOINT,
-    })
-    expect(message).toContain('API_USERNAME')
-    expect(message).toContain('Value is required')
+  it('initialises with ONLY API_ENDPOINT set and no WS triple (the REST-only boot)', () => {
+    withSettings(
+      {
+        API_USERNAME: undefined,
+        API_PASSWORD: undefined,
+        WS_API_ENDPOINT: undefined,
+        API_ENDPOINT: 'https://rest.fake.test/webservice/rest',
+      },
+      () => expect(() => config.validate()).not.toThrow(),
+    )
   })
 
-  it('fails startup when API_PASSWORD is unset, with a clear error naming the variable', () => {
-    const message = missingRequiredError({
-      API_USERNAME: CREDENTIALS.API_USERNAME,
-      API_PASSWORD: undefined,
-      WS_API_ENDPOINT: DXLINK_ENDPOINT,
-    })
-    expect(message).toContain('API_PASSWORD')
-    expect(message).toContain('Value is required')
-  })
-
-  it('fails startup when WS_API_ENDPOINT is unset, with a clear error naming the variable', () => {
-    const message = missingRequiredError({ ...CREDENTIALS, WS_API_ENDPOINT: undefined })
-    expect(message).toContain('WS_API_ENDPOINT')
-    expect(message).toContain('Value is required')
-  })
-
-  it('fails startup with no WS variables at all, naming every missing one', () => {
-    const message = missingRequiredError({
-      API_USERNAME: undefined,
-      API_PASSWORD: undefined,
-      WS_API_ENDPOINT: undefined,
-    })
-    expect(message).toContain('API_USERNAME')
-    expect(message).toContain('API_PASSWORD')
-    expect(message).toContain('WS_API_ENDPOINT')
-  })
-
-  it('passes startup when all three are set with a clean dxLink WS_API_ENDPOINT', () => {
+  it('still initialises with the full WS triple set (the WS paths keep working)', () => {
     withSettings(STARTUP_ENV, () => expect(() => config.validate()).not.toThrow())
   })
 
-  it('declares the three WS settings required:true (CONF-ENV-MISMATCH: the config surface must match the spec environment_variables)', () => {
-    const definitions = (
-      config as unknown as {
-        settingsDefinition: Record<string, { required: boolean }>
-      }
-    ).settingsDefinition
-    expect(definitions['API_USERNAME'].required).toBe(true)
-    expect(definitions['API_PASSWORD'].required).toBe(true)
-    expect(definitions['WS_API_ENDPOINT'].required).toBe(true)
+  it('declares the three WS settings required:false (the WS requirement moved to request time)', () => {
+    const definitions = settingsDefinition() as Record<string, { required: boolean }>
+    expect(definitions['API_USERNAME'].required).toBe(false)
+    expect(definitions['API_PASSWORD'].required).toBe(false)
+    expect(definitions['WS_API_ENDPOINT'].required).toBe(false)
+  })
+
+  it('a WS-transport request in the REST-only state returns the env validation error (the request-time gate wsEnvInputValidationError)', () => {
+    for (const endpoint of [priceEndpoint, stockQuotesEndpoint]) {
+      const error = endpoint.customInputValidation?.(wsRequest, {} as any)
+      expect(error?.statusCode).toBe(400)
+      expect(error?.message).toContain('API_USERNAME')
+    }
+    const helperError = wsEnvInputValidationError({} as any)
+    expect(helperError?.statusCode).toBe(400)
+    expect(helperError?.message).toContain('API_USERNAME')
   })
 
   it('startup still rejects a WS_API_ENDPOINT value that fails the breaking-change URL checks while the credential pair is unset (all validation errors are reported together)', () => {
@@ -196,19 +167,6 @@ describe('WS settings are startup-required (plan CONF-ENV-MISMATCH: the spec env
         priceEndpoint.customInputValidation?.(restRequest, config.settings as any),
       ).toBeUndefined()
     })
-  })
-
-  it('a WS request without credentials still fails at request time (wsEnvInputValidationError kept as defense-in-depth on the WS path)', () => {
-    const error = wsEnvInputValidationError({} as any)
-    expect(error?.statusCode).toBe(400)
-    expect(error?.message).toContain('API_USERNAME')
-
-    // Through both endpoints' customInputValidation on the ws path
-    for (const endpoint of [priceEndpoint, stockQuotesEndpoint]) {
-      const wsError = endpoint.customInputValidation?.(wsRequest, {} as any)
-      expect(wsError?.statusCode).toBe(400)
-      expect(wsError?.message).toContain('API_USERNAME')
-    }
   })
 
   it('a WS_API_ENDPOINT containing /chainlink/cometd or ://user:pass@ is still rejected at startup (the breaking-change validate fns stay)', () => {
@@ -291,28 +249,42 @@ describe('WS_API_ENDPOINT startup checks (spec breaking_change_env_checks)', () 
   })
 })
 
-describe('WS_API_ENDPOINT scheme handling (round-2: the spec breaking_change_env_checks declare ONLY the cometd-path and embedded-credential checks — no scheme gate)', () => {
-  it('accepts a plaintext ws:// endpoint without those defects (the spec declares no scheme check)', () => {
-    expect(validateWsApiEndpoint('ws://dxlink-provider.fake.test/dxlink-chainlink')).toBe('')
-    expect(validateWsApiEndpoint('ws://dxlink.fake.test/dxlink-chainlink')).toBe('')
-    withSettings(
-      { ...CREDENTIALS, WS_API_ENDPOINT: 'ws://dxlink-provider.fake.test/dxlink-chainlink' },
-      () => expect(() => config.validate()).not.toThrow(),
+describe('WS_API_ENDPOINT scheme gate (plan ws-plaintext-endpoint-accepted: the transport sends the Basic Authorization header on the handshake, so any scheme other than wss:// is rejected at startup; ws:// only when NODE_ENV is test AND the host is loopback)', () => {
+  it('rejects ws://example.com in a non-test NODE_ENV', () => {
+    withNodeEnv('production', () =>
+      expect(validateWsApiEndpoint('ws://example.com/dxlink-chainlink')).toContain('wss://'),
+    )
+    withNodeEnv(undefined, () =>
+      expect(validateWsApiEndpoint('ws://dxlink-provider.fake.test/dxlink-chainlink')).toContain(
+        'wss://',
+      ),
     )
   })
 
-  it('accepts the spec wss:// dxLink endpoint (spec data_source_base_url)', () => {
-    expect(validateWsApiEndpoint('wss://dxlink-provider.fake.test/dxlink-chainlink')).toBe('')
+  it('rejects ws:// even on a loopback host outside NODE_ENV=test', () => {
+    withNodeEnv('production', () =>
+      expect(validateWsApiEndpoint('ws://127.0.0.1:9090/dxlink-chainlink')).toContain('wss://'),
+    )
+  })
+
+  it('accepts ws://127.0.0.1 (and the other loopback hosts) ONLY under NODE_ENV=test — the framework mock-socket test bridge', () => {
+    withNodeEnv('test', () => {
+      expect(validateWsApiEndpoint('ws://127.0.0.1:9090/dxlink-chainlink')).toBe('')
+      expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe('')
+      expect(validateWsApiEndpoint('ws://[::1]:9090/dxlink-chainlink')).toBe('')
+    })
+  })
+
+  it('accepts the wss:// dxLink endpoint in every NODE_ENV mode (spec data_source_base_url)', () => {
+    for (const nodeEnv of ['test', 'production', undefined]) {
+      withNodeEnv(nodeEnv, () =>
+        expect(validateWsApiEndpoint('wss://dxlink-provider.fake.test/dxlink-chainlink')).toBe(''),
+      )
+    }
     withSettings(
       { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://dxlink-provider.fake.test/dxlink-chainlink' },
       () => expect(() => config.validate()).not.toThrow(),
     )
-  })
-
-  it('accepts ws:// loopback URLs so the mock-server test bridge keeps working (127.0.0.1, localhost, ::1)', () => {
-    expect(validateWsApiEndpoint('ws://127.0.0.1:9090/dxlink-chainlink')).toBe('')
-    expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe('')
-    expect(validateWsApiEndpoint('ws://[::1]:9090/dxlink-chainlink')).toBe('')
   })
 
   it('still rejects the cometd path and embedded credentials at startup (the two spec-declared checks stay)', () => {
@@ -346,20 +318,27 @@ const withNodeEnv = (nodeEnv: string | undefined, fn: () => void): void => {
   }
 }
 
-describe('ws:// acceptance is unconditional (round-2: the scheme gate is deleted; the spec declares only the cometd-path and embedded-credential checks)', () => {
-  it('accepts ws://localhost in every NODE_ENV mode', () => {
+describe('ws:// acceptance is scoped to the test-run loopback bridge (plan ws-plaintext-endpoint-accepted proving tests)', () => {
+  it('a plaintext ws:// endpoint on a NON-loopback host fails startup validation in every NODE_ENV mode', () => {
     for (const nodeEnv of ['test', 'production', undefined]) {
       withNodeEnv(nodeEnv, () =>
-        expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe(''),
+        expect(validateWsApiEndpoint('ws://dxlink-provider.fake.test/dxlink-chainlink')).toContain(
+          'wss://',
+        ),
       )
     }
   })
 
-  it('accepts the loopback hosts in every NODE_ENV mode too', () => {
-    withNodeEnv('production', () => {
-      expect(validateWsApiEndpoint('ws://127.0.0.1:9090/dxlink-chainlink')).toBe('')
-      expect(validateWsApiEndpoint('ws://[::1]:9090/dxlink-chainlink')).toBe('')
-    })
+  it('a plaintext ws:// endpoint on a loopback host passes ONLY under NODE_ENV=test', () => {
+    withNodeEnv('test', () =>
+      expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toBe(''),
+    )
+    withNodeEnv('production', () =>
+      expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toContain('wss://'),
+    )
+    withNodeEnv(undefined, () =>
+      expect(validateWsApiEndpoint('ws://localhost:9090/dxlink-chainlink')).toContain('wss://'),
+    )
   })
 
   it('wss:// stays accepted in all modes', () => {
@@ -435,7 +414,7 @@ describe('credential censoring (spec: WS_API_ENDPOINT and API_PASSWORD are sensi
     // sensitive=true; API_USERNAME and API_ENDPOINT are sensitive=false. The
     // framework builds the log-censoring list from exactly those flags.
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () => {
-      const censorList = config.buildCensorList()
+      const censorList = censorListEntries()
       const censoredKeys = censorList.map(({ key }) => key)
 
       expect(censoredKeys).toContain('API_PASSWORD')
@@ -449,6 +428,31 @@ describe('credential censoring (spec: WS_API_ENDPOINT and API_PASSWORD are sensi
       expect(passwordEntry?.value.test(CREDENTIALS.API_PASSWORD)).toBe(true)
       const endpointEntry = censorList.find(({ key }) => key === 'WS_API_ENDPOINT')
       expect(endpointEntry?.value.test(DXLINK_ENDPOINT)).toBe(true)
+    })
+  })
+
+  it('masks both sensitive values in serialised config output (plan buildcensorlist-subclass-override proving test: the wrapper appends the dxfeed censor entries and the built list redacts them)', () => {
+    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () => {
+      // The censor list carries an entry per sensitive dxfeed setting
+      const censorList = censorListEntries()
+      expect(censorList.map(({ key }) => key)).toEqual(
+        expect.arrayContaining(['API_PASSWORD', 'WS_API_ENDPOINT']),
+      )
+
+      // Applying the built entries to the serialised config output masks both
+      // sensitive values
+      const serialised = JSON.stringify(config.settings)
+      expect(serialised).toContain('dxfeed-pass')
+      expect(serialised).toContain(DXLINK_ENDPOINT)
+      let masked = serialised
+      for (const { value } of censorList) {
+        masked = masked.replace(
+          new RegExp(value.source, value.flags.includes('g') ? value.flags : `${value.flags}g`),
+          '***',
+        )
+      }
+      expect(masked).not.toContain('dxfeed-pass')
+      expect(masked).not.toContain(DXLINK_ENDPOINT)
     })
   })
 })

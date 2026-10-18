@@ -58,6 +58,7 @@ describe('input validation (spec external_adapter_specifications.price input_par
       description: '"ws" (dxLink) or "rest". Overnight streams pin "ws".',
       required: false,
       type: 'string',
+      options: ['rest', 'ws'],
     })
     expect(endpoint.defaultTransport).toBe('rest')
   })

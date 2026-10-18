@@ -194,12 +194,14 @@ export type DxLinkConnection = {
 }
 
 /**
- * Explicit numeric field conversion with a NaN check (precision rule): COMPACT
- * numeric fields arrive as JSON numbers ONLY (spec valueRangeScalingNotes), and
- * the provider marks an invalid value with the JSON string "NaN" (mapped to NaN
- * by the frame parser). No string is coerced to a number — a numeric STRING is
- * a provider wire-shape regression and must surface as NaN (which callers check
- * with Number.isNaN), never silently parse.
+ * Explicit numeric field conversion (precision rule). Upstream,
+ * parseCompactFeedData has already converted the JSON string "NaN" to NaN and
+ * stripped \x00 padding from string fields; any OTHER string value reaches
+ * parseNumeric and returns NaN — no string is ever coerced to a number. The
+ * fixed-index readers never read a string field as numeric, because
+ * assertAcceptedEventFields pins the FEED_CONFIG field order to the requested
+ * acceptEventFields, so the numeric positions (time, price, sizes) always hold
+ * JSON numbers.
  */
 export const parseNumeric = (value: unknown): number => {
   const parsed = typeof value === 'number' && Number.isFinite(value) ? value : NaN
@@ -388,10 +390,12 @@ export type DxLinkFeedDeps<T extends DxLinkTransportGenerics> = {
     params: TypeFromDefinition<T['Parameters']>,
   ) => DxLinkRawResult | undefined
   /**
-   * Notified with the wire entries actually removed (the last subscription for
-   * that wire key is gone) after a FEED_SUBSCRIPTION remove message is built —
-   * the customSubscriptionMessages remove path, where per-key state can be
+   * Notified with the wire entries whose SYMBOL has no desired subscription
+   * left on ANY event type after a FEED_SUBSCRIPTION remove message is built —
+   * the customSubscriptionMessages remove path, where per-symbol state can be
    * cleaned up so it cannot grow without bound across subscription churn.
+   * Trade and TradeETH share one newest-time entry per symbol, so a Trade-only
+   * removal with TradeETH still desired reports nothing.
    */
   onUnsubscribe?: (entries: DxLinkSubscriptionEntry[]) => void
 }
@@ -415,17 +419,28 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
 
   onFeedConfig(eventFields: Record<string, string[]> | undefined): void {
     const accepted = eventFields ?? {}
+    // Each FEED_CONFIG frame is routed to exactly one handler — but the SAME
+    // handshake frame that settles the open gate can still be dispatched to
+    // handlers.message afterwards, so an identical re-assertion is a no-op
+    // (plan feed-config-double-handling), not a second accept
+    if (
+      Object.keys(this.eventFields).length > 0 &&
+      JSON.stringify(this.eventFields) === JSON.stringify(accepted)
+    ) {
+      return
+    }
     try {
       assertAcceptedEventFields(accepted)
     } catch (error) {
-      // Treat the channel as failed: parse nothing rather than silently
-      // misreading COMPACT records at the wrong field indices
+      // A FEED_CONFIG diverging from the requested layout is an error — but the
+      // LAST ACCEPTED eventFields are kept, not cleared: clearing them would
+      // drop every later FEED_DATA frame silently (plan
+      // feed-config-double-handling)
       logger.error(
         `dxLink FEED_CONFIG rejected: ${
           (error as Error).message
-        }; the feed channel will serve no data`,
+        }; keeping the last accepted eventFields`,
       )
-      this.eventFields = {}
       return
     }
     this.eventFields = accepted
@@ -433,21 +448,30 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
 
   /**
    * Builds FEED_SUBSCRIPTION add/remove messages. Rebuilds the reverse index
-   * from the full desired set every cycle (the framework calls this on every
-   * background execution, delta or not). On reconnect the framework delivers
-   * the whole desired set as `new`, so the add messages resubscribe it.
+   * from the full desired set — O(desired) — but ONLY on a subscription delta:
+   * the pinned framework (2.20.0) invokes customSubscriptionMessages solely
+   * inside its subscription-diff branch, so a background execution with an
+   * unchanged desired set never calls this and emits no frames. On reconnect
+   * the framework delivers the whole desired set as `new`, so the add messages
+   * resubscribe it.
    */
   subscriptionMessages(
     subscriptions: SubscriptionDeltas<TypeFromDefinition<T['Parameters']>>,
   ): DxLinkMessage[] {
     this.subsByWireKey = new Map()
     const desiredKeys = new Set<string>()
+    // Newest-time state is shared across event types (the price transport's
+    // TradeProcessor keeps ONE per-symbol entry that both Trade and TradeETH
+    // read and write), so the unsubscribe notification below fires only for a
+    // symbol with no desired subscription left on ANY event type
+    const desiredSymbols = new Set<string>()
     const stale = subscriptions.stale ?? []
     const newSubs = subscriptions.new ?? []
     for (const params of subscriptions.desired) {
       for (const entry of this.deps.formatTickers(params)) {
         const key = wireKey(entry)
         desiredKeys.add(key)
+        desiredSymbols.add(entry.symbol)
         const subs = this.subsByWireKey.get(key)
         if (subs) {
           subs.push(params)
@@ -469,8 +493,11 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
     if (remove.length > 0) {
       messages.push({ type: 'FEED_SUBSCRIPTION', channel: DXLINK_FEED_CHANNEL, remove })
       // The remove list already excludes wire keys still desired by another
-      // params combo: every entry here is a last-removal
-      this.deps.onUnsubscribe?.(remove)
+      // params combo. The symbol-level filter additionally excludes entries
+      // whose SYMBOL is still desired on another event type — removing the last
+      // Trade subscription while TradeETH stays desired shares the symbol's
+      // newest-time state, so that symbol is not reported unsubscribed.
+      this.deps.onUnsubscribe?.(remove.filter((entry) => !desiredSymbols.has(entry.symbol)))
     }
     if (add.length > 0) {
       messages.push({ type: 'FEED_SUBSCRIPTION', channel: DXLINK_FEED_CHANNEL, add })

@@ -18,6 +18,7 @@ describe('price endpoint input parameters (spec external_adapter_specifications.
       description: '"ws" (dxLink) or "rest". Overnight streams pin "ws".',
       required: false,
       type: 'string',
+      options: ['rest', 'ws'],
     })
   })
 

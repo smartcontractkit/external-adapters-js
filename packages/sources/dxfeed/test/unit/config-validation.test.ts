@@ -88,11 +88,11 @@ describe('WS_API_ENDPOINT validation (spec breaking_change_env_checks)', () => {
     )
   })
 
-  it('accepts ws://localhost in every NODE_ENV mode (round-2: the spec declares no scheme check)', () => {
+  it('accepts ws://localhost ONLY under NODE_ENV=test; a non-test run rejects it (plan ws-plaintext-endpoint-accepted scheme gate)', () => {
     const loopbackUrl = 'ws://localhost:9090/dxlink-chainlink'
     withNodeEnv('test', () => expect(validateWsApiEndpoint(loopbackUrl)).toBe(''))
-    withNodeEnv('production', () => expect(validateWsApiEndpoint(loopbackUrl)).toBe(''))
-    withNodeEnv(undefined, () => expect(validateWsApiEndpoint(loopbackUrl)).toBe(''))
+    withNodeEnv('production', () => expect(validateWsApiEndpoint(loopbackUrl)).toContain('wss://'))
+    withNodeEnv(undefined, () => expect(validateWsApiEndpoint(loopbackUrl)).toContain('wss://'))
   })
 
   it('wss:// stays accepted in every NODE_ENV mode', () => {

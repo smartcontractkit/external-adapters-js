@@ -16,10 +16,11 @@ import { FAKE_REST_ENDPOINT, mockBatchedRestTransport } from './rest-mocks'
  * served by this untouched REST path.
  *
  * The credential pair and WS_API_ENDPOINT are set anyway (they are NOT
- * startup-required — rest-only-boot.test.ts proves that) so the WS-path
- * request-time env gate can never trip. The WS-path request-time env checks
- * stay out of scope here: this suite owns only the untouched defaultTransport
- * "rest" smoke flow.
+ * startup-required — the breaking_change_env_checks scope the credential
+ * requirement to WS paths; rest-only-boot.test.ts proves the REST-only boot)
+ * so the WS-path request-time env gate can never trip. The WS-path
+ * request-time env checks stay out of scope here: this suite owns only the
+ * untouched defaultTransport "rest" smoke flow.
  */
 describe('price REST transport (defaultTransport rest, keep_untouched)', () => {
   let spy: jest.SpyInstance
@@ -28,10 +29,10 @@ describe('price REST transport (defaultTransport rest, keep_untouched)', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    // A fake pair and a clean dxLink URL — the three WS vars are
-    // startup-required (round-2 CONF-ENV-MISMATCH, spec environment_variables
-    // required: true), and setting them also keeps the WS-path request-time
-    // input-validation gate from ever tripping
+    // A fake pair and a clean dxLink URL — the three WS vars are NOT
+    // startup-required (plan item ws-env-triple-required-at-startup), and
+    // setting them keeps the WS-path request-time input-validation gate from
+    // ever tripping in this REST-only suite
     process.env['API_USERNAME'] = process.env['API_USERNAME'] ?? 'fake-api-username'
     process.env['API_PASSWORD'] = process.env['API_PASSWORD'] ?? 'fake-api-password'
     // A clean wss:// dxLink URL (never a cometd path, no embedded credentials)

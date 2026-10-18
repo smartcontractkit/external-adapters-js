@@ -43,6 +43,10 @@ describe('parseNumeric (spec valueRangeScalingNotes: values arrive as JSON numbe
     expect(Number.isNaN(parseNumeric('190.05'))).toBe(true)
   })
 
+  it('returns NaN for a numeric-position string value (a timestamp arriving as a string is a wire-shape regression, never parsed)', () => {
+    expect(Number.isNaN(parseNumeric('1760000000000'))).toBe(true)
+  })
+
   it('returns NaN for the "NaN" marker string (invalid)', () => {
     expect(Number.isNaN(parseNumeric('NaN'))).toBe(true)
   })
@@ -162,6 +166,77 @@ describe('ERROR / KEEPALIVE / CHANNEL_CLOSED frames produce no data records', ()
     for (const frame of [frames.errorFrame, frames.keepaliveFrame, frames.channelClosedFrame]) {
       expect(feed.message(frame as any)).toEqual([])
     }
+  })
+})
+
+describe('FEED_CONFIG handling (plan feed-config-double-handling: each FEED_CONFIG frame routes to exactly one handler; onFeedConfig is idempotent and a divergent re-assertion never clears the accepted layout)', () => {
+  it('an identical FEED_CONFIG re-assertion is a no-op: the later valid FEED_DATA frames still produce records', () => {
+    const feed = specQuoteFeed()
+
+    // The handshake FEED_CONFIG that settled the open gate can still be
+    // dispatched to handlers.message afterwards: identical fields are a no-op
+    expect(feed.message(frames.quoteFeedConfig as any)).toEqual([])
+
+    const results = feed.message(frames.stockQuotesFrame as any)
+    expect(results).toHaveLength(1)
+    expect((results[0] as any).result).toBe(190.0)
+  })
+
+  it('a divergent FEED_CONFIG after the open gate settles logs an error and KEEPS the accepted eventFields: later valid FEED_DATA frames still produce records', () => {
+    const feed = specQuoteFeed()
+
+    // A divergent re-assertion: the Quote field ORDER diverges from the
+    // requested acceptEventFields (which the accepted layout was pinned to)
+    const divergent = {
+      type: 'FEED_CONFIG',
+      channel: 1,
+      eventFields: {
+        Quote: [
+          'eventSymbol',
+          'eventType',
+          'time',
+          'bidPrice',
+          'askPrice',
+          'bidSize',
+          'askSize',
+          'bidExchangeCode',
+          'askExchangeCode',
+        ],
+      },
+    }
+    feed.message(divergent as any)
+
+    // eventFields stays populated with the LAST ACCEPTED layout — the spec
+    // sample frame still maps on it instead of being dropped silently
+    const results = feed.message(frames.stockQuotesFrame as any)
+    expect(results).toHaveLength(1)
+    expect((results[0] as any).data).toEqual({
+      mid_price: 190.0,
+      bid_price: 189.9,
+      bid_volume: 50,
+      ask_price: 190.1,
+      ask_volume: 80,
+    })
+    expect((results[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000001000 })
+  })
+})
+
+describe('customSubscriptionMessages runs only on subscription deltas (plan subscriptionmessages-rebuild-comment: the pinned framework 2.20.0 invokes it solely inside its subscription-diff branch, so the O(desired) rebuild only ever runs on deltas)', () => {
+  it('two background executions with an unchanged desired set emit no FEED_SUBSCRIPTION frames', () => {
+    const feed = specQuoteFeed()
+
+    // Delta-free executions: nothing added, nothing removed — no frames either time
+    expect(feed.subscriptionMessages({ desired: [PARAMS], new: [], stale: [] })).toEqual([])
+    expect(feed.subscriptionMessages({ desired: [PARAMS], new: [], stale: [] })).toEqual([])
+  })
+
+  it('one added ticker emits exactly one add frame', () => {
+    const feed = specQuoteFeed()
+
+    const added = { base: 'TSLA', quote: 'USD' }
+    expect(
+      feed.subscriptionMessages({ desired: [PARAMS, added], new: [added], stale: [] }),
+    ).toEqual([{ type: 'FEED_SUBSCRIPTION', channel: 1, add: [{ symbol: 'TSLA', type: 'Quote' }] }])
   })
 })
 

@@ -40,15 +40,20 @@ export class TradeProcessor {
   readonly latestTimeBySymbol: Record<string, number> = {}
 
   /**
-   * Unsubscribe cleanup (round-2): the customSubscriptionMessages remove path
-   * notifies the transport when the last subscription for a wire key is gone;
-   * deleting the symbol's newest-time entry there keeps this map bounded
-   * across subscription churn. A later resubscription starts fresh.
+   * Unsubscribe cleanup: the customSubscriptionMessages remove path notifies
+   * the transport ONLY for symbols with no desired subscription left on ANY
+   * event type — Trade and TradeETH SHARE one newest-time entry per symbol
+   * (both event types read and write latestTimeBySymbol[symbol]), so the entry
+   * is deleted only when the last Trade/TradeETH subscription for the symbol
+   * is gone. A later resubscription starts fresh.
    */
   unsubscribe(entries: dxlinkWs.DxLinkSubscriptionEntry[]): void {
     for (const { symbol, type } of entries) {
       if (type === 'Trade' || type === 'TradeETH') {
-        delete this.latestTimeBySymbol[symbol.toUpperCase()]
+        // The wire entries carry the subscribed symbol and dxFeed echoes the
+        // subscribed symbol back on the records, so this key matches the
+        // verbatim record-symbol keys written by processRecord
+        delete this.latestTimeBySymbol[symbol]
       }
     }
   }
@@ -63,12 +68,13 @@ export class TradeProcessor {
     }
 
     const base = params.base
-    // One newest-time state per WIRE symbol (the record's eventSymbol,
-    // upper-cased), matching the reference adapter's one-stream-per-symbol
-    // behavior: params sets that share a wire key through different base
-    // casing share the dedupe state, so an older record can never be served
-    // after a newer one on any of them
-    const eventSymbol = String(record[EVENT_SYMBOL_INDEX]).toUpperCase()
+    // Keyed by the record's eventSymbol EXACTLY AS RECEIVED (the reference
+    // adapter keyed updatedTime by the record symbol verbatim; plan
+    // record-symbol-uppercase-keying) — no upper-case normalisation on THIS
+    // map, while subscription wire keys keep their existing normalisation in
+    // tradeTickers: mixed-case provider symbols dedupe against the same
+    // mixed-case symbol instead of diverging from reference semantics
+    const eventSymbol = String(record[EVENT_SYMBOL_INDEX])
     const time = dxlinkWs.parseNumeric(record[TIME_INDEX])
     const price = dxlinkWs.parseNumeric(record[PRICE_INDEX])
     const latestTime = this.latestTimeBySymbol[eventSymbol]

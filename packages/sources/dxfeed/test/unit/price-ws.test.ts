@@ -1,5 +1,5 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import { DxLinkMessage } from '../../src/dxlink/protocol'
+import { DxLinkFeed, DxLinkFeedDeps, DxLinkMessage, DxLinkRecord } from '../../src/dxlink/protocol'
 import { buildPriceWsTransport, TradeProcessor, tradeTickers } from '../../src/transport/price-ws'
 import frames from './fixtures/dxlink-frames.json'
 
@@ -41,6 +41,11 @@ const tradeFrame = (time: number, price: number) => ({
   type: 'FEED_DATA',
   channel: 1,
   data: ['Trade', tradeRecord(time, price)],
+})
+const tradeEthFrame = (time: number, price: number) => ({
+  type: 'FEED_DATA',
+  channel: 1,
+  data: ['TradeETH', tradeEthRecord(time, price)],
 })
 
 type Listener = (event: { data?: unknown; code?: number }) => void
@@ -292,5 +297,120 @@ describe('Trade and TradeETH newest-time selection (spec price description: when
       { symbol: 'AAPL:USLF24', type: 'TradeETH' },
     ])
     expect(tradeTickers('SPCX')).toEqual([{ symbol: 'SPCX', type: 'Trade' }])
+  })
+})
+
+describe('shared newest-time state across Trade and TradeETH (plan tradeprocessor-shared-newest-time-key: the per-symbol newest-time entry is deleted only when no desired subscription remains for the symbol across BOTH Trade and TradeETH wire keys)', () => {
+  it('unsubscribes Trade while TradeETH stays desired: an older TradeETH record is still filtered and the last value is unchanged', () => {
+    const processor = new TradeProcessor()
+    const feed = new DxLinkFeed({
+      // formatTickers stub mapping each params onto exactly the entries it
+      // names, so a Trade-only removal can be expressed against a
+      // still-desired TradeETH key on the same symbol
+      formatTickers: (params: any) => params.entries,
+      processRecord: (eventType, record, params) =>
+        processor.processRecord(eventType, record, params as any),
+    } as DxLinkFeedDeps<any>)
+    feed.onFeedConfig(frames.priceFeedConfig.eventFields)
+
+    const tradeOnly = { entries: [{ symbol: 'AAPL:USLF24', type: 'Trade' }] }
+    const ethOnly = { entries: [{ symbol: 'AAPL:USLF24', type: 'TradeETH' }] }
+    feed.subscriptionMessages({
+      desired: [tradeOnly, ethOnly],
+      new: [tradeOnly, ethOnly],
+      stale: [],
+    })
+
+    // The newest TradeETH (t=2500) is served and becomes the shared newest time
+    const served = feed.message(tradeEthFrame(2500, 190.02))
+    expect(served).toHaveLength(1)
+    expect((served[0] as any).result).toBe(190.02)
+    expect(processor.latestTimeBySymbol['AAPL:USLF24']).toBe(2500)
+
+    // Unsubscribe Trade ONLY — TradeETH remains desired for the symbol, so the
+    // wire frame still carries the Trade remove entry
+    const messages = feed.subscriptionMessages({
+      desired: [ethOnly],
+      new: [],
+      stale: [tradeOnly],
+    })
+    expect(messages).toEqual([
+      {
+        type: 'FEED_SUBSCRIPTION',
+        channel: 1,
+        remove: [{ symbol: 'AAPL:USLF24', type: 'Trade' }],
+      },
+    ])
+
+    // A TradeETH record OLDER than the last served time is still filtered, and
+    // the last value is unchanged — the shared newest-time entry survived the
+    // Trade-only unsubscribe
+    expect(feed.message(tradeEthFrame(1000, 189.0))).toEqual([])
+    expect(processor.latestTimeBySymbol['AAPL:USLF24']).toBe(2500)
+  })
+
+  it('unsubscribes BOTH wire keys: the shared entry is deleted and a later resubscription starts fresh', () => {
+    const processor = new TradeProcessor()
+    const feed = new DxLinkFeed({
+      formatTickers: (params: any) => tradeTickers(params.base),
+      processRecord: (eventType, record, params) =>
+        processor.processRecord(eventType, record, params as any),
+      // The real transport wires the remove path to the processor
+      // (buildPriceWsTransport); the stub mirrors that wiring so this test
+      // exercises the full symbol-level cleanup
+      onUnsubscribe: (entries) => processor.unsubscribe(entries),
+    } as DxLinkFeedDeps<any>)
+    feed.onFeedConfig(frames.priceFeedConfig.eventFields)
+
+    feed.subscriptionMessages({ desired: [PARAMS], new: [PARAMS], stale: [] })
+    expect(feed.message(tradeEthFrame(2500, 190.02))).toHaveLength(1)
+    expect(processor.latestTimeBySymbol['AAPL:USLF24']).toBe(2500)
+
+    // Both wire keys go: the symbol has no desired subscription left on any
+    // event type, so the shared newest-time entry is deleted
+    feed.subscriptionMessages({ desired: [], new: [], stale: [PARAMS] })
+    expect(processor.latestTimeBySymbol).not.toHaveProperty('AAPL:USLF24')
+  })
+})
+
+describe('newest-time state keyed by the record eventSymbol verbatim (plan record-symbol-uppercase-keying: no upper-case normalisation on the record-symbol key; subscription keys keep their existing normalisation in tradeTickers)', () => {
+  // Spec price COMPACT layout, eventSymbol (index 1) in mixed case exactly as a
+  // provider wire-shape regression would deliver it
+  const mixedCaseRecord = (time: number, price: number): DxLinkRecord => [
+    'Trade',
+    'aapl:UsLf24',
+    time,
+    price,
+    10,
+    12345,
+    'V',
+    0.12,
+    5000000,
+    999000000,
+    'UP',
+    false,
+  ]
+
+  it('dedupes against the same mixed-case symbol: the state is keyed exactly as received, an equal-time record is served, an older record is dropped', () => {
+    const processor = new TradeProcessor()
+
+    // The first mixed-case record is served and keyed by the symbol AS RECEIVED
+    // (no upper-casing on the newest-time key)
+    expect(
+      processor.processRecord('Trade', mixedCaseRecord(2000, 189.98), PARAMS as any)?.result,
+    ).toBe(189.98)
+    expect(processor.latestTimeBySymbol['aapl:UsLf24']).toBe(2000)
+
+    // An equal-time record is served (reference semantics: only strictly older
+    // records are ignored)
+    expect(
+      processor.processRecord('Trade', mixedCaseRecord(2000, 189.99), PARAMS as any)?.result,
+    ).toBe(189.99)
+
+    // An older record is dropped against the same mixed-case key
+    expect(
+      processor.processRecord('Trade', mixedCaseRecord(1000, 188.0), PARAMS as any),
+    ).toBeUndefined()
+    expect(processor.latestTimeBySymbol['aapl:UsLf24']).toBe(2000)
   })
 })

@@ -15,11 +15,12 @@ import {
  * The two URL checks run only when WS_API_ENDPOINT is set: the legacy cometd
  * path (/chainlink/cometd — the transport this migration deletes) and embedded
  * ://user:pass@ credentials (credentials ride the Basic Authorization header,
- * never the URL). Round-2 (CONF-ENV-MISMATCH, spec environment_variables
- * required: true) also makes API_USERNAME, API_PASSWORD and WS_API_ENDPOINT
- * startup-required: a boot without any of them fails initialize() with the
- * framework's required-value error naming the variable (rest-only-boot.test.ts
- * proves the untouched REST path serves unchanged when all three are set).
+ * never the URL). Plan item ws-env-triple-required-at-startup: the
+ * breaking_change_env_checks scope the credential requirement to WS paths —
+ * API_USERNAME, API_PASSWORD and WS_API_ENDPOINT are required: false at
+ * startup, so a boot WITHOUT the triple succeeds (the WS-path requirement is
+ * enforced at request time; rest-only-boot.test.ts proves the REST-only boot
+ * and the request-time gate through the real request path).
  */
 
 // Fake hosts only (test_fake_urls): the real provider hosts live only in
@@ -84,21 +85,23 @@ describe('breaking-change config rejections', () => {
     await expect(adapter.initialize()).rejects.toThrow(/credentials/)
   })
 
-  it('fails startup when WS_API_ENDPOINT is unset — the variable is startup-required (spec environment_variables required: true)', async () => {
-    // Plan item 1: WS_API_ENDPOINT is required with no default — the dxLink WS
-    // transport cannot build the endpoint URL without it. The URL checks above
-    // run only when a value is set; ABSENCE is covered by the framework's
-    // required-value startup validation, which names the variable. The earlier
-    // rejection boots above leak their API_USERNAME/API_PASSWORD into this
-    // worker's process.env (boot() only writes the keys it is given), so the
-    // credential pair is pinned explicitly and only WS_API_ENDPOINT is deleted.
+  it('boots WITHOUT the WS credential triple — the breaking_change_env_checks scope the credential requirement to WS paths', async () => {
+    // Plan item ws-env-triple-required-at-startup: API_USERNAME, API_PASSWORD
+    // and WS_API_ENDPOINT are required: false at startup; only the REST path
+    // needs API_ENDPOINT. A boot with none of the three set must succeed —
+    // the credential requirement is enforced at REQUEST time on WS paths
+    // (wsEnvInputValidationError through the endpoints' customInputValidation;
+    // rest-only-boot.test.ts proves the 400 through the real request path).
+    // The earlier rejection boots above leak their API_USERNAME/API_PASSWORD
+    // into this worker's process.env (boot() only writes the keys it is
+    // given), so the WS triple is deleted explicitly.
     const { adapter } = await boot({
-      API_USERNAME: CREDENTIALS.API_USERNAME,
-      API_PASSWORD: CREDENTIALS.API_PASSWORD,
+      API_USERNAME: undefined,
+      API_PASSWORD: undefined,
       WS_API_ENDPOINT: undefined,
       API_ENDPOINT: FAKE_REST,
     })
-    await expect(adapter.initialize()).rejects.toThrow(/WS_API_ENDPOINT/)
+    await expect(adapter.initialize()).resolves.toBeUndefined()
   })
 
   it('boots with a clean dxLink config (valid startup control)', async () => {

@@ -1,7 +1,4 @@
-import {
-  AdapterConfig as FrameworkAdapterConfig,
-  SettingsDefinitionMap,
-} from '@chainlink/external-adapter-framework/config'
+import { AdapterConfig as FrameworkAdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
@@ -31,22 +28,22 @@ const wsApiEndpointBreakingChangeError = (value?: string): string => {
 }
 
 /**
- * Loopback hosts for which an accepted plaintext ws:// WS_API_ENDPOINT inside a
- * test run (NODE_ENV === 'test') logs the plaintext-credential warning below:
- * the framework's mock-socket test bridge serves the dxLink mock on ws://
- * loopback and hands the URL to the adapter through WS_API_ENDPOINT alone.
+ * Loopback hosts for which a plaintext ws:// WS_API_ENDPOINT is accepted inside
+ * a test run (NODE_ENV === 'test'): the framework's mock-socket test bridge
+ * serves the dxLink mock on ws:// loopback and hands the URL to the adapter
+ * through WS_API_ENDPOINT alone.
  */
 const LOOPBACK_WS_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]', '::1'])
 
 /**
  * Startup validate fn for WS_API_ENDPOINT (runs only when a value is set): the
- * spec's breaking_change_env_checks ONLY — reject the legacy cometd path and
- * reject embedded credentials. No scheme gate: the spec declares no other
- * WS_API_ENDPOINT check, so any other value passes startup validation. A
- * plaintext ws:// endpoint accepted on the NODE_ENV=test loopback path (the
- * framework's mock-socket test bridge) logs a loud warning — a boot with real
- * credentials on that path would send the Basic Authorization header
- * unencrypted, and the warning is the signal in the logs.
+ * spec breaking_change_env_checks (reject the legacy cometd path, reject
+ * embedded ://user:pass@ credentials) plus the scheme gate — the Basic
+ * Authorization header rides the WS handshake, so any scheme other than wss://
+ * is rejected at startup (plan ws-plaintext-endpoint-accepted). ws:// is
+ * permitted ONLY when NODE_ENV is 'test' AND the host is loopback (the
+ * framework's mock-socket test bridge); such an acceptance logs a loud
+ * plaintext-credential warning.
  */
 export const validateWsApiEndpoint = (value?: string): string => {
   const breakingChangeError = wsApiEndpointBreakingChangeError(value)
@@ -54,21 +51,30 @@ export const validateWsApiEndpoint = (value?: string): string => {
     return breakingChangeError
   }
 
-  if (process.env.NODE_ENV === 'test') {
-    try {
-      const url = new URL(value)
-      if (url.protocol === 'ws:' && LOOPBACK_WS_HOSTS.has(url.hostname)) {
-        logger.warn(
-          `WS_API_ENDPOINT uses a plaintext ws:// loopback endpoint: the Basic Authorization header (the API credentials) would be sent unencrypted. Acceptance of ws:// is for local test servers only (NODE_ENV=test).`,
-        )
-      }
-    } catch {
-      // Not a parseable URL — accepted above like any other value the spec does
-      // not check; no warning can name a host
-    }
+  let url: URL
+  try {
+    url = new URL(value)
+  } catch {
+    // A value that does not parse as a URL has no scheme to gate on — rejected
+    return 'WS_API_ENDPOINT is not a parseable URL; use the wss:// dxLink endpoint, e.g. wss://tools.dxfeed.com/dxlink-chainlink'
   }
 
-  return ''
+  if (url.protocol === 'wss:') {
+    return ''
+  }
+
+  if (
+    url.protocol === 'ws:' &&
+    process.env.NODE_ENV === 'test' &&
+    LOOPBACK_WS_HOSTS.has(url.hostname)
+  ) {
+    logger.warn(
+      `WS_API_ENDPOINT uses a plaintext ws:// loopback endpoint: the Basic Authorization header (the API credentials) would be sent unencrypted. Acceptance of ws:// is for local test servers only (NODE_ENV=test).`,
+    )
+    return ''
+  }
+
+  return 'WS_API_ENDPOINT must use the wss:// scheme: the dxLink handshake sends the Basic Authorization header (API_USERNAME and API_PASSWORD), which a plaintext ws:// endpoint would expose. Use the dxLink endpoint, e.g. wss://tools.dxfeed.com/dxlink-chainlink'
 }
 
 /**
@@ -123,98 +129,95 @@ export const wsEnvInputValidationError = (settings: {
 export const REST_API_ENDPOINT_DEFAULT = 'https://tools.dxfeed.com/webservice/rest'
 
 /**
- * dxFeed AdapterConfig: the framework's buildCensorList populates the static
- * CensorList for log censoring but returns void. The adapter (and tests) need
- * the list itself, so the override returns it while keeping the framework
- * behavior intact. Exported so tests can re-construct the adapter config and
- * pin the censor list to one entry per sensitive key (round-2 proving test).
+ * The spec settings surface. API_USERNAME, API_PASSWORD and WS_API_ENDPOINT are
+ * required: FALSE at startup (plan ws-env-triple-required-at-startup): the spec
+ * breaking_change_env_checks scope the credential requirement to WS paths, so a
+ * REST-only pod boots with only API_ENDPOINT set. The WS-path requirement is
+ * enforced at request time by wsEnvInputValidationError through the endpoints'
+ * customInputValidation (defense-in-depth: the WS transport's options() also
+ * refuses to build a Basic header from a missing pair).
  */
-export class AdapterConfig<
-  T extends SettingsDefinitionMap = SettingsDefinitionMap,
-> extends FrameworkAdapterConfig<T> {
-  buildCensorList(): { key: string; value: RegExp }[] {
-    super.buildCensorList()
-    return CensorList.getAll()
-  }
+// `as const` keeps the definition literal (required: false, type: 'string'):
+// the framework's Settings<T> mapped type uses those literals to decide which
+// settings are optional keys — a widened `required: boolean` drops the key from
+// the settings type entirely
+const dxFeedSettings = {
+  API_USERNAME: {
+    description: 'username for dxfeed API',
+    type: 'string',
+    required: false,
+    sensitive: false,
+  },
+  API_PASSWORD: {
+    description: 'password for dxfeed API',
+    type: 'string',
+    required: false,
+    sensitive: true,
+  },
+  WS_API_ENDPOINT: {
+    description: 'The websocket url for dxfeed (dxLink endpoint)',
+    type: 'string',
+    required: false,
+    sensitive: true,
+    validate: {
+      meta: {
+        details: 'The websocket url for dxfeed (dxLink endpoint)',
+      },
+      fn: validateWsApiEndpoint,
+    },
+  },
+  API_ENDPOINT: {
+    description: 'The API url for dxfeed',
+    type: 'string',
+    default: REST_API_ENDPOINT_DEFAULT,
+    validate: {
+      meta: {
+        details: 'API endpoint warning',
+      },
+      fn: (value?: string): string => {
+        if (value === REST_API_ENDPOINT_DEFAULT) {
+          logger.warn(
+            `Using demo endpoint: https://tools.dxfeed.com/webservice/rest (Please do not use in production!)`,
+          )
+        }
+        return ''
+      },
+    },
+    sensitive: false,
+  },
+} as const
 
-  // No validate() override: the framework's startup validation runs unchanged
-  // inside initialize(). The three WS settings are declared required: true
-  // below (spec environment_variables) — the dxLink WS transport cannot build
-  // the Basic auth handshake header or the endpoint URL without them, so a
-  // deployment without any of the three fails startup with the framework's
-  // "Value is required, but none was provided" error naming the variable.
+/**
+ * The adapter config type: the framework config built from the dxfeed settings
+ * surface.
+ */
+export type DxFeedAdapterConfig = FrameworkAdapterConfig<typeof dxFeedSettings>
+
+/**
+ * The dxfeed censor entries (plan buildcensorlist-subclass-override): the
+ * wrapper calls the framework config builder, whose buildCensorList — the
+ * pinned framework version 2.20.0 signature returns void — populates the static
+ * CensorList from the sensitive settings (API_PASSWORD, WS_API_ENDPOINT); this
+ * accessor appends those built entries to the result as a typed list instead of
+ * overriding the framework method on a subclass.
+ */
+export const censorList = (): { key: string; value: RegExp }[] => {
+  config.buildCensorList()
+  return CensorList.getAll()
 }
 
 /**
- * Constructs the adapter config with the spec settings surface. No explicit
- * return type: the constructed settings literal must flow into
- * `typeof config.settings` so the transports see the dxFeed keys
- * (an `AdapterConfig` annotation would default T to SettingsDefinitionMap and
- * erase API_USERNAME / API_PASSWORD / WS_API_ENDPOINT from the settings type).
+ * Wrapper around the framework config builder — NOT an AdapterConfig subclass
+ * (plan buildcensorlist-subclass-override: a subclass overriding buildCensorList
+ * changes its return type and can silently diverge on a framework upgrade).
+ * Pinned framework version: 2.20.0.
  */
-export const buildAdapterConfig = () =>
-  new AdapterConfig(
-    {
-      // The spec environment_variables mark API_USERNAME, API_PASSWORD and
-      // WS_API_ENDPOINT required: true — the dxLink WS transport cannot build
-      // the Basic auth handshake header or the endpoint URL without them, so
-      // the framework's startup validation (config.validate() inside
-      // initialize()) fails fast with a clear per-variable error when one is
-      // unset. The WS-path request-time gate stays as defense-in-depth
-      // (wsEnvInputValidationError through the endpoints'
-      // customInputValidation on requests whose resolved transport is ws). The
-      // breaking-change env checks stay: the WS_API_ENDPOINT validate fn above
-      // rejects the legacy cometd path and embedded ://user:pass@ credentials.
-      API_USERNAME: {
-        description: 'username for dxfeed API',
-        type: 'string',
-        required: true,
-        sensitive: false,
-      },
-      API_PASSWORD: {
-        description: 'password for dxfeed API',
-        type: 'string',
-        required: true,
-        sensitive: true,
-      },
-      WS_API_ENDPOINT: {
-        description: 'The websocket url for dxfeed (dxLink endpoint)',
-        type: 'string',
-        required: true,
-        sensitive: true,
-        validate: {
-          meta: {
-            details: 'The websocket url for dxfeed (dxLink endpoint)',
-          },
-          fn: validateWsApiEndpoint,
-        },
-      },
-      API_ENDPOINT: {
-        description: 'The API url for dxfeed',
-        type: 'string',
-        default: REST_API_ENDPOINT_DEFAULT,
-        validate: {
-          meta: {
-            details: 'API endpoint warning',
-          },
-          fn: (value?: string): string => {
-            if (value === REST_API_ENDPOINT_DEFAULT) {
-              logger.warn(
-                `Using demo endpoint: https://tools.dxfeed.com/webservice/rest (Please do not use in production!)`,
-              )
-            }
-            return ''
-          },
-        },
-        sensitive: false,
-      },
+export const buildAdapterConfig = (): DxFeedAdapterConfig =>
+  new FrameworkAdapterConfig(dxFeedSettings, {
+    envDefaultOverrides: {
+      // Spec data_source_endpoints[].keepalive interval_seconds=30
+      WS_HEARTBEAT_INTERVAL_MS: 30000,
     },
-    {
-      envDefaultOverrides: {
-        // Spec data_source_endpoints[].keepalive interval_seconds=30
-        WS_HEARTBEAT_INTERVAL_MS: 30000,
-      },
-    },
-  )
+  })
 
 export const config = buildAdapterConfig()

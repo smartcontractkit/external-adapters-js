@@ -44,6 +44,10 @@ const priceRuntimeParamsDefinition = {
     description: '"ws" (dxLink) or "rest". Overnight streams pin "ws".',
     required: false,
     type: 'string',
+    // Spec price input_parameters ("ws" (dxLink) or "rest") / README options
+    // rest,ws: a value outside the list fails input validation with a clean
+    // 400 instead of falling through to the router's "No transport found"
+    options: ['rest', 'ws'],
   },
 } as const
 
