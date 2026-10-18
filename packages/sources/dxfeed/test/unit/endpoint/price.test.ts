@@ -299,6 +299,55 @@ describe('Trade / TradeETH newest-time selection (spec price endpoint descriptio
     expect(response.errorMessage).toContain('invalid')
   })
 
+  it('errors (502) on a trade price below valueRangeMin 0, and accepts 0 itself (spec valueRangeMin 0, USD)', () => {
+    // valueRangeMin 0: a NEGATIVE price is outside the declared value range —
+    // the same invalid (502) shape as the "NaN" string, no result served
+    const negative = processor.processRecord(
+      'Trade',
+      [
+        'Trade',
+        'AAPL:USLF24',
+        1760000000000,
+        -0.01,
+        10,
+        12345,
+        'V',
+        0.12,
+        5000000,
+        999000000,
+        'UP',
+        false,
+      ],
+      { base: 'AAPL:USLF24', quote: 'USD' } as any,
+    ) as any
+    expect(negative.statusCode).toBe(502)
+    expect(negative.errorMessage).toContain('invalid')
+    expect(negative.result).toBeUndefined()
+    expect(negative.timestamps).toBeUndefined()
+
+    // A price of exactly 0 is NOT below the minimum: it stays a valid result
+    const zero = processor.processRecord(
+      'Trade',
+      [
+        'Trade',
+        'AAPL:USLF24',
+        1760000000000,
+        0,
+        10,
+        12345,
+        'V',
+        0.12,
+        5000000,
+        999000000,
+        'UP',
+        false,
+      ],
+      { base: 'AAPL:USLF24', quote: 'USD' } as any,
+    ) as any
+    expect(zero.result).toBe(0)
+    expect(zero.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+  })
+
   it('subscribes Trade only for a bare ticker and Trade+TradeETH for :USLF24 (owner decision match_reference)', () => {
     expect(tradeTickers('AAPL')).toEqual([{ symbol: 'AAPL', type: 'Trade' }])
     expect(tradeTickers('aapl:uslf24')).toEqual([

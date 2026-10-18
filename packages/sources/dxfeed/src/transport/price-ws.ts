@@ -99,7 +99,10 @@ export class TradeProcessor {
     // finite time carries no provider timestamp
     const timestamps = Number.isFinite(time) ? { providerIndicatedTimeUnixMs: time } : undefined
 
-    if (Number.isNaN(price)) {
+    // Spec valueRangeMin 0 (USD): a finite price below 0 is outside the
+    // adapter's declared value range and is invalid exactly like the "NaN"
+    // string — 0 itself is not below the minimum and stays valid
+    if (Number.isNaN(price) || price < 0) {
       // Invalid records return the 502 path with NO timestamps, matching the
       // reference adapter's error shape (its 502 carried no
       // providerIndicatedTimeUnixMs)
