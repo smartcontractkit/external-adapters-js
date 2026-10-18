@@ -1,4 +1,4 @@
-import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { AdapterConfig, SettingsDefinitionMap } from '@chainlink/external-adapter-framework/config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
@@ -51,7 +51,9 @@ const plaintextWsTestAllowed = (): boolean => process.env.ALLOW_PLAINTEXT_WS_TES
  * is rejected at startup (plan ws-plaintext-endpoint-accepted). ws:// is
  * permitted ONLY when ALLOW_PLAINTEXT_WS_TEST=true AND the host is loopback
  * (the framework's mock-socket test bridge); such an acceptance logs a loud
- * plaintext-credential warning.
+ * plaintext-credential warning. Round 2, plan item 1: the flag is test-only —
+ * set it together with a NON-loopback host and startup hard-fails regardless
+ * of scheme (a copied test env file must not ship the flag into production).
  */
 export const validateWsApiEndpoint = (value?: string): string => {
   const breakingChangeError = wsApiEndpointBreakingChangeError(value)
@@ -67,15 +69,29 @@ export const validateWsApiEndpoint = (value?: string): string => {
     return 'WS_API_ENDPOINT is not a parseable URL; use the wss:// dxLink endpoint, e.g. wss://tools.dxfeed.com/dxlink-chainlink'
   }
 
+  const hostIsLoopback = LOOPBACK_WS_HOSTS.has(url.hostname)
+
+  // Hard startup failure (round 2, plan item 1, defence in depth on top of the
+  // loopback check below): ALLOW_PLAINTEXT_WS_TEST is test-only — a deployment
+  // environment that carries it (a copied test env file) must fail the boot
+  // loudly instead of silently ignoring the flag while pointing at a remote
+  // host. Fires on ANY scheme: the flag's only legitimate use is the ws://
+  // loopback test bridge.
+  if (plaintextWsTestAllowed() && !hostIsLoopback) {
+    return 'ALLOW_PLAINTEXT_WS_TEST is a test-only flag: it admits a plaintext ws:// LOOPBACK endpoint (the mock-socket test bridge) and must never be set against a non-loopback host. Unset it outside the test environment.'
+  }
+
   if (url.protocol === 'wss:') {
     return ''
   }
 
-  if (url.protocol === 'ws:' && plaintextWsTestAllowed() && LOOPBACK_WS_HOSTS.has(url.hostname)) {
-    logger.warn(
-      `WS_API_ENDPOINT uses a plaintext ws:// loopback endpoint: the Basic Authorization header (the API credentials) would be sent unencrypted. Acceptance of ws:// is for local test servers only (ALLOW_PLAINTEXT_WS_TEST=true).`,
-    )
-    return ''
+  if (url.protocol === 'ws:' && hostIsLoopback) {
+    if (plaintextWsTestAllowed()) {
+      logger.warn(
+        `WS_API_ENDPOINT uses a plaintext ws:// loopback endpoint: the Basic Authorization header (the API credentials) would be sent unencrypted. Acceptance of ws:// is for local test servers only (ALLOW_PLAINTEXT_WS_TEST=true).`,
+      )
+      return ''
+    }
   }
 
   return 'WS_API_ENDPOINT must use the wss:// scheme: the dxLink handshake sends the Basic Authorization header (API_USERNAME and API_PASSWORD), which a plaintext ws:// endpoint would expose. Use the dxLink endpoint, e.g. wss://tools.dxfeed.com/dxlink-chainlink'
@@ -165,38 +181,46 @@ export const dxLinkBasicAuthHeader = (settings: {
 export const DXLINK_AUTH_CENSOR_KEY = 'DXLINK_BASIC_AUTH'
 
 /**
- * The dxfeed censor entries (plan buildcensorlist-subclass-override): the
- * wrapper calls the framework config builder, whose buildCensorList — the
- * pinned framework version 2.20.0 signature returns void — populates the static
- * CensorList from the sensitive settings (API_PASSWORD, WS_API_ENDPOINT); this
- * accessor appends those built entries to the result as a typed list instead of
- * overriding the framework method on a subclass. The base64 Authorization
- * header value (reversible encoding of the credential pair) is appended here
- * too, computed by the SAME dxLinkBasicAuthHeader the connection options send —
- * a log of connection options can no longer leak decodable credentials
- * (plan item 2).
+ * The dxfeed AdapterConfig: the framework AdapterConfig subclass whose
+ * buildCensorList is the config site the framework consumes —
+ * adapter.initialize() calls config.buildCensorList() (framework basic.ts) to
+ * populate the static CensorList the logger and response cache censor through.
+ * Round 2, plan item 3: the base64 Authorization header value (a reversible
+ * encoding of the credential pair) is appended to that SAME list here,
+ * computed by the SAME dxLinkBasicAuthHeader the connection options send — a
+ * log of connection options can no longer leak decodable credentials. The
+ * framework offers no constructor seam for extra censor entries, so the
+ * subclass override IS the wiring (the former standalone censorList()
+ * accessor had no call site in src/ and claimed a protection it did not
+ * provide — it is deleted).
  */
-export const censorList = (): { key: string; value: RegExp }[] => {
-  config.buildCensorList()
-  const entries = CensorList.getAll()
-  const authHeader = dxLinkBasicAuthHeader(config.settings)
-  if (authHeader && !entries.some(({ key }) => key === DXLINK_AUTH_CENSOR_KEY)) {
-    entries.push({
-      key: DXLINK_AUTH_CENSOR_KEY,
-      // Same escaping the framework's buildCensorList applies to sensitive values
-      value: new RegExp(authHeader.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')),
-    })
+class DxFeedCensoringAdapterConfig<
+  T extends SettingsDefinitionMap = SettingsDefinitionMap,
+> extends AdapterConfig<T> {
+  buildCensorList(): void {
+    // The framework builder REPLACES the static list on every call, so this
+    // re-appends the auth entry on each framework invocation
+    super.buildCensorList()
+    const authHeader = dxLinkBasicAuthHeader(
+      this.settings as unknown as { API_USERNAME?: string; API_PASSWORD?: string },
+    )
+    if (authHeader && !CensorList.getAll().some(({ key }) => key === DXLINK_AUTH_CENSOR_KEY)) {
+      CensorList.getAll().push({
+        key: DXLINK_AUTH_CENSOR_KEY,
+        // Same escaping the framework's buildCensorList applies to sensitive values
+        value: new RegExp(authHeader.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi'),
+      })
+    }
   }
-  return entries
 }
 
 /**
- * The adapter config: the framework AdapterConfig built from the dxfeed
+ * The adapter config: the dxfeed censoring AdapterConfig built from the
  * settings surface (declared inline — the settings object is the config's
  * first constructor argument). Pinned framework version: 2.20.0.
  */
 export const buildAdapterConfig = () =>
-  new AdapterConfig(
+  new DxFeedCensoringAdapterConfig(
     {
       API_USERNAME: {
         description: 'username for dxfeed API',

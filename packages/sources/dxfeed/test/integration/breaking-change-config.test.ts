@@ -19,6 +19,16 @@ import {
  * API_PASSWORD and WS_API_ENDPOINT required:true — a boot WITHOUT the triple
  * is rejected by initialize() (the request-time gate
  * wsEnvInputValidationError stays as defense-in-depth).
+ *
+ * Round 2, plan item 1: the spec rule is wss-only (the Basic Authorization
+ * header rides the WS handshake, so a plaintext ws:// endpoint exposes the
+ * credentials). The ONLY admission is the adapter-owned test-only escape
+ * hatch: ALLOW_PLAINTEXT_WS_TEST=true together with a LOOPBACK host — the
+ * framework's mock-socket test bridge. Proven through the same real boot
+ * path: ws:// is rejected without the flag, accepted for ws://127.0.0.1 with
+ * the flag, and rejected again for a non-loopback host even with the flag
+ * (a copied test env file must not be able to ship the flag into a
+ * production topology and send the credentials unencrypted).
  */
 
 // Fake hosts only (test_fake_urls): the real provider hosts live only in
@@ -125,5 +135,49 @@ describe('breaking-change config rejections', () => {
     }
 
     await testAdapter.api.close()
+  })
+
+  // Round 2, plan item 1: the plaintext ws:// gate, proven through the real
+  // boot path. The spec rule is wss-only — the Basic Authorization header (the
+  // credentials) rides the WS handshake. The single admission is the
+  // adapter-owned ALLOW_PLAINTEXT_WS_TEST=true flag AND a loopback host (the
+  // framework's mock-socket test bridge). Deliberately NOT pinned to the
+  // rejection message text: the assertion is the spec rule (boot fails /
+  // boot succeeds), not the wording the validator picks.
+  describe('plaintext ws:// gate (ALLOW_PLAINTEXT_WS_TEST)', () => {
+    it('rejects a ws:// endpoint even on loopback without the flag', async () => {
+      // The loopback allowance exists ONLY behind the explicit flag: a plain
+      // ws:// loopback endpoint with no ALLOW_PLAINTEXT_WS_TEST must fail the
+      // boot. The flag is deleted explicitly — an earlier case in this worker
+      // may have set it.
+      const { adapter } = await boot({
+        ...fullEnv('ws://127.0.0.1/dxlink-chainlink'),
+        ALLOW_PLAINTEXT_WS_TEST: undefined,
+      })
+      await expect(adapter.initialize()).rejects.toThrow()
+    })
+
+    it('accepts ws://127.0.0.1 when ALLOW_PLAINTEXT_WS_TEST=true', async () => {
+      // The escape hatch's whole purpose: the loopback mock-socket test bridge.
+      // With the flag set and the host loopback, the boot succeeds — no server
+      // is needed, initialize() only validates config (no socket is opened).
+      const { adapter } = await boot({
+        ...fullEnv('ws://127.0.0.1/dxlink-chainlink'),
+        ALLOW_PLAINTEXT_WS_TEST: 'true',
+      })
+      await expect(adapter.initialize()).resolves.toBeUndefined()
+    })
+
+    it('rejects a ws:// NON-loopback host even when ALLOW_PLAINTEXT_WS_TEST=true', async () => {
+      // Defence in depth (round 2, plan item 1): a copied test env file that
+      // ships the flag into a production topology — flag set, host NOT
+      // loopback — must hard-fail the boot, so the Basic credentials can never
+      // be sent unencrypted to a remote host.
+      const { adapter } = await boot({
+        ...fullEnv('ws://dxlink.fake.test/dxlink-chainlink'),
+        ALLOW_PLAINTEXT_WS_TEST: 'true',
+      })
+      await expect(adapter.initialize()).rejects.toThrow()
+    })
   })
 })

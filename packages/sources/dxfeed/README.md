@@ -6,12 +6,13 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |       Name        |                  Description                   |  Type  | Options |                  Default                   |
-| :-------: | :---------------: | :--------------------------------------------: | :----: | :-----: | :----------------------------------------: |
-|    ✅     |  `API_USERNAME`   |            username for dxfeed API             | string |         |                                            |
-|    ✅     |  `API_PASSWORD`   |            password for dxfeed API             | string |         |                                            |
-|    ✅     | `WS_API_ENDPOINT` | The websocket url for dxfeed (dxLink endpoint) | string |         |                                            |
-|           |  `API_ENDPOINT`   |             The API url for dxfeed             | string |         | `https://tools.dxfeed.com/webservice/rest` |
+| Required? |           Name            |                                                                               Description                                                                               |  Type  | Options |                  Default                   |
+| :-------: | :-----------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------------------: |
+|    ✅     |      `API_USERNAME`       |                                                                         username for dxfeed API                                                                         | string |         |                                            |
+|    ✅     |      `API_PASSWORD`       |                                                                         password for dxfeed API                                                                         | string |         |                                            |
+|    ✅     |     `WS_API_ENDPOINT`     |                                                             The websocket url for dxfeed (dxLink endpoint)                                                              | string |         |                                            |
+|           |      `API_ENDPOINT`       |                                                                         The API url for dxfeed                                                                          | string |         | `https://tools.dxfeed.com/webservice/rest` |
+|           | `ALLOW_PLAINTEXT_WS_TEST` | TEST-ONLY: admits a plaintext `ws://` LOOPBACK endpoint (the mock-socket test bridge). Never set in production — with this flag set, a non-loopback host fails startup. | string |         |                                            |
 
 ---
 

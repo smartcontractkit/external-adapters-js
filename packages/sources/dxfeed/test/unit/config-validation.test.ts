@@ -106,12 +106,12 @@ describe('WS_API_ENDPOINT validation (spec breaking_change_env_checks)', () => {
     )
   })
 
-  it('wss:// stays accepted whether or not the plaintext flag is set (spec data_source_base_url: wss-only, no downgrade path)', () => {
+  it('wss:// stays accepted while the plaintext flag is unset; the flag set against a non-loopback host hard-fails even for wss:// (round-2 plan item 1: the flag is test-only)', () => {
     withEnvVar('ALLOW_PLAINTEXT_WS_TEST', undefined, () =>
       expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe(''),
     )
     withEnvVar('ALLOW_PLAINTEXT_WS_TEST', 'true', () =>
-      expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe(''),
+      expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toContain('ALLOW_PLAINTEXT_WS_TEST'),
     )
   })
 })

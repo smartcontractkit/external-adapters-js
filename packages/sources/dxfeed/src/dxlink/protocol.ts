@@ -181,10 +181,31 @@ export const assertAcceptedEventFields = (
  */
 export const MAX_PROVIDER_FRAME_LOG_LENGTH = 512
 
+/**
+ * Control-character escape (round 2, plan item 2): a provider-controlled string
+ * (ERROR frame code/message, CHANNEL_CLOSED eventType/symbol, malformed
+ * FEED_DATA frames) must never carry a raw \r \n or other C0 control character
+ * into a log line or an Error message — a raw newline forges log lines, a raw
+ * control character corrupts terminals and log parsers. Each match becomes its
+ * escaped literal so the sanitized value stays single-line and printable.
+ */
+const escapeControlChar = (char: string): string => {
+  switch (char) {
+    case '\n':
+      return '\\n'
+    case '\r':
+      return '\\r'
+    case '\t':
+      return '\\t'
+    default:
+      return `\\x${char.charCodeAt(0).toString(16).padStart(2, '0')}`
+  }
+}
+
 export const truncateForLog = (logged: string): string =>
-  logged.length <= MAX_PROVIDER_FRAME_LOG_LENGTH
-    ? logged
-    : logged.slice(0, MAX_PROVIDER_FRAME_LOG_LENGTH)
+  // Sanitize BEFORE the cap: escaping can grow the string, so the length limit
+  // must apply to the sanitized value that is actually emitted
+  logged.replace(/[\r\n\x00-\x1f]/g, escapeControlChar).slice(0, MAX_PROVIDER_FRAME_LOG_LENGTH)
 
 /** Spec keepalive: KEEPALIVE frame on channel 0, every WS_HEARTBEAT_INTERVAL_MS (30s) */
 export const dxLinkKeepaliveMessage = (): DxLinkMessage => ({
@@ -285,6 +306,9 @@ export const openDxLinkConnection = (
       }
       if (message.type === 'ERROR') {
         settle(
+          // truncateForLog also sanitizes control characters (round 2, plan
+          // item 2): the provider-controlled message/code must reach the
+          // propagated Error single-line and capped
           new Error(
             `dxLink ERROR message during handshake: ${truncateForLog(
               message.message ?? message.code ?? 'unknown error',

@@ -5,7 +5,6 @@ import * as fs from 'fs'
 import * as path from 'path'
 import {
   buildAdapterConfig,
-  censorList as censorListEntries,
   config,
   DXLINK_AUTH_CENSOR_KEY,
   missingWsCredentials,
@@ -108,7 +107,10 @@ describe('config surface (plan CONF-ENV-MISMATCH: the spec lists four environmen
     withSettings(
       {
         ...CREDENTIALS,
-        WS_API_ENDPOINT: DXLINK_ENDPOINT,
+        // The loopback test-bridge URL: with the test-only flag set, this is
+        // the one admitted ws:// shape (round-2 plan item 1 hard-fails the
+        // flag against a non-loopback host)
+        WS_API_ENDPOINT: LOOPBACK_ENDPOINT,
         // The env var the spec does not declare (the deleted config drift) —
         // setting it must have no effect on the adapter's config surface
         ALLOW_INSECURE_LOOPBACK_WS: 'true',
@@ -301,7 +303,7 @@ describe('WS_API_ENDPOINT startup checks (spec breaking_change_env_checks)', () 
 })
 
 describe('WS_API_ENDPOINT scheme gate (plan item 1: the transport sends the Basic Authorization header on the handshake, so any scheme other than wss:// is rejected at startup; ws:// only when the adapter-owned ALLOW_PLAINTEXT_WS_TEST flag is set AND the host is loopback)', () => {
-  it('rejects ws:// on a non-loopback host with or without the flag', () => {
+  it('rejects ws:// on a non-loopback host with or without the flag — with the flag, the round-2 hard failure names the flag misuse', () => {
     withEnvVar('ALLOW_PLAINTEXT_WS_TEST', undefined, () =>
       expect(validateWsApiEndpoint('ws://fake-endpoint.invalid/dxlink-chainlink')).toContain(
         'wss://',
@@ -309,7 +311,7 @@ describe('WS_API_ENDPOINT scheme gate (plan item 1: the transport sends the Basi
     )
     withEnvVar('ALLOW_PLAINTEXT_WS_TEST', 'true', () =>
       expect(validateWsApiEndpoint('ws://dxlink-provider.fake.test/dxlink-chainlink')).toContain(
-        'wss://',
+        'ALLOW_PLAINTEXT_WS_TEST',
       ),
     )
   })
@@ -331,12 +333,14 @@ describe('WS_API_ENDPOINT scheme gate (plan item 1: the transport sends the Basi
     })
   })
 
-  it('accepts the wss:// dxLink endpoint whether or not the flag is set (spec data_source_base_url)', () => {
+  it('accepts the wss:// dxLink endpoint when the flag is unset; the flag set against a non-loopback host hard-fails even for wss:// (round-2 plan item 1: the flag is test-only)', () => {
     withEnvVar('ALLOW_PLAINTEXT_WS_TEST', undefined, () =>
       expect(validateWsApiEndpoint('wss://dxlink-provider.fake.test/dxlink-chainlink')).toBe(''),
     )
     withEnvVar('ALLOW_PLAINTEXT_WS_TEST', 'true', () =>
-      expect(validateWsApiEndpoint('wss://dxlink-provider.fake.test/dxlink-chainlink')).toBe(''),
+      expect(validateWsApiEndpoint('wss://dxlink-provider.fake.test/dxlink-chainlink')).toContain(
+        'ALLOW_PLAINTEXT_WS_TEST',
+      ),
     )
     withSettings(
       { ...CREDENTIALS, WS_API_ENDPOINT: 'wss://dxlink-provider.fake.test/dxlink-chainlink' },
@@ -375,8 +379,8 @@ const withEnvVar = (name: string, value: string | undefined, fn: () => void): vo
   }
 }
 
-describe('ws:// acceptance is scoped to the test-run loopback bridge (plan item 1 proving tests)', () => {
-  it('a plaintext ws:// endpoint on a NON-loopback host fails startup validation with or without the flag', () => {
+describe('ws:// acceptance is scoped to the test-run loopback bridge (plan item 1 proving tests, round 2)', () => {
+  it('a plaintext ws:// endpoint on a NON-loopback host fails startup validation with or without the flag (with the flag: the round-2 hard failure names the flag misuse)', () => {
     withEnvVar('ALLOW_PLAINTEXT_WS_TEST', undefined, () =>
       expect(validateWsApiEndpoint('ws://dxlink-provider.fake.test/dxlink-chainlink')).toContain(
         'wss://',
@@ -384,7 +388,7 @@ describe('ws:// acceptance is scoped to the test-run loopback bridge (plan item 
     )
     withEnvVar('ALLOW_PLAINTEXT_WS_TEST', 'true', () =>
       expect(validateWsApiEndpoint('ws://dxlink-provider.fake.test/dxlink-chainlink')).toContain(
-        'wss://',
+        'ALLOW_PLAINTEXT_WS_TEST',
       ),
     )
   })
@@ -401,12 +405,54 @@ describe('ws:// acceptance is scoped to the test-run loopback bridge (plan item 
     )
   })
 
-  it('wss:// stays accepted in all modes', () => {
-    for (const flag of ['true', undefined]) {
-      withEnvVar('ALLOW_PLAINTEXT_WS_TEST', flag, () =>
-        expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe(''),
+  it('startup REJECTS ALLOW_PLAINTEXT_WS_TEST=true together with a non-loopback ws:// endpoint (round-2 hard startup failure: a copied test env file must fail the boot loudly)', () => {
+    withSettings(
+      {
+        ...CREDENTIALS,
+        WS_API_ENDPOINT: 'ws://dxlink-provider.fake.test/dxlink-chainlink',
+        ALLOW_PLAINTEXT_WS_TEST: 'true',
+      },
+      () => expect(() => config.validate()).toThrow(/ALLOW_PLAINTEXT_WS_TEST/),
+    )
+  })
+
+  it('startup ACCEPTS ALLOW_PLAINTEXT_WS_TEST=true with ws://127.0.0.1 (the mock-socket test bridge)', () => {
+    withSettings(
+      {
+        ...CREDENTIALS,
+        WS_API_ENDPOINT: 'ws://127.0.0.1:9090/dxlink-chainlink',
+        ALLOW_PLAINTEXT_WS_TEST: 'true',
+      },
+      () => expect(() => config.validate()).not.toThrow(),
+    )
+  })
+
+  it('startup REJECTS ws:// without the flag, loopback or not', () => {
+    for (const endpoint of [
+      'ws://127.0.0.1:9090/dxlink-chainlink',
+      'ws://dxlink-provider.fake.test/dxlink-chainlink',
+    ]) {
+      withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: endpoint }, () =>
+        expect(() => config.validate()).toThrow(/wss:\/\//),
       )
     }
+  })
+
+  it('the test-only flag set against a NON-loopback host hard-fails startup EVEN FOR wss:// (defence in depth on top of the loopback check)', () => {
+    withSettings(
+      {
+        ...CREDENTIALS,
+        WS_API_ENDPOINT: DXLINK_ENDPOINT,
+        ALLOW_PLAINTEXT_WS_TEST: 'true',
+      },
+      () => expect(() => config.validate()).toThrow(/ALLOW_PLAINTEXT_WS_TEST/),
+    )
+  })
+
+  it('wss:// stays accepted whenever the test-only flag is unset', () => {
+    withEnvVar('ALLOW_PLAINTEXT_WS_TEST', undefined, () =>
+      expect(validateWsApiEndpoint(DXLINK_ENDPOINT)).toBe(''),
+    )
   })
 })
 
@@ -474,9 +520,12 @@ describe('credential censoring (spec: WS_API_ENDPOINT and API_PASSWORD are sensi
   it('puts the sensitive settings (API_PASSWORD, WS_API_ENDPOINT) on the log censor list and leaves the others off it', () => {
     // Spec environment_variables: API_PASSWORD and WS_API_ENDPOINT are
     // sensitive=true; API_USERNAME and API_ENDPOINT are sensitive=false. The
-    // framework builds the log-censoring list from exactly those flags.
+    // framework builds the log-censoring list from exactly those flags at the
+    // ONE call site it consumes: config.buildCensorList() inside
+    // adapter.initialize().
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () => {
-      const censorList = censorListEntries()
+      config.buildCensorList()
+      const censorList = CensorList.getAll()
       const censoredKeys = censorList.map(({ key }) => key)
 
       expect(censoredKeys).toContain('API_PASSWORD')
@@ -493,16 +542,18 @@ describe('credential censoring (spec: WS_API_ENDPOINT and API_PASSWORD are sensi
     })
   })
 
-  it('censors the EXACT Basic Authorization header value that dxLinkConnectionOptions sends (plan item 2 proving test: the censored string and the sent string cannot drift)', () => {
+  it('censors the EXACT Basic Authorization header value that dxLinkConnectionOptions sends (plan item 3 proving test: the censor list handed to the framework at its real call site contains the base64 Authorization value — the censored string and the sent string cannot drift)', () => {
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () => {
       // The value the WS handshake actually sends (spec handshake_header:
       // "Authorization: Basic <base64(API_USERNAME:API_PASSWORD)>")
       const sent = dxLinkConnectionOptions(CREDENTIALS).headers.Authorization
       expect(sent).toBe(`Basic ${Buffer.from('dxfeed-user:dxfeed-pass').toString('base64')}`)
 
-      // The censor list registers exactly that value — base64 is reversible, so
-      // an uncensored connection-options log would leak decodable credentials
-      const authEntry = censorListEntries().find(({ key }) => key === DXLINK_AUTH_CENSOR_KEY)
+      // The framework-consumed call site (adapter.initialize() runs exactly
+      // this) registers exactly that value — base64 is reversible, so an
+      // uncensored connection-options log would leak decodable credentials
+      config.buildCensorList()
+      const authEntry = CensorList.getAll().find(({ key }) => key === DXLINK_AUTH_CENSOR_KEY)
       expect(authEntry).toBeDefined()
       expect(authEntry?.value.test(sent)).toBe(true)
 
@@ -514,10 +565,23 @@ describe('credential censoring (spec: WS_API_ENDPOINT and API_PASSWORD are sensi
     })
   })
 
-  it('masks both sensitive values in serialised config output (plan buildcensorlist-subclass-override proving test: the wrapper appends the dxfeed censor entries and the built list redacts them)', () => {
+  it('re-registers the Authorization entry on every buildCensorList call — the framework builder replaces the static list, so the append must survive repeated invocations exactly once', () => {
+    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () => {
+      for (let call = 1; call <= 2; call++) {
+        config.buildCensorList()
+        const authEntries = CensorList.getAll().filter(({ key }) => key === DXLINK_AUTH_CENSOR_KEY)
+        expect(authEntries).toHaveLength(1)
+        const sent = dxLinkConnectionOptions(CREDENTIALS).headers.Authorization
+        expect(authEntries[0].value.test(sent)).toBe(true)
+      }
+    })
+  })
+
+  it('masks both sensitive values in serialised config output (plan buildcensorlist-subclass-override proving test: the framework-consumed censor list redacts them)', () => {
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () => {
       // The censor list carries an entry per sensitive dxfeed setting
-      const censorList = censorListEntries()
+      config.buildCensorList()
+      const censorList = CensorList.getAll()
       expect(censorList.map(({ key }) => key)).toEqual(
         expect.arrayContaining(['API_PASSWORD', 'WS_API_ENDPOINT']),
       )
@@ -537,6 +601,13 @@ describe('credential censoring (spec: WS_API_ENDPOINT and API_PASSWORD are sensi
       expect(masked).not.toContain('dxfeed-pass')
       expect(masked).not.toContain(DXLINK_ENDPOINT)
     })
+  })
+
+  it('grep guard: the dead standalone censorList() accessor stays deleted — no uninvoked accessor may claim credential censoring (round-2 plan item 3)', () => {
+    const offenders = sourceFiles(path.resolve(__dirname, '../../src')).filter((file) =>
+      /export const censorList\b/.test(fs.readFileSync(file, 'utf8')),
+    )
+    expect(offenders).toEqual([])
   })
 })
 

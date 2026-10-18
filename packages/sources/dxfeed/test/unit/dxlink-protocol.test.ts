@@ -1,9 +1,12 @@
 import { LoggerFactory, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import {
+  DxLinkConnection,
   DxLinkFeed,
   DxLinkFeedDeps,
   MAX_PROVIDER_FRAME_LOG_LENGTH,
+  openDxLinkConnection,
   parseNumeric,
+  truncateForLog,
 } from '../../src/dxlink/protocol'
 import { TradeProcessor, tradeTickers } from '../../src/transport/price-ws'
 import { quoteRecordToResult } from '../../src/transport/stock-quotes'
@@ -413,3 +416,125 @@ describe('FEED_SUBSCRIPTION builder emits the add/remove arrays per (symbol, eve
     ])
   })
 })
+
+/**
+ * Round 2, plan item 2: provider-controlled strings (ERROR frame code/message,
+ * CHANNEL_CLOSED eventType/symbol, malformed FEED_DATA frames) must reach logs
+ * AND propagated Error text single-line — every raw \r \n and C0 control
+ * character escaped, and only THEN capped at MAX_PROVIDER_FRAME_LOG_LENGTH. A
+ * raw newline in a log line forges log entries; truncation alone does not help
+ * when the hostile string is SHORT.
+ */
+const RAW_CONTROL_CHAR = /[\r\n\x00-\x1f]/
+
+describe('truncateForLog sanitizes control characters BEFORE the length cap (round-2 plan item 2)', () => {
+  it('escapes \\r, \\n and \\x01 into their escaped literals — the output is one printable line', () => {
+    expect(truncateForLog('auth failed\r\nINJECTED\x01tail')).toBe(
+      'auth failed\\r\\nINJECTED\\x01tail',
+    )
+  })
+
+  it('leaves control-free strings byte-for-byte unchanged', () => {
+    const clean = 'dxLink ERROR (code UNAUTHORIZED): Unauthorized'
+    expect(truncateForLog(clean)).toBe(clean)
+  })
+
+  it('still caps at MAX_PROVIDER_FRAME_LOG_LENGTH after sanitization', () => {
+    // A newline buried in an oversized string: sanitized (expanded by one) then cut
+    const oversized = `a\n${'x'.repeat(MAX_PROVIDER_FRAME_LOG_LENGTH * 2)}`
+    const capped = truncateForLog(oversized)
+    expect(capped.length).toBe(MAX_PROVIDER_FRAME_LOG_LENGTH)
+    expect(capped).not.toMatch(RAW_CONTROL_CHAR)
+  })
+
+  it('caps a string that EXPANDS under sanitization — the cap applies to the sanitized value', () => {
+    // 300 raw \x01 characters each expand to the 4-char '\x01' literal
+    const expanding = '\x01'.repeat(300)
+    expect(expanding.length).toBeLessThan(MAX_PROVIDER_FRAME_LOG_LENGTH)
+    const capped = truncateForLog(expanding)
+    expect(capped.length).toBe(MAX_PROVIDER_FRAME_LOG_LENGTH)
+    expect(capped).not.toMatch(RAW_CONTROL_CHAR)
+    expect(capped.startsWith('\\x01')).toBe(true)
+  })
+})
+
+describe('an ERROR frame with hostile control characters (round-2 plan item 2 proving test)', () => {
+  // Short hostile payload: truncation cannot be what removes the raw newline
+  const hostileMessage = 'auth failed\r\nINJECTED-LOG-LINE\x01'
+
+  it('the log line is a single sanitized line with no raw control character', () => {
+    const lines = captureProtocolLogLines((feed) =>
+      feed.message({ type: 'ERROR', channel: 1, code: 'UNAUTHORIZED', message: hostileMessage }),
+    )
+
+    expect(lines).toHaveLength(1)
+    expect(lines[0]).toContain('dxLink ERROR')
+    expect(lines[0]).not.toMatch(RAW_CONTROL_CHAR)
+    expect(lines[0]).toContain('auth failed\\r\\nINJECTED-LOG-LINE\\x01')
+  })
+
+  it('the handshake rejection Error is a single sanitized line with no raw control character', async () => {
+    const connection = fakeDxLinkConnection()
+    const open = openDxLinkConnection(connection as unknown as DxLinkConnection)
+    connection.deliver({
+      type: 'ERROR',
+      channel: 0,
+      code: 'UNAUTHORIZED',
+      message: hostileMessage,
+    })
+
+    let rejection: Error | undefined
+    try {
+      await open
+    } catch (error) {
+      rejection = error as Error
+    }
+
+    expect(rejection).toBeDefined()
+    expect(rejection!.message).toContain('dxLink ERROR message during handshake')
+    expect(rejection!.message.split('\n')).toHaveLength(1)
+    expect(rejection!.message).not.toMatch(RAW_CONTROL_CHAR)
+    expect(rejection!.message).toContain('auth failed\\r\\nINJECTED-LOG-LINE\\x01')
+  })
+})
+
+describe('a CHANNEL_CLOSED frame with a newline in eventType (round-2 plan item 2 proving test)', () => {
+  it('the log line is a single sanitized line with no raw control character', () => {
+    const lines = captureProtocolLogLines((feed) =>
+      feed.message({
+        type: 'CHANNEL_CLOSED',
+        channel: 1,
+        eventType: 'Quote\nINJECTED-LOG-LINE',
+        symbol: 'AAPL:USLF24\x01',
+      }),
+    )
+
+    expect(lines).toHaveLength(1)
+    expect(lines[0]).toContain('dxLink channel 1 closed')
+    expect(lines[0]).not.toMatch(RAW_CONTROL_CHAR)
+    expect(lines[0]).toContain('Quote\\nINJECTED-LOG-LINE')
+    expect(lines[0]).toContain('AAPL:USLF24\\x01')
+  })
+})
+
+/** Minimal in-memory DxLinkConnection fake: records the open-gate listeners so a test can deliver frames. */
+const fakeDxLinkConnection = () => {
+  const listeners = new Map<string, ((event: unknown) => void)[]>()
+  return {
+    send: jest.fn(),
+    addEventListener: (event: 'message' | 'close', listener: (event: unknown) => void) => {
+      listeners.set(event, [...(listeners.get(event) ?? []), listener])
+    },
+    removeEventListener: (event: 'message' | 'close', listener: (event: unknown) => void) => {
+      listeners.set(
+        event,
+        (listeners.get(event) ?? []).filter((registered) => registered !== listener),
+      )
+    },
+    deliver: (payload: unknown) => {
+      for (const listener of listeners.get('message') ?? []) {
+        listener({ data: JSON.stringify(payload) })
+      }
+    },
+  }
+}
