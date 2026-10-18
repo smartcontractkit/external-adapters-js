@@ -8,7 +8,7 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
 import nock from 'nock'
-import { mockDxLinkServer, setFeedData } from './dxlink-mocks'
+import { clientFrameLog, mockDxLinkServer, setFeedData } from './dxlink-mocks'
 import { FAKE_REST_ENDPOINT, mockBatchedRestTransport } from './rest-mocks'
 
 // Captured before FakeTimers.install() replaces the global timers: the mock
@@ -18,12 +18,16 @@ const realSetTimeout = setTimeout
 
 const WS_URL = 'ws://localhost:9103/dxlink-chainlink'
 
+// Spec price sample_response Trade record fields:
+// eventType,eventSymbol,time,price,size,sequence,exchangeCode,change,
+// dayVolume,dayTurnover,tickDirection,extendedTradingHours
+
 // Plan round-2 item 5 (endpoint-price routing pair): the `transport` param is
 // carried at runtime by priceParamsDefinition and read by the framework router
 // against the endpoint's transportRoutes (ws -> the dxLink WebSocketTransport,
-// rest -> the untouched price-http transport). Each case uses a symbol served
-// by exactly ONE of the two mocks, so the served value itself proves which
-// transport resolved the request:
+// rest -> the untouched price-http transport). Each routing case uses a symbol
+// served by exactly ONE of the two mocks, so the served value itself proves
+// which transport resolved the request:
 // - WSRV exists ONLY as a Trade record on the mock dxLink socket (and is in no
 //   REST fixture), and no nock interceptor can produce its price
 // - IBM exists ONLY in the batched REST fixture (no dxLink frame is registered
@@ -42,6 +46,104 @@ setFeedData('Trade', 'WSRV', [
   'UP',
   false,
 ])
+
+// The Trade/TradeETH pair for the "newer TradeETH supersedes" flow. The mock
+// server pushes each frame only when the wire FEED_SUBSCRIPTION add carries its
+// entry, so a TradeETH result at all proves the dual subscription went out —
+// and the newest-time (TradeETH) record is what must be served.
+setFeedData('Trade', 'TSM:USLF24', [
+  'Trade',
+  'TSM:USLF24',
+  1760000000000,
+  100,
+  10,
+  12345,
+  'V',
+  0.12,
+  5000000,
+  999000000,
+  'UP',
+  false,
+])
+setFeedData('TradeETH', 'TSM:USLF24', [
+  'TradeETH',
+  'TSM:USLF24',
+  1760000005000,
+  101.5,
+  10,
+  12346,
+  'V',
+  0.15,
+  5100000,
+  1005000000,
+  'UP',
+  false,
+])
+
+// The mirror pair: the Trade is the NEWER record, the TradeETH older. The mock
+// server delivers the frames in the wire FEED_SUBSCRIPTION add order (Trade
+// first, TradeETH second), so the older TradeETH arrives LAST and must NOT
+// supersede the newer Trade — this is the case that discriminates newest-time
+// selection from last-arrival selection.
+setFeedData('TradeETH', 'TRD:USLF24', [
+  'TradeETH',
+  'TRD:USLF24',
+  1760000000000,
+  90.0,
+  10,
+  12345,
+  'V',
+  0.1,
+  5000000,
+  999000000,
+  'UP',
+  false,
+])
+setFeedData('Trade', 'TRD:USLF24', [
+  'Trade',
+  'TRD:USLF24',
+  1760000006000,
+  90.5,
+  10,
+  12346,
+  'V',
+  0.11,
+  5010000,
+  1000000000,
+  'UP',
+  false,
+])
+
+// Bare-ticker flow (no :USLF24 suffix, no override): the owner decision
+// tradeteth_subscription_policy = match_reference gates the TradeETH
+// subscription on the :USLF24 ticker suffix, so this symbol's wire
+// FEED_SUBSCRIPTION adds must carry the Trade entry ONLY.
+setFeedData('Trade', 'BARET', [
+  'Trade',
+  'BARET',
+  1760000009000,
+  55.5,
+  10,
+  12345,
+  'V',
+  0.12,
+  5000000,
+  999000000,
+  'UP',
+  false,
+])
+
+const wsRequest = (base: string): Record<string, unknown> => ({
+  endpoint: 'stock',
+  base,
+  to: 'USD',
+  transport: 'ws',
+  overrides: {
+    dxfeed: {
+      [base]: `${base}:USLF24`,
+    },
+  },
+})
 
 describe('price endpoint transport routing (plan item 5)', () => {
   let mockWsServer: MockWebsocketServer | undefined
@@ -72,6 +174,20 @@ describe('price endpoint transport routing (plan item 5)', () => {
     }
     return response
   }
+
+  // The FEED_SUBSCRIPTION add entries the adapter actually put on the dxLink
+  // wire for the suite's single connection
+  const subscriptionAdds = (): { symbol: string; type: string }[] =>
+    (clientFrameLog[0] ?? [])
+      .map((raw) => {
+        try {
+          return JSON.parse(raw)
+        } catch {
+          return undefined
+        }
+      })
+      .filter((m: any) => m?.type === 'FEED_SUBSCRIPTION')
+      .flatMap((m: any) => m.add ?? [])
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -144,6 +260,74 @@ describe('price endpoint transport routing (plan item 5)', () => {
     expect(response.json()).toMatchObject({
       data: { result: 142.5 },
       result: 142.5,
+    })
+  })
+
+  it('falls a request without a transport param through to the REST transport', async () => {
+    // Spec price: defaultTransport "rest" (owner decision
+    // rest_transport_scope = keep_untouched) — no transport param means the
+    // untouched REST path, not the dxLink socket. The served 239.255 comes
+    // only from the nock REST fixture.
+    const response = await requestUntilCached({
+      endpoint: 'stock',
+      base: 'TSLA',
+      to: 'USD',
+    })
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchObject({
+      data: { result: 239.255 },
+      result: 239.255,
+    })
+  })
+
+  it('subscribes Trade plus TradeETH only for :USLF24 tickers, and Trade only for bare tickers', async () => {
+    // Owner decision tradeteth_subscription_policy = match_reference: the
+    // TradeETH subscription is gated on the :USLF24 ticker suffix. The
+    // FEED_SUBSCRIPTION add frames the adapter actually put on the dxLink wire
+    // are the proof: TSM:USLF24 gets BOTH entries; BARET gets Trade only.
+    const tsm = await requestUntilCached(wsRequest('TSM'), 1760000005000)
+    expect(tsm.statusCode).toBe(200)
+    const bare = await requestUntilCached({
+      endpoint: 'stock',
+      base: 'BARET',
+      to: 'USD',
+      transport: 'ws',
+    })
+    expect(bare.statusCode).toBe(200)
+
+    const adds = subscriptionAdds()
+    expect(adds).toContainEqual({ symbol: 'TSM:USLF24', type: 'Trade' })
+    expect(adds).toContainEqual({ symbol: 'TSM:USLF24', type: 'TradeETH' })
+    expect(adds).toContainEqual({ symbol: 'BARET', type: 'Trade' })
+    expect(adds).not.toContainEqual({ symbol: 'BARET', type: 'TradeETH' })
+  })
+
+  it('serves the newest-time record when Trade and TradeETH both arrive for the symbol', async () => {
+    // Spec price endpoint: "when both arrive serve the record with the newest
+    // time", and response_mapping.provider_timestamp = time.
+    // TSM: the TradeETH (1760000005000, 101.5) is newer than the Trade
+    // (1760000000000, 100) and arrives last — it wins.
+    const tsm = await testAdapter.request(wsRequest('TSM'))
+    expect(tsm.statusCode).toBe(200)
+    expect(tsm.json()).toMatchObject({
+      data: { result: 101.5 },
+      result: 101.5,
+      timestamps: {
+        providerIndicatedTimeUnixMs: 1760000005000,
+      },
+    })
+
+    // TRD (the discriminating mirror): the Trade (1760000006000, 90.5) is the
+    // NEWER record but the older TradeETH (1760000000000, 90.0) arrives LAST —
+    // newest-time selection must keep serving the Trade.
+    const trd = await requestUntilCached(wsRequest('TRD'), 1760000006000)
+    expect(trd.statusCode).toBe(200)
+    expect(trd.json()).toMatchObject({
+      data: { result: 90.5 },
+      result: 90.5,
+      timestamps: {
+        providerIndicatedTimeUnixMs: 1760000006000,
+      },
     })
   })
 })
