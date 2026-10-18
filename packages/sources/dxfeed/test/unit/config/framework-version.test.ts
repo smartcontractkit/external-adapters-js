@@ -16,6 +16,7 @@ const installedFrameworkVersion = (): string => {
   // JSON out of the zip archive the package lives in; a node_modules install
   // resolves the same specifier through the directory tree
   try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     return require(`${FRAMEWORK}/package.json`).version
   } catch {
     // Fallback: walk up from the resolved runtime entry to the owning

@@ -425,7 +425,10 @@ describe('FEED_SUBSCRIPTION builder emits the add/remove arrays per (symbol, eve
  * raw newline in a log line forges log entries; truncation alone does not help
  * when the hostile string is SHORT.
  */
-const RAW_CONTROL_CHAR = /[\r\n\x00-\x1f]/
+const RAW_CONTROL_CHAR =
+  // The regex's whole purpose is to match C0 control characters (round-2 plan item 2)
+  // eslint-disable-next-line no-control-regex
+  /[\r\n\x00-\x1f]/
 
 describe('truncateForLog sanitizes control characters BEFORE the length cap (round-2 plan item 2)', () => {
   it('escapes \\r, \\n and \\x01 into their escaped literals — the output is one printable line', () => {

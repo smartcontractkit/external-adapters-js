@@ -204,7 +204,9 @@ const escapeControlChar = (char: string): string => {
 
 export const truncateForLog = (logged: string): string =>
   // Sanitize BEFORE the cap: escaping can grow the string, so the length limit
-  // must apply to the sanitized value that is actually emitted
+  // must apply to the sanitized value that is actually emitted. Matching the
+  // C0 control characters is the entire purpose of this sanitizer.
+  // eslint-disable-next-line no-control-regex
   logged.replace(/[\r\n\x00-\x1f]/g, escapeControlChar).slice(0, MAX_PROVIDER_FRAME_LOG_LENGTH)
 
 /** Spec keepalive: KEEPALIVE frame on channel 0, every WS_HEARTBEAT_INTERVAL_MS (30s) */
