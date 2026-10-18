@@ -1,7 +1,10 @@
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
+import { FAKE_REST_ENDPOINT } from './rest-mocks'
 export function mockPriceEndpoint(): nock.Scope {
-  return nock('https://tools.dxfeed.com/webservice/rest', { encodedQueryParams: true })
+  // test_fake_urls: nock intercepts by string, so the fake host works for every
+  // layer — suites pin process.env.API_ENDPOINT to FAKE_REST_ENDPOINT before boot.
+  return nock(FAKE_REST_ENDPOINT, { encodedQueryParams: true })
     .get('/events.json')
     .query({ events: 'Trade,Quote', symbols: 'TSLA' })
     .reply(
