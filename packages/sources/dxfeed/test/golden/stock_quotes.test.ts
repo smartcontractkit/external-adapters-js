@@ -33,7 +33,7 @@ describe('golden: stock_quotes (websocket)', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['API_ENDPOINT'] = 'wss://tools.dxfeed.com/dxlink-chainlink'
+    process.env['API_ENDPOINT'] = 'wss://tools.dxfeed.test.local/dxlink-chainlink'
     process.env['API_PASSWORD'] = 'golden-test'
     process.env['API_USERNAME'] = 'golden-test'
     process.env['WS_API_ENDPOINT'] = 'wss://golden-ws.test/v1'
