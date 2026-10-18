@@ -35,6 +35,9 @@ describe('mid/bid/ask/volumes mapping (spec response_mapping + endpoint_request_
       ask_volume: 80,
     })
     expect((results[0] as any).result).toBe(190)
+    // Spec example response: timestamps.providerIndicatedTimeUnixMs 1760000001000
+    // — the record's own time (the newest record of the aggregated frame)
+    expect((results[0] as any).timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000001000 })
   })
 
   it('a one-sided book still yields the mid, against the live side', () => {

@@ -641,8 +641,11 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
     // (spec response_mapping processes each record; the reference adapter's
     // one-stream-per-symbol behavior serves the newest data). NOTE: the
     // generated golden vector test (test/golden/stock_quotes.test.ts,
-    // agent-unwritable) still maps the FIRST record of the spec sample frame —
-    // a spec-versus-golden conflict flagged to the spec owner for re-gating.
+    // agent-unwritable) expects the newest (second) record of the spec sample
+    // frame — bid 189.90 / ask 190.10, volumes 50/80, time 1760000001000 —
+    // so the spec example, the golden vector and this last-record-wins
+    // behavior all agree (an earlier golden generation mapped the FIRST
+    // record; that conflict was resolved by re-gating).
     const selectedPerWireKey = new Map<string, DxLinkRecord>()
     for (const record of records) {
       selectedPerWireKey.set(`${eventType}:${record[eventSymbolIndex]}`, record)

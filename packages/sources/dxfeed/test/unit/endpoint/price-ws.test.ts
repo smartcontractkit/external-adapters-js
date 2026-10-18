@@ -91,6 +91,25 @@ describe('price ws path: newest-time selection across Trade / TradeETH (spec pri
     expect(late).toEqual([])
   })
 
+  it('when Trade arrives with a newer time than the last TradeETH, Trade wins', () => {
+    // Spec price endpoint description: "when both arrive serve the record with
+    // the newest time" — the rule is symmetric in the event types
+    const feed = priceFeed('AAPL:USLF24')
+
+    // An extended-hours print first...
+    const extended = feed.message(tradeEthFrame('AAPL:USLF24', 1760000000000, 190.02))
+    expect(extended).toHaveLength(1)
+    expect((extended[0] as any).result).toBe(190.02)
+
+    // ...then a LATER regular-hours print takes over with its own time
+    const trade = feed.message(tradeFrame('AAPL:USLF24', 1760000001000, 189.98))
+    expect(trade).toHaveLength(1)
+    expect((trade[0] as any).result).toBe(189.98)
+    expect((trade[0] as any).timestamps).toEqual({
+      providerIndicatedTimeUnixMs: 1760000001000,
+    })
+  })
+
   it('a symbol with no ETH session serves Trade', () => {
     const feed = priceFeed('SPCX')
 
