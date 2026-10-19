@@ -118,7 +118,10 @@ describe('FEED_CONFIG eventFields order guard (round-2 item 3: fixed COMPACT ind
       ['Quote', 'AAPL:USLF24', 1760000000000, 189.95, 190.05, 100, 200, 'O', 'O'],
       { ...PARAMS, isOvernight: true },
     ) as any
-    // Spec endpoint_request_response_examples[0].response
+    // Spec response_mapping over the first sample record's values
+    // (189.95/100, 190.05/200, t=1760000000000); the spec
+    // endpoint_request_response_examples[0].response shows the frame's SECOND
+    // (newest) record instead — bid 189.90/50, ask 190.10/80, t=1760000001000
     expect(overnightRecord.data).toEqual({
       mid_price: 190,
       bid_price: 189.95,

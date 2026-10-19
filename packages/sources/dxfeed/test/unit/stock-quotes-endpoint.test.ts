@@ -11,7 +11,11 @@ const SPEC_RECORD = ['Quote', 'AAPL:USLF24', 1760000000000, 189.95, 190.05, 100,
 const PARAMS = { base: 'AAPL:USLF24', quote: 'USD', requireVolume: false, isOvernight: false }
 
 describe('stock_quotes endpoint (spec response_mapping)', () => {
-  it('maps the spec Quote record to the spec example response', () => {
+  it("maps the sample frame's FIRST Quote record per the spec response_mapping (mid 190.0, bid 189.95/100, ask 190.05/200, t=1760000000000)", () => {
+    // These are the first record's values from the spec sample_response frame;
+    // the spec endpoint_request_response_examples[0].response instead shows the
+    // frame's SECOND (newest) record — bid 189.90/50, ask 190.10/80,
+    // providerIndicatedTimeUnixMs 1760000001000
     const response = quoteRecordToResult(SPEC_RECORD, PARAMS) as any
 
     expect(response).toEqual({

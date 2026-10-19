@@ -46,7 +46,11 @@ describe('stock_quotes endpoint (spec response_mapping)', () => {
     expect(response.errorMessage).toBeUndefined()
   })
 
-  it('maps the spec Quote record to the spec example response (mid 190.0, bid 189.95/100, ask 190.05/200)', () => {
+  it("maps the sample frame's FIRST Quote record (mid 190.0, bid 189.95/100, ask 190.05/200, t=1760000000000)", () => {
+    // These are the first record's values from the spec sample_response frame.
+    // The spec endpoint_request_response_examples[0].response instead shows the
+    // SECOND (newest) record — bid 189.90/50, ask 190.10/80,
+    // providerIndicatedTimeUnixMs 1760000001000 — covered by the test above.
     const response = quoteRecordToResult(SPEC_RECORD, PARAMS) as any
 
     expect(response).toEqual({

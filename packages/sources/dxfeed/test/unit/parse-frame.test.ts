@@ -66,9 +66,11 @@ describe('COMPACT FEED_DATA frame parsing (plan round1-compact-parsing / spec st
     expect(records[0][fieldIndex('bidSize')]).toBe(100)
     expect(records[0][fieldIndex('askSize')]).toBe(200)
 
-    // Spec response_mapping: mid_price=(bidPrice+askPrice)/2, provider_timestamp=time
-    // Spec endpoint_request_response_examples[0]: mid_price 190.0, bid 189.95/100,
-    // ask 190.05/200, result 190.0, providerIndicatedTimeUnixMs 1760000000000
+    // Spec response_mapping: mid_price=(bidPrice+askPrice)/2, provider_timestamp=time.
+    // These are the FIRST sample record's values (189.95/100, 190.05/200,
+    // t=1760000000000). The spec endpoint_request_response_examples[0].response
+    // instead shows the frame's SECOND (newest) record — bid 189.90/50,
+    // ask 190.10/80, providerIndicatedTimeUnixMs 1760000001000 — asserted below.
     const mapped = quoteRecordToResult(records[0], QUOTE_PARAMS) as any
     expect(mapped.result).toBe(190)
     expect(mapped.data).toEqual({
