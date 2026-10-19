@@ -1,7 +1,7 @@
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
 export function mockPriceEndpoint(): nock.Scope {
-  return nock('https://fake-dxfeed.local/webservice/rest', { encodedQueryParams: true })
+  return nock('https://tools.dxfeed.com/webservice/rest', { encodedQueryParams: true })
     .get('/events.json')
     .query({ events: 'Trade,Quote', symbols: 'TSLA' })
     .reply(
