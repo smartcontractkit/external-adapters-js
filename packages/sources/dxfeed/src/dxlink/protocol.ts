@@ -620,7 +620,21 @@ export class DxLinkFeed<T extends DxLinkTransportGenerics = DxLinkTransportGener
     const eventType = message.data?.[0]
     const data = message.data?.[1]
     if (typeof eventType !== 'string' || !Array.isArray(data)) {
-      logger.warn(truncateForLog(`Ignoring malformed FEED_DATA frame: ${JSON.stringify(message)}`))
+      // Plan item 2 (round 3): NEVER stringify the provider-controlled frame on
+      // this error path — JSON.stringify(message) built an O(frame) string the
+      // MAX_PROVIDER_FRAME_LOG_LENGTH cap never bounded, and repeated large
+      // malformed frames (near the ws client maxPayload) caused CPU and memory
+      // churn before truncateForLog applied. The diagnostic signal is the frame
+      // header fields (type, channel) plus a length-capped raw prefix of the
+      // payload: the log line is consumed by nobody, and the header fields
+      // carry the triage signal.
+      logger.warn(
+        truncateForLog(
+          `Ignoring malformed FEED_DATA frame (type ${message.type}, channel ${
+            message.channel
+          }): ${String(message.data).slice(0, MAX_PROVIDER_FRAME_LOG_LENGTH)}`,
+        ),
+      )
       return []
     }
 

@@ -78,16 +78,59 @@ describe('provider-frame log truncation (plan item 3: a large or hostile FEED_DA
     expect(logged!.length).toBeLessThanOrEqual(MAX_PROVIDER_FRAME_LOG_LENGTH)
   })
 
-  it('a malformed FEED_DATA frame under the cap logs in full — truncation only bites past the limit', () => {
+  it('a malformed FEED_DATA frame under the cap logs in full — header fields plus the whole raw prefix, truncation only bites past the limit', () => {
     const small = [42, 'not-a-record-array']
-    const serialized = JSON.stringify({ type: 'FEED_DATA', channel: 1, data: small })
 
     const warnings = malformedFrameWarnings(small)
 
     const logged = warnings.find((w) => w.includes('Ignoring malformed FEED_DATA frame'))
     expect(logged).toBeDefined()
-    // The whole frame payload survives: nothing was cut
-    expect(logged).toContain(serialized)
+    // Plan item 2 (round 3): the log carries the frame HEADER fields (type,
+    // channel) plus the raw payload prefix — never a full-frame JSON.stringify
+    expect(logged).toContain('(type FEED_DATA, channel 1)')
+    // The whole raw payload prefix survives: nothing was cut below the cap
+    expect(logged).toContain('42,not-a-record-array')
+    expect(logged).not.toContain('{"type"')
     expect(logged!.length).toBeLessThanOrEqual(MAX_PROVIDER_FRAME_LOG_LENGTH)
+  })
+})
+
+describe('malformed-frame log path cost (plan item 2: cap the serialization work, not just the output)', () => {
+  // A frame at the order of magnitude of a ws client maxPayload — far past
+  // MAX_PROVIDER_FRAME_LOG_LENGTH. The cap bounds the EMITTED log line; the
+  // defect class this proves out is the serialization of the whole
+  // provider-controlled frame BEFORE any truncation applies.
+  const OVERSIZED_PAYLOAD_LENGTH = 1024 * 1024
+  // A probe long enough that no legitimate small stringify can contain it,
+  // short enough to assert cheaply
+  const payloadProbe = 'q'.repeat(128)
+
+  it('an oversized malformed FEED_DATA frame logs at or below the cap and never reaches JSON.stringify as a whole', () => {
+    const stringifySpy = jest.spyOn(JSON, 'stringify')
+    try {
+      // eventType is a number, not a string -> the malformed-frame branch
+      const warnings = malformedFrameWarnings([42, 'q'.repeat(OVERSIZED_PAYLOAD_LENGTH)])
+      const calls = stringifySpy.mock.calls.slice()
+      const logged = warnings.find((w) => w.includes('Ignoring malformed FEED_DATA frame'))
+      expect(logged).toBeDefined()
+      expect(logged!.length).toBeLessThanOrEqual(MAX_PROVIDER_FRAME_LOG_LENGTH)
+
+      // No JSON.stringify call may have carried the oversized provider payload:
+      // truncating the EMITTED line afterwards does not undo the CPU/memory
+      // churn of serializing the full provider-controlled frame (the plan
+      // deletes the full-frame stringify on the error path — header fields and
+      // a length-capped prefix carry the triage signal instead)
+      for (const call of calls) {
+        let serialized: string
+        try {
+          serialized = JSON.stringify(call)
+        } catch {
+          serialized = String(call)
+        }
+        expect(serialized).not.toContain(payloadProbe)
+      }
+    } finally {
+      stringifySpy.mockRestore()
+    }
   })
 })
