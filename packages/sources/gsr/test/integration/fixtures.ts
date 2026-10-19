@@ -1,5 +1,5 @@
-import nock from 'nock'
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
+import nock from 'nock'
 
 const generateMockTokenSuccess = (basePath: string): nock.Scope =>
   nock(basePath, {
@@ -33,6 +33,27 @@ const generateMockTokenSuccess = (basePath: string): nock.Scope =>
     .persist()
 
 export const mockTokenSuccess = () => generateMockTokenSuccess('https://oracle.prod.gsr.io')
+
+// The transport renews in place via PUT /token ~55 minutes after connecting;
+// tests that advance the fake clock past that point need this mock or the
+// renewal fails and the resulting reconnect muddies connection assertions.
+export const mockTokenRenewalSuccess = () =>
+  nock('https://oracle.prod.gsr.io', {
+    encodedQueryParams: true,
+  })
+    .put('/v1/token', {
+      token: 'fake-token',
+      userId: 'test-user-id',
+      ts: /^\d+$/,
+      signature: /^[0-9a-f]+$/i,
+    })
+    .reply(200, () => ({
+      success: true,
+      ts: 1652198967193000000,
+      token: 'fake-token-renewed',
+      validUntil: '2022-05-10T17:09:27.193Z',
+    }))
+    .persist()
 
 const base = 'ETH'
 const quote = 'USD'

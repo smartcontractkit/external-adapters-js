@@ -32,10 +32,8 @@ export interface ResponseSchema {
 }
 
 const TZ = 'America/New_York'
-const START_TIME = '09:08:00'
-const END_TIME = '12:00:00'
 
-type ReportValueType = typeof inputParameters.validated.reportValue
+type RequestParams = typeof inputParameters.validated
 
 // Custom transport implementation that takes incoming requests, adds them into a SET, and makes requests to DP
 // on a specific time every day, after receiving a signal from scheduler.
@@ -45,7 +43,7 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
   requester!: Requester
   settings!: BaseEndpointTypes['Settings']
   endpointName!: string
-  fundsMap!: Map<string, [number, ReportValueType]>
+  fundsMap!: Map<string, RequestParams>
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -65,11 +63,13 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
   // registerRequest is invoked on every valid request to EA
   // Adds fundId in the request to a SET
   async registerRequest(req: AdapterRequest<typeof inputParameters.validated>) {
-    const { fundId, reportValue } = req.requestContext.data
-    const mapKey = `${fundId}+${reportValue}`
+    const { fundId, reportValue, startTime, endTime } = req.requestContext.data
+    const mapKey = `${fundId}+${reportValue}+${startTime}+${endTime}`
     if (!this.fundsMap.has(mapKey)) {
-      this.fundsMap.set(mapKey, [fundId, reportValue])
-      logger.info(`Added new fund id - ${fundId} - reportValue ${reportValue}`)
+      this.fundsMap.set(mapKey, req.requestContext.data)
+      logger.info(
+        `Added new fund id - ${fundId} - reportValue ${reportValue} - window ${startTime}-${endTime}`,
+      )
     }
   }
 
@@ -77,26 +77,24 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
   async foregroundExecute(
     req: AdapterRequest<typeof inputParameters.validated>,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']> | void> {
-    const { fundId, reportValue } = req.requestContext.data
-    return this.execute(fundId, reportValue)
+    return this.execute(req.requestContext.data)
   }
 
-  // Runs 'execute' function every day between START_TIME & END_TIME once per interval minutes (if fundIdsSet is not empty)
+  // Runs 'execute' function every day between startTime & endTime once per interval minutes (if fundIdsSet is not empty)
   runScheduler(interval: number) {
     schedule.scheduleJob(`*/${interval} * * * *`, () => {
-      if (isInTimeRange(START_TIME, END_TIME, TZ)) {
-        logger.info(
-          `Scheduled execution started at ${Date.now()}. FundsMap - ${[...this.fundsMap].join(
-            ',',
-          )}`,
-        )
-
-        this.fundsMap.forEach(([num, report]) => {
-          this.execute(num, report).catch((err) => {
+      this.fundsMap.forEach((param) => {
+        const { fundId, reportValue, startTime, endTime } = param
+        if (isInTimeRange(startTime, endTime, TZ)) {
+          logger.info(
+            `Scheduled execution started at ${Date.now()} for 
+            fund id - ${fundId} - reportValue ${reportValue} - window ${startTime}-${endTime}`,
+          )
+          this.execute(param).catch((err) => {
             logger.error(err)
           })
-        })
-      }
+        }
+      })
     })
   }
 
@@ -104,14 +102,14 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
   // Makes a request to DP and saves the response in the cache.
   // In case the DP returns stale data the function will be executed again several times
   // before finalizing and saving the last returned data to a cache.
-  async execute(fundId: number, reportValue: ReportValueType, retryCount = 0) {
+  async execute(param: RequestParams, retryCount = 0) {
     const providerDataRequestedUnixMs = Date.now()
-    const apiResponse = await this.makeRequest(fundId)
+    const apiResponse = await this.makeRequest(param.fundId)
     const providerDataReceivedUnixMs = Date.now()
 
     if (!apiResponse.data?.length) {
       const response = {
-        errorMessage: `The data provider did not return any value for fundId: ${fundId}`,
+        errorMessage: `The data provider did not return any value for fundId: ${param.fundId}`,
         statusCode: 502,
         timestamps: {
           providerDataRequestedUnixMs,
@@ -119,26 +117,26 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
           providerIndicatedTimeUnixMs: undefined,
         },
       }
-      await this.responseCache.write(this.name, [{ params: { fundId, reportValue }, response }])
+      await this.responseCache.write(this.name, [{ params: param, response }])
       return
     }
 
     const data = apiResponse.data[0]
     let result = Number(data.net_asset_value)
-    if (reportValue == AssetsUnderManagement) {
+    if (param.reportValue == AssetsUnderManagement) {
       result = Number(data.assets_under_management)
     }
 
-    // DP updates previous working day's price on the next working day at START_TIME ET
-    // If there is no fresh price data, we try to re-fetch the API until END_TIME ET
+    // DP updates previous working day's price on the next working day at startTime ET
+    // If there is no fresh price data, we try to re-fetch the API until endTime ET
     // Skips checks and re-running on weekends
-    if (this.shouldCheckForExpectedData()) {
+    if (this.shouldCheckForExpectedData(param.startTime, param.endTime)) {
       // At this point we know that conditions are met, and we should check for stale data and retry if it's not updated.
       // If the most recent update from DP is not from previous working day, the data might be stale
       const expectedDate = getPreviousNonWeekendDay(TZ)
       if (data.net_asset_value_date !== expectedDate) {
-        // We should retry fetching DP until we get fresh data or the time is after END_TIME ET
-        if (isBeforeTime(END_TIME, TZ)) {
+        // We should retry fetching DP until we get fresh data or the time is after endTime ET
+        if (isBeforeTime(param.endTime, TZ)) {
           logger.warn(
             `Expected last update - ${expectedDate}, actual ${
               data.net_asset_value_date
@@ -147,10 +145,7 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
             } ms`,
           )
           retryCount++
-          setTimeout(
-            () => this.execute(fundId, reportValue, retryCount),
-            this.settings.RETRY_INTERVAL_MS,
-          )
+          setTimeout(() => this.execute(param, retryCount), this.settings.RETRY_INTERVAL_MS)
           // We don't `return` here and let the value be stored in cache on purpose.
           // This way the EA will respond with the latest value from DP (even though it's not the value that the EA expects),
           // while it tries to get a fresh update.
@@ -178,7 +173,7 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-    await this.responseCache.write(this.name, [{ params: { fundId, reportValue }, response }])
+    await this.responseCache.write(this.name, [{ params: param, response }])
     return response
   }
 
@@ -208,16 +203,16 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
   }
 
   // Determines whether we should check for stale data
-  shouldCheckForExpectedData() {
+  shouldCheckForExpectedData(startTime: string, endTime: string) {
     // No need to check on weekends, the data from DP will be the same
     if (isWeekend(toTimezoneDate(new Date(), TZ))) return false
 
     // If it's a business day we need to check for stale data only if the current ET time is within certain time range (retry period).
-    // If it's before START_TIME we don't need to check as it's too soon and there will be no update from DP,
-    // the scheduler will call the execute function once it's START_TIME.
-    // If it's after END_TIME, it's too late, and we won't update the value until the next business day.
+    // If it's before startTime we don't need to check as it's too soon and there will be no update from DP,
+    // the scheduler will call the execute function once it's startTime.
+    // If it's after endTime, it's too late, and we won't update the value until the next business day.
     // This is needed for EA restarts as the EA still has to make retries during retry period
-    return isInTimeRange(START_TIME, END_TIME, TZ)
+    return isInTimeRange(startTime, endTime, TZ)
   }
 }
 export const navTransport = new NavTransport()

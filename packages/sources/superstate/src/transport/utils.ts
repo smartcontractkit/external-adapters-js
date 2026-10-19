@@ -4,6 +4,10 @@ import { formatInTimeZone } from 'date-fns-tz'
 export const NetAssetValue = 'net_asset_value'
 export const AssetsUnderManagement = 'assets_under_management'
 
+// Default daily window (America/New_York) during which the DP is polled for a fresh NAV
+export const DEFAULT_START_TIME = '07:00:00'
+export const DEFAULT_END_TIME = '12:00:00'
+
 // Converts a Date to a formatted string in the given timezone
 export const toTimezoneDate = (date: string | Date, timezone: string): string => {
   return formatInTimeZone(date, timezone, 'yyyy-MM-dd HH:mm:ss')

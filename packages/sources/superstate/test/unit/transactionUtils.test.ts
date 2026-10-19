@@ -83,23 +83,32 @@ describe('getNavPrice', () => {
   it('should successfully return nav price', async () => {
     mockNavExecute.mockResolvedValue({ result: 10.5 } as any)
 
-    const result = await getNavPrice(1)
+    const result = await getNavPrice(1, '09:08:00', '12:00:00')
 
-    expect(mockNavExecute).toHaveBeenCalledWith(1, 'net_asset_value')
+    expect(mockNavExecute).toHaveBeenCalledWith({
+      fundId: 1,
+      reportValue: 'net_asset_value',
+      startTime: '09:08:00',
+      endTime: '12:00:00',
+    })
     expect(result).toBe(10.5)
   })
 
   it('should throw error when report is not valid', async () => {
     mockNavExecute.mockResolvedValue(null as any)
-    await expect(getNavPrice(1)).rejects.toThrow('Unable to fetch nav for 1, received null')
+    await expect(getNavPrice(1, '09:08:00', '12:00:00')).rejects.toThrow(
+      'Unable to fetch nav for 1, received null',
+    )
 
     mockNavExecute.mockResolvedValue({ result: null } as any)
-    await expect(getNavPrice(1)).rejects.toThrow(
+    await expect(getNavPrice(1, '09:08:00', '12:00:00')).rejects.toThrow(
       'Unable to fetch nav for 1, received {"result":null}',
     )
 
     mockNavExecute.mockResolvedValue({ result: 0 } as any)
-    await expect(getNavPrice(1)).rejects.toThrow('Unable to fetch nav for 1, received {"result":0}')
+    await expect(getNavPrice(1, '09:08:00', '12:00:00')).rejects.toThrow(
+      'Unable to fetch nav for 1, received {"result":0}',
+    )
   })
 })
 
