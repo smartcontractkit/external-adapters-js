@@ -146,6 +146,20 @@ describe('execute', () => {
     })
   })
 
+  describe('report version aliases', () => {
+    it.each([
+      ['v3', { ...v3Data, endpoint: 'crypto-v3' }],
+      ['v7', v7Data],
+      ['v8', v8Data],
+      ['v11', v11Data],
+    ])('should resolve %s to the same response', async (alias, data) => {
+      const response = await testAdapter.request({ ...data, endpoint: alias })
+      const canonical = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toEqual(canonical.json())
+    })
+  })
+
   describe('crypto-v3 with resultPath', () => {
     it('should return price in result field', async () => {
       const response = await testAdapter.request(v3WithResultPath)

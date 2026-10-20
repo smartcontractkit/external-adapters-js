@@ -31,7 +31,7 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'crypto-v3',
-  aliases: [],
+  aliases: ['v3'],
   transport: cryptoV3Transport,
   inputParameters,
 })

@@ -36,7 +36,7 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'deutscheBoerse-v11',
-  aliases: [],
+  aliases: ['v11'],
   transport: deutscheBoerseV11Transport,
   inputParameters,
 })

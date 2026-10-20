@@ -30,7 +30,7 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'exchangeRate-v7',
-  aliases: ['redemptionRate-v7'],
+  aliases: ['redemptionRate-v7', 'v7'],
   transport: exchangeRateV7Transport,
   inputParameters,
 })

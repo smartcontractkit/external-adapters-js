@@ -4,10 +4,13 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import {
+  ADAPTIVE_PARAMS,
+  mockBlendedAdaptiveResponse,
   mockBlendedErrorResponse,
   mockBlendedIncompleteResponse,
   mockBlendedInsufficientDataResponse,
   mockBlendedInternalErrorResponse,
+  mockBlendedKalmanNoneResponse,
   mockBlendedNyseResponse,
   mockBlendedTwoSessionResponse,
   SPY_FEEDS,
@@ -122,6 +125,79 @@ describe('blended endpoint', () => {
       open: SPY_FEEDS.open,
       closed: SPY_FEEDS.closed,
       resultPath: 'nonExistentField',
+    })
+    expect(response.statusCode).toBe(400)
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should forward adaptive stitching and expose the stitched and underlying fields', async () => {
+    mockBlendedAdaptiveResponse()
+    const response = await testAdapter.request({
+      endpoint: 'blended',
+      market: 'nyse',
+      ...SPY_FEEDS,
+      indicator: { type: 'none' },
+      stitching: { mode: 'adaptive', params: ADAPTIVE_PARAMS },
+      resultPath: 'stitchedMid',
+    })
+    expect(response.statusCode).toBe(200)
+    const { result, data } = response.json()
+    expect(result).toBe('64640960000000000000000')
+    expect(data.session).toBe(1)
+    expect(data.lastSeenTimestampNs).toBe('1757001594123456789')
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should forward kalman stitching without params and expose bid, ask and volumes', async () => {
+    mockBlendedKalmanNoneResponse()
+    const response = await testAdapter.request({
+      endpoint: 'blended',
+      market: 'nyse',
+      ...SPY_FEEDS,
+      indicator: { type: 'none' },
+      stitching: { mode: 'kalman' },
+      resultPath: 'stitchedBid',
+      decimals: 8,
+    })
+    expect(response.statusCode).toBe(200)
+    const { result, data } = response.json()
+    expect(result).toBe('6464095000000')
+    expect(data.stitchedAsk).toBe('64640970000000000000000')
+    expect(data.bidVolume).toBe('100000000000000000000')
+    expect(data.askVolume).toBe('200000000000000000000')
+    // A numeric lastSeenTimestampNs is coerced to a string (precision is lost in JSON parsing)
+    expect(typeof data.lastSeenTimestampNs).toBe('string')
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should return 400 when stitching mode is not supported', async () => {
+    const response = await testAdapter.request({
+      endpoint: 'blended',
+      market: 'nyse',
+      ...SPY_FEEDS,
+      stitching: { mode: 'linear' },
+    })
+    expect(response.statusCode).toBe(400)
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should return 400 when indicator type is not supported', async () => {
+    const response = await testAdapter.request({
+      endpoint: 'blended',
+      market: 'nyse',
+      ...SPY_FEEDS,
+      indicator: { type: 'ema' },
+    })
+    expect(response.statusCode).toBe(400)
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should return 400 when stitching is provided without a mode', async () => {
+    const response = await testAdapter.request({
+      endpoint: 'blended',
+      market: 'nyse',
+      ...SPY_FEEDS,
+      stitching: { params: ADAPTIVE_PARAMS },
     })
     expect(response.statusCode).toBe(400)
     expect(response.json()).toMatchSnapshot()
