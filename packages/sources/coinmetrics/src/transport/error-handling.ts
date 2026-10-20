@@ -12,7 +12,7 @@ export const logPossibleSolutionForKnownErrors = (error: ResponseError) => {
       3. If credentials are supplied under the node licensing agreement with Chainlink Labs, please make contact with us and we will look into it.`)
   }
 
-  if (error['type'] === 'bad_parameter') {
+  if (error['type'] === 'bad_parameter' || error['type'] === 'bad_parameters') {
     logger.error(`This error indicates that the supplied asset or metric parameter is incorrect.
       Possible Solution:
       1. Confirm you are using the same symbol found in the job spec with the correct case.
