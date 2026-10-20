@@ -30,7 +30,7 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'rwa-v8',
-  aliases: [],
+  aliases: ['v8'],
   transport: rwaV8Transport,
   inputParameters,
 })
