@@ -1,5 +1,13 @@
 # @chainlink/tickerlayer-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#5515](https://github.com/smartcontractkit/external-adapters-js/pull/5515) [`15f7777`](https://github.com/smartcontractkit/external-adapters-js/commit/15f77776c9677f64d1b77761c10bb5e2e2b3f140) Thanks [@alecgard](https://github.com/alecgard)! - Proxy JS adapter debug endpoints (e.g. /debug/settings/raw) through the streams adapter
+
+- [#5522](https://github.com/smartcontractkit/external-adapters-js/pull/5522) [`4ee115b`](https://github.com/smartcontractkit/external-adapters-js/commit/4ee115b4381372117682cc4cd324adff171e2a33) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support overnight
+
 ## 1.1.4
 
 ### Patch Changes

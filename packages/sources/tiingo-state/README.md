@@ -1,16 +1,16 @@
 # TIINGO_STATE
 
-![0.4.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![0.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |           Name            |                   Description                   |  Type  | Options |            Default             |
-| :-------: | :-----------------------: | :---------------------------------------------: | :----: | :-----: | :----------------------------: |
-|           |      WS_API_ENDPOINT      |          Websocket endpoint for tiingo          | string |         |     `wss://api.tiingo.com`     |
-|           | SECONDARY_WS_API_ENDPOINT |     Secondary websocket endpoint for tiingo     | string |         | `wss://api.redundantstack.com` |
-|    ✅     |          API_KEY          | API key for tiingo, valid for both WS endpoints | string |         |                                |
+| Required? |            Name             |                   Description                   |  Type  | Options |            Default             |
+| :-------: | :-------------------------: | :---------------------------------------------: | :----: | :-----: | :----------------------------: |
+|           |      `WS_API_ENDPOINT`      |          Websocket endpoint for tiingo          | string |         |     `wss://api.tiingo.com`     |
+|           | `SECONDARY_WS_API_ENDPOINT` |     Secondary websocket endpoint for tiingo     | string |         | `wss://api.redundantstack.com` |
+|    ✅     |          `API_KEY`          | API key for tiingo, valid for both WS endpoints | string |         |                                |
 
 ---
 

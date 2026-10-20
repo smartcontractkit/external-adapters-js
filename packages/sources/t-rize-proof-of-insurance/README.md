@@ -1,6 +1,6 @@
 # T_RIZE_PROOF_OF_INSURANCE
 
-![1.1.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/t-rize-proof-of-insurance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/t-rize-proof-of-insurance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -44,11 +44,11 @@ Because the downstream stream still targets SmartData v9 carrier fields, the ada
 
 ## Environment Variables
 
-| Required? |         Name         |                             Description                             |  Type  | Options |                                  Default                                  |
-| :-------: | :------------------: | :-----------------------------------------------------------------: | :----: | :-----: | :-----------------------------------------------------------------------: |
-|           |     API_ENDPOINT     |            The T-Rize mainnet current-root endpoint URL.            | string |         | `https://proof.t-rize.network/v1/asset-verifier/merkle-tree/current-root` |
-|           | TESTNET_API_ENDPOINT |            The T-Rize testnet current-root endpoint URL.            | string |         |   `https://proof.t-rize.ca/v1/asset-verifier/merkle-tree/current-root`    |
-|    ✅     |    TRIZE_API_KEY     | API key for T-Rize asset-verifier API (passed via x-api-key header) | string |         |                                                                           |
+| Required? |          Name          |                             Description                             |  Type  | Options |                                  Default                                  |
+| :-------: | :--------------------: | :-----------------------------------------------------------------: | :----: | :-----: | :-----------------------------------------------------------------------: |
+|           |     `API_ENDPOINT`     |            The T-Rize mainnet current-root endpoint URL.            | string |         | `https://proof.t-rize.network/v1/asset-verifier/merkle-tree/current-root` |
+|           | `TESTNET_API_ENDPOINT` |            The T-Rize testnet current-root endpoint URL.            | string |         |   `https://proof.t-rize.ca/v1/asset-verifier/merkle-tree/current-root`    |
+|    ✅     |    `TRIZE_API_KEY`     | API key for T-Rize asset-verifier API (passed via x-api-key header) | string |         |                                                                           |
 
 ---
 

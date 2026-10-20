@@ -1,5 +1,15 @@
 # @chainlink/superstate-adapter
 
+## 1.6.0
+
+### Minor Changes
+
+- [#5515](https://github.com/smartcontractkit/external-adapters-js/pull/5515) [`15f7777`](https://github.com/smartcontractkit/external-adapters-js/commit/15f77776c9677f64d1b77761c10bb5e2e2b3f140) Thanks [@alecgard](https://github.com/alecgard)! - Proxy JS adapter debug endpoints (e.g. /debug/settings/raw) through the streams adapter
+
+### Patch Changes
+
+- [#5518](https://github.com/smartcontractkit/external-adapters-js/pull/5518) [`dd23996`](https://github.com/smartcontractkit/external-adapters-js/commit/dd239964511f0493afafe4f4921369212b007837) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Move start & end time into input params
+
 ## 1.5.6
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @chainlink/tiingo-state-adapter
 
+## 0.5.0
+
+### Minor Changes
+
+- [#5515](https://github.com/smartcontractkit/external-adapters-js/pull/5515) [`15f7777`](https://github.com/smartcontractkit/external-adapters-js/commit/15f77776c9677f64d1b77761c10bb5e2e2b3f140) Thanks [@alecgard](https://github.com/alecgard)! - Proxy JS adapter debug endpoints (e.g. /debug/settings/raw) through the streams adapter
+
 ## 0.4.5
 
 ### Patch Changes

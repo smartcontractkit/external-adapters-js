@@ -1,5 +1,16 @@
 # @chainlink/gmx-tokens-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#5515](https://github.com/smartcontractkit/external-adapters-js/pull/5515) [`15f7777`](https://github.com/smartcontractkit/external-adapters-js/commit/15f77776c9677f64d1b77761c10bb5e2e2b3f140) Thanks [@alecgard](https://github.com/alecgard)! - Proxy JS adapter debug endpoints (e.g. /debug/settings/raw) through the streams adapter
+
+### Patch Changes
+
+- Updated dependencies [[`161a75f`](https://github.com/smartcontractkit/external-adapters-js/commit/161a75f95b40f5c4cc9bb096caea337d54550791), [`15f7777`](https://github.com/smartcontractkit/external-adapters-js/commit/15f77776c9677f64d1b77761c10bb5e2e2b3f140)]:
+  - @chainlink/data-engine-adapter@1.7.0
+
 ## 1.2.7
 
 ### Patch Changes

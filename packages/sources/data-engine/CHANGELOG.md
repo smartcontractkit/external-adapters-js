@@ -1,5 +1,13 @@
 # @chainlink/data-engine-adapter
 
+## 1.7.0
+
+### Minor Changes
+
+- [#5525](https://github.com/smartcontractkit/external-adapters-js/pull/5525) [`161a75f`](https://github.com/smartcontractkit/external-adapters-js/commit/161a75f95b40f5c4cc9bb096caea337d54550791) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Add optional `indicator` and `stitching` params to the `blended` endpoint and expose the stitched bid/ask/mid and underlying fields; add `v3`, `v7`, `v8` and `v11` aliases to the report version endpoints.
+
+- [#5515](https://github.com/smartcontractkit/external-adapters-js/pull/5515) [`15f7777`](https://github.com/smartcontractkit/external-adapters-js/commit/15f77776c9677f64d1b77761c10bb5e2e2b3f140) Thanks [@alecgard](https://github.com/alecgard)! - Proxy JS adapter debug endpoints (e.g. /debug/settings/raw) through the streams adapter
+
 ## 1.6.3
 
 ### Patch Changes

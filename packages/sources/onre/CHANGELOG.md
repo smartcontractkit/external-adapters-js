@@ -1,5 +1,15 @@
 # @chainlink/onre-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- [#5515](https://github.com/smartcontractkit/external-adapters-js/pull/5515) [`15f7777`](https://github.com/smartcontractkit/external-adapters-js/commit/15f77776c9677f64d1b77761c10bb5e2e2b3f140) Thanks [@alecgard](https://github.com/alecgard)! - Proxy JS adapter debug endpoints (e.g. /debug/settings/raw) through the streams adapter
+
+### Patch Changes
+
+- [#5503](https://github.com/smartcontractkit/external-adapters-js/pull/5503) [`0f32a43`](https://github.com/smartcontractkit/external-adapters-js/commit/0f32a43222be0911e33330a2f93e2f8eb2114707) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Copy ripcord, ripcordValue and ripcordDetails fields into the response data object
+
 ## 1.3.5
 
 ### Patch Changes
