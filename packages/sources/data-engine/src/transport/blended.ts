@@ -3,23 +3,47 @@ import {
   HttpTransport,
   HttpTransportConfig,
 } from '@chainlink/external-adapter-framework/transports'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import {
   BaseEndpointTypes,
   BlendedData,
   BlendedMetadata,
   BlendedTimestamps,
+  BlendedUnderlying,
 } from '../endpoint/blended'
 import { resolveResult } from './utils'
+
+type RequestParams = TypeFromDefinition<BaseEndpointTypes['Parameters']>
 
 export interface BlendedRequestBody {
   market: string
   feeds: Record<string, string>
+  indicator?: RequestParams['indicator']
+  stitching?: RequestParams['stitching']
 }
 
 export interface BlendedResponseBody {
   data?: BlendedData
   timestamps?: BlendedTimestamps
+  underlying?: Omit<BlendedUnderlying, 'lastSeenTimestampNs'> & {
+    lastSeenTimestampNs: string | number
+  }
   metadata?: BlendedMetadata
+}
+
+/**
+ * Recursively drops keys whose value is undefined, so optional params absent from the request
+ * are absent from the provider body (and the signed payload) rather than serialized as nulls.
+ */
+const compact = <T>(value: T): T => {
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+    return value
+  }
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([, v]) => v !== undefined)
+      .map(([k, v]) => [k, compact(v)]),
+  ) as T
 }
 
 type HttpTransportTypes = BaseEndpointTypes & {
@@ -41,9 +65,13 @@ export const blendedTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
         feeds.overnight = param.overnight
         feeds.extended = param.extended
       }
-      const body = {
+      // indicator and stitching are only sent when set, so requests without them keep the
+      // Data Engine defaults (twap, kalman) and an unchanged body
+      const body: BlendedRequestBody = {
         market: param.market,
         feeds,
+        ...(param.indicator && { indicator: compact(param.indicator) }),
+        ...(param.stitching && { stitching: compact(param.stitching) }),
       }
 
       return {
@@ -68,7 +96,7 @@ export const blendedTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
   },
 
   parseResponse: (params, response) => {
-    const { data, timestamps, metadata } = response.data
+    const { data, timestamps, underlying, metadata } = response.data
     if (!data?.indicatorPrice || !timestamps || !metadata) {
       return params.map((param) => ({
         params: param,
@@ -83,6 +111,10 @@ export const blendedTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
       const responseData: HttpTransportTypes['Response']['Data'] = {
         ...data,
         ...timestamps,
+        ...(underlying && {
+          ...underlying,
+          lastSeenTimestampNs: String(underlying.lastSeenTimestampNs),
+        }),
         ...metadata,
       }
 

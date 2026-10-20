@@ -132,6 +132,87 @@ export const mockBlendedTwoSessionResponse = (market: string): nock.Scope =>
     })
     .persist()
 
+export const ADAPTIVE_PARAMS = {
+  closeWindowSeconds: 10,
+  openWindowSeconds: 10,
+  blendSeconds: 30,
+  sigmoidSteepness: 10,
+  maxAnchorAgeSeconds: 600,
+}
+
+const LAST_SEEN_TIMESTAMP_NS = '1757001594123456789'
+
+const blendedNoIndicatorResponse = (stitching: { mode: string; params: object }) => ({
+  data: {
+    rawStitchedPrice: '64640960000000000000000',
+    rawPrice: '64640960000000000000001',
+    indicatorPrice: '64640960000000000000000',
+    decimals: 18,
+    indicatorType: 'none',
+    stitchingType: stitching.mode,
+    market: 'nyse',
+    session: 1,
+    stitchedBid: '64640950000000000000000',
+    rawBid: '64640950000000000000001',
+    stitchedAsk: '64640970000000000000000',
+    rawAsk: '64640970000000000000001',
+    stitchedMid: '64640960000000000000000',
+    rawMid: '64640960000000000000001',
+  },
+  timestamps: {
+    evaluatedAtTs: WINDOW_END_TS,
+    observationsTimestamp: 1757001595,
+    windowStartTs: WINDOW_END_TS,
+    windowEndTs: WINDOW_END_TS,
+  },
+  underlying: {
+    bidVolume: '100000000000000000000',
+    askVolume: '200000000000000000000',
+    lastSeenTimestampNs: LAST_SEEN_TIMESTAMP_NS,
+  },
+  metadata: {
+    feedsUsed: [SPY_FEEDS.open],
+    stitchingApplied: false,
+    anchor: null,
+    stitching: { ...stitching, phase: 'raw' },
+    indicator: { type: 'none', windowSeconds: 0, endTs: WINDOW_END_TS },
+  },
+})
+
+// Slow (oracle price) lending request: adaptive stitching with no indicator
+export const mockBlendedAdaptiveResponse = (): nock.Scope =>
+  nock('https://api.dataengine.chain.link')
+    .post('/api/v1/blended', {
+      market: 'nyse',
+      feeds: SPY_FEEDS,
+      indicator: { type: 'none' },
+      stitching: { mode: 'adaptive', params: ADAPTIVE_PARAMS },
+    })
+    .reply(200, blendedNoIndicatorResponse({ mode: 'adaptive', params: ADAPTIVE_PARAMS }))
+    .persist()
+
+// Fast (IRP) lending request: kalman stitching with no indicator
+export const mockBlendedKalmanNoneResponse = (): nock.Scope =>
+  nock('https://api.dataengine.chain.link')
+    .post('/api/v1/blended', {
+      market: 'nyse',
+      feeds: SPY_FEEDS,
+      indicator: { type: 'none' },
+      stitching: { mode: 'kalman' },
+    })
+    .reply(200, {
+      ...blendedNoIndicatorResponse({ mode: 'kalman', params: KALMAN_PARAMS }),
+      // The Data Engine sends lastSeenTimestampNs as a JSON number, which exceeds
+      // Number.MAX_SAFE_INTEGER and loses precision on parse
+      underlying: {
+        bidVolume: '100000000000000000000',
+        askVolume: '200000000000000000000',
+        // eslint-disable-next-line @typescript-eslint/no-loss-of-precision
+        lastSeenTimestampNs: 1757001594123456789,
+      },
+    })
+    .persist()
+
 export const mockBlendedErrorResponse = (): nock.Scope =>
   nock('https://api.dataengine.chain.link')
     .post('/api/v1/blended', { market: 'nasdaq', feeds: TWO_SESSION_FEEDS })

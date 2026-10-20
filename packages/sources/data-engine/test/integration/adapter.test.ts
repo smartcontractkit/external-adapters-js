@@ -136,6 +136,13 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should resolve the v11 alias to the same response', async () => {
+      const response = await testAdapter.request({ ...v11Data, endpoint: 'v11' })
+      const canonical = await testAdapter.request(v11Data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toEqual(canonical.json())
+    })
   })
 
   describe('exchangeRate-v7 endpoint', () => {
