@@ -99,7 +99,8 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
         },
       },
       builders: {
-        // De-dupe subscriptions by channel & symbol
+        // De-dupe subscriptions by channel & symbol so that two requests for the same symbol
+        // but different requireVolume values don't interfere with each other.
         customSubscriptionMessages: (_context, subscriptions) => {
           const desiredKeys = new Set(subscriptions.desired.map(subscriptionKey))
           const unsubscribes = [
