@@ -136,13 +136,6 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
-
-    it('should resolve the v11 alias to the same response', async () => {
-      const response = await testAdapter.request({ ...v11Data, endpoint: 'v11' })
-      const canonical = await testAdapter.request(v11Data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toEqual(canonical.json())
-    })
   })
 
   describe('exchangeRate-v7 endpoint', () => {
@@ -150,6 +143,20 @@ describe('execute', () => {
       const response = await testAdapter.request(v7Data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('report version aliases', () => {
+    it.each([
+      ['v3', { ...v3Data, endpoint: 'crypto-v3' }],
+      ['v7', v7Data],
+      ['v8', v8Data],
+      ['v11', v11Data],
+    ])('should resolve %s to the same response', async (alias, data) => {
+      const response = await testAdapter.request({ ...data, endpoint: alias })
+      const canonical = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toEqual(canonical.json())
     })
   })
 
