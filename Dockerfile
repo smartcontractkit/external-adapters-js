@@ -19,7 +19,8 @@ WORKDIR /build/packages/streams-adapter
 RUN go mod download
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /build/streams-adapter .
 
-FROM node:22-alpine
+# Pinned: 22.23.4 is the first Node 22 release with the emSign (eMudhra) roots removed from its bundled CA store
+FROM node:22.23.4-alpine
 ARG location
 ARG package
 ENV PACKAGE_NAME=$package
@@ -27,8 +28,8 @@ ENV PACKAGE_NAME=$package
 EXPOSE 8080
 WORKDIR /home/node/app
 
-# Install supervisor (--no-cache keeps image small)
-RUN apk add --no-cache supervisor
+# Upgrade the system CA store and install supervisor (--no-cache keeps image small)
+RUN apk upgrade --no-cache ca-certificates && apk add --no-cache supervisor
 
 COPY --from=builder /home/node/app/$location/bundle ./
 # Wildcards are included to handle cases where this file doesnt exist
