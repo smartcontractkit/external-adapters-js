@@ -1,6 +1,6 @@
 # SIX
 
-![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/six/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/six/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -50,12 +50,12 @@ PUBLIC_CERT='-----BEGIN CERTIFICATE-----
 
 ## Environment Variables
 
-| Required? |      Name       |                                                  Description                                                   |  Type  | Options |                  Default                   |
-| :-------: | :-------------: | :------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------------------: |
-|           | WS_API_ENDPOINT |                                           SIX WebSocket API endpoint                                           | string |         | `wss://api.six-group.com/web/v2/websocket` |
-|           |  API_ENDPOINT   |                                             SIX REST API base URL                                              | string |         |        `https://api.six-group.com`         |
-|    ✅     |   PRIVATE_KEY   |    The private key that starts with "-----BEGIN PRIVATE KEY-----" and end with "-----END PRIVATE KEY-----"     | string |         |                                            |
-|    ✅     |   PUBLIC_CERT   | The public certificate that starts with "-----BEGIN CERTIFICATE-----" and end with "-----END CERTIFICATE-----" | string |         |                                            |
+| Required? |       Name        |                                                  Description                                                   |  Type  | Options |                  Default                   |
+| :-------: | :---------------: | :------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------------------: |
+|           | `WS_API_ENDPOINT` |                                           SIX WebSocket API endpoint                                           | string |         | `wss://api.six-group.com/web/v2/websocket` |
+|           |  `API_ENDPOINT`   |                                             SIX REST API base URL                                              | string |         |        `https://api.six-group.com`         |
+|    ✅     |   `PRIVATE_KEY`   |    The private key that starts with "-----BEGIN PRIVATE KEY-----" and end with "-----END PRIVATE KEY-----"     | string |         |                                            |
+|    ✅     |   `PUBLIC_CERT`   | The public certificate that starts with "-----BEGIN CERTIFICATE-----" and end with "-----END CERTIFICATE-----" | string |         |                                            |
 
 ---
 

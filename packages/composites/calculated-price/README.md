@@ -1,15 +1,15 @@
 # CALCULATED_PRICE
 
-![1.1.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/calculated-price/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/calculated-price/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |          Name          |                                                                         Description                                                                          |  Type  | Options | Default |
-| :-------: | :--------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|           | ${SOURCE}\_ADAPTER_URL | The URL of the ${SOURCE} adapter where ${SOURCE} is the upper-snake-case version of the elements in the operand1Sources and operand2Sources input parameters | string |         |         |
-|           | BACKGROUND_EXECUTE_MS  |                                  The amount of time the background execute should sleep before performing the next request                                   | number |         | `10000` |
+| Required? |          Name           |                                                                         Description                                                                          |  Type  | Options | Default |
+| :-------: | :---------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|           | `${SOURCE}_ADAPTER_URL` | The URL of the ${SOURCE} adapter where ${SOURCE} is the upper-snake-case version of the elements in the operand1Sources and operand2Sources input parameters | string |         |         |
+|           | `BACKGROUND_EXECUTE_MS` |                                  The amount of time the background execute should sleep before performing the next request                                   | number |         | `10000` |
 
 ---
 

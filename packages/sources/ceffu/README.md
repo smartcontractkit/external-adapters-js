@@ -1,20 +1,20 @@
 # CEFFU
 
-![1.1.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ceffu/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ceffu/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |         Name          |                                        Description                                        |  Type  | Options |           Default            |
-| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :--------------------------: |
-|    ✅     |        API_KEY        |                               An API key for Data Provider                                | string |         |                              |
-|    ✅     |      PRIVATE_KEY      |                              A Private key for Data Provider                              | string |         |                              |
-|    ✅     |       API_PROXY       |                              An API proxy for Data Provider                               | string |         |                              |
-|           |     API_ENDPOINT      |                             An API endpoint for Data Provider                             | string |         | `https://open-api.ceffu.com` |
-|    ✅     |   ARBITRUM_RPC_URL    |                                 RPC url of Arbitrum node                                  | string |         |                              |
-|           | ARBITRUM_RPC_CHAIN_ID |                                     Arbitrum chain id                                     | number |         |           `42161`            |
-|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         |           `10000`            |
+| Required? |          Name           |                                        Description                                        |  Type  | Options |           Default            |
+| :-------: | :---------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :--------------------------: |
+|    ✅     |        `API_KEY`        |                               An API key for Data Provider                                | string |         |                              |
+|    ✅     |      `PRIVATE_KEY`      |                              A Private key for Data Provider                              | string |         |                              |
+|    ✅     |       `API_PROXY`       |                              An API proxy for Data Provider                               | string |         |                              |
+|           |     `API_ENDPOINT`      |                             An API endpoint for Data Provider                             | string |         | `https://open-api.ceffu.com` |
+|    ✅     |   `ARBITRUM_RPC_URL`    |                                 RPC url of Arbitrum node                                  | string |         |                              |
+|           | `ARBITRUM_RPC_CHAIN_ID` |                                     Arbitrum chain id                                     | number |         |           `42161`            |
+|           | `BACKGROUND_EXECUTE_MS` | The amount of time the background execute should sleep before performing the next request | number |         |           `10000`            |
 
 ---
 

@@ -1,5 +1,17 @@
 # @chainlink/static-market-hours-adapter
 
+## 1.0.1
+
+### Patch Changes
+
+- [#5369](https://github.com/smartcontractkit/external-adapters-js/pull/5369) [`57055f5`](https://github.com/smartcontractkit/external-adapters-js/commit/57055f5fa37c014f9c6562d7f56a64d1e062eefc) Thanks [@renovate](https://github.com/apps/renovate)! - Update csv-parse dependency
+
+- [#5529](https://github.com/smartcontractkit/external-adapters-js/pull/5529) [`73ecd9f`](https://github.com/smartcontractkit/external-adapters-js/commit/73ecd9fff0f6718f981b188a582ea90fad657cd4) Thanks [@alecgard](https://github.com/alecgard)! - Rebuild on Node 22.23.4 with upgraded ca-certificates
+
+- [#5384](https://github.com/smartcontractkit/external-adapters-js/pull/5384) [`c996470`](https://github.com/smartcontractkit/external-adapters-js/commit/c99647070e43ee4d4fd05bd55115240c93f765af) Thanks [@calvwang9](https://github.com/calvwang9)! - Update tradinghours schedule scripts
+
+- [#5328](https://github.com/smartcontractkit/external-adapters-js/pull/5328) [`4170443`](https://github.com/smartcontractkit/external-adapters-js/commit/41704434d364012358895cb06ba02d3f60d930c2) Thanks [@dskloetc](https://github.com/dskloetc)! - Add verification python script
+
 ## 1.0.0
 
 ### Major Changes

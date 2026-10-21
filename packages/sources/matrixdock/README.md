@@ -1,16 +1,16 @@
 # MATRIXDOCK
 
-![2.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/matrixdock/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/matrixdock/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |     Name     |                    Description                     |  Type  | Options |            Default            |
-| :-------: | :----------: | :------------------------------------------------: | :----: | :-----: | :---------------------------: |
-|    ✅     |   API_KEY    |             An API key for Matrixdock              | string |         |                               |
-|    ✅     |  API_SECRET  | An API secret for Matrixdock used to sign requests | string |         |                               |
-|           | API_ENDPOINT |           An API endpoint for Matrixdock           | string |         | `https://mapi.matrixport.com` |
+| Required? |      Name      |                    Description                     |  Type  | Options |            Default            |
+| :-------: | :------------: | :------------------------------------------------: | :----: | :-----: | :---------------------------: |
+|    ✅     |   `API_KEY`    |             An API key for Matrixdock              | string |         |                               |
+|    ✅     |  `API_SECRET`  | An API secret for Matrixdock used to sign requests | string |         |                               |
+|           | `API_ENDPOINT` |           An API endpoint for Matrixdock           | string |         | `https://mapi.matrixport.com` |
 
 ---
 

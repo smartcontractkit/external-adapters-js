@@ -1,5 +1,13 @@
 # @chainlink/s3-csv-reader-adapter
 
+## 2.2.17
+
+### Patch Changes
+
+- [#5529](https://github.com/smartcontractkit/external-adapters-js/pull/5529) [`73ecd9f`](https://github.com/smartcontractkit/external-adapters-js/commit/73ecd9fff0f6718f981b188a582ea90fad657cd4) Thanks [@alecgard](https://github.com/alecgard)! - Rebuild on Node 22.23.4 with upgraded ca-certificates
+
+- [#5369](https://github.com/smartcontractkit/external-adapters-js/pull/5369) [`57055f5`](https://github.com/smartcontractkit/external-adapters-js/commit/57055f5fa37c014f9c6562d7f56a64d1e062eefc) Thanks [@renovate](https://github.com/apps/renovate)! - Update csv-parse dependency
+
 ## 2.2.16
 
 ### Patch Changes

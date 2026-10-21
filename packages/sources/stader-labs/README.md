@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Stader Labs
 
-![3.0.26](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-labs/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![3.0.27](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/stader-labs/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 By default fetches the value of MaticX/USD
 
@@ -8,14 +8,14 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |       Name       |           Description           |  Type  | Options | Default |
-| :-------: | :--------------: | :-----------------------------: | :----: | :-----: | :-----: |
-|           | POLYGON_RPC_URL  |         Polygon RPC URL         | string |         |         |
-|           | POLYGON_CHAIN_ID |   The chain id to connect to    | string |         |  `137`  |
-|           |  FANTOM_RPC_URL  |         Fantom RPC URL          | string |         |         |
-|           | FANTOM_CHAIN_ID  | The blockchain id to connect to | string |         |  `250`  |
-|           |   BSC_RPC_URL    |           BSC RPC URL           | string |         |         |
-|           |   BSC_CHAIN_ID   | The blockchain id to connect to | string |         |  `56`   |
+| Required? |        Name        |           Description           |  Type  | Options | Default |
+| :-------: | :----------------: | :-----------------------------: | :----: | :-----: | :-----: |
+|           | `POLYGON_RPC_URL`  |         Polygon RPC URL         | string |         |         |
+|           | `POLYGON_CHAIN_ID` |   The chain id to connect to    | string |         |  `137`  |
+|           |  `FANTOM_RPC_URL`  |         Fantom RPC URL          | string |         |         |
+|           | `FANTOM_CHAIN_ID`  | The blockchain id to connect to | string |         |  `250`  |
+|           |   `BSC_RPC_URL`    |           BSC RPC URL           | string |         |         |
+|           |   `BSC_CHAIN_ID`   | The blockchain id to connect to | string |         |  `56`   |
 
 ---
 

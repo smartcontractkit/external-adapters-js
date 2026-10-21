@@ -1,15 +1,15 @@
 # ALLIUM_STATE
 
-![1.3.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/allium-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/allium-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |      Name       |                  Description                   |  Type  | Options |                        Default                         |
-| :-------: | :-------------: | :--------------------------------------------: | :----: | :-----: | :----------------------------------------------------: |
-|           | WS_API_ENDPOINT | The WebSocket endpoint for Allium state prices | string |         | `wss://api.allium.so/api/v1/developer/state-prices/ws` |
-|    ✅     |     API_KEY     |               API key for Allium               | string |         |                                                        |
+| Required? |       Name        |                  Description                   |  Type  | Options |                        Default                         |
+| :-------: | :---------------: | :--------------------------------------------: | :----: | :-----: | :----------------------------------------------------: |
+|           | `WS_API_ENDPOINT` | The WebSocket endpoint for Allium state prices | string |         | `wss://api.allium.so/api/v1/developer/state-prices/ws` |
+|    ✅     |     `API_KEY`     |               API key for Allium               | string |         |                                                        |
 
 ---
 

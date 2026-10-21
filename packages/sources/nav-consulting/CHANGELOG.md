@@ -1,5 +1,13 @@
 # @chainlink/nav-consulting-adapter
 
+## 1.2.8
+
+### Patch Changes
+
+- [#4124](https://github.com/smartcontractkit/external-adapters-js/pull/4124) [`4ebe186`](https://github.com/smartcontractkit/external-adapters-js/commit/4ebe1869d1735c4ba85236fd373b8e5e7e73e95a) Thanks [@renovate](https://github.com/apps/renovate)! - Bump date-fns
+
+- [#5529](https://github.com/smartcontractkit/external-adapters-js/pull/5529) [`73ecd9f`](https://github.com/smartcontractkit/external-adapters-js/commit/73ecd9fff0f6718f981b188a582ea90fad657cd4) Thanks [@alecgard](https://github.com/alecgard)! - Rebuild on Node 22.23.4 with upgraded ca-certificates
+
 ## 1.2.7
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @chainlink/gold-adapter
 
+## 1.3.9
+
+### Patch Changes
+
+- [#5529](https://github.com/smartcontractkit/external-adapters-js/pull/5529) [`73ecd9f`](https://github.com/smartcontractkit/external-adapters-js/commit/73ecd9fff0f6718f981b188a582ea90fad657cd4) Thanks [@alecgard](https://github.com/alecgard)! - Rebuild on Node 22.23.4 with upgraded ca-certificates
+
+- Updated dependencies [[`73ecd9f`](https://github.com/smartcontractkit/external-adapters-js/commit/73ecd9fff0f6718f981b188a582ea90fad657cd4), [`161a75f`](https://github.com/smartcontractkit/external-adapters-js/commit/161a75f95b40f5c4cc9bb096caea337d54550791), [`15f7777`](https://github.com/smartcontractkit/external-adapters-js/commit/15f77776c9677f64d1b77761c10bb5e2e2b3f140)]:
+  - @chainlink/data-engine-adapter@1.7.0
+
 ## 1.3.8
 
 ### Patch Changes

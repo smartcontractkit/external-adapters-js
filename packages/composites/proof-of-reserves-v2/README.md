@@ -1,16 +1,16 @@
 # PROOF_OF_RESERVES_V2
 
-![1.1.8](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/proof-of-reserves-v2/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/proof-of-reserves-v2/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |                Name                |                                                                             Description                                                                              |  Type  | Options | Default |
-| :-------: | :--------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |          ${PROVIDER}\_URL          | The URL for the given ${PROVIDER} used in request params. The used provider name is converted to upper-snake-case to determine the name of the environment variable. | string |         |         |
-|           | MAX_RESPONSE_TEXT_IN_ERROR_MESSAGE |                                     How many characters of a response may be included in an error message before trunctating it                                      | number |         |  `200`  |
-|           |       BACKGROUND_EXECUTE_MS        |                                      The amount of time the background execute should sleep before performing the next request                                       | number |         | `10000` |
+| Required? |                 Name                 |                                                                             Description                                                                              |  Type  | Options | Default |
+| :-------: | :----------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |          `${PROVIDER}_URL`           | The URL for the given ${PROVIDER} used in request params. The used provider name is converted to upper-snake-case to determine the name of the environment variable. | string |         |         |
+|           | `MAX_RESPONSE_TEXT_IN_ERROR_MESSAGE` |                                     How many characters of a response may be included in an error message before trunctating it                                      | number |         |  `200`  |
+|           |       `BACKGROUND_EXECUTE_MS`        |                                      The amount of time the background execute should sleep before performing the next request                                       | number |         | `10000` |
 
 ---
 
