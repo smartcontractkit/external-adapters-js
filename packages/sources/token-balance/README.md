@@ -1,6 +1,6 @@
 # TOKEN_BALANCE
 
-![3.6.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![3.7.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,20 +14,20 @@ The result is scaled to 18 decimals.
 
 ## Environment Variables
 
-| Required? |           Name           |                                                                                            Description                                                                                             |  Type  | Options |   Default   |
-| :-------: | :----------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :---------: |
-|           |     ETHEREUM_RPC_URL     |                                                                                      RPC url of Ethereum node                                                                                      | string |         |     ``      |
-|           |  ETHEREUM_RPC_CHAIN_ID   |                                                                                         Ethereum chain id                                                                                          | number |         |     `1`     |
-|           |   ${NETWORK}\_RPC_URL    |                                                                                     RPC url of ${NETWORK} node                                                                                     | string |         |     ``      |
-|           | ${NETWORK}\_RPC_CHAIN_ID |                                                                                       Chain ID of ${NETWORK}                                                                                       | number |         |             |
-|           |      SOLANA_RPC_URL      |                                                                                       RPC url of Solana node                                                                                       | string |         |     ``      |
-|           |    SOLANA_COMMITMENT     |                                                                                Solana transaction commitment level                                                                                 | string |         | `finalized` |
-|           |       XRPL_RPC_URL       |                                                                                        RPC url of XRPL node                                                                                        | string |         |     ``      |
-|           |     STELLAR_RPC_URL      |                                                                                  RPC url of Stellar JSON-RPC node                                                                                  | string |         |     ``      |
-|           |     LITECOIN_RPC_URL     |                                             RPC url of Litecoin indexer Blockbook API. See https://github.com/trezor/blockbook/blob/master/docs/api.md                                             | string |         |     ``      |
-|           |     CARDANO_RPC_URL      |                                                                           RPC url of Cardano Yaci Store Indexer RPC node                                                                           | string |         |     ``      |
-|           |  BACKGROUND_EXECUTE_MS   |                                                     The amount of time the background execute should sleep before performing the next request                                                      | number |         |   `10000`   |
-|           |        GROUP_SIZE        | Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. Setting this lower than the default may result in lower performance from the adapter. | number |         |    `25`     |
+| Required? |           Name            |                                                                                            Description                                                                                             |  Type  | Options |   Default   |
+| :-------: | :-----------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :---------: |
+|           |    `ETHEREUM_RPC_URL`     |                                                                                      RPC url of Ethereum node                                                                                      | string |         |     ``      |
+|           |  `ETHEREUM_RPC_CHAIN_ID`  |                                                                                         Ethereum chain id                                                                                          | number |         |     `1`     |
+|           |   `${NETWORK}_RPC_URL`    |                                                                                     RPC url of ${NETWORK} node                                                                                     | string |         |     ``      |
+|           | `${NETWORK}_RPC_CHAIN_ID` |                                                                                       Chain ID of ${NETWORK}                                                                                       | number |         |             |
+|           |     `SOLANA_RPC_URL`      |                                                                                       RPC url of Solana node                                                                                       | string |         |     ``      |
+|           |    `SOLANA_COMMITMENT`    |                                                                                Solana transaction commitment level                                                                                 | string |         | `finalized` |
+|           |      `XRPL_RPC_URL`       |                                                                                        RPC url of XRPL node                                                                                        | string |         |     ``      |
+|           |     `STELLAR_RPC_URL`     |                                                                                  RPC url of Stellar JSON-RPC node                                                                                  | string |         |     ``      |
+|           |    `LITECOIN_RPC_URL`     |                                             RPC url of Litecoin indexer Blockbook API. See https://github.com/trezor/blockbook/blob/master/docs/api.md                                             | string |         |     ``      |
+|           |     `CARDANO_RPC_URL`     |                                                                           RPC url of Cardano Yaci Store Indexer RPC node                                                                           | string |         |     ``      |
+|           |  `BACKGROUND_EXECUTE_MS`  |                                                     The amount of time the background execute should sleep before performing the next request                                                      | number |         |   `10000`   |
+|           |       `GROUP_SIZE`        | Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. Setting this lower than the default may result in lower performance from the adapter. | number |         |    `25`     |
 
 ---
 

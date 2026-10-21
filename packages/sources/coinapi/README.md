@@ -1,6 +1,6 @@
 # Chainlink CoinApi External Adapter
 
-![1.3.38](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.39](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://rest.coinapi.io/v1/
 
@@ -8,11 +8,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |      Name       |                                 Description                                 |  Type  | Options |            Default            |
-| :-------: | :-------------: | :-------------------------------------------------------------------------: | :----: | :-----: | :---------------------------: |
-|           |  API_ENDPOINT   |                                                                             | string |         | `https://rest.coinapi.io/v1/` |
-|    ✅     |     API_KEY     | An API key that can be obtained from [here](https://www.coinapi.io/pricing) | string |         |                               |
-|           | WS_API_ENDPOINT |                                                                             | string |         |   `wss://ws.coinapi.io/v1/`   |
+| Required? |       Name        |                                 Description                                 |  Type  | Options |            Default            |
+| :-------: | :---------------: | :-------------------------------------------------------------------------: | :----: | :-----: | :---------------------------: |
+|           |  `API_ENDPOINT`   |                                                                             | string |         | `https://rest.coinapi.io/v1/` |
+|    ✅     |     `API_KEY`     | An API key that can be obtained from [here](https://www.coinapi.io/pricing) | string |         |                               |
+|           | `WS_API_ENDPOINT` |                                                                             | string |         |   `wss://ws.coinapi.io/v1/`   |
 
 ---
 

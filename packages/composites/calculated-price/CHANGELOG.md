@@ -1,5 +1,13 @@
 # @chainlink/calculated-price-adapter
 
+## 1.1.2
+
+### Patch Changes
+
+- [#5529](https://github.com/smartcontractkit/external-adapters-js/pull/5529) [`73ecd9f`](https://github.com/smartcontractkit/external-adapters-js/commit/73ecd9fff0f6718f981b188a582ea90fad657cd4) Thanks [@alecgard](https://github.com/alecgard)! - Rebuild on Node 22.23.4 with upgraded ca-certificates
+
+- [#5419](https://github.com/smartcontractkit/external-adapters-js/pull/5419) [`73cdbc6`](https://github.com/smartcontractkit/external-adapters-js/commit/73cdbc6ee4a93d43718af5a377edc99019cae504) Thanks [@dskloetc](https://github.com/dskloetc)! - Use variable env var in calculated-price
+
 ## 1.1.1
 
 ### Patch Changes

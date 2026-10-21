@@ -1,5 +1,13 @@
 # @chainlink/llama-guard-adapter
 
+## 1.2.7
+
+### Patch Changes
+
+- [#5529](https://github.com/smartcontractkit/external-adapters-js/pull/5529) [`73ecd9f`](https://github.com/smartcontractkit/external-adapters-js/commit/73ecd9fff0f6718f981b188a582ea90fad657cd4) Thanks [@alecgard](https://github.com/alecgard)! - Rebuild on Node 22.23.4 with upgraded ca-certificates
+
+- [#5486](https://github.com/smartcontractkit/external-adapters-js/pull/5486) [`b3d6f83`](https://github.com/smartcontractkit/external-adapters-js/commit/b3d6f8301e6275d7d37d23455e0198f636c07cf0) Thanks [@dskloetc](https://github.com/dskloetc)! - Use variable env vars
+
 ## 1.2.6
 
 ### Patch Changes

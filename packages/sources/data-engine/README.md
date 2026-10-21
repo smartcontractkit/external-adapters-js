@@ -1,6 +1,6 @@
 # DATA_ENGINE
 
-![1.6.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/data-engine/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.7.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/data-engine/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -25,13 +25,13 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                               Options                                                                                                                                |   Default   |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | string | [blended](#blended-endpoint), [crypto-v3](#crypto-v3-endpoint), [deutscheboerse-v11](#deutscheboerse-v11-endpoint), [exchangerate-v7](#exchangerate-v7-endpoint), [redemptionrate-v7](#exchangerate-v7-endpoint), [rwa-v8](#rwa-v8-endpoint), [twap](#twap-endpoint) | `crypto-v3` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                            Options                                                                                                                                                                                            |   Default   |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | string | [blended](#blended-endpoint), [crypto-v3](#crypto-v3-endpoint), [deutscheboerse-v11](#deutscheboerse-v11-endpoint), [exchangerate-v7](#exchangerate-v7-endpoint), [redemptionrate-v7](#exchangerate-v7-endpoint), [rwa-v8](#rwa-v8-endpoint), [twap](#twap-endpoint), [v11](#deutscheboerse-v11-endpoint), [v3](#crypto-v3-endpoint), [v7](#exchangerate-v7-endpoint), [v8](#rwa-v8-endpoint) | `crypto-v3` |
 
 ## Crypto-v3 Endpoint
 
-`crypto-v3` is the only supported name for this endpoint.
+Supported names for this endpoint are: `crypto-v3`, `v3`.
 
 ### Input Params
 
@@ -59,7 +59,7 @@ Request:
 
 ## Rwa-v8 Endpoint
 
-`rwa-v8` is the only supported name for this endpoint.
+Supported names for this endpoint are: `rwa-v8`, `v8`.
 
 ### Input Params
 
@@ -87,7 +87,7 @@ Request:
 
 ## Deutscheboerse-v11 Endpoint
 
-`deutscheboerse-v11` is the only supported name for this endpoint.
+Supported names for this endpoint are: `deutscheboerse-v11`, `v11`.
 
 ### Input Params
 
@@ -115,7 +115,7 @@ Request:
 
 ## Exchangerate-v7 Endpoint
 
-Supported names for this endpoint are: `exchangerate-v7`, `redemptionrate-v7`.
+Supported names for this endpoint are: `exchangerate-v7`, `redemptionrate-v7`, `v7`.
 
 ### Input Params
 
@@ -177,15 +177,27 @@ Request:
 
 ### Input Params
 
-| Required? |    Name    | Aliases |                                                     Description                                                      |  Type  | Options |     Default      | Depends On | Not Valid With |
-| :-------: | :--------: | :-----: | :------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :--------------: | :--------: | :------------: |
-|    ✅     |   market   |         |             The market whose calendar routes between the feeds, e.g. `nyse`, `forex` (case-insensitive)              | string |         |                  |            |                |
-|    ✅     |    open    |         |                                   The feed ID for the open (regular hours) session                                   | string |         |                  |            |                |
-|    ✅     |   closed   |         |                                          The feed ID for the closed session                                          | string |         |                  |            |                |
-|           | overnight  |         |          The feed ID for the overnight session. Must be provided together with `extended` (e.g. for `nyse`)          | string |         |                  |            |                |
-|           |  extended  |         | The feed ID for the extended (pre/post-market) session. Must be provided together with `overnight` (e.g. for `nyse`) | string |         |                  |            |                |
-|           | resultPath |         |                                   The data field to populate the top-level result                                    | string |         | `indicatorPrice` |            |                |
-|           |  decimals  |         |       Number of decimals to scale the resultPath value to (from the native decimals reported in the response)        | number |         |                  |            |                |
+| Required? |                 Name                 | Aliases |                                                     Description                                                      |  Type  |       Options        |     Default      | Depends On | Not Valid With |
+| :-------: | :----------------------------------: | :-----: | :------------------------------------------------------------------------------------------------------------------: | :----: | :------------------: | :--------------: | :--------: | :------------: |
+|    ✅     |                market                |         |             The market whose calendar routes between the feeds, e.g. `nyse`, `forex` (case-insensitive)              | string |                      |                  |            |                |
+|    ✅     |                 open                 |         |                                   The feed ID for the open (regular hours) session                                   | string |                      |                  |            |                |
+|    ✅     |                closed                |         |                                          The feed ID for the closed session                                          | string |                      |                  |            |                |
+|           |              overnight               |         |          The feed ID for the overnight session. Must be provided together with `extended` (e.g. for `nyse`)          | string |                      |                  |            |                |
+|           |               extended               |         | The feed ID for the extended (pre/post-market) session. Must be provided together with `overnight` (e.g. for `nyse`) | string |                      |                  |            |                |
+|           |              indicator               |         |           The indicator applied on top of the stitched price. Omit to use the Data Engine default (`twap`)           | object |                      |                  |            |                |
+|    ✅     |            indicator.type            |         |                                                  The indicator type                                                  | string |    `none`, `twap`    |                  |            |                |
+|           |       indicator.windowSeconds        |         |                                           The indicator window in seconds                                            | number |                      |                  |            |                |
+|           |           indicator.endTs            |         |                               The indicator window end as a unix timestamp in seconds                                | number |                      |                  |            |                |
+|           |              stitching               |         |              The stitching applied across session feeds. Omit to use the Data Engine default (`kalman`)              | object |                      |                  |            |                |
+|    ✅     |            stitching.mode            |         |                                                  The stitching mode                                                  | string | `adaptive`, `kalman` |                  |            |                |
+|           |           stitching.params           |         |                          Stitching parameters. Omitted params use the Data Engine defaults                           | object |                      |                  |            |                |
+|           | stitching.params.closeWindowSeconds  |         |                            Seconds before a session close in which the anchor is captured                            | number |                      |                  |            |                |
+|           |  stitching.params.openWindowSeconds  |         |                             Seconds after a session open in which the anchor is applied                              | number |                      |                  |            |                |
+|           |    stitching.params.blendSeconds     |         |                      Duration in seconds of the blend from the anchor to the new session price                       | number |                      |                  |            |                |
+|           |  stitching.params.sigmoidSteepness   |         |                                         Steepness of the sigmoid blend curve                                         | number |                      |                  |            |                |
+|           | stitching.params.maxAnchorAgeSeconds |         |                              Maximum age in seconds of an anchor before it is discarded                              | number |                      |                  |            |                |
+|           |              resultPath              |         |                                   The data field to populate the top-level result                                    | string |                      | `indicatorPrice` |            |                |
+|           |               decimals               |         |       Number of decimals to scale the resultPath value to (from the native decimals reported in the response)        | number |                      |                  |            |                |
 
 ### Example
 
@@ -204,6 +216,40 @@ Request:
   }
 }
 ```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "blended",
+    "market": "nyse",
+    "open": "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
+    "closed": "0x000bccf7f0cabd7a4c9d1936188c9d3cb879d5e5ef35324125e32d11a2cbd116",
+    "overnight": "0x000bccf7f0cabd7a4c9d1936188c9d3cb879d5e5ef35324125e32d11a2cbd116",
+    "extended": "0x000bbb370f42279bdf6ef55c21b05e319d7e9ca316369c44387a8b5cf17bab3c",
+    "indicator": {
+      "type": "none"
+    },
+    "stitching": {
+      "mode": "adaptive",
+      "params": {
+        "closeWindowSeconds": 10,
+        "openWindowSeconds": 10,
+        "blendSeconds": 30,
+        "sigmoidSteepness": 10,
+        "maxAnchorAgeSeconds": 600
+      }
+    },
+    "resultPath": "stitchedMid"
+  }
+}
+```
+
+</details>
 
 ---
 

@@ -1,5 +1,13 @@
 # @chainlink/implied-price-adapter
 
+## 1.4.2
+
+### Patch Changes
+
+- [#5106](https://github.com/smartcontractkit/external-adapters-js/pull/5106) [`1686b02`](https://github.com/smartcontractkit/external-adapters-js/commit/1686b0216af786d65e02eb0b5810c0b9c2b0bb4f) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove direct axios dependency
+
+- [#5529](https://github.com/smartcontractkit/external-adapters-js/pull/5529) [`73ecd9f`](https://github.com/smartcontractkit/external-adapters-js/commit/73ecd9fff0f6718f981b188a582ea90fad657cd4) Thanks [@alecgard](https://github.com/alecgard)! - Rebuild on Node 22.23.4 with upgraded ca-certificates
+
 ## 1.4.1
 
 ### Patch Changes
