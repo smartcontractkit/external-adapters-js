@@ -1,16 +1,16 @@
 # MOBULA_STATE
 
-![2.5.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mobula-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.6.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mobula-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |             Name             |               Description               |  Type  | Options |              Default              |
-| :-------: | :--------------------------: | :-------------------------------------: | :----: | :-----: | :-------------------------------: |
-|           |       WS_API_ENDPOINT        |      WS endpoint for Data Provider      | string |         | `wss://production-feed.mobula.io` |
-|           | WS_FUNDING_RATE_API_ENDPOINT | WS endpoint for perpetual funding rates | string |         |   `wss://funding-api.mobula.io`   |
-|    ✅     |           API_KEY            |      An API key for Data Provider       | string |         |                                   |
+| Required? |              Name              |               Description               |  Type  | Options |              Default              |
+| :-------: | :----------------------------: | :-------------------------------------: | :----: | :-----: | :-------------------------------: |
+|           |       `WS_API_ENDPOINT`        |      WS endpoint for Data Provider      | string |         | `wss://production-feed.mobula.io` |
+|           | `WS_FUNDING_RATE_API_ENDPOINT` | WS endpoint for perpetual funding rates | string |         |   `wss://funding-api.mobula.io`   |
+|    ✅     |           `API_KEY`            |      An API key for Data Provider       | string |         |                                   |
 
 ---
 

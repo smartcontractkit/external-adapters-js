@@ -1,15 +1,15 @@
 # BACKED_FI
 
-![1.5.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/backed-fi/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.6.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/backed-fi/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |         Name         |             Description              |  Type  | Options |                  Default                   |
-| :-------: | :------------------: | :----------------------------------: | :----: | :-----: | :----------------------------------------: |
-|           |     API_ENDPOINT     |    An API endpoint for Backed-Fi     | string |         |    `https://api.backed.fi/api/v1/token`    |
-|           | STAGING_API_ENDPOINT | A staging API endpoint for Backed-Fi | string |         | `https://api.stage.backed.fi/api/v1/token` |
+| Required? |          Name          |             Description              |  Type  | Options |                  Default                   |
+| :-------: | :--------------------: | :----------------------------------: | :----: | :-----: | :----------------------------------------: |
+|           |     `API_ENDPOINT`     |    An API endpoint for Backed-Fi     | string |         |    `https://api.backed.fi/api/v1/token`    |
+|           | `STAGING_API_ENDPOINT` | A staging API endpoint for Backed-Fi | string |         | `https://api.stage.backed.fi/api/v1/token` |
 
 ---
 

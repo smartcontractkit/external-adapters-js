@@ -1,6 +1,6 @@
 # FINALTO
 
-![1.5.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finalto/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.6.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finalto/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -46,11 +46,11 @@ The quote endpoint returns a response with nested data structures and some redun
 
 ## Environment Variables
 
-| Required? |      Name       |          Description          |  Type  | Options | Default |
-| :-------: | :-------------: | :---------------------------: | :----: | :-----: | :-----: |
-|    ✅     | WS_API_USERNAME | API username for WS endpoint  | string |         |         |
-|    ✅     | WS_API_PASSWORD | API password for WS endpoint  | string |         |         |
-|    ✅     | WS_API_ENDPOINT | WS endpoint for Data Provider | string |         |         |
+| Required? |       Name        |          Description          |  Type  | Options | Default |
+| :-------: | :---------------: | :---------------------------: | :----: | :-----: | :-----: |
+|    ✅     | `WS_API_USERNAME` | API username for WS endpoint  | string |         |         |
+|    ✅     | `WS_API_PASSWORD` | API password for WS endpoint  | string |         |         |
+|    ✅     | `WS_API_ENDPOINT` | WS endpoint for Data Provider | string |         |         |
 
 ---
 

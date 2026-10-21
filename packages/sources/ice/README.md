@@ -1,21 +1,21 @@
 # ICE
 
-![1.2.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ice/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ice/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |          Name           |                Description                 |  Type  | Options |   Default    |
-| :-------: | :---------------------: | :----------------------------------------: | :----: | :-----: | :----------: |
-|           |       USER_GROUP        |             User group for ICE             | string |         | `chain.link` |
-|    ✅     |    NETDANIA_PASSWORD    |              Password for ICE              | string |         |              |
-|    ✅     |      API_ENDPOINT       |     streaming server endpoint for ICE      | string |         |              |
-|           | API_ENDPOINT_FAILOVER_1 |         failover endpoint for ICE          | string |         |      ``      |
-|           | API_ENDPOINT_FAILOVER_2 |         failover endpoint for ICE          | string |         |      ``      |
-|           | API_ENDPOINT_FAILOVER_3 |         failover endpoint for ICE          | string |         |      ``      |
-|           |    POLLING_INTERVAL     |          Polling interval for ICE          | number |         |    `2000`    |
-|           |  CONNECTING_TIMEOUT_MS  | Connecting timeout in milliseconds for ICE | number |         |    `4000`    |
+| Required? |           Name            |                Description                 |  Type  | Options |   Default    |
+| :-------: | :-----------------------: | :----------------------------------------: | :----: | :-----: | :----------: |
+|           |       `USER_GROUP`        |             User group for ICE             | string |         | `chain.link` |
+|    ✅     |    `NETDANIA_PASSWORD`    |              Password for ICE              | string |         |              |
+|    ✅     |      `API_ENDPOINT`       |     streaming server endpoint for ICE      | string |         |              |
+|           | `API_ENDPOINT_FAILOVER_1` |         failover endpoint for ICE          | string |         |      ``      |
+|           | `API_ENDPOINT_FAILOVER_2` |         failover endpoint for ICE          | string |         |      ``      |
+|           | `API_ENDPOINT_FAILOVER_3` |         failover endpoint for ICE          | string |         |      ``      |
+|           |    `POLLING_INTERVAL`     |          Polling interval for ICE          | number |         |    `2000`    |
+|           |  `CONNECTING_TIMEOUT_MS`  | Connecting timeout in milliseconds for ICE | number |         |    `4000`    |
 
 ---
 

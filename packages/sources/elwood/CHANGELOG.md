@@ -1,5 +1,17 @@
 # @chainlink/elwood-adapter
 
+## 3.4.0
+
+### Minor Changes
+
+- [#5515](https://github.com/smartcontractkit/external-adapters-js/pull/5515) [`15f7777`](https://github.com/smartcontractkit/external-adapters-js/commit/15f77776c9677f64d1b77761c10bb5e2e2b3f140) Thanks [@alecgard](https://github.com/alecgard)! - Proxy JS adapter debug endpoints (e.g. /debug/settings/raw) through the streams adapter
+
+### Patch Changes
+
+- [#5484](https://github.com/smartcontractkit/external-adapters-js/pull/5484) [`87320be`](https://github.com/smartcontractkit/external-adapters-js/commit/87320be19b1ad7db301cd5d9e3ce3cff31518fce) Thanks [@renovate](https://github.com/apps/renovate)! - Bump axios
+
+- [#4605](https://github.com/smartcontractkit/external-adapters-js/pull/4605) [`bf090c6`](https://github.com/smartcontractkit/external-adapters-js/commit/bf090c615f2c90134e365b7da86f026a52b206b6) Thanks [@renovate](https://github.com/apps/renovate)! - Bump axios
+
 ## 3.3.5
 
 ### Patch Changes
