@@ -1,6 +1,6 @@
 # AVALANCHE_PLATFORM
 
-![2.2.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/avalanche-platform/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.2.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/avalanche-platform/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -12,11 +12,11 @@ The `MAX_PAYLOAD_SIZE_LIMIT` environment variable is used for controlling the ma
 
 ## Environment Variables
 
-| Required? |         Name          |                                                 Description                                                  |  Type  | Options | Default |
-| :-------: | :-------------------: | :----------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |    P_CHAIN_RPC_URL    |            Full RPC URL for the avalanche platform chain (e.g. https://api.avax.network/ext/bc/P)            | string |         |         |
-|           |      GROUP_SIZE       | Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. | number |         |  `10`   |
-|           | BACKGROUND_EXECUTE_MS |          The amount of time the background execute should sleep before performing the next request           | number |         | `10000` |
+| Required? |          Name           |                                                 Description                                                  |  Type  | Options | Default |
+| :-------: | :---------------------: | :----------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |    `P_CHAIN_RPC_URL`    |            Full RPC URL for the avalanche platform chain (e.g. https://api.avax.network/ext/bc/P)            | string |         |         |
+|           |      `GROUP_SIZE`       | Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. | number |         |  `10`   |
+|           | `BACKGROUND_EXECUTE_MS` |          The amount of time the background execute should sleep before performing the next request           | number |         | `10000` |
 
 ---
 

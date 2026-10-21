@@ -1,5 +1,13 @@
 # @chainlink/nav-generic-adapter
 
+## 1.0.6
+
+### Patch Changes
+
+- [#5529](https://github.com/smartcontractkit/external-adapters-js/pull/5529) [`73ecd9f`](https://github.com/smartcontractkit/external-adapters-js/commit/73ecd9fff0f6718f981b188a582ea90fad657cd4) Thanks [@alecgard](https://github.com/alecgard)! - Rebuild on Node 22.23.4 with upgraded ca-certificates
+
+- [#5183](https://github.com/smartcontractkit/external-adapters-js/pull/5183) [`30b9f04`](https://github.com/smartcontractkit/external-adapters-js/commit/30b9f04528cfb11e566c719501e119fcde197916) Thanks [@dskloetc](https://github.com/dskloetc)! - Use variable env vars + bump framework
+
 ## 1.0.5
 
 ### Patch Changes

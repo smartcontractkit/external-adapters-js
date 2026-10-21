@@ -1,14 +1,14 @@
 # HASHNOTE
 
-![1.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/hashnote/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.0.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/hashnote/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |       Name        |            Description            |  Type  | Options |                    Default                    |
-| :-------: | :---------------: | :-------------------------------: | :----: | :-----: | :-------------------------------------------: |
-|           | USYC_API_ENDPOINT | URL for the USYC price report API | string |         | `https://usyc.hashnote.com/api/price-reports` |
+| Required? |        Name         |            Description            |  Type  | Options |                    Default                    |
+| :-------: | :-----------------: | :-------------------------------: | :----: | :-----: | :-------------------------------------------: |
+|           | `USYC_API_ENDPOINT` | URL for the USYC price report API | string |         | `https://usyc.hashnote.com/api/price-reports` |
 
 ---
 

@@ -1,16 +1,16 @@
 # NOBI
 
-![1.0.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nobi/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/nobi/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |              Name               |                                               Description                                               |  Type  | Options |             Default             |
-| :-------: | :-----------------------------: | :-----------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------: |
-|    ✅     |             API_KEY             |                                      An API key for Data Provider                                       | string |         |                                 |
-|           |         WS_API_ENDPOINT         |                                      WS endpoint for Data Provider                                      | string |         | `wss://ws.price.usenobi.com/v2` |
-|           | MAX_SUBSCRIPTIONS_PER_TRANSPORT | The maximum number of currency pairs to route through a single transport before routing to the next one | number |         |              `100`              |
+| Required? |               Name                |                                               Description                                               |  Type  | Options |             Default             |
+| :-------: | :-------------------------------: | :-----------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------: |
+|    ✅     |             `API_KEY`             |                                      An API key for Data Provider                                       | string |         |                                 |
+|           |         `WS_API_ENDPOINT`         |                                      WS endpoint for Data Provider                                      | string |         | `wss://ws.price.usenobi.com/v2` |
+|           | `MAX_SUBSCRIPTIONS_PER_TRANSPORT` | The maximum number of currency pairs to route through a single transport before routing to the next one | number |         |              `100`              |
 
 ---
 

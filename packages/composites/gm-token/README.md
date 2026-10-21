@@ -1,30 +1,30 @@
 # GM_TOKEN
 
-![1.3.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/gm-token/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/gm-token/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |                Name                |                                        Description                                        |  Type  | Options |                   Default                    |
-| :-------: | :--------------------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :------------------------------------------: |
-|    ✅     |          ARBITRUM_RPC_URL          |                                 RPC url of Arbitrum node                                  | string |         |                                              |
-|    ✅     |         ARBITRUM_CHAIN_ID          |                                The chain id to connect to                                 | number |         |                   `42161`                    |
-|           |          BOTANIX_RPC_URL           |                                  RPC url of Botanix node                                  | string |         |                                              |
-|           |          BOTANIX_CHAIN_ID          |                                The chain id to connect to                                 | number |         |                    `3637`                    |
-|    ✅     |     DATASTORE_CONTRACT_ADDRESS     |                              Address of Data Store contract                               | string |         | `0xFD70de6b91282D8017aA4E741e9Ae325CAb992d8` |
-|    ✅     | BOTANIX_DATASTORE_CONTRACT_ADDRESS |                              Address of Data Store contract                               | string |         | `0xA23B81a89Ab9D7D89fF8fc1b5d8508fB75Cc094d` |
-|    ✅     |      READER_CONTRACT_ADDRESS       |                          Address of Reader contract on Arbitrum                           | string |         | `0x470fbC46bcC0f16532691Df360A07d8Bf5ee0789` |
-|    ✅     |  BOTANIX_READER_CONTRACT_ADDRESS   |                           Address of Reader contract on Botanix                           | string |         | `0x922766ca6234cD49A483b5ee8D86cA3590D0Fb0E` |
-|    ✅     |      ARBITRUM_TOKENS_INFO_URL      |                    URL to token meta data supported by GMX on Arbitrum                    | string |         |  `https://arbitrum-api.gmxinfra.io/tokens`   |
-|    ✅     |      BOTANIX_TOKENS_INFO_URL       |                    URL to token meta data supported by GMX on Botanix                     | string |         |   `https://botanix-api.gmxinfra.io/tokens`   |
-|    ✅     |          PNL_FACTOR_TYPE           |     PnL factor type. See https://github.com/gmx-io/gmx-synthetics#market-token-price      | string |         |         `MAX_PNL_FACTOR_FOR_TRADERS`         |
-|           |         TIINGO_ADAPTER_URL         |                                     URL of Tiingo EA                                      | string |         |                                              |
-|           |          NCFX_ADAPTER_URL          |                                      URL of NCFX EA                                       | string |         |                                              |
-|           |      COINMETRICS_ADAPTER_URL       |                                   URL of Coinmetrics EA                                   | string |         |                                              |
-|           |   BLOCKSIZE_CAPITAL_ADAPTER_URL    |                                URL of Blocksize Capital EA                                | string |         |                                              |
-|    ✅     |    MIN_REQUIRED_SOURCE_SUCCESS     |          Minimum number of source EAs that need to successfully return a value.           | number |         |                     `2`                      |
-|           |       BACKGROUND_EXECUTE_MS        | The amount of time the background execute should sleep before performing the next request | number |         |                   `10000`                    |
+| Required? |                 Name                 |                                        Description                                        |  Type  | Options |                   Default                    |
+| :-------: | :----------------------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :------------------------------------------: |
+|    ✅     |          `ARBITRUM_RPC_URL`          |                                 RPC url of Arbitrum node                                  | string |         |                                              |
+|    ✅     |         `ARBITRUM_CHAIN_ID`          |                                The chain id to connect to                                 | number |         |                   `42161`                    |
+|           |          `BOTANIX_RPC_URL`           |                                  RPC url of Botanix node                                  | string |         |                                              |
+|           |          `BOTANIX_CHAIN_ID`          |                                The chain id to connect to                                 | number |         |                    `3637`                    |
+|    ✅     |     `DATASTORE_CONTRACT_ADDRESS`     |                              Address of Data Store contract                               | string |         | `0xFD70de6b91282D8017aA4E741e9Ae325CAb992d8` |
+|    ✅     | `BOTANIX_DATASTORE_CONTRACT_ADDRESS` |                              Address of Data Store contract                               | string |         | `0xA23B81a89Ab9D7D89fF8fc1b5d8508fB75Cc094d` |
+|    ✅     |      `READER_CONTRACT_ADDRESS`       |                          Address of Reader contract on Arbitrum                           | string |         | `0x470fbC46bcC0f16532691Df360A07d8Bf5ee0789` |
+|    ✅     |  `BOTANIX_READER_CONTRACT_ADDRESS`   |                           Address of Reader contract on Botanix                           | string |         | `0x922766ca6234cD49A483b5ee8D86cA3590D0Fb0E` |
+|    ✅     |      `ARBITRUM_TOKENS_INFO_URL`      |                    URL to token meta data supported by GMX on Arbitrum                    | string |         |  `https://arbitrum-api.gmxinfra.io/tokens`   |
+|    ✅     |      `BOTANIX_TOKENS_INFO_URL`       |                    URL to token meta data supported by GMX on Botanix                     | string |         |   `https://botanix-api.gmxinfra.io/tokens`   |
+|    ✅     |          `PNL_FACTOR_TYPE`           |     PnL factor type. See https://github.com/gmx-io/gmx-synthetics#market-token-price      | string |         |         `MAX_PNL_FACTOR_FOR_TRADERS`         |
+|           |         `TIINGO_ADAPTER_URL`         |                                     URL of Tiingo EA                                      | string |         |                                              |
+|           |          `NCFX_ADAPTER_URL`          |                                      URL of NCFX EA                                       | string |         |                                              |
+|           |      `COINMETRICS_ADAPTER_URL`       |                                   URL of Coinmetrics EA                                   | string |         |                                              |
+|           |   `BLOCKSIZE_CAPITAL_ADAPTER_URL`    |                                URL of Blocksize Capital EA                                | string |         |                                              |
+|    ✅     |    `MIN_REQUIRED_SOURCE_SUCCESS`     |          Minimum number of source EAs that need to successfully return a value.           | number |         |                     `2`                      |
+|           |       `BACKGROUND_EXECUTE_MS`        | The amount of time the background execute should sleep before performing the next request | number |         |                   `10000`                    |
 
 ---
 
