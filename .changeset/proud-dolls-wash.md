@@ -2,4 +2,4 @@
 "@chainlink/dxfeed-adapter": patch
 ---
 
-Ds 4441 changeset0fix
+Streams adapter: skip gRPC publish for observations with errorMessage
