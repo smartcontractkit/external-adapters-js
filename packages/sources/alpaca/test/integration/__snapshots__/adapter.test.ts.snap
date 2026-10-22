@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`stock_quotes websocket returns the spec example response, after surviving an error frame 1`] = `
+{
+  "data": {
+    "ask_price": 190.05,
+    "ask_volume": 2,
+    "bid_price": 189.95,
+    "bid_volume": 1,
+    "mid_price": 190,
+    "t": "2026-09-17T00:30:15.123456789Z",
+  },
+  "meta": {
+    "adapterName": "ALPACA",
+    "metrics": {
+      "feedId": "{"base":"aapl","isOvernight":false,"quote":"usd","requireVolume":false}",
+    },
+    "transportName": "default_single_transport",
+  },
+  "result": 190,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": Any<Number>,
+    "providerDataStreamEstablishedUnixMs": Any<Number>,
+    "providerIndicatedTimeUnixMs": 1789605015123,
+  },
+}
+`;

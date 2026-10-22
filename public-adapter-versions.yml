@@ -58,7 +58,7 @@ adapters:
   - name: cryptocompare
     version: 3.5.2
   - name: data-engine
-    version: 1.6.3
+    version: 1.6.2
   - name: deep-blue
     version: 1.0.21
   - name: deutsche-boerse
@@ -100,13 +100,13 @@ adapters:
   - name: generic-api
     version: 1.3.5
   - name: glv-token
-    version: 2.1.8
+    version: 2.1.7
   - name: gm-token
     version: 1.3.2
   - name: gmx-tokens
-    version: 1.2.7
+    version: 1.2.6
   - name: gold
-    version: 1.3.8
+    version: 1.3.7
   - name: gsr
     version: 2.6.5
   - name: harris-and-trotter
@@ -118,7 +118,7 @@ adapters:
   - name: hyperithm
     version: 1.0.0
   - name: icap
-    version: 1.7.9
+    version: 1.7.7
   - name: ice
     version: 1.2.4
   - name: ignition-address-list
@@ -149,8 +149,6 @@ adapters:
     version: 1.14.5
   - name: matrixdock
     version: 2.0.4
-  - name: matrixedlink-state
-    version: 1.0.0
   - name: mobula-state
     version: 2.5.4
   - name: mock-ea
@@ -232,9 +230,9 @@ adapters:
   - name: token-balance
     version: 3.6.1
   - name: tokenized-equity
-    version: 1.5.0
+    version: 1.4.6
   - name: tp
-    version: 1.13.8
+    version: 1.13.6
   - name: tradermade
     version: 2.1.30
   - name: tradinghours
