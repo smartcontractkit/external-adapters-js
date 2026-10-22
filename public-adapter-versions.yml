@@ -68,7 +68,7 @@ adapters:
   - name: dlc-cbtc-por
     version: 1.0.7
   - name: dxfeed
-    version: 2.8.7
+    version: 2.9.1
   - name: elwood
     version: 3.3.5
   - name: enzyme
