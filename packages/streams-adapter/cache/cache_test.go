@@ -643,3 +643,119 @@ func TestCache_DeterministicKeyOrdering(t *testing.T) {
 
 	require.Len(t, c.Items(), 1)
 }
+
+// ---------------------------------------------------------------------------
+// Transformed-key aliases
+// ---------------------------------------------------------------------------
+
+// An item learned with an alias receives observations written to the alias, as
+// CompositeTransport writes are (see helpers.LearnedTransformedKeys).
+func TestCache_SetTransformedKey_AliasReceivesObservations(t *testing.T) {
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	c.SetNew("raw-ws", nil, [32]byte{1})
+	c.SetNew("raw-rest", nil, [32]byte{2})
+	c.SetTransformedKey("raw-ws", "feed:transport=ws", "feed")
+	c.SetTransformedKey("raw-rest", "feed:transport=rest", "feed")
+
+	c.SetObservation("feed", &types.Observation{Success: true, Data: json.RawMessage(`{"mid_price":1}`)}, time.Now(), "adapter-key")
+
+	for _, rawKey := range []string{"raw-ws", "raw-rest"} {
+		item := c.Get(rawKey)
+		require.Equal(t, types.StatusActive, item.Status, rawKey)
+		require.JSONEq(t, `{"mid_price":1}`, string(item.Observation.Data), rawKey)
+	}
+}
+
+// An observation buffered for the alias before the mapping is learned is
+// applied when the item is learned.
+func TestCache_SetTransformedKey_AppliesPendingObservationForAlias(t *testing.T) {
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	c.SetNew("raw", nil, [32]byte{})
+	c.SetObservation("feed", &types.Observation{Success: true}, time.Now(), "adapter-key")
+	c.SetTransformedKey("raw", "feed:transport=ws", "feed")
+
+	require.Equal(t, types.StatusActive, c.Get("raw").Status)
+	c.mu.RLock()
+	_, stillPending := c.pendingObs["feed"]
+	c.mu.RUnlock()
+	assert.False(t, stillPending)
+}
+
+// Learning again replaces the old mappings, aliases included, so the item does
+// not keep receiving observations for keys it no longer has.
+func TestCache_SetTransformedKey_RelearnRemovesOldAliases(t *testing.T) {
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	c.SetNew("raw", nil, [32]byte{})
+	c.SetTransformedKey("raw", "old:transport=ws", "old")
+	c.SetTransformedKey("raw", "new:transport=ws", "new")
+
+	_, ok := c.RawKeysByTransformed("old")
+	assert.False(t, ok, "old alias must be unmapped")
+	_, ok = c.RawKeysByTransformed("old:transport=ws")
+	assert.False(t, ok, "old transformed key must be unmapped")
+	rawKeys, ok := c.RawKeysByTransformed("new")
+	require.True(t, ok)
+	assert.Equal(t, []string{"raw"}, rawKeys)
+}
+
+// An expired item is removed from the buckets of its aliases too.
+func TestCache_CleanupExpired_RemovesAliasMappings(t *testing.T) {
+	ttl := 100 * time.Millisecond
+	c := New(Config{TTL: ttl, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	c.SetNew("raw", nil, [32]byte{})
+	c.SetTransformedKey("raw", "feed:transport=ws", "feed")
+	c.mu.Lock()
+	c.items["raw"].Timestamp = time.Now().Add(-ttl * 2)
+	c.mu.Unlock()
+
+	c.cleanupExpired()
+
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	assert.Empty(t, c.byTransformedKey)
+}
+
+// A new item must not copy another item's observation through the alias when
+// that observation arrived on the other item's own qualified key: on real
+// routes (dxfeed rest and ws), that would start one route on the other route's
+// value.
+func TestCache_SetTransformedKey_DoesNotCopyObservationAcrossRoutesViaAlias(t *testing.T) {
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	c.SetNew("raw-ws", nil, [32]byte{1})
+	c.SetTransformedKey("raw-ws", "feed:transport=ws", "feed")
+	c.SetObservation("feed:transport=ws", &types.Observation{Success: true}, time.Now(), "ws-adapter-key")
+	require.Equal(t, types.StatusActive, c.Get("raw-ws").Status)
+
+	c.SetNew("raw-rest", nil, [32]byte{2})
+	c.SetTransformedKey("raw-rest", "feed:transport=rest", "feed")
+
+	item := c.Get("raw-rest")
+	assert.Equal(t, types.StatusLearned, item.Status)
+	assert.Nil(t, item.Observation)
+}
+
+// A new item does copy an observation that arrived on the shared alias, as a
+// composite write does, so it is usable before the next write.
+func TestCache_SetTransformedKey_CopiesObservationThatArrivedOnAlias(t *testing.T) {
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	c.SetNew("raw-rest", nil, [32]byte{1})
+	c.SetTransformedKey("raw-rest", "feed:transport=rest", "feed")
+	c.SetObservation("feed", &types.Observation{Success: true}, time.Now(), "composite-adapter-key")
+
+	c.SetNew("raw-ws", nil, [32]byte{2})
+	c.SetTransformedKey("raw-ws", "feed:transport=ws", "feed")
+
+	assert.Equal(t, types.StatusActive, c.Get("raw-ws").Status)
+}

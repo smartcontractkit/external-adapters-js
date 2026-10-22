@@ -277,6 +277,7 @@ func (s *Server) cacheHandler(c *gin.Context) {
 		Key                 string                 `json:"key"`
 		Status              types.CacheItemStatus  `json:"status"`
 		TransformedKey      string                 `json:"transformedKey,omitempty"`
+		TransformedAliases  []string               `json:"transformedAliases,omitempty"`
 		AdapterKey          string                 `json:"adapterKey,omitempty"`
 		Timestamp           time.Time              `json:"timestamp"`
 		Observation         *types.Observation     `json:"observation,omitempty"`
@@ -293,6 +294,7 @@ func (s *Server) cacheHandler(c *gin.Context) {
 			Key:                 key,
 			Status:              item.Status,
 			TransformedKey:      item.TransformedKey,
+			TransformedAliases:  item.TransformedAliases,
 			AdapterKey:          item.OriginalAdapterKey,
 			Timestamp:           item.Timestamp,
 			Observation:         item.Observation,
@@ -374,12 +376,12 @@ func (s *Server) bootstrapSubscription(rawKey string, params types.RequestParams
 		}
 		feedID, transport, ok := s.queryAdapterForFeedID(originalData)
 		if ok {
-			transformedKey, err := helpers.TransformedKeyFromFeedID(feedID, endpoint, transport)
+			transformedKey, aliases, err := helpers.LearnedTransformedKeys(feedID, endpoint, transport)
 			if err != nil {
 				s.logger.Error("Failed to compute transformed key from feedId", "feedId", feedID, "error", err)
 				break
 			}
-			s.cache.SetTransformedKey(rawKey, transformedKey)
+			s.cache.SetTransformedKey(rawKey, transformedKey, aliases...)
 			break
 		}
 	}

@@ -11,6 +11,7 @@ import (
 	"time"
 
 	cache "streams-adapter/cache"
+	types "streams-adapter/common"
 	"streams-adapter/helpers"
 
 	"github.com/goccy/go-json"
@@ -605,8 +606,15 @@ func TestHandleCommand_Eval_TransportsDoNotShareACacheSlot(t *testing.T) {
 
 	c.SetNew(restRawKey, nil, restHash)
 	c.SetNew(wsRawKey, nil, wsHash)
-	c.SetTransformedKey(restRawKey, "base=bil:uslf24:endpoint=price:transport=rest")
-	c.SetTransformedKey(wsRawKey, "base=bil:uslf24:endpoint=price:transport=ws")
+	// Learn as Server.bootstrapSubscription does: each subscription also gets the
+	// transport-blind alias, which writes on a real route must never reach.
+	for rawKey, transport := range map[string]string{restRawKey: "rest", wsRawKey: "ws"} {
+		key, aliases, err := helpers.LearnedTransformedKeys(`{"base":"bil:uslf24"}`, "price", transport)
+		require.NoError(t, err)
+		require.Equal(t, "base=bil:uslf24:endpoint=price:transport="+transport, key)
+		require.Equal(t, []string{"base=bil:uslf24:endpoint=price"}, aliases)
+		c.SetTransformedKey(rawKey, key, aliases...)
+	}
 
 	restCh := make(chan transmitter.Event, 1)
 	wsCh := make(chan transmitter.Event, 1)
@@ -649,6 +657,84 @@ func TestHandleCommand_Eval_TransportsDoNotShareACacheSlot(t *testing.T) {
 	require.NotNil(t, restItem.Observation)
 	require.Contains(t, string(restItem.Observation.Data), "91.59",
 		"the ws write must not overwrite the rest slot")
+}
+
+// initFinageAliases points the package-level alias index at an adapter whose
+// stock_quotes endpoint uses a CompositeTransport (ws + rest).
+func initFinageAliases(t *testing.T) {
+	t.Helper()
+	path := filepath.Join(t.TempDir(), "endpoint_aliases.json")
+	require.NoError(t, os.WriteFile(path, []byte(
+		`{"adapters":{"finage":{"defaultEndpoint":"stock","endpoints":{"stock":{"aliases":[]},"stock_quotes":{"aliases":[]}}}}}`,
+	), 0o644))
+	require.NoError(t, helpers.InitAliasIndex("finage", path))
+}
+
+// With COMPOSITE_TRANSPORT the framework replaces the endpoint's routes with one
+// CompositeTransport on the default_single_transport route. Its ws and rest
+// sub-transports write to that one cache key, and each write carries its own
+// sub-transport in meta.transportName. A subscription learns its transformed key
+// from whichever sub-transport wrote the value the JS adapter served at that
+// moment, so two subscriptions to the same symbol can learn different
+// sub-transports.
+//
+// This is the finage stock_quotes incident on staging (2026-10-21): after a
+// restart the first write for AMD came from rest, and the requireVolume variant
+// learned rest. The variant without requireVolume learned ws a little later.
+// Every later write was ws, but it was keyed as rest (the transport of the first
+// write for the adapter key). So the variant that learned ws got no observation
+// and returned 504 for 2.5 hours, until a failover to rest at 00:00 UTC.
+func TestHandleCommand_Eval_CompositeSubTransportsReachEverySubscriber(t *testing.T) {
+	initFinageAliases(t)
+
+	c := cache.New(cache.Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	pub := transmitter.NewPublisher()
+	srv := New(Config{
+		Addr:      ":0",
+		Cache:     c,
+		Publisher: pub,
+		Logger:    slog.Default(),
+	})
+
+	const (
+		adapterKey  = `finage-data-streams-FINAGE-stock_quotes-default_single_transport-{"base":"AMD"}`
+		feedID      = `{"base":"AMD"}`
+		volumeRaw   = "endpoint=stockquotes:from=AMD:requirevolume=TRUE:to=USD"
+		noVolumeRaw = "endpoint=stockquotes:from=AMD:to=USD"
+	)
+	learn := func(rawKey, transport string) {
+		t.Helper()
+		// The same calls as Server.bootstrapSubscription.
+		key, aliases, err := helpers.LearnedTransformedKeys(feedID, "stock_quotes", transport)
+		require.NoError(t, err)
+		c.SetTransformedKey(rawKey, key, aliases...)
+	}
+	write := func(transport, price string) {
+		t.Helper()
+		srv.handleCommand(newMockConn(), makeCmd("EVAL", "script", "1", adapterKey,
+			`{"data":{"mid_price":`+price+`},"meta":{"transportName":"`+transport+`"},"result":null}`))
+	}
+
+	c.SetNew(volumeRaw, nil, [32]byte{1})
+	c.SetNew(noVolumeRaw, nil, [32]byte{2})
+
+	// The rest sub-transport writes first, before the WS connects.
+	write("rest", "214.10")
+	learn(volumeRaw, "rest")
+
+	// The WS connects and its writes win from now on.
+	write("ws", "214.12")
+	learn(noVolumeRaw, "ws")
+	write("ws", "214.15")
+
+	for _, rawKey := range []string{volumeRaw, noVolumeRaw} {
+		item := c.Get(rawKey)
+		require.NotNil(t, item)
+		require.Equal(t, types.StatusActive, item.Status, "%s must receive the composite writes", rawKey)
+		require.Contains(t, string(item.Observation.Data), "214.15", "%s must hold the latest write", rawKey)
+	}
 }
 
 // handleEval runs on every observation, so the transformed key is derived once

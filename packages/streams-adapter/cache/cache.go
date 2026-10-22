@@ -3,6 +3,7 @@ package cache
 import (
 	"context"
 	"fmt"
+	"slices"
 	"strings"
 	"sync"
 	"time"
@@ -164,10 +165,11 @@ func (c *Cache) PayloadHashesByRawKey(rawKey string) ([][32]byte, bool) {
 }
 
 // SetTransformedKey transitions a "new" item to "learned" by recording the
-// raw→transformed key mapping. If a pending observation has already arrived
-// for this transformed key, it is applied immediately and the item becomes
-// "active". No-op if the raw key is not present in the cache.
-func (c *Cache) SetTransformedKey(rawKey, transformedKey string) {
+// raw→transformed key mapping. The item also receives observations written to
+// any of aliases (see helpers.LearnedTransformedKeys). If a pending observation
+// has already arrived for one of these keys, it is applied immediately and the
+// item becomes "active". No-op if the raw key is not present in the cache.
+func (c *Cache) SetTransformedKey(rawKey, transformedKey string, aliases ...string) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
@@ -175,26 +177,48 @@ func (c *Cache) SetTransformedKey(rawKey, transformedKey string) {
 	if !ok {
 		return
 	}
-	// A raw key should belong to only one transformed-key bucket at a time.
-	if item.TransformedKey != "" && item.TransformedKey != transformedKey {
-		c.removeTransformedKeyMapping(item.TransformedKey, rawKey)
+	keys := append([]string{transformedKey}, aliases...)
+
+	// A raw key should belong only to the buckets of its current keys.
+	for _, oldKey := range transformedKeysOf(item) {
+		if !slices.Contains(keys, oldKey) {
+			c.removeTransformedKeyMapping(oldKey, rawKey)
+		}
 	}
 	item.TransformedKey = transformedKey
+	item.TransformedAliases = aliases
 	item.RequiresInverse = c.requiresInverse(item.OriginalRequestData)
 	item.Status = types.StatusLearned
 	item.Timestamp = time.Now()
-	c.addTransformedKeyMapping(transformedKey, rawKey)
+	for _, key := range keys {
+		c.addTransformedKeyMapping(key, rawKey)
+	}
 
 	// Apply observation that arrived before the transformed key was known.
-	pending, ok := c.pendingObs[transformedKey]
-	if ok {
-		// The provider can publish before the HTTP request has learned its mapping.
-		c.applyObservation(item, transformedKey, pending.obs, pending.timestamp, pending.originalAdapterKey)
-		delete(c.pendingObs, transformedKey)
-		return
+	for _, key := range keys {
+		pending, ok := c.pendingObs[key]
+		if ok {
+			// The provider can publish before the HTTP request has learned its mapping.
+			c.applyObservation(item, key, pending.obs, pending.timestamp, pending.originalAdapterKey)
+			delete(c.pendingObs, key)
+			return
+		}
 	}
 	// If another raw key already resolved this feed, make this item immediately usable.
-	c.applyExistingObservation(rawKey, item, transformedKey)
+	for _, key := range keys {
+		if c.applyExistingObservation(rawKey, item, key) {
+			return
+		}
+	}
+}
+
+// transformedKeysOf returns every transformed key the item is mapped under:
+// its transformed key and its aliases. Empty until the item is learned.
+func transformedKeysOf(item *types.CacheItem) []string {
+	if item.TransformedKey == "" {
+		return nil
+	}
+	return append([]string{item.TransformedKey}, item.TransformedAliases...)
 }
 
 // SetObservation transitions all items identified by transformedKey to "active"
@@ -256,18 +280,27 @@ func (c *Cache) removeTransformedKeyMapping(transformedKey, rawKey string) {
 	}
 }
 
-func (c *Cache) applyExistingObservation(rawKey string, item *types.CacheItem, transformedKey string) {
+// applyExistingObservation copies the observation of another active item mapped
+// under transformedKey into item. Returns true if it found one.
+//
+// Only an observation that was written to transformedKey itself is copied. An
+// alias bucket also holds items on real routes (see helpers.LearnedTransformedKeys)
+// whose observations arrived on their own transport-qualified keys, and those
+// must not start an item on another route with that route's value.
+func (c *Cache) applyExistingObservation(rawKey string, item *types.CacheItem, transformedKey string) bool {
 	for mappedRawKey := range c.byTransformedKey[transformedKey] {
 		if mappedRawKey == rawKey {
 			continue
 		}
 		mappedItem, ok := c.items[mappedRawKey]
-		if !ok || mappedItem.Status != types.StatusActive || mappedItem.Observation == nil {
+		if !ok || mappedItem.Status != types.StatusActive || mappedItem.Observation == nil ||
+			mappedItem.ObservationKey != transformedKey {
 			continue
 		}
 		c.applyObservation(item, transformedKey, mappedItem.Observation, mappedItem.Timestamp, mappedItem.OriginalAdapterKey)
-		return
+		return true
 	}
+	return false
 }
 
 // applyObservation writes an observation into a cache item, marking it active.
@@ -276,6 +309,7 @@ func (c *Cache) applyObservation(item *types.CacheItem, transformedKey string, o
 	wasActive := item.Status == types.StatusActive
 	item.Status = types.StatusActive
 	item.Observation = obs
+	item.ObservationKey = transformedKey
 	item.Timestamp = timestamp
 	item.OriginalAdapterKey = originalAdapterKey
 	if !wasActive {
@@ -396,8 +430,8 @@ func (c *Cache) cleanupExpired() {
 	cutoff := time.Now().Add(-c.ttl)
 	for rawKey, item := range c.items {
 		if item.Timestamp.Before(cutoff) {
-			if item.TransformedKey != "" {
-				c.removeTransformedKeyMapping(item.TransformedKey, rawKey)
+			for _, key := range transformedKeysOf(item) {
+				c.removeTransformedKeyMapping(key, rawKey)
 			}
 			if item.Status == types.StatusActive {
 				cacheItemsActive.Dec()

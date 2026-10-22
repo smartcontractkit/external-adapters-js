@@ -281,10 +281,12 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 // deriving it at most once per adapter key.
 //
 // handleEval runs on every observation — thousands per second on a busy adapter
-// — but the derivation is pure and its inputs are fixed per adapter key: the
-// framework builds that key from the transport it routed to, so a given key is
-// only ever written by one transport and always yields the same transformed
-// key. Memoizing keeps the params-blob unmarshal, canonicalization, sort and
+// — but the derivation is pure and its result is fixed per adapter key: the
+// framework builds that key from the route it routed to, so a given key always
+// yields the same transformed key. A CompositeTransport writes one key from
+// several sub-transports, each with its own meta.transportName, but those writes
+// are keyed transport-blind (see helpers.TransformedKeyFromAdapterKey), so the
+// first write's sub-transport cannot pin the key. Memoizing keeps the params-blob unmarshal, canonicalization, sort and
 // join off the per-observation path, along with the meta.transportName lookup —
 // which is why meta stays raw here and is parsed only on a miss.
 //

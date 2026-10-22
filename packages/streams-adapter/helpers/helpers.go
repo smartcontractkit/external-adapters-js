@@ -103,6 +103,38 @@ const emptyParamsSentinel = "DEFAULT_CACHE_KEY"
 // learn paths in agreement.
 const transportParam = "transport"
 
+// defaultSingleTransport is the route name the v3 framework gives an endpoint
+// that has only one route (ea-framework-js src/adapter/endpoint.ts:
+// DEFAULT_TRANSPORT_NAME). With COMPOSITE_TRANSPORT enabled, the framework
+// replaces all of the endpoint's routes with one CompositeTransport on this
+// route. The composite writes every result under this route in the cache key,
+// but each result's meta.transportName is the sub-transport (e.g. `ws` or
+// `rest`) that produced it.
+const defaultSingleTransport = "default_single_transport"
+
+// isCompositeSubTransport reports whether a write to the adapter key comes from
+// a sub-transport of a CompositeTransport: the key is on the single default
+// route, but meta.transportName names another transport.
+//
+// All requests to a composite endpoint share one route and one cache slot, so
+// its sub-transport does not identify a separate slot and must not qualify the
+// transformed key. If it did, each write would be keyed by the sub-transport
+// that produced it, and a subscription that learned a different sub-transport
+// would never receive an observation.
+//
+// Only the fixed `-default_single_transport-` suffix before the params segment
+// is matched, so the key is not split on dashes.
+func isCompositeSubTransport(key, transport string) bool {
+	if transport == "" || transport == defaultSingleTransport {
+		return false
+	}
+	if brace := strings.Index(key, "{"); brace != -1 {
+		return strings.HasSuffix(key[:brace], "-"+defaultSingleTransport+"-")
+	}
+	lastDash := strings.LastIndex(key, "-")
+	return lastDash != -1 && strings.HasSuffix(key[:lastDash], "-"+defaultSingleTransport)
+}
+
 // TransformedKeyFromAdapterKey derives the internal transformed cache key from
 // the Redis adapter key used by the JS adapter when publishing observations.
 //
@@ -123,7 +155,14 @@ const transportParam = "transport"
 // keys they produce equal. An empty transport reproduces the previous,
 // transport-blind key, so a framework that does not report the field degrades
 // on both paths together rather than splitting them apart.
+//
+// A write from a CompositeTransport sub-transport gets the transport-blind key.
+// The learn path registers every subscription under that key too, see
+// LearnedTransformedKeys.
 func TransformedKeyFromAdapterKey(key, transport string) (string, error) {
+	if isCompositeSubTransport(key, transport) {
+		transport = ""
+	}
 	if !strings.Contains(key, "{") {
 		// Hashed-params form: take the bare base64 segment after the last dash.
 		lastDash := strings.LastIndex(key, "-")
@@ -245,4 +284,32 @@ func TransformedKeyFromFeedID(feedID, endpoint, transport string) (string, error
 		return "", fmt.Errorf("failed to build cache key params from feedId: %w", err)
 	}
 	return CalculateCacheKey(withTransport(params, transport))
+}
+
+// LearnedTransformedKeys returns the transformed keys that a subscription
+// learned from a JS adapter response must be registered under: the
+// transport-qualified key, plus the transport-blind key as an alias.
+//
+// The learn path cannot tell from meta.transportName alone whether `ws` is a
+// route of its own or a sub-transport of a CompositeTransport. The write path
+// can (see isCompositeSubTransport), and keys composite writes transport-blind.
+// The alias lets those writes reach the subscription whichever sub-transport it
+// learned. Writes on a real route are always transport-qualified, so the alias
+// never receives them, and routes stay in separate slots.
+func LearnedTransformedKeys(feedID, endpoint, transport string) (string, []string, error) {
+	key, err := TransformedKeyFromFeedID(feedID, endpoint, transport)
+	if err != nil {
+		return "", nil, err
+	}
+	if transport == "" {
+		return key, nil, nil
+	}
+	blind, err := TransformedKeyFromFeedID(feedID, endpoint, "")
+	if err != nil {
+		return "", nil, err
+	}
+	if blind == key {
+		return key, nil, nil
+	}
+	return key, []string{blind}, nil
 }

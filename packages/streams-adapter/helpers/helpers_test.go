@@ -278,3 +278,86 @@ func TestTransformedKey_EmptyParams_WriteAndLearnPathsAgree(t *testing.T) {
 		}
 	}
 }
+
+// ---------------------------------------------------------------------------
+// CompositeTransport sub-transports
+// ---------------------------------------------------------------------------
+
+// With COMPOSITE_TRANSPORT the framework puts one CompositeTransport on the
+// default_single_transport route. Each write carries the sub-transport that
+// produced it (e.g. `ws`, `rest`) in meta.transportName, but all of them go to
+// this one cache key.
+const (
+	compositeAdapterKey       = `test-adapter-data-streams-TEST-adapter-stock-default_single_transport-{"base":"amd"}`
+	compositeHashedAdapterKey = `test-adapter-data-streams-TEST-adapter-stock-default_single_transport-Ff25JqfZC9B/NRMI2Kyn9x1gcH0=`
+)
+
+func TestIsCompositeSubTransport(t *testing.T) {
+	for _, tc := range []struct {
+		name, key, transport string
+		want                 bool
+	}{
+		{"composite ws", compositeAdapterKey, "ws", true},
+		{"composite rest", compositeAdapterKey, "rest", true},
+		{"composite hashed params", compositeHashedAdapterKey, "ws", true},
+		{"composite empty params", emptyParamsAdapterKey, "ws", true},
+		{"single plain transport", compositeAdapterKey, "default_single_transport", false},
+		{"no transport reported", compositeAdapterKey, "", false},
+		{"real ws route", dxfeedWsAdapterKey, "ws", false},
+		{"real rest route", dxfeedRestAdapterKey, "rest", false},
+		{"route name only in params", `adapter-price-rest-{"note":"x-default_single_transport-y"}`, "rest", false},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			require.Equal(t, tc.want, isCompositeSubTransport(tc.key, tc.transport))
+		})
+	}
+}
+
+// A composite write is keyed transport-blind, whichever sub-transport made it,
+// so the key for an adapter key does not depend on which write arrives first.
+func TestTransformedKeyFromAdapterKey_CompositeSubTransportsShareOneKey(t *testing.T) {
+	initTestAdapter(t)
+
+	ws, err := TransformedKeyFromAdapterKey(compositeAdapterKey, "ws")
+	require.NoError(t, err)
+	rest, err := TransformedKeyFromAdapterKey(compositeAdapterKey, "rest")
+	require.NoError(t, err)
+
+	require.Equal(t, "base=amd:endpoint=stock", ws)
+	require.Equal(t, ws, rest)
+}
+
+// A subscription is registered under its transport-qualified key and the
+// transport-blind alias. Composite writes reach it through the alias, whichever
+// sub-transport it learned; writes on a real route reach it through the
+// qualified key only.
+func TestLearnedTransformedKeys(t *testing.T) {
+	initTestAdapter(t)
+
+	for _, transport := range []string{"ws", "rest"} {
+		t.Run("composite learned "+transport, func(t *testing.T) {
+			key, aliases, err := LearnedTransformedKeys(`{"base":"amd"}`, "stock", transport)
+			require.NoError(t, err)
+			require.Equal(t, "base=amd:endpoint=stock:transport="+transport, key)
+
+			fromWrite, err := TransformedKeyFromAdapterKey(compositeAdapterKey, "ws")
+			require.NoError(t, err)
+			require.Equal(t, []string{fromWrite}, aliases)
+		})
+	}
+
+	t.Run("real route", func(t *testing.T) {
+		key, _, err := LearnedTransformedKeys(dxfeedFeedID, "price", "rest")
+		require.NoError(t, err)
+		fromWrite, err := TransformedKeyFromAdapterKey(dxfeedRestAdapterKey, "rest")
+		require.NoError(t, err)
+		require.Equal(t, fromWrite, key)
+	})
+
+	t.Run("no transport reported", func(t *testing.T) {
+		key, aliases, err := LearnedTransformedKeys(dxfeedFeedID, "price", "")
+		require.NoError(t, err)
+		require.Equal(t, "base=bil:uslf24:endpoint=price", key)
+		require.Empty(t, aliases)
+	})
+}
