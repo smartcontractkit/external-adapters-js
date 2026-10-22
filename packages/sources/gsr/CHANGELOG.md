@@ -1,5 +1,32 @@
 # @chainlink/gsr-adapter
 
+## 2.7.0
+
+### Minor Changes
+
+- [#5515](https://github.com/smartcontractkit/external-adapters-js/pull/5515) [`15f7777`](https://github.com/smartcontractkit/external-adapters-js/commit/15f77776c9677f64d1b77761c10bb5e2e2b3f140) Thanks [@alecgard](https://github.com/alecgard)! - Proxy JS adapter debug endpoints (e.g. /debug/settings/raw) through the streams adapter
+
+### Patch Changes
+
+- [#5529](https://github.com/smartcontractkit/external-adapters-js/pull/5529) [`73ecd9f`](https://github.com/smartcontractkit/external-adapters-js/commit/73ecd9fff0f6718f981b188a582ea90fad657cd4) Thanks [@alecgard](https://github.com/alecgard)! - Rebuild on Node 22.23.4 with upgraded ca-certificates
+
+## 2.6.6
+
+### Patch Changes
+
+- [#5381](https://github.com/smartcontractkit/external-adapters-js/pull/5381) [`be9338d`](https://github.com/smartcontractkit/external-adapters-js/commit/be9338d02a878cec4edc50ae6f84836f899a4caf) Thanks [@cl-efornaciari](https://github.com/cl-efornaciari)! - Fix hourly WebSocket disconnections caused by access token expiry.
+
+  A GSR session stops delivering data one hour after it is opened, and GSR neither closes the socket nor sends any notice. The adapter had no way to know, so the only thing that noticed was the framework's staleness check at `WS_SUBSCRIPTION_UNRESPONSIVE_TTL` (120s). By then cached prices had aged out at `CACHE_MAX_AGE` (90s), so every cycle ended in a burst of 504s. In production this repeated on a 62 minute period — 60 minutes of data, plus 120 seconds to notice.
+
+  Two changes, one for each half of that:
+
+  - The adapter now reads `validUntil` from the token response and, five minutes ahead of expiry, renews the token in place via GSR's `PUT /token` endpoint (removed in #2459, restored here) rather than waiting to be cut off. If renewal is refused it reconnects immediately instead, still ahead of expiry.
+  - `WS_SUBSCRIPTION_UNRESPONSIVE_TTL` now defaults to 30s for this adapter. The token travels in the WebSocket handshake, so a successful renewal is not proof the session survived; this keeps the framework's own liveness check inside `CACHE_MAX_AGE`, so a stall from a renewal that did not take — or from any other cause — is caught and reconnected while cached prices are still being served. Operators can still override it via the environment.
+
+- [#4605](https://github.com/smartcontractkit/external-adapters-js/pull/4605) [`bf090c6`](https://github.com/smartcontractkit/external-adapters-js/commit/bf090c615f2c90134e365b7da86f026a52b206b6) Thanks [@renovate](https://github.com/apps/renovate)! - Bump axios
+
+- [#5484](https://github.com/smartcontractkit/external-adapters-js/pull/5484) [`87320be`](https://github.com/smartcontractkit/external-adapters-js/commit/87320be19b1ad7db301cd5d9e3ce3cff31518fce) Thanks [@renovate](https://github.com/apps/renovate)! - Bump axios
+
 ## 2.6.5
 
 ### Patch Changes

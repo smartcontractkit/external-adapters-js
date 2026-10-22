@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/view-starknet-latest-answer-adapter",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "description": "Chainlink view-starknet-latest-answer adapter.",
   "keywords": [
     "Chainlink",

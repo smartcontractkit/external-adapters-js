@@ -1,19 +1,19 @@
 # LO_TECH
 
-![1.3.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lo-tech/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lo-tech/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |            Name            |                                             Description                                             |  Type  | Options |      Default       |
-| :-------: | :------------------------: | :-------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------: |
-|    ✅     |     ${REGION}\_API_KEY     |                Lo-Tech API key for the given ${REGION}. Region can be "US" or "ASIA"                | string |         |                    |
-|    ✅     | ${REGION}\_WS_API_ENDPOINT |          Lo-Tech websocket endpoint for the given ${REGION}. Region can be "US" or "ASIA"           | string |         |                    |
-|           |      FUTURES_API_KEY       |                      Lo-Tech API key used with the futures websocket endpoint                       | string |         |                    |
-|           |  FUTURES_WS_API_ENDPOINT   |                   Lo-Tech websocket endpoint used for the `cme_futures` endpoint                    | string |         |                    |
-|           |     ROLL_DATE_TIMEZONE     |                   The timezone used to convert the roll date to a unix timestamps                   | string |         | `America/New_York` |
-|           |   ROLL_DATE_TIME_SECONDS   | The time in seconds since the start of the day to use to convert the roll date to a unix timestamps | number |         |        `0`         |
+| Required? |            Name             |                                             Description                                             |  Type  | Options |      Default       |
+| :-------: | :-------------------------: | :-------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------: |
+|    ✅     |     `${REGION}_API_KEY`     |                Lo-Tech API key for the given ${REGION}. Region can be "US" or "ASIA"                | string |         |                    |
+|    ✅     | `${REGION}_WS_API_ENDPOINT` |          Lo-Tech websocket endpoint for the given ${REGION}. Region can be "US" or "ASIA"           | string |         |                    |
+|           |      `FUTURES_API_KEY`      |                      Lo-Tech API key used with the futures websocket endpoint                       | string |         |                    |
+|           |  `FUTURES_WS_API_ENDPOINT`  |                   Lo-Tech websocket endpoint used for the `cme_futures` endpoint                    | string |         |                    |
+|           |    `ROLL_DATE_TIMEZONE`     |                   The timezone used to convert the roll date to a unix timestamps                   | string |         | `America/New_York` |
+|           |  `ROLL_DATE_TIME_SECONDS`   | The time in seconds since the start of the day to use to convert the roll date to a unix timestamps | number |         |        `0`         |
 
 ---
 

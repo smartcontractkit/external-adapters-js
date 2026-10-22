@@ -1,5 +1,27 @@
 # @chainlink/token-balance-adapter
 
+## 3.7.0
+
+### Minor Changes
+
+- [#5411](https://github.com/smartcontractkit/external-adapters-js/pull/5411) [`a2edd73`](https://github.com/smartcontractkit/external-adapters-js/commit/a2edd73348f0d676cbf1f191d345c31db0956320) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove conversion from xrpl endpoint
+
+- [#5412](https://github.com/smartcontractkit/external-adapters-js/pull/5412) [`52a3a10`](https://github.com/smartcontractkit/external-adapters-js/commit/52a3a107ef47e3f627771df4fa7e59dfef6cdbd0) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove currency conversion from solana endpoint
+
+- [#5409](https://github.com/smartcontractkit/external-adapters-js/pull/5409) [`52e2e09`](https://github.com/smartcontractkit/external-adapters-js/commit/52e2e09a88f0f0497d18fb320b390c29422c90f8) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove solvJlp endpoint
+
+- [#5413](https://github.com/smartcontractkit/external-adapters-js/pull/5413) [`38bccca`](https://github.com/smartcontractkit/external-adapters-js/commit/38bcccafa142c9bf7f4107ebc0a85a6fa19a31bb) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove currency conversion from solanaMulti endpoint
+
+- [#5410](https://github.com/smartcontractkit/external-adapters-js/pull/5410) [`cc1e38a`](https://github.com/smartcontractkit/external-adapters-js/commit/cc1e38af703cde91f35af08340d084d6378bd9f6) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove tbill endpoint
+
+### Patch Changes
+
+- [#5414](https://github.com/smartcontractkit/external-adapters-js/pull/5414) [`52c8744`](https://github.com/smartcontractkit/external-adapters-js/commit/52c8744a6347c4392ec29d0df31717a96e48234f) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete unused code
+
+- [#5529](https://github.com/smartcontractkit/external-adapters-js/pull/5529) [`73ecd9f`](https://github.com/smartcontractkit/external-adapters-js/commit/73ecd9fff0f6718f981b188a582ea90fad657cd4) Thanks [@alecgard](https://github.com/alecgard)! - Rebuild on Node 22.23.4 with upgraded ca-certificates
+
+- [#5445](https://github.com/smartcontractkit/external-adapters-js/pull/5445) [`d220e6d`](https://github.com/smartcontractkit/external-adapters-js/commit/d220e6d58ff8a0e7819f0d24fdb0872150c9c562) Thanks [@dskloetc](https://github.com/dskloetc)! - Use variable env vars
+
 ## 3.6.1
 
 ### Patch Changes

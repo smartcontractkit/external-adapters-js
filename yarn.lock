@@ -3368,7 +3368,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gsr-adapter@workspace:packages/sources/gsr"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4215,17 +4215,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/superstate-adapter@workspace:packages/sources/superstate"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
+    "@chainlink/external-adapter-framework": "npm:2.20.0"
     "@superstateinc/api-key-request": "npm:0.1.4"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/node-schedule": "npm:2.1.8"
     date-fns: "npm:3.6.0"
-    date-fns-tz: "npm:3.1.3"
-    ethers: "npm:^6.15.0"
+    date-fns-tz: "npm:3.2.0"
+    ethers: "npm:^6.17.0"
     nock: "npm:13.5.6"
     node-schedule: "npm:2.1.1"
-    tslib: "npm:2.4.1"
+    tslib: "npm:2.8.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4304,7 +4304,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tickerlayer-adapter@workspace:packages/sources/tickerlayer"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.18.0"
+    "@chainlink/external-adapter-framework": "npm:2.20.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -13590,12 +13590,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns-tz@npm:3.1.3":
-  version: 3.1.3
-  resolution: "date-fns-tz@npm:3.1.3"
+"date-fns-tz@npm:3.2.0":
+  version: 3.2.0
+  resolution: "date-fns-tz@npm:3.2.0"
   peerDependencies:
-    date-fns: ^3.0.0
-  checksum: 10/eb5cb3b2cd152340004efda9f7905e571cf5140b8e85267b1eaa36c2f1eaa54a0f2e3b26e19794f2aca4d3b15aa3d52a5b2dadb540fcec74b239049c7792a981
+    date-fns: ^3.0.0 || ^4.0.0
+  checksum: 10/8ab4745f00b40381220f0a7a2ec16e217cb629d4018a19047264d289dd260322baa23e19b3ed63c7e553f9ad34bea9dea105391132930a3e141e9a0a53e54af2
   languageName: node
   linkType: hard
 
@@ -14340,7 +14340,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:6.17.0":
+"ethers@npm:6.17.0, ethers@npm:^6.17.0":
   version: 6.17.0
   resolution: "ethers@npm:6.17.0"
   dependencies:
@@ -20232,17 +20232,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tslib@npm:2.8.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.6.2, tslib@npm:^2.8.0":
+  version: 2.8.1
+  resolution: "tslib@npm:2.8.1"
+  checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7
+  languageName: node
+  linkType: hard
+
 "tslib@npm:^1.8.1, tslib@npm:^1.9.0, tslib@npm:^1.9.3":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: 10/7dbf34e6f55c6492637adb81b555af5e3b4f9cc6b998fb440dac82d3b42bdc91560a35a5fb75e20e24a076c651438234da6743d139e4feabf0783f3cdfe1dddb
-  languageName: node
-  linkType: hard
-
-"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.6.2, tslib@npm:^2.8.0":
-  version: 2.8.1
-  resolution: "tslib@npm:2.8.1"
-  checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7
   languageName: node
   linkType: hard
 

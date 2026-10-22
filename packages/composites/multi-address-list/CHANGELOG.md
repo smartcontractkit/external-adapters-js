@@ -1,5 +1,16 @@
 # @chainlink/multi-address-list-adapter
 
+## 1.2.8
+
+### Patch Changes
+
+- [#5529](https://github.com/smartcontractkit/external-adapters-js/pull/5529) [`73ecd9f`](https://github.com/smartcontractkit/external-adapters-js/commit/73ecd9fff0f6718f981b188a582ea90fad657cd4) Thanks [@alecgard](https://github.com/alecgard)! - Rebuild on Node 22.23.4 with upgraded ca-certificates
+
+- Updated dependencies [[`98fd28c`](https://github.com/smartcontractkit/external-adapters-js/commit/98fd28c893e8e7a6ee1527770ef9f21942c90717), [`73ecd9f`](https://github.com/smartcontractkit/external-adapters-js/commit/73ecd9fff0f6718f981b188a582ea90fad657cd4), [`15f7777`](https://github.com/smartcontractkit/external-adapters-js/commit/15f77776c9677f64d1b77761c10bb5e2e2b3f140)]:
+  - @chainlink/anchorage-adapter@4.1.0
+  - @chainlink/bitgo-adapter@1.0.25
+  - @chainlink/coinbase-prime-adapter@1.2.26
+
 ## 1.2.7
 
 ### Patch Changes

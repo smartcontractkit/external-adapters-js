@@ -7,6 +7,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [21x](./21x/README.md)
 - [aleno](./aleno/README.md)
 - [allium-state](./allium-state/README.md)
+- [alpaca](./alpaca/README.md)
 - [anchorage](./anchorage/README.md)
 - [anyblock](./anyblock/README.md)
 - [apex](./apex/README.md)

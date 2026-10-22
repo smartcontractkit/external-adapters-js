@@ -81,6 +81,39 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+    it('should return success - custom startTime/endTime window', async () => {
+      const data = {
+        endpoint: 'reserves',
+        fundId: 1,
+        startTime: '08:00:00',
+        endTime: '13:00:00',
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+    it('should return error - malformed startTime', async () => {
+      const data = {
+        endpoint: 'reserves',
+        fundId: 1,
+        startTime: '9am',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+    it('should return error - startTime not before endTime', async () => {
+      const data = {
+        endpoint: 'reserves',
+        fundId: 1,
+        startTime: '12:00:00',
+        endTime: '09:08:00',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 
   describe('transactions endpoint', () => {

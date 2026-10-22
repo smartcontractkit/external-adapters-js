@@ -5618,7 +5618,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/gsr", {\
         "packageLocation": "./packages/sources/gsr/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.19.1"],\
           ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -6577,18 +6577,18 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/superstate", {\
         "packageLocation": "./packages/sources/superstate/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@chainlink/superstate-adapter", "workspace:packages/sources/superstate"],\
           ["@superstateinc/api-key-request", "npm:0.1.4"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/node-schedule", "npm:2.1.8"],\
           ["date-fns", "npm:3.6.0"],\
-          ["date-fns-tz", "virtual:dbf24be86d4f43dadd47ca06e6dcb8139f03399ea009f576d2a721ecf1ae0426faa15d25a20ed6d005785b22a32822603c769beecb83634ae14010c7d3defdad#npm:3.1.3"],\
-          ["ethers", "npm:6.15.0"],\
+          ["date-fns-tz", "virtual:dbf24be86d4f43dadd47ca06e6dcb8139f03399ea009f576d2a721ecf1ae0426faa15d25a20ed6d005785b22a32822603c769beecb83634ae14010c7d3defdad#npm:3.2.0"],\
+          ["ethers", "npm:6.17.0"],\
           ["nock", "npm:13.5.6"],\
           ["node-schedule", "npm:2.1.1"],\
-          ["tslib", "npm:2.4.1"],\
+          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -6678,7 +6678,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/tickerlayer", {\
         "packageLocation": "./packages/sources/tickerlayer/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.18.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@chainlink/tickerlayer-adapter", "workspace:packages/sources/tickerlayer"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -18744,19 +18744,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["date-fns-tz", [\
-      ["npm:3.1.3", {\
-        "packageLocation": "./.yarn/cache/date-fns-tz-npm-3.1.3-2de4b5d2df-eb5cb3b2cd.zip/node_modules/date-fns-tz/",\
+      ["npm:3.2.0", {\
+        "packageLocation": "./.yarn/cache/date-fns-tz-npm-3.2.0-fe150c9e17-8ab4745f00.zip/node_modules/date-fns-tz/",\
         "packageDependencies": [\
-          ["date-fns-tz", "npm:3.1.3"]\
+          ["date-fns-tz", "npm:3.2.0"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:dbf24be86d4f43dadd47ca06e6dcb8139f03399ea009f576d2a721ecf1ae0426faa15d25a20ed6d005785b22a32822603c769beecb83634ae14010c7d3defdad#npm:3.1.3", {\
-        "packageLocation": "./.yarn/__virtual__/date-fns-tz-virtual-c29f804870/0/cache/date-fns-tz-npm-3.1.3-2de4b5d2df-eb5cb3b2cd.zip/node_modules/date-fns-tz/",\
+      ["virtual:dbf24be86d4f43dadd47ca06e6dcb8139f03399ea009f576d2a721ecf1ae0426faa15d25a20ed6d005785b22a32822603c769beecb83634ae14010c7d3defdad#npm:3.2.0", {\
+        "packageLocation": "./.yarn/__virtual__/date-fns-tz-virtual-89b96b2871/0/cache/date-fns-tz-npm-3.2.0-fe150c9e17-8ab4745f00.zip/node_modules/date-fns-tz/",\
         "packageDependencies": [\
           ["@types/date-fns", null],\
           ["date-fns", "npm:3.6.0"],\
-          ["date-fns-tz", "virtual:dbf24be86d4f43dadd47ca06e6dcb8139f03399ea009f576d2a721ecf1ae0426faa15d25a20ed6d005785b22a32822603c769beecb83634ae14010c7d3defdad#npm:3.1.3"]\
+          ["date-fns-tz", "virtual:dbf24be86d4f43dadd47ca06e6dcb8139f03399ea009f576d2a721ecf1ae0426faa15d25a20ed6d005785b22a32822603c769beecb83634ae14010c7d3defdad#npm:3.2.0"]\
         ],\
         "packagePeers": [\
           "@types/date-fns",\

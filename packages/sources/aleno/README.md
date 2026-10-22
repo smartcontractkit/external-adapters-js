@@ -1,16 +1,16 @@
 # ALENO
 
-![2.4.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/aleno/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/aleno/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |         Name          |                                        Description                                        |  Type  | Options |                Default                |
-| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------------: |
-|    ✅     |        API_KEY        |                                   An API key for Aleno                                    | string |         |                                       |
-|           |    WS_API_ENDPOINT    |                                   WS endpoint for Aleno                                   | string |         | `https://state-price-socket.aleno.ai` |
-|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         |                `10000`                |
+| Required? |          Name           |                                        Description                                        |  Type  | Options |                Default                |
+| :-------: | :---------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------------: |
+|    ✅     |        `API_KEY`        |                                   An API key for Aleno                                    | string |         |                                       |
+|           |    `WS_API_ENDPOINT`    |                                   WS endpoint for Aleno                                   | string |         | `https://state-price-socket.aleno.ai` |
+|           | `BACKGROUND_EXECUTE_MS` | The amount of time the background execute should sleep before performing the next request | number |         |                `10000`                |
 
 ---
 

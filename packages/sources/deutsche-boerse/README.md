@@ -1,16 +1,16 @@
 # DEUTSCHE_BOERSE
 
-![1.7.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deutsche-boerse/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.8.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deutsche-boerse/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |         Name          |                                   Description                                   |  Type  | Options |            Default             |
-| :-------: | :-------------------: | :-----------------------------------------------------------------------------: | :----: | :-----: | :----------------------------: |
-|    ✅     |        API_KEY        |                          An API key for Data Provider                           | string |         |                                |
-|    ✅     |    WS_API_ENDPOINT    |                          WS endpoint for Data Provider                          | string |         | `wss://md.deutsche-boerse.com` |
-|    ✅     | HEARTBEAT_INTERVAL_MS | Interval in milliseconds to send WebSocket ping frames to keep connection alive | number |         |            `30000`             |
+| Required? |          Name           |                                   Description                                   |  Type  | Options |            Default             |
+| :-------: | :---------------------: | :-----------------------------------------------------------------------------: | :----: | :-----: | :----------------------------: |
+|    ✅     |        `API_KEY`        |                          An API key for Data Provider                           | string |         |                                |
+|    ✅     |    `WS_API_ENDPOINT`    |                          WS endpoint for Data Provider                          | string |         | `wss://md.deutsche-boerse.com` |
+|    ✅     | `HEARTBEAT_INTERVAL_MS` | Interval in milliseconds to send WebSocket ping frames to keep connection alive | number |         |            `30000`             |
 
 ---
 
