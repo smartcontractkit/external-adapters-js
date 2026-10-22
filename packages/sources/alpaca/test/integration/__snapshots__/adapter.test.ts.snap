@@ -8,6 +8,7 @@ exports[`stock_quotes websocket returns the spec example response, after survivi
     "bid_price": 189.95,
     "bid_volume": 1,
     "mid_price": 190,
+    "t": "2026-09-17T00:30:15.123456789Z",
   },
   "meta": {
     "adapterName": "ALPACA",

@@ -1,11 +1,11 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import {
-  computeMidPrice,
   parseQuote,
   StockQuotesTransport,
   WsTransportTypes,
 } from '../../src/transport/stock_quotes'
+import { computeMidPrice } from '../../src/transport/utils'
 import { ACCESS_TOKEN, clearLogs, makeConnection, mockLogger, WIRE_INPUT } from './fixtures'
 
 const logger = mockLogger()
@@ -356,23 +356,23 @@ describe('parseQuote field mapping', () => {
     expect(parseQuote(quote({ t }))).toBeUndefined()
   })
 
-  // Owner decision one_sided_semantics=match_reference: the zero side reports as-is, never null
-  it('bid 0 reports bid_price 0 and mid_price = ask', () => {
+  // Doc wind_down_frames: null a zero side (price and volume together); mid is the non-zero side
+  it('bid 0 reports null bid side and mid_price = ask', () => {
     const data = parseQuote(quote({ bp: 0, bs: 0 }))?.data
     expect(data?.mid_price).toBe(190.05)
-    expect(data?.bid_price).toBe(0)
-    expect(data?.bid_volume).toBe(0)
+    expect(data?.bid_price).toBeNull()
+    expect(data?.bid_volume).toBeNull()
     expect(data?.ask_price).toBe(190.05)
     expect(data?.ask_volume).toBe(2)
   })
 
-  it('ask 0 reports ask_price 0 and mid_price = bid', () => {
+  it('ask 0 reports null ask side and mid_price = bid', () => {
     const data = parseQuote(quote({ ap: 0, as: 0 }))?.data
     expect(data?.mid_price).toBe(189.95)
     expect(data?.bid_price).toBe(189.95)
     expect(data?.bid_volume).toBe(1)
-    expect(data?.ask_price).toBe(0)
-    expect(data?.ask_volume).toBe(0)
+    expect(data?.ask_price).toBeNull()
+    expect(data?.ask_volume).toBeNull()
   })
 
   // Spec wind_down_frames: drop_if_both_sides_zero
@@ -407,6 +407,7 @@ describe('parseQuote without variants', () => {
         bid_volume: 1,
         ask_price: 190.05,
         ask_volume: 2,
+        t: '2026-09-17T00:30:15.123456789Z',
       },
       timestamps: { providerIndicatedTimeUnixMs: 1789605015123 },
     })

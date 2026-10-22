@@ -75,7 +75,7 @@ export const NO_BID_VOLUME_QUOTE = {
   t: '2026-09-17T00:30:15.123456789Z',
 }
 
-// One-sided books (owner decision one_sided_semantics=match_reference)
+// Doc wind_down_frames: a zero side is absent (null), mid is the non-zero side
 const BID_ONLY_QUOTE = { ...AAPL_QUOTE, S: 'BIDONLY', ap: 0, as: 0 }
 const ASK_ONLY_QUOTE = { ...AAPL_QUOTE, S: 'ASKONLY', bp: 0, bs: 0 }
 

@@ -21,6 +21,8 @@ const expectedResponse = {
     bid_volume: 1,
     ask_price: 190.05,
     ask_volume: 2,
+    // Doc Data Structure: raw RFC-3339 provider time t (re-gated for the doc V0.1 t output)
+    t: '2026-09-17T00:30:15.123456789Z',
   },
   result: 190.0,
   statusCode: 200,

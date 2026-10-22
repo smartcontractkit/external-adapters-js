@@ -30,6 +30,7 @@ const exampleResponse = {
     bid_volume: 1,
     ask_price: 190.05,
     ask_volume: 2,
+    t: '2026-09-17T00:30:15.123456789Z',
   },
   result: 190.0,
   statusCode: 200,
@@ -446,11 +447,18 @@ describe('stock_quotes websocket', () => {
       expectSpecExample(response.json())
     })
 
-    // Owner decision one_sided_semantics=match_reference: mid is the non-zero side, the zero side
-    // is reported as-is (no nulls, no error)
+    // Doc wind_down_frames: a zero side is absent (null); mid is the non-zero side
     it.each([
-      ['ask is zero: mid = bid', 'BIDONLY', { mid_price: 189.95, bid_price: 189.95, ask_price: 0 }],
-      ['bid is zero: mid = ask', 'ASKONLY', { mid_price: 190.05, bid_price: 0, ask_price: 190.05 }],
+      [
+        'ask is zero: mid = bid',
+        'BIDONLY',
+        { mid_price: 189.95, bid_price: 189.95, ask_price: null },
+      ],
+      [
+        'bid is zero: mid = ask',
+        'ASKONLY',
+        { mid_price: 190.05, bid_price: null, ask_price: 190.05 },
+      ],
     ])('one-sided book, %s', async (_, base, expected) => {
       const response = await requestUntilCached({ base, quote: 'USD' })
       expect(response.statusCode).toBe(200)
@@ -533,7 +541,7 @@ describe('stock_quotes websocket', () => {
       expect(receivedAt(response.json())).toBeGreaterThan(quoteBefore ?? 0)
       expect(response.json()).toMatchObject({
         result: exampleResponse.result,
-        data: exampleResponse.data,
+        data: { ...exampleResponse.data, t: resumedT },
         timestamps: { providerIndicatedTimeUnixMs: Date.parse(resumedT) },
       })
     })

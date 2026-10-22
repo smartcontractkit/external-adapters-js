@@ -11,9 +11,9 @@ import {
 } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
-import Decimal from 'decimal.js'
 import type { BaseEndpointTypes } from '../endpoint/stock_quotes'
 import { getAccessToken } from './auth'
+import { computeMidPrice, isNonNegativeNumber } from './utils'
 
 const logger = makeLogger('AlpacaStockQuotesTransport')
 
@@ -126,6 +126,13 @@ export class StockQuotesTransport extends WebSocketTransport<WsTransportTypes> {
           })
         },
         message: (frames) => this.handleMessage(frames),
+        // Doc LVP: ping/pong proves connection liveness; minute-scale quote gaps must not force
+        // reconnects. The pong stamps the framework's unresponsive detector.
+        // FRAMEWORK-EXCEPTION: EX-LVP-1 — no framework hook marks activity on a pong; writes the public framework field.
+        heartbeat: (wsConnection) => wsConnection.ping(),
+        pong: () => {
+          this.lastMessageReceivedAt = Date.now()
+        },
       },
       builders: {
         // dxfeed's customSubscriptionMessages pattern: several params combos format to the SAME
@@ -168,19 +175,20 @@ export class StockQuotesTransport extends WebSocketTransport<WsTransportTypes> {
       logger.warn('Alpaca WS: ignored non-array frame')
       return []
     }
-    const results: ProviderResult<WsTransportTypes>[] = []
-    for (const frame of frames) {
+    return frames.flatMap((frame) => {
       // Only quote frames produce results; success and subscription frames are skipped. Error frames
       // are logged at warn and skipped (never thrown), so they write no cache entry. Error frames
       // carry no symbol, and the ticket's claim that an invalid symbol rejects the whole subscribe
       // message is unconfirmed.
       if (frame?.T === 'error') {
         logger.warn({ code: frame.code, msg: frame.msg }, 'Alpaca error frame')
-      } else if (frame?.T === 'q') {
-        results.push(...this.handleQuote(frame))
+        return []
       }
-    }
-    return results
+      if (frame?.T === 'q') {
+        return this.handleQuote(frame)
+      }
+      return []
+    })
   }
 
   // One result per subscribed variant of the symbol, written with that variant's params. A new
@@ -215,8 +223,12 @@ export class StockQuotesTransport extends WebSocketTransport<WsTransportTypes> {
     this.latestQuotes.set(symbol, providerTimeMs)
 
     const { bid_volume, ask_volume } = response.data
+    // A nulled (zero-side) volume is absent, so requireVolume rejects it like a NaN volume
     const requireVolumeResponse =
-      Number.isNaN(bid_volume) || Number.isNaN(ask_volume)
+      bid_volume === null ||
+      ask_volume === null ||
+      Number.isNaN(bid_volume) ||
+      Number.isNaN(ask_volume)
         ? {
             statusCode: 502,
             errorMessage: 'Bid volume or Ask volume is invalid.',
@@ -246,30 +258,12 @@ type QuoteResponse = PartialSuccessfulResponse<WsTransportTypes['Response']> & {
   timestamps: { providerIndicatedTimeUnixMs: number }
 }
 
-const isNonNegativeNumber = (value: unknown): value is number =>
-  typeof value === 'number' && Number.isFinite(value) && value >= 0
-
-// Owner decision one_sided_semantics=match_reference: mid uses the non-zero side. Spec
-// wind_down_frames: both sides zero has no mid (undefined), so the frame is dropped.
-export const computeMidPrice = (bp: number, ap: number): number | undefined => {
-  if (bp === 0 && ap === 0) {
-    return undefined
-  }
-  if (bp === 0) {
-    return ap
-  }
-  if (ap === 0) {
-    return bp
-  }
-  return new Decimal(bp).plus(ap).div(2).toNumber()
-}
-
-// Bid and ask report as-is (zero on the missing side). Owner decision
-// one_sided_semantics=match_reference overrides the null part of wind_down_frames.rule. A malformed
-// frame gives undefined; only its symbol is logged. A missing or invalid volume reports as NaN
-// (null in JSON), as the reference streams do. Owner decision wire_timestamp=provider_indicated_from_t: a quote
-// without a valid t has no provider timestamp, so it is dropped. Field presence on the overnight
-// feed is not wire-verified, so the drop is a warn.
+// Doc wind_down_frames: a zero side is absent — its price and volume report as null. Both sides
+// zero drops the frame. A malformed frame gives undefined; only its symbol is logged. A missing or
+// invalid volume reports as NaN (null in JSON), as the reference streams do. Owner decision
+// wire_timestamp=provider_indicated_from_t: a quote without a valid t has no provider timestamp, so
+// it is dropped. Field presence on the overnight feed is not wire-verified, so the drop is a warn.
+// FRAMEWORK-EXCEPTION: EX-WIND-1 — bespoke wind-down parsing; no framework parse hook.
 export const parseQuote = (quote: AlpacaEvent): QuoteResponse | undefined => {
   const { S: symbol, bp, ap } = quote
   if (typeof symbol !== 'string' || !symbol) {
@@ -288,15 +282,22 @@ export const parseQuote = (quote: AlpacaEvent): QuoteResponse | undefined => {
   if (midPrice === undefined) {
     return undefined
   }
+  // Doc wind_down_frames: null a zero side (price and volume together)
+  const bidPrice = bp === 0 ? null : bp
+  const bidVolume = bp === 0 ? null : isNonNegativeNumber(quote.bs) ? quote.bs : NaN
+  const askPrice = ap === 0 ? null : ap
+  const askVolume = ap === 0 ? null : isNonNegativeNumber(quote.as) ? quote.as : NaN
   return {
     // The spec example requires result = mid_price; it overrides the reference implementation (result null)
     result: midPrice,
     data: {
       mid_price: midPrice,
-      bid_price: bp,
-      bid_volume: isNonNegativeNumber(quote.bs) ? quote.bs : NaN,
-      ask_price: ap,
-      ask_volume: isNonNegativeNumber(quote.as) ? quote.as : NaN,
+      bid_price: bidPrice,
+      bid_volume: bidVolume,
+      ask_price: askPrice,
+      ask_volume: askVolume,
+      // Validated parseable above; kept verbatim to preserve nanoseconds
+      t: quote.t as string,
     },
     timestamps: { providerIndicatedTimeUnixMs: providerTimeMs },
   }

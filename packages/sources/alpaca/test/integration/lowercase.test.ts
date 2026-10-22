@@ -82,6 +82,7 @@ describe('stock_quotes lowercase base', () => {
       bid_volume: 1,
       ask_price: 190.05,
       ask_volume: 2,
+      t: '2026-09-17T00:30:15.123456789Z',
     })
     expect(body.timestamps.providerIndicatedTimeUnixMs).toBe(1789605015123)
   })

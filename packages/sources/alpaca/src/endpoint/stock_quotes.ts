@@ -48,10 +48,13 @@ export type BaseEndpointTypes = {
     Result: number
     Data: {
       mid_price: number
-      bid_price: number
-      bid_volume: number
-      ask_price: number
-      ask_volume: number
+      // Doc wind_down_frames: a zero side is absent, so its price and volume report as null
+      bid_price: number | null
+      bid_volume: number | null
+      ask_price: number | null
+      ask_volume: number | null
+      // Doc Data Structure: raw RFC-3339 provider time t, kept verbatim (nanoseconds preserved)
+      t: string
     }
   }
   Settings: typeof config.settings
