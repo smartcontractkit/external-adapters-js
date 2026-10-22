@@ -224,7 +224,8 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 	}
 
 	// Check for errorMessage field
-	if errMsg, hasError := rawJSON["errorMessage"]; hasError {
+	errMsg, hasError := rawJSON["errorMessage"]
+	if hasError {
 		var errorStr string
 		if err := json.Unmarshal(errMsg, &errorStr); err == nil {
 			obs.Error = errorStr
@@ -253,7 +254,9 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 	}
 	ts := time.Now()
 	s.cache.SetObservation(transformedKey, obs, ts, key)
-	if s.publisher != nil {
+	// Error responses are still cached for the HTTP path, but are not streamed
+	// to gRPC subscribers.
+	if s.publisher != nil && !hasError {
 		if rawKeys, ok := s.cache.RawKeysByTransformed(transformedKey); ok {
 			for _, rawKey := range rawKeys {
 				out := obs
