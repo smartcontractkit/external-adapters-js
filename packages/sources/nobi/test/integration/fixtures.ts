@@ -32,3 +32,22 @@ export const mockWebsocketServerMultiPair = (URL: string): MockWebsocketServer =
   })
   return mockWsServer
 }
+
+const aaplUsdQuote = {
+  code: 'Equity:US:AAPL/USD',
+  ask: '190.14',
+  bid: '190.10',
+  price: '190.12',
+  last_updated: 1780358217000,
+  sent_at: 1780358217050,
+}
+
+export const mockStockQuotesWebsocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      socket.send(JSON.stringify(aaplUsdQuote))
+    })
+  })
+  return mockWsServer
+}

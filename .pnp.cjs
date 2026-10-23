@@ -6113,7 +6113,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/nobi", {\
         "packageLocation": "./packages/sources/nobi/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@chainlink/nobi-adapter", "workspace:packages/sources/nobi"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
