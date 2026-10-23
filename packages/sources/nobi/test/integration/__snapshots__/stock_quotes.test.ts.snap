@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket stock_quotes endpoint - Equity:US:AAPL/USD should return success 1`] = `
+{
+  "data": {
+    "ask_price": 190.14,
+    "bid_price": 190.1,
+    "mid_price": 190.12,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1780358217000,
+  },
+}
+`;
