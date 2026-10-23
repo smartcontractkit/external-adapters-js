@@ -67,7 +67,7 @@ export const buildPriceTransport = () =>
     },
     builders: {
       customSubscriptionMessages: (_, subscriptions) =>
-        customSubscriptionMessages(subscriptions, buildPair),
+        customSubscriptionMessages(subscriptions, buildPair, 'subscribe', 'unsubscribe'),
     },
   })
 

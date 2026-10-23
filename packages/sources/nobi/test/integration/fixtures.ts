@@ -32,3 +32,63 @@ export const mockWebsocketServerMultiPair = (URL: string): MockWebsocketServer =
   })
   return mockWsServer
 }
+
+// Full quote frame (k = "quote") with bid/ask and volumes
+const aaplUsdQuote = {
+  k: 'quote',
+  c: 'Equity:US:AAPL/USD',
+  s: 'AAPL/USD',
+  m: '190.12',
+  b: '190.10',
+  a: '190.14',
+  bv: '300',
+  av: '200',
+  lp: '190.11',
+  t: 1780358217000,
+}
+
+// Quote frame with missing bid/ask; the transport falls back to mid for both
+const spyUsdQuote = {
+  k: 'quote',
+  c: 'ETF:US:SPY/USD',
+  s: 'SPY/USD',
+  m: '530.25',
+  bv: '0',
+  av: '0',
+  lp: '530.2',
+  t: 1780358218000,
+}
+
+// Quote frame with missing bid/ask volume; only rejected when requireVolume is set
+const msftUsdQuote = {
+  k: 'quote',
+  c: 'Equity:US:MSFT/USD',
+  s: 'MSFT/USD',
+  m: '410.50',
+  b: '410.45',
+  a: '410.55',
+  lp: '410.48',
+  t: 1780358220000,
+}
+
+// Index value frame (k = "value"); the only price field is v
+const spxUsdValue = {
+  k: 'value',
+  c: 'Index:US:SPX/USD',
+  s: 'SPX/USD',
+  v: '5321.45',
+  t: 1780358219000,
+}
+
+export const mockStockQuotesWebsocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      socket.send(JSON.stringify(aaplUsdQuote))
+      socket.send(JSON.stringify(spyUsdQuote))
+      socket.send(JSON.stringify(msftUsdQuote))
+      socket.send(JSON.stringify(spxUsdValue))
+    })
+  })
+  return mockWsServer
+}
