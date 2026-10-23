@@ -58,7 +58,7 @@ adapters:
   - name: cryptocompare
     version: 3.5.2
   - name: data-engine
-    version: 1.6.3
+    version: 1.7.0
   - name: deep-blue
     version: 1.0.21
   - name: deutsche-boerse
