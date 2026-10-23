@@ -15,6 +15,17 @@ export const config = new AdapterConfig(
       default: 'wss://ws.price.usenobi.com/v2',
       sensitive: false,
     },
+    QUOTES_API_KEY: {
+      description: 'An API key for QUOTES_API_ENDPOINT',
+      type: 'string',
+      sensitive: true,
+    },
+    QUOTES_API_ENDPOINT: {
+      description: 'WS endpoint for US Equities, Indices and more',
+      type: 'string',
+      default: 'wss://ws.price.usenobi.com/v1',
+      sensitive: false,
+    },
     MAX_SUBSCRIPTIONS_PER_TRANSPORT: {
       description:
         'The maximum number of currency pairs to route through a single transport before routing to the next one',

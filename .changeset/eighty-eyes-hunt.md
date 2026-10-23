@@ -2,4 +2,4 @@
 '@chainlink/nobi-adapter': patch
 ---
 
-Refactor
+Add new stock_quotes endpoint
