@@ -1,4 +1,5 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { validator } from '@chainlink/external-adapter-framework/validation/utils'
 
 export const config = new AdapterConfig(
   {
@@ -19,6 +20,7 @@ export const config = new AdapterConfig(
         'The maximum number of currency pairs to route through a single transport before routing to the next one',
       type: 'number',
       default: 100,
+      validate: validator.integer({ min: 1 }),
       sensitive: false,
     },
   },
