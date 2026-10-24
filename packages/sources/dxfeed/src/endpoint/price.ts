@@ -1,15 +1,29 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import {
-  AdapterError,
-  AdapterInputError,
-} from '@chainlink/external-adapter-framework/validation/error'
-import { config } from '../config'
+import type { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import type { config } from '../config'
 import overrides from '../config/overrides.json'
 import { buildDxFeedHttpTransport } from '../transport/price-http'
 import { transport as wsTransport } from '../transport/price-ws'
-import { inputParameters } from './utils'
+import { wsEnvPresenceError } from './utils'
+
+const priceParamsDefinition = {
+  base: {
+    aliases: ['from', 'symbol', 'asset', 'coin', 'ticker', 'market'],
+    type: 'string',
+    description:
+      'The symbol of the stock to query, append `:USLF24` to the end for after hours on ws endpoints',
+    required: true,
+  },
+} as const
+
+export const inputParameters = new InputParameters(priceParamsDefinition, [
+  {
+    base: 'TSLA',
+  },
+])
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -17,7 +31,7 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new AdapterEndpoint<BaseEndpointTypes>({
   name: 'price',
   aliases: ['crypto', 'stock', 'forex', 'commodities'],
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()
@@ -27,12 +41,22 @@ export const endpoint = new AdapterEndpoint({
   inputParameters,
   overrides: overrides.dxfeed,
   customInputValidation: (req, settings): AdapterError | undefined => {
-    if (req.requestContext.transportName === 'ws' && !settings.WS_API_ENDPOINT) {
-      return new AdapterInputError({
-        statusCode: 400,
-        message: 'WS_API_ENDPOINT is not set',
+    if (req.requestContext.transportName !== 'ws') {
+      return
+    }
+    return wsEnvPresenceError(settings)
+  },
+
+  customOutputValidation: (output): AdapterError | undefined => {
+    if ('errorMessage' in output) {
+      return undefined
+    }
+    if (typeof output.result !== 'number' || Number.isNaN(output.result)) {
+      return new AdapterError({
+        statusCode: 502,
+        message: `Invalid numeric result: ${output.result}`,
       })
     }
-    return
+    return undefined
   },
 })

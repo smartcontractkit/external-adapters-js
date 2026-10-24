@@ -1,16 +1,20 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import {
-  AdapterError,
-  AdapterInputError,
-} from '@chainlink/external-adapter-framework/validation/error'
-import { config } from '../config'
+import { type AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import type { config } from '../config'
 import overrides from '../config/overrides.json'
 import { transport } from '../transport/stock-quotes'
-import { inputParameters } from './utils'
+import { wsEnvPresenceError } from './utils'
 
 export const stockQuotesInputParameters = new InputParameters({
-  ...inputParameters.definition,
+  base: {
+    aliases: ['from', 'symbol', 'asset', 'coin', 'ticker', 'market'],
+    type: 'string',
+    description:
+      'The symbol of the stock to query, append `:USLF24` to the end for after hours on ws endpoints',
+    required: true,
+  },
+
   requireVolume: {
     default: false,
     description: 'If true, throw error if bid/ask volume is invalid',
@@ -27,7 +31,7 @@ export type BaseEndpointTypes = {
   Parameters: typeof stockQuotesInputParameters.definition
   Settings: typeof config.settings
   Response: {
-    Result: null
+    Result: number
     Data: {
       mid_price: number
       bid_price: number
@@ -44,13 +48,6 @@ export const endpoint = new AdapterEndpoint({
   transport,
   inputParameters: stockQuotesInputParameters,
   overrides: overrides.dxfeed,
-  customInputValidation: (_, settings): AdapterError | undefined => {
-    if (!settings.WS_API_ENDPOINT) {
-      return new AdapterInputError({
-        statusCode: 400,
-        message: 'WS_API_ENDPOINT is not set',
-      })
-    }
-    return
-  },
+
+  customInputValidation: (_, settings): AdapterError | undefined => wsEnvPresenceError(settings),
 })

@@ -1,9 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute price endpoint rest should return 502 when the provider returns a non-numeric result 1`] = `
+{
+  "errorMessage": "Dxfeed provided a non-numeric result for token "INVALID_RESULT"",
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"invalid_result"}",
+    },
+    "transportName": "rest",
+  },
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
 exports[`execute price endpoint rest should return success 1`] = `
 {
   "data": {
     "result": 239.255,
+  },
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"tsla"}",
+    },
+    "transportName": "rest",
   },
   "result": 239.255,
   "statusCode": 200,
