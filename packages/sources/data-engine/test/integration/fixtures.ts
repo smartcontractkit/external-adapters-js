@@ -138,6 +138,7 @@ export const ADAPTIVE_PARAMS = {
   blendSeconds: 30,
   sigmoidSteepness: 10,
   maxAnchorAgeSeconds: 600,
+  emaHalfLifeSeconds: 57.53,
 }
 
 const LAST_SEEN_TIMESTAMP_NS = '1757001594123456789'
