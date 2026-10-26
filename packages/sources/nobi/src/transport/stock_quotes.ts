@@ -1,7 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { BaseEndpointTypes } from '../endpoint/stock_quotes'
-import { customSubscriptionMessages, heartbeat } from './common'
+import { customSubscriptionMessages, heartbeat, invalidPairs } from './common'
 
 const logger = makeLogger('NobiStockQuotesTransport')
 
@@ -17,6 +17,7 @@ export type WSResponse = {
   lp: string // last traded price
   v: string // latest available index value -> only for k = "value"
   t: number // source timestamp (ms)
+  message: string // error message
 }
 
 export type WsTransportTypes = BaseEndpointTypes & {
@@ -36,7 +37,33 @@ export const buildQuoteTransport = () =>
     handlers: {
       heartbeat,
       message: (message) => {
-        if (!message.c) {
+        if (message.message && message.message.startsWith('pair not found: ')) {
+          const pair = message.message.split('pair not found: ')[1] || ''
+          const base = pair.split('/')[0]
+          const quote = pair.split('/')[1]
+          if (!base || !quote) {
+            logger.warn(`Received invalid base or quote in error message: ${message.message}`)
+            return
+          }
+          const response = {
+            statusCode: 502,
+            errorMessage: 'The requested pair does not exist, is inactive, or is suspended.',
+          }
+
+          invalidPairs.add(buildPair({ base, quote }))
+          return [
+            {
+              params: { base, quote, requireVolume: true },
+              response,
+            },
+            {
+              params: { base, quote, requireVolume: false },
+              response,
+            },
+          ]
+        }
+
+        if (!message.c || !message.k) {
           return
         }
         const base = message.c.split('/')[0]
@@ -59,7 +86,10 @@ export const buildQuoteTransport = () =>
     builders: {
       customSubscriptionMessages: (_, subscriptions) =>
         customSubscriptionMessages(
-          subscriptions,
+          {
+            ...subscriptions,
+            desired: subscriptions.desired.filter((params) => !invalidPairs.has(buildPair(params))),
+          },
           buildPair,
           'subscribe_market_data',
           'unsubscribe_market_data',
@@ -67,7 +97,8 @@ export const buildQuoteTransport = () =>
     },
   })
 
-const buildPair = (params: { base: string; quote: string }) => `${params.base}/${params.quote}`
+export const buildPair = (params: { base: string; quote: string }) =>
+  `${params.base}/${params.quote}`
 
 const handleValueFrames = (params: { base: string; quote: string }, message: WSResponse) => {
   if (!message.v || isNaN(Number(message.v))) {
@@ -75,6 +106,8 @@ const handleValueFrames = (params: { base: string; quote: string }, message: WSR
     return
   }
   const value = Number(message.v)
+
+  invalidPairs.delete(buildPair(params))
   return [
     {
       params: { ...params, requireVolume: true },
@@ -126,6 +159,7 @@ const handleQuoteFrames = (params: { base: string; quote: string }, message: WSR
     },
   }
 
+  invalidPairs.delete(buildPair(params))
   return [
     {
       params: { ...params, requireVolume: true },

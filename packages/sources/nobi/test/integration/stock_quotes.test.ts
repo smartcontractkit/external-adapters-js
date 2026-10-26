@@ -13,6 +13,8 @@ describe('websocket', () => {
   let testAdapter: TestAdapter
   const quotesWsEndpoint = 'wss://nobi.invalidquote/api/ws'
   let oldEnv: NodeJS.ProcessEnv
+  // Every subscribe_market_data message the mock server has received, in order
+  const subscribedPairs: string[][] = []
 
   const aaplUsd = {
     base: 'Equity:US:AAPL',
@@ -34,6 +36,16 @@ describe('websocket', () => {
     quote: 'USD',
     endpoint: 'stock_quotes',
   }
+  const nvdaUsd = {
+    base: 'Equity:US:NVDA',
+    quote: 'USD',
+    endpoint: 'stock_quotes',
+  }
+  const fakeUsd = {
+    base: 'Equity:US:FAKE',
+    quote: 'USD',
+    endpoint: 'stock_quotes',
+  }
   const withRequireVolume = (request: typeof aaplUsd) => ({ ...request, requireVolume: true })
 
   beforeAll(async () => {
@@ -43,7 +55,7 @@ describe('websocket', () => {
     process.env['QUOTES_API_KEY'] = 'fake-quotes-api-key'
 
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockStockQuotesWebsocketServer(quotesWsEndpoint)
+    mockWsServer = mockStockQuotesWebsocketServer(quotesWsEndpoint, subscribedPairs)
 
     const adapter = (await import('./../../src')).adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -165,6 +177,57 @@ describe('websocket', () => {
       expect(response.statusCode).toBe(502)
       expect(response.json().errorMessage).toBe('Index:US:SPX/USD does not support bid/ask volume')
       expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('stock_quotes endpoint - Equity:US:FAKE/USD (pair not found)', () => {
+    const errorMessage = 'The requested pair does not exist, is inactive, or is suspended.'
+
+    it('should return 502 when the provider reports the pair as not found', async () => {
+      // First request subscribes, the provider answers "pair not found", and the transport
+      // caches a 502 for both requireVolume variants, which this request picks up while polling.
+      const response = await testAdapter.request(fakeUsd)
+      expect(response.statusCode).toBe(502)
+      expect(response.json().errorMessage).toBe(errorMessage)
+      expect(response.json()).toMatchSnapshot()
+
+      expect(subscribedPairs.some((pairs) => pairs.includes('Equity:US:FAKE/USD'))).toBe(true)
+
+      // The provider closes the connection after the error. The transport reconnects on the next
+      // background cycle and resubscribes to every valid pair, leaving the invalid one out.
+      await testAdapter.clock?.tickAsync(5_000)
+      const resubscribe = subscribedPairs[subscribedPairs.length - 1]
+      expect(resubscribe).toContain('Equity:US:AAPL/USD')
+      expect(resubscribe).not.toContain('Equity:US:FAKE/USD')
+    })
+
+    it('should reject later requests with 400 before they reach the cache', async () => {
+      const response = await testAdapter.request(fakeUsd)
+      expect(response.statusCode).toBe(400)
+      expect(response.json().error.message).toBe(errorMessage)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should reject the requireVolume variant with 400 as well', async () => {
+      const response = await testAdapter.request(withRequireVolume(fakeUsd))
+      expect(response.statusCode).toBe(400)
+      expect(response.json().error.message).toBe(errorMessage)
+    })
+
+    it('should leave the invalid pair out of the next subscribe message', async () => {
+      // A new pair forces a fresh subscribe_market_data, which re-sends every desired pair
+      await testAdapter.request(nvdaUsd)
+      // 5 valid pairs x 2 variants + the cached 502 for FAKE x 2 variants
+      await testAdapter.waitForCache(12)
+
+      const response = await testAdapter.request(nvdaUsd)
+      expect(response.statusCode).toBe(200)
+      expect(response.json().result).toBe(880.45)
+
+      const lastSubscribe = subscribedPairs[subscribedPairs.length - 1]
+      expect(lastSubscribe).toContain('Equity:US:NVDA/USD')
+      expect(lastSubscribe).toContain('Equity:US:AAPL/USD')
+      expect(lastSubscribe).not.toContain('Equity:US:FAKE/USD')
     })
   })
 })

@@ -15,7 +15,7 @@ export const customSubscriptionMessages = <T>(
   const desired = new Set(subscriptions.desired.map(buildPair))
   const stale = new Set(subscriptions.stale.map(buildPair).filter((pair) => !desired.has(pair)))
 
-  if (subscriptions.new.length > 0) {
+  if (subscriptions.new.length > 0 && subscriptions.desired.length > 0) {
     messages.push({
       method: subscribe,
       params: { pairs: Array.from(desired) }, // Nobi's subscribe replaces rather than adds
@@ -31,3 +31,5 @@ export const customSubscriptionMessages = <T>(
 
   return messages
 }
+
+export const invalidPairs = new Set<string>()

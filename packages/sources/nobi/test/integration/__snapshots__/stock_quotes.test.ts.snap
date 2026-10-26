@@ -13,7 +13,7 @@ exports[`websocket stock_quotes endpoint - ETF:US:SPY/USD (quote frame without b
   "result": 530.2,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1018,
+    "providerDataReceivedUnixMs": 4048,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1780358218000,
   },
@@ -33,7 +33,7 @@ exports[`websocket stock_quotes endpoint - ETF:US:SPY/USD (quote frame without b
   "result": 530.2,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1018,
+    "providerDataReceivedUnixMs": 4048,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1780358218000,
   },
@@ -53,7 +53,7 @@ exports[`websocket stock_quotes endpoint - Equity:US:AAPL/USD (quote frame) shou
   "result": 190.11,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1018,
+    "providerDataReceivedUnixMs": 4048,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1780358217000,
   },
@@ -73,9 +73,31 @@ exports[`websocket stock_quotes endpoint - Equity:US:AAPL/USD (quote frame) shou
   "result": 190.11,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1018,
+    "providerDataReceivedUnixMs": 4048,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1780358217000,
+  },
+}
+`;
+
+exports[`websocket stock_quotes endpoint - Equity:US:FAKE/USD (pair not found) should reject later requests with 400 before they reach the cache 1`] = `
+{
+  "error": {
+    "message": "The requested pair does not exist, is inactive, or is suspended.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`websocket stock_quotes endpoint - Equity:US:FAKE/USD (pair not found) should return 502 when the provider reports the pair as not found 1`] = `
+{
+  "errorMessage": "The requested pair does not exist, is inactive, or is suspended.",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 5058,
+    "providerDataStreamEstablishedUnixMs": 1010,
   },
 }
 `;
@@ -85,7 +107,7 @@ exports[`websocket stock_quotes endpoint - Equity:US:MSFT/USD (quote frame witho
   "errorMessage": "Bid volume: undefined or Ask volume: undefined for Equity:US:MSFT/USD is invalid.",
   "statusCode": 502,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1018,
+    "providerDataReceivedUnixMs": 4048,
     "providerDataStreamEstablishedUnixMs": 1010,
   },
 }
@@ -104,7 +126,7 @@ exports[`websocket stock_quotes endpoint - Equity:US:MSFT/USD (quote frame witho
   "result": 410.48,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1018,
+    "providerDataReceivedUnixMs": 4048,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1780358220000,
   },
@@ -116,7 +138,7 @@ exports[`websocket stock_quotes endpoint - Index:US:SPX/USD (value frame) should
   "errorMessage": "Index:US:SPX/USD does not support bid/ask volume",
   "statusCode": 502,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1018,
+    "providerDataReceivedUnixMs": 4048,
     "providerDataStreamEstablishedUnixMs": 1010,
   },
 }
@@ -133,7 +155,7 @@ exports[`websocket stock_quotes endpoint - Index:US:SPX/USD (value frame) should
   "result": 5321.45,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1018,
+    "providerDataReceivedUnixMs": 4048,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1780358219000,
   },
