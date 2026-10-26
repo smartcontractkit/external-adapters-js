@@ -145,7 +145,7 @@ export const inputParameters = new InputParameters(
           blendSeconds: 30,
           sigmoidSteepness: 10,
           maxAnchorAgeSeconds: 600,
-          emaHalfLifeSeconds: 57.53,
+          emaHalfLifeSeconds: 57.5,
         },
       },
       resultPath: 'stitchedMid',
