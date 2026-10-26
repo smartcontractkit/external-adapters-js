@@ -196,6 +196,7 @@ Request:
 |           |    stitching.params.blendSeconds     |         |                      Duration in seconds of the blend from the anchor to the new session price                       | number |                      |                  |            |                |
 |           |  stitching.params.sigmoidSteepness   |         |                                         Steepness of the sigmoid blend curve                                         | number |                      |                  |            |                |
 |           | stitching.params.maxAnchorAgeSeconds |         |                              Maximum age in seconds of an anchor before it is discarded                              | number |                      |                  |            |                |
+|           | stitching.params.emaHalfLifeSeconds  |         |               Half-life in seconds of the overnight session EMA smoother. Only for the `adaptive` mode               | number |                      |                  |            |                |
 |           |              resultPath              |         |                                   The data field to populate the top-level result                                    | string |                      | `indicatorPrice` |            |                |
 |           |               decimals               |         |       Number of decimals to scale the resultPath value to (from the native decimals reported in the response)        | number |                      |                  |            |                |
 
@@ -241,7 +242,8 @@ Request:
         "openWindowSeconds": 10,
         "blendSeconds": 30,
         "sigmoidSteepness": 10,
-        "maxAnchorAgeSeconds": 600
+        "maxAnchorAgeSeconds": 600,
+        "emaHalfLifeSeconds": 57.53
       }
     },
     "resultPath": "stitchedMid"

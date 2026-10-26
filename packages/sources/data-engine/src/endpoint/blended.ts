@@ -98,6 +98,12 @@ export const inputParameters = new InputParameters(
               type: 'number',
               description: 'Maximum age in seconds of an anchor before it is discarded',
             },
+            emaHalfLifeSeconds: {
+              required: false,
+              type: 'number',
+              description:
+                'Half-life in seconds of the overnight session EMA smoother. Only for the `adaptive` mode',
+            },
           },
         },
       },
@@ -139,6 +145,7 @@ export const inputParameters = new InputParameters(
           blendSeconds: 30,
           sigmoidSteepness: 10,
           maxAnchorAgeSeconds: 600,
+          emaHalfLifeSeconds: 57.53,
         },
       },
       resultPath: 'stitchedMid',
