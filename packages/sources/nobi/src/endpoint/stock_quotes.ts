@@ -5,7 +5,8 @@ import {
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { buildQuoteTransport, WsTransportTypes } from '../transport/stock_quotes'
+import { invalidPairs } from '../transport/common'
+import { buildPair, buildQuoteTransport, WsTransportTypes } from '../transport/stock_quotes'
 import { FillFirstTransportRoutes } from './common'
 
 export const inputParameters = new InputParameters(
@@ -48,11 +49,17 @@ export const endpoint = new AdapterEndpoint({
   name: 'stock_quotes',
   aliases: ['stock'],
   inputParameters,
-  customInputValidation: (_, settings): AdapterInputError | undefined => {
+  customInputValidation: (req, settings): AdapterInputError | undefined => {
     if (!settings.QUOTES_API_KEY) {
       throw new AdapterInputError({
         statusCode: 400,
         message: 'QUOTES_API_KEY is required for stock_quotes endpoint',
+      })
+    }
+    if (invalidPairs.has(buildPair(req.requestContext.data))) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: 'The requested pair does not exist, is inactive, or is suspended.',
       })
     }
     return
