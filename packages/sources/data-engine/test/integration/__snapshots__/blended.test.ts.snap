@@ -35,6 +35,7 @@ exports[`blended endpoint should forward adaptive stitching and expose the stitc
       "params": {
         "blendSeconds": 30,
         "closeWindowSeconds": 10,
+        "emaHalfLifeSeconds": 57.53,
         "maxAnchorAgeSeconds": 600,
         "openWindowSeconds": 10,
         "sigmoidSteepness": 10,
