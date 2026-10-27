@@ -23,6 +23,7 @@ import {
 import { InstrumentQuoteCache, Quote } from './instrument-quote-cache'
 import {
   decimalToNumber,
+  hasEmptyQuotePrice,
   hasMidPriceSpreadFrame,
   hasSingleBidFrame,
   hasSingleOfferFrame,
@@ -291,6 +292,13 @@ function processMarketData(
   // Handle Pxs array with MID_PRICE and PRICE_SPREAD
   if (hasMidPriceSpreadFrame(dat)) {
     return processMidPriceSpreadFrame(dat, market, isin, cache, providerTime)
+  }
+
+  // A zero bid/offer price means the venue cleared that side of the quote, not that the price is
+  // 0. Drop the frame so it neither overwrites the cached quote nor produces a response.
+  if (hasEmptyQuotePrice(dat)) {
+    logger.debug({ isin, market }, 'Ignoring quote frame with empty (zero) bid/offer price')
+    return null
   }
 
   if (hasSingleBidFrame(dat) && hasSingleOfferFrame(dat)) {
