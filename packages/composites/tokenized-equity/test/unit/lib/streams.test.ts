@@ -1,7 +1,7 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { getPrice } from '../../../src/lib/streams'
+import { getPrice, getStreams, selectStream } from '../../../src/lib/streams'
 
 const mockGetDeutscheBoersePrice = jest.fn()
 
@@ -80,6 +80,7 @@ describe('getPrice', () => {
       spread: 1n,
       decimals: regularData.decimals,
       marketStatus: regularData.marketStatus,
+      lastSeenTimestampNs: regularData.lastSeenTimestampNs,
       data: {
         regular: regularData,
         extended: extendedData,
@@ -100,6 +101,7 @@ describe('getPrice', () => {
       spread: 1n,
       decimals: regularData.decimals,
       marketStatus: regularData.marketStatus,
+      lastSeenTimestampNs: regularData.lastSeenTimestampNs,
       data: {
         regular: regularData,
       },
@@ -126,6 +128,7 @@ describe('getPrice', () => {
       spread: 1n,
       decimals: extendedData.decimals,
       marketStatus: extendedData.marketStatus,
+      lastSeenTimestampNs: extendedData.lastSeenTimestampNs,
       data: {
         regular: regularData,
         extended: extendedData,
@@ -154,6 +157,7 @@ describe('getPrice', () => {
       spread: 1n,
       decimals: extendedData.decimals,
       marketStatus: extendedData.marketStatus,
+      lastSeenTimestampNs: extendedData.lastSeenTimestampNs,
       data: {
         regular: regularData,
         extended: extendedData,
@@ -182,6 +186,7 @@ describe('getPrice', () => {
       spread: 1n,
       decimals: overnightData.decimals,
       marketStatus: overnightData.marketStatus,
+      lastSeenTimestampNs: overnightData.lastSeenTimestampNs,
       data: {
         regular: regularData,
         extended: extendedData,
@@ -264,10 +269,10 @@ describe('getPrice', () => {
       spread: 1n,
       decimals: regularData.decimals,
       marketStatus: regularData.marketStatus,
+      lastSeenTimestampNs: regularData.lastSeenTimestampNs,
       data: {
         regular: regularData,
         extended: extendedData,
-        overnight: undefined,
       },
     })
   })
@@ -316,7 +321,82 @@ describe('getPrice', () => {
 
     expect(error).toBeInstanceOf(AdapterError)
     expect(error.message).toBe(
-      'Market is not open: regular  Error: streamId not provided, extended  Error: streamId not provided, overnight  Error: streamId not provided',
+      'Market is not open: regular: Error: streamId not provided, extended: Error: streamId not provided, overnight: Error: streamId not provided',
     )
+  })
+})
+
+describe('getStreams and selectStream', () => {
+  const report = (mid: string, marketStatus: TwentyfourFiveMarketStatus) => ({
+    mid,
+    decimals: 2,
+    marketStatus,
+    lastSeenTimestampNs: '1700000000000000000',
+    bid: '100',
+    bidVolume: 1,
+    ask: '101',
+    askVolume: 1,
+    lastTradedPrice: '100',
+  })
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('returns partial results and errors', async () => {
+    mockGetDeutscheBoersePrice.mockImplementation((streamId: string) => {
+      if (streamId === 'regular') {
+        return Promise.resolve(report('1', TwentyfourFiveMarketStatus.REGULAR))
+      }
+      return Promise.reject(new Error(`${streamId} down`))
+    })
+
+    const streams = await getStreams('', {} as Requester, 'regular', 'extended')
+
+    expect(streams.regular?.mid).toBe('1')
+    expect(streams.extended).toBeUndefined()
+    expect(streams.errors.extended).toContain('extended down')
+  })
+
+  it('gates every candidate so a stale higher-priority stream is skipped', () => {
+    const streams = {
+      regular: report('1', TwentyfourFiveMarketStatus.REGULAR),
+      overnight: report('2', TwentyfourFiveMarketStatus.OVERNIGHT),
+      errors: {},
+    }
+
+    const selection = selectStream(streams, (candidate) =>
+      candidate.marketStatus === TwentyfourFiveMarketStatus.OVERNIGHT
+        ? {
+            eligible: true,
+            reportTimestampMs: 1_700_000_000_000,
+            sessionStartMs: 1_699_999_000_000,
+            expectedStatus: TwentyfourFiveMarketStatus.OVERNIGHT,
+          }
+        : { eligible: false, reason: 'wrong session' },
+    )
+
+    expect(selection.stream).toBe('overnight')
+    expect(selection.report?.mid).toBe('2')
+    expect(selection.rejections).toEqual([
+      { stream: 'regular', reason: 'wrong session' },
+      {
+        stream: 'extended',
+        reason: 'stream is not available',
+      },
+    ])
+  })
+
+  it('does not consider a status that is not active for its stream', () => {
+    const streams = {
+      regular: report('1', TwentyfourFiveMarketStatus.OVERNIGHT),
+      extended: report('2', TwentyfourFiveMarketStatus.PRE_MARKET),
+      errors: {},
+    }
+
+    const selection = selectStream(streams)
+
+    expect(selection.stream).toBe('extended')
+    expect(selection.rejections[0].stream).toBe('regular')
   })
 })

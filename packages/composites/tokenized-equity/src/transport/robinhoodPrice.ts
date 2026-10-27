@@ -23,6 +23,7 @@ export const calculatePrice = async (param: {
   sessionMarketType?: string
   sessionBoundaries: string[]
   sessionBoundariesTimeZone?: string
+  sessionWeekend?: string
   smoother: Smoother
   decimals: number
 }) => {

@@ -1,16 +1,21 @@
+import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { TZDate } from '@date-fns/tz'
+import type { SessionEvent } from './types'
 
 /**
- * Generates a list of session timestamps (ms since epoch) for the given boundaries.
- * Uses day offsets -1, 0, 1 to handle midnight crossover. Skips Sunday 8PM sessions.
+ * Generates session start events (ms since epoch) from the configured
+ * boundaries. Uses day offsets -1, 0, 1 to handle midnight crossover.
+ *
+ * These events carry no status; the gate treats them as start-time-only
+ * boundaries. Sunday 20:00 is included here and filtered out of the smoothing
+ * boundaries by the caller, so a Sunday reopen can still be gated.
  */
-export const getSessionsFallback = (
+export const getFallbackSessionEvents = (
   now: TZDate,
   sessionBoundaries: string[],
   sessionBoundariesTimeZone: string,
-): number[] => {
-  const timestamps: number[] = []
-
+): SessionEvent[] => {
+  const events: SessionEvent[] = []
   ;[-1, 0, 1].forEach((offset) => {
     sessionBoundaries.forEach((b) => {
       const [hour, minute] = b.split(':')
@@ -25,13 +30,9 @@ export const getSessionsFallback = (
         sessionBoundariesTimeZone,
       )
 
-      // Skip Sunday 8PM because we don't want to use staled weekend data to smooth
-      if (session.getHours() === 20 && session.getMinutes() === 0 && session.getDay() === 0) {
-        return
-      }
-      timestamps.push(session.getTime())
+      events.push({ status: TwentyfourFiveMarketStatus.UNKNOWN, startMs: session.getTime() })
     })
   })
 
-  return timestamps
+  return events.sort((a, b) => a.startMs - b.startMs)
 }
