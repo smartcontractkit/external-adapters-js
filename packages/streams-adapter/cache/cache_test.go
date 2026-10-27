@@ -320,6 +320,43 @@ func TestCache_SetTransformedKey_RequiresInverse_FromIncludes(t *testing.T) {
 	}
 }
 
+func TestCache_SetTransformedKey_RequiresInverse_OnlyForPriceEndpoints(t *testing.T) {
+	// Mirrors ncfx: ARS/USD -> USD/ARS inverse applies to the forex PriceEndpoint
+	// only; forex-continuous (plain AdapterEndpoint) subscribes ARS-USD directly.
+	idx := includes.NewIndex(includes.AdapterIncludes{
+		"ARS": {"USD": {Inverse: true}},
+	})
+
+	cases := []struct {
+		endpoint    string
+		transformed string
+		wantInverse bool
+	}{
+		{"forex", "base=usd:endpoint=forex:quote=ars", true},
+		{"forex-continuous", "base=ars:endpoint=forex-continuous:quote=usd", false},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.endpoint, func(t *testing.T) {
+			c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+			defer c.Stop()
+			c.SetIncludesIndex(idx)
+
+			rawKey, err := helpers.CalculateCacheKey(types.RequestParams{
+				"endpoint": tc.endpoint, "base": "ARS", "quote": "USD",
+			})
+			require.NoError(t, err)
+
+			c.SetNew(rawKey, map[string]interface{}{"endpoint": tc.endpoint, "from": "ARS", "to": "USD"}, [32]byte{})
+			c.SetTransformedKey(rawKey, tc.transformed)
+
+			item := c.Get(rawKey)
+			require.NotNil(t, item)
+			require.Equal(t, tc.wantInverse, item.RequiresInverse)
+		})
+	}
+}
+
 func TestCache_SetTransformedKey_RequiresInverse_DefaultFalseWhenNotInIncludes(t *testing.T) {
 	idx := includes.NewIndex(includes.AdapterIncludes{
 		"XAU": {"USD": {Inverse: false}},
