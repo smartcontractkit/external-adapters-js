@@ -1,7 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { BaseEndpointTypes } from '../endpoint/stock_quotes'
-import { customSubscriptionMessages, heartbeat, invalidPairs } from './common'
+import { customSubscriptionMessages, heartbeat } from './common'
 
 const logger = makeLogger('NobiStockQuotesTransport')
 
@@ -25,6 +25,8 @@ export type WsTransportTypes = BaseEndpointTypes & {
     WsMessage: WSResponse
   }
 }
+
+export const invalidPairs = new Set<string>()
 
 export const buildQuoteTransport = () =>
   new WebSocketTransport<WsTransportTypes>({

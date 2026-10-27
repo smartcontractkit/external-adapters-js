@@ -5,8 +5,12 @@ import {
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { invalidPairs } from '../transport/common'
-import { buildPair, buildQuoteTransport, WsTransportTypes } from '../transport/stock_quotes'
+import {
+  buildPair,
+  buildQuoteTransport,
+  invalidPairs,
+  WsTransportTypes,
+} from '../transport/stock_quotes'
 import { FillFirstTransportRoutes } from './common'
 
 export const inputParameters = new InputParameters(
