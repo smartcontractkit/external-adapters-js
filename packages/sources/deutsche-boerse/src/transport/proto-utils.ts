@@ -70,8 +70,11 @@ export function hasSingleOfferFrame(dat?: DataProto): boolean {
 // true if the frame carries a bid or offer whose Px is present but zero.
 // proto3 omits zero values on the wire, so DBAG sending an empty is deserialized as 0
 export function hasEmptyQuotePrice(dat?: DataProto): boolean {
-  const isZero = (x?: DecimalProto) => isDecimalPrice(x) && Number(x?.m) === 0
-  return isZero(dat?.Bid?.Px) || isZero(dat?.Offer?.Px)
+  const bidObj = dat?.Bid?.Px
+  const offerObj = dat?.Offer?.Px
+  const bidIsZero = isDecimalPrice(bidObj) && Number(bidObj?.m) === 0
+  const offerIsZero = isDecimalPrice(offerObj) && Number(offerObj?.m) === 0
+  return bidIsZero || offerIsZero
 }
 
 // true if this frame has Pxs array with MID_PRICE entries (PRICE_SPREAD and NORMAL_RATE)
