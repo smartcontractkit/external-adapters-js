@@ -31,5 +31,3 @@ export const customSubscriptionMessages = <T>(
 
   return messages
 }
-
-export const invalidPairs = new Set<string>()
