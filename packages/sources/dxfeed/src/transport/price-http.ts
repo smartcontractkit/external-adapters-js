@@ -1,7 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import quoteEventSymbols from '../config/quoteSymbols.json'
-import { BaseEndpointTypes } from '../endpoint/price'
+import type { BaseEndpointTypes } from '../endpoint/price'
 
 const logger = makeLogger('DxFeed Price Batched')
 
@@ -90,8 +90,20 @@ export function buildDxFeedHttpTransport(): HttpTransport<HttpTransportTypes> {
           } else {
             result = res.data[events][requestPayload.base].price
           }
-        } catch (e) {
+        } catch (_e) {
           const errorMessage = `Dxfeed provided no data for token "${requestPayload.base}"`
+          logger.warn(errorMessage)
+          return {
+            ...entry,
+            response: {
+              statusCode: 502,
+              errorMessage,
+            },
+          }
+        }
+
+        if (typeof result !== 'number' || Number.isNaN(result)) {
+          const errorMessage = `Dxfeed provided a non-numeric result for token "${requestPayload.base}"`
           logger.warn(errorMessage)
           return {
             ...entry,
