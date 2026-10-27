@@ -64,7 +64,7 @@ adapters:
   - name: deep-blue
     version: 1.0.22
   - name: deutsche-boerse
-    version: 1.8.0
+    version: 1.9.0
   - name: dlc-btc-por
     version: 4.4.6
   - name: dlc-cbtc-por
