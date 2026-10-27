@@ -2,4 +2,4 @@
 '@chainlink/tickerlayer-adapter': patch
 ---
 
-Refactor
+set bid size and ask size to 0 for overnight

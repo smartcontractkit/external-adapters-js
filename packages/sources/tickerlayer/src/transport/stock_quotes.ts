@@ -64,7 +64,7 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
             {
               params: {
                 base: message.symbol,
-                assetType: message.asset,
+                assetType: isOvernight ? 'overnight' : message.asset,
                 isOvernight,
               },
               response: {

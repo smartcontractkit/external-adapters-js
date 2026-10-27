@@ -278,10 +278,10 @@ describe('StockQuotesWebSocketTransport', () => {
 
   it('should write overnight response to cache using provider mid price', async () => {
     const symbol = 'US:AAPL'
-    const params = makeParams(symbol, stockQuotesAsset, true)
+    const params = makeParams(symbol, 'overnight', true)
 
     const t0 = Date.now()
-    await setUpSubscription(symbol, stockQuotesAsset, true)
+    await setUpSubscription(symbol, 'overnight', true)
     const t1 = Date.now()
 
     const bid_price = 123
@@ -330,10 +330,10 @@ describe('StockQuotesWebSocketTransport', () => {
 
   it('should write overnight response with zero volume when provider ask size is zero', async () => {
     const symbol = 'US:AAPL'
-    const params = makeParams(symbol, stockQuotesAsset, true)
+    const params = makeParams(symbol, 'overnight', true)
 
     const t0 = Date.now()
-    await setUpSubscription(symbol, stockQuotesAsset, true)
+    await setUpSubscription(symbol, 'overnight', true)
     const t1 = Date.now()
 
     const bid_price = 123
@@ -473,7 +473,7 @@ describe('StockQuotesWebSocketTransport', () => {
   it('should unsubscribe from the overnight channel', async () => {
     const symbol = 'US:AAPL'
 
-    const params = makeStub('params', makeParams(symbol, stockQuotesAsset, true))
+    const params = makeStub('params', makeParams(symbol, 'overnight', true))
 
     const context = makeStub('context', {
       adapterSettings,
@@ -522,8 +522,8 @@ describe('StockQuotesWebSocketTransport', () => {
     let overnightEtfs: ReturnType<typeof makeParams>
 
     beforeEach(() => {
-      overnightStocks = makeStub('overnightStocks', makeParams(symbol, stockQuotesAsset, true))
-      overnightEtfs = makeStub('overnightEtfs', makeParams(symbol, etfQuotesAsset, true))
+      overnightStocks = makeStub('overnightStocks', makeParams(symbol, 'overnight', true))
+      overnightEtfs = makeStub('overnightEtfs', makeParams(symbol, 'overnight', true))
     })
 
     it('should subscribe once when both variants are requested together', async () => {

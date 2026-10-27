@@ -34,4 +34,13 @@ export const endpoint = new AdapterEndpoint({
   transport: wsTransport,
   inputParameters: stockQuotesInputParameters,
   customInputValidation,
+  requestTransforms: [
+    (request) => {
+      // assetType is not used when isOvernight is true
+      // Force a value here so that any assetType resolve to the same cache
+      if (request.requestContext.data.isOvernight) {
+        request.requestContext.data.assetType = 'overnight'
+      }
+    },
+  ],
 })
