@@ -55,5 +55,22 @@ describe('websocket', () => {
       const response = await testAdapter.request(dataStock)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should return overnight quote regardless of the requested assetType', async () => {
+      // The provider always reports overnight quotes with asset "overnight", so the
+      // endpoint normalizes assetType for overnight requests. Without that, a
+      // request with a different assetType would never find the cached result.
+      const dataOvernightEtf = {
+        ...dataStock,
+        assetType: 'etfs',
+        isOvernight: true,
+      }
+      await testAdapter.request(dataOvernightEtf)
+      await testAdapter.waitForCache(2)
+
+      const response = await testAdapter.request(dataOvernightEtf)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })

@@ -1,5 +1,11 @@
 # @chainlink/deutsche-boerse-adapter
 
+## 1.9.0
+
+### Minor Changes
+
+- [#5544](https://github.com/smartcontractkit/external-adapters-js/pull/5544) [`5af2d5f`](https://github.com/smartcontractkit/external-adapters-js/commit/5af2d5f221ce6f3331420002bdc55efa8e574c21) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Drop frames with a zero bid/offer price instead of publishing 0s
+
 ## 1.8.0
 
 ### Minor Changes

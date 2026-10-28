@@ -39,68 +39,54 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
             logger.debug({ msg: 'Ignoring system message', ignoredMessage: message })
             return
           }
+          const isOvernight = message.session == 'overnight'
           const bid_price = toNumber(message.bid)
           const ask_price = toNumber(message.ask)
-          const bid_volume = toNumber(message.bid_size)
-          const ask_volume = toNumber(message.ask_size)
+          const bid_volume = isOvernight ? 0 : toNumber(message.bid_size) || undefined
+          const ask_volume = isOvernight ? 0 : toNumber(message.ask_size) || undefined
           const providerIndicatedTimeUnixMs = toNumber(message.ts)
           if (
             message.type !== quotesMessageType ||
             !message.symbol ||
             !bid_price ||
             !ask_price ||
+            bid_volume === undefined ||
+            ask_volume === undefined ||
             !providerIndicatedTimeUnixMs
           ) {
             logger.warn({ msg: 'Ignoring unexpected message', ignoredMessage: message })
             return
           }
-          if (message.session !== 'overnight' && (!bid_volume || !ask_volume)) {
-            logger.warn({
-              msg: 'Ignoring unexpected non-overnight message',
-              ignoredMessage: message,
-            })
-            return
-          }
 
           const mid_price = toNumber(message.mid) || (bid_price + ask_price) / 2
 
-          const params = {
-            base: message.symbol,
-            assetType: message.asset,
-            isOvernight: message.session === 'overnight',
-          }
-          const response = {
-            result: null,
-            data: {
-              mid_price,
-              bid_price,
-              ask_price,
-              bid_volume,
-              ask_volume,
-            },
-            timestamps: {
-              providerIndicatedTimeUnixMs,
-            },
-          }
-
           return [
-            { params: { ...params, requireVolume: false }, response },
             {
-              params: { ...params, requireVolume: true },
-              response:
-                bid_volume && ask_volume
-                  ? response
-                  : {
-                      statusCode: 502,
-                      errorMessage: `Bid volume: ${bid_volume} or Ask volume: ${ask_volume} for ${params.base} is invalid.`,
-                    },
+              params: {
+                base: message.symbol,
+                assetType: isOvernight ? 'overnight' : message.asset,
+                isOvernight,
+              },
+              response: {
+                result: null,
+                data: {
+                  mid_price,
+                  bid_price,
+                  ask_price,
+                  bid_volume,
+                  ask_volume,
+                },
+                timestamps: {
+                  providerIndicatedTimeUnixMs,
+                },
+              },
             },
           ]
         },
       },
       builders: {
         // De-dupe subscriptions by channel & symbol so that two requests for the same symbol
-        // but different requireVolume values don't interfere with each other.
+        // but different isOvernight values don't interfere with each other.
         customSubscriptionMessages: (_context, subscriptions) => {
           const desiredKeys = new Set(subscriptions.desired.map(subscriptionKey))
           const unsubscribes = [
