@@ -1,7 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import quoteEventSymbols from '../config/quoteSymbols.json'
-import type { BaseEndpointTypes } from '../endpoint/price'
+import { BaseEndpointTypes } from '../endpoint/price'
 
 const logger = makeLogger('DxFeed Price Batched')
 
@@ -90,22 +90,8 @@ export function buildDxFeedHttpTransport(): HttpTransport<HttpTransportTypes> {
           } else {
             result = res.data[events][requestPayload.base].price
           }
-        } catch (_e) {
+        } catch (e) {
           const errorMessage = `Dxfeed provided no data for token "${requestPayload.base}"`
-          logger.warn(errorMessage)
-          return {
-            ...entry,
-            response: {
-              statusCode: 502,
-              errorMessage,
-            },
-          }
-        }
-        // A present-but-non-numeric value (e.g. null) doesn't throw on access
-        // above, so it has to be checked explicitly -- otherwise it flows
-        // through as a "successful" result instead of a 502.
-        if (typeof result !== 'number' || Number.isNaN(result)) {
-          const errorMessage = `Dxfeed provided a non-numeric result for token "${requestPayload.base}"`
           logger.warn(errorMessage)
           return {
             ...entry,

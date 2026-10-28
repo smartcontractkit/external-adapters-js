@@ -1,4 +1,4 @@
-import { expose, type ServerInstance } from '@chainlink/external-adapter-framework'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
 import { price, stockQuote } from './endpoint'

@@ -1,6 +1,23 @@
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import type { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import type { config } from '../config'
+
+export const inputParameters = new InputParameters(
+  {
+    base: {
+      aliases: ['from', 'symbol', 'asset', 'coin', 'ticker', 'market'],
+      type: 'string',
+      description: 'The symbol of the stock to query; passed to the provider exactly as given',
+      required: true,
+    },
+  },
+  [
+    {
+      base: 'TSLA',
+    },
+  ],
+)
 
 export const wsEnvPresenceError = (
   settings: Pick<typeof config.settings, 'WS_API_ENDPOINT' | 'API_USERNAME' | 'API_PASSWORD'>,

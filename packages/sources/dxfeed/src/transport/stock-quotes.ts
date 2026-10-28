@@ -59,6 +59,7 @@ const parseQuoteRecord = (
   const time = toNumber(record.time)
   const bidVolume = toNumber(record.bidSize)
   const askVolume = toNumber(record.askSize)
+  const invalidVolume = bidVolume === null || askVolume === null
 
   const midPrice = bidPrice === 0 ? askPrice : askPrice === 0 ? bidPrice : (askPrice + bidPrice) / 2
 
@@ -67,25 +68,24 @@ const parseQuoteRecord = (
     data: {
       mid_price: midPrice,
       bid_price: bidPrice,
-      bid_volume: bidVolume,
+      bid_volume: bidVolume ?? Number.NaN,
       ask_price: askPrice,
-      ask_volume: askVolume,
+      ask_volume: askVolume ?? Number.NaN,
     },
     timestamps: {
       providerIndicatedTimeUnixMs: time ?? undefined,
     },
   }
-  const requireVolumeResponse =
-    bidVolume === null || askVolume === null
-      ? {
-          statusCode: 502,
-          // Report the raw provider values (NaN vs null vs empty) so the 502
-          // message preserves what dxfeed actually sent.
-          errorMessage: `Bid volume: ${String(record.bidSize)} or Ask volume: ${String(
-            record.askSize,
-          )} for ${eventSymbol} is invalid.`,
-        }
-      : response
+  const requireVolumeResponse = invalidVolume
+    ? {
+        statusCode: 502,
+        // Report the raw provider values (NaN vs null vs empty) so the 502
+        // message preserves what dxfeed actually sent.
+        errorMessage: `Bid volume: ${String(record.bidSize)} or Ask volume: ${String(
+          record.askSize,
+        )} for ${eventSymbol} is invalid.`,
+      }
+    : response
 
   if (guard.keep(eventSymbol, time ?? 0)) {
     results.push(
