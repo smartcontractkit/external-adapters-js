@@ -1,7 +1,7 @@
 import { makeLogger, type ProviderResult } from '@chainlink/external-adapter-framework/util'
 import type { BaseEndpointTypes } from '../endpoint/stock-quotes'
-import { buildDxLinkWsTransport, QUOTE_EVENT_TYPE, type DxLinkTransportTypes } from './dxlink'
-import { toNumber, type StaleTGuard } from './utils'
+import { buildDxLinkWsTransport, type DxLinkTransportTypes, QUOTE_EVENT_TYPE } from './dxlink'
+import { type StaleTGuard, toNumber } from './utils'
 
 const logger = makeLogger('StockQuotesTransport')
 
@@ -57,8 +57,8 @@ const parseQuoteRecord = (
   }
 
   const time = toNumber(record.time)
-  const bidSize = toNumber(record.bidSize)
-  const askSize = toNumber(record.askSize)
+  const bidVolume = toNumber(record.bidSize)
+  const askVolume = toNumber(record.askSize)
 
   const midPrice = bidPrice === 0 ? askPrice : askPrice === 0 ? bidPrice : (askPrice + bidPrice) / 2
 
@@ -67,16 +67,16 @@ const parseQuoteRecord = (
     data: {
       mid_price: midPrice,
       bid_price: bidPrice,
-      bid_volume: bidSize,
+      bid_volume: bidVolume,
       ask_price: askPrice,
-      ask_volume: askSize,
+      ask_volume: askVolume,
     },
     timestamps: {
       providerIndicatedTimeUnixMs: time ?? undefined,
     },
   }
   const requireVolumeResponse =
-    bidSize === null || askSize === null
+    bidVolume === null || askVolume === null
       ? {
           statusCode: 502,
           // Report the raw provider values (NaN vs null vs empty) so the 502

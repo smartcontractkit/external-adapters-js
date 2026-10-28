@@ -20,6 +20,8 @@ export const toNumber = (value: unknown): number | null => {
   // provider data masquerade as a legitimate zero (e.g. bid/ask size of 0).
   if (value == null) return null
   const n = Number(value)
+  // Number.isFinite rejects NaN AND the ±Infinity strings the dxLink spec's
+  // JSONDouble permits ("NaN" | "Infinity" | "-Infinity") — all are "no data".
   return Number.isFinite(n) ? n : null
 }
 

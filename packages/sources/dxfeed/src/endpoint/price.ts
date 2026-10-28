@@ -45,4 +45,20 @@ export const endpoint = new AdapterEndpoint<BaseEndpointTypes>({
     }
     return wsEnvPresenceError(settings)
   },
+
+  // AdapterEndpoint (unlike the framework's PriceEndpoint) has no built-in
+  // check that `result` is actually a number -- replicate the numeric-result
+  // validation dxfeed relied on upstream.
+  customOutputValidation: (output): AdapterError | undefined => {
+    if ('errorMessage' in output) {
+      return undefined
+    }
+    if (typeof output.result !== 'number' || Number.isNaN(output.result)) {
+      return new AdapterError({
+        statusCode: 502,
+        message: `Invalid numeric result: ${output.result}`,
+      })
+    }
+    return undefined
+  },
 })

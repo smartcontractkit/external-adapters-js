@@ -101,7 +101,9 @@ export function buildDxFeedHttpTransport(): HttpTransport<HttpTransportTypes> {
             },
           }
         }
-
+        // A present-but-non-numeric value (e.g. null) doesn't throw on access
+        // above, so it has to be checked explicitly -- otherwise it flows
+        // through as a "successful" result instead of a 502.
         if (typeof result !== 'number' || Number.isNaN(result)) {
           const errorMessage = `Dxfeed provided a non-numeric result for token "${requestPayload.base}"`
           logger.warn(errorMessage)

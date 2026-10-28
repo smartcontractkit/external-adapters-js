@@ -1,10 +1,7 @@
 import { expose, type ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { metrics } from '@chainlink/external-adapter-framework/metrics'
 import { config } from './config'
 import { price, stockQuote } from './endpoint'
-
-metrics.clear()
 
 export const adapter = new Adapter({
   defaultEndpoint: price.name,
