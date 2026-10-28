@@ -168,7 +168,7 @@ adapters:
   - name: nav-generic
     version: 1.0.6
   - name: ncfx
-    version: 4.11.0
+    version: 4.11.1
   - name: nobi
     version: 1.1.0
   - name: nomia
@@ -196,7 +196,7 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.17
   - name: savax-price
-    version: 3.0.168
+    version: 3.0.169
   - name: securitize
     version: 1.0.5
   - name: six
@@ -226,7 +226,7 @@ adapters:
   - name: the-network-firm
     version: 1.11.0
   - name: tickerlayer
-    version: 1.2.0
+    version: 1.2.1
   - name: tiingo
     version: 2.15.0
   - name: tiingo-state
@@ -256,4 +256,4 @@ adapters:
   - name: wisdomtree
     version: 1.0.6
   - name: xsushi-price
-    version: 2.0.167
+    version: 2.0.168
