@@ -1,5 +1,11 @@
 # @chainlink/tickerlayer-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- [#5543](https://github.com/smartcontractkit/external-adapters-js/pull/5543) [`c513c02`](https://github.com/smartcontractkit/external-adapters-js/commit/c513c020b292fe68069d586aad4dd22c8efcdbb3) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - set bid size and ask size to 0 for overnight
+
 ## 1.2.0
 
 ### Minor Changes
