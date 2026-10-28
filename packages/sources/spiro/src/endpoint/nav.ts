@@ -4,14 +4,14 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import type { config } from '../config'
 import { navTransport } from '../transport/nav'
 
-export const NetAssetValue = 'net_asset_value' // FRAMEWORK-EXCEPTION: SPIRO-4
-export const AssetsUnderManagement = 'assets_under_management' // FRAMEWORK-EXCEPTION: SPIRO-4
+export const NetAssetValue = 'net_asset_value'
+export const AssetsUnderManagement = 'assets_under_management'
 
 export const inputParameters = new InputParameters(
   {
     fundId: {
       description: 'Fund id',
-      type: 'string', // FRAMEWORK-EXCEPTION: SPIRO-4
+      type: 'string',
       required: true,
     },
     reportValue: {
@@ -29,7 +29,7 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      fundId: 'michigan-pilot', // FRAMEWORK-EXCEPTION: SPIRO-4
+      fundId: 'michigan-pilot',
       reportValue: NetAssetValue,
       noErrorOnRipcord: false,
     },
@@ -38,7 +38,6 @@ export const inputParameters = new InputParameters(
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  // FRAMEWORK-EXCEPTION-BEGIN: SPIRO-4
   Response: SingleNumberResultResponse & {
     Data: {
       result: number
@@ -48,14 +47,13 @@ export type BaseEndpointTypes = {
       navDateTimestampMs: number
       ripcord: boolean
       ripcordAsInt: number
-    },
+    }
   }
-  // FRAMEWORK-EXCEPTION-END: SPIRO-4
   Settings: typeof config.settings
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'nav', // FRAMEWORK-EXCEPTION: SPIRO-4
+  name: 'nav',
   inputParameters,
   transport: navTransport,
 })

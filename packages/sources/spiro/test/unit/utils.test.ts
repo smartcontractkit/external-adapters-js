@@ -23,14 +23,20 @@ describe('ripcord helper', () => {
   })
 
   it('does not trip on a string "false" ripcord value', () => {
-    const check = checkRipcord({ ripcord: 'false' as unknown as boolean, ripcordDetails: [] }, false)
+    const check = checkRipcord(
+      { ripcord: 'false' as unknown as boolean, ripcordDetails: [] },
+      false,
+    )
     expect(check.ripcord).toBe(false)
     expect(check.ripcordAsInt).toBe(0)
     expect(check.message).toBeUndefined()
   })
 
   it('joins missing ripcordDetails as empty', () => {
-    const check = checkRipcord({ ripcord: true, ripcordDetails: undefined as unknown as string[] }, false)
+    const check = checkRipcord(
+      { ripcord: true, ripcordDetails: undefined as unknown as string[] },
+      false,
+    )
     expect(check.message).toBe('Ripcord indicator true. Details: ')
   })
 })

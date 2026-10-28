@@ -29,6 +29,7 @@ describe('execute', () => {
     process.env.EXPERIMENTAL_METRICS_ENABLED = 'true'
 
     const adapter = (await import('./../../src')).adapter
+    adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<any>,
     })
@@ -51,24 +52,7 @@ describe('execute', () => {
         reportValue: 'net_asset_value',
       })
       expect(response.statusCode).toBe(200)
-      const body = response.json()
-      expect(body.data).toEqual({
-        result: 1,
-        nav: 1,
-        aum: 5400000,
-        navDate: '2026-10-13',
-        navDateTimestampMs: 1791849600000,
-        ripcord: false,
-        ripcordAsInt: 0,
-      })
-      expect(body.result).toBe(1)
-      expect(body.meta.adapterName).toBe('SPIRO')
-      expect(body.meta.transportName).toBe('default_single_transport')
-      expect(body.meta.metrics.feedId).toBe(
-        '{"fundId":"michigan-pilot","reportValue":"net_asset_value"}',
-      )
-      expect(typeof body.timestamps.providerDataRequestedUnixMs).toBe('number')
-      expect(typeof body.timestamps.providerDataReceivedUnixMs).toBe('number')
+      expect(response.json()).toMatchSnapshot()
     })
 
     it('should report aum when reportValue is assets_under_management', async () => {
@@ -153,21 +137,9 @@ describe('execute', () => {
         reportValue: 'totalReserve',
       })
       expect(response.statusCode).toBe(200)
-      const body = response.json()
-      expect(body.data).toEqual({
-        result: 5400000,
-        totalReserves: 5400000,
-        ripcord: false,
-        ripcordAsInt: 0,
-      })
-      expect(body.result).toBe(5400000)
-      expect(body.meta.adapterName).toBe('SPIRO')
       // calculateFeedId lowercases param values; downstream feed tickets
       // (OPDATA-9357/9356) must use this exact lowercase string.
-      expect(body.meta.metrics.feedId).toBe(
-        '{"fundId":"michigan-pilot","reportValue":"totalreserve"}',
-      )
-      expect(body.timestamps.providerIndicatedTimeUnixMs).toBe(1791849900000)
+      expect(response.json()).toMatchSnapshot()
     })
 
     it('should return 502 on ripcord=true', async () => {

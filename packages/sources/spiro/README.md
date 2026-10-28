@@ -9,13 +9,15 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |      Name      |                       Description                       |  Type  | Options |               Default               |
 | :-------: | :------------: | :-----------------------------------------------------: | :----: | :-----: | :---------------------------------: |
 |           | `API_ENDPOINT` |              The base URL of the Spiro API              | string |         | `https://rwa-wireframes.vercel.app` |
-|           |   `API_KEY`    | API key for the Spiro API, sent as the x-api-key header | string |         |                                     |
+|    ✅     |   `API_KEY`    | API key for the Spiro API, sent as the x-api-key header | string |         |                                     |
 
 ---
 
 ## Data Provider Rate Limits
 
-There are no rate limits for this adapter.
+|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                                                  Note                                                                  |
+| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------------------------------------------------------------------------------------: |
+| default |                             |             60              |                           | The API updates once per day. 60 calls/min (one call per second) paces the warmer and keeps a cold read inside the client poll window. |
 
 ---
 

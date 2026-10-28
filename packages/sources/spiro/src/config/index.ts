@@ -10,6 +10,7 @@ export const config = new AdapterConfig({
   API_KEY: {
     description: 'API key for the Spiro API, sent as the x-api-key header',
     type: 'string',
+    required: true,
     sensitive: true,
   },
 })

@@ -1,9 +1,8 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { AssetsUnderManagement } from '../endpoint/nav' // FRAMEWORK-EXCEPTION: SPIRO-4
 import type { BaseEndpointTypes } from '../endpoint/nav'
-import { checkRipcord } from './utils' // FRAMEWORK-EXCEPTION: SPIRO-5
+import { AssetsUnderManagement } from '../endpoint/nav'
+import { checkRipcord } from './utils'
 
-// FRAMEWORK-EXCEPTION-BEGIN: SPIRO-4
 export interface ResponseSchema {
   fund_id: string
   fund_name?: string
@@ -23,7 +22,6 @@ export interface ResponseSchemaEntry {
   outstanding_shares: string
   net_income_expenses: string
 }
-// FRAMEWORK-EXCEPTION-END: SPIRO-4
 
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -32,12 +30,11 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export const navTransport = new HttpTransport<HttpTransportTypes>({ // FRAMEWORK-EXCEPTION: SPIRO-4
+export const navTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
       return {
         params: [param],
-        // FRAMEWORK-EXCEPTION-BEGIN: SPIRO-4
         request: {
           baseURL: config.API_ENDPOINT,
           method: 'GET',
@@ -46,15 +43,14 @@ export const navTransport = new HttpTransport<HttpTransportTypes>({ // FRAMEWORK
             'x-api-key': config.API_KEY,
           },
         },
-        // FRAMEWORK-EXCEPTION-END: SPIRO-4
       }
     })
   },
   parseResponse: (params, res) => {
     return params.map((param) => {
-      const { fundId, reportValue } = param // FRAMEWORK-EXCEPTION: SPIRO-4
-      const { ripcord, ripcordAsInt, message } = checkRipcord(res.data, param.noErrorOnRipcord ?? false) // FRAMEWORK-EXCEPTION: SPIRO-5
-      if (message) { // FRAMEWORK-EXCEPTION: SPIRO-5
+      const { fundId, reportValue } = param
+      const { ripcord, ripcordAsInt, message } = checkRipcord(res.data, param.noErrorOnRipcord)
+      if (message) {
         return {
           params: param,
           response: {
@@ -64,7 +60,7 @@ export const navTransport = new HttpTransport<HttpTransportTypes>({ // FRAMEWORK
         }
       }
 
-      if (!res.data.data?.length) { // FRAMEWORK-EXCEPTION: SPIRO-4
+      if (!res.data.data?.length) {
         return {
           params: param,
           response: {
@@ -74,39 +70,41 @@ export const navTransport = new HttpTransport<HttpTransportTypes>({ // FRAMEWORK
         }
       }
 
-      const data = res.data.data.reduce((a, b) => (b.net_asset_value_date > a.net_asset_value_date ? b : a)) // FRAMEWORK-EXCEPTION: SPIRO-2
+      const data = res.data.data.reduce((a, b) =>
+        b.net_asset_value_date > a.net_asset_value_date ? b : a,
+      )
 
-      const navDateTimestampMs = Date.parse(data.net_asset_value_date) // FRAMEWORK-EXCEPTION: SPIRO-3
-      if (Number.isNaN(navDateTimestampMs)) { // FRAMEWORK-EXCEPTION: SPIRO-3
+      const navDateTimestampMs = Date.parse(data.net_asset_value_date)
+      if (Number.isNaN(navDateTimestampMs)) {
         return {
           params: param,
           response: {
-            errorMessage: `The data provider did not return a valid net_asset_value_date for fundId: ${fundId}`, // FRAMEWORK-EXCEPTION: SPIRO-3
+            errorMessage: `The data provider did not return a valid net_asset_value_date for fundId: ${fundId}`,
             statusCode: 502,
           },
         }
       }
 
-      const nav = Number(data.net_asset_value) // FRAMEWORK-EXCEPTION: SPIRO-1
-      const aum = Number(data.assets_under_management) // FRAMEWORK-EXCEPTION: SPIRO-1
-      const result = reportValue === AssetsUnderManagement ? aum : nav // FRAMEWORK-EXCEPTION: SPIRO-1
+      const nav = Number(data.net_asset_value)
+      const aum = Number(data.assets_under_management)
+      const result = reportValue === AssetsUnderManagement ? aum : nav
 
       return {
         params: param,
         response: {
           data: {
             result,
-            nav, // FRAMEWORK-EXCEPTION: SPIRO-4
-            aum, // FRAMEWORK-EXCEPTION: SPIRO-4
-            navDate: data.net_asset_value_date, // FRAMEWORK-EXCEPTION: SPIRO-4
-            navDateTimestampMs, // FRAMEWORK-EXCEPTION: SPIRO-4
+            nav,
+            aum,
+            navDate: data.net_asset_value_date,
+            navDateTimestampMs,
             ripcord,
             ripcordAsInt,
           },
           result,
           statusCode: 200,
           timestamps: {
-            providerIndicatedTimeUnixMs: navDateTimestampMs, // FRAMEWORK-EXCEPTION: SPIRO-3
+            providerIndicatedTimeUnixMs: navDateTimestampMs,
           },
         },
       }

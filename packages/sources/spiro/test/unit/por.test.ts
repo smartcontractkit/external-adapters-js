@@ -9,7 +9,7 @@ const parseResponse = (
 
 const param = { fundId: 'michigan-pilot', reportValue: 'totalReserve' } as any
 
-const res = (data: unknown): AxiosResponse => ({ data }) as AxiosResponse
+const res = (data: unknown): AxiosResponse => ({ data } as AxiosResponse)
 
 describe('por transport parseResponse', () => {
   it('converts the totalReserve string and parses updatedAt', () => {
@@ -40,5 +40,19 @@ describe('por transport parseResponse', () => {
       }),
     )
     expect(result.response.statusCode).toBe(502)
+  })
+
+  it('returns a 502 when totalReserve is not a number', () => {
+    const [result] = parseResponse(
+      [param],
+      res({
+        accountName: 'SPIRO-MI-1',
+        totalReserve: 'not-a-number',
+        updatedAt: '2026-10-13T00:05:00.000Z',
+        ripcord: false,
+      }),
+    )
+    expect(result.response.statusCode).toBe(502)
+    expect(result.response.errorMessage).toContain('valid totalReserve')
   })
 })

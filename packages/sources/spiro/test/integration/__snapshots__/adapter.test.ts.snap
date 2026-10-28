@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute nav endpoint should return success with the sample request/response shape 1`] = `
+{
+  "data": {
+    "aum": 5400000,
+    "nav": 1,
+    "navDate": "2026-10-13",
+    "navDateTimestampMs": 1791849600000,
+    "result": 1,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+  },
+  "result": 1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1791849600000,
+  },
+}
+`;
+
+exports[`execute por endpoint should return success with the sample request/response shape 1`] = `
+{
+  "data": {
+    "result": 5400000,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+    "totalReserves": 5400000,
+  },
+  "result": 5400000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1791849900000,
+  },
+}
+`;

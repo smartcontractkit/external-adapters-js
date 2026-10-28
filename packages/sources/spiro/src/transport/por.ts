@@ -1,8 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import type { BaseEndpointTypes } from '../endpoint/por' // FRAMEWORK-EXCEPTION: SPIRO-4
-import { checkRipcord } from './utils' // FRAMEWORK-EXCEPTION: SPIRO-5
+import type { BaseEndpointTypes } from '../endpoint/por'
+import { checkRipcord } from './utils'
 
-// FRAMEWORK-EXCEPTION-BEGIN: SPIRO-4
 export interface ResponseSchema {
   accountName: string
   totalReserve: string
@@ -11,7 +10,6 @@ export interface ResponseSchema {
   ripcord: boolean
   ripcordDetails: string[]
 }
-// FRAMEWORK-EXCEPTION-END: SPIRO-4
 
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -20,12 +18,11 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export const porTransport = new HttpTransport<HttpTransportTypes>({ // FRAMEWORK-EXCEPTION: SPIRO-4
+export const porTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
       return {
         params: [param],
-        // FRAMEWORK-EXCEPTION-BEGIN: SPIRO-4
         request: {
           baseURL: config.API_ENDPOINT,
           method: 'GET',
@@ -34,15 +31,14 @@ export const porTransport = new HttpTransport<HttpTransportTypes>({ // FRAMEWORK
             'x-api-key': config.API_KEY,
           },
         },
-        // FRAMEWORK-EXCEPTION-END: SPIRO-4
       }
     })
   },
   parseResponse: (params, res) => {
     return params.map((param) => {
-      const { fundId } = param // FRAMEWORK-EXCEPTION: SPIRO-4
-      const { ripcord, ripcordAsInt, message } = checkRipcord(res.data, param.noErrorOnRipcord ?? false) // FRAMEWORK-EXCEPTION: SPIRO-5
-      if (message) { // FRAMEWORK-EXCEPTION: SPIRO-5
+      const { fundId } = param
+      const { ripcord, ripcordAsInt, message } = checkRipcord(res.data, param.noErrorOnRipcord)
+      if (message) {
         return {
           params: param,
           response: {
@@ -52,17 +48,19 @@ export const porTransport = new HttpTransport<HttpTransportTypes>({ // FRAMEWORK
         }
       }
 
-      if (res.data.totalReserve == null) { // FRAMEWORK-EXCEPTION: SPIRO-4
+      const result = Number(res.data.totalReserve)
+      if (res.data.totalReserve == null || !Number.isFinite(result)) {
         return {
           params: param,
           response: {
-            errorMessage: `The data provider did not return any value for fundId: ${fundId}`, // FRAMEWORK-EXCEPTION: SPIRO-4
+            errorMessage:
+              res.data.totalReserve == null
+                ? `The data provider did not return any value for fundId: ${fundId}`
+                : `The data provider did not return a valid totalReserve for fundId: ${fundId}`,
             statusCode: 502,
           },
         }
       }
-
-      const result = Number(res.data.totalReserve) // FRAMEWORK-EXCEPTION: SPIRO-1
 
       return {
         params: param,
@@ -70,12 +68,12 @@ export const porTransport = new HttpTransport<HttpTransportTypes>({ // FRAMEWORK
           result,
           data: {
             result,
-            totalReserves: result, // FRAMEWORK-EXCEPTION: SPIRO-4
+            totalReserves: result,
             ripcord,
             ripcordAsInt,
           },
           timestamps: {
-            providerIndicatedTimeUnixMs: Date.parse(res.data.updatedAt), // FRAMEWORK-EXCEPTION: SPIRO-3
+            providerIndicatedTimeUnixMs: Date.parse(res.data.updatedAt),
           },
         },
       }

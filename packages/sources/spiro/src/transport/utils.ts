@@ -1,10 +1,9 @@
-// FRAMEWORK-EXCEPTION-BEGIN: SPIRO-5
-export interface RipcordSchema {
+interface RipcordSchema {
   ripcord: boolean
   ripcordDetails: string[]
 }
 
-export const checkRipcord = (data: RipcordSchema, noErrorOnRipcord: boolean) => {
+export const checkRipcord = (data: RipcordSchema, noErrorOnRipcord = false) => {
   const ripcord = data.ripcord === true || String(data.ripcord).toLowerCase() === 'true'
   const ripcordAsInt = ripcord ? 1 : 0
 
@@ -19,4 +18,3 @@ export const checkRipcord = (data: RipcordSchema, noErrorOnRipcord: boolean) => 
 
   return { ripcord, ripcordAsInt }
 }
-// FRAMEWORK-EXCEPTION-END: SPIRO-5

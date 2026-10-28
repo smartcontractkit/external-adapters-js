@@ -18,7 +18,7 @@ const entry = (date: string, nav: string, aum: string) => ({
   net_income_expenses: '961.64',
 })
 
-const res = (data: unknown): AxiosResponse => ({ data }) as AxiosResponse
+const res = (data: unknown): AxiosResponse => ({ data } as AxiosResponse)
 
 describe('nav transport parseResponse', () => {
   it('selects the max net_asset_value_date entry regardless of array order', () => {
