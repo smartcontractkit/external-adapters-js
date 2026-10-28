@@ -117,7 +117,6 @@ describe('StockQuotesWebSocketTransport', () => {
     base: symbol,
     assetType,
     isOvernight,
-    requireVolume: false,
   })
 
   const setUpSubscription = async (symbol: string, assetType: string, isOvernight = false) => {
@@ -223,10 +222,7 @@ describe('StockQuotesWebSocketTransport', () => {
       },
     }
 
-    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
-      { params: { ...params, requireVolume: false }, response },
-      { params: { ...params, requireVolume: true }, response },
-    ])
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [{ params, response }])
     expect(responseCache.write).toHaveBeenCalledTimes(1)
   })
 
@@ -276,26 +272,23 @@ describe('StockQuotesWebSocketTransport', () => {
       },
     }
 
-    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
-      { params: { ...params, requireVolume: false }, response },
-      { params: { ...params, requireVolume: true }, response },
-    ])
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [{ params, response }])
     expect(responseCache.write).toHaveBeenCalledTimes(1)
   })
 
   it('should write overnight response to cache using provider mid price', async () => {
     const symbol = 'US:AAPL'
-    const params = makeParams(symbol, stockQuotesAsset, true)
+    const params = makeParams(symbol, 'overnight', true)
 
     const t0 = Date.now()
-    await setUpSubscription(symbol, stockQuotesAsset, true)
+    await setUpSubscription(symbol, 'overnight', true)
     const t1 = Date.now()
 
     const bid_price = 123
     const ask_price = 124
     const mid_price = 123.4
-    const bid_volume = 5
-    const ask_volume = 6
+    const bid_size = 5
+    const ask_size = 6
     const providerIndicatedTimeUnixMs = 123456789
 
     socket.send(
@@ -308,8 +301,8 @@ describe('StockQuotesWebSocketTransport', () => {
         bid: String(bid_price),
         ask: String(ask_price),
         mid: String(mid_price),
-        bid_size: String(bid_volume),
-        ask_size: String(ask_volume),
+        bid_size: String(bid_size),
+        ask_size: String(ask_size),
         ts: providerIndicatedTimeUnixMs,
       }),
     )
@@ -320,8 +313,9 @@ describe('StockQuotesWebSocketTransport', () => {
         bid_price,
         ask_price,
         mid_price,
-        bid_volume,
-        ask_volume,
+        // Overnight quotes always report zero volume regardless of provider sizes.
+        bid_volume: 0,
+        ask_volume: 0,
       },
       timestamps: {
         providerDataStreamEstablishedUnixMs: t0,
@@ -330,26 +324,23 @@ describe('StockQuotesWebSocketTransport', () => {
       },
     }
 
-    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
-      { params: { ...params, requireVolume: false }, response },
-      { params: { ...params, requireVolume: true }, response },
-    ])
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [{ params, response }])
     expect(responseCache.write).toHaveBeenCalledTimes(1)
   })
 
-  it('should write overnight response with zero volume and error when volume is required', async () => {
+  it('should write overnight response with zero volume when provider ask size is zero', async () => {
     const symbol = 'US:AAPL'
-    const params = makeParams(symbol, stockQuotesAsset, true)
+    const params = makeParams(symbol, 'overnight', true)
 
     const t0 = Date.now()
-    await setUpSubscription(symbol, stockQuotesAsset, true)
+    await setUpSubscription(symbol, 'overnight', true)
     const t1 = Date.now()
 
     const bid_price = 123
     const ask_price = 124
     const mid_price = 123.5
-    const bid_volume = 5
-    const ask_volume = 0
+    const bid_size = 5
+    const ask_size = 0
     const providerIndicatedTimeUnixMs = 123456789
 
     socket.send(
@@ -361,44 +352,29 @@ describe('StockQuotesWebSocketTransport', () => {
         symbol,
         bid: String(bid_price),
         ask: String(ask_price),
-        bid_size: String(bid_volume),
-        ask_size: String(ask_volume),
+        bid_size: String(bid_size),
+        ask_size: String(ask_size),
         ts: providerIndicatedTimeUnixMs,
       }),
     )
 
-    const timestamps = {
-      providerDataStreamEstablishedUnixMs: t0,
-      providerDataReceivedUnixMs: t1,
-      providerIndicatedTimeUnixMs,
+    const response = {
+      result: null,
+      data: {
+        bid_price,
+        ask_price,
+        mid_price,
+        bid_volume: 0,
+        ask_volume: 0,
+      },
+      timestamps: {
+        providerDataStreamEstablishedUnixMs: t0,
+        providerDataReceivedUnixMs: t1,
+        providerIndicatedTimeUnixMs,
+      },
     }
 
-    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
-      {
-        params: { ...params, requireVolume: false },
-        response: {
-          result: null,
-          data: {
-            bid_price,
-            ask_price,
-            mid_price,
-            bid_volume,
-            ask_volume,
-          },
-          timestamps,
-        },
-      },
-      {
-        params: { ...params, requireVolume: true },
-        response: {
-          statusCode: 502,
-          errorMessage: `Bid volume: ${bid_volume} or Ask volume: ${ask_volume} for ${symbol} is invalid.`,
-          // The error entry is built without provider timestamps, so only the
-          // framework-populated timestamps are present.
-          timestamps: { ...timestamps, providerIndicatedTimeUnixMs: undefined },
-        },
-      },
-    ])
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [{ params, response }])
     expect(responseCache.write).toHaveBeenCalledTimes(1)
   })
 
@@ -461,7 +437,7 @@ describe('StockQuotesWebSocketTransport', () => {
 
     expect(responseCache.write).not.toHaveBeenCalled()
     expect(log).toHaveBeenCalledWith({
-      msg: 'Ignoring unexpected non-overnight message',
+      msg: 'Ignoring unexpected message',
       ignoredMessage: zeroAskSizeMessage,
     })
     log.mockClear()
@@ -497,7 +473,7 @@ describe('StockQuotesWebSocketTransport', () => {
   it('should unsubscribe from the overnight channel', async () => {
     const symbol = 'US:AAPL'
 
-    const params = makeStub('params', makeParams(symbol, stockQuotesAsset, true))
+    const params = makeStub('params', makeParams(symbol, 'overnight', true))
 
     const context = makeStub('context', {
       adapterSettings,
@@ -521,86 +497,80 @@ describe('StockQuotesWebSocketTransport', () => {
     )
   })
 
-  describe('shared provider subscription across requireVolume variants', () => {
+  describe('shared provider subscription across overnight assetType variants', () => {
+    // The overnight channel is the same for every asset type, so overnight params
+    // that differ only by assetType share a single provider subscription.
     const symbol = 'US:AAPL'
     const context = makeStub('context', {
       adapterSettings,
       endpointName,
     } as EndpointContext<WsTransportTypes>)
 
-    const subscribeMessage = JSON.stringify({
+    const overnightSubscribeMessage = JSON.stringify({
       action: 'subscribe',
-      channels: [stockQuotesChannel],
+      channels: [overnightQuotesChannel],
       symbols: [symbol],
+      spread: 'full',
     })
-    const unsubscribeMessage = JSON.stringify({
+    const overnightUnsubscribeMessage = JSON.stringify({
       action: 'unsubscribe',
-      channels: [stockQuotesChannel],
+      channels: [overnightQuotesChannel],
       symbols: [symbol],
     })
 
-    let withoutVolume: ReturnType<typeof makeParams>
-    let withVolume: ReturnType<typeof makeParams>
+    let overnightStocks: ReturnType<typeof makeParams>
+    let overnightEtfs: ReturnType<typeof makeParams>
 
     beforeEach(() => {
-      withoutVolume = makeStub('withoutVolume', makeParams(symbol, stockQuotesAsset))
-      withVolume = makeStub('withVolume', {
-        ...makeParams(symbol, stockQuotesAsset),
-        requireVolume: true,
-      })
+      overnightStocks = makeStub('overnightStocks', makeParams(symbol, 'overnight', true))
+      overnightEtfs = makeStub('overnightEtfs', makeParams(symbol, 'overnight', true))
     })
 
     it('should subscribe once when both variants are requested together', async () => {
-      subscriptionSet.getAll.mockReturnValue([withoutVolume, withVolume])
+      subscriptionSet.getAll.mockReturnValue([overnightStocks, overnightEtfs])
       await runAllUntilSettled(clock, transport.backgroundExecute(context))
 
-      expect(receivedMessages).toEqual([subscribeMessage])
+      expect(receivedMessages).toEqual([overnightSubscribeMessage])
     })
 
     it('should not resubscribe when the second variant is requested later', async () => {
-      subscriptionSet.getAll.mockReturnValue([withoutVolume])
+      subscriptionSet.getAll.mockReturnValue([overnightStocks])
       await runAllUntilSettled(clock, transport.backgroundExecute(context))
-      expect(receivedMessages).toEqual([subscribeMessage])
+      expect(receivedMessages).toEqual([overnightSubscribeMessage])
 
-      subscriptionSet.getAll.mockReturnValue([withoutVolume, withVolume])
+      subscriptionSet.getAll.mockReturnValue([overnightStocks, overnightEtfs])
       await runAllUntilSettled(clock, transport.backgroundExecute(context))
-      expect(receivedMessages).toEqual([subscribeMessage])
+      expect(receivedMessages).toEqual([overnightSubscribeMessage])
     })
 
     it('should only unsubscribe once no variant is desired anymore', async () => {
-      subscriptionSet.getAll.mockReturnValue([withoutVolume, withVolume])
+      subscriptionSet.getAll.mockReturnValue([overnightStocks, overnightEtfs])
       await runAllUntilSettled(clock, transport.backgroundExecute(context))
-      expect(receivedMessages).toEqual([subscribeMessage])
+      expect(receivedMessages).toEqual([overnightSubscribeMessage])
 
       // One variant expires while the other still needs the stream.
-      subscriptionSet.getAll.mockReturnValue([withoutVolume])
+      subscriptionSet.getAll.mockReturnValue([overnightStocks])
       await runAllUntilSettled(clock, transport.backgroundExecute(context))
-      expect(receivedMessages).toEqual([subscribeMessage])
+      expect(receivedMessages).toEqual([overnightSubscribeMessage])
 
       subscriptionSet.getAll.mockReturnValue([])
       await runAllUntilSettled(clock, transport.backgroundExecute(context))
-      expect(receivedMessages).toEqual([subscribeMessage, unsubscribeMessage])
+      expect(receivedMessages).toEqual([overnightSubscribeMessage, overnightUnsubscribeMessage])
     })
 
     it('should keep regular and overnight subscriptions for a symbol independent', async () => {
-      const overnight = makeStub('overnight', makeParams(symbol, stockQuotesAsset, true))
-      const overnightSubscribeMessage = JSON.stringify({
+      const regular = makeStub('regular', makeParams(symbol, stockQuotesAsset))
+      const subscribeMessage = JSON.stringify({
         action: 'subscribe',
-        channels: [overnightQuotesChannel],
-        symbols: [symbol],
-        spread: 'full',
-      })
-      const overnightUnsubscribeMessage = JSON.stringify({
-        action: 'unsubscribe',
-        channels: [overnightQuotesChannel],
+        channels: [stockQuotesChannel],
         symbols: [symbol],
       })
 
-      subscriptionSet.getAll.mockReturnValue([withoutVolume, overnight])
+      subscriptionSet.getAll.mockReturnValue([regular, overnightStocks])
       await runAllUntilSettled(clock, transport.backgroundExecute(context))
       expect(receivedMessages).toEqual([subscribeMessage, overnightSubscribeMessage])
 
-      subscriptionSet.getAll.mockReturnValue([withoutVolume])
+      subscriptionSet.getAll.mockReturnValue([regular])
       await runAllUntilSettled(clock, transport.backgroundExecute(context))
       expect(receivedMessages).toEqual([
         subscribeMessage,

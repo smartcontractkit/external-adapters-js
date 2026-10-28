@@ -13,6 +13,7 @@ import {
 import {
   convertNsToMs,
   decimalToNumber,
+  hasEmptyQuotePrice,
   hasMidPriceSpreadFrame,
   hasSingleBidFrame,
   hasSingleOfferFrame,
@@ -173,4 +174,28 @@ test('isFutureInstrument returns false when SecTyp is missing or non-FUT', () =>
   } as any)
   expect(isFutureInstrument(mdMissing)).toBe(false)
   expect(isFutureInstrument(mdOther)).toBe(false)
+})
+
+test('hasEmptyQuotePrice is true only for a present-but-zero bid or offer price', () => {
+  const dec = (m: bigint, e: number) => create(DecimalSchema, { m, e })
+  const mk = (dat: object) => create(DataSchema, dat as any)
+
+  expect(hasEmptyQuotePrice(mk({ Bid: { Px: dec(0n, 0) }, Offer: { Px: dec(0n, 0) } }))).toBe(true)
+  expect(hasEmptyQuotePrice(mk({ Bid: { Px: dec(0n, 0) }, Offer: { Px: dec(5076n, -2) } }))).toBe(
+    true,
+  )
+  expect(hasEmptyQuotePrice(mk({ Bid: { Px: dec(5049n, -2) }, Offer: { Px: dec(0n, 0) } }))).toBe(
+    true,
+  )
+  // one-sided frames: a zero price is still empty even when the other side is absent
+  expect(hasEmptyQuotePrice(mk({ Bid: { Px: dec(0n, 0) } }))).toBe(true)
+  expect(hasEmptyQuotePrice(mk({ Offer: { Px: dec(0n, 0) } }))).toBe(true)
+  // real quote, absent sides, and trade-only frames are not "empty"
+  expect(hasEmptyQuotePrice(mk({ Bid: { Px: dec(5049n, -2) } }))).toBe(false)
+  expect(
+    hasEmptyQuotePrice(mk({ Bid: { Px: dec(5049n, -2) }, Offer: { Px: dec(5059n, -2) } })),
+  ).toBe(false)
+  expect(hasEmptyQuotePrice(mk({ Offer: { Px: dec(5059n, -2) } }))).toBe(false)
+  expect(hasEmptyQuotePrice(mk({ Px: dec(506n, -1) }))).toBe(false)
+  expect(hasEmptyQuotePrice(undefined)).toBe(false)
 })
