@@ -226,7 +226,7 @@ adapters:
   - name: the-network-firm
     version: 1.11.0
   - name: tickerlayer
-    version: 1.2.0
+    version: 1.2.1
   - name: tiingo
     version: 2.15.0
   - name: tiingo-state
