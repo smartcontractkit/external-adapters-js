@@ -1,5 +1,17 @@
 # @chainlink/data-engine-adapter
 
+## 1.8.0
+
+### Minor Changes
+
+- [#5542](https://github.com/smartcontractkit/external-adapters-js/pull/5542) [`de908f6`](https://github.com/smartcontractkit/external-adapters-js/commit/de908f603bde1a454380c873a0b60aff181dcb9f) Thanks [@akuzni2](https://github.com/akuzni2)! - Add the optional `stitching.params.emaHalfLifeSeconds` input to the blended endpoint, forwarded to the Data Engine for the adaptive mode's overnight EMA
+
+### Patch Changes
+
+- [#5556](https://github.com/smartcontractkit/external-adapters-js/pull/5556) [`b9e8e9e`](https://github.com/smartcontractkit/external-adapters-js/commit/b9e8e9ed083c7c818936af4181b43b5fc2a91bac) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Raise the default rate limit tier from 200 to 300 req/s to cover the additional 24/7 lending streams.
+
+- [#5559](https://github.com/smartcontractkit/external-adapters-js/pull/5559) [`99f2d92`](https://github.com/smartcontractkit/external-adapters-js/commit/99f2d929b645f5d169387846b2b65df172128623) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Declare the `referenceBid`, `referenceAsk` and `referenceMid` blended response fields, and stop requiring or forwarding the debug-only `metadata` group.
+
 ## 1.7.0
 
 ### Minor Changes
