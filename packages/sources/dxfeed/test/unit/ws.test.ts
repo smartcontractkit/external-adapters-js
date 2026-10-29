@@ -475,6 +475,25 @@ describe('dxLink websocket transport', () => {
     })
   })
 
+  describe('handshake errors', () => {
+    it('fails the open as soon as the server answers the handshake with ERROR', async () => {
+      server.failHandshake = true
+      const setupsBefore = server.countByType('SETUP')
+      server.closeAll()
+
+      // Both endpoint connections reconnect, and each retries within a single
+      // WS_CONNECTION_OPEN_TIMEOUT (2000ms): the ERROR frame rejected the open, not the timeout
+      await testAdapter.clock?.tickAsync?.(1500)
+      expect(server.countByType('SETUP') - setupsBefore).toBeGreaterThanOrEqual(4)
+
+      server.failHandshake = false
+      const setupsBeforeRecovery = server.countByType('SETUP')
+      await awaitWs(testAdapter, () => server.countByType('FEED_SETUP') > setupsBeforeRecovery)
+      const recovered = await testAdapter.request(quoteRequest)
+      expect(recovered.statusCode).toBe(200)
+    })
+  })
+
   describe('stale subscription expiry', () => {
     // Runs LAST on purpose: it advances the fake clock past
     // WS_SUBSCRIPTION_TTL, which expires (and unsubscribes) every other

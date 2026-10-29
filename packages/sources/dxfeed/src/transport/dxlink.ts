@@ -180,7 +180,8 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
 
   // Out-of-order events (and Trade vs TradeETH, which update the same price) must not overwrite
   // newer data. This can't be checked against the response cache: reads are async, so frames
-  // arriving together would race. Results without a provider time (errors) always pass.
+  // arriving together would race. Errors have no provider time and always pass; the framework's
+  // cache already refuses to replace a valid, unexpired response with an error.
   private isLatest({ params, response }: ProviderResult<DxLinkTransportTypes<T>>): boolean {
     const time =
       'timestamps' in response ? response.timestamps?.providerIndicatedTimeUnixMs : undefined
@@ -196,31 +197,30 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
   }
 
   // Requests that differ only in other params (e.g. stock_quotes' isOvernight) share one
-  // dxLink subscription, so dedupe them and never remove one that is still desired.
+  // dxLink subscription, so work with unique symbols and never remove one still desired.
   private subscriptionMessages({
     new: added,
     stale,
     desired,
   }: SubscriptionDeltas<TypeFromDefinition<T['Parameters']>>) {
-    const stillDesired = new Set(desired.flatMap((p) => this.toSubscriptions(p)).map(key))
-    const add = uniqueBy(
-      added.flatMap((p) => this.toSubscriptions(p)),
-      key,
-    )
-    const remove = uniqueBy(
-      stale.flatMap((p) => this.toSubscriptions(p)),
-      key,
-    ).filter((sub) => !stillDesired.has(key(sub)))
+    const desiredSymbols = toSymbols(desired)
+    const add = [...toSymbols(added)]
+    const remove = [...toSymbols(stale)].filter((symbol) => !desiredSymbols.has(symbol))
     if (add.length === 0 && remove.length === 0) {
       return []
     }
-    return [{ type: 'FEED_SUBSCRIPTION', channel: FEED_CHANNEL, add, remove }]
+    return [
+      {
+        type: 'FEED_SUBSCRIPTION',
+        channel: FEED_CHANNEL,
+        add: this.toSubscriptions(add),
+        remove: this.toSubscriptions(remove),
+      },
+    ]
   }
 
-  // Every dxfeed endpoint has a `base` param, which TS can't see through the generic params type
-  private toSubscriptions(params: object): Subscription[] {
-    const symbol = (params as { base: string }).base.toUpperCase()
-    return this.eventTypes.map((type) => ({ type, symbol }))
+  private toSubscriptions(symbols: string[]) {
+    return symbols.flatMap((symbol) => this.eventTypes.map((type) => ({ type, symbol })))
   }
 
   private storeFeedConfig(message: DxLinkMessage) {
@@ -245,13 +245,9 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
   }
 }
 
-type Subscription = { type: DxLinkEventType; symbol: string }
-
-const key = ({ type, symbol }: Subscription) => `${type}:${symbol}`
-
-const uniqueBy = <V>(values: V[], toKey: (value: V) => string): V[] => [
-  ...new Map(values.map((value) => [toKey(value), value])).values(),
-]
+// Every dxfeed endpoint has a `base` param, which TS can't see through the generic params type
+const toSymbols = (params: object[]): Set<string> =>
+  new Set(params.map((p) => (p as { base: string }).base.toUpperCase()))
 
 const stripNul = (value: unknown) =>
   typeof value === 'string' ? value.split('\u0000').join('') : value

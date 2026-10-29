@@ -119,6 +119,8 @@ export class ScriptedDxLinkServer {
   readonly clientMessages: any[] = []
   /** When true the server withholds FEED_CONFIG so the open handshake stalls. */
   suppressFeedConfig = false
+  /** When true the server answers FEED_SETUP with an ERROR frame, failing the handshake. */
+  failHandshake = false
   private readonly sockets: any[] = []
   private readonly feedData = new Map<string, object[]>()
 
@@ -140,6 +142,10 @@ export class ScriptedDxLinkServer {
 
   private handleClientMessage(socket: any, msg: any): void {
     this.clientMessages.push(msg)
+    if (msg.type === 'FEED_SETUP' && this.failHandshake) {
+      this.sendTo(socket, { type: 'ERROR', channel: 0, error: 'UNAUTHORIZED', message: 'test' })
+      return
+    }
     if (msg.type === 'FEED_SETUP' && !this.suppressFeedConfig) {
       this.sendTo(socket, feedConfigFrame())
       return
