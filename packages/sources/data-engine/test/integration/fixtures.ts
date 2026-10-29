@@ -159,6 +159,9 @@ const blendedNoIndicatorResponse = (stitching: { mode: string; params: object })
     rawAsk: '64640970000000000000001',
     stitchedMid: '64640960000000000000000',
     rawMid: '64640960000000000000001',
+    referenceBid: '64640940000000000000000',
+    referenceAsk: '64640980000000000000000',
+    referenceMid: '64640960000000000000002',
   },
   timestamps: {
     evaluatedAtTs: WINDOW_END_TS,

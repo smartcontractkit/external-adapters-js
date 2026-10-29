@@ -148,6 +148,25 @@ describe('blended endpoint', () => {
     expect(response.json()).toMatchSnapshot()
   })
 
+  it('should populate the result from a reference quote field', async () => {
+    mockBlendedAdaptiveResponse()
+    const response = await testAdapter.request({
+      endpoint: 'blended',
+      market: 'nyse',
+      ...SPY_FEEDS,
+      indicator: { type: 'none' },
+      stitching: { mode: 'adaptive', params: ADAPTIVE_PARAMS },
+      resultPath: 'referenceMid',
+      decimals: 8,
+    })
+    expect(response.statusCode).toBe(200)
+    const { result, data } = response.json()
+    expect(result).toBe('6464096000000')
+    expect(data.referenceBid).toBe('64640940000000000000000')
+    expect(data.referenceAsk).toBe('64640980000000000000000')
+    expect(data.referenceMid).toBe('64640960000000000000002')
+  })
+
   it('should forward kalman stitching without params and expose bid, ask and volumes', async () => {
     mockBlendedKalmanNoneResponse()
     const response = await testAdapter.request({

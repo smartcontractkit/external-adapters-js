@@ -173,6 +173,10 @@ export type BlendedData = {
   rawBid?: string
   rawAsk?: string
   rawMid?: string
+  // Reference quote fields, absent on Data Engine builds before reference quotes
+  referenceBid?: string
+  referenceAsk?: string
+  referenceMid?: string
 }
 
 /**
