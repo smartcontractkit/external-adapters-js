@@ -132,6 +132,30 @@ export const mockBlendedTwoSessionResponse = (market: string): nock.Scope =>
     })
     .persist()
 
+// The metadata group is debug-only, so a response without it must still succeed
+export const mockBlendedWithoutMetadataResponse = (market: string): nock.Scope =>
+  nock('https://api.dataengine.chain.link')
+    .post('/api/v1/blended', { market, feeds: TWO_SESSION_FEEDS })
+    .reply(200, {
+      data: {
+        rawStitchedPrice: '64640960000000000000000',
+        rawPrice: '64640960000000000000001',
+        indicatorPrice: '64640960000000000000000',
+        decimals: 18,
+        indicatorType: 'twap',
+        stitchingType: 'kalman',
+        market,
+        session: 'open',
+      },
+      timestamps: {
+        evaluatedAtTs: WINDOW_END_TS,
+        observationsTimestamp: 1757001598,
+        windowStartTs: 1757001540,
+        windowEndTs: WINDOW_END_TS,
+      },
+    })
+    .persist()
+
 export const ADAPTIVE_PARAMS = {
   closeWindowSeconds: 10,
   openWindowSeconds: 10,

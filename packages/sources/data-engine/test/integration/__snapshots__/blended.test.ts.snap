@@ -3,19 +3,10 @@
 exports[`blended endpoint should forward adaptive stitching and expose the stitched and underlying fields 1`] = `
 {
   "data": {
-    "anchor": null,
     "askVolume": "200000000000000000000",
     "bidVolume": "100000000000000000000",
     "decimals": 18,
     "evaluatedAtTs": 1757001600,
-    "feedsUsed": [
-      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
-    ],
-    "indicator": {
-      "endTs": 1757001600,
-      "type": "none",
-      "windowSeconds": 0,
-    },
     "indicatorPrice": "64640960000000000000000",
     "indicatorType": "none",
     "lastSeenTimestampNs": "1757001594123456789",
@@ -33,19 +24,6 @@ exports[`blended endpoint should forward adaptive stitching and expose the stitc
     "stitchedAsk": "64640970000000000000000",
     "stitchedBid": "64640950000000000000000",
     "stitchedMid": "64640960000000000000000",
-    "stitching": {
-      "mode": "adaptive",
-      "params": {
-        "blendSeconds": 30,
-        "closeWindowSeconds": 10,
-        "emaHalfLifeSeconds": 57.53,
-        "maxAnchorAgeSeconds": 600,
-        "openWindowSeconds": 10,
-        "sigmoidSteepness": 10,
-      },
-      "phase": "raw",
-    },
-    "stitchingApplied": false,
     "stitchingType": "adaptive",
     "windowEndTs": 1757001600,
     "windowStartTs": 1757001600,
@@ -63,19 +41,10 @@ exports[`blended endpoint should forward adaptive stitching and expose the stitc
 exports[`blended endpoint should forward kalman stitching without params and expose bid, ask and volumes 1`] = `
 {
   "data": {
-    "anchor": null,
     "askVolume": "200000000000000000000",
     "bidVolume": "100000000000000000000",
     "decimals": 18,
     "evaluatedAtTs": 1757001600,
-    "feedsUsed": [
-      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
-    ],
-    "indicator": {
-      "endTs": 1757001600,
-      "type": "none",
-      "windowSeconds": 0,
-    },
     "indicatorPrice": "64640960000000000000000",
     "indicatorType": "none",
     "lastSeenTimestampNs": "1757001594123456800",
@@ -93,18 +62,6 @@ exports[`blended endpoint should forward kalman stitching without params and exp
     "stitchedAsk": "64640970000000000000000",
     "stitchedBid": "64640950000000000000000",
     "stitchedMid": "64640960000000000000000",
-    "stitching": {
-      "mode": "kalman",
-      "params": {
-        "blendSeconds": 30,
-        "closeWindowSeconds": 10,
-        "maxAnchorAgeSeconds": 600,
-        "openWindowSeconds": 10,
-        "sigmoidSteepness": 10,
-      },
-      "phase": "raw",
-    },
-    "stitchingApplied": false,
     "stitchingType": "kalman",
     "windowEndTs": 1757001600,
     "windowStartTs": 1757001600,
@@ -122,17 +79,8 @@ exports[`blended endpoint should forward kalman stitching without params and exp
 exports[`blended endpoint should populate the result from resultPath when provided 1`] = `
 {
   "data": {
-    "anchor": null,
     "decimals": 18,
     "evaluatedAtTs": 1757001600,
-    "feedsUsed": [
-      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
-    ],
-    "indicator": {
-      "endTs": 1757001600,
-      "type": "twap",
-      "windowSeconds": 60,
-    },
     "indicatorPrice": "64640960000000000000000",
     "indicatorType": "twap",
     "market": "nymex",
@@ -140,18 +88,6 @@ exports[`blended endpoint should populate the result from resultPath when provid
     "rawPrice": "64640960000000000000001",
     "rawStitchedPrice": "64640960000000000000000",
     "session": "open",
-    "stitching": {
-      "mode": "kalman",
-      "params": {
-        "blendSeconds": 30,
-        "closeWindowSeconds": 10,
-        "maxAnchorAgeSeconds": 600,
-        "openWindowSeconds": 10,
-        "sigmoidSteepness": 10,
-      },
-      "phase": "raw",
-    },
-    "stitchingApplied": false,
     "stitchingType": "kalman",
     "windowEndTs": 1757001600,
     "windowStartTs": 1757001540,
@@ -212,7 +148,7 @@ exports[`blended endpoint should return 400 when required params are missing 1`]
 
 exports[`blended endpoint should return 400 when resultPath points to a field that does not exist 1`] = `
 {
-  "errorMessage": "resultPath 'nonExistentField' not found in data. Available keys: rawStitchedPrice, rawPrice, indicatorPrice, decimals, indicatorType, stitchingType, market, session, evaluatedAtTs, observationsTimestamp, windowStartTs, windowEndTs, feedsUsed, stitchingApplied, anchor, stitching, indicator",
+  "errorMessage": "resultPath 'nonExistentField' not found in data. Available keys: rawStitchedPrice, rawPrice, indicatorPrice, decimals, indicatorType, stitchingType, market, session, evaluatedAtTs, observationsTimestamp, windowStartTs, windowEndTs",
   "statusCode": 400,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -290,22 +226,8 @@ exports[`blended endpoint should return 502 when provider returns incomplete res
 exports[`blended endpoint should return success with blended data for a market with all four session feeds 1`] = `
 {
   "data": {
-    "anchor": {
-      "ageSeconds": 70,
-      "price": "64640950000000000000000",
-      "ts": 1757001530,
-    },
     "decimals": 18,
     "evaluatedAtTs": 1757001600,
-    "feedsUsed": [
-      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
-      "0x000bbb370f42279bdf6ef55c21b05e319d7e9ca316369c44387a8b5cf17bab3c",
-    ],
-    "indicator": {
-      "endTs": 1757001600,
-      "type": "twap",
-      "windowSeconds": 60,
-    },
     "indicatorPrice": "64640960000000000000000",
     "indicatorType": "twap",
     "market": "nyse",
@@ -313,18 +235,6 @@ exports[`blended endpoint should return success with blended data for a market w
     "rawPrice": "64640960000000000000001",
     "rawStitchedPrice": "64640960000000000000000",
     "session": "open",
-    "stitching": {
-      "mode": "kalman",
-      "params": {
-        "blendSeconds": 30,
-        "closeWindowSeconds": 10,
-        "maxAnchorAgeSeconds": 600,
-        "openWindowSeconds": 10,
-        "sigmoidSteepness": 10,
-      },
-      "phase": "handoff",
-    },
-    "stitchingApplied": true,
     "stitchingType": "kalman",
     "windowEndTs": 1757001600,
     "windowStartTs": 1757001540,
@@ -342,17 +252,8 @@ exports[`blended endpoint should return success with blended data for a market w
 exports[`blended endpoint should return success with blended data for a market with open and closed feeds only 1`] = `
 {
   "data": {
-    "anchor": null,
     "decimals": 18,
     "evaluatedAtTs": 1757001600,
-    "feedsUsed": [
-      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
-    ],
-    "indicator": {
-      "endTs": 1757001600,
-      "type": "twap",
-      "windowSeconds": 60,
-    },
     "indicatorPrice": "64640960000000000000000",
     "indicatorType": "twap",
     "market": "wti",
@@ -360,18 +261,6 @@ exports[`blended endpoint should return success with blended data for a market w
     "rawPrice": "64640960000000000000001",
     "rawStitchedPrice": "64640960000000000000000",
     "session": "open",
-    "stitching": {
-      "mode": "kalman",
-      "params": {
-        "blendSeconds": 30,
-        "closeWindowSeconds": 10,
-        "maxAnchorAgeSeconds": 600,
-        "openWindowSeconds": 10,
-        "sigmoidSteepness": 10,
-      },
-      "phase": "raw",
-    },
-    "stitchingApplied": false,
     "stitchingType": "kalman",
     "windowEndTs": 1757001600,
     "windowStartTs": 1757001540,
@@ -389,17 +278,8 @@ exports[`blended endpoint should return success with blended data for a market w
 exports[`blended endpoint should scale the default indicatorPrice when decimals is provided without resultPath 1`] = `
 {
   "data": {
-    "anchor": null,
     "decimals": 18,
     "evaluatedAtTs": 1757001600,
-    "feedsUsed": [
-      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
-    ],
-    "indicator": {
-      "endTs": 1757001600,
-      "type": "twap",
-      "windowSeconds": 60,
-    },
     "indicatorPrice": "64640960000000000000000",
     "indicatorType": "twap",
     "market": "comex_copper",
@@ -407,18 +287,6 @@ exports[`blended endpoint should scale the default indicatorPrice when decimals 
     "rawPrice": "64640960000000000000001",
     "rawStitchedPrice": "64640960000000000000000",
     "session": "open",
-    "stitching": {
-      "mode": "kalman",
-      "params": {
-        "blendSeconds": 30,
-        "closeWindowSeconds": 10,
-        "maxAnchorAgeSeconds": 600,
-        "openWindowSeconds": 10,
-        "sigmoidSteepness": 10,
-      },
-      "phase": "raw",
-    },
-    "stitchingApplied": false,
     "stitchingType": "kalman",
     "windowEndTs": 1757001600,
     "windowStartTs": 1757001540,
@@ -436,17 +304,8 @@ exports[`blended endpoint should scale the default indicatorPrice when decimals 
 exports[`blended endpoint should scale the resultPath value when decimals is provided 1`] = `
 {
   "data": {
-    "anchor": null,
     "decimals": 18,
     "evaluatedAtTs": 1757001600,
-    "feedsUsed": [
-      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
-    ],
-    "indicator": {
-      "endTs": 1757001600,
-      "type": "twap",
-      "windowSeconds": 60,
-    },
     "indicatorPrice": "64640960000000000000000",
     "indicatorType": "twap",
     "market": "nymex_brent",
@@ -454,18 +313,6 @@ exports[`blended endpoint should scale the resultPath value when decimals is pro
     "rawPrice": "64640960000000000000001",
     "rawStitchedPrice": "64640960000000000000000",
     "session": "open",
-    "stitching": {
-      "mode": "kalman",
-      "params": {
-        "blendSeconds": 30,
-        "closeWindowSeconds": 10,
-        "maxAnchorAgeSeconds": 600,
-        "openWindowSeconds": 10,
-        "sigmoidSteepness": 10,
-      },
-      "phase": "raw",
-    },
-    "stitchingApplied": false,
     "stitchingType": "kalman",
     "windowEndTs": 1757001600,
     "windowStartTs": 1757001540,

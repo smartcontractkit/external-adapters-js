@@ -13,6 +13,7 @@ import {
   mockBlendedKalmanNoneResponse,
   mockBlendedNyseResponse,
   mockBlendedTwoSessionResponse,
+  mockBlendedWithoutMetadataResponse,
   SPY_FEEDS,
 } from './fixtures'
 
@@ -70,6 +71,21 @@ describe('blended endpoint', () => {
     expect(response.statusCode).toBe(200)
     expect(response.json().result).toBe('64640960000000000000000')
     expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should succeed without the debug-only metadata group and not forward it', async () => {
+    mockBlendedWithoutMetadataResponse('cme')
+    const response = await testAdapter.request({
+      endpoint: 'blended',
+      market: 'cme',
+      open: SPY_FEEDS.open,
+      closed: SPY_FEEDS.closed,
+    })
+    expect(response.statusCode).toBe(200)
+    const { result, data } = response.json()
+    expect(result).toBe('64640960000000000000000')
+    expect(data).not.toHaveProperty('feedsUsed')
+    expect(data).not.toHaveProperty('stitchingApplied')
   })
 
   it('should populate the result from resultPath when provided', async () => {

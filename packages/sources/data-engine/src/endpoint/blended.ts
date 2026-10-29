@@ -201,22 +201,11 @@ export type BlendedTimestamps = {
   windowEndTs: number
 }
 
-/**
- * Wire shape of the `metadata` group of the blended provider response.
- */
-export type BlendedMetadata = {
-  feedsUsed: string[]
-  stitchingApplied: boolean
-  anchor: { price: string; ts: number; ageSeconds: number } | null
-  stitching: { mode: string; params: Record<string, unknown>; phase: string }
-  indicator: { type: string; windowSeconds: number; endTs: number }
-}
-
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
     Result: string
-    Data: BlendedData & BlendedTimestamps & Partial<BlendedUnderlying> & BlendedMetadata
+    Data: BlendedData & BlendedTimestamps & Partial<BlendedUnderlying>
   }
   Settings: typeof config.settings
 }
