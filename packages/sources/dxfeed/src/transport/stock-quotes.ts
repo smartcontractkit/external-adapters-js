@@ -1,30 +1,28 @@
 import { BaseEndpointTypes } from '../endpoint/stock-quotes'
-import { buildDxLinkTransport, DxLinkEvent } from './dxlink'
-import { LatestTimes, toNumber } from './utils'
+import { DxLinkEvent, DxLinkTransport } from './dxlink'
+import { toNumber } from './utils'
 
-// Overnight quotes also feed regular requests, so each session keeps its own latest quote
-const latestQuotes = new LatestTimes()
+export class StockQuotesTransport extends DxLinkTransport<BaseEndpointTypes> {
+  constructor() {
+    super(['Quote'])
+  }
 
-export const transport = buildDxLinkTransport<BaseEndpointTypes>({
-  eventTypes: ['Quote'],
-  parseEvent: (event) => {
+  protected parseEvent(event: DxLinkEvent) {
     const base = event.eventSymbol
-    const time = toNumber(event.time)
-    // isOvernight requests only accept quotes from the overnight venue (exchange code O)
+    const { response, requireVolumeResponse } = buildResponses(event)
+    // Every quote serves regular requests, but isOvernight requests only accept quotes from
+    // the overnight venue (exchange code O on both sides)
     const isOvernightQuote = event.bidExchangeCode === 'O' && event.askExchangeCode === 'O'
     const sessions = isOvernightQuote ? [false, true] : [false]
-    const { response, requireVolumeResponse } = buildResponses(event, time)
 
-    return sessions
-      .filter((isOvernight) => latestQuotes.isLatest(`${base}:${isOvernight}`, time))
-      .flatMap((isOvernight) => [
-        { params: { base, isOvernight, requireVolume: false }, response },
-        { params: { base, isOvernight, requireVolume: true }, response: requireVolumeResponse },
-      ])
-  },
-})
+    return sessions.flatMap((isOvernight) => [
+      { params: { base, isOvernight, requireVolume: false }, response },
+      { params: { base, isOvernight, requireVolume: true }, response: requireVolumeResponse },
+    ])
+  }
+}
 
-const buildResponses = (event: DxLinkEvent, time: number | null) => {
+const buildResponses = (event: DxLinkEvent) => {
   const bidPrice = toNumber(event.bidPrice)
   const askPrice = toNumber(event.askPrice)
   if (bidPrice === null || askPrice === null) {
@@ -49,7 +47,7 @@ const buildResponses = (event: DxLinkEvent, time: number | null) => {
       ask_price: askPrice,
       ask_volume: askVolume,
     },
-    timestamps: { providerIndicatedTimeUnixMs: time ?? undefined },
+    timestamps: { providerIndicatedTimeUnixMs: toNumber(event.time) ?? undefined },
   }
 
   if (bidVolume === null || askVolume === null) {
@@ -61,3 +59,5 @@ const buildResponses = (event: DxLinkEvent, time: number | null) => {
   }
   return { response, requireVolumeResponse: response }
 }
+
+export const transport = new StockQuotesTransport()

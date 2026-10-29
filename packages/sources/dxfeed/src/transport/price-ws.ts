@@ -1,19 +1,15 @@
 import { BaseEndpointTypes } from '../endpoint/price'
-import { buildDxLinkTransport } from './dxlink'
-import { LatestTimes, toNumber } from './utils'
+import { DxLinkEvent, DxLinkTransport } from './dxlink'
+import { toNumber } from './utils'
 
-// Trade (regular hours) and TradeETH (extended hours) both report the last price; the newest wins
-const latestTrades = new LatestTimes()
+export class PriceTransport extends DxLinkTransport<BaseEndpointTypes> {
+  constructor() {
+    // Trade (regular hours) and TradeETH (extended hours) both carry the last price; the newest wins
+    super(['Trade', 'TradeETH'])
+  }
 
-export const transport = buildDxLinkTransport<BaseEndpointTypes>({
-  eventTypes: ['Trade', 'TradeETH'],
-  parseEvent: (event) => {
+  protected parseEvent(event: DxLinkEvent) {
     const base = event.eventSymbol
-    const time = toNumber(event.time)
-    if (!latestTrades.isLatest(base, time)) {
-      return []
-    }
-
     const price = toNumber(event.price)
     if (price === null) {
       return [
@@ -33,9 +29,11 @@ export const transport = buildDxLinkTransport<BaseEndpointTypes>({
         response: {
           result: price,
           data: { result: price },
-          timestamps: { providerIndicatedTimeUnixMs: time ?? undefined },
+          timestamps: { providerIndicatedTimeUnixMs: toNumber(event.time) ?? undefined },
         },
       },
     ]
-  },
-})
+  }
+}
+
+export const transport = new PriceTransport()

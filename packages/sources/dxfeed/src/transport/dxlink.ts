@@ -1,5 +1,6 @@
 import { metrics } from '@chainlink/external-adapter-framework/metrics'
 import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
 import {
   WebSocket,
   WebSocketTransport,
@@ -9,6 +10,7 @@ import {
   ProviderResult,
   splitArrayIntoChunks,
 } from '@chainlink/external-adapter-framework/util'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import type { config } from '../config'
 
 const logger = makeLogger('DxLinkTransport')
@@ -58,40 +60,180 @@ type DxLinkMessage = {
   message?: string
 }
 
-type DxLinkTransportTypes = {
+type BaseTransportTypes = {
   Parameters: TransportGenerics['Parameters']
   Response: TransportGenerics['Response']
   Settings: typeof config.settings
 }
 
-type WithProvider<T> = T & { Provider: { WsMessage: DxLinkMessage } }
+export type DxLinkTransportTypes<T extends BaseTransportTypes> = T & {
+  Provider: { WsMessage: DxLinkMessage }
+}
 
 /**
- * Builds a WebSocketTransport speaking the dxLink protocol: it subscribes every
- * requested `base` to `eventTypes`, and hands each decoded event to `parseEvent`.
+ * WebSocketTransport for the dxLink protocol. It subscribes every requested `base` to the
+ * subclass' event types, and hands each decoded event to the subclass' `parseEvent`.
  */
-export const buildDxLinkTransport = <T extends DxLinkTransportTypes>({
-  eventTypes,
-  parseEvent,
-}: {
-  eventTypes: DxLinkEventType[]
-  parseEvent: (event: DxLinkEvent) => ProviderResult<WithProvider<T>>[]
-}): WebSocketTransport<WithProvider<T>> => {
+export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebSocketTransport<
+  DxLinkTransportTypes<T>
+> {
   // Field order of COMPACT records, as announced by the server in FEED_CONFIG
-  const fieldsByEventType = new Map<string, string[]>()
-  let connection: WebSocket | undefined
+  private fieldsByEventType = new Map<string, string[]>()
+  // Latest provider time written per params, to drop events that arrive out of order
+  private latestTimes = new Map<string, number>()
 
-  const storeFeedConfig = (message: DxLinkMessage) => {
+  protected abstract parseEvent(event: DxLinkEvent): ProviderResult<DxLinkTransportTypes<T>>[]
+
+  constructor(private readonly eventTypes: DxLinkEventType[]) {
+    super({
+      url: (context) => context.adapterSettings.WS_API_ENDPOINT || '',
+      // dxFeed authenticates the WS upgrade with HTTP Basic, so dxLink's AUTH message is not used
+      options: ({ adapterSettings: { API_USERNAME, API_PASSWORD } }) => {
+        const credentials = Buffer.from(`${API_USERNAME}:${API_PASSWORD}`).toString('base64')
+        return { headers: { Authorization: `Basic ${credentials}` } }
+      },
+      handlers: {
+        open: (connection) => this.handshake(connection),
+        message: (message) => this.handleMessage(message),
+        heartbeat: (connection) => {
+          connection.send(JSON.stringify({ type: 'KEEPALIVE', channel: CONTROL_CHANNEL }))
+        },
+      },
+      builders: {
+        customSubscriptionMessages: (_context, subscriptions) =>
+          this.subscriptionMessages(subscriptions),
+      },
+    })
+  }
+
+  // The connection is ready once the server answers FEED_SETUP with FEED_CONFIG
+  private handshake(connection: WebSocket): Promise<void> {
+    return new Promise((resolve, reject) => {
+      connection.addEventListener('message', (event: WebSocket.MessageEvent) => {
+        try {
+          const message: DxLinkMessage = JSON.parse(event.data.toString())
+          if (message.type === 'FEED_CONFIG') {
+            this.storeFeedConfig(message)
+            resolve()
+          } else if (message.type === 'ERROR') {
+            reject(new Error(`dxLink handshake failed: ${message.error} ${message.message}`))
+          }
+        } catch (error) {
+          reject(error)
+        }
+      })
+      connection.send(
+        JSON.stringify({
+          type: 'SETUP',
+          channel: CONTROL_CHANNEL,
+          version: '0.1-js/1.0.0',
+          keepaliveTimeout: 60,
+          acceptKeepaliveTimeout: 60,
+        }),
+      )
+      connection.send(
+        JSON.stringify({
+          type: 'CHANNEL_REQUEST',
+          channel: FEED_CHANNEL,
+          service: 'FEED',
+          parameters: { contract: 'AUTO' },
+        }),
+      )
+      connection.send(
+        JSON.stringify({
+          type: 'FEED_SETUP',
+          channel: FEED_CHANNEL,
+          acceptAggregationPeriod: 1,
+          acceptDataFormat: 'COMPACT',
+          acceptEventFields: Object.fromEntries(this.eventTypes.map((t) => [t, EVENT_FIELDS[t]])),
+        }),
+      )
+    })
+  }
+
+  private handleMessage(message: DxLinkMessage): ProviderResult<DxLinkTransportTypes<T>>[] {
+    switch (message.type) {
+      case 'FEED_DATA':
+        return this.decodeFeedData(message.data)
+          .filter((event) => this.eventTypes.includes(event.eventType))
+          .flatMap((event) => this.parseEvent(event))
+          .filter((result) => this.isLatest(result))
+      case 'FEED_CONFIG':
+        this.storeFeedConfig(message)
+        return []
+      case 'CHANNEL_CLOSED':
+        // Closing the socket makes the framework reconnect, redo the handshake and resubscribe
+        logger.info(`dxLink closed channel ${message.channel}, reconnecting`)
+        this.wsConnection?.close()
+        return []
+      case 'ERROR':
+        logger.warn(`dxLink error: ${message.error} ${message.message}`)
+        metrics
+          .get('wsConnectionErrors')
+          .labels({ message: message.error ?? 'unknown' })
+          .inc()
+        return []
+      default:
+        return []
+    }
+  }
+
+  // Out-of-order events (and Trade vs TradeETH, which update the same price) must not overwrite
+  // newer data. This can't be checked against the response cache: reads are async, so frames
+  // arriving together would race. Results without a provider time (errors) always pass.
+  private isLatest({ params, response }: ProviderResult<DxLinkTransportTypes<T>>): boolean {
+    const time =
+      'timestamps' in response ? response.timestamps?.providerIndicatedTimeUnixMs : undefined
+    if (time === undefined) {
+      return true
+    }
+    const key = JSON.stringify(params)
+    if (time < (this.latestTimes.get(key) ?? -Infinity)) {
+      return false
+    }
+    this.latestTimes.set(key, time)
+    return true
+  }
+
+  // Requests that differ only in other params (e.g. stock_quotes' isOvernight) share one
+  // dxLink subscription, so dedupe them and never remove one that is still desired.
+  private subscriptionMessages({
+    new: added,
+    stale,
+    desired,
+  }: SubscriptionDeltas<TypeFromDefinition<T['Parameters']>>) {
+    const stillDesired = new Set(desired.flatMap((p) => this.toSubscriptions(p)).map(key))
+    const add = uniqueBy(
+      added.flatMap((p) => this.toSubscriptions(p)),
+      key,
+    )
+    const remove = uniqueBy(
+      stale.flatMap((p) => this.toSubscriptions(p)),
+      key,
+    ).filter((sub) => !stillDesired.has(key(sub)))
+    if (add.length === 0 && remove.length === 0) {
+      return []
+    }
+    return [{ type: 'FEED_SUBSCRIPTION', channel: FEED_CHANNEL, add, remove }]
+  }
+
+  // Every dxfeed endpoint has a `base` param, which TS can't see through the generic params type
+  private toSubscriptions(params: object): Subscription[] {
+    const symbol = (params as { base: string }).base.toUpperCase()
+    return this.eventTypes.map((type) => ({ type, symbol }))
+  }
+
+  private storeFeedConfig(message: DxLinkMessage) {
     for (const [eventType, fields] of Object.entries(message.eventFields ?? {})) {
       if (Array.isArray(fields) && fields.length > 0) {
-        fieldsByEventType.set(eventType, fields)
+        this.fieldsByEventType.set(eventType, fields)
       }
     }
   }
 
-  const decodeFeedData = (data: unknown[] = []): DxLinkEvent[] =>
-    splitArrayIntoChunks(data, 2).flatMap(([eventType, values]) => {
-      const fields = fieldsByEventType.get(eventType as string)
+  private decodeFeedData(data: unknown[] = []): DxLinkEvent[] {
+    return splitArrayIntoChunks(data, 2).flatMap(([eventType, values]) => {
+      const fields = this.fieldsByEventType.get(eventType as string)
       if (!fields || !Array.isArray(values)) {
         logger.warn(`Dropping ${eventType} data: field layout unknown (no FEED_CONFIG yet)`)
         return []
@@ -100,120 +242,15 @@ export const buildDxLinkTransport = <T extends DxLinkTransportTypes>({
         .filter((record) => record.length === fields.length)
         .map((record) => Object.fromEntries(fields.map((f, i) => [f, stripNul(record[i])])))
     }) as DxLinkEvent[]
-
-  // Every dxfeed endpoint has a `base` param, which TS can't see through the generic params type
-  const toSubscriptions = (params: object) =>
-    eventTypes.map((type) => ({ type, symbol: (params as { base: string }).base.toUpperCase() }))
-
-  return new WebSocketTransport<WithProvider<T>>({
-    url: (context) => context.adapterSettings.WS_API_ENDPOINT || '',
-
-    // dxFeed authenticates the WS upgrade with HTTP Basic, so dxLink's AUTH message is not used
-    options: ({ adapterSettings: { API_USERNAME, API_PASSWORD } }) => ({
-      headers: {
-        Authorization: `Basic ${Buffer.from(`${API_USERNAME}:${API_PASSWORD}`).toString('base64')}`,
-      },
-    }),
-
-    handlers: {
-      // The connection is ready once the server answers FEED_SETUP with FEED_CONFIG
-      open: (ws) => {
-        connection = ws
-        return new Promise((resolve, reject) => {
-          ws.addEventListener('message', (event: WebSocket.MessageEvent) => {
-            try {
-              const message: DxLinkMessage = JSON.parse(event.data.toString())
-              if (message.type === 'FEED_CONFIG') {
-                storeFeedConfig(message)
-                resolve()
-              } else if (message.type === 'ERROR') {
-                reject(new Error(`dxLink handshake failed: ${message.error} ${message.message}`))
-              }
-            } catch (error) {
-              reject(error)
-            }
-          })
-          ws.send(
-            JSON.stringify({
-              type: 'SETUP',
-              channel: CONTROL_CHANNEL,
-              version: '0.1-js/1.0.0',
-              keepaliveTimeout: 60,
-              acceptKeepaliveTimeout: 60,
-            }),
-          )
-          ws.send(
-            JSON.stringify({
-              type: 'CHANNEL_REQUEST',
-              channel: FEED_CHANNEL,
-              service: 'FEED',
-              parameters: { contract: 'AUTO' },
-            }),
-          )
-          ws.send(
-            JSON.stringify({
-              type: 'FEED_SETUP',
-              channel: FEED_CHANNEL,
-              acceptAggregationPeriod: 1,
-              acceptDataFormat: 'COMPACT',
-              acceptEventFields: Object.fromEntries(eventTypes.map((t) => [t, EVENT_FIELDS[t]])),
-            }),
-          )
-        })
-      },
-
-      message: (message) => {
-        switch (message.type) {
-          case 'FEED_DATA':
-            return decodeFeedData(message.data)
-              .filter((event) => eventTypes.includes(event.eventType))
-              .flatMap(parseEvent)
-          case 'FEED_CONFIG':
-            storeFeedConfig(message)
-            return []
-          case 'CHANNEL_CLOSED':
-            // Closing the socket makes the framework reconnect, redo the handshake and resubscribe
-            logger.info(`dxLink closed channel ${message.channel}, reconnecting`)
-            connection?.close()
-            return []
-          case 'ERROR':
-            logger.warn(`dxLink error: ${message.error} ${message.message}`)
-            metrics
-              .get('wsConnectionErrors')
-              .labels({ message: message.error ?? 'unknown' })
-              .inc()
-            return []
-          default:
-            return []
-        }
-      },
-
-      heartbeat: (ws) => {
-        ws.send(JSON.stringify({ type: 'KEEPALIVE', channel: CONTROL_CHANNEL }))
-      },
-    },
-
-    builders: {
-      // Requests that differ only in other params (e.g. stock_quotes' isOvernight) share one
-      // dxLink subscription, so dedupe them and never remove one that is still desired.
-      customSubscriptionMessages: (_context, { new: added, stale, desired }) => {
-        const key = ({ type, symbol }: { type: string; symbol: string }) => `${type}:${symbol}`
-        const stillDesired = new Set(desired.flatMap(toSubscriptions).map(key))
-        const add = uniqueBy(added.flatMap(toSubscriptions), key)
-        const remove = uniqueBy(stale.flatMap(toSubscriptions), key).filter(
-          (sub) => !stillDesired.has(key(sub)),
-        )
-        if (add.length === 0 && remove.length === 0) {
-          return []
-        }
-        return [{ type: 'FEED_SUBSCRIPTION', channel: FEED_CHANNEL, add, remove }]
-      },
-    },
-  })
+  }
 }
 
-const uniqueBy = <V>(values: V[], key: (value: V) => string): V[] => [
-  ...new Map(values.map((value) => [key(value), value])).values(),
+type Subscription = { type: DxLinkEventType; symbol: string }
+
+const key = ({ type, symbol }: Subscription) => `${type}:${symbol}`
+
+const uniqueBy = <V>(values: V[], toKey: (value: V) => string): V[] => [
+  ...new Map(values.map((value) => [toKey(value), value])).values(),
 ]
 
 const stripNul = (value: unknown) =>
