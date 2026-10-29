@@ -20417,7 +20417,7 @@ const RAW_RUNTIME_STATE =
           ["dezalgo", "npm:1.0.4"],\
           ["formidable", "npm:2.1.5"],\
           ["once", "npm:1.4.0"],\
-          ["qs", "npm:6.16.0"]\
+          ["qs", "npm:6.17.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -24239,11 +24239,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["qs", [\
-      ["npm:6.16.0", {\
-        "packageLocation": "./.yarn/cache/qs-npm-6.16.0-160b61647c-7fbf9c2eb9.zip/node_modules/qs/",\
+      ["npm:6.17.1", {\
+        "packageLocation": "./.yarn/cache/qs-npm-6.17.1-118653a5b1-032a642c78.zip/node_modules/qs/",\
         "packageDependencies": [\
           ["es-define-property", "npm:1.0.1"],\
-          ["qs", "npm:6.16.0"],\
+          ["qs", "npm:6.17.1"],\
           ["side-channel", "npm:1.1.1"]\
         ],\
         "linkType": "HARD"\
@@ -25773,7 +25773,7 @@ const RAW_RUNTIME_STATE =
           ["formidable", "npm:2.1.5"],\
           ["methods", "npm:1.1.2"],\
           ["mime", "npm:2.6.0"],\
-          ["qs", "npm:6.16.0"],\
+          ["qs", "npm:6.17.1"],\
           ["semver", "npm:7.7.2"],\
           ["superagent", "npm:8.1.2"]\
         ],\
