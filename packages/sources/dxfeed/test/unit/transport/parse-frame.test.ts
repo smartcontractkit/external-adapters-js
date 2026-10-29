@@ -165,6 +165,13 @@ describe('dxLink COMPACT frame parsing', () => {
     server.setFeedData('TradeETH', 'TRDNEW:USLF24', [
       tradeFrame('TradeETH', tradeRecord('TradeETH', 'TRDNEW:USLF24', 1760000001000, 191.5)),
     ])
+    // Staleness: a back-dated malformed quote must not replace a newer value.
+    server.setFeedData('Quote', 'STALE:USLF24', [
+      quoteFrame(quoteRecord('STALE:USLF24', 1760000002000, 10, 11, 1, 2)),
+    ])
+    server.setFeedData('Quote', 'STALEO:USLF24', [
+      quoteFrame(quoteRecord('STALEO:USLF24', 1760000002000, 20, 21, 1, 2, 'O', 'O')),
+    ])
 
     mockWebSocketProvider(WebSocketClassProvider)
     const adapter = (await import('./../../../src')).adapter
@@ -330,6 +337,46 @@ describe('dxLink COMPACT frame parsing', () => {
     expect(tradeBody.data.result).toBe(195.25)
     expect(tradeBody.result).toBe(195.25)
     expect(tradeBody.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000009000)
+  })
+
+  it('drops a back-dated malformed quote instead of replacing the newest cached value with a 502', async () => {
+    const regular = overriddenQuotesRequest('STALE')
+    const warm = await testAdapter.request(regular)
+    expect(warm.statusCode).toBe(200)
+    expect(warm.json().data).toMatchObject({ bid_price: 10, ask_price: 11 })
+
+    testLogger.warn.mockClear()
+    server.push(quoteFrame(quoteRecord('STALE:USLF24', 1760000001000, 'NaN', 11, 1, 2)))
+    await flushFrames(testAdapter)
+    expect(
+      testLogger.warn.mock.calls.some((call) =>
+        String(call[0]).includes('Dropping STALE:USLF24 quote with an invalid bid/ask price'),
+      ),
+    ).toBe(false)
+
+    const after = await testAdapter.request(regular)
+    expect(after.statusCode).toBe(200)
+    expect(after.json().data).toMatchObject({ bid_price: 10, ask_price: 11 })
+    expect(after.json().timestamps?.providerIndicatedTimeUnixMs).toBe(1760000002000)
+
+    const overnight = overriddenQuotesRequest('STALEO', { isOvernight: true })
+    const warmOvernight = await testAdapter.request(overnight)
+    expect(warmOvernight.statusCode).toBe(200)
+    expect(warmOvernight.json().data).toMatchObject({ bid_price: 20, ask_price: 21 })
+
+    testLogger.warn.mockClear()
+    server.push(quoteFrame(quoteRecord('STALEO:USLF24', 1760000001000, 'NaN', 21, 1, 2, 'O', 'O')))
+    await flushFrames(testAdapter)
+    expect(
+      testLogger.warn.mock.calls.some((call) =>
+        String(call[0]).includes('Dropping STALEO:USLF24 quote with an invalid bid/ask price'),
+      ),
+    ).toBe(false)
+
+    const afterOvernight = await testAdapter.request(overnight)
+    expect(afterOvernight.statusCode).toBe(200)
+    expect(afterOvernight.json().data).toMatchObject({ bid_price: 20, ask_price: 21 })
+    expect(afterOvernight.json().timestamps?.providerIndicatedTimeUnixMs).toBe(1760000002000)
   })
 
   it('keeps serving the last value after a quiet period (no parse crash)', async () => {

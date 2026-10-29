@@ -95,6 +95,7 @@ export interface DxLinkFrame {
   channel?: number
   data?: [string, (string | number)[]]
   eventFields?: Record<string, string[]>
+  error?: string
   message?: string
 }
 
@@ -190,15 +191,20 @@ export function buildDxLinkWsTransport<T extends BaseTransportTypes>(
     })
 
   const recordProviderError = (frame: DxLinkFrame): void => {
+    const errorCode = frame.error ?? 'UNKNOWN'
     const message = frame.message ?? 'unknown'
-    logger.warn(`dxLink provider ERROR frame: ${message}`)
-    metrics.get('wsConnectionErrors').labels({ message }).inc()
+    logger.warn(`dxLink provider ERROR frame (${errorCode}): ${message}`)
+    // The metric label is the bounded dxLink error enum; the free-form message
+    // goes to the log only so a noisy provider cannot create unbounded series.
+    metrics
+      .get('wsConnectionErrors')
+      .labels({ message: `provider:${errorCode}` })
+      .inc()
   }
 
   return new WebSocketTransport<DxLinkTransportTypes<T>>({
     url: (context) => context.adapterSettings.WS_API_ENDPOINT || '',
 
-    // FRAMEWORK-EXCEPTION: basic-auth-not-oauth
     // dxFeed verifies HTTP Basic on the WS handshake; dxLink's AUTH message is
     // not used. The framework exposes this options() seam for connection
     // headers but has no Basic-auth builder.
@@ -211,7 +217,6 @@ export function buildDxLinkWsTransport<T extends BaseTransportTypes>(
       }
     },
 
-    // FRAMEWORK-EXCEPTION: dxlink-control-protocol
     // The dxLink frame vocabulary and handshake sequencing below are
     // provider-specific; WebSocketTransport owns the socket lifecycle,
     // reconnect, heartbeat timer and cache writes.
@@ -230,7 +235,6 @@ export function buildDxLinkWsTransport<T extends BaseTransportTypes>(
             onFeedConfig(frame)
             return []
           case 'CHANNEL_CLOSED':
-            // FRAMEWORK-EXCEPTION: dxlink-control-protocol
             // The server closed the FEED channel. Close the socket so the
             // framework reconnects, re-runs the handshake and re-sends the
             // desired subscriptions.
@@ -245,7 +249,7 @@ export function buildDxLinkWsTransport<T extends BaseTransportTypes>(
         }
       },
 
-      heartbeat(connection) {
+      heartbeat: (connection) => {
         connection.send(JSON.stringify(KEEPALIVE_MESSAGE))
       },
     },

@@ -6,7 +6,7 @@ import type { config } from '../config'
 import overrides from '../config/overrides.json'
 import { buildDxFeedHttpTransport } from '../transport/price-http'
 import { transport as wsTransport } from '../transport/price-ws'
-import { inputParameters, wsEnvPresenceError } from './utils'
+import { inputParameters, validateWsEnvVars } from './utils'
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -14,6 +14,8 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse
 }
 
+// The dxfeed price endpoint takes only `base`; PriceEndpoint also requires a
+// `quote` parameter, so AdapterEndpoint is the correct base class here.
 export const endpoint = new AdapterEndpoint<BaseEndpointTypes>({
   name: 'price',
   aliases: ['crypto', 'stock', 'forex', 'commodities'],
@@ -24,9 +26,9 @@ export const endpoint = new AdapterEndpoint<BaseEndpointTypes>({
   inputParameters,
   overrides: overrides.dxfeed,
   customInputValidation: (req, settings): AdapterError | undefined => {
-    if (req.requestContext.transportName !== 'ws') {
-      return
+    if (req.requestContext.transportName === 'ws') {
+      return validateWsEnvVars(settings)
     }
-    return wsEnvPresenceError(settings)
+    return
   },
 })
