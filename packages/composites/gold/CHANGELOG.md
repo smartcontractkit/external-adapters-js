@@ -1,5 +1,12 @@
 # @chainlink/gold-adapter
 
+## 1.3.10
+
+### Patch Changes
+
+- Updated dependencies [[`b9e8e9e`](https://github.com/smartcontractkit/external-adapters-js/commit/b9e8e9ed083c7c818936af4181b43b5fc2a91bac), [`de908f6`](https://github.com/smartcontractkit/external-adapters-js/commit/de908f603bde1a454380c873a0b60aff181dcb9f), [`99f2d92`](https://github.com/smartcontractkit/external-adapters-js/commit/99f2d929b645f5d169387846b2b65df172128623)]:
+  - @chainlink/data-engine-adapter@1.8.0
+
 ## 1.3.9
 
 ### Patch Changes
