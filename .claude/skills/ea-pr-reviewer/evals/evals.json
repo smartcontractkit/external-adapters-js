@@ -1,0 +1,23 @@
+{
+  "skill_name": "ea-pr-reviewer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review the full EA package at packages/sources/tiingo: code, integration tests, and unit tests. The PR only changed src/ (transport-related) and test/unit/transport-utils.test.ts—integration tests under test/integration were not modified.",
+      "expected_output": "Full mode: code_review + unit_tests judged; integration_tests approved with empty rationale (unchanged in PR). Optional Summary may mention pre-existing integration debt. overall_approved reflects code+unit only.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Validate only the integration tests in packages/sources/tiingo/test/integration for EAF quality (TestAdapter, mocks, coverage). Do not review application source code beyond what is needed to understand test intent.",
+      "expected_output": "Single-mode integration: approved + rationale; empty rationale if pass; integration-focused, not a full code-review dump.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Are the unit tests in packages/sources/tiingo/test/unit meaningful business-logic tests, or are they testing framework behavior?",
+      "expected_output": "Single-mode unit validation; distinguishes framework vs business logic; structured approved/rationale per skill.",
+      "files": []
+    }
+  ]
+}
