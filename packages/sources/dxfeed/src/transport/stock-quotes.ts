@@ -1,108 +1,63 @@
-import { makeLogger, type ProviderResult } from '@chainlink/external-adapter-framework/util'
-import type { BaseEndpointTypes } from '../endpoint/stock-quotes'
-import { buildDxLinkWsTransport, type DxLinkTransportTypes, QUOTE_EVENT_TYPE } from './dxlink'
-import { type StaleTGuard, toNumber } from './utils'
+import { BaseEndpointTypes } from '../endpoint/stock-quotes'
+import { DxLinkEvent, DxLinkTransport } from './dxlink'
+import { toNumber } from './utils'
 
-const logger = makeLogger('StockQuotesTransport')
-
-type QuoteResults = ProviderResult<DxLinkTransportTypes<BaseEndpointTypes>>[]
-
-export const transport = buildDxLinkWsTransport<BaseEndpointTypes>({
-  buildSubscriptions: (params) => [{ symbol: params.base.toUpperCase(), type: QUOTE_EVENT_TYPE }],
-
-  parseFeedData: (events, guard) => {
-    const results: QuoteResults = []
-    for (const { eventType, records } of events) {
-      if (eventType !== QUOTE_EVENT_TYPE) {
-        continue
-      }
-      for (const record of records) {
-        parseQuoteRecord(record, guard, results)
-      }
-    }
-    return results
-  },
-})
-
-const parseQuoteRecord = (
-  record: Record<string, unknown>,
-  guard: StaleTGuard,
-  results: QuoteResults,
-): void => {
-  const eventSymbol = String(record.eventSymbol)
-  const bidPrice = toNumber(record.bidPrice)
-  const askPrice = toNumber(record.askPrice)
-
-  const overnightRecord = record.bidExchangeCode === 'O' && record.askExchangeCode === 'O'
-
-  if (bidPrice === null || askPrice === null) {
-    logger.warn(`Dropping ${eventSymbol} quote with an invalid bid/ask price`)
-    const response = {
-      statusCode: 502,
-      errorMessage: `Bid price: ${String(record.bidPrice)} or Ask price: ${String(
-        record.askPrice,
-      )} for ${eventSymbol} is invalid.`,
-    }
-    results.push(
-      { params: { base: eventSymbol, requireVolume: false, isOvernight: false }, response },
-      { params: { base: eventSymbol, requireVolume: true, isOvernight: false }, response },
-    )
-    if (overnightRecord) {
-      results.push(
-        { params: { base: eventSymbol, requireVolume: false, isOvernight: true }, response },
-        { params: { base: eventSymbol, requireVolume: true, isOvernight: true }, response },
-      )
-    }
-    return
+export class StockQuotesTransport extends DxLinkTransport<BaseEndpointTypes> {
+  constructor() {
+    super(['Quote'])
   }
 
-  const time = toNumber(record.time)
-  const bidVolume = toNumber(record.bidSize)
-  const askVolume = toNumber(record.askSize)
-  const invalidVolume = bidVolume === null || askVolume === null
+  protected parseEvent(event: DxLinkEvent) {
+    const base = event.eventSymbol
+    const { response, requireVolumeResponse } = buildResponses(event)
+    // Every quote serves regular requests, but isOvernight requests only accept quotes from
+    // the overnight venue (exchange code O on both sides)
+    const isOvernightQuote = event.bidExchangeCode === 'O' && event.askExchangeCode === 'O'
+    const sessions = isOvernightQuote ? [false, true] : [false]
 
-  const midPrice = bidPrice === 0 ? askPrice : askPrice === 0 ? bidPrice : (askPrice + bidPrice) / 2
+    return sessions.flatMap((isOvernight) => [
+      { params: { base, isOvernight, requireVolume: false }, response },
+      { params: { base, isOvernight, requireVolume: true }, response: requireVolumeResponse },
+    ])
+  }
+}
+
+const buildResponses = (event: DxLinkEvent) => {
+  const bidPrice = toNumber(event.bidPrice)
+  const askPrice = toNumber(event.askPrice)
+  if (bidPrice === null || askPrice === null) {
+    const error = {
+      statusCode: 502,
+      errorMessage: `Bid price: ${event.bidPrice} or Ask price: ${event.askPrice} for ${event.eventSymbol} is invalid.`,
+    }
+    return { response: error, requireVolumeResponse: error }
+  }
+
+  // A side quoted at 0 has no liquidity, so the mid falls back to the other side
+  const midPrice = bidPrice === 0 ? askPrice : askPrice === 0 ? bidPrice : (bidPrice + askPrice) / 2
+  const bidVolume = toNumber(event.bidSize)
+  const askVolume = toNumber(event.askSize)
 
   const response = {
     result: midPrice,
     data: {
       mid_price: midPrice,
       bid_price: bidPrice,
-      bid_volume: bidVolume ?? Number.NaN,
+      bid_volume: bidVolume,
       ask_price: askPrice,
-      ask_volume: askVolume ?? Number.NaN,
+      ask_volume: askVolume,
     },
-    timestamps: {
-      providerIndicatedTimeUnixMs: time ?? undefined,
-    },
+    timestamps: { providerIndicatedTimeUnixMs: toNumber(event.time) ?? undefined },
   }
-  const requireVolumeResponse = invalidVolume
-    ? {
-        statusCode: 502,
-        // Report the raw provider values (NaN vs null vs empty) so the 502
-        // message preserves what dxfeed actually sent.
-        errorMessage: `Bid volume: ${String(record.bidSize)} or Ask volume: ${String(
-          record.askSize,
-        )} for ${eventSymbol} is invalid.`,
-      }
-    : response
 
-  if (guard.keep(eventSymbol, time ?? 0)) {
-    results.push(
-      { params: { base: eventSymbol, requireVolume: false, isOvernight: false }, response },
-      {
-        params: { base: eventSymbol, requireVolume: true, isOvernight: false },
-        response: requireVolumeResponse,
-      },
-    )
+  if (bidVolume === null || askVolume === null) {
+    const error = {
+      statusCode: 502,
+      errorMessage: `Bid volume: ${event.bidSize} or Ask volume: ${event.askSize} for ${event.eventSymbol} is invalid.`,
+    }
+    return { response, requireVolumeResponse: error }
   }
-  if (overnightRecord && guard.keep(`${eventSymbol}:O`, time ?? 0)) {
-    results.push(
-      { params: { base: eventSymbol, requireVolume: false, isOvernight: true }, response },
-      {
-        params: { base: eventSymbol, requireVolume: true, isOvernight: true },
-        response: requireVolumeResponse,
-      },
-    )
-  }
+  return { response, requireVolumeResponse: response }
 }
+
+export const transport = new StockQuotesTransport()

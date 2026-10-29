@@ -3,10 +3,10 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('Config')
 
-const hasEmbeddedCredentials = (value: string): boolean => {
+const hasEmbeddedCredentials = (url: string): boolean => {
   try {
-    const url = new URL(value)
-    return Boolean(url.username || url.password)
+    const { username, password } = new URL(url)
+    return Boolean(username || password)
   } catch {
     return false
   }
@@ -15,38 +15,29 @@ const hasEmbeddedCredentials = (value: string): boolean => {
 export const config = new AdapterConfig(
   {
     API_USERNAME: {
-      description: 'username for dxfeed API; sent as the Basic auth header on the WS handshake',
+      description: 'username for dxfeed API',
       type: 'string',
-      required: false,
       sensitive: false,
     },
     API_PASSWORD: {
-      description: 'password for dxfeed API; sent as the Basic auth header on the WS handshake',
+      description: 'password for dxfeed API',
       type: 'string',
-      required: false,
       sensitive: true,
     },
     WS_API_ENDPOINT: {
       description:
-        'The dxLink websocket url for dxfeed. Clean URL only: credentials are sent as the Basic auth header, never in the URL.',
+        'The dxLink websocket url for dxfeed. Credentials are taken from API_USERNAME and API_PASSWORD, not the url',
       type: 'string',
-      required: false,
+      sensitive: true,
       validate: {
         meta: {
-          details:
-            'Rejects URLs with embedded credentials (the migration removes URL-borne credentials)',
+          details: 'Must not contain credentials',
         },
-        fn: (value?: string): string => {
-          if (!value) {
-            return ''
-          }
-          if (hasEmbeddedCredentials(value)) {
-            return 'WS_API_ENDPOINT must not contain embedded credentials (user:pass@); use API_USERNAME and API_PASSWORD'
-          }
-          return ''
-        },
+        fn: (value?: string): string =>
+          value && hasEmbeddedCredentials(value)
+            ? 'WS_API_ENDPOINT must not contain credentials, use API_USERNAME and API_PASSWORD instead'
+            : '',
       },
-      sensitive: true,
     },
     API_ENDPOINT: {
       description: 'The API url for dxfeed',
