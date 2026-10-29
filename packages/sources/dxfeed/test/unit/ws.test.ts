@@ -190,11 +190,11 @@ describe('dxLink websocket transport', () => {
     })
   })
 
-  describe('cometd transport deletion (plan round1-delete-cometd-transport)', () => {
+  describe('cometd transport deletion', () => {
     // Static counterpart to the on-the-wire checks above: the decommissioned
     // cometd transport module (src/transport/ws.ts) is deleted outright, and no
-    // src file may import it or carry any cometd protocol marker (spec
-    // exception cometd-transport-deletion: "No cometd behavior carries over").
+    // src file may import it or carry any cometd protocol marker. No cometd
+    // behaviour may carry over.
     it('leaves no cometd module import or cometd protocol code anywhere in src/', () => {
       // The deleted module itself is gone.
       expect(existsSync(path.join(SRC_DIR, 'transport', 'ws.ts'))).toBe(false)
@@ -271,9 +271,9 @@ describe('dxLink websocket transport', () => {
     })
 
     it('subscribes Quote for the overridden :USLF24 ticker (stock_quotes)', async () => {
-      // Plan proving case (round1-subscription-fanout): the SAME :USLF24
-      // desired params must yield a Quote add from stock_quotes alongside the
-      // Trade/TradeETH adds the price endpoint fans out.
+      // The SAME :USLF24 desired params must yield a Quote add from
+      // stock_quotes alongside the Trade/TradeETH adds the price endpoint fans
+      // out.
       const response = await testAdapter.request({
         endpoint: 'stock_quotes',
         base: 'AAPL',
@@ -329,14 +329,35 @@ describe('dxLink websocket transport', () => {
       expect(updated.json().data).toMatchObject({ bid_price: 110, ask_price: 111 })
     })
 
+    it('labels provider ERROR frames with the bounded dxLink error code', async () => {
+      const counter = metrics.get('wsConnectionErrors')
+      const countFor = async (label: string): Promise<number> => {
+        const snapshot = await counter.get()
+        return snapshot.values
+          .filter((value) => value.labels.message === label)
+          .reduce((total, value) => total + value.value, 0)
+      }
+
+      const before = await countFor('provider:TIMEOUT')
+      server.push({ type: 'ERROR', channel: 1, error: 'TIMEOUT', message: 'timeout details A' })
+      server.push({ type: 'ERROR', channel: 1, error: 'TIMEOUT', message: 'timeout details B' })
+      await flushFrames(testAdapter)
+
+      // The scripted server broadcasts each frame to both endpoint transports,
+      // so the shared counter advances twice per pushed frame.
+      expect(await countFor('provider:TIMEOUT')).toBe(before + 4)
+      const labels = (await counter.get()).values.map((value) => value.labels.message)
+      expect(labels).not.toContain('timeout details A')
+      expect(labels).not.toContain('timeout details B')
+    })
+
     it('never hard-fails after a burst of ERROR frames (metrics-counters-only alerting)', async () => {
       const setupsBefore = server.countByType('SETUP')
 
-      // Far beyond any plausible failure budget: the spec's owner decision
-      // (degraded_stream_alerting = metrics_counters_only) forbids a hard
-      // error or a reconnect loop on provider ERROR frames. The alerting is
-      // log/metrics-only by spec, so the observable contract is that the
-      // connection stays up and the stream keeps flowing.
+      // Far beyond any plausible failure budget: the requirement treats
+      // provider ERROR frames as informational, so there must be no hard error
+      // or reconnect loop. Alerting is log/metrics-only, and the observable
+      // contract is that the connection stays up and the stream keeps flowing.
       for (let i = 0; i < 30; i++) {
         server.push({ type: 'ERROR', channel: 1, message: `provider error (burst ${i})` })
         await testAdapter.clock?.tickAsync?.(100)
@@ -397,18 +418,16 @@ describe('dxLink websocket transport', () => {
       // desired (symbol, eventType) pair was added exactly once on the first
       // connection (dedupe test above), so a second add proves the full
       // desired set — BOTH endpoints' subscriptions — was re-sent. That
-      // includes the price endpoint's gated pair: Trade and TradeETH for the
-      // :USLF24 ticker (owner decision tradeteth_subscription_policy =
-      // match_reference).
+      // includes the price endpoint's pair: Trade and TradeETH for the
+      // :USLF24 ticker (the requirement subscribes both for every symbol).
       const addCount = (symbol: string, type: string): number =>
         server.added().filter((s) => s.symbol === symbol && s.type === type).length
       expect(addCount('TSLA', 'Quote')).toBeGreaterThanOrEqual(2)
       expect(addCount('AAPL:USLF24', 'Trade')).toBeGreaterThanOrEqual(2)
       expect(addCount('AAPL:USLF24', 'TradeETH')).toBeGreaterThanOrEqual(2)
 
-      // Owner decision reconnect_cache_behavior = serve_cached_last_value:
-      // a request during the reconnect + re-handshake window serves the last
-      // value with its original provider timestamp — it does not error.
+      // A request during the reconnect + re-handshake window serves the last
+      // cached value with its original provider timestamp; it does not error.
       const duringWindow = await testAdapter.request(quoteRequest)
       expect(duringWindow.statusCode).toBe(200)
       expect(duringWindow.json().data).toMatchObject({ bid_price: 130, ask_price: 131 })
@@ -429,9 +448,8 @@ describe('dxLink websocket transport', () => {
       const before = await testAdapter.request(quoteRequest)
       expect(before.statusCode).toBe(200)
 
-      // Owner decision degraded_stream_alerting = metrics_counters_only: the
-      // observable alerting surface for a dropped connection is the
-      // framework's own wsConnectionClosures counter (labels code/url) — no
+      // The observable alerting surface for a dropped connection is the
+      // framework's own wsConnectionClosures counter (labels code/url), not an
       // adapter error path. Sum the counter's labelled series; only the delta
       // matters, so pre-existing series from earlier tests are irrelevant.
       const closuresCounter = metrics.get('wsConnectionClosures')

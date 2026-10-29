@@ -3,15 +3,6 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('Config')
 
-const hasEmbeddedCredentials = (value: string): boolean => {
-  try {
-    const url = new URL(value)
-    return Boolean(url.username || url.password)
-  } catch {
-    return false
-  }
-}
-
 export const config = new AdapterConfig(
   {
     API_USERNAME: {
@@ -40,8 +31,14 @@ export const config = new AdapterConfig(
           if (!value) {
             return ''
           }
-          if (hasEmbeddedCredentials(value)) {
-            return 'WS_API_ENDPOINT must not contain embedded credentials (user:pass@); use API_USERNAME and API_PASSWORD'
+          try {
+            const url = new URL(value)
+            if (url.username || url.password) {
+              return 'WS_API_ENDPOINT must not contain embedded credentials (user:pass@); use API_USERNAME and API_PASSWORD'
+            }
+          } catch {
+            // Not a parseable URL: leave it to the WebSocket client, which
+            // fails at connect time.
           }
           return ''
         },
@@ -70,6 +67,8 @@ export const config = new AdapterConfig(
   },
   {
     envDefaultOverrides: {
+      // dxLink expects a KEEPALIVE before its 60s timeout. The framework
+      // default is 10s; the requirement fixes the adapter cadence at 30s.
       WS_HEARTBEAT_INTERVAL_MS: 30_000,
     },
   },

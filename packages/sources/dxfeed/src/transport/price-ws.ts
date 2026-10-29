@@ -9,6 +9,9 @@ export const transport = buildDxLinkWsTransport<BaseEndpointTypes>({
   buildSubscriptions: (params) => {
     const ticker = params.base.toUpperCase()
 
+    // Subscribe both regular-session Trade and extended-session TradeETH for
+    // every symbol. The requirement is session-agnostic: the newest event time
+    // wins, so the first print after each session boundary takes over.
     return [
       { symbol: ticker, type: TRADE_EVENT_TYPE },
       { symbol: ticker, type: TRADE_ETH_EVENT_TYPE },

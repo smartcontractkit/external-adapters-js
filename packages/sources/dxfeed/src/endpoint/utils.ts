@@ -19,7 +19,7 @@ export const inputParameters = new InputParameters(
   ],
 )
 
-export const wsEnvPresenceError = (
+export const validateWsEnvVars = (
   settings: Pick<typeof config.settings, 'WS_API_ENDPOINT' | 'API_USERNAME' | 'API_PASSWORD'>,
 ): AdapterError | undefined => {
   if (!settings.WS_API_ENDPOINT) {

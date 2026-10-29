@@ -50,7 +50,12 @@ export const feedConfigFrame = (): object => ({
   },
 })
 
-export const errorFrame = { type: 'ERROR', channel: 1, message: 'provider error (test)' }
+export const errorFrame = {
+  type: 'ERROR',
+  channel: 1,
+  error: 'UNKNOWN',
+  message: 'provider error (test)',
+}
 export const keepaliveFrame = { type: 'KEEPALIVE', channel: 0 }
 
 /** One COMPACT Quote record (field order per the spec's FEED_CONFIG Quote list). */

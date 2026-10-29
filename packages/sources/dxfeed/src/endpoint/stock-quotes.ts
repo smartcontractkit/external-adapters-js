@@ -4,7 +4,7 @@ import type { AdapterError } from '@chainlink/external-adapter-framework/validat
 import type { config } from '../config'
 import overrides from '../config/overrides.json'
 import { transport } from '../transport/stock-quotes'
-import { inputParameters, wsEnvPresenceError } from './utils'
+import { inputParameters, validateWsEnvVars } from './utils'
 
 export const stockQuotesInputParameters = new InputParameters({
   ...inputParameters.definition,
@@ -24,6 +24,7 @@ export type BaseEndpointTypes = {
   Parameters: typeof stockQuotesInputParameters.definition
   Settings: typeof config.settings
   Response: {
+    // The primary result is the computed mid price.
     Result: number
     Data: {
       mid_price: number
@@ -41,5 +42,5 @@ export const endpoint = new AdapterEndpoint({
   transport,
   inputParameters: stockQuotesInputParameters,
   overrides: overrides.dxfeed,
-  customInputValidation: (_, settings): AdapterError | undefined => wsEnvPresenceError(settings),
+  customInputValidation: (_, settings): AdapterError | undefined => validateWsEnvVars(settings),
 })
