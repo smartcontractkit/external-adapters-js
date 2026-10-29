@@ -96,7 +96,7 @@ export class LombardAddressManager extends AddressManager<LombardAddressManagerR
       .flatMap((r) => r[0])
       .filter((address) => address != '')
       .map((address) => ({
-        address: address.replace("'", ''),
+        address: address.replace(/'/g, ''),
         network: network,
         chainId: chainId,
       }))
