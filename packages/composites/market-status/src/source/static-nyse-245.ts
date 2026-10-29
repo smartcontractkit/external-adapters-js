@@ -1,6 +1,8 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { isWeekendNow } from '@chainlink/external-adapter-framework/validation/market-status'
 import { TZDate } from '@date-fns/tz'
+import { addHours, format, parse, startOfDay } from 'date-fns'
+import scheduleData from './data/nyse-245.json'
 import { HALF_HOUR, HOUR, Month, tzDate } from './utils'
 
 const TZ = 'America/New_York'
@@ -74,6 +76,60 @@ const HOLIDAY_SCHEDULE = [
 ]
 
 export const getStatus = (weekend?: string) => {
+  const oldStatus = getStatusOld(weekend)
+  const newStatus = getStatusNew()
+  if (oldStatus.marketStatus !== newStatus) {
+    const now = TZDate.tz(TZ)
+    throw new Error(
+      `Market status mismatch on ${now.toString()} between old and new logic: old=${
+        oldStatus.statusString
+      }, new=${TwentyfourFiveMarketStatus[newStatus]}`,
+    )
+  }
+  return oldStatus
+}
+
+const parseTime = (time: string, date: TZDate): TZDate => {
+  if (time === '24:00:00') {
+    const startOfDate = startOfDay(date)
+    return addHours(startOfDate, 24)
+  }
+  return parse(time, 'HH:mm:ss', date)
+}
+
+const getStatusNew = () => {
+  const timezone = scheduleData.timezone
+  const now = TZDate.tz(timezone)
+  const nowFormatted = format(now, 'yyyy-MM-dd HH:mm:ss')
+
+  for (const e of scheduleData.exceptions) {
+    if (e.start <= nowFormatted && nowFormatted < e.end) {
+      return TwentyfourFiveMarketStatus[e.status as keyof typeof TwentyfourFiveMarketStatus]
+    }
+  }
+
+  const dayOfWeek = format(now, 'EEEE').toUpperCase()
+  for (const weekly of scheduleData.weekly) {
+    for (const when of weekly.when) {
+      if (!when.days.includes(dayOfWeek)) {
+        continue
+      }
+      for (const times of when.times) {
+        const startTime = parseTime(times.start, now)
+        const endTime = parseTime(times.end, now)
+        if (startTime <= now && now < endTime) {
+          return TwentyfourFiveMarketStatus[
+            weekly.status as keyof typeof TwentyfourFiveMarketStatus
+          ]
+        }
+      }
+    }
+  }
+
+  throw new Error(`No market status found for current time: ${nowFormatted}`)
+}
+
+const getStatusOld = (weekend?: string) => {
   const now = TZDate.tz(TZ)
 
   const holiday = HOLIDAY_SCHEDULE.find(
