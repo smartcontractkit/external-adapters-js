@@ -100,6 +100,6 @@ describe('dxfeed config env surface', () => {
     expect(() => {
       config.initialize()
       config.validate()
-    }).toThrow(/embedded credentials/)
+    }).toThrow(/must not contain credentials/)
   })
 })

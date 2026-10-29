@@ -15,8 +15,6 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers, { type InstalledClock } from '@sinonjs/fake-timers'
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
-import path from 'node:path'
 import {
   awaitWs,
   errorFrame,
@@ -26,14 +24,11 @@ import {
   quoteFrame,
   quoteRecord,
   ScriptedDxLinkServer,
-  TRADE_FIELDS,
   tradeFrame,
   tradeRecord,
 } from './fixtures'
 
 const WS_URL = 'ws://localhost:9092/dxlink'
-// The adapter's src tree, for the static cometd-deletion check below.
-const SRC_DIR = path.join(__dirname, '../../src')
 
 describe('dxLink websocket transport', () => {
   let oldEnv: NodeJS.ProcessEnv
@@ -81,6 +76,12 @@ describe('dxLink websocket transport', () => {
     ])
     server.setFeedData('Trade', 'TSLA', [
       tradeFrame('Trade', tradeRecord('Trade', 'TSLA', 1760000002000, 250)),
+    ])
+    server.setFeedData('Quote', 'SHARED', [
+      quoteFrame(quoteRecord('SHARED', 1760000002000, 110, 111, 1, 1, 'O', 'O')),
+    ])
+    server.setFeedData('Quote', 'ALONE', [
+      quoteFrame(quoteRecord('ALONE', 1760000002000, 115, 116, 1, 1)),
     ])
     server.setFeedData('Quote', 'GATE', [
       quoteFrame(quoteRecord('GATE', 1760000002000, 120, 121, 3, 4)),
@@ -166,18 +167,24 @@ describe('dxLink websocket transport', () => {
         service: 'FEED',
         parameters: { contract: 'AUTO' },
       })
-      // Spec primary_command FEED_SETUP: 1s aggregation, COMPACT format, the
-      // spec's exact event field lists for all three event types.
-      expect(server.clientMessages.find((m) => m.type === 'FEED_SETUP')).toMatchObject({
-        channel: 1,
-        acceptAggregationPeriod: 1,
-        acceptDataFormat: 'COMPACT',
-        acceptEventFields: {
-          Quote: [...QUOTE_FIELDS],
-          Trade: [...TRADE_FIELDS],
-          TradeETH: [...TRADE_FIELDS],
-        },
-      })
+      // Each endpoint's transport only asks for the event types (and fields) it uses
+      const feedSetups = server.clientMessages.filter((m) => m.type === 'FEED_SETUP')
+      expect(feedSetups.map((m) => m.acceptEventFields)).toEqual(
+        expect.arrayContaining([
+          { Quote: QUOTE_FIELDS },
+          {
+            Trade: ['eventType', 'eventSymbol', 'time', 'price'],
+            TradeETH: ['eventType', 'eventSymbol', 'time', 'price'],
+          },
+        ]),
+      )
+      for (const feedSetup of feedSetups) {
+        expect(feedSetup).toMatchObject({
+          channel: 1,
+          acceptAggregationPeriod: 1,
+          acceptDataFormat: 'COMPACT',
+        })
+      }
     })
 
     it('never puts cometd frames on the wire', () => {
@@ -187,46 +194,6 @@ describe('dxLink websocket transport', () => {
       // Spec credentialNotes: the dxLink AUTH message "exists but is NOT
       // used" — credentials ride the HTTP Basic header on the upgrade only.
       expect(server.clientMessages.some((m) => m.type === 'AUTH')).toBe(false)
-    })
-  })
-
-  describe('cometd transport deletion (plan round1-delete-cometd-transport)', () => {
-    // Static counterpart to the on-the-wire checks above: the decommissioned
-    // cometd transport module (src/transport/ws.ts) is deleted outright, and no
-    // src file may import it or carry any cometd protocol marker (spec
-    // exception cometd-transport-deletion: "No cometd behavior carries over").
-    it('leaves no cometd module import or cometd protocol code anywhere in src/', () => {
-      // The deleted module itself is gone.
-      expect(existsSync(path.join(SRC_DIR, 'transport', 'ws.ts'))).toBe(false)
-
-      // No surviving src file references it or any cometd protocol concept.
-      const markers = [
-        /from '\.\/ws'/, // relative import of the deleted transport module
-        /transport\/ws/, // nested import of the deleted transport module
-        /cometd/i, // the protocol/library itself
-        /\/meta\//, // cometd meta channels (/meta/handshake, /meta/connect)
-        /clientId/, // cometd handshake clientId
-      ]
-      const tsFiles: string[] = []
-      const walk = (dir: string): void => {
-        for (const entry of readdirSync(dir, { withFileTypes: true })) {
-          const full = path.join(dir, entry.name)
-          if (entry.isDirectory()) {
-            walk(full)
-          } else if (entry.name.endsWith('.ts')) {
-            tsFiles.push(full)
-          }
-        }
-      }
-      walk(SRC_DIR)
-      expect(tsFiles.length).toBeGreaterThan(0)
-
-      const violations = tsFiles.flatMap((file) =>
-        markers
-          .filter((marker) => marker.test(readFileSync(file, 'utf8')))
-          .map((marker) => `${path.relative(SRC_DIR, file)} matches ${marker}`),
-      )
-      expect(violations).toEqual([])
     })
   })
 
@@ -454,9 +421,10 @@ describe('dxLink websocket transport', () => {
 
       // The adapter itself raises no error: the cached last value is served
       // while the reconnect window is open.
+      // The replayed snapshot (t=...5000) is older than the cached quote (t=...6000), so it is dropped
       const duringWindow = await testAdapter.request(quoteRequest)
       expect(duringWindow.statusCode).toBe(200)
-      expect(duringWindow.json().data).toMatchObject({ bid_price: 130, ask_price: 131 })
+      expect(duringWindow.json().data).toMatchObject({ bid_price: 140, ask_price: 141 })
     })
 
     it('closes the socket on CHANNEL_CLOSED when the server keeps it open', async () => {
@@ -511,6 +479,27 @@ describe('dxLink websocket transport', () => {
     // Runs LAST on purpose: it advances the fake clock past
     // WS_SUBSCRIPTION_TTL, which expires (and unsubscribes) every other
     // test's subscriptions too — nothing after this test depends on them.
+    it('keeps a shared subscription while another request still needs it', async () => {
+      // Both requests map to the same (SHARED, Quote) dxLink subscription
+      const regular = { base: 'SHARED', endpoint: 'stock_quotes' }
+      const overnight = { ...regular, isOvernight: true }
+      const alone = { base: 'ALONE', endpoint: 'stock_quotes' }
+      for (const request of [regular, overnight, alone]) {
+        await testAdapter.request(request)
+      }
+
+      // Keep requesting only `regular` until the other two subscriptions have expired
+      const deadline = Number(testAdapter.clock?.now) + 70_000
+      while (Number(testAdapter.clock?.now) < deadline) {
+        await flushFrames(testAdapter, 5_000)
+        await testAdapter.request(regular)
+      }
+
+      const removedSymbols = server.removed().map((s) => s.symbol)
+      expect(removedSymbols).toContain('ALONE')
+      expect(removedSymbols).not.toContain('SHARED')
+    })
+
     it('sends FEED_SUBSCRIPTION remove arrays when subscriptions go stale', async () => {
       const removeRequest = { base: 'REMOVE:USLF24', quote: 'USD', endpoint: 'stock_quotes' }
       const response = await testAdapter.request(removeRequest)

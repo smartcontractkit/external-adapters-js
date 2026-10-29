@@ -344,23 +344,12 @@ describe('dxLink COMPACT frame parsing', () => {
     expect(after.json().data).toMatchObject({ bid_price: 10, ask_price: 11 })
   })
 
-  it('drops a FEED_DATA frame when the announced field list is empty', async () => {
-    testLogger.warn.mockClear()
+  it('ignores an empty field list in FEED_CONFIG and keeps decoding with the previous one', async () => {
     server.push({ type: 'FEED_CONFIG', channel: 1, eventFields: { Quote: [] } })
     server.push(quoteFrame(quoteRecord('AAPL:USLF24', 1760000007000, 120, 121, 1, 2)))
     await flushFrames(testAdapter)
-    expect(
-      testLogger.warn.mock.calls.some((call) =>
-        String(call[0]).includes('No FEED_CONFIG field list'),
-      ),
-    ).toBe(true)
-
-    // Restore the canonical field map: the stream recovers on the next frame.
-    server.push(feedConfigFrame())
-    server.push(quoteFrame(quoteRecord('AAPL:USLF24', 1760000008000, 122, 123, 1, 2)))
-    await flushFrames(testAdapter)
     const response = await testAdapter.request(overriddenQuotesRequest('AAPL'))
     expect(response.statusCode).toBe(200)
-    expect(response.json().data).toMatchObject({ bid_price: 122, ask_price: 123 })
+    expect(response.json().data).toMatchObject({ bid_price: 120, ask_price: 121 })
   })
 })

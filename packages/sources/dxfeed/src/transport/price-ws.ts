@@ -1,62 +1,41 @@
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import type { BaseEndpointTypes } from '../endpoint/price'
-import { buildDxLinkWsTransport, TRADE_ETH_EVENT_TYPE, TRADE_EVENT_TYPE } from './dxlink'
-import { toNumber } from './utils'
+import { BaseEndpointTypes } from '../endpoint/price'
+import { buildDxLinkTransport } from './dxlink'
+import { LatestTimes, toNumber } from './utils'
 
-const logger = makeLogger('PriceWsTransport')
+// Trade (regular hours) and TradeETH (extended hours) both report the last price; the newest wins
+const latestTrades = new LatestTimes()
 
-export const transport = buildDxLinkWsTransport<BaseEndpointTypes>({
-  buildSubscriptions: (params) => {
-    const ticker = params.base.toUpperCase()
+export const transport = buildDxLinkTransport<BaseEndpointTypes>({
+  eventTypes: ['Trade', 'TradeETH'],
+  parseEvent: (event) => {
+    const base = event.eventSymbol
+    const time = toNumber(event.time)
+    if (!latestTrades.isLatest(base, time)) {
+      return []
+    }
 
-    return [
-      { symbol: ticker, type: TRADE_EVENT_TYPE },
-      { symbol: ticker, type: TRADE_ETH_EVENT_TYPE },
-    ]
-  },
-
-  parseFeedData: (events, guard) => {
-    const results = []
-    for (const { eventType, records } of events) {
-      if (eventType !== TRADE_EVENT_TYPE && eventType !== TRADE_ETH_EVENT_TYPE) {
-        continue
-      }
-
-      for (const record of records) {
-        const base = String(record.eventSymbol)
-        const price = toNumber(record.price)
-        const time = toNumber(record.time)
-
-        if (time !== null && !guard.keep(base, time)) {
-          continue
-        }
-
-        if (price === null) {
-          logger.warn(`Dropping ${base} ${eventType} with an invalid price`)
-          results.push({
-            params: { base },
-            response: {
-              statusCode: 502,
-              errorMessage: `Price: ${String(record.price)} for ${base} is invalid.`,
-            },
-          })
-          continue
-        }
-
-        results.push({
+    const price = toNumber(event.price)
+    if (price === null) {
+      return [
+        {
           params: { base },
           response: {
-            result: price,
-            data: {
-              result: price,
-            },
-            timestamps: {
-              providerIndicatedTimeUnixMs: time ?? undefined,
-            },
+            statusCode: 502,
+            errorMessage: `Price: ${event.price} for ${base} is invalid.`,
           },
-        })
-      }
+        },
+      ]
     }
-    return results
+
+    return [
+      {
+        params: { base },
+        response: {
+          result: price,
+          data: { result: price },
+          timestamps: { providerIndicatedTimeUnixMs: time ?? undefined },
+        },
+      },
+    ]
   },
 })

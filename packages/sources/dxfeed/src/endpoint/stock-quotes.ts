@@ -1,10 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import type { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import type { config } from '../config'
+import { config } from '../config'
 import overrides from '../config/overrides.json'
 import { transport } from '../transport/stock-quotes'
-import { inputParameters, wsEnvPresenceError } from './utils'
+import { inputParameters, validateWsSettings } from './utils'
 
 export const stockQuotesInputParameters = new InputParameters({
   ...inputParameters.definition,
@@ -28,9 +27,9 @@ export type BaseEndpointTypes = {
     Data: {
       mid_price: number
       bid_price: number
-      bid_volume: number
+      bid_volume: number | null
       ask_price: number
-      ask_volume: number
+      ask_volume: number | null
     }
   }
 }
@@ -41,5 +40,5 @@ export const endpoint = new AdapterEndpoint({
   transport,
   inputParameters: stockQuotesInputParameters,
   overrides: overrides.dxfeed,
-  customInputValidation: (_, settings): AdapterError | undefined => wsEnvPresenceError(settings),
+  customInputValidation: (_, settings) => validateWsSettings(settings),
 })
