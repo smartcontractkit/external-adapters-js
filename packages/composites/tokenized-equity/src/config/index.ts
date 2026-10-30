@@ -1,6 +1,7 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { StreamMaxAgeSeconds } from '../lib/streams'
 
-export const config = new AdapterConfig({
+export const settingsDefinition = {
   DATA_ENGINE_ADAPTER_URL: {
     description: 'URL of data engine ea',
     type: 'string',
@@ -59,4 +60,50 @@ export const config = new AdapterConfig({
     default: 1_000,
     sensitive: false,
   },
-})
+
+  DS_VALID_MAX_AGE_SECONDS: {
+    description:
+      'Consumer-side staleness check: reject a selected data-engine report whose age (now - lastSeenTimestampNs) exceeds this many seconds. Shared default for all session streams; unset or 0 disables the check.',
+    type: 'number',
+    sensitive: false,
+  },
+  DS_VALID_MAX_AGE_SECONDS_REGULAR: {
+    description: 'Per-session override of DS_VALID_MAX_AGE_SECONDS for the regular-hours stream.',
+    type: 'number',
+    sensitive: false,
+  },
+  DS_VALID_MAX_AGE_SECONDS_EXTENDED: {
+    description:
+      'Per-session override of DS_VALID_MAX_AGE_SECONDS for the extended-hours (pre/post-market) stream.',
+    type: 'number',
+    sensitive: false,
+  },
+  DS_VALID_MAX_AGE_SECONDS_OVERNIGHT: {
+    description: 'Per-session override of DS_VALID_MAX_AGE_SECONDS for the overnight stream.',
+    type: 'number',
+    sensitive: false,
+  },
+} as const
+
+export const config = new AdapterConfig(settingsDefinition)
+
+type StreamMaxAgeSettings = {
+  DS_VALID_MAX_AGE_SECONDS?: number
+  DS_VALID_MAX_AGE_SECONDS_REGULAR?: number
+  DS_VALID_MAX_AGE_SECONDS_EXTENDED?: number
+  DS_VALID_MAX_AGE_SECONDS_OVERNIGHT?: number
+}
+
+// 0 or negative means "unset" (check disabled), so operators can explicitly
+// neutralize a value inherited from a shared env layer.
+const enabled = (v: number | undefined): number | undefined =>
+  v !== undefined && v > 0 ? v : undefined
+
+export const resolveStreamMaxAgeSeconds = (settings: StreamMaxAgeSettings): StreamMaxAgeSeconds => {
+  const shared = enabled(settings.DS_VALID_MAX_AGE_SECONDS)
+  return {
+    regular: enabled(settings.DS_VALID_MAX_AGE_SECONDS_REGULAR) ?? shared,
+    extended: enabled(settings.DS_VALID_MAX_AGE_SECONDS_EXTENDED) ?? shared,
+    overnight: enabled(settings.DS_VALID_MAX_AGE_SECONDS_OVERNIGHT) ?? shared,
+  }
+}

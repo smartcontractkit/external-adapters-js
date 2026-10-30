@@ -5,8 +5,10 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { JsonRpcProvider } from 'ethers'
+import { resolveStreamMaxAgeSeconds } from '../config'
 import { Smoother } from '../endpoint/common'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/xstocks'
+import { StreamMaxAgeSeconds } from '../lib/streams'
 import { calculatePrice } from './xstocksPrice'
 
 const logger = makeLogger('XstocksTransport')
@@ -19,6 +21,7 @@ export class XstocksTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
   dataEngineUrl!: string
   tradingHoursUrl!: string
+  streamMaxAgeSeconds!: StreamMaxAgeSeconds
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -31,6 +34,7 @@ export class XstocksTransport extends SubscriptionTransport<BaseEndpointTypes> {
     this.config = adapterSettings
     this.dataEngineUrl = adapterSettings.DATA_ENGINE_ADAPTER_URL
     this.tradingHoursUrl = adapterSettings.TRADING_HOURS_ADAPTER_URL
+    this.streamMaxAgeSeconds = resolveStreamMaxAgeSeconds(adapterSettings)
     this.provider = new JsonRpcProvider(
       this.config.ETHEREUM_RPC_URL,
       this.config.ETHEREUM_RPC_CHAIN_ID,
@@ -92,6 +96,7 @@ export class XstocksTransport extends SubscriptionTransport<BaseEndpointTypes> {
       url: this.dataEngineUrl,
       tradingHoursUrl: this.tradingHoursUrl,
       requester: this.requester,
+      streamMaxAgeSeconds: this.streamMaxAgeSeconds,
     })
 
     return Object.fromEntries(

@@ -94,9 +94,14 @@ describe('price endpoint staleness (DF-28181)', () => {
     mockDataEngine(nsAtAge(4000))
     mockTradingHoursResponseFailure()
 
-    const response = await testAdapter.request(requestData)
+    // NB: distinct streamId from the fresh case — the response cache is keyed by params and
+    // would otherwise serve the previous test's warmed 200.
+    const response = await testAdapter.request({
+      ...requestData,
+      extendedStreamId: '0x000b6-stale',
+    })
 
     expect(response.statusCode).toBe(503)
-    expect(response.json().error).toEqual(expect.stringMatching(/extended STALE/))
+    expect(JSON.stringify(response.json())).toMatch(/extended STALE/)
   })
 })

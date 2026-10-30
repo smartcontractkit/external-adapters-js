@@ -4,8 +4,10 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { resolveStreamMaxAgeSeconds } from '../config'
 import { Smoother } from '../endpoint/common'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
+import { StreamMaxAgeSeconds } from '../lib/streams'
 import { smoothedStreamPrice } from './smoothedPrice'
 
 const logger = makeLogger('PriceTransport')
@@ -16,6 +18,7 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
   dataEngineUrl!: string
   tradingHoursUrl!: string
+  streamMaxAgeSeconds!: StreamMaxAgeSeconds
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -28,6 +31,7 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     this.dataEngineUrl = adapterSettings.DATA_ENGINE_ADAPTER_URL
     this.tradingHoursUrl = adapterSettings.TRADING_HOURS_ADAPTER_URL
+    this.streamMaxAgeSeconds = resolveStreamMaxAgeSeconds(adapterSettings)
   }
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
     await Promise.all(dedupeParams(entries).map(async (param) => this.handleRequest(param)))
@@ -84,6 +88,7 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       url: this.dataEngineUrl,
       tradingHoursUrl: this.tradingHoursUrl,
       requester: this.requester,
+      streamMaxAgeSeconds: this.streamMaxAgeSeconds,
     })
 
     return Object.fromEntries(

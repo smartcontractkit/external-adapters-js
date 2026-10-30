@@ -5,8 +5,10 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { JsonRpcProvider } from 'ethers'
+import { resolveStreamMaxAgeSeconds } from '../config'
 import { Smoother } from '../endpoint/common'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/robinhood'
+import { StreamMaxAgeSeconds } from '../lib/streams'
 import { calculatePrice } from './robinhoodPrice'
 
 const logger = makeLogger('RobinhoodTransport')
@@ -18,6 +20,7 @@ export class RobinhoodTransport extends SubscriptionTransport<BaseEndpointTypes>
   config!: BaseEndpointTypes['Settings']
   dataEngineUrl!: string
   tradingHoursUrl!: string
+  streamMaxAgeSeconds!: StreamMaxAgeSeconds
   providerForNetwork: Record<string, JsonRpcProvider> = {}
 
   async initialize(
@@ -31,6 +34,7 @@ export class RobinhoodTransport extends SubscriptionTransport<BaseEndpointTypes>
     this.config = adapterSettings
     this.dataEngineUrl = adapterSettings.DATA_ENGINE_ADAPTER_URL
     this.tradingHoursUrl = adapterSettings.TRADING_HOURS_ADAPTER_URL
+    this.streamMaxAgeSeconds = resolveStreamMaxAgeSeconds(adapterSettings)
   }
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
     await Promise.all(dedupeParams(entries).map(async (param) => this.handleRequest(param)))
@@ -93,6 +97,7 @@ export class RobinhoodTransport extends SubscriptionTransport<BaseEndpointTypes>
       url: this.dataEngineUrl,
       tradingHoursUrl: this.tradingHoursUrl,
       requester: this.requester,
+      streamMaxAgeSeconds: this.streamMaxAgeSeconds,
     })
 
     return Object.fromEntries(

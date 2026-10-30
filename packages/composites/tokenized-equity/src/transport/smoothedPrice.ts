@@ -7,7 +7,7 @@ import {
   processOvernightUpdate,
 } from '../lib/smoother/overnightSmoother'
 import { processUpdate } from '../lib/smoother/smoother'
-import { getPrice } from '../lib/streams'
+import { StreamMaxAgeSeconds, getPrice } from '../lib/streams'
 
 export const smoothedStreamPrice = async (param: {
   asset: string
@@ -15,6 +15,7 @@ export const smoothedStreamPrice = async (param: {
   extendedStreamId?: string
   overnightStreamId?: string
   overnightStreamMaxAgeInSeconds?: number
+  streamMaxAgeSeconds?: StreamMaxAgeSeconds
   url: string
   tradingHoursUrl: string
   requester: Requester
@@ -33,6 +34,7 @@ export const smoothedStreamPrice = async (param: {
       param.extendedStreamId,
       param.overnightStreamId,
       param.overnightStreamMaxAgeInSeconds,
+      param.streamMaxAgeSeconds,
     ),
     calculateSecondsFromTransition(
       param.tradingHoursUrl,
