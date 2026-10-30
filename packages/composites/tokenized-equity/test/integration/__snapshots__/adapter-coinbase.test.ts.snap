@@ -87,13 +87,6 @@ exports[`execute price endpoint should return success - ema 1`] = `
       },
     },
   },
-  "meta": {
-    "adapterName": "TOKENIZED_EQUITY",
-    "metrics": {
-      "feedId": "{"asset":"0x0","decimals":8,"extendedStreamId":"0x000b6","overnightStreamId":"0x000b7","registry":"0x12345","regularStreamId":"0x000b5","sessionBoundaries":[],"sessionBoundariesTimeZone":"utc","sessionMarket":"nyse","sessionMarketType":"24/5","smoother":"ema"}",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": "20000000",
   "statusCode": 200,
   "timestamps": {
@@ -156,13 +149,6 @@ exports[`execute price endpoint should return success - kalman 1`] = `
         "mid": "1",
       },
     },
-  },
-  "meta": {
-    "adapterName": "TOKENIZED_EQUITY",
-    "metrics": {
-      "feedId": "{"asset":"0x0","decimals":8,"extendedStreamId":"0x000b6","overnightStreamId":"0x000b7","registry":"0x12345","regularStreamId":"0x000b5","sessionBoundaries":[],"sessionBoundariesTimeZone":"utc","sessionMarket":"nyse","sessionMarketType":"24/5","smoother":"kalman"}",
-    },
-    "transportName": "default_single_transport",
   },
   "result": "20000000",
   "statusCode": 200,
