@@ -1,5 +1,5 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { resolveStreamMaxAgeSeconds } from '../../src/config'
+import { resolveStreamMaxAgeSeconds, settingsDefinition } from '../../src/config'
 
 // PR1 checkpoint 1: config schema + resolution for the DS_VALID_MAX_AGE_SECONDS family
 // (DF-28181). resolveStreamMaxAgeSeconds does not exist yet — expected to fail until
@@ -21,9 +21,8 @@ describe('config: DS_VALID_MAX_AGE_SECONDS', () => {
   })
 
   const buildSettings = () => {
-    // Minimal fresh AdapterConfig mirroring src/config's staleness entries, so this test
-    // exercises the real definitions without module-reload tricks.
-    const { settingsDefinition } = require('../../src/config')
+    // Fresh AdapterConfig over the real definitions, so this test exercises the
+    // committed schema without module-reload tricks.
     const cfg = new AdapterConfig({
       ...settingsDefinition,
     })
