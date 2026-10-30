@@ -49,6 +49,7 @@ describe('StockQuotesWebSocketTransport', () => {
     WS_CONNECTION_OPEN_TIMEOUT: 10_000,
     BACKGROUND_EXECUTE_MS_WS: 1_000,
     WS_HEARTBEAT_INTERVAL_MS: 30_000,
+    MAX_WS_CONNECTION_AGE_SECONDS: undefined,
   } as unknown as BaseEndpointTypes['Settings'])
 
   const subscriptionSet = makeStub('subscriptionSet', {
