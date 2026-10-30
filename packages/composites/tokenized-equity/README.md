@@ -6,17 +6,21 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |              Name               |                                        Description                                        |  Type  | Options | Default |
-| :-------: | :-----------------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |    `DATA_ENGINE_ADAPTER_URL`    |                                   URL of data engine ea                                   | string |         |         |
-|    ✅     |   `TRADING_HOURS_ADAPTER_URL`   |                                  URL of tradinghours ea                                   | string |         |         |
-|           |       `ETHEREUM_RPC_URL`        |                               RPC URL of a Mainnet ETH node                               | string |         |   ``    |
-|           |     `ETHEREUM_RPC_CHAIN_ID`     |                                The chain id to connect to                                 | number |         |   `1`   |
-|           |         `BASE_RPC_URL`          |                              RPC URL of a Mainnet Base node                               | string |         |   ``    |
-|           |       `BASE_RPC_CHAIN_ID`       |                                The chain id to connect to                                 | number |         | `8453`  |
-|    ✅     | `ROBINHOOD_${NETWORK}_RPC_URL`  |     JSON RPC URL for robinhood endpoint. ${NETWORK} should be "mainnet" or "testnet".     | string |         |         |
-|    ✅     | `ROBINHOOD_${NETWORK}_CHAIN_ID` |      Chain ID for the Robinhood chain. ${NETWORK} should be "mainnet" or "testnet".       | number |         |         |
-|           |     `BACKGROUND_EXECUTE_MS`     | The amount of time the background execute should sleep before performing the next request | number |         | `1000`  |
+| Required? |                 Name                 |                                                                                                 Description                                                                                                 |  Type  | Options | Default |
+| :-------: | :----------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |      `DATA_ENGINE_ADAPTER_URL`       |                                                                                            URL of data engine ea                                                                                            | string |         |         |
+|    ✅     |     `TRADING_HOURS_ADAPTER_URL`      |                                                                                           URL of tradinghours ea                                                                                            | string |         |         |
+|           |          `ETHEREUM_RPC_URL`          |                                                                                        RPC URL of a Mainnet ETH node                                                                                        | string |         |   ``    |
+|           |       `ETHEREUM_RPC_CHAIN_ID`        |                                                                                         The chain id to connect to                                                                                          | number |         |   `1`   |
+|           |            `BASE_RPC_URL`            |                                                                                       RPC URL of a Mainnet Base node                                                                                        | string |         |   ``    |
+|           |         `BASE_RPC_CHAIN_ID`          |                                                                                         The chain id to connect to                                                                                          | number |         | `8453`  |
+|    ✅     |    `ROBINHOOD_${NETWORK}_RPC_URL`    |                                                              JSON RPC URL for robinhood endpoint. ${NETWORK} should be "mainnet" or "testnet".                                                              | string |         |         |
+|    ✅     |   `ROBINHOOD_${NETWORK}_CHAIN_ID`    |                                                               Chain ID for the Robinhood chain. ${NETWORK} should be "mainnet" or "testnet".                                                                | number |         |         |
+|           |       `BACKGROUND_EXECUTE_MS`        |                                                          The amount of time the background execute should sleep before performing the next request                                                          | number |         | `1000`  |
+|           |      `DS_VALID_MAX_AGE_SECONDS`      | Consumer-side staleness check: reject a selected data-engine report whose age (now - lastSeenTimestampNs) exceeds this many seconds. Shared default for all session streams; unset or 0 disables the check. | number |         |         |
+|           |  `DS_VALID_MAX_AGE_SECONDS_REGULAR`  |                                                               Per-session override of DS_VALID_MAX_AGE_SECONDS for the regular-hours stream.                                                                | number |         |         |
+|           | `DS_VALID_MAX_AGE_SECONDS_EXTENDED`  |                                                      Per-session override of DS_VALID_MAX_AGE_SECONDS for the extended-hours (pre/post-market) stream.                                                      | number |         |         |
+|           | `DS_VALID_MAX_AGE_SECONDS_OVERNIGHT` |                                                                 Per-session override of DS_VALID_MAX_AGE_SECONDS for the overnight stream.                                                                  | number |         |         |
 
 ---
 
