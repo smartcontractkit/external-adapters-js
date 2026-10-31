@@ -15,6 +15,7 @@ export const calculatePrice = async (param: {
   overnightStreamId?: string
   overnightStreamMaxAgeInSeconds?: number
   streamMaxAgeSeconds?: StreamMaxAgeSeconds
+  sessionStartGatingEnabled?: boolean
   url: string
   tradingHoursUrl: string
   requester: Requester

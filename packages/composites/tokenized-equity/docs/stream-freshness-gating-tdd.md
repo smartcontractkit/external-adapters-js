@@ -3,37 +3,21 @@
 - [Tokenized Equity EA Implementation Proposal](https://docs.google.com/document/d/1UHgJP7NwhwrQpI002AbK51dvvWOQ3bAOGtvLNJYBgiU/edit?tab=t.0)
 - [tradinghours EA](https://github.com/smartcontractkit/external-adapters-js/tree/main/packages/sources/tradinghours)
 
+# Problem statement
+
 The tokenized equity EA (packages/composites/tokenized-equity) must accommodate two aspects of the reports being produced by the upstream DataEngine
 
-- Previous session / stale. If a price arrives that is older than a configured "freshness" value, it should be discarded.
-- Pre-open warm-up before session start. If a price arrives with a lastSeenTimestampNs that is before the current session start it must be discarded.
+- Previous session / stale. If a price arrives that is older than a configured "freshness" value, no price should be returned.
+- Pre-open warm-up before session start. If a price arrives with a lastSeenTimestampNs that is before the current session start no price should be returned.
 
-Pre-Planning and Information Gathering:
+This document is the proposal, and implementation/rollout guide for both checks: staleness
+(freshness) gating and pre-open warm-up (session-start) gating.
 
-- DONE: get the tokenized-equity EA running locally - can we run this locally pointing it to the tradinghours in staging? -> yes.
-- SKIPPED: get the tradinghours EA running locally --> not necessary, we can hit the EA in staging
-- DONE: poke at the two tradinghours endpoints to ensure they return what we need to implement the "warm up" check
-- DONE (design): freshness/staleness timeout design → see "Staleness / freshness design" below.
-- DONE: Propose a design for caching the tradinghours market-session data
-  the tradinghours does some of it's own caching it should be fine to hit this w/no caching.
-- DONE (design): `overnightStreamMaxAgeInSeconds` interaction with the new check → see "Interaction with overnightStreamMaxAgeInSeconds" below.
-- DONE (design): marketStatus=0 (UNKNOWN) handling → see "UNKNOWN marketStatus" below.
+## Constraints
 
-Implementation and Rollout Planning:
+- Avoid adding any new parameters into the tokenized-equity EA or changing it's interface.
 
-- DONE (plan): monitoring and alerting → see "Monitoring & alerting plan" below.
-- DONE (plan): test mapping for PR1 → see "PR1 test plan" below.
-- DONE (plan): config changes per adapter/env, rollout plan, verification steps → see
-  "Rollout & verification plan" below.
-
-Implementation
-
-- PR1 (first checkpoint/commit) implement tests, ensure the current EA fails
-- PR1 (second checkpoint/commit) implement new behavior
-
-Considerations
-
-- we want to avoid adding any new parameters into the tokenized-equity EA
+## Context and Reference: hitting the staging endpoints
 
 Two examples of hitting data-engine:
 
@@ -72,20 +56,20 @@ TZ=America/New_York perl -e 'print(scalar(localtime($ARGV[0]/10**9)),"\n")' 1793
 
 NB: mercury is the legacy name for DataStreams.
 
-## Findings (verified against staging 2026-10)
+## Background: staging endpoints and architecture
 
-### Live staging endpoints (all behind the shared nginx gateway `https://adapters.main.stage.cldev.sh/<release-name>`)
+### Endpoints (all behind the shared nginx gateway `https://adapters.main.stage.cldev.sh/<release-name>`)
 
 - `POST /data-engine` — `{"data":{"endpoint":"deutscheBoerse-v11","feedId":"0x000bbd87...4cff1"}}` returns
   `mid/bid/ask/bidVolume/askVolume/lastTradedPrice/marketStatus/decimals(18)/lastSeenTimestampNs`.
   That feedId is the **AAPL/USD regular-hours ("open") stream** (registry: `reference-data-directory/data-streams/streams/1000009175.json`;
-  siblings: extended `0x000b8b93...910b5b`, overnight `0x000b313c...0553c0b`, closed `0x000355d7...1368bc`). ~$350.45 at time of check.
+  siblings: extended `0x000b8b93...910b5b`, overnight `0x000b313c...0553c0b`, closed `0x000355d7...1368bc`).
 - `POST /tradinghours-mercury`
   - `market-session` (params: market, type=24/5, timezone) → session transition schedule (OVERNIGHT/PRE_MARKET/REGULAR/POST_MARKET timestamps).
   - `market-status` (params: market only; `type:"24/5"` is rejected) → current status, e.g. `{"result":1,"statusString":"CLOSED"}`.
 - `POST /tokenized-equity` — endpoints: `price` (default), `coinbase`, `ondo`, `robinhood`, `xstocks`.
   Validation quirks: kalman smoother requires `sessionBoundariesTimeZone`; `smoother:"none"` forbids all session\* params.
-  Observed behaviors: 504 while warming up; then 503 `"Market is not open: regular POST_MARKET, ..."` when gated.
+  Behaviors to expect: 504 while warming up; then 503 `"Market is not open: regular POST_MARKET, ..."` when gated.
 
 ### Architecture / infra
 
@@ -97,7 +81,7 @@ NB: mercury is the legacy name for DataStreams.
   `TRADING_HOURS_ADAPTER_URL=https://adapters.main.stage.cldev.sh/tradinghours-mercury`.
 - Direct per-adapter ALB (`adapter-<name>.<cluster domain>`) requires chainlink-adapter chart ≥0.10.0; tokenized-equity pins 0.8.0 → not available, use the shared gateway.
 
-### Market-status determination (design conclusion)
+### Market-status determination
 
 - tokenized-equity **never calls tradinghours `market-status`** — only `market-session` (single call site: `src/lib/session/tradingHoursSession.ts`).
 - Gating ("is the market open / which stream") uses the **`marketStatus` field inside each data-engine report** (`src/lib/streams.ts`) — provider-authoritative, per-stream.
@@ -105,33 +89,28 @@ NB: mercury is the legacy name for DataStreams.
 - Pure local time is the fallback, not a replacement: holidays/half-days/weekends need a real calendar.
 - ⇒ For DF-28181: use report `marketStatus` for pass-through/reject decisions; use `market-session` (with local fallback) for warm-up/staleness timing. `market-status` endpoint is redundant for this EA (optional health probe only).
 
-### V11 report `marketStatus` semantics (observed vs staging)
+### V11 report `marketStatus` semantics
 
 - The V11 SDK type is a bare `number`; tokenized-equity interprets it via the framework's
   `TwentyfourFiveMarketStatus` enum: 0=UNKNOWN, 1=PRE_MARKET, 2=REGULAR, 3=POST_MARKET, 4=OVERNIGHT, 5=WEEKEND.
 - It is provider-set (Deutsche Börse DON) and reflects **the market's current session phase, echoed on
-  every stream** — not "is this stream open". Observed: during REGULAR session all three AAPL streams
-  report `2`; Thu 20:03 ET regular reported `3`. This is why `getStream()`'s per-session matching works:
-  exactly one branch matches at any time.
-- Freshness is independent of the echoed status: during REGULAR, regular+extended streams update ~1/s
-  while the overnight stream's `lastSeenTimestampNs` stays frozen at its session end (04:00 ET) yet
-  still reports `marketStatus=2`.
-- Unverified (cadence poller will confirm): transition sequence at 16:00 ET (expect 2→3) and at
-  Friday 20:00 ET (expect 3→5, no overnight session on Fridays); whether WEEKEND(5) appears only in
-  the Fri 20:00 → Sun 20:00 ET window.
-  - 16:00 ET transition CONFIRMED (2026-10-30): all three streams flipped 2→3 at the close.
-    Notably the regular stream's `lastSeenTimestampNs` was still only ~2 min old 75 min into
-    POST_MARKET — a pure age check would NOT have rejected it after close. Evidence that the two
-    checks are complementary: `marketStatus` gates wrong-session streams, staleness gates
-    mid-session freezes.
+  every stream** — not "is this stream open". During REGULAR session all session streams report `2`.
+  This is why `getStream()`'s per-session matching works: exactly one branch matches at any time.
+- Freshness is independent of the echoed status: during REGULAR, the regular+extended streams update
+  ~1/s while the overnight stream's `lastSeenTimestampNs` stays frozen at its session end (04:00 ET)
+  yet still reports `marketStatus=2`.
+- The two checks are complementary: `marketStatus` gates wrong-session streams, staleness gates
+  mid-session freezes. A pure age check is not sufficient on its own — the regular stream's
+  `lastSeenTimestampNs` can remain fresh-looking well into POST_MARKET, so age alone would not
+  reject it after the close.
 - The registry's fourth feedId (`closed`, e.g. `0x000355d7...68bc` for AAPL) is **not** served by
   `deutscheBoerse-v11` (504 "no values yet"); in the DON config it's wired to the **`blended`**
   endpoint — it's the fallback price source used when the market is closed, not another
   marketStatus value on the session streams.
 
-## Staleness / freshness design (analysis, pre-implementation)
+## Staleness / freshness design
 
-### Current state (verified in code)
+### Current state
 
 - Every V11 report carries `lastSeenTimestampNs` (provider-side timestamp, `deutscheBoerseV11.ts`), so the
   tokenized-equity EA can always compute report age against its own clock: `age = now() - lastSeenTimestampNs/1e9`.
@@ -173,7 +152,7 @@ asset mapping.
 - Thresholds naturally differ **per session type**, not per asset: regular/extended streams tick
   ~1/s during their session, the overnight stream is intentionally sparse. A single global value
   would either false-positive on overnight or be too lax for regular.
-- Proposal (env vars on the tokenized-equity EA instance) — **DECIDED**:
+- Configuration (env vars on the tokenized-equity EA instance):
   - `DS_VALID_MAX_AGE_SECONDS` — shared default (unset/0 = consumer-side check disabled, preserving
     current behavior for a safe rollout; enable per-environment deliberately).
   - `DS_VALID_MAX_AGE_SECONDS_REGULAR`, `DS_VALID_MAX_AGE_SECONDS_EXTENDED`,
@@ -187,18 +166,20 @@ asset mapping.
   and multiplies rollout surface. Escape hatch if a genuine per-asset need appears later: keep
   `overnightStreamMaxAgeInSeconds` as a per-request override (it already exists); extend that
   pattern rather than adding config up front.
-- Interaction with the existing param (**DECIDED**): keep forwarding `overnightStreamMaxAgeInSeconds`
+- Interaction with the existing param: keep forwarding `overnightStreamMaxAgeInSeconds`
   to data-engine unchanged (defense in depth); the consumer-side check is authoritative. Document the
   relationship; no deprecation, no new per-request overrides.
 
-### Decision 3: session-start behavior (**DECIDED**)
+### Decision 3: session-start behavior
 
 At a session boundary the newly-active stream's `lastSeenTimestampNs` can be hours/days old until the
 first fresh report arrives (e.g. overnight stream at Sunday 20:00 ET: last report is Friday 04:00 ET).
 The age check applies anyway → 503 until the first fresh report arrives. Rationale: it genuinely means
 "no fresh data yet", self-heals on the first report of the new session, and matches today's 504
 warm-up behavior. No grace window — that would couple staleness to the session/warm-up machinery,
-which this design deliberately keeps separate.
+which this design deliberately keeps separate. (See "Pre-open warm-up (session-start) gating"
+below: with both checks enabled, the warm-up check owns this boundary case precisely — a
+pre-session report is rejected as `PRE_SESSION` regardless of its age.)
 
 ### Rejected alternatives
 
@@ -212,7 +193,7 @@ which this design deliberately keeps separate.
   machinery; transient 503s at session start are preferred (self-healing, matches 504 warm-up
   semantics).
 
-### Interaction with `overnightStreamMaxAgeInSeconds` (**DECIDED**)
+### Interaction with `overnightStreamMaxAgeInSeconds`
 
 Requirement: when the price is "too stale", nothing is published — tokenized-equity returns 503.
 
@@ -228,24 +209,60 @@ Requirement: when the price is "too stale", nothing is published — tokenized-e
   emergency per-asset escape hatch. (Also note: the param lives in per-asset DON feed configs =
   slow rollout surface; the env var is a single EA-level change.)
 
-### UNKNOWN marketStatus (0) (**DECIDED**)
+### UNKNOWN marketStatus (0)
 
 - Requirement (no price when the provider status is unknown/unavailable) is **already met by the
   current code**: UNKNOWN matches no branch in `getStream()`, so it falls through to the 503
   "Market is not open: regular UNKNOWN, ..." path. Same for WEEKEND (5).
 - Gap is tests + observability, not behavior: add an explicit unit/integration test pinning the
-  UNKNOWN → 503 behavior (PR1), and make monitoring able to distinguish "provider degraded"
+  UNKNOWN → 503 behavior, and make monitoring able to distinguish "provider degraded"
   (UNKNOWN) from "market legitimately closed" (POST_MARKET/WEEKEND) — same HTTP code, very
   different ops response. Candidate: rejection-reason label/counter (see monitoring item below).
 - Mixed statuses across streams are possible near transitions (e.g. regular=UNKNOWN while
   extended=POST_MARKET): current code selects the extended stream. That is reasonable — the check
   gates on the status of the stream actually selected.
 
+### Pre-open warm-up (session-start) gating
+
+Requirement: a report whose `lastSeenTimestampNs` is before the start of the **current** session is
+a leftover from the previous session and must be discarded (503), even if it is fresh by age. This
+catches what the age check cannot: a report that arrives just after a session boundary but was
+produced just before it (e.g. the last REGULAR print at 15:59:59 echoed into POST_MARKET, or Friday
+overnight data served at the Sunday open).
+
+- Enforcement point: `lib/streams.ts getStream()`, immediately after the staleness check on the
+  selected stream — same select-then-gate pattern, no fail-over across session types.
+- Session start source: the tradinghours `market-session` schedule. The raw schedule includes
+  REGULAR and Sunday OVERNIGHT transitions (`src/lib/session/tradingHoursSession.ts
+getSessionTransitions`) — unlike the smoothing path (`getSessions`), which filters both out.
+  Session start = the latest transition at or before now whose status opens the selected stream's
+  session. Note the fallback `sessionBoundaries` list is deliberately **not** used: its times are
+  unlabeled, so it cannot say which session a boundary opens (and by default it lacks the 09:30
+  regular open). Using it would reject or admit the wrong reports.
+- Configuration: `DS_SESSION_START_GATING_ENABLED` (boolean, default false = disabled) — env-gated
+  like the staleness family, for the same ship-dark / instant-rollback rollout story.
+- Fail closed: with gating enabled, a report whose session start cannot be determined (schedule
+  unavailable, no transition opening the selected session, or session params absent) is rejected
+  with 503 rather than passed through. There is deliberately no local caching of the schedule —
+  the EA relies on the tradinghours EA being up (as it already does for the smoother timing path),
+  so a tradinghours outage while gating is enabled means 503s. Consequences:
+  - Enabling the flag requires the `session*` request params on every feed — which `smoother:
+'none'` configs cannot provide (validation forbids the combination). Feeds on `none` must move
+    to kalman/ema before the flag is enabled, or they will 503.
+- Interaction with the staleness check (supersedes Decision 3's framing): the warm-up check owns
+  the boundary semantics — a report predating the session start is rejected with reason
+  `PRE_SESSION` regardless of age. The age check remains the mid-session freeze detector. With both
+  enabled, the error message names which check fired (`STALE(age=...)` vs `PRE_SESSION(...)`);
+  with only warm-up enabled, Decision 3's transient 503s at session start still occur, now with the
+  precise reason.
+- Rejected alternative — fail open when the session start is unknown: a tradinghours outage would
+  silently disable the check exactly when schedule uncertainty is highest; 503 is louder and safer.
+
 ### Open questions for implementation
 
 - Default values per session when `DS_VALID_MAX_AGE_SECONDS` is set (start: regular/extended 30s,
-  overnight — align with overnight feed's expected cadence; being validated against staging
-  traffic).
+  overnight — align with overnight feed's expected cadence; to be validated against staging
+  traffic during rollout).
 - Metric naming/labels above are proposals — confirm against the team's Prometheus conventions at
   implementation time.
 
@@ -316,19 +333,22 @@ statuses 6 — all fine.
 4. Dashboard: per-asset panel = market_status timeline + per-stream report ages + reject counter
    by reason + pass-through rate.
 
-## PR1 test plan
+## Test plan
 
-Scope: the staleness/freshness check + UNKNOWN marketStatus handling (both land in
-`lib/streams.ts`; the pre-open warm-up check is a separate work item). Conventions follow the
+Scope: the staleness/freshness check, the pre-open warm-up (session-start) check, and UNKNOWN
+marketStatus handling (all land in `lib/streams.ts`). Conventions follow the
 existing suite: unit tests mock `getDeutscheBoersePrice` per stream
 (`test/unit/lib/streams.test.ts`); integration tests use `TestAdapter` + nock fixtures with a
 mocked `Date.now()` (`test/integration/adapter-price.test.ts`) — the mocked clock is exactly what
 staleness tests need. Fixtures must compute `lastSeenTimestampNs` relative to the mocked clock
-(current `fixtures.ts` uses fixed timestamps → update).
+(`fixtures.ts` historically used fixed timestamps → update).
+
+The tests are written first (TDD): the new-behavior tests fail against the unmodified EA, and the
+implementation then turns them green.
 
 ### Unit: `lib/streams.ts` (getStream selection + age eligibility)
 
-New behavior — **must FAIL on current code** (PR1 checkpoint 1):
+New behavior — fails before the implementation lands:
 
 1. Active stream stale → 503: regular REGULAR with age > `DS_VALID_MAX_AGE_SECONDS_REGULAR` →
    AdapterError 503; message includes per-stream status AND age-vs-threshold (e.g.
@@ -343,7 +363,7 @@ New behavior — **must FAIL on current code** (PR1 checkpoint 1):
 7. Mixed: one stream fresh+right status, others stale → fresh stream selected (staleness only
    disqualifies the stale stream, doesn't poison selection).
 
-Existing behavior pinned — **must PASS on current code** (regression guard):
+Existing behavior pinned — passes before and after (regression guard):
 
 8. All streams UNKNOWN(0) → 503 "Market is not open" (UNKNOWN handling requirement, already met).
 9. WEEKEND(5) → 503 (same path).
@@ -354,33 +374,63 @@ Existing behavior pinned — **must PASS on current code** (regression guard):
 11. Stale active stream → `getPrice` throws before any smoother state update (spy: `processUpdate`
     / `processOvernightUpdate` never called) — stale ticks must not poison kalman/EMA state.
 
+### Unit: `lib/streams.ts` (session-start gating)
+
+New behavior — fails before the implementation lands:
+
+17. Selected report with `lastSeenTimestampNs` before the current session start → 503
+    `Market data predates session start: ... PRE_SESSION(...)`; report after the start → pass.
+18. Boundary: `lastSeenTimestampNs` == session start → in-session (allowed).
+19. Extended stream: session start is the _latest_ matching transition (POST_MARKET start, not the
+    earlier PRE_MARKET start).
+20. No fail-over: regular REGULAR pre-session + extended POST_MARKET in-session → 503, not extended.
+21. Fail closed: gating enabled + schedule unavailable → 503 `Session start unknown`; enabled +
+    schedule present but no transition opening the selected session → 503.
+22. Disabled (flag unset) → pre-session report passes through.
+23. Sunday overnight: a Sunday OVERNIGHT transition in the schedule is used (the smoothing path
+    skips it; gating must not, or every Sunday overnight open would fail closed).
+
+### Unit: `lib/session` (transition schedule)
+
+24. `getSessionTransitions` returns all statuses unfiltered (incl. REGULAR, Sunday OVERNIGHT) and
+    throws when the schedule cannot be fetched (no local caching — the EA relies on tradinghours).
+25. `getSessionStartTransitions` returns undefined (never throws) when session params are missing
+    or the schedule cannot be fetched.
+
 ### Unit: `config/index.ts`
 
 12. New env vars parse as numbers; negative/NaN rejected; unset = undefined (disabled).
+    `DS_SESSION_START_GATING_ENABLED` parses as boolean; default false.
 
 ### Integration: `test/integration/adapter-price.test.ts` (+ one other endpoint)
 
-13. `price` endpoint: active stream stale (env set) → 503; fresh → 200. **Fails today.**
+13. `price` endpoint: active stream stale (env set) → 503; fresh → 200. Fails pre-implementation.
 14. Same scenario against `coinbase` (or any registry endpoint) → proves the check covers all five
-    endpoints via the shared path, per Open Questions Q4. **Fails today.**
-15. UNKNOWN report → 503 at HTTP level. Passes today (pin).
-16. Env unset + stale report → 200 (documents safe-rollback behavior). **Fails today** (only
-    because the env var doesn't exist yet; passes trivially after).
+    endpoints via the shared path, per Open Questions Q4. Fails pre-implementation.
+15. UNKNOWN report → 503 at HTTP level. Passes pre-implementation (pin).
+16. Env unset + stale report → 200 (documents safe-rollback behavior). Fails only because the env
+    var doesn't exist yet; passes trivially after.
+17. `price` endpoint with gating enabled: report predating the session start → 503 PRE_SESSION;
+    in-session report → 200; tradinghours down → 503 fail-closed
+    (`test/integration/adapter-price-session-start.test.ts`).
 
-### Checkpoint split
+### Implementation order (TDD)
 
-- **PR1 checkpoint 1 (tests, must fail):** 1–7, 11–14, 16 fail; 8–10, 15 pass (they pin existing
-  correct behavior).
-- **PR1 checkpoint 2 (implementation):** config vars, age-eligibility in `getStream`, error-message
-  extension, metrics hooks (per monitoring plan) — all tests green.
+- **Step 1 (tests, red):** 1–7, 11–14, 16–23 fail; 8–10, 15 pass (they pin existing correct
+  behavior).
+- **Step 2 (implementation, green):** config vars, age-eligibility and session-start gating in
+  `getStream`, error-message extension, metrics hooks (per monitoring plan) — all tests green.
 
 ## Rollout & verification plan
 
 ### Configuration changes per adapter / environment
 
-- **tokenized-equity (this change):** four new optional env vars — `DS_VALID_MAX_AGE_SECONDS`
-  (shared default; unset = check disabled) and `DS_VALID_MAX_AGE_SECONDS_{REGULAR,EXTENDED,OVERNIGHT}`
-  overrides. Documented in the adapter README/env schema as part of PR1 checkpoint 2.
+- **tokenized-equity (this change):** five new optional env vars — `DS_VALID_MAX_AGE_SECONDS`
+  (shared default; unset = check disabled), `DS_VALID_MAX_AGE_SECONDS_{REGULAR,EXTENDED,OVERNIGHT}`
+  overrides, and `DS_SESSION_START_GATING_ENABLED` (boolean, default false). Enabling
+  session-start gating additionally requires the `session*` request params on every feed (feeds on
+  `smoother: 'none'` cannot provide them — see the design section). Documented in the adapter
+  README/env schema as part of the implementation PR.
   Wiring lives in `infra-k8s/projects/adapters/files/adapters/data-feeds/tokenized-equity/config.yaml`
   per environment (stage / prod-testnet / prod values, see phases below).
 - **data-engine:** no changes. The new check is consumer-side; data-engine keeps its existing
@@ -392,7 +442,7 @@ Existing behavior pinned — **must PASS on current code** (regression guard):
 
 ### Phase 0 — ship dark (all environments)
 
-- Deploy PR1 with metrics + check code but **no env vars set** → behavior identical to today.
+- Deploy the implementation with metrics + check code but **no env vars set** → behavior identical to before.
 - Verify: new metrics (`tokenized_equity_stream_report_age_seconds`,
   `tokenized_equity_stream_market_status`, `tokenized_equity_rejection_total`) appear on `/metrics`;
   rejection counter stays at ~zero; 503 rate/`bgExecuteErrors` unchanged from baseline; dashboards
@@ -441,8 +491,9 @@ Existing behavior pinned — **must PASS on current code** (regression guard):
 
 ### Rollback
 
-- Unset `DS_VALID_MAX_AGE_SECONDS` (env change, redeploy) → consumer-side check disabled
-  instantly; behavior returns to current state. No DON config or data-engine changes to unwind.
+- Unset `DS_VALID_MAX_AGE_SECONDS` and/or `DS_SESSION_START_GATING_ENABLED` (env change, redeploy)
+  → consumer-side checks disabled instantly; behavior returns to current state. No DON config or
+  data-engine changes to unwind.
 - Rollback drill: execute once in staging during Phase 1 to prove it's a single env flip.
 
 ### Verification summary (what "done" looks like)
@@ -450,6 +501,8 @@ Existing behavior pinned — **must PASS on current code** (regression guard):
 - Fresh mid-session requests: 200, unchanged prices.
 - Stale active stream: 503 with per-stream age/threshold in the message; rejection counter
   increments with `reason="stale"`; nothing new published on-chain.
+- Pre-session report (fresh but produced before the current session start): 503 with
+  `PRE_SESSION(...)` in the message.
 - UNKNOWN reports: 503, counter `reason="unknown"`, page fires.
 - Closed market: 503, counter `reason="market_closed"`, no pages.
 - Session starts: transient 503s until first fresh report, then clean pass-through (Sunday

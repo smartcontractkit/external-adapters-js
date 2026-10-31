@@ -1,7 +1,7 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { Smoother } from '../endpoint/common'
-import { calculateSecondsFromTransition } from '../lib/session/session'
+import { calculateSecondsFromTransition, getSessionStartTransitions } from '../lib/session/session'
 import {
   WARMUP_MS as OVERNIGHT_EMA_WARMUP_MS,
   processOvernightUpdate,
@@ -16,6 +16,7 @@ export const smoothedStreamPrice = async (param: {
   overnightStreamId?: string
   overnightStreamMaxAgeInSeconds?: number
   streamMaxAgeSeconds?: StreamMaxAgeSeconds
+  sessionStartGatingEnabled?: boolean
   url: string
   tradingHoursUrl: string
   requester: Requester
@@ -26,6 +27,19 @@ export const smoothedStreamPrice = async (param: {
   smoother: Smoother
   decimals: number
 }) => {
+  // Fetched before getPrice because the gating decision happens inside it. The
+  // schedule changes only at session boundaries and tradinghours caches
+  // server-side, so this extra request is cheap; it only runs when gating is on.
+  const sessionTransitions = param.sessionStartGatingEnabled
+    ? await getSessionStartTransitions(
+        param.tradingHoursUrl,
+        param.requester,
+        param.sessionBoundariesTimeZone,
+        param.sessionMarket,
+        param.sessionMarketType,
+      )
+    : undefined
+
   const [price, secondsFromTransition] = await Promise.all([
     getPrice(
       param.url,
@@ -35,6 +49,7 @@ export const smoothedStreamPrice = async (param: {
       param.overnightStreamId,
       param.overnightStreamMaxAgeInSeconds,
       param.streamMaxAgeSeconds,
+      param.sessionStartGatingEnabled ? { transitions: sessionTransitions } : undefined,
     ),
     calculateSecondsFromTransition(
       param.tradingHoursUrl,
