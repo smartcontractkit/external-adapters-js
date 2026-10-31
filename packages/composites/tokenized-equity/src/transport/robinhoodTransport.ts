@@ -26,6 +26,7 @@ export class RobinhoodTransport extends SmoothedPriceTransport<BaseEndpointTypes
       tradingHoursUrl: this.getTradingHoursUrl(),
       requester: this.requester,
       streamMaxAgeSeconds: this.streamMaxAgeSeconds,
+      sessionStartGatingEnabled: this.sessionStartGatingEnabled,
     })
 
     return Object.fromEntries(
