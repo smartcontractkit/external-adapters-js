@@ -4,6 +4,7 @@ import { getDeutscheBoersePrice } from '@chainlink/data-engine-adapter'
 import { BaseEndpointTypes } from '@chainlink/data-engine-adapter/src/endpoint/deutscheBoerseV11'
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { SessionTransition } from './session/tradingHoursSession'
 
 type DataEngineResponse = BaseEndpointTypes['Response']['Data']
 
@@ -18,6 +19,33 @@ export type StreamMaxAgeSeconds = {
   overnight?: number
 }
 
+/**
+ * Pre-open warm-up (session-start) gating. Passing this object enables the check;
+ * `transitions` is the tradinghours market-session schedule. When the schedule is
+ * unavailable (undefined) the check fails closed: a report whose session start cannot
+ * be determined is rejected rather than passed through.
+ */
+export type SessionStartGating = {
+  transitions?: SessionTransition[]
+}
+
+// Latest transition at or before `now` whose status opens one of `statuses` — i.e. the
+// start time of the currently active session for a stream eligible in `statuses`.
+const currentSessionStartMs = (
+  statuses: TwentyfourFiveMarketStatus[],
+  transitions: SessionTransition[],
+  nowMs: number,
+): number | undefined =>
+  transitions
+    .filter((t) => statuses.includes(t.status) && t.timeMs <= nowMs)
+    .reduce<number | undefined>(
+      (max, t) => (max === undefined || t.timeMs > max ? t.timeMs : max),
+      undefined,
+    )
+
+const reportTimeMs = (lastSeenTimestampNs: string): number =>
+  Number(BigInt(lastSeenTimestampNs) / 10n ** 6n)
+
 export const getPrice = async (
   url: string,
   requester: Requester,
@@ -26,6 +54,7 @@ export const getPrice = async (
   overnightStreamId?: string,
   overnightStreamMaxAgeInSeconds?: number,
   streamMaxAgeSeconds?: StreamMaxAgeSeconds,
+  sessionStartGating?: SessionStartGating,
 ) => {
   const [regular, extended, overnight] = await Promise.allSettled(
     [regularStreamId, extendedStreamId, overnightStreamId].map((streamId) =>
@@ -42,7 +71,7 @@ export const getPrice = async (
     ),
   )
 
-  const stream = getStream(regular, extended, overnight, streamMaxAgeSeconds)
+  const stream = getStream(regular, extended, overnight, streamMaxAgeSeconds, sessionStartGating)
 
   return {
     price: stream.mid,
@@ -63,7 +92,7 @@ export const getPrice = async (
 // local clock. Thresholds are expected to be orders of magnitude larger than any NTP
 // skew, so this does not need to be precise.
 const reportAgeSeconds = (lastSeenTimestampNs: string): number =>
-  (Date.now() - Number(BigInt(lastSeenTimestampNs) / 10n ** 6n)) / 1000
+  (Date.now() - reportTimeMs(lastSeenTimestampNs)) / 1000
 
 type StreamCandidate = {
   name: keyof StreamMaxAgeSeconds
@@ -73,7 +102,7 @@ type StreamCandidate = {
   maxAgeSeconds?: number
 }
 
-const describeCandidate = (c: StreamCandidate): string => {
+const describeCandidate = (c: StreamCandidate, sessionStartGating?: SessionStartGating): string => {
   if (c.result.status !== 'fulfilled') {
     // NB: the double space matches the historical message format asserted by existing tests
     return `${c.name}  ${c.result.reason}`
@@ -83,7 +112,34 @@ const describeCandidate = (c: StreamCandidate): string => {
   if (c.maxAgeSeconds !== undefined && age > c.maxAgeSeconds) {
     return `${c.name} STALE(${status}, age=${age.toFixed(0)}s>${c.maxAgeSeconds}s)`
   }
+  const preSession = preSessionSeconds(c, sessionStartGating)
+  if (preSession !== undefined) {
+    return `${c.name} PRE_SESSION(${status}, lastSeen ${preSession.toFixed(
+      0,
+    )}s before session start)`
+  }
   return `${c.name} ${status}`
+}
+
+// Seconds by which the report predates the current session start, or undefined when the
+// report is in-session (or gating is off / the session start is unknown).
+const preSessionSeconds = (
+  c: StreamCandidate,
+  sessionStartGating?: SessionStartGating,
+): number | undefined => {
+  if (!sessionStartGating?.transitions || c.result.status !== 'fulfilled') {
+    return undefined
+  }
+  const start = currentSessionStartMs(
+    c.eligibleStatuses,
+    sessionStartGating.transitions,
+    Date.now(),
+  )
+  if (start === undefined) {
+    return undefined
+  }
+  const delta = start - reportTimeMs(c.result.value.lastSeenTimestampNs)
+  return delta > 0 ? delta / 1000 : undefined
 }
 
 const getStream = (
@@ -91,6 +147,7 @@ const getStream = (
   extended: PromiseSettledResult<DataEngineResponse>,
   overnight: PromiseSettledResult<DataEngineResponse>,
   streamMaxAgeSeconds?: StreamMaxAgeSeconds,
+  sessionStartGating?: SessionStartGating,
 ) => {
   const candidates: StreamCandidate[] = [
     {
@@ -131,14 +188,54 @@ const getStream = (
     if (selected.maxAgeSeconds !== undefined && age > selected.maxAgeSeconds) {
       throw new AdapterError({
         statusCode: 503,
-        message: `Market data is stale: ${candidates.map(describeCandidate).join(', ')}`,
+        message: `Market data is stale: ${candidates
+          .map((c) => describeCandidate(c, sessionStartGating))
+          .join(', ')}`,
       })
+    }
+    if (sessionStartGating) {
+      // Fail closed: with gating enabled, a report whose session start is unknown is
+      // rejected — we cannot prove it is not a pre-session leftover.
+      if (!sessionStartGating.transitions) {
+        throw new AdapterError({
+          statusCode: 503,
+          message: `Session start unknown (session schedule unavailable): ${candidates
+            .map((c) => describeCandidate(c, sessionStartGating))
+            .join(', ')}`,
+        })
+      }
+      const start = currentSessionStartMs(
+        selected.eligibleStatuses,
+        sessionStartGating.transitions,
+        Date.now(),
+      )
+      if (start === undefined) {
+        throw new AdapterError({
+          statusCode: 503,
+          message: `Session start unknown (no ${
+            TwentyfourFiveMarketStatus[value.marketStatus]
+          } transition in session schedule): ${candidates
+            .map((c) => describeCandidate(c, sessionStartGating))
+            .join(', ')}`,
+        })
+      }
+      const lastSeenMs = reportTimeMs(value.lastSeenTimestampNs)
+      if (lastSeenMs < start) {
+        throw new AdapterError({
+          statusCode: 503,
+          message: `Market data predates session start: ${candidates
+            .map((c) => describeCandidate(c, sessionStartGating))
+            .join(', ')}`,
+        })
+      }
     }
     return value
   }
 
   throw new AdapterError({
     statusCode: 503,
-    message: `Market is not open: ${candidates.map(describeCandidate).join(', ')}`,
+    message: `Market is not open: ${candidates
+      .map((c) => describeCandidate(c, sessionStartGating))
+      .join(', ')}`,
   })
 }

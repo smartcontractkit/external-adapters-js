@@ -21,6 +21,7 @@ export class RobinhoodTransport extends SubscriptionTransport<BaseEndpointTypes>
   dataEngineUrl!: string
   tradingHoursUrl!: string
   streamMaxAgeSeconds!: StreamMaxAgeSeconds
+  sessionStartGatingEnabled!: boolean
   providerForNetwork: Record<string, JsonRpcProvider> = {}
 
   async initialize(
@@ -35,6 +36,7 @@ export class RobinhoodTransport extends SubscriptionTransport<BaseEndpointTypes>
     this.dataEngineUrl = adapterSettings.DATA_ENGINE_ADAPTER_URL
     this.tradingHoursUrl = adapterSettings.TRADING_HOURS_ADAPTER_URL
     this.streamMaxAgeSeconds = resolveStreamMaxAgeSeconds(adapterSettings)
+    this.sessionStartGatingEnabled = adapterSettings.DS_SESSION_START_GATING_ENABLED
   }
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
     await Promise.all(dedupeParams(entries).map(async (param) => this.handleRequest(param)))
@@ -98,6 +100,7 @@ export class RobinhoodTransport extends SubscriptionTransport<BaseEndpointTypes>
       tradingHoursUrl: this.tradingHoursUrl,
       requester: this.requester,
       streamMaxAgeSeconds: this.streamMaxAgeSeconds,
+      sessionStartGatingEnabled: this.sessionStartGatingEnabled,
     })
 
     return Object.fromEntries(
