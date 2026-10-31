@@ -5,8 +5,10 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { JsonRpcProvider } from 'ethers'
+import { resolveStreamMaxAgeSeconds } from '../config'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/coinbase'
 import { Smoother } from '../endpoint/common'
+import { StreamMaxAgeSeconds } from '../lib/streams'
 import { calculatePrice } from './coinbasePrice'
 
 const logger = makeLogger('CoinbaseTransport')
@@ -18,6 +20,8 @@ export class CoinbaseTransport extends SubscriptionTransport<BaseEndpointTypes> 
   provider!: JsonRpcProvider
   dataEngineUrl!: string
   tradingHoursUrl!: string
+  streamMaxAgeSeconds!: StreamMaxAgeSeconds
+  sessionStartGatingEnabled!: boolean
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -34,6 +38,8 @@ export class CoinbaseTransport extends SubscriptionTransport<BaseEndpointTypes> 
 
     this.dataEngineUrl = adapterSettings.DATA_ENGINE_ADAPTER_URL
     this.tradingHoursUrl = adapterSettings.TRADING_HOURS_ADAPTER_URL
+    this.streamMaxAgeSeconds = resolveStreamMaxAgeSeconds(adapterSettings)
+    this.sessionStartGatingEnabled = adapterSettings.DS_SESSION_START_GATING_ENABLED
   }
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
     await Promise.all(dedupeParams(entries).map(async (param) => this.handleRequest(param)))
@@ -91,6 +97,8 @@ export class CoinbaseTransport extends SubscriptionTransport<BaseEndpointTypes> 
       url: this.dataEngineUrl,
       tradingHoursUrl: this.tradingHoursUrl,
       requester: this.requester,
+      streamMaxAgeSeconds: this.streamMaxAgeSeconds,
+      sessionStartGatingEnabled: this.sessionStartGatingEnabled,
     })
 
     return Object.fromEntries(

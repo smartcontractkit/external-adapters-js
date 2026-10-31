@@ -4,6 +4,7 @@ import { JsonRpcProvider } from 'ethers'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { Smoother } from '../endpoint/common'
 import { getRegistryData } from '../lib/registry'
+import { StreamMaxAgeSeconds } from '../lib/streams'
 
 import { smoothedStreamPrice } from './smoothedPrice'
 
@@ -17,6 +18,8 @@ export const calculatePrice = async (param: {
   extendedStreamId?: string
   overnightStreamId?: string
   overnightStreamMaxAgeInSeconds?: number
+  streamMaxAgeSeconds?: StreamMaxAgeSeconds
+  sessionStartGatingEnabled?: boolean
   url: string
   tradingHoursUrl: string
   requester: Requester
