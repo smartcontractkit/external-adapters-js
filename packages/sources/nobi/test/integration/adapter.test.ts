@@ -68,4 +68,16 @@ describe('websocket', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
+
+  describe('stock_quotes endpoint - without QUOTES_API_KEY', () => {
+    it('should return 400', async () => {
+      const response = await testAdapter.request({
+        base: 'Equity:US:AAPL',
+        quote: 'USD',
+        endpoint: 'stock_quotes',
+      })
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
 })

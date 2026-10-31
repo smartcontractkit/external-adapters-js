@@ -1,0 +1,163 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket stock_quotes endpoint - ETF:US:SPY/USD (quote frame without bid/ask) should accept zero volumes when requireVolume is true 1`] = `
+{
+  "data": {
+    "ask_price": 530.25,
+    "ask_volume": 0,
+    "bid_price": 530.25,
+    "bid_volume": 0,
+    "last_price": 530.2,
+    "mid_price": 530.25,
+  },
+  "result": 530.2,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1780358218000,
+  },
+}
+`;
+
+exports[`websocket stock_quotes endpoint - ETF:US:SPY/USD (quote frame without bid/ask) should fall back to mid price for bid and ask 1`] = `
+{
+  "data": {
+    "ask_price": 530.25,
+    "ask_volume": 0,
+    "bid_price": 530.25,
+    "bid_volume": 0,
+    "last_price": 530.2,
+    "mid_price": 530.25,
+  },
+  "result": 530.2,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1780358218000,
+  },
+}
+`;
+
+exports[`websocket stock_quotes endpoint - Equity:US:AAPL/USD (quote frame) should return last price as result and full quote data 1`] = `
+{
+  "data": {
+    "ask_price": 190.14,
+    "ask_volume": 200,
+    "bid_price": 190.1,
+    "bid_volume": 300,
+    "last_price": 190.11,
+    "mid_price": 190.12,
+  },
+  "result": 190.11,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1780358217000,
+  },
+}
+`;
+
+exports[`websocket stock_quotes endpoint - Equity:US:AAPL/USD (quote frame) should return the same quote when requireVolume is true and volumes are valid 1`] = `
+{
+  "data": {
+    "ask_price": 190.14,
+    "ask_volume": 200,
+    "bid_price": 190.1,
+    "bid_volume": 300,
+    "last_price": 190.11,
+    "mid_price": 190.12,
+  },
+  "result": 190.11,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1780358217000,
+  },
+}
+`;
+
+exports[`websocket stock_quotes endpoint - Equity:US:FAKE/USD (pair not found) should reject later requests with 400 before they reach the cache 1`] = `
+{
+  "error": {
+    "message": "The requested pair does not exist, is inactive, or is suspended.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`websocket stock_quotes endpoint - Equity:US:FAKE/USD (pair not found) should return 502 when the provider reports the pair as not found 1`] = `
+{
+  "errorMessage": "The requested pair does not exist, is inactive, or is suspended.",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 5058,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket stock_quotes endpoint - Equity:US:MSFT/USD (quote frame without volumes) should return 502 when requireVolume is true 1`] = `
+{
+  "errorMessage": "Bid volume: undefined or Ask volume: undefined for Equity:US:MSFT/USD is invalid.",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket stock_quotes endpoint - Equity:US:MSFT/USD (quote frame without volumes) should return the quote with null volumes by default 1`] = `
+{
+  "data": {
+    "ask_price": 410.55,
+    "ask_volume": null,
+    "bid_price": 410.45,
+    "bid_volume": null,
+    "last_price": 410.48,
+    "mid_price": 410.5,
+  },
+  "result": 410.48,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1780358220000,
+  },
+}
+`;
+
+exports[`websocket stock_quotes endpoint - Index:US:SPX/USD (value frame) should return 502 when requireVolume is true 1`] = `
+{
+  "errorMessage": "Index:US:SPX/USD does not support bid/ask volume",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket stock_quotes endpoint - Index:US:SPX/USD (value frame) should use the index value for every price field 1`] = `
+{
+  "data": {
+    "ask_price": 5321.45,
+    "bid_price": 5321.45,
+    "last_price": 5321.45,
+    "mid_price": 5321.45,
+  },
+  "result": 5321.45,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1780358219000,
+  },
+}
+`;
