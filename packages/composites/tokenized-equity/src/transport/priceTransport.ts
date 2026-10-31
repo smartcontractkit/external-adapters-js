@@ -125,6 +125,7 @@ const dedupeParams = (params: RequestParams[]) => {
       p.sessionMarketType,
       p.sessionBoundaries.join('|'),
       p.sessionBoundariesTimeZone,
+      p.sessionWeekend,
       p.decimals,
     ].join('@@')
     if (!seen.has(key)) {

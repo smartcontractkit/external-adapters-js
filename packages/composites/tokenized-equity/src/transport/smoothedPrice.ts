@@ -1,13 +1,15 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { Smoother } from '../endpoint/common'
-import { calculateSecondsFromTransition } from '../lib/session/session'
+import { getSessionContext } from '../lib/session/session'
+import { evaluateSessionGate } from '../lib/session/sessionGate'
 import {
   WARMUP_MS as OVERNIGHT_EMA_WARMUP_MS,
   processOvernightUpdate,
 } from '../lib/smoother/overnightSmoother'
 import { processUpdate } from '../lib/smoother/smoother'
-import { getPrice } from '../lib/streams'
+import { formatRejections, getStreams, selectStream, toPriceResult } from '../lib/streams'
 
 export const smoothedStreamPrice = async (param: {
   asset: string
@@ -22,11 +24,12 @@ export const smoothedStreamPrice = async (param: {
   sessionMarketType?: string
   sessionBoundaries: string[]
   sessionBoundariesTimeZone?: string
+  sessionWeekend?: string
   smoother: Smoother
   decimals: number
 }) => {
-  const [price, secondsFromTransition] = await Promise.all([
-    getPrice(
+  const [streams, session] = await Promise.all([
+    getStreams(
       param.url,
       param.requester,
       param.regularStreamId,
@@ -34,20 +37,59 @@ export const smoothedStreamPrice = async (param: {
       param.overnightStreamId,
       param.overnightStreamMaxAgeInSeconds,
     ),
-    calculateSecondsFromTransition(
+    getSessionContext(
       param.tradingHoursUrl,
       param.requester,
       param.sessionBoundaries,
       param.sessionBoundariesTimeZone,
       param.sessionMarket,
       param.sessionMarketType,
+      param.sessionWeekend,
     ),
   ])
+
+  const nowMs = Date.now()
+
+  // Gate each candidate before selecting one. This matters at session
+  // transitions: a stale report from the previous session may still be the
+  // highest-priority stream, while another feed already has a valid report for
+  // the new session. With no schedule at all (for example tradinghours is down
+  // and no fallback boundaries are configured) the gate cannot operate and is
+  // skipped, preserving the previous liveness behavior.
+  const selection = selectStream(
+    streams,
+    session && session.events.length > 0
+      ? (report) => evaluateSessionGate({ report, session, nowMs })
+      : undefined,
+  )
+
+  if (!selection.report) {
+    throw new AdapterError({
+      statusCode: 503,
+      message: `No eligible session report: ${formatRejections(selection.rejections)}`,
+    })
+  }
+
+  const price = toPriceResult(selection.report, streams)
+  const secondsFromTransition = session?.secondsFromTransition
 
   const common = {
     rawPrice: price.price,
     decimals: param.decimals,
     stream: price.data,
+    ...(selection.gate && session
+      ? {
+          sessionGate: {
+            expectedStatus:
+              selection.gate.expectedStatus !== undefined
+                ? TwentyfourFiveMarketStatus[selection.gate.expectedStatus]
+                : undefined,
+            sessionStart: new Date(selection.gate.sessionStartMs).toISOString(),
+            reportTimestamp: new Date(selection.gate.reportTimestampMs).toISOString(),
+            source: session.source,
+          },
+        }
+      : {}),
   }
 
   // Gated on the live status of the feed that was actually selected, not on the
@@ -64,8 +106,8 @@ export const smoothedStreamPrice = async (param: {
   const isWarmingUpOvernight =
     price.marketStatus === TwentyfourFiveMarketStatus.POST_MARKET &&
     secondsFromTransition !== undefined &&
-    secondsFromTransition.value < 0 &&
-    secondsFromTransition.value >= -OVERNIGHT_EMA_WARMUP_MS / 1000
+    secondsFromTransition < 0 &&
+    secondsFromTransition >= -OVERNIGHT_EMA_WARMUP_MS / 1000
 
   const overnight = processOvernightUpdate(
     param.asset,
@@ -86,20 +128,21 @@ export const smoothedStreamPrice = async (param: {
   const smoothers = param.smoother === 'none' ? ['none'] : ['ema', 'kalman']
 
   return smoothers.map((smoother) => {
-    const smoothed = secondsFromTransition
-      ? processUpdate(
-          smoother as Smoother,
-          param.asset,
-          BigInt(price.price),
-          targetPrice,
-          price.spread,
-          secondsFromTransition.value,
-        )
-      : {
-          price: targetPrice,
-          x: 0n,
-          p: 0n,
-        }
+    const smoothed =
+      secondsFromTransition !== undefined
+        ? processUpdate(
+            smoother as Smoother,
+            param.asset,
+            BigInt(price.price),
+            targetPrice,
+            price.spread,
+            secondsFromTransition,
+          )
+        : {
+            price: targetPrice,
+            x: 0n,
+            p: 0n,
+          }
 
     // Well past the -10s/+60s window around either session boundary, weight is 0 and
     // this reduces to `targetPrice` directly — the overnight EMA's price throughout
@@ -114,9 +157,9 @@ export const smoothedStreamPrice = async (param: {
         price: smoothed.price.toString(),
         x: smoothed.x.toString(),
         p: smoothed.p.toString(),
-        secondsFromTransition: secondsFromTransition?.value,
+        secondsFromTransition,
       },
-      sessionSource: secondsFromTransition?.source,
+      sessionSource: session?.source,
     }
   })
 }

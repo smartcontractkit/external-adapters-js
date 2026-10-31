@@ -2,6 +2,7 @@ import { BaseEndpointTypes as DataEngineResponse } from '@chainlink/data-engine-
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { parseWeekendString } from '@chainlink/external-adapter-framework/validation/market-status'
 
 export const inputExample = {
   asset: '0x0',
@@ -13,6 +14,7 @@ export const inputExample = {
   sessionMarketType: '24/5',
   sessionBoundaries: ['04:00', '16:00', '20:00'],
   sessionBoundariesTimeZone: 'America/New_York',
+  sessionWeekend: '520-020:America/New_York',
   smoother: 'kalman' as const,
   decimals: 8,
 }
@@ -63,6 +65,11 @@ export const inputDefinition = new InputParameters(
       type: 'string',
       description: 'ANA Time Zone Database format',
     },
+    sessionWeekend: {
+      type: 'string',
+      description:
+        'Weekly closure window in DHH-DHH:TZ used by the session gate, for example 520-020:America/New_York is Friday 20:00 to Sunday 20:00 Eastern Time. Defaults to 520-020:<sessionBoundariesTimeZone>.',
+    },
     smoother: {
       type: 'string',
       description: 'Smoothing algorithm to apply to the price',
@@ -103,23 +110,26 @@ export const validateSmoother = ({
   sessionBoundariesTimeZone,
   sessionMarket,
   sessionMarketType,
+  sessionWeekend,
 }: {
   smoother: string
   sessionBoundaries: string[]
   sessionBoundariesTimeZone?: string
   sessionMarket?: string
   sessionMarketType?: string
+  sessionWeekend?: string
 }) => {
   if (smoother === 'none') {
     if (
       sessionBoundaries.length > 0 ||
       sessionBoundariesTimeZone ||
       sessionMarket ||
-      sessionMarketType
+      sessionMarketType ||
+      sessionWeekend
     ) {
       throw new AdapterInputError({
         statusCode: 400,
-        message: `Parameters sessionBoundaries, sessionBoundariesTimeZone, sessionMarket, and sessionMarketType should not be provided when smoother is 'none'`,
+        message: `Parameters sessionBoundaries, sessionBoundariesTimeZone, sessionMarket, sessionMarketType, and sessionWeekend should not be provided when smoother is 'none'`,
       })
     }
     return
@@ -164,6 +174,10 @@ export const validateSmoother = ({
     })
   }
 
+  if (sessionWeekend) {
+    parseWeekendString(sessionWeekend)
+  }
+
   return
 }
 
@@ -181,6 +195,12 @@ export type output = {
     x: string
     p: string
     secondsFromTransition?: number
+  }
+  sessionGate?: {
+    expectedStatus?: string
+    sessionStart: string
+    reportTimestamp: string
+    source: 'TRADINGHOURS' | 'FALLBACK'
   }
   sessionSource?: 'TRADINGHOURS' | 'FALLBACK'
 }

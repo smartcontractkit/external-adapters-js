@@ -1,31 +1,58 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { calculateSecondsFromTransition } from '../../../src/lib/session/session'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { getSessionContext } from '../../../src/lib/session/session'
 import { processOvernightUpdate } from '../../../src/lib/smoother/overnightSmoother'
 import { processUpdate } from '../../../src/lib/smoother/smoother'
-import { getPrice } from '../../../src/lib/streams'
+import { getStreams, selectStream, toPriceResult } from '../../../src/lib/streams'
 import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
 
-jest.mock('../../../src/lib/streams', () => ({ getPrice: jest.fn() }))
-const mockGetPrice = getPrice as jest.MockedFunction<typeof getPrice>
+jest.mock('../../../src/lib/streams', () => ({
+  getStreams: jest.fn(),
+  selectStream: jest.fn(),
+  toPriceResult: jest.fn(),
+  formatRejections: jest.fn((rejections: { stream: string; reason: string }[]) =>
+    rejections.map((r) => `${r.stream}: ${r.reason}`).join(', '),
+  ),
+}))
+const mockGetStreams = getStreams as jest.MockedFunction<typeof getStreams>
+const mockSelectStream = selectStream as jest.MockedFunction<typeof selectStream>
+const mockToPriceResult = toPriceResult as jest.MockedFunction<typeof toPriceResult>
 
 jest.mock('../../../src/lib/smoother/smoother', () => ({ processUpdate: jest.fn() }))
 const mockProcessUpdate = processUpdate as jest.MockedFunction<typeof processUpdate>
 
 jest.mock('../../../src/lib/smoother/overnightSmoother', () => ({
   processOvernightUpdate: jest.fn(),
-  // Real value, not mocked: smoothedStreamPrice reads this constant directly to decide
-  // the warm-up window, so the mock module must still export it.
   WARMUP_MS: 60_000,
 }))
 const mockProcessOvernightUpdate = processOvernightUpdate as jest.MockedFunction<
   typeof processOvernightUpdate
 >
 
-jest.mock('../../../src/lib/session/session', () => ({ calculateSecondsFromTransition: jest.fn() }))
-const mockCalculateSecondsFromTransition = calculateSecondsFromTransition as jest.MockedFunction<
-  typeof calculateSecondsFromTransition
->
+jest.mock('../../../src/lib/session/session', () => ({ getSessionContext: jest.fn() }))
+const mockGetSessionContext = getSessionContext as jest.MockedFunction<typeof getSessionContext>
+
+const session = (
+  secondsFromTransition = 0,
+  source: 'TRADINGHOURS' | 'FALLBACK' = 'TRADINGHOURS',
+) => ({
+  secondsFromTransition,
+  source,
+  events: [{ status: TwentyfourFiveMarketStatus.PRE_MARKET, startMs: 1_700_000_000_000 }],
+  expectedStatus: TwentyfourFiveMarketStatus.PRE_MARKET,
+  weekend: '520-020:UTC',
+})
+
+const price = (overrides: Partial<ReturnType<typeof toPriceResult>> = {}) => ({
+  price: '1',
+  spread: 2n,
+  decimals: 6,
+  marketStatus: TwentyfourFiveMarketStatus.REGULAR,
+  lastSeenTimestampNs: '0',
+  data: {},
+  ...overrides,
+})
 
 describe('smoothedStreamPrice', () => {
   const defaultParams = {
@@ -41,70 +68,29 @@ describe('smoothedStreamPrice', () => {
     sessionBoundariesTimeZone: 'America/New_York',
     sessionMarket: 'nyse',
     sessionMarketType: '24/5',
+    sessionWeekend: '520-020:America/New_York',
     decimals: 8,
   }
 
   beforeEach(() => {
     jest.clearAllMocks()
-    // Matches the previous behavior of the (now-mocked) real implementation for a
-    // rawPrice of '1' with shouldSmooth=false, so every pre-existing test below —
-    // none of which exercise the overnight EMA — keeps asserting the same values.
+    mockGetStreams.mockResolvedValue({ errors: {} })
+    mockSelectStream.mockReturnValue({ report: {} as never, rejections: [] })
+    mockToPriceResult.mockReturnValue(price())
+    mockGetSessionContext.mockResolvedValue(session())
     mockProcessOvernightUpdate.mockReturnValue({ price: 1n, x: 0n, p: 0 })
+    mockProcessUpdate.mockReturnValue({ price: 1n, x: 2n, p: 3n })
   })
 
   describe('successful calculation', () => {
     it('price.decimals == target decimals', async () => {
       const streams = {
-        regular: {
-          mid: '1',
-          lastSeenTimestampNs: '2',
-          bid: '0.99',
-          bidVolume: 100,
-          ask: '1.01',
-          askVolume: 100,
-          lastTradedPrice: '1.00',
-          marketStatus: 1,
-          decimals: 18,
-        },
-        extended: {
-          mid: '10',
-          lastSeenTimestampNs: '20',
-          bid: '9.9',
-          bidVolume: 1000,
-          ask: '10.1',
-          askVolume: 1000,
-          lastTradedPrice: '10.0',
-          marketStatus: 2,
-          decimals: 18,
-        },
-        overnight: {
-          mid: '100',
-          lastSeenTimestampNs: '200',
-          bid: '99',
-          bidVolume: 10000,
-          ask: '101',
-          askVolume: 10000,
-          lastTradedPrice: '100',
-          marketStatus: 3,
-          decimals: 18,
-        },
+        regular: { mid: '1' },
+        extended: { mid: '10' },
+        overnight: { mid: '100' },
       }
-      mockGetPrice.mockResolvedValue({
-        price: '1',
-        spread: 2n,
-        decimals: 6,
-        marketStatus: TwentyfourFiveMarketStatus.REGULAR,
-        data: {
-          regular: streams.regular,
-          extended: streams.extended,
-          overnight: streams.overnight,
-        },
-      })
-
-      mockCalculateSecondsFromTransition.mockReturnValue(
-        Promise.resolve({ value: 0, source: 'FALLBACK' }),
-      )
-      mockProcessUpdate.mockReturnValue({ price: 1n, x: 2n, p: 3n })
+      mockGetStreams.mockResolvedValue(streams as never)
+      mockToPriceResult.mockReturnValue(price({ data: streams as never }))
 
       const result = (
         await smoothedStreamPrice({
@@ -128,7 +114,7 @@ describe('smoothedStreamPrice', () => {
           p: '3',
           secondsFromTransition: 0,
         },
-        sessionSource: 'FALLBACK',
+        sessionSource: 'TRADINGHOURS',
       }
       expect(result[0]).toStrictEqual({
         ...expectedResult,
@@ -147,21 +133,7 @@ describe('smoothedStreamPrice', () => {
     })
 
     it('price.decimals > target decimals', async () => {
-      mockGetPrice.mockResolvedValue({
-        price: '10',
-        spread: 2n,
-        decimals: 7,
-        marketStatus: TwentyfourFiveMarketStatus.REGULAR,
-        data: {
-          regular: {} as any,
-          extended: {} as any,
-          overnight: {} as any,
-        },
-      })
-
-      mockCalculateSecondsFromTransition.mockReturnValue(
-        Promise.resolve({ value: 0, source: 'FALLBACK' }),
-      )
+      mockToPriceResult.mockReturnValue(price({ price: '10', decimals: 7 }))
       mockProcessUpdate.mockReturnValue({ price: 10n, x: 1n, p: 2n })
 
       const result = await smoothedStreamPrice({
@@ -175,21 +147,7 @@ describe('smoothedStreamPrice', () => {
     })
 
     it('price.decimals < target decimals', async () => {
-      mockGetPrice.mockResolvedValue({
-        price: '1',
-        spread: 2n,
-        decimals: 6,
-        marketStatus: TwentyfourFiveMarketStatus.REGULAR,
-        data: {
-          regular: {} as any,
-          extended: {} as any,
-          overnight: {} as any,
-        },
-      })
-
-      mockCalculateSecondsFromTransition.mockReturnValue(
-        Promise.resolve({ value: 0, source: 'FALLBACK' }),
-      )
+      mockToPriceResult.mockReturnValue(price({ price: '1', decimals: 6 }))
       mockProcessUpdate.mockReturnValue({ price: 1n, x: 2n, p: 3n })
 
       const result = await smoothedStreamPrice({
@@ -204,53 +162,13 @@ describe('smoothedStreamPrice', () => {
 
     it('no smoother', async () => {
       const streams = {
-        regular: {
-          mid: '1',
-          lastSeenTimestampNs: '2',
-          bid: '0.99',
-          bidVolume: 100,
-          ask: '1.01',
-          askVolume: 100,
-          lastTradedPrice: '1.00',
-          marketStatus: 1,
-          decimals: 18,
-        },
-        extended: {
-          mid: '10',
-          lastSeenTimestampNs: '20',
-          bid: '9.9',
-          bidVolume: 1000,
-          ask: '10.1',
-          askVolume: 1000,
-          lastTradedPrice: '10.0',
-          marketStatus: 2,
-          decimals: 18,
-        },
-        overnight: {
-          mid: '100',
-          lastSeenTimestampNs: '200',
-          bid: '99',
-          bidVolume: 10000,
-          ask: '101',
-          askVolume: 10000,
-          lastTradedPrice: '100',
-          marketStatus: 3,
-          decimals: 18,
-        },
+        regular: { mid: '1' },
+        extended: { mid: '10' },
+        overnight: { mid: '100' },
       }
-      mockGetPrice.mockResolvedValue({
-        price: '1',
-        spread: 2n,
-        decimals: 6,
-        marketStatus: TwentyfourFiveMarketStatus.REGULAR,
-        data: {
-          regular: streams.regular,
-          extended: streams.extended,
-          overnight: streams.overnight,
-        },
-      })
-
-      mockCalculateSecondsFromTransition.mockReturnValue(Promise.resolve(undefined))
+      mockGetStreams.mockResolvedValue(streams as never)
+      mockGetSessionContext.mockResolvedValue(undefined)
+      mockToPriceResult.mockReturnValue(price({ data: streams as never }))
 
       const result = (
         await smoothedStreamPrice({
@@ -266,7 +184,6 @@ describe('smoothedStreamPrice', () => {
       expect(result.length).toEqual(1)
       expect(result[0]).toStrictEqual({
         result: '1',
-
         rawPrice: '1',
         decimals: 6,
         stream: streams,
@@ -279,24 +196,86 @@ describe('smoothedStreamPrice', () => {
         },
         sessionSource: undefined,
       })
+      // No schedule means no gate.
+      expect(mockSelectStream).toHaveBeenCalledWith(streams, undefined)
+    })
+
+    it('passes the session weekend window through', async () => {
+      await smoothedStreamPrice({ ...defaultParams, smoother: 'kalman', decimals: 6 })
+
+      expect(mockGetSessionContext).toHaveBeenCalledWith(
+        defaultParams.tradingHoursUrl,
+        defaultParams.requester,
+        defaultParams.sessionBoundaries,
+        defaultParams.sessionBoundariesTimeZone,
+        defaultParams.sessionMarket,
+        defaultParams.sessionMarketType,
+        defaultParams.sessionWeekend,
+      )
+    })
+
+    it('adds sessionGate details to the output', async () => {
+      mockSelectStream.mockReturnValue({
+        report: {} as never,
+        rejections: [],
+        gate: {
+          eligible: true,
+          reportTimestampMs: Date.parse('2024-01-15T09:30:12Z'),
+          sessionStartMs: Date.parse('2024-01-15T09:30:00Z'),
+          expectedStatus: TwentyfourFiveMarketStatus.REGULAR,
+        },
+      })
+
+      const result = await smoothedStreamPrice({
+        ...defaultParams,
+        smoother: 'kalman',
+        decimals: 6,
+      })
+
+      expect(result[0].sessionGate).toEqual({
+        expectedStatus: 'REGULAR',
+        sessionStart: '2024-01-15T09:30:00.000Z',
+        reportTimestamp: '2024-01-15T09:30:12.000Z',
+        source: 'TRADINGHOURS',
+      })
+    })
+
+    it('throws 503 when no stream is eligible', async () => {
+      mockSelectStream.mockReturnValue({
+        rejections: [
+          { stream: 'regular', reason: 'report is for PRE_MARKET but REGULAR is expected' },
+          { stream: 'extended', reason: 'report is for PRE_MARKET but REGULAR is expected' },
+        ],
+      })
+
+      const error = await smoothedStreamPrice({
+        ...defaultParams,
+        smoother: 'kalman',
+        decimals: 6,
+      }).catch((e) => e)
+
+      expect(error).toBeInstanceOf(AdapterError)
+      expect(error.statusCode).toBe(503)
+      expect(error.message).toContain('No eligible session report')
+      expect(error.message).toContain('report is for PRE_MARKET but REGULAR is expected')
+      expect(mockToPriceResult).not.toHaveBeenCalled()
+    })
+
+    it('does not apply a gate when the schedule is empty', async () => {
+      mockGetSessionContext.mockResolvedValue({ ...session(), events: [] })
+
+      await smoothedStreamPrice({ ...defaultParams, smoother: 'kalman', decimals: 6 })
+
+      expect(mockSelectStream).toHaveBeenCalledWith(expect.anything(), undefined)
     })
   })
 
   describe('overnight EMA feed (processOvernightUpdate)', () => {
-    // Gates when processOvernightUpdate is fed, so it's warm by the time it starts
-    // driving the transition below — independent of when that actually happens.
     const mockPostMarket = (secondsFromTransition: number) => {
-      mockGetPrice.mockResolvedValue({
-        price: '1000',
-        spread: 2n,
-        decimals: 6,
-        marketStatus: TwentyfourFiveMarketStatus.POST_MARKET,
-        data: { regular: {} as any, extended: {} as any, overnight: {} as any },
-      })
-      mockCalculateSecondsFromTransition.mockResolvedValue({
-        value: secondsFromTransition,
-        source: 'TRADINGHOURS',
-      })
+      mockToPriceResult.mockReturnValue(
+        price({ price: '1000', marketStatus: TwentyfourFiveMarketStatus.POST_MARKET }),
+      )
+      mockGetSessionContext.mockResolvedValue(session(secondsFromTransition))
     }
 
     beforeEach(() => {
@@ -305,7 +284,6 @@ describe('smoothedStreamPrice', () => {
     })
 
     it('feeds it once inside the warm-up window before the session starts', async () => {
-      // The overnight EMA's hardcoded warm-up window is 60s.
       mockPostMarket(-30)
 
       await smoothedStreamPrice({ ...defaultParams, smoother: 'kalman', decimals: 6 })
@@ -330,14 +308,10 @@ describe('smoothedStreamPrice', () => {
     })
 
     it('does not warm up outside POST_MARKET, even within 60s of a boundary', async () => {
-      mockGetPrice.mockResolvedValue({
-        price: '1000',
-        spread: 2n,
-        decimals: 6,
-        marketStatus: TwentyfourFiveMarketStatus.PRE_MARKET,
-        data: { regular: {} as any, extended: {} as any, overnight: {} as any },
-      })
-      mockCalculateSecondsFromTransition.mockResolvedValue({ value: -30, source: 'TRADINGHOURS' })
+      mockToPriceResult.mockReturnValue(
+        price({ price: '1000', marketStatus: TwentyfourFiveMarketStatus.PRE_MARKET }),
+      )
+      mockGetSessionContext.mockResolvedValue(session(-30))
 
       await smoothedStreamPrice({ ...defaultParams, smoother: 'kalman', decimals: 6 })
 
@@ -345,14 +319,10 @@ describe('smoothedStreamPrice', () => {
     })
 
     it('feeds it once per tick while actually overnight, not once per algorithm row', async () => {
-      mockGetPrice.mockResolvedValue({
-        price: '1000',
-        spread: 2n,
-        decimals: 6,
-        marketStatus: TwentyfourFiveMarketStatus.OVERNIGHT,
-        data: { regular: {} as any, extended: {} as any, overnight: {} as any },
-      })
-      mockCalculateSecondsFromTransition.mockResolvedValue({ value: 0, source: 'TRADINGHOURS' })
+      mockToPriceResult.mockReturnValue(
+        price({ price: '1000', marketStatus: TwentyfourFiveMarketStatus.OVERNIGHT }),
+      )
+      mockGetSessionContext.mockResolvedValue(session(0))
 
       const result = await smoothedStreamPrice({
         ...defaultParams,
@@ -367,25 +337,16 @@ describe('smoothedStreamPrice', () => {
   })
 
   describe('transition input (processUpdate)', () => {
-    // The Kalman/EMA transition itself is untouched — same filters, same raised-cosine
-    // window. Only once the feed reports OVERNIGHT does it get fed the overnight EMA's
-    // price instead of the true raw price; the wider warm-up window above only controls
-    // when the overnight EMA starts accumulating state, not when it starts being
-    // published — that still happens exactly at the boundary.
     beforeEach(() => {
-      mockCalculateSecondsFromTransition.mockResolvedValue({ value: 0, source: 'TRADINGHOURS' })
+      mockGetSessionContext.mockResolvedValue(session(0))
       mockProcessUpdate.mockReturnValue({ price: 1234n, x: 2n, p: 3n })
       mockProcessOvernightUpdate.mockReturnValue({ price: 987n, x: 5n, p: 1000 })
     })
 
     it('feeds the overnight EMA price into the transition once actually overnight', async () => {
-      mockGetPrice.mockResolvedValue({
-        price: '1000',
-        spread: 2n,
-        decimals: 6,
-        marketStatus: TwentyfourFiveMarketStatus.OVERNIGHT,
-        data: { regular: {} as any, extended: {} as any, overnight: {} as any },
-      })
+      mockToPriceResult.mockReturnValue(
+        price({ price: '1000', marketStatus: TwentyfourFiveMarketStatus.OVERNIGHT }),
+      )
 
       await smoothedStreamPrice({ ...defaultParams, smoother: 'kalman', decimals: 6 })
 
@@ -401,14 +362,8 @@ describe('smoothedStreamPrice', () => {
     ])(
       'feeds the true raw price into the transition during %s, even inside the warm-up window',
       async (_name, marketStatus) => {
-        mockGetPrice.mockResolvedValue({
-          price: '1000',
-          spread: 2n,
-          decimals: 6,
-          marketStatus,
-          data: { regular: {} as any, extended: {} as any, overnight: {} as any },
-        })
-        mockCalculateSecondsFromTransition.mockResolvedValue({ value: -30, source: 'TRADINGHOURS' })
+        mockToPriceResult.mockReturnValue(price({ price: '1000', marketStatus }))
+        mockGetSessionContext.mockResolvedValue(session(-30))
 
         const result = await smoothedStreamPrice({
           ...defaultParams,
@@ -428,13 +383,13 @@ describe('smoothedStreamPrice', () => {
       // target-decimals-scaled result (a 100x-inflated value in this case) into the
       // transition instead of the raw `overnight.price` would be indistinguishable from
       // correct, since scaling by 1 twice is still 1.
-      mockGetPrice.mockResolvedValue({
-        price: '500000',
-        spread: 2n,
-        decimals: 6,
-        marketStatus: TwentyfourFiveMarketStatus.OVERNIGHT,
-        data: { regular: {} as any, extended: {} as any, overnight: {} as any },
-      })
+      mockToPriceResult.mockReturnValue(
+        price({
+          price: '500000',
+          decimals: 6,
+          marketStatus: TwentyfourFiveMarketStatus.OVERNIGHT,
+        }),
+      )
       mockProcessOvernightUpdate.mockReturnValue({ price: 500_000n, x: 0n, p: 0 })
       // Simulates a weight-0 passthrough of whatever it was fed, same as the real
       // transition would do well past the boundary — isolates this test to the
