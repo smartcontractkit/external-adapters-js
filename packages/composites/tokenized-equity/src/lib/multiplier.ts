@@ -19,7 +19,7 @@ export type MultiplierParams = {
   issuer: string
   asset: string
   registry?: string
-  // Network to read the multiplier from, resolved to ${NETWORK}_RPC_URL
+  // Network to read the multiplier from, resolved by getNetworkRpc
   network: string
 }
 
@@ -36,10 +36,12 @@ export type MultiplierData = {
 }
 
 export type RpcConfig = {
-  // Undefined when ${NETWORK}_RPC_URL is unset
+  // Empty or undefined when the RPC URL setting is unset
   url?: string
-  // Undefined when ${NETWORK}_CHAIN_ID is unset, in which case it is detected from the RPC
+  // Undefined when not configured, in which case it is detected from the RPC
   chainId?: number
+  // Env var holding the RPC URL, for error messages
+  urlEnvVar: string
 }
 
 type IssuerConfig = {
@@ -54,14 +56,52 @@ type IssuerConfig = {
   ) => Promise<MultiplierData>
 }
 
+// Robinhood chain network used for multiplier.network "robinhood", matching the
+// robinhood endpoint's default
+const ROBINHOOD_NETWORK = 'mainnet'
+
+// ROBINHOOD_NETWORK_* are required templated settings, whose get() throws
+// for a network that is not configured
+const getOptional = <T>(setting: { get: (variable: string) => T }, variable: string) => {
+  try {
+    return setting.get(variable)
+  } catch {
+    return undefined
+  }
+}
+
+// multiplier.network values, each backed by the RPC settings shared with the
+// issuer-specific endpoints
+const networkRpcs: Record<string, (settings: Settings) => RpcConfig> = {
+  ethereum: (settings) => ({
+    url: settings.ETHEREUM_RPC_URL,
+    chainId: settings.ETHEREUM_RPC_CHAIN_ID,
+    urlEnvVar: 'ETHEREUM_RPC_URL',
+  }),
+  base: (settings) => ({
+    url: settings.BASE_RPC_URL,
+    chainId: settings.BASE_RPC_CHAIN_ID,
+    urlEnvVar: 'BASE_RPC_URL',
+  }),
+  robinhood: (settings) => ({
+    url: getOptional(settings.ROBINHOOD_NETWORK_RPC_URL, ROBINHOOD_NETWORK),
+    chainId: getOptional(settings.ROBINHOOD_NETWORK_CHAIN_ID, ROBINHOOD_NETWORK),
+    urlEnvVar: settings.ROBINHOOD_NETWORK_RPC_URL.getEnvVarName(ROBINHOOD_NETWORK),
+  }),
+}
+
+export const supportedNetworks = Object.keys(networkRpcs)
+
 /**
- * Resolves the RPC of a network from ${NETWORK}_RPC_URL and the optional
- * ${NETWORK}_CHAIN_ID, e.g. "robinhood-mainnet" -> ROBINHOOD_MAINNET_RPC_URL.
+ * Resolves the RPC of a multiplier network from the existing RPC settings:
+ * "ethereum" -> ETHEREUM_RPC_URL, "base" -> BASE_RPC_URL and
+ * "robinhood" -> ROBINHOOD_MAINNET_RPC_URL. Undefined for an unsupported
+ * network.
  */
-export const getNetworkRpc = (settings: Settings, network: string): RpcConfig => ({
-  url: settings.NETWORK_RPC_URL.get(network),
-  chainId: settings.NETWORK_CHAIN_ID.get(network),
-})
+export const getNetworkRpc = (settings: Settings, network: string): RpcConfig | undefined =>
+  Object.prototype.hasOwnProperty.call(networkRpcs, network)
+    ? networkRpcs[network](settings)
+    : undefined
 
 const registryMetadata: IssuerConfig['metadata'] = async () => ({
   multiplierDecimals: REGISTRY_MULTIPLIER_DECIMALS,
@@ -174,12 +214,20 @@ export const validateMultiplierParams = (settings: Settings, params: MultiplierP
     })
   }
 
-  if (!getNetworkRpc(settings, params.network).url) {
+  const rpc = getNetworkRpc(settings, params.network)
+  if (!rpc) {
     throw new AdapterInputError({
       statusCode: 400,
-      message: `Missing RPC URL for multiplier.network '${
+      message: `Unsupported multiplier.network '${
         params.network
-      }'. Set ${settings.NETWORK_RPC_URL.getEnvVarName(params.network)}`,
+      }'. Supported networks: ${supportedNetworks.join(', ')}`,
+    })
+  }
+
+  if (!rpc.url) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Missing RPC URL for multiplier.network '${params.network}'. Set ${rpc.urlEnvVar}`,
     })
   }
 }

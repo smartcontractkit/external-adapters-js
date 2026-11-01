@@ -26,27 +26,40 @@ const mockOndo = getOndoRegistryData as jest.MockedFunction<typeof getOndoRegist
 const mockRobinhood = getRobinhoodTokenData as jest.MockedFunction<typeof getRobinhoodTokenData>
 const MockContract = Contract as unknown as jest.Mock
 
-// Mimics the framework templated settings: NETWORK_RPC_URL resolves ${NETWORK}_RPC_URL
-const envName = (network: string, suffix: string) =>
-  `${network.replace(/\W/g, '_').toUpperCase()}_${suffix}`
+// Mimics a required framework templated setting: get() throws when the
+// variable is not configured
+const templated = (setting: string, values: Record<string, string | number>) => {
+  const envVarName = (network: string) => setting.replace('NETWORK', network.toUpperCase())
+  return {
+    get: (network: string) => {
+      if (!(network in values)) {
+        throw new Error(`Missing required environment variable: ${envVarName(network)}`)
+      }
+      return values[network]
+    },
+    getEnvVarName: envVarName,
+  }
+}
 
-const settingsWith = (env: Record<string, string | number>) =>
+const settingsWith = (robinhood: { rpcUrl?: string; chainId?: number }) =>
   ({
-    NETWORK_RPC_URL: {
-      get: (network: string) => env[envName(network, 'RPC_URL')],
-      getEnvVarName: (network: string) => envName(network, 'RPC_URL'),
-    },
-    NETWORK_CHAIN_ID: {
-      get: (network: string) => env[envName(network, 'CHAIN_ID')],
-    },
+    ETHEREUM_RPC_URL: 'eth-url',
+    ETHEREUM_RPC_CHAIN_ID: 1,
+    BASE_RPC_URL: '',
+    BASE_RPC_CHAIN_ID: 8453,
+    ROBINHOOD_NETWORK_RPC_URL: templated(
+      'ROBINHOOD_NETWORK_RPC_URL',
+      robinhood.rpcUrl ? { mainnet: robinhood.rpcUrl } : {},
+    ),
+    ROBINHOOD_NETWORK_CHAIN_ID: templated(
+      'ROBINHOOD_NETWORK_CHAIN_ID',
+      robinhood.chainId ? { mainnet: robinhood.chainId } : {},
+    ),
   } as unknown as Parameters<typeof validateMultiplierParams>[0])
 
-const settings = settingsWith({
-  ETHEREUM_RPC_URL: 'eth-url',
-  ROBINHOOD_MAINNET_RPC_URL: 'robinhood-url',
-  ROBINHOOD_MAINNET_CHAIN_ID: 4663,
-  NET_RPC_URL: 'net-url',
-})
+const settings = settingsWith({ rpcUrl: 'robinhood-url', chainId: 4663 })
+// Robinhood mainnet not configured
+const settingsWithoutRobinhood = settingsWith({})
 
 describe('multiplier', () => {
   const provider = {} as JsonRpcProvider
@@ -175,19 +188,39 @@ describe('multiplier', () => {
   })
 
   describe('getNetworkRpc', () => {
-    it('resolves the network rpc and chain id', () => {
-      expect(getNetworkRpc(settings, 'robinhood-mainnet')).toEqual({
-        url: 'robinhood-url',
-        chainId: 4663,
+    it('resolves ethereum and base from the shared RPC settings', () => {
+      expect(getNetworkRpc(settings, 'ethereum')).toEqual({
+        url: 'eth-url',
+        chainId: 1,
+        urlEnvVar: 'ETHEREUM_RPC_URL',
+      })
+      expect(getNetworkRpc(settings, 'base')).toEqual({
+        url: '',
+        chainId: 8453,
+        urlEnvVar: 'BASE_RPC_URL',
       })
     })
 
-    it('leaves the chain id undefined when not configured', () => {
-      expect(getNetworkRpc(settings, 'ethereum')).toEqual({ url: 'eth-url', chainId: undefined })
+    it('resolves robinhood from the ROBINHOOD_NETWORK settings for mainnet', () => {
+      expect(getNetworkRpc(settings, 'robinhood')).toEqual({
+        url: 'robinhood-url',
+        chainId: 4663,
+        urlEnvVar: 'ROBINHOOD_MAINNET_RPC_URL',
+      })
     })
 
-    it('leaves the url undefined for an unknown network', () => {
-      expect(getNetworkRpc(settings, 'unknown')).toEqual({ url: undefined, chainId: undefined })
+    it('leaves robinhood unset when mainnet is not configured', () => {
+      expect(getNetworkRpc(settingsWithoutRobinhood, 'robinhood')).toEqual({
+        url: undefined,
+        chainId: undefined,
+        urlEnvVar: 'ROBINHOOD_MAINNET_RPC_URL',
+      })
+    })
+
+    it('returns undefined for an unsupported network', () => {
+      expect(getNetworkRpc(settings, 'unknown')).toBeUndefined()
+      expect(getNetworkRpc(settings, 'robinhood-mainnet')).toBeUndefined()
+      expect(getNetworkRpc(settings, 'toString')).toBeUndefined()
     })
   })
 
@@ -217,16 +250,33 @@ describe('multiplier', () => {
       ).toThrow("Missing required parameter multiplier.registry for issuer 'ondo'")
     })
 
-    it('throws when the network rpc url is missing', () => {
+    it('throws for an unsupported network', () => {
+      expect(() =>
+        validateMultiplierParams(settings, { issuer: 'robinhood', asset: '0xa', network: 'op' }),
+      ).toThrow(
+        "Unsupported multiplier.network 'op'. Supported networks: ethereum, base, robinhood",
+      )
+    })
+
+    it('throws when a shared rpc url is empty', () => {
       expect(() =>
         validateMultiplierParams(settings, {
+          issuer: 'coinbase',
+          asset: '0xa',
+          registry: '0xr',
+          network: 'base',
+        }),
+      ).toThrow("Missing RPC URL for multiplier.network 'base'. Set BASE_RPC_URL")
+    })
+
+    it('throws when the network rpc url is missing', () => {
+      expect(() =>
+        validateMultiplierParams(settingsWithoutRobinhood, {
           issuer: 'robinhood',
           asset: '0xa',
-          network: 'robinhood-testnet',
+          network: 'robinhood',
         }),
-      ).toThrow(
-        "Missing RPC URL for multiplier.network 'robinhood-testnet'. Set ROBINHOOD_TESTNET_RPC_URL",
-      )
+      ).toThrow("Missing RPC URL for multiplier.network 'robinhood'. Set ROBINHOOD_MAINNET_RPC_URL")
     })
   })
 })

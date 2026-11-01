@@ -90,12 +90,12 @@ export class IssuerPrice247Transport extends SubscriptionTransport<BaseEndpointT
   }
 
   getProvider(multiplier: NonNullable<RequestParams['multiplier']>) {
-    const { url, chainId } = getNetworkRpc(this.config, multiplier.network)
+    const { url, chainId } = getNetworkRpc(this.config, multiplier.network) ?? {}
     if (!url) {
       // Rejected by input validation, kept for type safety
       throw new AdapterError({
         statusCode: 400,
-        message: `Missing RPC URL for multiplier.network '${multiplier.network}'`,
+        message: `No RPC URL for multiplier.network '${multiplier.network}'`,
       })
     }
     const networkKey = `${url}@@${chainId ?? ''}`

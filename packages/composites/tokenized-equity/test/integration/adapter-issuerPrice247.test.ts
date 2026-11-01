@@ -136,7 +136,7 @@ describe('execute', () => {
     it('should return success - robinhood', async () => {
       const response = await testAdapter.request({
         ...baseRequest,
-        multiplier: { issuer: 'robinhood', asset: robinhoodAsset, network: 'robinhood-mainnet' },
+        multiplier: { issuer: 'robinhood', asset: robinhoodAsset, network: 'robinhood' },
       })
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
@@ -180,7 +180,7 @@ describe('execute', () => {
         multiplier: {
           issuer: 'robinhood',
           asset: robinhoodPausedAsset,
-          network: 'robinhood-mainnet',
+          network: 'robinhood',
         },
       })
       expect(response.statusCode).toBe(503)
@@ -214,10 +214,10 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('network without rpc url', async () => {
+    it('unsupported network', async () => {
       const response = await testAdapter.request({
         ...baseRequest,
-        multiplier: { issuer: 'robinhood', asset: robinhoodAsset, network: 'robinhood-testnet' },
+        multiplier: { issuer: 'xstocks', asset: xstocksAsset, network: 'op' },
       })
       expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
@@ -227,7 +227,7 @@ describe('execute', () => {
       const response = await testAdapter.request({
         ...baseRequest,
         targetEndpoint: 'v3',
-        multiplier: { issuer: 'robinhood', asset: robinhoodAsset, network: 'robinhood-mainnet' },
+        multiplier: { issuer: 'robinhood', asset: robinhoodAsset, network: 'robinhood' },
       })
       expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
