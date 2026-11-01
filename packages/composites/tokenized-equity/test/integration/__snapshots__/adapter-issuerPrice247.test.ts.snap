@@ -22,6 +22,17 @@ exports[`execute issuer-price-247 endpoint missing registry 1`] = `
 }
 `;
 
+exports[`execute issuer-price-247 endpoint network without rpc url 1`] = `
+{
+  "error": {
+    "message": "Missing RPC URL for multiplier.network 'robinhood-testnet'. Set ROBINHOOD_TESTNET_RPC_URL",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`execute issuer-price-247 endpoint should return 503 when paused 1`] = `
 {
   "errorMessage": "asset: '0x0000000000000000000000000000000000000002' paused for issuer 'robinhood'",
@@ -153,7 +164,7 @@ exports[`execute issuer-price-247 endpoint should return success - robinhood 1`]
     "multiplier": {
       "decimals": 18,
       "issuer": "robinhood",
-      "network": "robinhood",
+      "network": "robinhood-mainnet",
       "paused": false,
       "value": "2000000000000000000",
     },
@@ -223,7 +234,7 @@ exports[`execute issuer-price-247 endpoint unsupported issuer 1`] = `
 exports[`execute issuer-price-247 endpoint unsupported network 1`] = `
 {
   "error": {
-    "message": "Unsupported multiplier.network 'op'. Supported networks: ethereum, base, robinhood",
+    "message": "Unsupported multiplier.network 'op'. Supported networks: ethereum, base, robinhood-mainnet, robinhood-testnet",
     "name": "AdapterError",
   },
   "status": "errored",

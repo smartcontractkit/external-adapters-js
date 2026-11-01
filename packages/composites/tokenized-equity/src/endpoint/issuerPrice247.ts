@@ -54,7 +54,7 @@ export const inputParameters = new InputParameters(
           required: true,
           type: 'string',
           description:
-            'Network to read the multiplier from: ethereum (ETHEREUM_RPC_URL), base (BASE_RPC_URL) or robinhood (ROBINHOOD_MAINNET_RPC_URL)',
+            'Network to read the multiplier from: ethereum (ETHEREUM_RPC_URL), base (BASE_RPC_URL), robinhood-mainnet (ROBINHOOD_MAINNET_RPC_URL) or robinhood-testnet (ROBINHOOD_TESTNET_RPC_URL)',
         },
       },
     },
@@ -68,7 +68,7 @@ export const inputParameters = new InputParameters(
       multiplier: {
         issuer: 'robinhood',
         asset: '0x2e0847E8910a9732eB3fb1bb4b70a580ADAD4FE3',
-        network: 'robinhood',
+        network: 'robinhood-mainnet',
       },
     },
     {

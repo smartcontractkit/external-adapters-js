@@ -94,7 +94,7 @@ describe('calculatePrice', () => {
     feedId: '0x000b',
     resultPath: 'lastTradedPrice',
     decimals: 8,
-    multiplier: { issuer: 'robinhood', asset: '0xa', network: 'robinhood' },
+    multiplier: { issuer: 'robinhood', asset: '0xa', network: 'robinhood-mainnet' },
   }
 
   let readSpy: jest.SpyInstance
@@ -131,7 +131,7 @@ describe('calculatePrice', () => {
       dataEngine: data,
       multiplier: {
         issuer: 'robinhood',
-        network: 'robinhood',
+        network: 'robinhood-mainnet',
         value: '2000000',
         decimals: 6,
         paused: false,

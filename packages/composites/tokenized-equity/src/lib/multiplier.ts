@@ -56,10 +56,6 @@ type IssuerConfig = {
   ) => Promise<MultiplierData>
 }
 
-// Robinhood chain network used for multiplier.network "robinhood", matching the
-// robinhood endpoint's default
-const ROBINHOOD_NETWORK = 'mainnet'
-
 // ROBINHOOD_NETWORK_* are required templated settings, whose get() throws
 // for a network that is not configured
 const getOptional = <T>(setting: { get: (variable: string) => T }, variable: string) => {
@@ -69,6 +65,15 @@ const getOptional = <T>(setting: { get: (variable: string) => T }, variable: str
     return undefined
   }
 }
+
+// Robinhood chain network, as used by the robinhood endpoint's network param
+const robinhoodRpc =
+  (network: 'mainnet' | 'testnet') =>
+  (settings: Settings): RpcConfig => ({
+    url: getOptional(settings.ROBINHOOD_NETWORK_RPC_URL, network),
+    chainId: getOptional(settings.ROBINHOOD_NETWORK_CHAIN_ID, network),
+    urlEnvVar: settings.ROBINHOOD_NETWORK_RPC_URL.getEnvVarName(network),
+  })
 
 // multiplier.network values, each backed by the RPC settings shared with the
 // issuer-specific endpoints
@@ -83,11 +88,8 @@ const networkRpcs: Record<string, (settings: Settings) => RpcConfig> = {
     chainId: settings.BASE_RPC_CHAIN_ID,
     urlEnvVar: 'BASE_RPC_URL',
   }),
-  robinhood: (settings) => ({
-    url: getOptional(settings.ROBINHOOD_NETWORK_RPC_URL, ROBINHOOD_NETWORK),
-    chainId: getOptional(settings.ROBINHOOD_NETWORK_CHAIN_ID, ROBINHOOD_NETWORK),
-    urlEnvVar: settings.ROBINHOOD_NETWORK_RPC_URL.getEnvVarName(ROBINHOOD_NETWORK),
-  }),
+  'robinhood-mainnet': robinhoodRpc('mainnet'),
+  'robinhood-testnet': robinhoodRpc('testnet'),
 }
 
 export const supportedNetworks = Object.keys(networkRpcs)
@@ -95,8 +97,9 @@ export const supportedNetworks = Object.keys(networkRpcs)
 /**
  * Resolves the RPC of a multiplier network from the existing RPC settings:
  * "ethereum" -> ETHEREUM_RPC_URL, "base" -> BASE_RPC_URL and
- * "robinhood" -> ROBINHOOD_MAINNET_RPC_URL. Undefined for an unsupported
- * network.
+ * "robinhood-mainnet" / "robinhood-testnet" -> ROBINHOOD_NETWORK_RPC_URL for
+ * mainnet / testnet (ROBINHOOD_MAINNET_RPC_URL / ROBINHOOD_TESTNET_RPC_URL).
+ * Undefined for an unsupported network.
  */
 export const getNetworkRpc = (settings: Settings, network: string): RpcConfig | undefined =>
   Object.prototype.hasOwnProperty.call(networkRpcs, network)
