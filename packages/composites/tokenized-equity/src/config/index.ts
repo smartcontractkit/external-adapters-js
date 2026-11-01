@@ -51,6 +51,19 @@ export const config = new AdapterConfig({
     required: true,
     variablePlaceholder: 'NETWORK',
   },
+  NETWORK_RPC_URL: {
+    description:
+      'JSON RPC URL used by the issuer-price-247 endpoint to read on-chain multipliers. ${NETWORK} is the multiplier.network input, upper-cased with "-" replaced by "_", e.g. ETHEREUM_RPC_URL or ROBINHOOD_MAINNET_RPC_URL.',
+    type: 'string',
+    variablePlaceholder: 'NETWORK',
+    sensitive: true,
+  },
+  NETWORK_CHAIN_ID: {
+    description:
+      'Optional chain ID for ${NETWORK}_RPC_URL used by the issuer-price-247 endpoint. When unset the chain ID is detected from the RPC.',
+    type: 'number',
+    variablePlaceholder: 'NETWORK',
+  },
 
   BACKGROUND_EXECUTE_MS: {
     description:

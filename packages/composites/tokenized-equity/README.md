@@ -6,17 +6,19 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |              Name               |                                        Description                                        |  Type  | Options | Default |
-| :-------: | :-----------------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |    `DATA_ENGINE_ADAPTER_URL`    |                                   URL of data engine ea                                   | string |         |         |
-|    ✅     |   `TRADING_HOURS_ADAPTER_URL`   |                                  URL of tradinghours ea                                   | string |         |         |
-|           |       `ETHEREUM_RPC_URL`        |                               RPC URL of a Mainnet ETH node                               | string |         |   ``    |
-|           |     `ETHEREUM_RPC_CHAIN_ID`     |                                The chain id to connect to                                 | number |         |   `1`   |
-|           |         `BASE_RPC_URL`          |                              RPC URL of a Mainnet Base node                               | string |         |   ``    |
-|           |       `BASE_RPC_CHAIN_ID`       |                                The chain id to connect to                                 | number |         | `8453`  |
-|    ✅     | `ROBINHOOD_${NETWORK}_RPC_URL`  |     JSON RPC URL for robinhood endpoint. ${NETWORK} should be "mainnet" or "testnet".     | string |         |         |
-|    ✅     | `ROBINHOOD_${NETWORK}_CHAIN_ID` |      Chain ID for the Robinhood chain. ${NETWORK} should be "mainnet" or "testnet".       | number |         |         |
-|           |     `BACKGROUND_EXECUTE_MS`     | The amount of time the background execute should sleep before performing the next request | number |         | `1000`  |
+| Required? |              Name               |                                                                                                       Description                                                                                                       |  Type  | Options | Default |
+| :-------: | :-----------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |    `DATA_ENGINE_ADAPTER_URL`    |                                                                                                  URL of data engine ea                                                                                                  | string |         |         |
+|    ✅     |   `TRADING_HOURS_ADAPTER_URL`   |                                                                                                 URL of tradinghours ea                                                                                                  | string |         |         |
+|           |       `ETHEREUM_RPC_URL`        |                                                                                              RPC URL of a Mainnet ETH node                                                                                              | string |         |   ``    |
+|           |     `ETHEREUM_RPC_CHAIN_ID`     |                                                                                               The chain id to connect to                                                                                                | number |         |   `1`   |
+|           |         `BASE_RPC_URL`          |                                                                                             RPC URL of a Mainnet Base node                                                                                              | string |         |   ``    |
+|           |       `BASE_RPC_CHAIN_ID`       |                                                                                               The chain id to connect to                                                                                                | number |         | `8453`  |
+|    ✅     | `ROBINHOOD_${NETWORK}_RPC_URL`  |                                                                    JSON RPC URL for robinhood endpoint. ${NETWORK} should be "mainnet" or "testnet".                                                                    | string |         |         |
+|    ✅     | `ROBINHOOD_${NETWORK}_CHAIN_ID` |                                                                     Chain ID for the Robinhood chain. ${NETWORK} should be "mainnet" or "testnet".                                                                      | number |         |         |
+|           |      `${NETWORK}_RPC_URL`       | JSON RPC URL used by the issuer-price-247 endpoint to read on-chain multipliers. ${NETWORK} is the multiplier.network input, upper-cased with "-" replaced by "\_", e.g. ETHEREUM_RPC_URL or ROBINHOOD_MAINNET_RPC_URL. | string |         |         |
+|           |      `${NETWORK}_CHAIN_ID`      |                                           Optional chain ID for ${NETWORK}\_RPC_URL used by the issuer-price-247 endpoint. When unset the chain ID is detected from the RPC.                                            | number |         |         |
+|           |     `BACKGROUND_EXECUTE_MS`     |                                                                The amount of time the background execute should sleep before performing the next request                                                                | number |         | `1000`  |
 
 ---
 
@@ -28,9 +30,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                     Options                                                                      | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [coinbase](#coinbase-endpoint), [ondo](#ondo-endpoint), [price](#price-endpoint), [robinhood](#robinhood-endpoint), [xstocks](#xstocks-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                                                                                             Options                                                                                              | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [coinbase](#coinbase-endpoint), [issuer-price-247](#issuer-price-247-endpoint), [ondo](#ondo-endpoint), [price](#price-endpoint), [robinhood](#robinhood-endpoint), [xstocks](#xstocks-endpoint) | `price` |
 
 ## Coinbase Endpoint
 
@@ -260,6 +262,66 @@ Request:
   }
 }
 ```
+
+---
+
+## Issuer-price-247 Endpoint
+
+`issuer-price-247` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |        Name         | Aliases |                                                                                               Description                                                                                               |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------------: | :-----: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|           |   targetEndpoint    |         |                                                                        The data-engine EA endpoint to request the 24/7 feed from                                                                        | string |  `v11`  |  `v11`  |            |                |
+|    ✅     |       feedId        |         |                                                                     Data Streams feed ID of the 24/7 feed for the underlying asset                                                                      | string |         |         |            |                |
+|    ✅     |     resultPath      |         |                                                                 The data-engine EA data field to use as the price, e.g. lastTradedPrice                                                                 | string |         |         |            |                |
+|           |      decimals       |         | Decimals of output result, applied after the multiplier. With a multiplier the data-engine price is requested in the decimals of the on-chain multiplier, without one it is requested in these decimals | number |         |   `8`   |            |                |
+|           |     multiplier      |         |                                                        On-chain multiplier applied to the price. When omitted, the raw stream price is returned                                                         | object |         |         |            |                |
+|    ✅     |  multiplier.issuer  |         |                                                              The issuer of the tokenized asset. One of: robinhood, coinbase, xstocks, ondo                                                              | string |         |         |            |                |
+|    ✅     |  multiplier.asset   |         |                                                                                  Token address of the tokenized asset                                                                                   | string |         |         |            |                |
+|           | multiplier.registry |         |                                                                 Address of the issuer registry contract. Required for coinbase and ondo                                                                 | string |         |         |            |                |
+|    ✅     | multiplier.network  |         |                Network to read the multiplier from, e.g. ethereum, base, robinhood-mainnet. Resolved to the ${NETWORK}\_RPC_URL and optional ${NETWORK}\_CHAIN_ID environment variables                 | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "issuer-price-247",
+    "targetEndpoint": "v11",
+    "feedId": "0x000b0b1c31f90396e910c57ec94ed963271e4e39f15da3d92f81e273083ce4a1",
+    "resultPath": "lastTradedPrice",
+    "decimals": 8,
+    "multiplier": {
+      "issuer": "robinhood",
+      "asset": "0x2e0847E8910a9732eB3fb1bb4b70a580ADAD4FE3",
+      "network": "robinhood-mainnet"
+    }
+  }
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "issuer-price-247",
+    "targetEndpoint": "v11",
+    "feedId": "0x000b0b1c31f90396e910c57ec94ed963271e4e39f15da3d92f81e273083ce4a1",
+    "resultPath": "lastTradedPrice",
+    "decimals": 8
+  }
+}
+```
+
+</details>
 
 ---
 
