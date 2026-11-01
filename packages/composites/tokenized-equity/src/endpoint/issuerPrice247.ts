@@ -2,7 +2,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { DataEngineV11Data, targetEndpoints } from '../lib/dataEngine'
+import { DataEngineV11Data, priceFields, targetEndpoints } from '../lib/dataEngine'
 import { issuerNames, validateMultiplierParams } from '../lib/multiplier'
 import { issuerPrice247Transport } from '../transport/issuerPrice247'
 
@@ -22,7 +22,8 @@ export const inputParameters = new InputParameters(
     resultPath: {
       required: true,
       type: 'string',
-      description: 'The data-engine EA data field to use as the price, e.g. lastTradedPrice',
+      description: 'The data-engine EA price field to use as the price',
+      options: [...priceFields],
     },
     decimals: {
       type: 'number',

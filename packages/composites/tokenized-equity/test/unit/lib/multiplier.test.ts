@@ -125,9 +125,10 @@ describe('multiplier', () => {
       expect(result).toEqual({ multiplier: 3n, paused: true })
     })
 
-    it('xstocks converts one whole share and is never paused', async () => {
+    it('xstocks converts one whole share and reads the pause state', async () => {
       const convertToAssets = jest.fn().mockResolvedValue(1_001_701n)
-      contracts['0xa'] = { convertToAssets }
+      const isPaused = jest.fn().mockResolvedValue(false)
+      contracts['0xa'] = { convertToAssets, isPaused }
       const result = await issuers.xstocks.read(
         { issuer: 'xstocks', asset: '0xa', network: 'net' },
         provider,
@@ -137,7 +138,24 @@ describe('multiplier', () => {
         },
       )
       expect(convertToAssets).toHaveBeenCalledWith(10n ** 8n)
+      expect(isPaused).toHaveBeenCalled()
       expect(result).toEqual({ multiplier: 1_001_701n, paused: false })
+    })
+
+    it('xstocks reports paused when the wrapper is paused', async () => {
+      contracts['0xa'] = {
+        convertToAssets: jest.fn().mockResolvedValue(1_001_701n),
+        isPaused: jest.fn().mockResolvedValue(true),
+      }
+      const result = await issuers.xstocks.read(
+        { issuer: 'xstocks', asset: '0xa', network: 'net' },
+        provider,
+        {
+          multiplierDecimals: 6,
+          shareDecimals: 8,
+        },
+      )
+      expect(result).toEqual({ multiplier: 1_001_701n, paused: true })
     })
 
     it('ondo reads registry', async () => {

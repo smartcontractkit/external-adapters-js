@@ -64,6 +64,17 @@ describe('getDataEngineResult', () => {
     })
   })
 
+  it('throws 400 for an inherited property name', async () => {
+    mockRequest.mockResolvedValue({ response: { data: { data } } })
+
+    await expect(
+      getDataEngineResult({ ...param, resultPath: 'constructor' }),
+    ).rejects.toMatchObject({
+      statusCode: 400,
+      message: expect.stringContaining("resultPath 'constructor' not found in data"),
+    })
+  })
+
   it('propagates the data-engine status code', async () => {
     mockRequest.mockResolvedValue({ response: { data: { statusCode: 504 } } })
 

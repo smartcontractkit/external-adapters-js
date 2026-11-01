@@ -33,6 +33,17 @@ exports[`execute issuer-price-247 endpoint network without rpc url 1`] = `
 }
 `;
 
+exports[`execute issuer-price-247 endpoint resultPath that is not a price field 1`] = `
+{
+  "error": {
+    "message": "[Param: resultPath] input is not one of valid options (mid,bid,ask,lastTradedPrice)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`execute issuer-price-247 endpoint should return 503 when paused 1`] = `
 {
   "errorMessage": "asset: '0x0000000000000000000000000000000000000002' paused for issuer 'robinhood'",

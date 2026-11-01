@@ -143,10 +143,11 @@ export const issuers = {
     },
     read: async (params, provider, metadata) => {
       const wrapper = new Contract(params.asset, XstocksABI, provider)
-      const multiplier = await wrapper.convertToAssets(
-        10n ** BigInt(metadata.shareDecimals as number),
-      )
-      return { multiplier: BigInt(multiplier), paused: false }
+      const [multiplier, paused] = await Promise.all([
+        wrapper.convertToAssets(10n ** BigInt(metadata.shareDecimals as number)),
+        wrapper.isPaused(),
+      ])
+      return { multiplier: BigInt(multiplier), paused: Boolean(paused) }
     },
   },
   ondo: {

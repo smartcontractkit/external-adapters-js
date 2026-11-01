@@ -18,6 +18,10 @@ export const targetEndpoints = {
 
 export type TargetEndpoint = keyof typeof targetEndpoints
 
+// Report fields that are prices in the report decimals, so they can be scaled
+// and multiplied. Allowed values of the resultPath input parameter.
+export const priceFields = ['mid', 'bid', 'ask', 'lastTradedPrice'] as const
+
 /**
  * Requests a feed from the data-engine EA and scales the resultPath field from
  * the report decimals to the requested decimals, truncating like the
@@ -33,7 +37,8 @@ export const getDataEngineResult = async (param: {
 }) => {
   const data = await targetEndpoints[param.targetEndpoint](param.feedId, param.url, param.requester)
 
-  if (!(param.resultPath in data)) {
+  // Own properties only: `in` would also accept inherited names like "constructor"
+  if (!Object.prototype.hasOwnProperty.call(data, param.resultPath)) {
     throw new AdapterError({
       statusCode: 400,
       message: `resultPath '${param.resultPath}' not found in data. Available keys: ${Object.keys(

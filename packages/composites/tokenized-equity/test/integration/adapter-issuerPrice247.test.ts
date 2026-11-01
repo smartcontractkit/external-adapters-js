@@ -74,6 +74,7 @@ jest.mock('ethers', () => {
             decimals: jest.fn().mockResolvedValue(18n),
             asset: jest.fn().mockResolvedValue(xstocksUnderlying),
             convertToAssets: jest.fn().mockResolvedValue(1_500_000n),
+            isPaused: jest.fn().mockResolvedValue(false),
           }
         case xstocksUnderlying:
           return {
@@ -237,6 +238,15 @@ describe('execute', () => {
         ...baseRequest,
         targetEndpoint: 'v3',
         multiplier: { issuer: 'robinhood', asset: robinhoodAsset, network: 'robinhood-mainnet' },
+      })
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('resultPath that is not a price field', async () => {
+      const response = await testAdapter.request({
+        ...baseRequest,
+        resultPath: 'marketStatus',
       })
       expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
