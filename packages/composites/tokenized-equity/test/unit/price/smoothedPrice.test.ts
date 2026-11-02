@@ -1,6 +1,6 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { calculateSecondsFromTransition } from '../../../src/lib/session/session'
+import { getSessionSchedule } from '../../../src/lib/session/session'
 import { processOvernightUpdate } from '../../../src/lib/smoother/overnightSmoother'
 import { processUpdate } from '../../../src/lib/smoother/smoother'
 import { getPrice } from '../../../src/lib/streams'
@@ -22,10 +22,8 @@ const mockProcessOvernightUpdate = processOvernightUpdate as jest.MockedFunction
   typeof processOvernightUpdate
 >
 
-jest.mock('../../../src/lib/session/session', () => ({ calculateSecondsFromTransition: jest.fn() }))
-const mockCalculateSecondsFromTransition = calculateSecondsFromTransition as jest.MockedFunction<
-  typeof calculateSecondsFromTransition
->
+jest.mock('../../../src/lib/session/session', () => ({ getSessionSchedule: jest.fn() }))
+const mockGetSessionSchedule = getSessionSchedule as jest.MockedFunction<typeof getSessionSchedule>
 
 describe('smoothedStreamPrice', () => {
   const defaultParams = {
@@ -101,9 +99,9 @@ describe('smoothedStreamPrice', () => {
         },
       })
 
-      mockCalculateSecondsFromTransition.mockReturnValue(
-        Promise.resolve({ value: 0, source: 'FALLBACK' }),
-      )
+      mockGetSessionSchedule.mockResolvedValue({
+        secondsFromTransition: { value: 0, source: 'FALLBACK' },
+      })
       mockProcessUpdate.mockReturnValue({ price: 1n, x: 2n, p: 3n })
 
       const result = (
@@ -159,9 +157,9 @@ describe('smoothedStreamPrice', () => {
         },
       })
 
-      mockCalculateSecondsFromTransition.mockReturnValue(
-        Promise.resolve({ value: 0, source: 'FALLBACK' }),
-      )
+      mockGetSessionSchedule.mockResolvedValue({
+        secondsFromTransition: { value: 0, source: 'FALLBACK' },
+      })
       mockProcessUpdate.mockReturnValue({ price: 10n, x: 1n, p: 2n })
 
       const result = await smoothedStreamPrice({
@@ -187,9 +185,9 @@ describe('smoothedStreamPrice', () => {
         },
       })
 
-      mockCalculateSecondsFromTransition.mockReturnValue(
-        Promise.resolve({ value: 0, source: 'FALLBACK' }),
-      )
+      mockGetSessionSchedule.mockResolvedValue({
+        secondsFromTransition: { value: 0, source: 'FALLBACK' },
+      })
       mockProcessUpdate.mockReturnValue({ price: 1n, x: 2n, p: 3n })
 
       const result = await smoothedStreamPrice({
@@ -250,7 +248,7 @@ describe('smoothedStreamPrice', () => {
         },
       })
 
-      mockCalculateSecondsFromTransition.mockReturnValue(Promise.resolve(undefined))
+      mockGetSessionSchedule.mockResolvedValue({})
 
       const result = (
         await smoothedStreamPrice({
@@ -293,9 +291,8 @@ describe('smoothedStreamPrice', () => {
         marketStatus: TwentyfourFiveMarketStatus.POST_MARKET,
         data: { regular: {} as any, extended: {} as any, overnight: {} as any },
       })
-      mockCalculateSecondsFromTransition.mockResolvedValue({
-        value: secondsFromTransition,
-        source: 'TRADINGHOURS',
+      mockGetSessionSchedule.mockResolvedValue({
+        secondsFromTransition: { value: secondsFromTransition, source: 'TRADINGHOURS' },
       })
     }
 
@@ -337,7 +334,9 @@ describe('smoothedStreamPrice', () => {
         marketStatus: TwentyfourFiveMarketStatus.PRE_MARKET,
         data: { regular: {} as any, extended: {} as any, overnight: {} as any },
       })
-      mockCalculateSecondsFromTransition.mockResolvedValue({ value: -30, source: 'TRADINGHOURS' })
+      mockGetSessionSchedule.mockResolvedValue({
+        secondsFromTransition: { value: -30, source: 'TRADINGHOURS' },
+      })
 
       await smoothedStreamPrice({ ...defaultParams, smoother: 'kalman', decimals: 6 })
 
@@ -352,7 +351,9 @@ describe('smoothedStreamPrice', () => {
         marketStatus: TwentyfourFiveMarketStatus.OVERNIGHT,
         data: { regular: {} as any, extended: {} as any, overnight: {} as any },
       })
-      mockCalculateSecondsFromTransition.mockResolvedValue({ value: 0, source: 'TRADINGHOURS' })
+      mockGetSessionSchedule.mockResolvedValue({
+        secondsFromTransition: { value: 0, source: 'TRADINGHOURS' },
+      })
 
       const result = await smoothedStreamPrice({
         ...defaultParams,
@@ -373,7 +374,9 @@ describe('smoothedStreamPrice', () => {
     // when the overnight EMA starts accumulating state, not when it starts being
     // published — that still happens exactly at the boundary.
     beforeEach(() => {
-      mockCalculateSecondsFromTransition.mockResolvedValue({ value: 0, source: 'TRADINGHOURS' })
+      mockGetSessionSchedule.mockResolvedValue({
+        secondsFromTransition: { value: 0, source: 'TRADINGHOURS' },
+      })
       mockProcessUpdate.mockReturnValue({ price: 1234n, x: 2n, p: 3n })
       mockProcessOvernightUpdate.mockReturnValue({ price: 987n, x: 5n, p: 1000 })
     })
@@ -408,7 +411,9 @@ describe('smoothedStreamPrice', () => {
           marketStatus,
           data: { regular: {} as any, extended: {} as any, overnight: {} as any },
         })
-        mockCalculateSecondsFromTransition.mockResolvedValue({ value: -30, source: 'TRADINGHOURS' })
+        mockGetSessionSchedule.mockResolvedValue({
+          secondsFromTransition: { value: -30, source: 'TRADINGHOURS' },
+        })
 
         const result = await smoothedStreamPrice({
           ...defaultParams,

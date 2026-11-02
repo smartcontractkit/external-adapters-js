@@ -1,12 +1,15 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { getSessionStartTransitions } from '../../../src/lib/session/session'
+import { getSessionSchedule } from '../../../src/lib/session/session'
 import { getSessionTransitions } from '../../../src/lib/session/tradingHoursSession'
 
 // Tests for the session transition schedule used by session-start (pre-open warm-up)
-// gating: unfiltered statuses, and the no-throw wrapper. The EA relies on the
-// tradinghours EA being up — there is deliberately no local caching.
+// gating: unfiltered statuses, and the shared per-request fetch (getSessionSchedule)
+// that serves both gating (unfiltered transitions; undefined = fail closed) and the
+// smoother (seconds-from-transition; falls back to sessionBoundaries on failure).
+// The EA relies on the tradinghours EA being up — there is deliberately no local
+// caching.
 
 const scheduleResponse = (result: unknown) => ({
   response: {
@@ -19,6 +22,7 @@ const requesterWith = (impl: () => Promise<unknown>) =>
 
 const URL = 'https://tradinghours.example.com'
 const ARGS: [string, string, string] = ['UTC', 'nyse', '24/5']
+const BOUNDARIES = ['04:00', '09:30', '16:00', '20:00']
 
 describe('getSessionTransitions', () => {
   beforeAll(() => {
@@ -58,31 +62,49 @@ describe('getSessionTransitions', () => {
   })
 })
 
-describe('getSessionStartTransitions', () => {
-  it('returns undefined when session params are missing', async () => {
+describe('getSessionSchedule', () => {
+  it('returns neither result and does not fetch when session params are missing', async () => {
     const requester = requesterWith(() => Promise.resolve(scheduleResponse([])))
 
-    await expect(getSessionStartTransitions(URL, requester)).resolves.toBeUndefined()
+    const schedule = await getSessionSchedule(URL, requester, BOUNDARIES)
+
+    expect(schedule.transitions).toBeUndefined()
+    expect(schedule.secondsFromTransition).toBeUndefined()
     expect((requester.request as jest.Mock).mock.calls).toHaveLength(0)
   })
 
-  it('returns undefined (rather than throwing) when the schedule cannot be fetched', async () => {
-    const requester = requesterWith(() => Promise.reject(new Error('tradinghours down')))
-
-    await expect(getSessionStartTransitions(URL, requester, ...ARGS)).resolves.toBeUndefined()
-  })
-
-  it('returns the transitions when the fetch succeeds', async () => {
+  it('serves both consumers from a single fetch', async () => {
     const requester = requesterWith(() =>
       Promise.resolve(
         scheduleResponse([
+          { status: 1, statusString: 'PRE_MARKET', time: '2024-01-08T04:00:00.000Z' },
           { status: 2, statusString: 'REGULAR', time: '2024-01-08T09:30:00.000Z' },
         ]),
       ),
     )
 
-    const result = await getSessionStartTransitions(URL, requester, ...ARGS)
+    const schedule = await getSessionSchedule(URL, requester, BOUNDARIES, ...ARGS)
 
-    expect(result).toHaveLength(1)
+    expect((requester.request as jest.Mock).mock.calls).toHaveLength(1)
+    // Gating gets the unfiltered transitions (REGULAR retained)…
+    expect(schedule.transitions?.map((t) => t.status)).toEqual([
+      TwentyfourFiveMarketStatus.PRE_MARKET,
+      TwentyfourFiveMarketStatus.REGULAR,
+    ])
+    // …while the smoother's signal comes from the filtered view of the same fetch.
+    expect(schedule.secondsFromTransition?.source).toEqual('TRADINGHOURS')
+    expect(schedule.secondsFromTransition?.value).not.toEqual(Number.MAX_SAFE_INTEGER)
+  })
+
+  it('fails closed for gating and falls back for the smoother when the fetch fails', async () => {
+    const requester = requesterWith(() => Promise.reject(new Error('tradinghours down')))
+
+    const schedule = await getSessionSchedule(URL, requester, BOUNDARIES, ...ARGS)
+
+    // Gating: undefined transitions → the caller rejects (fail closed).
+    expect(schedule.transitions).toBeUndefined()
+    // Smoother: historical sessionBoundaries fallback still applies.
+    expect(schedule.secondsFromTransition?.source).toEqual('FALLBACK')
+    expect(schedule.secondsFromTransition?.value).not.toEqual(Number.MAX_SAFE_INTEGER)
   })
 })

@@ -232,13 +232,20 @@ overnight data served at the Sunday open).
 
 - Enforcement point: `lib/streams.ts getStream()`, immediately after the staleness check on the
   selected stream — same select-then-gate pattern, no fail-over across session types.
-- Session start source: the tradinghours `market-session` schedule. The raw schedule includes
-  REGULAR and Sunday OVERNIGHT transitions (`src/lib/session/tradingHoursSession.ts
-getSessionTransitions`) — unlike the smoothing path (`getSessions`), which filters both out.
-  Session start = the latest transition at or before now whose status opens the selected stream's
-  session. Note the fallback `sessionBoundaries` list is deliberately **not** used: its times are
-  unlabeled, so it cannot say which session a boundary opens (and by default it lacks the 09:30
-  regular open). Using it would reject or admit the wrong reports.
+- Session start source: the tradinghours `market-session` schedule. The **unfiltered** schedule is
+  used (`src/lib/session/tradingHoursSession.ts getSessionTransitions`) — the smoother's timing
+  path (`getSessions`/`processData`) deliberately drops REGULAR transitions (smoothing only reacts
+  to thin-liquidity session boundaries) and Sunday OVERNIGHT transitions (stale weekend data must
+  not feed smoothing). Both dropped transitions are mandatory for gating: without REGULAR the
+  regular stream would find no opening transition and fail closed all session; without Sunday
+  OVERNIGHT the Sunday open could not be distinguished from Friday leftovers. A single fetch per
+  price request is shared by both consumers (`getSessionSchedule` in `lib/session/session.ts`) —
+  on a fetch failure the smoother alone falls back to `sessionBoundaries` while gating receives
+  undefined and fails closed. Session start = the latest transition at or before now whose status
+  opens the selected stream's session. Note the fallback `sessionBoundaries` list is deliberately
+  **not** used for gating: its times are unlabeled, so it cannot say which session a boundary
+  opens (and by default it lacks the 09:30 regular open). Using it would reject or admit the
+  wrong reports.
 - Configuration: `DS_SESSION_START_GATING_ENABLED` (boolean, default false = disabled) — env-gated
   like the staleness family, for the same ship-dark / instant-rollback rollout story.
 - Fail closed: with gating enabled, a report whose session start cannot be determined (schedule
@@ -464,8 +471,10 @@ New behavior — fails before the implementation lands:
 
 24. `getSessionTransitions` returns all statuses unfiltered (incl. REGULAR, Sunday OVERNIGHT) and
     throws when the schedule cannot be fetched (no local caching — the EA relies on tradinghours).
-25. `getSessionStartTransitions` returns undefined (never throws) when session params are missing
-    or the schedule cannot be fetched.
+25. `getSessionSchedule` serves both consumers from a single fetch; returns neither result (and
+    does not fetch) when session params are missing; on fetch failure gating's transitions are
+    undefined (fail closed) while the smoother's seconds-from-transition falls back to
+    `sessionBoundaries`.
 
 ### Unit: `config/index.ts`
 
