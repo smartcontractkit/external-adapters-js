@@ -59,7 +59,7 @@ export const inputDefinition = new InputParameters(
       type: 'string',
       array: true,
       description:
-        '(backup) A list of time where market trasition from 1 session to the next in the format of HH:MM. This is only used when the adapter is unable to fetch session times from the tradinghours EA',
+        '(backup) A list of time where market transition from 1 session to the next in the format of HH:MM. This is only used when the adapter is unable to fetch session times from the tradinghours EA',
     },
     sessionBoundariesTimeZone: {
       type: 'string',
