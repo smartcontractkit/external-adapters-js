@@ -40,7 +40,6 @@ const robinhoodPausedAsset = '0x0000000000000000000000000000000000000002'
 const coinbaseRegistry = '0x0000000000000000000000000000000000000003'
 const xstocksAsset = '0x0000000000000000000000000000000000000004'
 const ondoRegistry = '0x0000000000000000000000000000000000000005'
-const xstocksUnderlying = '0x0000000000000000000000000000000000000006'
 
 jest.mock('ethers', () => {
   const actualModule = jest.requireActual('ethers')
@@ -53,13 +52,11 @@ jest.mock('ethers', () => {
       switch (address) {
         case robinhoodAsset:
           return {
-            decimals: jest.fn().mockResolvedValue(18n),
             uiMultiplier: jest.fn().mockResolvedValue(2n * 10n ** 18n),
             oraclePaused: jest.fn().mockResolvedValue(false),
           }
         case robinhoodPausedAsset:
           return {
-            decimals: jest.fn().mockResolvedValue(18n),
             uiMultiplier: jest.fn().mockResolvedValue(2n * 10n ** 18n),
             oraclePaused: jest.fn().mockResolvedValue(true),
           }
@@ -71,14 +68,8 @@ jest.mock('ethers', () => {
           }
         case xstocksAsset:
           return {
-            decimals: jest.fn().mockResolvedValue(18n),
-            asset: jest.fn().mockResolvedValue(xstocksUnderlying),
-            convertToAssets: jest.fn().mockResolvedValue(1_500_000n),
+            convertToAssets: jest.fn().mockResolvedValue(15n * 10n ** 17n),
             isPaused: jest.fn().mockResolvedValue(false),
-          }
-        case xstocksUnderlying:
-          return {
-            decimals: jest.fn().mockResolvedValue(6n),
           }
         case ondoRegistry:
           return {
@@ -137,7 +128,7 @@ describe('execute', () => {
     it('should return success - robinhood', async () => {
       const response = await testAdapter.request({
         ...baseRequest,
-        multiplier: { issuer: 'robinhood', asset: robinhoodAsset, network: 'robinhood-mainnet' },
+        multiplier: { issuer: 'robinhood', asset: robinhoodAsset, network: 'mainnet' },
       })
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
@@ -150,7 +141,6 @@ describe('execute', () => {
           issuer: 'coinbase',
           asset: '0xa',
           registry: coinbaseRegistry,
-          network: 'base',
         },
       })
       expect(response.statusCode).toBe(200)
@@ -160,7 +150,7 @@ describe('execute', () => {
     it('should return success - xstocks', async () => {
       const response = await testAdapter.request({
         ...baseRequest,
-        multiplier: { issuer: 'xstocks', asset: xstocksAsset, network: 'ethereum' },
+        multiplier: { issuer: 'xstocks', asset: xstocksAsset },
       })
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
@@ -169,7 +159,7 @@ describe('execute', () => {
     it('should return success - ondo', async () => {
       const response = await testAdapter.request({
         ...baseRequest,
-        multiplier: { issuer: 'ondo', asset: '0xa', registry: ondoRegistry, network: 'ethereum' },
+        multiplier: { issuer: 'ondo', asset: '0xa', registry: ondoRegistry },
       })
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
@@ -181,7 +171,7 @@ describe('execute', () => {
         multiplier: {
           issuer: 'robinhood',
           asset: robinhoodPausedAsset,
-          network: 'robinhood-mainnet',
+          network: 'mainnet',
         },
       })
       expect(response.statusCode).toBe(503)
@@ -191,7 +181,7 @@ describe('execute', () => {
     it('unsupported issuer', async () => {
       const response = await testAdapter.request({
         ...baseRequest,
-        multiplier: { issuer: 'unknown', asset: '0xa', network: 'ethereum' },
+        multiplier: { issuer: 'unknown', asset: '0xa' },
       })
       expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
@@ -200,7 +190,7 @@ describe('execute', () => {
     it('missing registry', async () => {
       const response = await testAdapter.request({
         ...baseRequest,
-        multiplier: { issuer: 'coinbase', asset: '0xa', network: 'base' },
+        multiplier: { issuer: 'coinbase', asset: '0xa' },
       })
       expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
@@ -215,21 +205,13 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('unsupported network', async () => {
-      const response = await testAdapter.request({
-        ...baseRequest,
-        multiplier: { issuer: 'xstocks', asset: xstocksAsset, network: 'op' },
-      })
-      expect(response.statusCode).toBe(400)
-      expect(response.json()).toMatchSnapshot()
-    })
-
+    // The framework's templated setting get() throws, as in the robinhood endpoint
     it('network without rpc url', async () => {
       const response = await testAdapter.request({
         ...baseRequest,
-        multiplier: { issuer: 'robinhood', asset: robinhoodAsset, network: 'robinhood-testnet' },
+        multiplier: { issuer: 'robinhood', asset: robinhoodAsset, network: 'testnet' },
       })
-      expect(response.statusCode).toBe(400)
+      expect(response.statusCode).toBe(500)
       expect(response.json()).toMatchSnapshot()
     })
 
@@ -237,7 +219,7 @@ describe('execute', () => {
       const response = await testAdapter.request({
         ...baseRequest,
         targetEndpoint: 'v3',
-        multiplier: { issuer: 'robinhood', asset: robinhoodAsset, network: 'robinhood-mainnet' },
+        multiplier: { issuer: 'robinhood', asset: robinhoodAsset, network: 'mainnet' },
       })
       expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()

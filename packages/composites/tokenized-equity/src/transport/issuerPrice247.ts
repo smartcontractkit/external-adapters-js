@@ -6,8 +6,8 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { JsonRpcProvider } from 'ethers'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/issuerPrice247'
+import { getIssuer } from '../issuers'
 import { TargetEndpoint } from '../lib/dataEngine'
-import { getNetworkRpc } from '../lib/multiplier'
 import { calculatePrice, calculateRawPrice } from './issuerPrice247Price'
 
 const logger = makeLogger('IssuerPrice247Transport')
@@ -18,6 +18,7 @@ export class IssuerPrice247Transport extends SubscriptionTransport<BaseEndpointT
   requester!: Requester
   config!: BaseEndpointTypes['Settings']
   dataEngineUrl!: string
+  // One provider per RPC URL and chain ID, shared by every request on that chain
   providers: Record<string, JsonRpcProvider> = {}
 
   async initialize(
@@ -72,7 +73,7 @@ export class IssuerPrice247Transport extends SubscriptionTransport<BaseEndpointT
     const data: BaseEndpointTypes['Response']['Data'] = param.multiplier
       ? await calculatePrice({
           ...priceParams,
-          ...this.getProvider(param.multiplier),
+          provider: this.getProvider(param.multiplier),
           multiplier: param.multiplier,
         })
       : await calculateRawPrice(priceParams)
@@ -89,19 +90,11 @@ export class IssuerPrice247Transport extends SubscriptionTransport<BaseEndpointT
     }
   }
 
-  getProvider(multiplier: NonNullable<RequestParams['multiplier']>) {
-    const { url, chainId } = getNetworkRpc(this.config, multiplier.network) ?? {}
-    if (!url) {
-      // Rejected by input validation, kept for type safety
-      throw new AdapterError({
-        statusCode: 400,
-        message: `No RPC URL for multiplier.network '${multiplier.network}'`,
-      })
-    }
-    const networkKey = `${url}@@${chainId ?? ''}`
-    // Without a configured chain ID, ethers detects it from the RPC
-    this.providers[networkKey] ??= new JsonRpcProvider(url, chainId)
-    return { provider: this.providers[networkKey], networkKey }
+  getProvider(multiplier: NonNullable<RequestParams['multiplier']>): JsonRpcProvider {
+    const { url, chainId } = getIssuer(multiplier.issuer).rpc(this.config, multiplier)
+    const key = `${url}@@${chainId ?? ''}`
+    this.providers[key] ??= new JsonRpcProvider(url, chainId)
+    return this.providers[key]
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

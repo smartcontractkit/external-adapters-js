@@ -2,6 +2,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
+import { issuerDirectory } from '../issuers'
 import { robinhoodTransport } from '../transport/robinhoodTransport'
 import type { output } from './common'
 import { inputDefinition, inputExample, validateSmoother, validateStreamIds } from './common'
@@ -51,11 +52,11 @@ export const endpoint = new AdapterEndpoint({
   transport: robinhoodTransport,
   inputParameters,
   customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
-    adapterSettings.ROBINHOOD_NETWORK_RPC_URL.get(req.requestContext.data.network)
-    adapterSettings.ROBINHOOD_NETWORK_CHAIN_ID.get(req.requestContext.data.network)
+    const { data } = req.requestContext
+    issuerDirectory.robinhood.validate(adapterSettings, data)
 
-    validateStreamIds(req.requestContext.data)
-    validateSmoother(req.requestContext.data)
+    validateStreamIds(data)
+    validateSmoother(data)
 
     return
   },

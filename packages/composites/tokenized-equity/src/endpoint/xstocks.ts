@@ -2,6 +2,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
+import { issuerDirectory } from '../issuers'
 import { xstocksTransport } from '../transport/xstocksTransport'
 import type { output } from './common'
 import { inputDefinition, inputExample, validateSmoother, validateStreamIds } from './common'
@@ -39,15 +40,11 @@ export const endpoint = new AdapterEndpoint({
   transport: xstocksTransport,
   inputParameters,
   customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
-    if (!adapterSettings.ETHEREUM_RPC_URL) {
-      throw new AdapterInputError({
-        message: 'Missing ETHEREUM_RPC_URL',
-        statusCode: 400,
-      })
-    }
+    const { data } = req.requestContext
+    issuerDirectory.xstocks.validate(adapterSettings, data)
 
-    validateStreamIds(req.requestContext.data)
-    validateSmoother(req.requestContext.data)
+    validateStreamIds(data)
+    validateSmoother(data)
 
     return
   },

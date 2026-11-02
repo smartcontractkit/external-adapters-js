@@ -2,8 +2,8 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
+import { getIssuer, issuerNames, MULTIPLIER_DECIMALS } from '../issuers'
 import { DataEngineV11Data, priceFields, targetEndpoints } from '../lib/dataEngine'
-import { issuerNames, validateMultiplierParams } from '../lib/multiplier'
 import { issuerPrice247Transport } from '../transport/issuerPrice247'
 
 export const inputParameters = new InputParameters(
@@ -27,8 +27,7 @@ export const inputParameters = new InputParameters(
     },
     decimals: {
       type: 'number',
-      description:
-        'Decimals of output result, applied after the multiplier. With a multiplier the data-engine price is requested in the decimals of the on-chain multiplier, without one it is requested in these decimals',
+      description: `Decimals of output result, applied after the multiplier. With a multiplier the data-engine price is requested in the multiplier's ${MULTIPLIER_DECIMALS} decimals, without one it is requested in these decimals`,
       default: 8,
     },
     multiplier: {
@@ -52,10 +51,10 @@ export const inputParameters = new InputParameters(
           description: 'Address of the issuer registry contract. Required for coinbase and ondo',
         },
         network: {
-          required: true,
+          required: false,
           type: 'string',
           description:
-            'Network to read the multiplier from: ethereum (ETHEREUM_RPC_URL), base (BASE_RPC_URL), robinhood-mainnet (ROBINHOOD_MAINNET_RPC_URL) or robinhood-testnet (ROBINHOOD_TESTNET_RPC_URL)',
+            'Robinhood chain network, e.g. `mainnet` (`ROBINHOOD_<NETWORK>_RPC_URL`). Required for robinhood. The other issuers read from a fixed chain: coinbase from Base (`BASE_RPC_URL`), xstocks and ondo from Ethereum (`ETHEREUM_RPC_URL`)',
         },
       },
     },
@@ -69,7 +68,7 @@ export const inputParameters = new InputParameters(
       multiplier: {
         issuer: 'robinhood',
         asset: '0x2e0847E8910a9732eB3fb1bb4b70a580ADAD4FE3',
-        network: 'robinhood-mainnet',
+        network: 'mainnet',
       },
     },
     {
@@ -96,7 +95,7 @@ export type BaseEndpointTypes = {
       dataEngine: DataEngineV11Data
       multiplier?: {
         issuer: string
-        network: string
+        network?: string
         value: string
         decimals: number
         paused: boolean
@@ -113,7 +112,8 @@ export const endpoint = new AdapterEndpoint({
   customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
     const { multiplier } = req.requestContext.data
     if (multiplier) {
-      validateMultiplierParams(adapterSettings, multiplier)
+      // The issuer named in the request validates the rest of it
+      getIssuer(multiplier.issuer).validate(adapterSettings, multiplier)
     }
     return
   },

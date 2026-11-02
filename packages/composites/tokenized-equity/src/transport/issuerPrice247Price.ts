@@ -1,9 +1,11 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { JsonRpcProvider } from 'ethers'
+import { assertNotPaused, getIssuer, IssuerRequest } from '../issuers'
 import { getDataEngineResult, TargetEndpoint } from '../lib/dataEngine'
 import { scaleDecimals } from '../lib/decimals'
-import { getIssuer, getMultiplierMetadata, MultiplierParams } from '../lib/multiplier'
+
+// The endpoint's multiplier param: an issuer request plus the issuer name
+export type MultiplierParams = IssuerRequest & { issuer: string }
 
 type PriceParams = {
   url: string
@@ -16,7 +18,6 @@ type PriceParams = {
 
 type MultipliedPriceParams = PriceParams & {
   provider: JsonRpcProvider
-  networkKey: string
   multiplier: MultiplierParams
 }
 
@@ -38,22 +39,16 @@ export const calculateRawPrice = async (param: PriceParams) => {
 
 export const calculatePrice = async (param: MultipliedPriceParams) => {
   const issuer = getIssuer(param.multiplier.issuer)
-  const metadata = await getMultiplierMetadata(param.multiplier, param.provider, param.networkKey)
-  const multiplierDecimals = metadata.multiplierDecimals
+  const multiplierDecimals = issuer.multiplierDecimals
 
   // Request the price in the same units as the multiplier so both operands
   // share a scale, then apply the requested output decimals once at the end.
   const [price, { multiplier, paused }] = await Promise.all([
     getDataEngineResult({ ...param, decimals: multiplierDecimals }),
-    issuer.read(param.multiplier, param.provider, metadata),
+    issuer.read(param.multiplier, param.provider),
   ])
 
-  if (paused) {
-    throw new AdapterError({
-      statusCode: 503,
-      message: `asset: '${param.multiplier.asset}' paused for issuer '${param.multiplier.issuer}'`,
-    })
-  }
+  assertNotPaused(issuer, param.multiplier.asset, paused)
 
   // Full precision product, before the output decimals are applied
   const rawMultipliedPrice = BigInt(price.result) * multiplier

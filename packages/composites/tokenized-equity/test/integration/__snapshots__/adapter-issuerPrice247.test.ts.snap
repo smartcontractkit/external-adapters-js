@@ -3,7 +3,7 @@
 exports[`execute issuer-price-247 endpoint missing network 1`] = `
 {
   "error": {
-    "message": "[Param: network] param is required but no value was provided",
+    "message": "Missing required parameter network for issuer 'robinhood'",
     "name": "AdapterError",
   },
   "status": "errored",
@@ -14,7 +14,7 @@ exports[`execute issuer-price-247 endpoint missing network 1`] = `
 exports[`execute issuer-price-247 endpoint missing registry 1`] = `
 {
   "error": {
-    "message": "Missing required parameter multiplier.registry for issuer 'coinbase'",
+    "message": "Missing required parameter registry for issuer 'coinbase'",
     "name": "AdapterError",
   },
   "status": "errored",
@@ -25,11 +25,11 @@ exports[`execute issuer-price-247 endpoint missing registry 1`] = `
 exports[`execute issuer-price-247 endpoint network without rpc url 1`] = `
 {
   "error": {
-    "message": "Missing RPC URL for multiplier.network 'robinhood-testnet'. Set ROBINHOOD_TESTNET_RPC_URL",
+    "message": "Missing required environment variable: ROBINHOOD_TESTNET_RPC_URL",
     "name": "AdapterError",
   },
   "status": "errored",
-  "statusCode": 400,
+  "statusCode": 500,
 }
 `;
 
@@ -101,7 +101,6 @@ exports[`execute issuer-price-247 endpoint should return success - coinbase 1`] 
     "multiplier": {
       "decimals": 18,
       "issuer": "coinbase",
-      "network": "base",
       "paused": false,
       "value": "3000000000000000000",
     },
@@ -138,7 +137,6 @@ exports[`execute issuer-price-247 endpoint should return success - ondo 1`] = `
     "multiplier": {
       "decimals": 18,
       "issuer": "ondo",
-      "network": "ethereum",
       "paused": false,
       "value": "500000000000000000",
     },
@@ -175,7 +173,7 @@ exports[`execute issuer-price-247 endpoint should return success - robinhood 1`]
     "multiplier": {
       "decimals": 18,
       "issuer": "robinhood",
-      "network": "robinhood-mainnet",
+      "network": "mainnet",
       "paused": false,
       "value": "2000000000000000000",
     },
@@ -210,16 +208,15 @@ exports[`execute issuer-price-247 endpoint should return success - xstocks 1`] =
     },
     "decimals": 8,
     "multiplier": {
-      "decimals": 6,
+      "decimals": 18,
       "issuer": "xstocks",
-      "network": "ethereum",
       "paused": false,
-      "value": "1500000",
+      "value": "1500000000000000000",
     },
-    "rawMultipliedPrice": "375000000000000",
-    "rawMultipliedPriceDecimals": 12,
-    "rawPrice": "250000000",
-    "rawPriceDecimals": 6,
+    "rawMultipliedPrice": "375000000000000000000000000000000000000",
+    "rawMultipliedPriceDecimals": 36,
+    "rawPrice": "250000000000000000000",
+    "rawPriceDecimals": 18,
     "result": "37500000000",
   },
   "result": "37500000000",
@@ -234,18 +231,7 @@ exports[`execute issuer-price-247 endpoint should return success - xstocks 1`] =
 exports[`execute issuer-price-247 endpoint unsupported issuer 1`] = `
 {
   "error": {
-    "message": "Unsupported multiplier.issuer 'unknown'. Supported issuers: robinhood, coinbase, xstocks, ondo",
-    "name": "AdapterError",
-  },
-  "status": "errored",
-  "statusCode": 400,
-}
-`;
-
-exports[`execute issuer-price-247 endpoint unsupported network 1`] = `
-{
-  "error": {
-    "message": "Unsupported multiplier.network 'op'. Supported networks: ethereum, base, robinhood-mainnet, robinhood-testnet",
+    "message": "Unsupported issuer 'unknown'. Supported issuers: robinhood, coinbase, xstocks, ondo",
     "name": "AdapterError",
   },
   "status": "errored",
