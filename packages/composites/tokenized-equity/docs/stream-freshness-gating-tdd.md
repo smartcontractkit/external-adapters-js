@@ -258,6 +258,50 @@ getSessionTransitions`) — unlike the smoothing path (`getSessions`), which fil
 - Rejected alternative — fail open when the session start is unknown: a tradinghours outage would
   silently disable the check exactly when schedule uncertainty is highest; 503 is louder and safer.
 
+### Decision matrix
+
+One row per outcome of a request through `getStream()`. Evaluation order is fixed: **select →
+staleness → session-start**. The first check that fails produces the 503; later checks are not
+reached (e.g. a report that is both stale and pre-session reports `STALE`).
+
+Criteria columns:
+
+- **marketStatus match** — does any stream's report carry a `marketStatus` in its eligible set
+  (regular: REGULAR; extended: PRE_MARKET/POST_MARKET; overnight: OVERNIGHT)? Streams are tried in
+  priority order regular → extended → overnight.
+- **staleness check** — is a threshold configured for the selected stream
+  (`DS_VALID_MAX_AGE_SECONDS*`)? **age** — report age vs that threshold.
+- **session-start gating** — `DS_SESSION_START_GATING_ENABLED`.
+- **schedule** — is the tradinghours
+  `market-session` schedule available (and does it contain a transition opening the selected
+  session)?
+- **lastSeen vs start** — report timestamp vs the current session's start.
+
+| #   | marketStatus match                                                 | staleness check           | age         | session-start gating | schedule                                                         | lastSeen vs start | Outcome                                                                                                                                         |
+| --- | ------------------------------------------------------------------ | ------------------------- | ----------- | -------------------- | ---------------------------------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ✅ stream selected                                                 | off                       | —           | off                  | —                                                                | —                 | **200** pass-through (legacy behavior; staleness and warm-up both inert)                                                                        |
+| 2   | ✅                                                                 | on                        | ≤ threshold | off                  | —                                                                | —                 | **200**                                                                                                                                         |
+| 3   | ✅                                                                 | on                        | > threshold | any                  | any                                                              | any               | **503** `Market data is stale: … STALE(status, age=Xs>Ys)` — mid-session freeze; no fail-over to another session's stream                       |
+| 4   | ✅                                                                 | any (off, or ≤ threshold) | —           | on                   | ✅ + transition found                                            | ≥ session start   | **200**                                                                                                                                         |
+| 5   | ✅                                                                 | any (off, or ≤ threshold) | —           | on                   | ✅ + transition found                                            | < session start   | **503** `Market data predates session start: … PRE_SESSION(status, lastSeen Ns before session start)` — pre-open leftover, even if fresh by age |
+| 6   | ✅                                                                 | any (off, or ≤ threshold) | —           | on                   | ❌ tradinghours errored/unreachable, or `session*` params absent | —                 | **503** `Session start unknown (session schedule unavailable)` — fail closed                                                                    |
+| 7   | ✅                                                                 | any (off, or ≤ threshold) | —           | on                   | ✅ but no transition opens the selected session                  | —                 | **503** `Session start unknown (no <STATUS> transition in session schedule)` — fail closed                                                      |
+| 8   | ❌ all streams UNKNOWN(0)                                          | any                       | any         | any                  | any                                                              | any               | **503** `Market is not open: regular UNKNOWN, …` — provider degraded; alert-worthy (distinct from row 9)                                        |
+| 9   | ❌ WEEKEND(5), or closed-market phases with no eligible stream     | any                       | any         | any                  | any                                                              | any               | **503** `Market is not open: …` — expected; never alert                                                                                         |
+| 10  | ❌ stream fetch failed (data-engine error for the eligible stream) | any                       | any         | any                  | any                                                              | any               | **503** `Market is not open: <name>  <error>` — upstream fetch error surfaced in the message                                                    |
+| 11  | mixed: e.g. regular=UNKNOWN, extended=POST_MARKET                  | —                         | —           | —                    | —                                                                | —                 | selection proceeds on the matching stream (extended); rows 1–7 then apply to it                                                                 |
+
+Notes:
+
+- Rows 3–5 are the feature; row 1 is the ship-dark default (all checks off).
+- Rows 6–7 are the operational cost of fail-closed gating: a tradinghours outage with
+  `DS_SESSION_START_GATING_ENABLED=true` turns into EA 503s even for fresh in-session data.
+- In rows 8–10 the rejection reason is not visible in the status code alone — this is what the
+  proposed `tokenized_equity_rejection_total{reason}` metric fixes (see monitoring plan).
+- A stream frozen _between_ sessions (e.g. overnight stream still showing Friday 04:00 ET during
+  REGULAR) is not an error: its `marketStatus` echoes the market phase, so it is simply not
+  selected (rows 8–11 do not apply unless no stream matches).
+
 ### Open questions for implementation
 
 - Default values per session when `DS_VALID_MAX_AGE_SECONDS` is set (start: regular/extended 30s,
