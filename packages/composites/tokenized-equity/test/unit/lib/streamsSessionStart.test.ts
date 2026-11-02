@@ -126,6 +126,35 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     )
   })
 
+  it('reports PRE_SESSION (not STALE) when a report is both pre-session and stale', async () => {
+    // Session-start runs before staleness: a pre-session leftover is invalid regardless
+    // of age, so the session-boundary reason wins even with a staleness threshold set.
+    const regularData = createStreamData(
+      '100.5',
+      TwentyfourFiveMarketStatus.REGULAR,
+      nsAtMs(NOW_MS - 7_200_000), // 2h old: pre-session AND older than the 30s threshold
+    )
+    setupMock(regularData, null, null)
+
+    await expect(
+      getPrice(
+        '',
+        requester,
+        regularStreamId,
+        undefined,
+        undefined,
+        undefined,
+        { regular: 30 },
+        { transitions: regularSchedule },
+      ),
+    ).rejects.toThrow(
+      expect.objectContaining({
+        statusCode: 503,
+        message: expect.stringMatching(/Market data predates session start: regular PRE_SESSION/),
+      }),
+    )
+  })
+
   it('treats a report exactly at the session start as in-session', async () => {
     const regularData = createStreamData(
       '100.5',
