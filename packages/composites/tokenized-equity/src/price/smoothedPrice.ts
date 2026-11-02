@@ -1,7 +1,7 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { Smoother } from '../endpoint/common'
-import { calculateSecondsFromTransition, getSessionStartTransitions } from '../lib/session/session'
+import { getSessionSchedule } from '../lib/session/session'
 import {
   WARMUP_MS as OVERNIGHT_EMA_WARMUP_MS,
   processOvernightUpdate,
@@ -27,39 +27,32 @@ export const smoothedStreamPrice = async (param: {
   smoother: Smoother
   decimals: number
 }) => {
+  // One tradinghours market-session fetch per request, shared by both schedule
+  // consumers: the unfiltered transitions feed session-start gating (inside getPrice),
+  // and the smoother's seconds-from-transition signal is derived from the same fetch.
   // Fetched before getPrice because the gating decision happens inside it. The
-  // schedule changes only at session boundaries and tradinghours caches
-  // server-side, so this extra request is cheap; it only runs when gating is on.
-  const sessionTransitions = param.sessionStartGatingEnabled
-    ? await getSessionStartTransitions(
-        param.tradingHoursUrl,
-        param.requester,
-        param.sessionBoundariesTimeZone,
-        param.sessionMarket,
-        param.sessionMarketType,
-      )
-    : undefined
+  // schedule changes only at session boundaries and tradinghours caches server-side,
+  // so this request is cheap; it only runs when the session* params are present.
+  const sessionSchedule = await getSessionSchedule(
+    param.tradingHoursUrl,
+    param.requester,
+    param.sessionBoundaries,
+    param.sessionBoundariesTimeZone,
+    param.sessionMarket,
+    param.sessionMarketType,
+  )
 
-  const [price, secondsFromTransition] = await Promise.all([
-    getPrice(
-      param.url,
-      param.requester,
-      param.regularStreamId,
-      param.extendedStreamId,
-      param.overnightStreamId,
-      param.overnightStreamMaxAgeInSeconds,
-      param.streamMaxAgeSeconds,
-      param.sessionStartGatingEnabled ? { transitions: sessionTransitions } : undefined,
-    ),
-    calculateSecondsFromTransition(
-      param.tradingHoursUrl,
-      param.requester,
-      param.sessionBoundaries,
-      param.sessionBoundariesTimeZone,
-      param.sessionMarket,
-      param.sessionMarketType,
-    ),
-  ])
+  const price = await getPrice(
+    param.url,
+    param.requester,
+    param.regularStreamId,
+    param.extendedStreamId,
+    param.overnightStreamId,
+    param.overnightStreamMaxAgeInSeconds,
+    param.streamMaxAgeSeconds,
+    param.sessionStartGatingEnabled ? { transitions: sessionSchedule.transitions } : undefined,
+  )
+  const secondsFromTransition = sessionSchedule.secondsFromTransition
 
   const common = {
     rawPrice: price.price,

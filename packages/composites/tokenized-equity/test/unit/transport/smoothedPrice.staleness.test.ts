@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { calculateSecondsFromTransition } from '../../../src/lib/session/session'
+import { getSessionSchedule } from '../../../src/lib/session/session'
 import { processOvernightUpdate } from '../../../src/lib/smoother/overnightSmoother'
 import { processUpdate } from '../../../src/lib/smoother/smoother'
 import { getPrice } from '../../../src/lib/streams'
@@ -25,15 +25,15 @@ const mockProcessOvernightUpdate = processOvernightUpdate as jest.MockedFunction
   typeof processOvernightUpdate
 >
 
-jest.mock('../../../src/lib/session/session', () => ({ calculateSecondsFromTransition: jest.fn() }))
-const mockCalculateSecondsFromTransition = calculateSecondsFromTransition as jest.MockedFunction<
-  typeof calculateSecondsFromTransition
->
+jest.mock('../../../src/lib/session/session', () => ({ getSessionSchedule: jest.fn() }))
+const mockGetSessionSchedule = getSessionSchedule as jest.MockedFunction<typeof getSessionSchedule>
 
 describe('smoothedStreamPrice staleness rejection', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    mockCalculateSecondsFromTransition.mockResolvedValue({ value: -100, source: 'FALLBACK' })
+    mockGetSessionSchedule.mockResolvedValue({
+      secondsFromTransition: { value: -100, source: 'FALLBACK' },
+    })
     mockGetPrice.mockRejectedValue(
       new AdapterError({
         statusCode: 503,

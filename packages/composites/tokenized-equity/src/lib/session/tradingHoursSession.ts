@@ -104,7 +104,11 @@ const fetchSessionSchedule = async (
   }
 }
 
-const processData = (transitions: SessionTransition[], timezone: string): number[] =>
+// The smoother's view of the schedule: only the boundaries it reacts to. REGULAR is
+// dropped (smoothing only changes behavior at thin-liquidity session boundaries) and
+// Sunday OVERNIGHT is dropped (stale weekend data must not feed smoothing). Gating
+// needs the unfiltered list — use getSessionTransitions for that.
+export const processData = (transitions: SessionTransition[], timezone: string): number[] =>
   transitions
     .filter(
       (d) =>
