@@ -302,6 +302,32 @@ Notes:
   REGULAR) is not an error: its `marketStatus` echoes the market phase, so it is simply not
   selected (rows 8–11 do not apply unless no stream matches).
 
+### Configuration added by this change
+
+All knobs are instance-level env vars on the tokenized-equity EA — no new request parameters.
+Everything ships dark: with none of these set, behavior is byte-identical to before (decision
+matrix row 1).
+
+| Env var                              | Type             | Default                                          | Valid values                           | Behavior                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------------------ | ---------------- | ------------------------------------------------ | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DS_VALID_MAX_AGE_SECONDS`           | number (seconds) | unset (disabled)                                 | positive integer; unset/`0` disables   | Shared staleness threshold for all session streams. A selected report whose age (`now − lastSeenTimestampNs`) exceeds this is rejected with 503 `Market data is stale: … STALE(...)`.                                                                                                                                                                                       |
+| `DS_VALID_MAX_AGE_SECONDS_REGULAR`   | number (seconds) | unset → falls back to `DS_VALID_MAX_AGE_SECONDS` | positive integer; unset/`0` falls back | Per-session override of the staleness threshold for the regular-hours stream (marketStatus REGULAR).                                                                                                                                                                                                                                                                        |
+| `DS_VALID_MAX_AGE_SECONDS_EXTENDED`  | number (seconds) | unset → falls back to `DS_VALID_MAX_AGE_SECONDS` | positive integer; unset/`0` falls back | Per-session override for the extended-hours stream (PRE_MARKET / POST_MARKET).                                                                                                                                                                                                                                                                                              |
+| `DS_VALID_MAX_AGE_SECONDS_OVERNIGHT` | number (seconds) | unset → falls back to `DS_VALID_MAX_AGE_SECONDS` | positive integer; unset/`0` falls back | Per-session override for the overnight stream (OVERNIGHT). Expected to be looser than the others — overnight cadence is slower.                                                                                                                                                                                                                                             |
+| `DS_SESSION_START_GATING_ENABLED`    | boolean          | `false` (disabled)                               | `true`/`false`                         | Pre-open warm-up check: a selected report whose `lastSeenTimestampNs` predates the start of the current session (per the tradinghours `market-session` schedule) is rejected with 503 `PRE_SESSION(...)`. Fails closed (503 `Session start unknown`) when the start cannot be determined — tradinghours outage, no opening transition, or `session*` request params absent. |
+
+Notes:
+
+- Override resolution is per stream: `DS_VALID_MAX_AGE_SECONDS_<SESSION>` wins if set and > 0,
+  else the shared `DS_VALID_MAX_AGE_SECONDS`, else the check is off for that stream. The overrides
+  are independent — setting only `DS_VALID_MAX_AGE_SECONDS_OVERNIGHT` gates just the overnight
+  stream.
+- `DS_SESSION_START_GATING_ENABLED` requires the `session*` request params on every gated feed.
+  `smoother: 'none'` configs cannot provide them (validation forbids the combination) and will
+  503 while the flag is on — move such feeds to kalman/ema first.
+- There is no local caching of the tradinghours schedule; with gating enabled a tradinghours
+  outage means 503s (see decision matrix rows 6–7).
+
 ### Open questions for implementation
 
 - Default values per session when `DS_VALID_MAX_AGE_SECONDS` is set (start: regular/extended 30s,
