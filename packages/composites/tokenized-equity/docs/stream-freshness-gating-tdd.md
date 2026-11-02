@@ -84,8 +84,9 @@ deliberately prioritized over freshness.
 
 Both checks are enforced at a single point: stream selection in the tokenized-equity EA
 (`lib/streams.ts getStream()`), through which every price request across all endpoints and
-transports already flows. Evaluation order is fixed — **select → staleness → session-start** —
-the first check that fails causes the rejection.
+transports already flows. Evaluation order is fixed — **select → session-start check → staleness check** —
+the first check that fails causes the rejection (503). Session-start runs first because a pre-session
+leftover is invalid _regardless of age_; staleness is only meaningful for in-session reports.
 
 Stream selection itself is unchanged: the pre-existing eligibility fall-through (priority order
 regular → extended → overnight, a stream eligible only when its report's `marketStatus` matches
@@ -104,14 +105,7 @@ the session it serves) is preserved exactly. The new checks gate the _selected_ 
   clock. Thresholds are seconds and orders of magnitude larger than any NTP skew, so no special
   clock-synchronization precision is needed.
 
-### Check 1: staleness gating
-
-A selected report whose age exceeds the configured threshold for its session
-(`DS_VALID_MAX_AGE_SECONDS`, with `_REGULAR` / `_EXTENDED` / `_OVERNIGHT` overrides) is rejected
-with 503 `Market data is stale: … STALE(status, age=Xs>Ys)`. This catches mid-session freezes: a
-stream that stops updating while the market is open. A stale selected stream is rejected.
-
-### Check 2: pre-open warm-up (session-start) gating
+### Check 1: pre-open warm-up (session-start) gating
 
 Enabled by `DS_SESSION_START_GATING_ENABLED`. The session start is computed from the tradinghours
 `market-session` schedule as the latest transition at or before now whose status opens the
@@ -127,7 +121,15 @@ A selected report whose `lastSeenTimestampNs` predates the current session start
 from the previous session and is rejected with 503 `Market data predates session start: …
 PRE_SESSION(...)`, even if it is fresh by age. This catches what the age check cannot: a report
 produced just before a boundary but served just after it (the 15:59:59 REGULAR print echoed into
-POST_MARKET; Friday overnight data served at the Sunday open).
+POST_MARKET; Friday overnight data served at the Sunday open). This check runs **before** the
+staleness check: a pre-session leftover is invalid regardless of its age.
+
+### Check 2: staleness gating
+
+A selected, in-session report whose age exceeds the configured threshold for its session
+(`DS_VALID_MAX_AGE_SECONDS`, with `_REGULAR` / `_EXTENDED` / `_OVERNIGHT` overrides) is rejected
+with 503 `Market data is stale: … STALE(status, age=Xs>Ys)`. This catches mid-session freezes: a
+stream that stops updating while the market is open. A stale selected stream is rejected.
 
 ### New dependency: tradinghours EA market-session schedule
 
@@ -224,8 +226,8 @@ is evaluated independently.
 ### Failure behavior: decision matrix
 
 One row per outcome of a request through `getStream()`. Evaluation order is fixed: **select →
-staleness → session-start**. The first check that fails produces the 503; later checks are not
-reached (e.g. a report that is both stale and pre-session reports `STALE`).
+session-start → staleness**. The first check that fails produces the 503; later checks are not
+reached (e.g. a report that is both pre-session and stale reports `PRE_SESSION`).
 
 Criteria columns:
 
@@ -239,19 +241,19 @@ Criteria columns:
   transition opening the selected session?
 - **lastSeen vs start** — report timestamp vs the current session's start.
 
-| #   | marketStatus match                                                 | staleness check   | age         | session-start gating | schedule                                                       | lastSeen vs start     | Outcome                                                                                                                                                                                                                                                                                                                               |
-| --- | ------------------------------------------------------------------ | ----------------- | ----------- | -------------------- | -------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | ✅ stream selected                                                 | off               | —           | off                  | —                                                              | —                     | **200** pass-through (legacy behavior; both checks inert)                                                                                                                                                                                                                                                                             |
-| 2   | ✅                                                                 | on                | ≤ threshold | off                  | —                                                              | —                     | **200** (valid price, not stale)                                                                                                                                                                                                                                                                                                      |
-| 3   | ✅                                                                 | on                | > threshold | any                  | any                                                            | any                   | **503** `Market data is stale: … STALE(status, age=Xs>Ys)` — mid-session freeze; no fail-over to another session's stream                                                                                                                                                                                                             |
-| 4   | ✅                                                                 | off, or not stale | —           | on                   | ✅ + transition found                                          | ≥ session start       | **200** (valid price, not stale, not before session start)                                                                                                                                                                                                                                                                            |
-| 5   | ✅                                                                 | off, or not stale | —           | on                   | ✅ + transition found                                          | < session start       | **503** `Market data predates session start: … PRE_SESSION(...)` — pre-open leftover, even if fresh by age                                                                                                                                                                                                                            |
-| 6   | ✅                                                                 | off, or not stale | —           | on                   | ❌ tradinghours errored/unreachable                            | vs **fallback** start | degrade down the schedule chain: tier 2 `sessionBoundaries` (unlabeled; start = latest boundary ≤ now), else tier 3 hard-coded labeled schedule (known market/type only); rows 4/5 apply against the fallback start. **503** only if no tier is available (e.g. unlisted market/type with no boundaries, or `session*` params absent) |
-| 7   | ✅                                                                 | off, or not stale | —           | on                   | ✅ have schedule, but no transition opens the selected session | vs **fallback** start | same fallback chain as row 6                                                                                                                                                                                                                                                                                                          |
-| 8   | ❌ all streams UNKNOWN(0)                                          | any               | any         | any                  | any                                                            | any                   | **503** `Market is not open: regular UNKNOWN, …` — provider degraded; alert-worthy (distinct from row 9)                                                                                                                                                                                                                              |
-| 9   | ❌ WEEKEND(5), or closed-market phases with no eligible stream     | any               | any         | any                  | any                                                            | any                   | **503** `Market is not open: …` — expected; never alert                                                                                                                                                                                                                                                                               |
-| 10  | ❌ stream fetch failed (data-engine error for the eligible stream) | any               | any         | any                  | any                                                            | any                   | **503** `Market is not open: <name>  <error>` — upstream fetch error surfaced in the message                                                                                                                                                                                                                                          |
-| 11  | mixed: e.g. regular=UNKNOWN, extended=POST_MARKET                  | —                 | —           | —                    | —                                                              | —                     | selection proceeds on the matching stream (extended); rows 1–7 then apply to it                                                                                                                                                                                                                                                       |
+| #   | marketStatus match                                                 | staleness check                                   | age         | session-start gating    | schedule                                                       | lastSeen vs start         | Outcome                                                                                                                                                                                                                                                                                                                               |
+| --- | ------------------------------------------------------------------ | ------------------------------------------------- | ----------- | ----------------------- | -------------------------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ✅ stream selected                                                 | off                                               | —           | off                     | —                                                              | —                         | **200** pass-through (legacy behavior; both checks inert)                                                                                                                                                                                                                                                                             |
+| 2   | ✅                                                                 | on                                                | ≤ threshold | off                     | —                                                              | —                         | **200** (valid price, not stale)                                                                                                                                                                                                                                                                                                      |
+| 3   | ✅                                                                 | on                                                | > threshold | off, or on + in-session | —, or ✅ + transition found                                    | —, or ≥ start (gating on) | **503** `Market data is stale: … STALE(status, age=Xs>Ys)` — mid-session freeze; no fail-over to another session's stream                                                                                                                                                                                                             |
+| 4   | ✅                                                                 | off, or not stale                                 | —           | on                      | ✅ + transition found                                          | ≥ session start           | **200** (valid price, not stale, not before session start)                                                                                                                                                                                                                                                                            |
+| 5   | ✅                                                                 | any (never evaluated — session-start fails first) | any         | on                      | ✅ + transition found                                          | < session start           | **503** `Market data predates session start: … PRE_SESSION(...)` — pre-open leftover, even if fresh by age                                                                                                                                                                                                                            |
+| 6   | ✅                                                                 | off, or not stale                                 | —           | on                      | ❌ tradinghours errored/unreachable                            | vs **fallback** start     | degrade down the schedule chain: tier 2 `sessionBoundaries` (unlabeled; start = latest boundary ≤ now), else tier 3 hard-coded labeled schedule (known market/type only); rows 4/5 apply against the fallback start. **503** only if no tier is available (e.g. unlisted market/type with no boundaries, or `session*` params absent) |
+| 7   | ✅                                                                 | off, or not stale                                 | —           | on                      | ✅ have schedule, but no transition opens the selected session | vs **fallback** start     | same fallback chain as row 6                                                                                                                                                                                                                                                                                                          |
+| 8   | ❌ all streams UNKNOWN(0)                                          | any                                               | any         | any                     | any                                                            | any                       | **503** `Market is not open: regular UNKNOWN, …` — provider degraded; alert-worthy (distinct from row 9)                                                                                                                                                                                                                              |
+| 9   | ❌ WEEKEND(5), or closed-market phases with no eligible stream     | any                                               | any         | any                     | any                                                            | any                       | **503** `Market is not open: …` — expected; never alert                                                                                                                                                                                                                                                                               |
+| 10  | ❌ stream fetch failed (data-engine error for the eligible stream) | any                                               | any         | any                     | any                                                            | any                       | **503** `Market is not open: <name>  <error>` — upstream fetch error surfaced in the message                                                                                                                                                                                                                                          |
+| 11  | mixed: e.g. regular=UNKNOWN, extended=POST_MARKET                  | —                                                 | —           | —                       | —                                                              | —                         | selection proceeds on the matching stream (extended); rows 1–7 then apply to it                                                                                                                                                                                                                                                       |
 
 Notes:
 
@@ -270,6 +272,10 @@ Notes:
 
 ### Why this design / alternatives rejected
 
+- **Session-start before staleness.** A pre-session leftover is invalid _regardless of age_ —
+  its freshness is precisely what makes it dangerous. Running the boundary check first means a
+  report that is both pre-session and stale reports `PRE_SESSION`, and staleness only ever
+  evaluates reports that provably belong to the current session.
 - **Consumer-side gating vs fixing providers/upstream.** Provider warm-up behavior and upstream
   staleness are outside our control and timeline; the EA is the last point where bad data can be
   stopped before it reaches the chain, and it already sees every stream plus the session

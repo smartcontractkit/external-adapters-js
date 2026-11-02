@@ -109,14 +109,14 @@ const describeCandidate = (c: StreamCandidate, sessionStartGating?: SessionStart
   }
   const status = TwentyfourFiveMarketStatus[c.result.value.marketStatus]
   const age = reportAgeSeconds(c.result.value.lastSeenTimestampNs)
-  if (c.maxAgeSeconds !== undefined && age > c.maxAgeSeconds) {
-    return `${c.name} STALE(${status}, age=${age.toFixed(0)}s>${c.maxAgeSeconds}s)`
-  }
   const preSession = preSessionSeconds(c, sessionStartGating)
   if (preSession !== undefined) {
     return `${c.name} PRE_SESSION(${status}, lastSeen ${preSession.toFixed(
       0,
     )}s before session start)`
+  }
+  if (c.maxAgeSeconds !== undefined && age > c.maxAgeSeconds) {
+    return `${c.name} STALE(${status}, age=${age.toFixed(0)}s>${c.maxAgeSeconds}s)`
   }
   return `${c.name} ${status}`
 }
@@ -173,10 +173,11 @@ const getStream = (
     },
   ]
 
-  // Select by session status first (priority order regular → extended → overnight),
-  // then apply the staleness check to the selected stream. A stale selected stream is
-  // rejected outright rather than failing over to a fresher stream of a different
-  // session type, which would silently change the pricing source.
+  // Select by session status first (priority order regular → extended → overnight), then gate
+  // the selected stream: session-start check before the staleness check — a pre-session
+  // leftover is invalid regardless of age, so staleness only ever evaluates reports that
+  // belong to the current session. A rejected selected stream never fails over to another
+  // session type's stream, which would silently change the pricing source.
   const selected = candidates.find(
     (c) =>
       c.result.status === 'fulfilled' && c.eligibleStatuses.includes(c.result.value.marketStatus),
@@ -184,15 +185,6 @@ const getStream = (
 
   if (selected) {
     const value = (selected.result as PromiseFulfilledResult<DataEngineResponse>).value
-    const age = reportAgeSeconds(value.lastSeenTimestampNs)
-    if (selected.maxAgeSeconds !== undefined && age > selected.maxAgeSeconds) {
-      throw new AdapterError({
-        statusCode: 503,
-        message: `Market data is stale: ${candidates
-          .map((c) => describeCandidate(c, sessionStartGating))
-          .join(', ')}`,
-      })
-    }
     if (sessionStartGating) {
       // Fail closed: with gating enabled, a report whose session start is unknown is
       // rejected — we cannot prove it is not a pre-session leftover.
@@ -228,6 +220,15 @@ const getStream = (
             .join(', ')}`,
         })
       }
+    }
+    const age = reportAgeSeconds(value.lastSeenTimestampNs)
+    if (selected.maxAgeSeconds !== undefined && age > selected.maxAgeSeconds) {
+      throw new AdapterError({
+        statusCode: 503,
+        message: `Market data is stale: ${candidates
+          .map((c) => describeCandidate(c, sessionStartGating))
+          .join(', ')}`,
+      })
     }
     return value
   }
