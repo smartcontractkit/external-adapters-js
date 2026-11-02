@@ -64,8 +64,9 @@ predates session start`, `Market is not open`), enabling log-based
   logs + existing framework HTTP status-code metrics). Reason-labeled Prometheus metrics would
   require EA framework changes and are a possible follow-up, not part of this work.
 - **No local caching of the tradinghours schedule.** On a tradinghours outage the EA degrades
-  through the fallback tiers (per-feed `sessionBoundaries`, then the hard-coded labeled schedule)
-  rather than serving a cached copy or failing closed. A proper fallback cache is follow-up work:
+  through the fallback (the hard-coded labeled schedule, `nyse/24/5`; the smoother separately
+  keeps its `sessionBoundaries` fallback) rather than serving a cached copy or failing closed. A
+  proper fallback cache is follow-up work:
   [DF-28220](https://smartcontract-it.atlassian.net/browse/DF-28220).
 - **No default enablement.** Both checks ship dark and stay opt-in; nothing changes for feeds
   until env vars are set. Furthermore, _enabling_ the staleness check is out of scope for this
@@ -135,26 +136,22 @@ stream that stops updating while the market is open. A stale selected stream is 
 
 The only new runtime dependency, and only when `DS_SESSION_START_GATING_ENABLED=true`. There is
 deliberately **no local caching** of the fetched schedule. When the tradinghours schedule is
-unusable — the fetch fails, or it contains no transition opening the selected session — gating
-degrades through a **three-tier schedule chain** rather than rejecting:
+unusable — the fetch fails, **or the response cannot be used to determine the current session's
+start** (e.g. no transition opening the selected session) — gating falls back to a **hard-coded
+labeled schedule in the EA** rather than rejecting. Gating deliberately does **not** use the
+per-feed `sessionBoundaries` parameter: its times are unlabeled, so it cannot say which session
+a boundary opens, and the conventional values (`04:00` / `16:00` / `20:00` ET) lack the 09:30
+regular open — gating on it would silently weaken exactly the regular-open protection this
+feature exists for. (`sessionBoundaries` remains the _smoother's_ fallback, unchanged.)
 
 1. **tradinghours `market-session`** — authoritative, labeled per session, holiday/early-close
-   aware. The only tier used in normal operation.
-2. **Per-feed `sessionBoundaries` / `sessionBoundariesTimeZone`** — the smoother's long-standing
-   fallback, reused for gating exactly as the smoother uses it: unlabeled boundary times, so the
-   session start is the latest boundary at or before now. Coarser than tier 1: the conventional
-   values (`04:00` / `16:00` / `20:00` ET) lack the 09:30 regular open, so tier-2 gating during
-   REGULAR measures the session start from 04:00. (Operators may optionally add `09:30` to a
-   feed's `sessionBoundaries` to harden this — a value change, not a new parameter, and **not
-   required for adoption**. Note it also activates the smoother's brief transition-blend window
-   around 09:30 in fallback mode only; accepted.)
-3. **Hard-coded labeled schedule in the EA** — the last resort, for feeds with no usable
-   `sessionBoundaries`. Keyed by market/type and initially defined **only for `nyse` + `24/5`** —
-   the sole market with a dedicated 24/5 schedule in tradinghours today, and the only combination
-   TE feeds use:
+   aware. The only source used in normal operation.
+2. **Hard-coded labeled schedule in the EA** — the fallback. Keyed by market/type and initially
+   defined **only for `nyse` + `24/5`** — the sole market with a dedicated 24/5 schedule in
+   tradinghours today, and the only combination TE feeds use:
 
    ```ts
-   // tier 3: hard-coded last-resort schedules, keyed by market/type we actually serve.
+   // Hard-coded fallback schedules, keyed by market/type we actually serve.
    // Labeled session opens in the venue's local time; evaluated with the same TZDate
    // handling as sessionBoundaries. Mirrors the nyse/24/5 structure from tradinghours:
    // overnight sessions open 20:00 Sun–Thu (running to 04:00); Friday 20:00 → weekend.
@@ -192,31 +189,40 @@ degrades through a **three-tier schedule chain** rather than rejecting:
    }
    ```
 
-   Unlike both other tiers, this includes the **Sunday 20:00 overnight open** (tier 1 carries it
-   in the raw schedule; tier 2's generator skips it) and the labeled **09:30 regular open** —
-   so tier 3 gating has full precision, including for the Friday-leftovers-at-Sunday-open case.
+   Because it is labeled, the fallback keeps **full gating precision**: the true 09:30 regular
+   open, and the **Sunday 20:00 overnight open** (which the smoother's fallback generator
+   deliberately skips) — so the Friday-leftovers-at-Sunday-open case stays gated even during a
+   tradinghours outage. Market/type pairs without a hard-coded entry get **no fallback**: with
+   gating enabled and tradinghours unusable, the request 503s — loud rather than silently wrong.
+   Adding a market later is one reviewed map entry.
 
-   Being labeled, tier 3 restores full gating precision (the true 09:30 regular open; the Sunday
-   overnight open) for the feeds that reach it. Market/type pairs without a hard-coded entry get
-   **no tier 3**: with gating enabled and tiers 1–2 exhausted, the request 503s — loud rather
-   than silently wrong. Adding a market later is one reviewed map entry.
+Protection therefore degrades to a fixed schedule rather than disappearing across an outage, and
+feeds stay available instead of 503ing — with one bounded exposure: hard-coded schedule drift
+(baked-in NYSE hours can go stale on venue changes, and holidays/early closes are unknown to a
+fixed schedule; mitigated by the fallback running only when tradinghours is down, and by the
+release process for any change).
 
-Protection therefore degrades rather than disappears across an outage, and feeds stay available
-instead of 503ing — with two bounded exposures: tier 2's unlabeled approximation of the regular
-open (only for feeds that set `sessionBoundaries` without `09:30`), and hard-coded schedule
-drift at tier 3 (baked-in NYSE hours can go stale on venue changes; mitigated by tier 3 running
-only when tradinghours is down, and by the release process for any change).
-
-**Fallback activation is not visible in telemetry.** No metric distinguishes which tier a
-decision came from; the signals are only the per-request error line in the EA's logs
-(`TradingHoursEA request failed; … falls back to sessionBoundaries`) and the `sessionSource:
+**Fallback activation is not visible in telemetry.** No metric distinguishes a
+tradinghours-sourced from a fallback-sourced decision; the signals are only the per-request
+error line in the EA's logs (`TradingHoursEA request failed; …`) and the `sessionSource:
 'FALLBACK'` field in responses. The primary health signal for this dependency is therefore
 **monitoring of the tradinghours EA itself** — its own availability/5xx alerts are what tell us
-the TE EA is running on fallback tiers.
+the TE EA is gating on the fallback schedule.
 
-Gating requires the `session*` request params on every gated feed — which `smoother: 'none'`
-configs cannot provide (validation forbids the combination). Feeds on `none` must move to
-kalman/ema before the flag is enabled, or they will 503 for lack of any schedule at all.
+Gating identifies the market from the request's `sessionMarket` / `sessionMarketType` params —
+and **never** reads `sessionBoundaries` or `sessionBoundariesTimeZone` (those are the smoother's
+fallback inputs alone). The timezone that the tier-1 `market-session` call requires, and that the
+fallback schedule is evaluated in, comes from the hard-coded map entry for the market/type —
+one entry is the single source of per-market truth (`nyse/24/5` → `America/New_York`). A
+market/type with no map entry therefore cannot be gated at all and 503s while the flag is on,
+even with tradinghours healthy.
+
+Because `sessionMarket`/`sessionMarketType` are request params, `smoother: 'none'` feeds — for
+which validation currently forbids session params — cannot be gated. The rollout blocker for
+those 5 feeds is therefore: relax the validation to permit `sessionMarket`/`sessionMarketType`
+with `smoother: 'none'` (they now have a non-smoother consumer), and add those two inert params
+to the feeds' RDD config — **no change to how those feeds compute prices** (smoother stays
+`none`).
 
 ### State changes
 
@@ -241,29 +247,31 @@ Criteria columns:
   transition opening the selected session?
 - **lastSeen vs start** — report timestamp vs the current session's start.
 
-| #   | marketStatus match                                                 | staleness check                                   | age         | session-start gating    | schedule                                                       | lastSeen vs start         | Outcome                                                                                                                                                                                                                                                                                                                               |
-| --- | ------------------------------------------------------------------ | ------------------------------------------------- | ----------- | ----------------------- | -------------------------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | ✅ stream selected                                                 | off                                               | —           | off                     | —                                                              | —                         | **200** pass-through (legacy behavior; both checks inert)                                                                                                                                                                                                                                                                             |
-| 2   | ✅                                                                 | on                                                | ≤ threshold | off                     | —                                                              | —                         | **200** (valid price, not stale)                                                                                                                                                                                                                                                                                                      |
-| 3   | ✅                                                                 | on                                                | > threshold | off, or on + in-session | —, or ✅ + transition found                                    | —, or ≥ start (gating on) | **503** `Market data is stale: … STALE(status, age=Xs>Ys)` — mid-session freeze; no fail-over to another session's stream                                                                                                                                                                                                             |
-| 4   | ✅                                                                 | off, or not stale                                 | —           | on                      | ✅ + transition found                                          | ≥ session start           | **200** (valid price, not stale, not before session start)                                                                                                                                                                                                                                                                            |
-| 5   | ✅                                                                 | any (never evaluated — session-start fails first) | any         | on                      | ✅ + transition found                                          | < session start           | **503** `Market data predates session start: … PRE_SESSION(...)` — pre-open leftover, even if fresh by age                                                                                                                                                                                                                            |
-| 6   | ✅                                                                 | off, or not stale                                 | —           | on                      | ❌ tradinghours errored/unreachable                            | vs **fallback** start     | degrade down the schedule chain: tier 2 `sessionBoundaries` (unlabeled; start = latest boundary ≤ now), else tier 3 hard-coded labeled schedule (known market/type only); rows 4/5 apply against the fallback start. **503** only if no tier is available (e.g. unlisted market/type with no boundaries, or `session*` params absent) |
-| 7   | ✅                                                                 | off, or not stale                                 | —           | on                      | ✅ have schedule, but no transition opens the selected session | vs **fallback** start     | same fallback chain as row 6                                                                                                                                                                                                                                                                                                          |
-| 8   | ❌ all streams UNKNOWN(0)                                          | any                                               | any         | any                     | any                                                            | any                       | **503** `Market is not open: regular UNKNOWN, …` — provider degraded; alert-worthy (distinct from row 9)                                                                                                                                                                                                                              |
-| 9   | ❌ WEEKEND(5), or closed-market phases with no eligible stream     | any                                               | any         | any                     | any                                                            | any                       | **503** `Market is not open: …` — expected; never alert                                                                                                                                                                                                                                                                               |
-| 10  | ❌ stream fetch failed (data-engine error for the eligible stream) | any                                               | any         | any                     | any                                                            | any                       | **503** `Market is not open: <name>  <error>` — upstream fetch error surfaced in the message                                                                                                                                                                                                                                          |
-| 11  | mixed: e.g. regular=UNKNOWN, extended=POST_MARKET                  | —                                                 | —           | —                       | —                                                              | —                         | selection proceeds on the matching stream (extended); rows 1–7 then apply to it                                                                                                                                                                                                                                                       |
+| #   | marketStatus match                                                 | staleness check                                   | age         | session-start gating    | schedule                                                       | lastSeen vs start         | Outcome                                                                                                                                                                                                                                                                                                                                     |
+| --- | ------------------------------------------------------------------ | ------------------------------------------------- | ----------- | ----------------------- | -------------------------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ✅ stream selected                                                 | off                                               | —           | off                     | —                                                              | —                         | **200** pass-through (legacy behavior; both checks inert)                                                                                                                                                                                                                                                                                   |
+| 2   | ✅                                                                 | on                                                | ≤ threshold | off                     | —                                                              | —                         | **200** (valid price, not stale)                                                                                                                                                                                                                                                                                                            |
+| 3   | ✅                                                                 | on                                                | > threshold | off, or on + in-session | —, or ✅ + transition found                                    | —, or ≥ start (gating on) | **503** `Market data is stale: … STALE(status, age=Xs>Ys)` — mid-session freeze; no fail-over to another session's stream                                                                                                                                                                                                                   |
+| 4   | ✅                                                                 | off, or not stale                                 | —           | on                      | ✅ + transition found                                          | ≥ session start           | **200** (valid price, not stale, not before session start)                                                                                                                                                                                                                                                                                  |
+| 5   | ✅                                                                 | any (never evaluated — session-start fails first) | any         | on                      | ✅ + transition found                                          | < session start           | **503** `Market data predates session start: … PRE_SESSION(...)` — pre-open leftover, even if fresh by age                                                                                                                                                                                                                                  |
+| 6   | ✅                                                                 | off, or not stale                                 | —           | on                      | ❌ tradinghours errored/unreachable                            | vs **fallback** start     | fall back to the hard-coded labeled schedule (`nyse/24/5` only). Rows 4/5 apply against the fallback start. **503** only if the market/type has no hard-coded entry — including when `sessionMarket`/`sessionMarketType` are absent (e.g. `smoother: 'none'` feeds), which leaves no way to identify the market for either schedule source. |
+| 7   | ✅                                                                 | off, or not stale                                 | —           | on                      | ✅ have schedule, but no transition opens the selected session | vs **fallback** start     | same fallback as row 6 — a tradinghours schedule that cannot determine the current session start is treated identically to a failed fetch                                                                                                                                                                                                   |
+| 8   | ❌ all streams UNKNOWN(0)                                          | any                                               | any         | any                     | any                                                            | any                       | **503** `Market is not open: regular UNKNOWN, …` — provider degraded; alert-worthy (distinct from row 9)                                                                                                                                                                                                                                    |
+| 9   | ❌ WEEKEND(5), or closed-market phases with no eligible stream     | any                                               | any         | any                     | any                                                            | any                       | **503** `Market is not open: …` — expected; never alert                                                                                                                                                                                                                                                                                     |
+| 10  | ❌ stream fetch failed (data-engine error for the eligible stream) | any                                               | any         | any                     | any                                                            | any                       | **503** `Market is not open: <name>  <error>` — upstream fetch error surfaced in the message                                                                                                                                                                                                                                                |
+| 11  | mixed: e.g. regular=UNKNOWN, extended=POST_MARKET                  | —                                                 | —           | —                       | —                                                              | —                         | selection proceeds on the matching stream (extended); rows 1–7 then apply to it                                                                                                                                                                                                                                                             |
 
 Notes:
 
 - Rows 3–5 are the feature; row 1 is the ship-dark default (all checks off).
 - Rows 6–7 degrade rather than reject: on a tradinghours outage (or a schedule that can't place
-  the current session) gating walks the fallback chain — tier 2 `sessionBoundaries` (mirroring
-  the smoother), then tier 3's hard-coded labeled schedule for known market/type pairs. A 503
-  only results if the report also fails against the fallback start, or no tier is available at
-  all (`session*` params absent, e.g. `smoother: 'none'` feeds; or an unlisted market/type with
-  no boundaries — hence `none` feeds must migrate before the flag is enabled).
+  the current session) gating falls back to the hard-coded labeled schedule. A 503 only results
+  if the report also fails against the fallback start, or no fallback exists for the feed's
+  market/type (including `sessionMarket`/`sessionMarketType` absent, e.g. `smoother: 'none'`
+  feeds — hence `none` feeds must gain market identity before the flag is enabled). Note gating needs only
+  `sessionMarket`/`sessionMarketType` (the timezone comes from the hard-coded map entry);
+  `sessionBoundaries`/`sessionBoundariesTimeZone` are the smoother's fallback inputs and their
+  absence does not affect gating.
 - In rows 8–10 the rejection reason is not visible in the status code alone — reason-level
   observability is log-based (see §5 Operations).
 - A stream frozen _between_ sessions (e.g. overnight stream still showing Friday 04:00 ET during
@@ -280,13 +288,15 @@ Notes:
   staleness are outside our control and timeline; the EA is the last point where bad data can be
   stopped before it reaches the chain, and it already sees every stream plus the session
   schedule.
-- **Fallback tiers vs failing open or closed when the tradinghours schedule is unusable.**
+- **Hard-coded fallback vs failing open or closed when the tradinghours schedule is unusable.**
   Failing open would silently disable the warm-up check exactly when schedule uncertainty is
   highest; failing closed would 503 fresh in-session data for the duration of any tradinghours
-  outage. Degrading first to `sessionBoundaries` mirrors what the smoother has always done, and
-  the hard-coded labeled tier 3 (known market/types only) covers feeds with no boundaries
-  configured — keeping feeds available while retaining most of the protection. Tier 1–2 behavior
-  was decided with product; tier 3 is proposed here and pending PM sign-off (§12).
+  outage. Falling back to the hard-coded labeled schedule keeps feeds available at full gating
+  precision for the market/types we serve. Gating deliberately skips the per-feed
+  `sessionBoundaries` fallback the smoother uses: those times are unlabeled (a boundary can't be
+  attributed to a session) and conventionally lack the 09:30 regular open, so gating on them
+  would silently weaken the regular-open protection that is this feature's core case. This
+  supersedes the earlier "mirror the smoother" fallback decision; PM sign-off tracked in §12.
 - **No fail-over across session types.** A different session's stream reports a price from a
   different liquidity regime; substituting it would silently change the pricing source. Selection
   already falls through on _eligibility_ (status mismatch or fetch failure) — quality gates only
@@ -318,13 +328,13 @@ Both checks ship dark, so enabling them changes nothing until env vars are set. 
   # selection failures (pre-existing behavior, now worth distinguishing)
   |= "Market is not open" |= "UNKNOWN"   # row 8: provider degraded — alert-worthy
   |= "Market is not open" |= "WEEKEND"   # row 9: expected — never alert
-  # fallback tier activation (tradinghours outage)
+  # fallback activation (tradinghours outage)
   |= "TradingHoursEA request failed"     # rows 6–7: running on fallback schedule
   ```
 
   Example panel: `sum by (reason) (count_over_time({…} |= "<prefix>" [$__range]))` per pattern
   above. The tradinghours line also drives a fallback-mode indicator — its presence _is_ the
-  signal that tiers 2/3 are active (see §4: fallback is otherwise invisible in telemetry, so
+  signal that the fallback schedule is active (see §4: fallback is otherwise invisible in telemetry, so
   tradinghours EA availability monitoring is the primary health signal for that dependency).
 
 ### Impact on existing alerting (must be done before the flags are enabled)
@@ -341,7 +351,7 @@ Both checks ship dark, so enabling them changes nothing until env vars are set. 
 - **Page:** sustained `UNKNOWN` rejections during what should be an active session (row 8 —
   provider degraded); suggested threshold ~10m. Sustained `STALE` / `PRE_SESSION` rejections
   outside expected warm-up windows likewise indicate a provider incident.
-- **Page:** `TradingHoursEA request failed` persisting — the TE EA is on fallback schedule tiers;
+- **Page:** `TradingHoursEA request failed` persisting — the TE EA is gating on the hard-coded fallback schedule;
   pair with tradinghours EA's own availability alerts.
 - **Never alert:** WEEKEND / legitimately-closed rejections (row 9).
 
@@ -368,7 +378,7 @@ Both checks ship dark, so enabling them changes nothing until env vars are set. 
   degradation the EA intentionally rejects rather than serves stale/pre-session data, so the
   feed holds its last onchain value; a sustained 503 with `Market data is stale` /
   `predates session start` is provider-side, not an EA bug; `TradingHoursEA` errors mean the
-  fallback schedule tiers are active. (Advisory only — NOP rollout/tuning is out of scope, §3.)
+  hard-coded fallback schedule is active. (Advisory only — NOP rollout/tuning is out of scope, §3.)
 
 ### New operational burden
 
@@ -395,11 +405,26 @@ gating).
 
 1. **Ship dark.** Deploy with `DS_SESSION_START_GATING_ENABLED` unset/false and all
    `DS_VALID_MAX_AGE_SECONDS*` unset. Zero behavior change (matrix row 1).
-2. **Pre-enablement blockers.** (a) Migrate the 5 `smoother: 'none'` feeds to kalman/ema — with
-   the flag on they would 503 for lack of any session schedule. (b) Complete the alert tuning
+2. **Pre-enablement blockers.** (a) Make the 5 `smoother: 'none'` feeds gateable: relax the
+   validation that forbids session params with `smoother: 'none'`, and add
+   `sessionMarket`/`sessionMarketType` to those feeds' RDD config. No smoother change, no price
+   behavior change — gating needs market identity only. Without this they 503 with the flag on.
+   The 5 feeds (all `mainnet`, from the RDD census):
+
+   | Feed                      | Contract                                     | Endpoint  |
+   | ------------------------- | -------------------------------------------- | --------- |
+   | FLHYon / USD (Calculated) | `0xc1E84F39413eb3641a208dcf784Ab477a6e1336F` | ondo      |
+   | FLHYon-USD (Calculated)   | `0xE2C7f1BB9ACB754210246aFE2f33019926865Ca2` | ondo      |
+   | USFRon-USD (Calculated)   | `0xB783C8Cd86e839260eC9169028543469aeb315f4` | ondo      |
+   | STRCon-USD (Calculated)   | `0x2d5ee9a108f8FfA8A69539924092B6FB0982153E` | ondo      |
+   | SPCX / USD                | `0xeb52759b7E94d0c4AeEDa2e21475e6BC3AAbf43B` | (default) |
+
+   Note: **the FLHYon feeds are the warm-up incident feeds** (§1) — the feeds that most need
+   this protection are the ones that are ungateable today. (b) Complete the alert tuning
    from §5 (5xx alerts annotated/tuned for intended rejections; UNKNOWN/STALE/PRE_SESSION log
    alerts in place). (c) Confirm tradinghours EA availability monitoring exists — it is the
-   health signal for the fallback tiers.
+   health signal for the fallback schedule.
+
 3. **Staging soak.** Enable `DS_SESSION_START_GATING_ENABLED` on staging for at least a
    **Thursday-through-Monday** window: one normal day, the weekend, one normal day. This covers
    Friday's pre-market and regular opens, Monday's opens, and the Sunday 20:00 overnight open —
@@ -413,18 +438,20 @@ gating).
 ### Rollback
 
 Unset `DS_SESSION_START_GATING_ENABLED` and restart (or per-instance equivalent) — the check is
-fully inert when the flag is off. No state, no migrations, no data changes. The 5 migrated
-`none` feeds keep their new smoother after a rollback (a deliberate, independently-safe config
-improvement — reverting it is optional, not required).
+fully inert when the flag is off. No state, no migrations, no data changes. The added
+`sessionMarket`/`sessionMarketType` params on the 5 `none` feeds are inert without the flag
+and can stay after a rollback (reverting them is optional, not required).
 
 ### One-way-door risks
 
 None identified. The change is additive and env-gated; the EA's public interface is unchanged;
-the only persistent artifact is the 5-feed smoother migration, which is safe in both directions.
+the only persistent artifact is the two added params on the 5 `none` feeds, which are inert in
+both directions.
 
 ### Release blockers
 
-- 5 `none`-smoother feeds migrated (step 2a).
+- 5 `none`-smoother feeds gateable: validation relaxed + `sessionMarket`/`sessionMarketType`
+  added to their RDD configs (step 2a).
 - §5 alert tuning done (2b); tradinghours EA monitoring confirmed (2c).
 - Staging soak passed with the §5 proofs.
 
@@ -436,7 +463,7 @@ can read intended-503 behavior correctly if they encounter it.
 ## 7. Success Metrics
 
 **What measurable outcome improves:** spurious onchain moves at session opens, caused by pre-open
-warm-up reports, go to zero. Baseline: 2 warm-up incidents (references TBD — §12 #3). Target: **0
+warm-up reports, go to zero. Baseline: 2 warm-up incidents (references TBD). Target: **0
 over the first full month post prod rollout** (incidents recur roughly monthly, so a clean month
 is a meaningful signal).
 
@@ -472,13 +499,13 @@ only when the new env config is enabled. The 200 path is byte-identical with eve
 
 **New instance-level env configuration** (all optional; everything ships dark):
 
-| Env var                              | Type       | Default              | Valid values                     | Behavior                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ------------------------------------ | ---------- | -------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `DS_SESSION_START_GATING_ENABLED`    | boolean    | `false`              | `true`/`false`                   | **This rollout.** Pre-open warm-up check: a selected report whose `lastSeenTimestampNs` predates the current session start is rejected with 503 `PRE_SESSION(...)`. Session start comes from the 3-tier schedule chain (tradinghours → `sessionBoundaries` → hard-coded `nyse/24/5`); 503 only when no tier can supply a start. Requires `session*` request params (not satisfiable by `smoother: 'none'` feeds). |
-| `DS_VALID_MAX_AGE_SECONDS`           | number (s) | unset (off)          | positive int; unset/`0` disables | Shared staleness threshold for all streams; older reports rejected with 503 `STALE(...)`. **Ships dark — enabled in a follow-on effort.**                                                                                                                                                                                                                                                                         |
-| `DS_VALID_MAX_AGE_SECONDS_REGULAR`   | number (s) | falls back to shared | positive int                     | Per-session override, regular-hours stream.                                                                                                                                                                                                                                                                                                                                                                       |
-| `DS_VALID_MAX_AGE_SECONDS_EXTENDED`  | number (s) | falls back to shared | positive int                     | Per-session override, extended-hours stream.                                                                                                                                                                                                                                                                                                                                                                      |
-| `DS_VALID_MAX_AGE_SECONDS_OVERNIGHT` | number (s) | falls back to shared | positive int                     | Per-session override, overnight stream (expected looser — slower cadence).                                                                                                                                                                                                                                                                                                                                        |
+| Env var                              | Type       | Default              | Valid values                     | Behavior                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------------------ | ---------- | -------------------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DS_SESSION_START_GATING_ENABLED`    | boolean    | `false`              | `true`/`false`                   | **This rollout.** Pre-open warm-up check: a selected report whose `lastSeenTimestampNs` predates the current session start is rejected with 503 `PRE_SESSION(...)`. Session start comes from tradinghours, falling back to the hard-coded labeled schedule (`nyse/24/5`) when tradinghours is down or its schedule unusable; 503 only when no schedule can supply a start. Requires the request's `sessionMarket`/`sessionMarketType` (never `sessionBoundaries`/`sessionBoundariesTimeZone`); `smoother: 'none'` feeds need the validation relaxation in §6 to carry them. |
+| `DS_VALID_MAX_AGE_SECONDS`           | number (s) | unset (off)          | positive int; unset/`0` disables | Shared staleness threshold for all streams; older reports rejected with 503 `STALE(...)`. **Ships dark — enabled in a follow-on effort.**                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `DS_VALID_MAX_AGE_SECONDS_REGULAR`   | number (s) | falls back to shared | positive int                     | Per-session override, regular-hours stream.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `DS_VALID_MAX_AGE_SECONDS_EXTENDED`  | number (s) | falls back to shared | positive int                     | Per-session override, extended-hours stream.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `DS_VALID_MAX_AGE_SECONDS_OVERNIGHT` | number (s) | falls back to shared | positive int                     | Per-session override, overnight stream (expected looser — slower cadence).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 
 Override resolution per stream: `_<SESSION>` wins if set and > 0, else the shared value, else the
 check is off for that stream. Overrides are independent.
@@ -515,9 +542,11 @@ the risk map):
    Unit-tested across the boundary (report exactly at the start, 1ns before, during warm-up),
    for all three session types, including the extended stream's latest-transition rule and the
    Sunday overnight open. Integration-tested end-to-end with a mocked tradinghours schedule.
-2. **The fallback chain** — outage → tier 2 (`sessionBoundaries`), → tier 3 (hard-coded
-   `nyse/24/5`), → 503 when no tier applies (unlisted market/type, `none` feeds). Each tier
-   transition is unit-tested; the outage path is integration-tested with tradinghours failing.
+2. **The fallback** — tradinghours outage or unusable schedule → the hard-coded labeled
+   schedule (`nyse/24/5`), → 503 when no hard-coded entry applies (unlisted market/type, or
+   `sessionMarket`/`sessionMarketType` absent on `none` feeds). Gating must never read
+   `sessionBoundaries`/`sessionBoundariesTimeZone` (those are the smoother's alone). Each transition is unit-tested; the outage path is
+   integration-tested with tradinghours failing.
 3. **No regression with flags off** — decision-matrix row 1 must be byte-identical: the full
    pre-existing suite (including snapshots) runs unchanged against the new code.
 4. **Timezone/DST handling** — session starts are computed in `America/New_York`; tests cover
@@ -535,7 +564,7 @@ the risk map):
 - **On-call:** unchanged — the existing EA on-call rotation; **no new pager**. The new on-call
   _content_ is the §5 runbook updates (recognizing intended 503s, env-var rollback).
 - **New operational responsibilities created:** per-session threshold tuning when the staleness
-  follow-on lands; keeping the tier-3 hard-coded schedule current if NYSE 24/5 hours ever change
+  follow-on lands; keeping the hard-coded fallback schedule current if NYSE 24/5 hours ever change
   (§12 #2).
 - **Sign-offs:** data-feeds team + PM (Gabe Silva), per §9.
 - **Follow-up items (out of scope here):** staleness-check enablement with tuned thresholds (§6);
@@ -544,12 +573,11 @@ the risk map):
 
 ## 12. Risks & Open Questions
 
-| #   | Item                                                                                                                                                                                                                                    | Impact                                                                    | Likelihood                                                                               | Mitigation                                                                                                               | Owner |
-| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----- |
-| 1   | **3-tier fallback chain pending PM sign-off.** The sessionBoundaries fallback (tiers 1–2) was decided with product; tier 3 (hard-coded labeled schedule, `nyse/24/5` only) extends that decision and is written into §4 pending review. | Medium — changes degraded-mode behavior                                   | —                                                                                        | Raise at next review; tier 3 is additive and only reachable when tiers 1–2 are unusable                                  | TBD   |
-| 2   | **Hard-coded schedule drift (tier 3).** Baked-in NYSE hours can go stale if the venue changes sessions; holidays/early closes are unknown to both fallback tiers.                                                                       | Wrong session starts during outages (admits or rejects the wrong reports) | Low — tier 3 only runs during tradinghours outages; venue hours change rarely and loudly | Keep tier 3 minimal (one market/type); any change is a reviewed code edit; tradinghours monitoring limits outage windows | TBD   |
-| 3   | **Incident citations.** Baselines in §1/§2/§7 (5 stale incidents since early September; 2 warm-up incidents) need their incident-review/Slack references linked.                                                                        | Doc credibility                                                           | —                                                                                        | Author to track down and link                                                                                            | TBD   |
-| 4   | **Fallback activation not visible in telemetry** (see §4).                                                                                                                                                                              | Undetected reliance on degraded tiers                                     | Low                                                                                      | Monitor tradinghours EA availability; log-based queries for the fallback error line                                      | TBD   |
+| #   | Item                                                                                                                                                                                                                                                                                                                   | Impact                                                                    | Likelihood                                                                                     | Mitigation                                                                                                                | Owner |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ----- |
+| 1   | **Gating fallback pending PM sign-off.** An earlier decision had gating mirror the smoother's `sessionBoundaries` fallback; §4 now specifies the hard-coded labeled schedule (`nyse/24/5` only) as gating's sole fallback, since unlabeled boundaries cannot attribute a session. Written into the TDD pending review. | Medium — changes degraded-mode behavior                                   | —                                                                                              | Raise at next review; tier 3 is additive and only reachable when tiers 1–2 are unusable                                   | TBD   |
+| 2   | **Hard-coded schedule drift.** Baked-in NYSE hours can go stale if the venue changes sessions; holidays/early closes are unknown to a fixed schedule.                                                                                                                                                                  | Wrong session starts during outages (admits or rejects the wrong reports) | Low — the fallback only runs during tradinghours outages; venue hours change rarely and loudly | Keep the map minimal (one market/type); any change is a reviewed code edit; tradinghours monitoring limits outage windows | TBD   |
+| 3   | **Fallback activation not visible in telemetry** (see §4).                                                                                                                                                                                                                                                             | Undetected reliance on the fallback schedule                              | Low                                                                                            | Monitor tradinghours EA availability; log-based queries for the fallback error line                                       | TBD   |
 
 # **Additional Considerations**
 
