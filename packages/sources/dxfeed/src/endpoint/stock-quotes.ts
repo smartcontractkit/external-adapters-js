@@ -3,7 +3,7 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import overrides from '../config/overrides.json'
 import { transport } from '../transport/stock-quotes'
-import { inputParameters, validateWsSettings } from './utils'
+import { inputParameters, validateWsEnvVars } from './utils'
 
 export const stockQuotesInputParameters = new InputParameters({
   ...inputParameters.definition,
@@ -23,6 +23,7 @@ export type BaseEndpointTypes = {
   Parameters: typeof stockQuotesInputParameters.definition
   Settings: typeof config.settings
   Response: {
+    // The mid price is the endpoint's primary result; data.mid_price remains the RDD path.
     Result: number
     Data: {
       mid_price: number
@@ -40,5 +41,5 @@ export const endpoint = new AdapterEndpoint({
   transport,
   inputParameters: stockQuotesInputParameters,
   overrides: overrides.dxfeed,
-  customInputValidation: (_, settings) => validateWsSettings(settings),
+  customInputValidation: (_, settings) => validateWsEnvVars(settings),
 })
