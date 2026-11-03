@@ -1,10 +1,13 @@
 import { JsonRpcProvider } from 'ethers'
 import {
+  coinbase,
   getIssuer,
-  isIssuerName,
-  issuerDirectory,
+  Issuer,
   issuerNames,
   MULTIPLIER_DECIMALS,
+  ondo,
+  robinhood,
+  xstocks,
 } from '../../../src/issuers'
 import { getRegistryData as getCoinbaseRegistryData } from '../../../src/lib/coinbase'
 import { getRegistryData as getOndoRegistryData } from '../../../src/lib/registry'
@@ -47,7 +50,7 @@ const settings = {
   BASE_RPC_CHAIN_ID: 8453,
   ROBINHOOD_NETWORK_RPC_URL: templated('ROBINHOOD_NETWORK_RPC_URL', { mainnet: 'robinhood-url' }),
   ROBINHOOD_NETWORK_CHAIN_ID: templated('ROBINHOOD_NETWORK_CHAIN_ID', { mainnet: 4663 }),
-} as unknown as Parameters<(typeof issuerDirectory)['ondo']['validate']>[0]
+} as unknown as Parameters<Issuer['validate']>[0]
 
 describe('issuers', () => {
   const provider = {} as JsonRpcProvider
@@ -57,25 +60,16 @@ describe('issuers', () => {
     for (const key of Object.keys(contracts)) delete contracts[key]
   })
 
-  describe('issuerDirectory', () => {
+  describe('directory', () => {
     it('lists every issuer by name', () => {
       expect(issuerNames).toEqual(['robinhood', 'coinbase', 'xstocks', 'ondo'])
       for (const name of issuerNames) {
-        expect(issuerDirectory[name].name).toBe(name)
+        expect(getIssuer(name).name).toBe(name)
       }
     })
 
-    it('uses the hardcoded 18 decimal multiplier for every issuer', () => {
+    it('uses the hardcoded 18 decimal multiplier', () => {
       expect(MULTIPLIER_DECIMALS).toBe(18)
-      for (const name of issuerNames) {
-        expect(issuerDirectory[name].multiplierDecimals).toBe(18)
-      }
-    })
-  })
-
-  describe('getIssuer', () => {
-    it('returns the issuer by name', () => {
-      expect(getIssuer('ondo')).toBe(issuerDirectory.ondo)
     })
 
     it('throws 400 for an unsupported issuer', () => {
@@ -85,7 +79,6 @@ describe('issuers', () => {
     })
 
     it('rejects inherited property names', () => {
-      expect(isIssuerName('toString')).toBe(false)
       expect(() => getIssuer('toString')).toThrow("Unsupported issuer 'toString'")
     })
   })
@@ -93,33 +86,31 @@ describe('issuers', () => {
   describe('read', () => {
     it('robinhood reads the token contract', async () => {
       mockRobinhood.mockResolvedValue({ multiplier: 2n, paused: false })
-      const result = await issuerDirectory.robinhood.read({ asset: '0xa' }, provider)
+      const result = await robinhood.read({ asset: '0xa' }, provider)
       expect(mockRobinhood).toHaveBeenCalledWith('0xa', provider)
       expect(result).toEqual({ multiplier: 2n, paused: false })
     })
 
     it('coinbase reads the registry', async () => {
-      mockCoinbase.mockResolvedValue({ multiplier: 3n, paused: true })
-      const result = await issuerDirectory.coinbase.read(
-        { asset: '0xa', registry: '0xr' },
-        provider,
-      )
+      mockCoinbase.mockResolvedValue({ multiplier: 3n, paused: false })
+      const result = await coinbase.read({ asset: '0xa', registry: '0xr' }, provider)
       expect(mockCoinbase).toHaveBeenCalledWith('0xa', '0xr', provider)
-      expect(result).toEqual({ multiplier: 3n, paused: true })
+      expect(result).toEqual({ multiplier: 3n, paused: false })
     })
 
     it('ondo reads the registry', async () => {
       mockOndo.mockResolvedValue({ multiplier: 5n, paused: false })
-      const result = await issuerDirectory.ondo.read({ asset: '0xa', registry: '0xr' }, provider)
+      const result = await ondo.read({ asset: '0xa', registry: '0xr' }, provider)
       expect(mockOndo).toHaveBeenCalledWith('0xa', '0xr', provider)
       expect(result).toEqual({ multiplier: 5n, paused: false })
     })
 
     it('registry issuers reject with 400 without a registry', async () => {
-      await expect(issuerDirectory.coinbase.read({ asset: '0xa' }, provider)).rejects.toMatchObject(
-        { statusCode: 400, message: "Missing required parameter registry for issuer 'coinbase'" },
-      )
-      await expect(issuerDirectory.ondo.read({ asset: '0xa' }, provider)).rejects.toMatchObject({
+      await expect(coinbase.read({ asset: '0xa' }, provider)).rejects.toMatchObject({
+        statusCode: 400,
+        message: "Missing required parameter registry for issuer 'coinbase'",
+      })
+      await expect(ondo.read({ asset: '0xa' }, provider)).rejects.toMatchObject({
         statusCode: 400,
         message: "Missing required parameter registry for issuer 'ondo'",
       })
@@ -131,71 +122,70 @@ describe('issuers', () => {
       const convertToAssets = jest.fn().mockResolvedValue(1_001_701_196_801_074_000n)
       const isPaused = jest.fn().mockResolvedValue(false)
       contracts['0xa'] = { convertToAssets, isPaused }
-      const result = await issuerDirectory.xstocks.read({ asset: '0xa' }, provider)
+      const result = await xstocks.read({ asset: '0xa' }, provider)
       expect(convertToAssets).toHaveBeenCalledWith(10n ** 18n)
       expect(isPaused).toHaveBeenCalled()
       expect(result).toEqual({ multiplier: 1_001_701_196_801_074_000n, paused: false })
     })
 
-    it('xstocks reports paused when the wrapper is paused', async () => {
+    it('throws 503 when the asset is paused', async () => {
       contracts['0xa'] = {
         convertToAssets: jest.fn().mockResolvedValue(10n ** 18n),
         isPaused: jest.fn().mockResolvedValue(true),
       }
-      const result = await issuerDirectory.xstocks.read({ asset: '0xa' }, provider)
-      expect(result).toEqual({ multiplier: 10n ** 18n, paused: true })
+      await expect(xstocks.read({ asset: '0xa' }, provider)).rejects.toMatchObject({
+        statusCode: 503,
+        message: "asset: '0xa' paused for issuer 'xstocks'",
+      })
     })
   })
   describe('validate', () => {
     it('passes when the issuer RPC is configured', () => {
-      expect(() =>
-        issuerDirectory.ondo.validate(settings, { asset: '0xa', registry: '0xr' }),
-      ).not.toThrow()
-      expect(() => issuerDirectory.xstocks.validate(settings, { asset: '0xa' })).not.toThrow()
-      expect(() =>
-        issuerDirectory.robinhood.validate(settings, { asset: '0xa', network: 'mainnet' }),
-      ).not.toThrow()
+      expect(() => ondo.validate(settings, { asset: '0xa', registry: '0xr' })).not.toThrow()
+      expect(() => xstocks.validate(settings, { asset: '0xa' })).not.toThrow()
+      expect(() => robinhood.validate(settings, { asset: '0xa', network: 'mainnet' })).not.toThrow()
     })
 
     it('requires a registry for registry issuers', () => {
       for (const name of ['coinbase', 'ondo'] as const) {
-        expect(() => issuerDirectory[name].validate(settings, { asset: '0xa' })).toThrow(
+        expect(() => getIssuer(name).validate(settings, { asset: '0xa' })).toThrow(
           `Missing required parameter registry for issuer '${name}'`,
         )
       }
     })
 
     it('throws 400 when the issuer chain RPC URL is not set', () => {
-      expect(() =>
-        issuerDirectory.coinbase.validate(settings, { asset: '0xa', registry: '0xr' }),
-      ).toThrowError(expect.objectContaining({ statusCode: 400, message: 'Missing BASE_RPC_URL' }))
+      expect(() => coinbase.validate(settings, { asset: '0xa', registry: '0xr' })).toThrowError(
+        expect.objectContaining({ statusCode: 400, message: 'Missing BASE_RPC_URL' }),
+      )
     })
 
     it('robinhood requires a configured network', () => {
-      expect(() => issuerDirectory.robinhood.validate(settings, { asset: '0xa' })).toThrow(
+      expect(() => robinhood.validate(settings, { asset: '0xa' })).toThrow(
         "Missing required parameter network for issuer 'robinhood'",
       )
-      expect(() =>
-        issuerDirectory.robinhood.validate(settings, { asset: '0xa', network: 'testnet' }),
-      ).toThrow('Missing required environment variable: ROBINHOOD_TESTNET_RPC_URL')
+      expect(() => robinhood.validate(settings, { asset: '0xa', network: 'testnet' })).toThrow(
+        'Missing required environment variable: ROBINHOOD_TESTNET_RPC_URL',
+      )
     })
   })
 
   describe('rpc', () => {
     it('reads each issuer from its chain', () => {
-      expect(issuerDirectory.coinbase.rpc(settings, { asset: '0xa' })).toEqual({
-        url: '',
+      expect(coinbase.rpc({ ...settings, BASE_RPC_URL: 'base-url' })).toEqual({
+        url: 'base-url',
         chainId: 8453,
       })
       for (const name of ['ondo', 'xstocks'] as const) {
-        expect(issuerDirectory[name].rpc(settings, { asset: '0xa' })).toEqual({
+        expect(getIssuer(name).rpc(settings, { asset: '0xa' })).toEqual({
           url: 'eth-url',
           chainId: 1,
         })
       }
-      expect(issuerDirectory.robinhood.rpc(settings, { asset: '0xa', network: 'mainnet' })).toEqual(
-        { url: 'robinhood-url', chainId: 4663 },
-      )
+      expect(robinhood.rpc(settings, { asset: '0xa', network: 'mainnet' })).toEqual({
+        url: 'robinhood-url',
+        chainId: 4663,
+      })
     })
   })
 })

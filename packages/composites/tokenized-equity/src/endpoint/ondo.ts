@@ -2,7 +2,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { issuerDirectory } from '../issuers'
+import { ondo } from '../issuers'
 import { ondoTransport } from '../transport/ondoTransport'
 import type { output } from './common'
 import { inputDefinition, inputExample, validateSmoother, validateStreamIds } from './common'
@@ -45,7 +45,7 @@ export const endpoint = new AdapterEndpoint({
   inputParameters,
   customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
     const { data } = req.requestContext
-    issuerDirectory.ondo.validate(adapterSettings, data)
+    ondo.validate(adapterSettings, data)
 
     validateStreamIds(data)
     validateSmoother(data)

@@ -231,7 +231,7 @@ exports[`execute issuer-price-247 endpoint should return success - xstocks 1`] =
 exports[`execute issuer-price-247 endpoint unsupported issuer 1`] = `
 {
   "error": {
-    "message": "Unsupported issuer 'unknown'. Supported issuers: robinhood, coinbase, xstocks, ondo",
+    "message": "[Param: issuer] input is not one of valid options (robinhood,coinbase,xstocks,ondo)",
     "name": "AdapterError",
   },
   "status": "errored",

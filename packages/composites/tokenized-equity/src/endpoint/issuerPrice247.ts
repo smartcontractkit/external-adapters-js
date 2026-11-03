@@ -3,7 +3,7 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { getIssuer, issuerNames, MULTIPLIER_DECIMALS } from '../issuers'
-import { DataEngineV11Data, priceFields, targetEndpoints } from '../lib/dataEngine'
+import { DataEngineV11Data, priceFields, targetEndpointNames } from '../lib/dataEngine'
 import { issuerPrice247Transport } from '../transport/issuerPrice247'
 
 export const inputParameters = new InputParameters(
@@ -11,7 +11,7 @@ export const inputParameters = new InputParameters(
     targetEndpoint: {
       type: 'string',
       description: 'The data-engine EA endpoint to request the 24/7 feed from',
-      options: Object.keys(targetEndpoints),
+      options: targetEndpointNames,
       default: 'v11',
     },
     feedId: {
@@ -23,7 +23,7 @@ export const inputParameters = new InputParameters(
       required: true,
       type: 'string',
       description: 'The data-engine EA price field to use as the price',
-      options: [...priceFields],
+      options: priceFields,
     },
     decimals: {
       type: 'number',
@@ -38,7 +38,8 @@ export const inputParameters = new InputParameters(
         issuer: {
           required: true,
           type: 'string',
-          description: `The issuer of the tokenized asset. One of: ${issuerNames.join(', ')}`,
+          description: 'The issuer of the tokenized asset',
+          options: issuerNames,
         },
         asset: {
           required: true,
@@ -111,8 +112,8 @@ export const endpoint = new AdapterEndpoint({
   inputParameters,
   customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
     const { multiplier } = req.requestContext.data
+    // The issuer named in the request validates the rest of it
     if (multiplier) {
-      // The issuer named in the request validates the rest of it
       getIssuer(multiplier.issuer).validate(adapterSettings, multiplier)
     }
     return

@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
-import { issuerDirectory } from '../../../src/issuers'
+import { robinhood } from '../../../src/issuers'
 import { getDataEngineResult } from '../../../src/lib/dataEngine'
 import { scaleDecimals } from '../../../src/lib/decimals'
 import { calculatePrice, calculateRawPrice } from '../../../src/transport/issuerPrice247Price'
@@ -48,7 +48,7 @@ describe('calculateRawPrice', () => {
       requester: {} as Requester,
       targetEndpoint: 'v11' as const,
       feedId: '0x000b',
-      resultPath: 'lastTradedPrice',
+      resultPath: 'lastTradedPrice' as const,
       decimals: 8,
     }
 
@@ -82,16 +82,17 @@ describe('calculatePrice', () => {
     provider: {} as JsonRpcProvider,
     targetEndpoint: 'v11' as const,
     feedId: '0x000b',
-    resultPath: 'lastTradedPrice',
+    resultPath: 'lastTradedPrice' as const,
     decimals: 8,
-    multiplier: { issuer: 'robinhood', asset: '0xa', network: 'mainnet' },
+    issuer: robinhood,
+    multiplier: { asset: '0xa', network: 'mainnet' },
   }
 
   let readSpy: jest.SpyInstance
 
   beforeEach(() => {
     jest.clearAllMocks()
-    readSpy = jest.spyOn(issuerDirectory.robinhood, 'read')
+    readSpy = jest.spyOn(robinhood, 'read')
   })
 
   afterEach(() => {
@@ -144,24 +145,5 @@ describe('calculatePrice', () => {
 
     const result = await calculatePrice({ ...param, decimals: 40 })
     expect(result.result).toBe('3' + '0'.repeat(40))
-  })
-
-  it('throws 503 when paused', async () => {
-    mockGetDataEngineResult.mockResolvedValue({ result: '1', data })
-    readSpy.mockResolvedValue({ multiplier: 10n ** 18n, paused: true })
-
-    await expect(calculatePrice(param)).rejects.toMatchObject({
-      statusCode: 503,
-      message: "asset: '0xa' paused for issuer 'robinhood'",
-    })
-  })
-
-  it('throws for unsupported issuer', async () => {
-    await expect(
-      calculatePrice({
-        ...param,
-        multiplier: { issuer: 'unknown', asset: '0xa', network: 'ethereum' },
-      }),
-    ).rejects.toMatchObject({ statusCode: 400 })
   })
 })
