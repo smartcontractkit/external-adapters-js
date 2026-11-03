@@ -1,6 +1,6 @@
 # Default owners for normal changes to this repo (adapter code, tests, tooling).
 # These teams can review and approve day-to-day pull requests.
-* @smartcontractkit/data-feeds-engineers @smartcontractkit/data-streams-engineers @smartcontractkit/data-sourcing
+* @smartcontractkit/data-feeds-engineers @smartcontractkit/data-streams-engineers
 
 # Release artifacts left without an owner, on purpose.
 # A release PR also touches changesets and every package's manifest/changelog. If
