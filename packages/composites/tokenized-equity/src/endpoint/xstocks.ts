@@ -27,6 +27,7 @@ export type BaseEndpointTypes = {
     Data: output & {
       tokenContract: {
         multiplier: string
+        paused: boolean
       }
     }
   }

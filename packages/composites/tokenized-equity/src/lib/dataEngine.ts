@@ -48,7 +48,8 @@ export const getDataEngineResult = async ({
 }) => {
   const data = await targetEndpoints[targetEndpoint](feedId, url, requester)
 
-  if (data[resultPath] === undefined) {
+  // Own properties only: `in` or an undefined check would accept inherited names like "constructor"
+  if (!Object.prototype.hasOwnProperty.call(data, resultPath)) {
     throw new AdapterError({
       statusCode: 400,
       message: `resultPath '${resultPath}' not found in data. Available keys: ${Object.keys(

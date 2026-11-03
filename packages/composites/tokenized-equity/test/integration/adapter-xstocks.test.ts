@@ -20,6 +20,9 @@ jest.mock('ethers', () => {
           convertToAssets: jest.fn().mockImplementation(() => {
             return Promise.resolve(2n * 10n ** 18n)
           }),
+          isPaused: jest.fn().mockImplementation(() => {
+            return Promise.resolve(false)
+          }),
         }
       } else {
         return {}
