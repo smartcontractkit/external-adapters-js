@@ -1,10 +1,16 @@
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { issuers } from '../../../src/issuers'
 import { ChainProviders } from '../../../src/lib/chains'
 import { getDataEngineResult } from '../../../src/lib/dataEngine'
 import { scaleDecimals } from '../../../src/lib/decimals'
-import { calculatePrice } from '../../../src/transport/issuerPrice247Price'
+import { calculatePrice } from '../../../src/transport/issuerPrice247'
 import { makeSettings } from '../fixtures/settings'
+
+LoggerFactoryProvider.set()
+
+// Contract methods by address, set per test
+const contracts: Record<string, Record<string, jest.Mock>> = {}
 
 jest.mock('../../../src/lib/dataEngine', () => ({ getDataEngineResult: jest.fn() }))
 jest.mock('ethers', () => ({
@@ -12,6 +18,7 @@ jest.mock('ethers', () => ({
   JsonRpcProvider: jest
     .fn()
     .mockImplementation((url: string, chainId: number) => ({ url, chainId })),
+  Contract: jest.fn().mockImplementation((address: string) => contracts[address]),
 }))
 const mockGetDataEngineResult = getDataEngineResult as jest.MockedFunction<
   typeof getDataEngineResult
@@ -140,6 +147,77 @@ describe('calculatePrice', () => {
 
       const result = await calculatePrice({ ...param, decimals: 40, multiplier })
       expect(result.result).toBe('3' + '0'.repeat(40))
+    })
+  })
+
+  // The issuers' contracts report a paused asset, multiplier 2
+  describe('when the asset is paused', () => {
+    const paused = {
+      robinhood: {
+        multiplier: { issuer: 'robinhood' as const, asset: '0xa', network: 'mainnet' },
+        contracts: {
+          '0xa': {
+            uiMultiplier: jest.fn().mockResolvedValue(2n * 10n ** 18n),
+            oraclePaused: jest.fn().mockResolvedValue(true),
+          },
+        },
+      },
+      coinbase: {
+        multiplier: { issuer: 'coinbase' as const, asset: '0xa', registry: '0xr' },
+        contracts: {
+          '0xr': {
+            getOracleParams: jest
+              .fn()
+              .mockResolvedValue({ multiplier: 2n * 10n ** 18n, paused: true }),
+          },
+        },
+      },
+      ondo: {
+        multiplier: { issuer: 'ondo' as const, asset: '0xa', registry: '0xr' },
+        contracts: {
+          '0xr': {
+            getSValue: jest.fn().mockResolvedValue({ sValue: 2n * 10n ** 18n, paused: true }),
+          },
+        },
+      },
+      xstocks: {
+        multiplier: { issuer: 'xstocks' as const, asset: '0xa' },
+        contracts: {
+          '0xa': {
+            convertToAssets: jest.fn().mockResolvedValue(2n * 10n ** 18n),
+            isPaused: jest.fn().mockResolvedValue(true),
+          },
+        },
+      },
+    }
+
+    beforeEach(() => {
+      getMultiplier.mockRestore()
+      for (const address of Object.keys(contracts)) delete contracts[address]
+      mockGetDataEngineResult.mockResolvedValue({ result: '325000000000000000000', data })
+    })
+
+    it.each(['robinhood', 'coinbase', 'ondo'] as const)(
+      '%s does not compute a price and fails with 503',
+      async (issuer) => {
+        Object.assign(contracts, paused[issuer].contracts)
+
+        await expect(
+          calculatePrice({ ...param, multiplier: paused[issuer].multiplier }),
+        ).rejects.toMatchObject({
+          statusCode: 503,
+          message: `asset: '0xa' paused for issuer '${issuer}'`,
+        })
+      },
+    )
+
+    it('xstocks ignores the pause and computes the price', async () => {
+      Object.assign(contracts, paused.xstocks.contracts)
+
+      const result = await calculatePrice({ ...param, multiplier: paused.xstocks.multiplier })
+
+      expect(result.result).toBe('65000000000')
+      expect(contracts['0xa'].isPaused).not.toHaveBeenCalled()
     })
   })
 })

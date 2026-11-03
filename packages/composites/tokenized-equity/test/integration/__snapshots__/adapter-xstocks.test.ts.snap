@@ -84,7 +84,6 @@ exports[`execute xstocks endpoint should return success - ema 1`] = `
     },
     "tokenContract": {
       "multiplier": "2000000000000000000",
-      "paused": false,
     },
   },
   "result": "20000000",
@@ -147,7 +146,6 @@ exports[`execute xstocks endpoint should return success - kalman 1`] = `
     },
     "tokenContract": {
       "multiplier": "2000000000000000000",
-      "paused": false,
     },
   },
   "result": "20000000",

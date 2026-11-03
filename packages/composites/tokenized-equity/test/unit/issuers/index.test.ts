@@ -96,14 +96,28 @@ describe('issuers', () => {
       Object.assign(contracts, mockContract(false))
       expect(await issuer.getMultiplier(request, provider)).toBe(2n)
     })
+  })
 
+  describe.each(['robinhood', 'coinbase', 'ondo'] as const)('%s pause', (name) => {
     it('throws 503 when the asset is paused', async () => {
-      Object.assign(contracts, mockContract(true))
-      await expect(issuer.getMultiplier(request, provider)).rejects.toMatchObject({
+      Object.assign(contracts, cases[name].mockContract(true))
+      await expect(
+        issuers[name].getMultiplier(cases[name].request, provider),
+      ).rejects.toMatchObject({
         statusCode: 503,
         message: `asset: '0xa' paused for issuer '${name}'`,
       })
     })
+  })
+
+  it('xstocks ignores the wrapper pause flag, like the xstocks endpoint', async () => {
+    Object.assign(contracts, cases.xstocks.mockContract(true))
+    expect(await issuers.xstocks.read(cases.xstocks.request, provider)).toEqual({
+      multiplier: 2n,
+      paused: false,
+    })
+    expect(await issuers.xstocks.getMultiplier(cases.xstocks.request, provider)).toBe(2n)
+    expect(contracts['0xa'].isPaused).not.toHaveBeenCalled()
   })
 
   it('robinhood requires a network', () => {

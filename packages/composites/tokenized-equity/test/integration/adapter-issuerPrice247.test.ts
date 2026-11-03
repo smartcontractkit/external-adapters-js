@@ -69,7 +69,8 @@ jest.mock('ethers', () => {
         case xstocksAsset:
           return {
             convertToAssets: jest.fn().mockResolvedValue(15n * 10n ** 17n),
-            isPaused: jest.fn().mockResolvedValue(false),
+            // Ignored: xstocks has no pause
+            isPaused: jest.fn().mockResolvedValue(true),
           }
         case ondoRegistry:
           return {

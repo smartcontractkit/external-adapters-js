@@ -109,7 +109,7 @@ describe('calculatePrice', () => {
       decimals: 6,
     })
 
-    const expectedTokenMultiplier = { multiplier: '5000000000000000000', paused: false }
+    const expectedTokenMultiplier = { multiplier: '5000000000000000000' }
     expect(result[0]).toStrictEqual({
       ...smoothedStreamPriceReturn[0],
       tokenContract: expectedTokenMultiplier,
@@ -122,13 +122,28 @@ describe('calculatePrice', () => {
     })
   })
 
-  it('throws when the wrapper is paused', async () => {
-    mockSmoothedStreamPrice.mockResolvedValue([])
+  it('computes the price even if a pause is reported', async () => {
+    mockSmoothedStreamPrice.mockResolvedValue([
+      {
+        result: 1n,
+        rawPrice: '1',
+        decimals: 6,
+        stream: streams,
+        smoother: {
+          smoother: 'kalman' as const,
+          price: '1',
+          x: '2',
+          p: '3',
+          secondsFromTransition: 0,
+        },
+        sessionSource: 'FALLBACK' as const,
+      },
+    ])
     mockRead.mockResolvedValue({ multiplier: 5n * 10n ** 18n, paused: true })
 
-    await expect(calculatePrice({ ...defaultParams, smoother: 'kalman' })).rejects.toMatchObject({
-      statusCode: 503,
-      message: `asset: '${defaultParams.asset}' paused`,
-    })
+    const result = await calculatePrice({ ...defaultParams, smoother: 'kalman', decimals: 6 })
+
+    expect(result[0].result).toBe('5')
+    expect(result[0].tokenContract).toStrictEqual({ multiplier: '5000000000000000000' })
   })
 })

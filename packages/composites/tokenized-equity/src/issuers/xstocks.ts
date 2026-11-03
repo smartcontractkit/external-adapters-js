@@ -5,7 +5,8 @@ import { AssetRequest, Issuer, MULTIPLIER_DECIMALS, Settings } from './issuer'
 
 /**
  * ERC-4626 style wrapper on Ethereum: the multiplier is the amount of underlying
- * asset one whole wrapped share converts to.
+ * asset one whole wrapped share converts to. The wrapper's pause flag is not
+ * read, so an xstocks asset is never treated as paused, as in the xstocks endpoint.
  */
 export class Xstocks extends Issuer {
   readonly name = 'xstocks'
@@ -16,11 +17,8 @@ export class Xstocks extends Issuer {
 
   async read({ asset }: AssetRequest, provider: JsonRpcProvider) {
     const token = new Contract(asset, ABI, provider)
-    const [multiplier, paused] = await Promise.all([
-      token.convertToAssets(parseUnits('1', MULTIPLIER_DECIMALS)),
-      token.isPaused(),
-    ])
-    return { multiplier: BigInt(multiplier), paused: Boolean(paused) }
+    const multiplier = await token.convertToAssets(parseUnits('1', MULTIPLIER_DECIMALS))
+    return { multiplier: BigInt(multiplier), paused: false }
   }
 }
 
