@@ -190,7 +190,10 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     expect(result.price).toEqual(regularData.mid)
   })
 
-  it('fails closed when gating is enabled but the schedule is unavailable', async () => {
+  it('fails closed only when no schedule of any kind is available', async () => {
+    // Neither tradinghours transitions nor a hard-coded fallback: nothing can prove the
+    // report is not a pre-session leftover, so 503. (Reached when the market identity
+    // itself is unknown — e.g. sessionMarket/sessionMarketType absent.)
     const regularData = createStreamData(
       '100.5',
       TwentyfourFiveMarketStatus.REGULAR,
@@ -201,6 +204,7 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     await expect(
       getPrice('', requester, regularStreamId, undefined, undefined, undefined, undefined, {
         transitions: undefined,
+        fallbackTransitions: undefined,
       }),
     ).rejects.toThrow(
       expect.objectContaining({
@@ -210,7 +214,9 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     )
   })
 
-  it('fails closed when the schedule has no transition opening the selected session', async () => {
+  it('falls back to the hard-coded schedule when tradinghours is unavailable', async () => {
+    // Tradinghours down: fallbackTransitions carries the hard-coded schedule. A report
+    // after the fallback session start passes.
     const regularData = createStreamData(
       '100.5',
       TwentyfourFiveMarketStatus.REGULAR,
@@ -218,14 +224,90 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     )
     setupMock(regularData, null, null)
 
+    const result = await getPrice(
+      '',
+      requester,
+      regularStreamId,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      {
+        transitions: undefined,
+        fallbackTransitions: regularSchedule,
+      },
+    )
+
+    expect(result.price).toEqual(regularData.mid)
+  })
+
+  it('rejects pre-session reports against the fallback schedule when tradinghours is unavailable', async () => {
+    // Fallback session started 1h ago; the report is 2h old — a leftover, gated even
+    // without tradinghours.
+    const regularData = createStreamData(
+      '100.5',
+      TwentyfourFiveMarketStatus.REGULAR,
+      nsAtMs(NOW_MS - 7_200_000),
+    )
+    setupMock(regularData, null, null)
+
     await expect(
       getPrice('', requester, regularStreamId, undefined, undefined, undefined, undefined, {
-        transitions: [transition(TwentyfourFiveMarketStatus.OVERNIGHT, -3600)],
+        transitions: undefined,
+        fallbackTransitions: regularSchedule,
       }),
     ).rejects.toThrow(
       expect.objectContaining({
         statusCode: 503,
-        message: expect.stringMatching(/Session start unknown \(no REGULAR transition/),
+        message: expect.stringMatching(/Market data predates session start: regular PRE_SESSION/),
+      }),
+    )
+  })
+
+  it('walks to the fallback schedule when tradinghours has no transition opening the selected session', async () => {
+    // Row 7: tradinghours answered but cannot place the current regular session. The
+    // fallback schedule decides instead — report 5s after the fallback open passes.
+    const regularData = createStreamData(
+      '100.5',
+      TwentyfourFiveMarketStatus.REGULAR,
+      nsAtMs(NOW_MS - 5_000),
+    )
+    setupMock(regularData, null, null)
+
+    const result = await getPrice(
+      '',
+      requester,
+      regularStreamId,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      {
+        transitions: [transition(TwentyfourFiveMarketStatus.OVERNIGHT, -3600)],
+        fallbackTransitions: regularSchedule,
+      },
+    )
+
+    expect(result.price).toEqual(regularData.mid)
+  })
+
+  it('uses the fallback schedule to reject pre-session reports when tradinghours lacks the transition', async () => {
+    const regularData = createStreamData(
+      '100.5',
+      TwentyfourFiveMarketStatus.REGULAR,
+      nsAtMs(NOW_MS - 7_200_000),
+    )
+    setupMock(regularData, null, null)
+
+    await expect(
+      getPrice('', requester, regularStreamId, undefined, undefined, undefined, undefined, {
+        transitions: [transition(TwentyfourFiveMarketStatus.OVERNIGHT, -3600)],
+        fallbackTransitions: regularSchedule,
+      }),
+    ).rejects.toThrow(
+      expect.objectContaining({
+        statusCode: 503,
+        message: expect.stringMatching(/Market data predates session start: regular PRE_SESSION/),
       }),
     )
   })

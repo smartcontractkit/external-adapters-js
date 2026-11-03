@@ -113,15 +113,13 @@ export const validateSmoother = ({
   sessionMarketType?: string
 }) => {
   if (smoother === 'none') {
-    if (
-      sessionBoundaries.length > 0 ||
-      sessionBoundariesTimeZone ||
-      sessionMarket ||
-      sessionMarketType
-    ) {
+    // sessionMarket/sessionMarketType are permitted with 'none': session-start gating
+    // (DF-28181) consumes market identity even without a smoother. The smoother's own
+    // fallback inputs remain meaningless — and forbidden — without a smoother.
+    if (sessionBoundaries.length > 0 || sessionBoundariesTimeZone) {
       throw new AdapterInputError({
         statusCode: 400,
-        message: `Parameters sessionBoundaries, sessionBoundariesTimeZone, sessionMarket, and sessionMarketType should not be provided when smoother is 'none'`,
+        message: `Parameters sessionBoundaries and sessionBoundariesTimeZone should not be provided when smoother is 'none'`,
       })
     }
     return

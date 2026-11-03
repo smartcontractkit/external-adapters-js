@@ -1,3 +1,4 @@
+import { BaseEndpointTypes } from '@chainlink/data-engine-adapter/src/endpoint/deutscheBoerseV11'
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { getSessionSchedule } from '../../../src/lib/session/session'
@@ -5,6 +6,11 @@ import { processOvernightUpdate } from '../../../src/lib/smoother/overnightSmoot
 import { processUpdate } from '../../../src/lib/smoother/smoother'
 import { getPrice } from '../../../src/lib/streams'
 import { smoothedStreamPrice } from '../../../src/price/smoothedPrice'
+
+// Placeholder for stream payloads the assertions don't inspect (the mocked getPrice
+// controls what matters). Typed via the deutscheBoerseV11 response shape.
+type DataEngineResponse = BaseEndpointTypes['Response']['Data']
+const emptyStreamData = {} as unknown as DataEngineResponse
 
 jest.mock('../../../src/lib/streams', () => ({ getPrice: jest.fn() }))
 const mockGetPrice = getPrice as jest.MockedFunction<typeof getPrice>
@@ -151,9 +157,9 @@ describe('smoothedStreamPrice', () => {
         decimals: 7,
         marketStatus: TwentyfourFiveMarketStatus.REGULAR,
         data: {
-          regular: {} as any,
-          extended: {} as any,
-          overnight: {} as any,
+          regular: emptyStreamData,
+          extended: emptyStreamData,
+          overnight: emptyStreamData,
         },
       })
 
@@ -179,9 +185,9 @@ describe('smoothedStreamPrice', () => {
         decimals: 6,
         marketStatus: TwentyfourFiveMarketStatus.REGULAR,
         data: {
-          regular: {} as any,
-          extended: {} as any,
-          overnight: {} as any,
+          regular: emptyStreamData,
+          extended: emptyStreamData,
+          overnight: emptyStreamData,
         },
       })
 
@@ -289,7 +295,7 @@ describe('smoothedStreamPrice', () => {
         spread: 2n,
         decimals: 6,
         marketStatus: TwentyfourFiveMarketStatus.POST_MARKET,
-        data: { regular: {} as any, extended: {} as any, overnight: {} as any },
+        data: { regular: emptyStreamData, extended: emptyStreamData, overnight: emptyStreamData },
       })
       mockGetSessionSchedule.mockResolvedValue({
         secondsFromTransition: { value: secondsFromTransition, source: 'TRADINGHOURS' },
@@ -332,7 +338,7 @@ describe('smoothedStreamPrice', () => {
         spread: 2n,
         decimals: 6,
         marketStatus: TwentyfourFiveMarketStatus.PRE_MARKET,
-        data: { regular: {} as any, extended: {} as any, overnight: {} as any },
+        data: { regular: emptyStreamData, extended: emptyStreamData, overnight: emptyStreamData },
       })
       mockGetSessionSchedule.mockResolvedValue({
         secondsFromTransition: { value: -30, source: 'TRADINGHOURS' },
@@ -349,7 +355,7 @@ describe('smoothedStreamPrice', () => {
         spread: 2n,
         decimals: 6,
         marketStatus: TwentyfourFiveMarketStatus.OVERNIGHT,
-        data: { regular: {} as any, extended: {} as any, overnight: {} as any },
+        data: { regular: emptyStreamData, extended: emptyStreamData, overnight: emptyStreamData },
       })
       mockGetSessionSchedule.mockResolvedValue({
         secondsFromTransition: { value: 0, source: 'TRADINGHOURS' },
@@ -387,7 +393,7 @@ describe('smoothedStreamPrice', () => {
         spread: 2n,
         decimals: 6,
         marketStatus: TwentyfourFiveMarketStatus.OVERNIGHT,
-        data: { regular: {} as any, extended: {} as any, overnight: {} as any },
+        data: { regular: emptyStreamData, extended: emptyStreamData, overnight: emptyStreamData },
       })
 
       await smoothedStreamPrice({ ...defaultParams, smoother: 'kalman', decimals: 6 })
@@ -409,7 +415,7 @@ describe('smoothedStreamPrice', () => {
           spread: 2n,
           decimals: 6,
           marketStatus,
-          data: { regular: {} as any, extended: {} as any, overnight: {} as any },
+          data: { regular: emptyStreamData, extended: emptyStreamData, overnight: emptyStreamData },
         })
         mockGetSessionSchedule.mockResolvedValue({
           secondsFromTransition: { value: -30, source: 'TRADINGHOURS' },
@@ -438,7 +444,7 @@ describe('smoothedStreamPrice', () => {
         spread: 2n,
         decimals: 6,
         marketStatus: TwentyfourFiveMarketStatus.OVERNIGHT,
-        data: { regular: {} as any, extended: {} as any, overnight: {} as any },
+        data: { regular: emptyStreamData, extended: emptyStreamData, overnight: emptyStreamData },
       })
       mockProcessOvernightUpdate.mockReturnValue({ price: 500_000n, x: 0n, p: 0 })
       // Simulates a weight-0 passthrough of whatever it was fed, same as the real

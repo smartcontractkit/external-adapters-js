@@ -5,12 +5,12 @@ import {
 import nock from 'nock'
 
 // End-to-end pre-open warm-up (session-start) gating of the price endpoint (DF-28181),
-// enabled via DS_SESSION_START_GATING_ENABLED. Gating requires the session* request
-// params (smoother 'none' forbids them), and fails closed (503) when the current
-// session start cannot be determined — the EA relies on the tradinghours EA being up
-// (no local schedule caching).
+// enabled via DS_SESSION_START_GATING_ENABLED. Gating identifies the market from the
+// request's sessionMarket/sessionMarketType and falls back to the hard-coded labeled
+// schedule (nyse/24/5) when tradinghours is unavailable or unusable — never to the
+// smoother's sessionBoundaries. With no market identity at all it fails closed (503).
 
-const NOW_MS = new Date('2001-01-01T11:11:11.111Z').getTime() // a Monday
+const NOW_MS = new Date('2001-01-01T11:11:11.111Z').getTime() // a Monday, 06:11 ET (EST)
 
 const nsAtMs = (ms: number) => String(BigInt(ms) * 10n ** 6n)
 
@@ -138,7 +138,9 @@ describe('price endpoint session-start gating (DF-28181)', () => {
     expect(JSON.stringify(response.json())).toMatch(/predates session start.*PRE_SESSION/)
   })
 
-  it('fails closed (503) when the session schedule is unavailable', async () => {
+  it('falls back to the hard-coded schedule when tradinghours is unavailable (in-session → 200)', async () => {
+    // Hard-coded nyse/24/5 fallback: Monday PRE_MARKET opened 04:00 ET = 09:00Z.
+    // Report produced at 09:01Z is in-session per the fallback.
     mockDataEngine(nsAtMs(PRE_MARKET_OPEN_MS + 60_000))
     mockTradingHoursResponseFailure()
 
@@ -147,6 +149,57 @@ describe('price endpoint session-start gating (DF-28181)', () => {
     const response = await testAdapter.request({
       ...requestData,
       extendedStreamId: '0x000b6-schedule-down',
+    })
+
+    expect(response.statusCode).toBe(200)
+  })
+
+  it('rejects pre-session reports against the hard-coded fallback when tradinghours is unavailable', async () => {
+    // 08:30Z is before the fallback PRE_MARKET open (04:00 ET = 09:00Z): an overnight
+    // leftover, gated even with tradinghours down.
+    mockDataEngine(nsAtMs(PRE_MARKET_OPEN_MS - 30 * 60_000))
+    mockTradingHoursResponseFailure()
+
+    const response = await testAdapter.request({
+      ...requestData,
+      extendedStreamId: '0x000b6-schedule-down-presession',
+    })
+
+    expect(response.statusCode).toBe(503)
+    expect(JSON.stringify(response.json())).toMatch(/predates session start.*PRE_SESSION/)
+  })
+
+  it("gates a smoother 'none' feed that carries sessionMarket/sessionMarketType", async () => {
+    // Validation relaxation: sessionMarket/sessionMarketType are allowed with
+    // smoother 'none' (they have a non-smoother consumer now). No timezone or
+    // boundaries params needed — gating's timezone comes from the hard-coded map
+    // entry. In-session → 200.
+    mockDataEngine(nsAtMs(PRE_MARKET_OPEN_MS + 60_000))
+    mockTradingHoursSchedule()
+
+    const response = await testAdapter.request({
+      asset: '0x0',
+      extendedStreamId: '0x000b6-none-feed',
+      smoother: 'none',
+      sessionMarket: 'nyse',
+      sessionMarketType: '24/5',
+      decimals: 8,
+    })
+
+    expect(response.statusCode).toBe(200)
+  })
+
+  it("fails closed (503) for a smoother 'none' feed with no market identity", async () => {
+    // No sessionMarket/sessionMarketType → neither tradinghours nor the hard-coded map
+    // can be keyed → no schedule of any kind → 503 while the flag is on.
+    mockDataEngine(nsAtMs(PRE_MARKET_OPEN_MS + 60_000))
+    mockTradingHoursSchedule()
+
+    const response = await testAdapter.request({
+      asset: '0x0',
+      extendedStreamId: '0x000b6-none-no-market',
+      smoother: 'none',
+      decimals: 8,
     })
 
     expect(response.statusCode).toBe(503)
