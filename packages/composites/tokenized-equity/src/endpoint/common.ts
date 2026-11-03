@@ -2,6 +2,8 @@ import { BaseEndpointTypes as DataEngineResponse } from '@chainlink/data-engine-
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { config } from '../config'
+import type { AssetRequest, Issuer } from '../issuers'
 
 export const inputExample = {
   asset: '0x0',
@@ -166,6 +168,24 @@ export const validateSmoother = ({
 
   return
 }
+
+type SmoothedPriceInput = TypeFromDefinition<typeof inputDefinition.definition> & AssetRequest
+
+/**
+ * Input validation of the smoothed price endpoints. Issuer endpoints also check
+ * the request and config their issuer needs.
+ */
+export const smoothedPriceInputValidation =
+  (issuer?: Issuer) =>
+  (
+    { requestContext: { data } }: { requestContext: { data: SmoothedPriceInput } },
+    settings: typeof config.settings,
+  ): undefined => {
+    issuer?.validate(settings, data)
+    validateStreamIds(data)
+    validateSmoother(data)
+    return undefined
+  }
 
 export type output = {
   result: string

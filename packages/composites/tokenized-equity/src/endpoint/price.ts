@@ -1,9 +1,8 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { transport } from '../transport/priceTransport'
 import type { output } from './common'
-import { inputDefinition, validateSmoother, validateStreamIds } from './common'
+import { inputDefinition, smoothedPriceInputValidation } from './common'
 
 export const inputParameters = inputDefinition
 
@@ -21,10 +20,5 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport,
   inputParameters,
-  customInputValidation: (req): AdapterInputError | undefined => {
-    validateStreamIds(req.requestContext.data)
-    validateSmoother(req.requestContext.data)
-
-    return
-  },
+  customInputValidation: smoothedPriceInputValidation(),
 })
