@@ -1,3 +1,43 @@
-# Data Feeds or Streams Engineers must approve changes that will trigger an external Release
-/package.json @smartcontractkit/data-feeds-engineers @smartcontractkit/data-streams-engineers
-/MASTERLIST.md @smartcontractkit/data-feeds-engineers @smartcontractkit/data-streams-engineers
+# Default owners for normal changes to this repo (adapter code, tests, tooling).
+# These teams can review and approve day-to-day pull requests.
+* @smartcontractkit/data-feeds-engineers @smartcontractkit/data-streams-engineers @smartcontractkit/data-sourcing
+
+# Release artifacts left without an owner, on purpose.
+# A release PR also touches changesets and every package's manifest/changelog. If
+# those paths were owned by a team, "Require review from Code Owners" would demand
+# a second approval from that team on top of the release approvers below. No owner
+# here means the normal write-access approval applies, and the release approvers
+# remain the only code-owner requirement.
+# These patterns must stay ABOVE /package.json - last match wins.
+/.changeset/
+**/package.json
+**/README.md
+**/CHANGELOG.md
+
+# --- EA release gate ---------------------------------------------------------
+# "Require review from Code Owners" is enabled on main. It is evaluated per
+# changed file: every changed file that has an owner needs an approval from one
+# of *that file's* owners. It is not "any code owner of the PR".
+#
+# Every file below therefore needs an approval from @b16z-sc or @walked08860.
+# Keep these lines exclusive: adding a team to one of them makes that team's
+# approval sufficient for the file.
+
+# Publish triggers. release.yml + deploy.yml fire on a MASTERLIST.md push to main
+# (GH release, private ECR, dispatch to infra-k8s); publish.yml fires on a
+# public-adapter-versions.yml push (public ECR -> node operators).
+/MASTERLIST.md @b16z-sc @walked08860
+/public-adapter-versions.yml @b16z-sc @walked08860
+/package.json @b16z-sc @walked08860
+
+# The release machinery itself. Editing these is equivalent to releasing, so they
+# go through the same approvers. (/.github/actions/setup is also used by
+# publish.yml but is shared with CI and deliberately not gated here.)
+/.github/workflows/release.yml @b16z-sc @walked08860
+/.github/workflows/deploy.yml @b16z-sc @walked08860
+/.github/workflows/publish.yml @b16z-sc @walked08860
+/.github/workflows/create-public-versions-pr.yml @b16z-sc @walked08860
+/.github/actions/create-ecrs/ @b16z-sc @walked08860
+
+# The gate itself, so it cannot be re-owned in an unrelated PR.
+/.github/CODEOWNERS @b16z-sc @walked08860
