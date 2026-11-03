@@ -1,10 +1,10 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
 import { Smoother } from '../endpoint/common'
-import { getTokenMultiplier } from '../lib/xstocks'
+import { issuers } from '../issuers'
 import { smoothedStreamPrice } from './smoothedPrice'
 
-export const MULTIPLIER_DECIMALS = 18n
+const MULTIPLIER_DECIMALS = 18n
 
 export const calculatePrice = async (param: {
   asset: string
@@ -23,9 +23,10 @@ export const calculatePrice = async (param: {
   smoother: Smoother
   decimals: number
 }) => {
-  const [result, multiplier] = await Promise.all([
+  // xstocks has historically not respected market paused, pending GTM input on enforcing pauses
+  const [result, { multiplier }] = await Promise.all([
     smoothedStreamPrice(param),
-    getTokenMultiplier(param.asset, param.provider),
+    issuers.xstocks.read(param, param.provider),
   ])
 
   return result.map((r) => ({

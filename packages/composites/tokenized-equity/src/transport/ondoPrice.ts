@@ -3,7 +3,7 @@ import { JsonRpcProvider } from 'ethers'
 
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { Smoother } from '../endpoint/common'
-import { getRegistryData } from '../lib/registry'
+import { issuers } from '../issuers'
 
 import { smoothedStreamPrice } from './smoothedPrice'
 
@@ -29,7 +29,7 @@ export const calculatePrice = async (param: {
 }) => {
   const [result, { multiplier, paused }] = await Promise.all([
     smoothedStreamPrice(param),
-    getRegistryData(param.asset, param.registry, param.provider),
+    issuers.ondo.read(param, param.provider),
   ])
 
   if (paused) {
