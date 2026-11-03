@@ -13,6 +13,21 @@ import {
 process.env.CACHE_POLLING_MAX_RETRIES = '20'
 process.env.CACHE_POLLING_SLEEP_MS = '500'
 
+/** Set the env the dxLink adapter-under-test reads, with the fast test timers. */
+export const setDxLinkTestEnv = (url: string, overrides: Record<string, string> = {}): void => {
+  Object.assign(process.env, {
+    WS_API_ENDPOINT: url,
+    API_USERNAME: 'fake-user',
+    API_PASSWORD: 'fake-pass',
+    WS_SUBSCRIPTION_TTL: '60000',
+    WS_SUBSCRIPTION_UNRESPONSIVE_TTL: '60000',
+    CACHE_MAX_AGE: '60000',
+    WS_CONNECTION_OPEN_TIMEOUT: '2000',
+    WS_HEARTBEAT_INTERVAL_MS: '5000',
+    ...overrides,
+  })
+}
+
 export const QUOTE_FIELDS = [
   'eventType',
   'eventSymbol',

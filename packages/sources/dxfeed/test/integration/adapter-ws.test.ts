@@ -1,5 +1,5 @@
 /**
- * dxLink websocket integration tests — OPDATA-9200 spec endpoint wiring.
+ * dxLink websocket integration tests — OPDATA-9200 requirement doc endpoint wiring.
  *
  * Both endpoints keep working from the single dxLink connection:
  * - stock_quotes: Quote events -> mid (primary), bid/ask prices, bid/ask
@@ -8,8 +8,8 @@
  * - price (stock alias): Trade (regular hours) / TradeETH (extended hours)
  *   -> last trade price; when both arrive, the record with the newest time
  *
- * Assertions come from the spec's endpoint_request_response_examples and
- * response_mapping, through the adapter's real request path.
+ * Assertions come from the requirement doc's examples and response mapping,
+ * through the adapter's real request path.
  */
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
@@ -134,13 +134,12 @@ describe('dxLink websocket endpoints', () => {
     server.setFeedData('Quote', 'NULL_VOLUME', [
       quoteFrame(quoteRecord('NULL_VOLUME', 1760000002000, 170, 172, null, null)),
     ])
-    // Literal null prices: must hit the invalid bid/ask price path, not the
-    // one-sided-zero fallback.
+    // Literal null prices: must hit the invalid bid/ask price path.
     server.setFeedData('Quote', 'NULL_PRICE', [
       quoteFrame(quoteRecord('NULL_PRICE', 1760000002000, 170, null, 10, null)),
     ])
-    // One side missing (0): mid_price = (bidPrice + askPrice) / 2 with a
-    // one-sided mid when only one side is valid (spec response_mapping).
+    // Equity quotes need a positive bid and ask. Zero is an empty book on that
+    // side, not a valid quote, and must be rejected rather than repaired.
     server.setFeedData('Quote', 'ONE_SIDE', [
       quoteFrame(quoteRecord('ONE_SIDE', 1760000002000, 170, 0, 10, 0)),
     ])
@@ -168,13 +167,12 @@ describe('dxLink websocket endpoints', () => {
       oxmixRequest,
       oxmixOvernightRequest,
       noVolumeRequest,
-      oneSideRequest,
       nullVolumeRequest,
       nullPriceRequest,
     ]) {
       await testAdapter.request(request)
     }
-    await testAdapter.waitForCache(11)
+    await testAdapter.waitForCache(10)
   })
 
   afterAll(async () => {
@@ -239,16 +237,11 @@ describe('dxLink websocket endpoints', () => {
       expect(body.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000003000)
     })
 
-    it('computes a one-sided mid when only one side is valid', async () => {
+    it('rejects a one-sided quote (ask 0) instead of repairing the mid', async () => {
       const response = await testAdapter.request(oneSideRequest)
-      expect(response.statusCode).toBe(200)
+      expect(response.statusCode).toBe(502)
       const body = response.json()
-      // askPrice 0 (no valid ask): the incumbent's one-side-zero fallback
-      // serves mid = bid, the quote itself is still served with its provider
-      // time.
-      expect(body.data).toMatchObject({ bid_price: 170, ask_price: 0 })
-      expect(body.data.mid_price).toBeCloseTo(170, 10)
-      expect(body.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000002000)
+      expect(body.error ?? body.errorMessage).toBeDefined()
     })
 
     it('tolerates invalid volumes when requireVolume is absent', async () => {

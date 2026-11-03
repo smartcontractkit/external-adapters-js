@@ -7,6 +7,8 @@ Migrate the dxFeed WS transport from cometd to dxLink (OPDATA-9200).
 - `WS_API_ENDPOINT` must be the dxLink URL. There is no default; Partnerships supply the value.
 - Credentials move out of the URL into `API_USERNAME` / `API_PASSWORD`, sent as the HTTP Basic auth header on the WS handshake. A URL with embedded credentials is rejected at startup.
 - `stock_quotes` keeps `data.mid_price`, `data.bid_price`, `data.ask_price`, `data.bid_volume`, and `data.ask_volume`; `result` now carries the same mid price (it was `null`).
+- Equity quotes require a positive bid and ask. One-sided, zero, negative, crossed, or non-numeric quotes are rejected with 502 rather than repaired with a one-sided mid.
+- Numeric fields accept only finite JSON numbers. `null`, `undefined`, empty/whitespace strings, non-numeric strings, `"NaN"`, and `"Infinity"` are treated as missing, never as `0`.
 - The WS price transport subscribes `Trade` and `TradeETH` for every symbol and serves the record with the newest provider time.
 - The REST transport and its environment variables are unchanged.
 
