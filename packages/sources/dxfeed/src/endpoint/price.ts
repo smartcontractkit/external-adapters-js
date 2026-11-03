@@ -1,12 +1,11 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
-import type { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import type { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import type { config } from '../config'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { config } from '../config'
 import overrides from '../config/overrides.json'
 import { buildDxFeedHttpTransport } from '../transport/price-http'
 import { transport as wsTransport } from '../transport/price-ws'
-import { inputParameters, wsEnvPresenceError } from './utils'
+import { inputParameters, validateWsSettings } from './utils'
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -23,10 +22,6 @@ export const endpoint = new AdapterEndpoint<BaseEndpointTypes>({
   defaultTransport: 'rest',
   inputParameters,
   overrides: overrides.dxfeed,
-  customInputValidation: (req, settings): AdapterError | undefined => {
-    if (req.requestContext.transportName !== 'ws') {
-      return
-    }
-    return wsEnvPresenceError(settings)
-  },
+  customInputValidation: (req, settings) =>
+    req.requestContext.transportName === 'ws' ? validateWsSettings(settings) : undefined,
 })
