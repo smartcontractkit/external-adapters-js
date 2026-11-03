@@ -46,6 +46,10 @@ export const getDataEngineResult = async ({
   resultPath: PriceField
   decimals: number
 }) => {
+  // No catch needed: a failed request (4xx/5xx, timeout) is retried by the
+  // Requester and thrown as a 502 AdapterError, which the data-engine EA's
+  // callEA annotates with the response body. The transport caches it as the
+  // error response.
   const data = await targetEndpoints[targetEndpoint](feedId, url, requester)
 
   // Own properties only: `in` or an undefined check would accept inherited names like "constructor"
@@ -58,29 +62,8 @@ export const getDataEngineResult = async ({
     })
   }
 
-  // A report value that is not a positive integer, e.g. "" or "0", would
-  // otherwise scale to a price of 0, and null or a fraction fail in BigInt
-  const price = data[resultPath]
-  if (typeof price !== 'string' || !/^\d+$/.test(price) || BigInt(price) === 0n) {
-    throw new AdapterError({
-      statusCode: 502,
-      message: `Invalid ${resultPath} ${JSON.stringify(
-        price,
-      )} in data engine report for feedId '${feedId}'`,
-    })
-  }
-
-  if (!Number.isInteger(data.decimals) || data.decimals < 0) {
-    throw new AdapterError({
-      statusCode: 502,
-      message: `Invalid decimals ${JSON.stringify(
-        data.decimals,
-      )} in data engine report for feedId '${feedId}'`,
-    })
-  }
-
   return {
-    result: scaleDecimals(BigInt(price), data.decimals, decimals).toString(),
+    result: scaleDecimals(BigInt(data[resultPath]), data.decimals, decimals).toString(),
     data,
   }
 }

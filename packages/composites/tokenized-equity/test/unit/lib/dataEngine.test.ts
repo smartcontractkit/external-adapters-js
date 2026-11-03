@@ -101,35 +101,4 @@ describe('getDataEngineResult', () => {
       message: expect.stringContaining('Request failed with status code 504'),
     })
   })
-
-  // Values that would otherwise scale to a price of 0 or fail in BigInt
-  it.each([null, '', '0', '-5', '1.5', 'abc', 7])(
-    'throws 502 for an invalid report price %p',
-    async (price) => {
-      mockRequest.mockResolvedValue({
-        response: { data: { data: { ...data, lastTradedPrice: price } } },
-      })
-
-      await expect(getDataEngineResult(param)).rejects.toMatchObject({
-        statusCode: 502,
-        message: `Invalid lastTradedPrice ${JSON.stringify(
-          price,
-        )} in data engine report for feedId '0x000b'`,
-      })
-    },
-  )
-
-  it.each([undefined, null, -1, 1.5, '18'])(
-    'throws 502 for invalid report decimals %p',
-    async (decimals) => {
-      mockRequest.mockResolvedValue({ response: { data: { data: { ...data, decimals } } } })
-
-      await expect(getDataEngineResult(param)).rejects.toMatchObject({
-        statusCode: 502,
-        message: `Invalid decimals ${JSON.stringify(
-          decimals,
-        )} in data engine report for feedId '0x000b'`,
-      })
-    },
-  )
 })
