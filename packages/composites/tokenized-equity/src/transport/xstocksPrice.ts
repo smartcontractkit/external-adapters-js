@@ -1,10 +1,11 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { JsonRpcProvider } from 'ethers'
 import { Smoother } from '../endpoint/common'
-import { getTokenMultiplier } from '../lib/xstocks'
+import { issuers } from '../issuers'
 import { smoothedStreamPrice } from './smoothedPrice'
 
-export const MULTIPLIER_DECIMALS = 18n
+const MULTIPLIER_DECIMALS = 18n
 
 export const calculatePrice = async (param: {
   asset: string
@@ -23,15 +24,23 @@ export const calculatePrice = async (param: {
   smoother: Smoother
   decimals: number
 }) => {
-  const [result, multiplier] = await Promise.all([
+  const [result, { multiplier, paused }] = await Promise.all([
     smoothedStreamPrice(param),
-    getTokenMultiplier(param.asset, param.provider),
+    issuers.xstocks.read(param, param.provider),
   ])
+
+  if (paused) {
+    throw new AdapterError({
+      statusCode: 503,
+      message: `asset: '${param.asset}' paused`,
+    })
+  }
 
   return result.map((r) => ({
     ...r,
     tokenContract: {
       multiplier: multiplier.toString(),
+      paused,
     },
     result: ((BigInt(r.result) * multiplier) / 10n ** MULTIPLIER_DECIMALS).toString(),
   }))

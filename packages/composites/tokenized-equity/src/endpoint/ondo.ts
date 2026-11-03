@@ -1,11 +1,10 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { issuerDirectory } from '../issuers'
+import { issuers } from '../issuers'
 import { ondoTransport } from '../transport/ondoTransport'
 import type { output } from './common'
-import { inputDefinition, inputExample, validateSmoother, validateStreamIds } from './common'
+import { inputDefinition, inputExample, smoothedPriceInputValidation } from './common'
 
 export const inputParameters = new InputParameters(
   {
@@ -43,13 +42,5 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: ondoTransport,
   inputParameters,
-  customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
-    const { data } = req.requestContext
-    issuerDirectory.ondo.validate(adapterSettings, data)
-
-    validateStreamIds(data)
-    validateSmoother(data)
-
-    return
-  },
+  customInputValidation: smoothedPriceInputValidation(issuers.ondo),
 })

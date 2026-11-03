@@ -1,9 +1,8 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { getIssuer, issuerNames, MULTIPLIER_DECIMALS } from '../issuers'
-import { DataEngineV11Data, priceFields, targetEndpoints } from '../lib/dataEngine'
+import { issuerNames, issuers, MULTIPLIER_DECIMALS } from '../issuers'
+import { DataEngineV11Data, priceFields, targetEndpointNames } from '../lib/dataEngine'
 import { issuerPrice247Transport } from '../transport/issuerPrice247'
 
 export const inputParameters = new InputParameters(
@@ -11,7 +10,7 @@ export const inputParameters = new InputParameters(
     targetEndpoint: {
       type: 'string',
       description: 'The data-engine EA endpoint to request the 24/7 feed from',
-      options: Object.keys(targetEndpoints),
+      options: targetEndpointNames,
       default: 'v11',
     },
     feedId: {
@@ -23,7 +22,7 @@ export const inputParameters = new InputParameters(
       required: true,
       type: 'string',
       description: 'The data-engine EA price field to use as the price',
-      options: [...priceFields],
+      options: priceFields,
     },
     decimals: {
       type: 'number',
@@ -38,7 +37,8 @@ export const inputParameters = new InputParameters(
         issuer: {
           required: true,
           type: 'string',
-          description: `The issuer of the tokenized asset. One of: ${issuerNames.join(', ')}`,
+          description: 'The issuer of the tokenized asset',
+          options: issuerNames,
         },
         asset: {
           required: true,
@@ -98,7 +98,6 @@ export type BaseEndpointTypes = {
         network?: string
         value: string
         decimals: number
-        paused: boolean
       }
     }
   }
@@ -109,12 +108,10 @@ export const endpoint = new AdapterEndpoint({
   name: 'issuer-price-247',
   transport: issuerPrice247Transport,
   inputParameters,
-  customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
-    const { multiplier } = req.requestContext.data
-    if (multiplier) {
-      // The issuer named in the request validates the rest of it
-      getIssuer(multiplier.issuer).validate(adapterSettings, multiplier)
+  customInputValidation: ({ requestContext: { data } }, settings) => {
+    if (data.multiplier) {
+      issuers[data.multiplier.issuer].validate(settings, data.multiplier)
     }
-    return
+    return undefined
   },
 })

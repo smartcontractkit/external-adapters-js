@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
-import { getTokenMultiplier } from '../../../src/lib/xstocks'
+import { issuers } from '../../../src/issuers'
 import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
 import { calculatePrice } from '../../../src/transport/xstocksPrice'
 
@@ -9,8 +9,7 @@ const mockSmoothedStreamPrice = smoothedStreamPrice as jest.MockedFunction<
   typeof smoothedStreamPrice
 >
 
-jest.mock('../../../src/lib/xstocks', () => ({ getTokenMultiplier: jest.fn() }))
-const mockGetTokenMultiplier = getTokenMultiplier as jest.MockedFunction<typeof getTokenMultiplier>
+const mockRead = jest.spyOn(issuers.xstocks, 'read')
 
 describe('calculatePrice', () => {
   const defaultParams = {
@@ -102,7 +101,7 @@ describe('calculatePrice', () => {
     ]
 
     mockSmoothedStreamPrice.mockResolvedValue(smoothedStreamPriceReturn)
-    mockGetTokenMultiplier.mockResolvedValue(5n * 10n ** 18n)
+    mockRead.mockResolvedValue({ multiplier: 5n * 10n ** 18n, paused: false })
 
     const result = await calculatePrice({
       ...defaultParams,
@@ -110,7 +109,7 @@ describe('calculatePrice', () => {
       decimals: 6,
     })
 
-    const expectedTokenMultiplier = { multiplier: '5000000000000000000' }
+    const expectedTokenMultiplier = { multiplier: '5000000000000000000', paused: false }
     expect(result[0]).toStrictEqual({
       ...smoothedStreamPriceReturn[0],
       tokenContract: expectedTokenMultiplier,
@@ -120,6 +119,16 @@ describe('calculatePrice', () => {
       ...smoothedStreamPriceReturn[1],
       tokenContract: expectedTokenMultiplier,
       result: '5',
+    })
+  })
+
+  it('throws when the wrapper is paused', async () => {
+    mockSmoothedStreamPrice.mockResolvedValue([])
+    mockRead.mockResolvedValue({ multiplier: 5n * 10n ** 18n, paused: true })
+
+    await expect(calculatePrice({ ...defaultParams, smoother: 'kalman' })).rejects.toMatchObject({
+      statusCode: 503,
+      message: `asset: '${defaultParams.asset}' paused`,
     })
   })
 })

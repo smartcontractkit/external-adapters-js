@@ -1,79 +1,73 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { JsonRpcProvider } from 'ethers'
-import { assertNotPaused, getIssuer, IssuerRequest } from '../issuers'
-import { getDataEngineResult, TargetEndpoint } from '../lib/dataEngine'
+import { config } from '../config'
+import { AssetRequest, IssuerName, issuers, MULTIPLIER_DECIMALS } from '../issuers'
+import { ChainProviders } from '../lib/chains'
+import { getDataEngineResult, PriceField, TargetEndpoint } from '../lib/dataEngine'
 import { scaleDecimals } from '../lib/decimals'
 
-// The endpoint's multiplier param: an issuer request plus the issuer name
-export type MultiplierParams = IssuerRequest & { issuer: string }
-
 type PriceParams = {
-  url: string
+  settings: typeof config.settings
   requester: Requester
+  providers: ChainProviders
   targetEndpoint: TargetEndpoint
   feedId: string
-  resultPath: string
+  resultPath: PriceField
   decimals: number
-}
-
-type MultipliedPriceParams = PriceParams & {
-  provider: JsonRpcProvider
-  multiplier: MultiplierParams
+  multiplier?: AssetRequest & { issuer: IssuerName }
 }
 
 /**
- * Raw stream price without a multiplier: the data-engine EA scales the price
- * to the output decimals directly, so it is truncated once.
+ * The 24/7 stream price, times the issuer's on-chain multiplier when one is
+ * requested. The multiplied price is truncated to the output decimals only once.
  */
-export const calculateRawPrice = async (param: PriceParams) => {
-  const price = await getDataEngineResult(param)
+export const calculatePrice = async ({
+  settings,
+  providers,
+  multiplier,
+  ...param
+}: PriceParams) => {
+  const stream = { ...param, url: settings.DATA_ENGINE_ADAPTER_URL }
 
-  return {
-    result: price.result,
-    decimals: param.decimals,
-    rawPrice: price.result,
-    rawPriceDecimals: param.decimals,
-    dataEngine: price.data,
+  if (!multiplier) {
+    const { result, data } = await getDataEngineResult(stream)
+    return {
+      result,
+      decimals: param.decimals,
+      rawPrice: result,
+      rawPriceDecimals: param.decimals,
+      dataEngine: data,
+    }
   }
-}
 
-export const calculatePrice = async (param: MultipliedPriceParams) => {
-  const issuer = getIssuer(param.multiplier.issuer)
-  const multiplierDecimals = issuer.multiplierDecimals
+  const issuer = issuers[multiplier.issuer]
+  const provider = providers.get(issuer.chain(settings, multiplier))
 
-  // Request the price in the same units as the multiplier so both operands
-  // share a scale, then apply the requested output decimals once at the end.
-  const [price, { multiplier, paused }] = await Promise.all([
-    getDataEngineResult({ ...param, decimals: multiplierDecimals }),
-    issuer.read(param.multiplier, param.provider),
+  // Request the price in the multiplier's decimals so both share a scale
+  const [price, value] = await Promise.all([
+    getDataEngineResult({ ...stream, decimals: MULTIPLIER_DECIMALS }),
+    issuer.getMultiplier(multiplier, provider),
   ])
 
-  assertNotPaused(issuer, param.multiplier.asset, paused)
-
-  // Full precision product, before the output decimals are applied
-  const rawMultipliedPrice = BigInt(price.result) * multiplier
-  const rawMultipliedPriceDecimals = multiplierDecimals * 2
-
-  const result = scaleDecimals(
-    rawMultipliedPrice,
-    rawMultipliedPriceDecimals,
-    param.decimals,
-  ).toString()
+  const rawMultipliedPrice = BigInt(price.result) * value
+  const rawMultipliedPriceDecimals = 2 * MULTIPLIER_DECIMALS
 
   return {
-    result,
+    result: scaleDecimals(
+      rawMultipliedPrice,
+      rawMultipliedPriceDecimals,
+      param.decimals,
+    ).toString(),
     decimals: param.decimals,
     rawPrice: price.result,
-    rawPriceDecimals: multiplierDecimals,
+    rawPriceDecimals: MULTIPLIER_DECIMALS,
     rawMultipliedPrice: rawMultipliedPrice.toString(),
     rawMultipliedPriceDecimals,
     dataEngine: price.data,
     multiplier: {
-      issuer: param.multiplier.issuer,
-      network: param.multiplier.network,
-      value: multiplier.toString(),
-      decimals: multiplierDecimals,
-      paused,
+      issuer: multiplier.issuer,
+      network: multiplier.network,
+      value: value.toString(),
+      decimals: MULTIPLIER_DECIMALS,
     },
   }
 }

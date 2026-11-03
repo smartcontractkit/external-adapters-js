@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { getDataEngineResult } from '../../../src/lib/dataEngine'
+import { getDataEngineResult, PriceField } from '../../../src/lib/dataEngine'
 
 describe('getDataEngineResult', () => {
   const mockRequest = jest.fn()
@@ -10,7 +10,7 @@ describe('getDataEngineResult', () => {
     requester,
     targetEndpoint: 'v11' as const,
     feedId: '0x000b',
-    resultPath: 'lastTradedPrice',
+    resultPath: 'lastTradedPrice' as const,
     decimals: 8,
   }
 
@@ -56,11 +56,13 @@ describe('getDataEngineResult', () => {
   })
 
   it('throws 400 when resultPath is not in the report', async () => {
-    mockRequest.mockResolvedValue({ response: { data: { data } } })
+    const report: Partial<typeof data> = { ...data }
+    delete report.lastTradedPrice
+    mockRequest.mockResolvedValue({ response: { data: { data: report } } })
 
-    await expect(getDataEngineResult({ ...param, resultPath: 'unknown' })).rejects.toMatchObject({
+    await expect(getDataEngineResult(param)).rejects.toMatchObject({
       statusCode: 400,
-      message: expect.stringContaining("resultPath 'unknown' not found in data"),
+      message: expect.stringContaining("resultPath 'lastTradedPrice' not found in data"),
     })
   })
 
@@ -68,7 +70,7 @@ describe('getDataEngineResult', () => {
     mockRequest.mockResolvedValue({ response: { data: { data } } })
 
     await expect(
-      getDataEngineResult({ ...param, resultPath: 'constructor' }),
+      getDataEngineResult({ ...param, resultPath: 'constructor' as PriceField }),
     ).rejects.toMatchObject({
       statusCode: 400,
       message: expect.stringContaining("resultPath 'constructor' not found in data"),

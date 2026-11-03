@@ -18,38 +18,48 @@ export const targetEndpoints = {
 
 export type TargetEndpoint = keyof typeof targetEndpoints
 
+export const targetEndpointNames = Object.keys(targetEndpoints) as TargetEndpoint[]
+
 // Report fields that are prices in the report decimals, so they can be scaled
 // and multiplied. Allowed values of the resultPath input parameter.
 export const priceFields = ['mid', 'bid', 'ask', 'lastTradedPrice'] as const
+
+export type PriceField = (typeof priceFields)[number]
 
 /**
  * Requests a feed from the data-engine EA and scales the resultPath field from
  * the report decimals to the requested decimals, truncating like the
  * data-engine EA does for its own resultPath (resolveResult).
  */
-export const getDataEngineResult = async (param: {
+export const getDataEngineResult = async ({
+  url,
+  requester,
+  targetEndpoint,
+  feedId,
+  resultPath,
+  decimals,
+}: {
   url: string
   requester: Requester
   targetEndpoint: TargetEndpoint
   feedId: string
-  resultPath: string
+  resultPath: PriceField
   decimals: number
 }) => {
-  const data = await targetEndpoints[param.targetEndpoint](param.feedId, param.url, param.requester)
+  const data = await targetEndpoints[targetEndpoint](feedId, url, requester)
 
-  // Own properties only: `in` would also accept inherited names like "constructor"
-  if (!Object.prototype.hasOwnProperty.call(data, param.resultPath)) {
+  // Own properties only: `in` or an undefined check would accept inherited names like "constructor"
+  if (!Object.prototype.hasOwnProperty.call(data, resultPath)) {
     throw new AdapterError({
       statusCode: 400,
-      message: `resultPath '${param.resultPath}' not found in data. Available keys: ${Object.keys(
+      message: `resultPath '${resultPath}' not found in data. Available keys: ${Object.keys(
         data,
       ).join(', ')}`,
     })
   }
 
-  const value = BigInt(String(data[param.resultPath as keyof DataEngineV11Data]))
   return {
-    result: scaleDecimals(value, data.decimals, param.decimals).toString(),
+    result: scaleDecimals(BigInt(data[resultPath]), data.decimals, decimals).toString(),
     data,
   }
 }

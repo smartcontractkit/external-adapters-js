@@ -4,95 +4,71 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { JsonRpcProvider } from 'ethers'
 import { config } from '../config'
+import { Chain } from '../lib/chains'
 
 export type Settings = typeof config.settings
 
-// Every supported issuer returns its multiplier as an 18 decimal fixed point
-// number. Hardcoded, like the issuer-specific endpoints, rather than read from chain.
+/**
+ * Every issuer keeps its multiplier as an 18 decimal fixed point number.
+ * Hardcoded, like the issuer-specific endpoints, rather than read from chain.
+ */
 export const MULTIPLIER_DECIMALS = 18
 
-export type IssuerParams = {
-  // Token address of the tokenized asset
+export type AssetRequest = {
+  /** Token address of the tokenized asset */
   asset: string
-  // Issuer registry contract, for issuers that keep the multiplier in a registry
+  /** Registry contract, for issuers that keep multipliers in one */
   registry?: string
-}
-
-export type IssuerRequest = IssuerParams & {
-  // Robinhood chain network, e.g. mainnet. Only used by robinhood
+  /** Network of the issuer's chain, for issuers with more than one */
   network?: string
 }
 
-export type MultiplierData = {
+export type MultiplierState = {
   multiplier: bigint
   paused: boolean
 }
 
-export type Rpc = {
-  url: string
-  chainId?: number
-}
-
 /**
- * Reads the on-chain multiplier of a tokenized asset for one issuer. The
- * price of the tokenized asset is the underlying price times the multiplier.
+ * An issuer of tokenized assets. A tokenized asset is worth its underlying asset
+ * times the multiplier the issuer keeps on chain.
  */
-export interface Issuer {
-  name: string
-  // Fixed point decimals of the multiplier returned by read
-  multiplierDecimals: number
-  // Throws an AdapterInputError for a request this issuer cannot serve
-  validate: (settings: Settings, request: IssuerRequest) => void
-  // RPC of the chain the multiplier is read from
-  rpc: (settings: Settings, request: IssuerRequest) => Rpc
-  read: (params: IssuerParams, provider: JsonRpcProvider) => Promise<MultiplierData>
-}
+export abstract class Issuer {
+  abstract readonly name: string
 
-// Builds an Issuer with the hardcoded 18 decimal multiplier
-export const defineIssuer = (spec: Omit<Issuer, 'multiplierDecimals'>): Issuer => ({
-  multiplierDecimals: MULTIPLIER_DECIMALS,
-  ...spec,
-})
+  /**
+   * The chain the asset's multiplier lives on. Throws when the request doesn't
+   * say which, or the adapter isn't configured for it.
+   */
+  abstract chain(settings: Settings, request: AssetRequest): Chain
 
-const missingRegistryMessage = (issuer: string) =>
-  `Missing required parameter registry for issuer '${issuer}'`
+  /** Reads the asset's multiplier and pause state from chain. */
+  abstract read(request: AssetRequest, provider: JsonRpcProvider): Promise<MultiplierState>
 
-// Validation helper for issuers that keep the multiplier in a registry contract
-export const requireRegistry = (issuer: string, request: IssuerRequest) => {
-  if (!request.registry) {
-    throw new AdapterInputError({ statusCode: 400, message: missingRegistryMessage(issuer) })
+  /** Rejects a request this issuer cannot serve, before it reaches the transport. */
+  validate(settings: Settings, request: AssetRequest): void {
+    this.chain(settings, request)
   }
-}
 
-// Validation helper for issuers on a fixed chain: its RPC URL env var is set
-export const requireRpcUrl = (settings: Settings, envVar: 'ETHEREUM_RPC_URL' | 'BASE_RPC_URL') => {
-  if (!settings[envVar]) {
-    throw new AdapterInputError({ statusCode: 400, message: `Missing ${envVar}` })
+  /** The asset's multiplier. A paused asset has no price, so it fails with a 503. */
+  async getMultiplier(request: AssetRequest, provider: JsonRpcProvider): Promise<bigint> {
+    const { multiplier, paused } = await this.read(request, provider)
+    if (paused) {
+      throw new AdapterError({
+        statusCode: 503,
+        message: `asset: '${request.asset}' paused for issuer '${this.name}'`,
+      })
+    }
+    return multiplier
   }
-}
 
-export const ethereumRpc = (settings: Settings): Rpc => ({
-  url: settings.ETHEREUM_RPC_URL,
-  chainId: settings.ETHEREUM_RPC_CHAIN_ID,
-})
-
-export const baseRpc = (settings: Settings): Rpc => ({
-  url: settings.BASE_RPC_URL,
-  chainId: settings.BASE_RPC_CHAIN_ID,
-})
-
-export const getRegistry = (issuer: string, params: IssuerParams): string => {
-  if (!params.registry) {
-    throw new AdapterInputError({ statusCode: 400, message: missingRegistryMessage(issuer) })
-  }
-  return params.registry
-}
-
-export const assertNotPaused = (issuer: Issuer, asset: string, paused: boolean) => {
-  if (paused) {
-    throw new AdapterError({
-      statusCode: 503,
-      message: `asset: '${asset}' paused for issuer '${issuer.name}'`,
-    })
+  /** The registry of an issuer that keeps multipliers in one. */
+  protected registry({ registry }: AssetRequest): string {
+    if (!registry) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Missing required parameter registry for issuer '${this.name}'`,
+      })
+    }
+    return registry
   }
 }

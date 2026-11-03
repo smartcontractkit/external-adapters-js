@@ -1,14 +1,54 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { JsonRpcProvider } from 'ethers'
-import { issuerDirectory } from '../../../src/issuers'
+import { issuers } from '../../../src/issuers'
+import { ChainProviders } from '../../../src/lib/chains'
 import { getDataEngineResult } from '../../../src/lib/dataEngine'
 import { scaleDecimals } from '../../../src/lib/decimals'
-import { calculatePrice, calculateRawPrice } from '../../../src/transport/issuerPrice247Price'
+import { calculatePrice } from '../../../src/transport/issuerPrice247Price'
+import { makeSettings } from '../fixtures/settings'
 
 jest.mock('../../../src/lib/dataEngine', () => ({ getDataEngineResult: jest.fn() }))
+jest.mock('ethers', () => ({
+  ...jest.requireActual('ethers'),
+  JsonRpcProvider: jest
+    .fn()
+    .mockImplementation((url: string, chainId: number) => ({ url, chainId })),
+}))
 const mockGetDataEngineResult = getDataEngineResult as jest.MockedFunction<
   typeof getDataEngineResult
 >
+
+const data = {
+  mid: '1',
+  lastSeenTimestampNs: '2',
+  bid: '3',
+  bidVolume: 4,
+  ask: '5',
+  askVolume: 6,
+  lastTradedPrice: '7',
+  marketStatus: 4,
+  decimals: 18,
+}
+
+const settings = makeSettings()
+const requester = {} as Requester
+
+const param = {
+  settings,
+  requester,
+  providers: new ChainProviders(),
+  targetEndpoint: 'v11' as const,
+  feedId: '0x000b',
+  resultPath: 'lastTradedPrice' as const,
+  decimals: 8,
+}
+
+const stream = {
+  url: 'http://data-engine',
+  requester,
+  targetEndpoint: 'v11',
+  feedId: '0x000b',
+  resultPath: 'lastTradedPrice',
+}
 
 describe('scaleDecimals', () => {
   it('scales down with truncation', () => {
@@ -24,144 +64,82 @@ describe('scaleDecimals', () => {
   })
 })
 
-describe('calculateRawPrice', () => {
-  const data = {
-    mid: '1',
-    lastSeenTimestampNs: '2',
-    bid: '3',
-    bidVolume: 4,
-    ask: '5',
-    askVolume: 6,
-    lastTradedPrice: '7',
-    marketStatus: 4,
-    decimals: 18,
-  }
-
-  beforeEach(() => {
-    jest.clearAllMocks()
-  })
-
-  it('returns the stream price requested in the output decimals', async () => {
-    mockGetDataEngineResult.mockResolvedValue({ result: '32398429239', data })
-    const param = {
-      url: 'http://data-engine',
-      requester: {} as Requester,
-      targetEndpoint: 'v11' as const,
-      feedId: '0x000b',
-      resultPath: 'lastTradedPrice',
-      decimals: 8,
-    }
-
-    expect(await calculateRawPrice(param)).toEqual({
-      result: '32398429239',
-      decimals: 8,
-      rawPrice: '32398429239',
-      rawPriceDecimals: 8,
-      dataEngine: data,
-    })
-    expect(mockGetDataEngineResult).toHaveBeenCalledWith(param)
-  })
-})
-
 describe('calculatePrice', () => {
-  const data = {
-    mid: '1',
-    lastSeenTimestampNs: '2',
-    bid: '3',
-    bidVolume: 4,
-    ask: '5',
-    askVolume: 6,
-    lastTradedPrice: '7',
-    marketStatus: 4,
-    decimals: 18,
-  }
-
-  const param = {
-    url: 'http://data-engine',
-    requester: {} as Requester,
-    provider: {} as JsonRpcProvider,
-    targetEndpoint: 'v11' as const,
-    feedId: '0x000b',
-    resultPath: 'lastTradedPrice',
-    decimals: 8,
-    multiplier: { issuer: 'robinhood', asset: '0xa', network: 'mainnet' },
-  }
-
-  let readSpy: jest.SpyInstance
+  let getMultiplier: jest.SpyInstance
 
   beforeEach(() => {
     jest.clearAllMocks()
-    readSpy = jest.spyOn(issuerDirectory.robinhood, 'read')
+    getMultiplier = jest.spyOn(issuers.robinhood, 'getMultiplier')
   })
 
   afterEach(() => {
-    readSpy.mockRestore()
+    getMultiplier.mockRestore()
   })
 
-  it('requests the price in the 18 multiplier decimals', async () => {
-    mockGetDataEngineResult.mockResolvedValue({ result: '325000000000000000000', data })
-    readSpy.mockResolvedValue({ multiplier: 2n * 10n ** 18n, paused: false })
+  describe('without a multiplier', () => {
+    it('returns the stream price requested in the output decimals', async () => {
+      mockGetDataEngineResult.mockResolvedValue({ result: '32398429239', data })
 
-    const result = await calculatePrice(param)
-
-    expect(mockGetDataEngineResult).toHaveBeenCalledWith(expect.objectContaining({ decimals: 18 }))
-    expect(readSpy).toHaveBeenCalledWith(param.multiplier, param.provider)
-    expect(result).toEqual({
-      result: '65000000000',
-      decimals: 8,
-      rawPrice: '325000000000000000000',
-      rawPriceDecimals: 18,
-      rawMultipliedPrice: (650n * 10n ** 36n).toString(),
-      rawMultipliedPriceDecimals: 36,
-      dataEngine: data,
-      multiplier: {
-        issuer: 'robinhood',
-        network: 'mainnet',
-        value: '2000000000000000000',
-        decimals: 18,
-        paused: false,
-      },
+      expect(await calculatePrice(param)).toEqual({
+        result: '32398429239',
+        decimals: 8,
+        rawPrice: '32398429239',
+        rawPriceDecimals: 8,
+        dataEngine: data,
+      })
+      expect(mockGetDataEngineResult).toHaveBeenCalledWith({ ...stream, decimals: 8 })
+      expect(getMultiplier).not.toHaveBeenCalled()
     })
   })
 
-  it('applies output decimals after multiplying', async () => {
-    // Live robinhood GOOGL values: scaling the price to 8 decimals before
-    // multiplying truncates twice and returns 32404712085
-    mockGetDataEngineResult.mockResolvedValue({ result: '323984292398371634149', data })
-    readSpy.mockResolvedValue({ multiplier: 1000193924414112587n, paused: false })
+  describe('with a multiplier', () => {
+    const multiplier = { issuer: 'robinhood' as const, asset: '0xa', network: 'mainnet' }
 
-    const result = await calculatePrice(param)
-    expect(result.result).toBe('32404712086')
-    expect(result.rawMultipliedPrice).toBe(
-      (323984292398371634149n * 1000193924414112587n).toString(),
-    )
-    expect(result.rawMultipliedPriceDecimals).toBe(36)
-  })
+    it('requests the price in the 18 multiplier decimals', async () => {
+      mockGetDataEngineResult.mockResolvedValue({ result: '325000000000000000000', data })
+      getMultiplier.mockResolvedValue(2n * 10n ** 18n)
 
-  it('scales up when output decimals exceed the product decimals', async () => {
-    mockGetDataEngineResult.mockResolvedValue({ result: '15' + '0'.repeat(17), data })
-    readSpy.mockResolvedValue({ multiplier: 2n * 10n ** 18n, paused: false })
-
-    const result = await calculatePrice({ ...param, decimals: 40 })
-    expect(result.result).toBe('3' + '0'.repeat(40))
-  })
-
-  it('throws 503 when paused', async () => {
-    mockGetDataEngineResult.mockResolvedValue({ result: '1', data })
-    readSpy.mockResolvedValue({ multiplier: 10n ** 18n, paused: true })
-
-    await expect(calculatePrice(param)).rejects.toMatchObject({
-      statusCode: 503,
-      message: "asset: '0xa' paused for issuer 'robinhood'",
+      expect(await calculatePrice({ ...param, multiplier })).toEqual({
+        result: '65000000000',
+        decimals: 8,
+        rawPrice: '325000000000000000000',
+        rawPriceDecimals: 18,
+        rawMultipliedPrice: (650n * 10n ** 36n).toString(),
+        rawMultipliedPriceDecimals: 36,
+        dataEngine: data,
+        multiplier: {
+          issuer: 'robinhood',
+          network: 'mainnet',
+          value: '2000000000000000000',
+          decimals: 18,
+        },
+      })
+      expect(mockGetDataEngineResult).toHaveBeenCalledWith({ ...stream, decimals: 18 })
+      expect(getMultiplier).toHaveBeenCalledWith(multiplier, {
+        url: 'robinhood-url',
+        chainId: 4663,
+      })
     })
-  })
 
-  it('throws for unsupported issuer', async () => {
-    await expect(
-      calculatePrice({
-        ...param,
-        multiplier: { issuer: 'unknown', asset: '0xa', network: 'ethereum' },
-      }),
-    ).rejects.toMatchObject({ statusCode: 400 })
+    it('applies output decimals after multiplying', async () => {
+      // Live robinhood GOOGL values: scaling the price to 8 decimals before
+      // multiplying truncates twice and returns 32404712085
+      mockGetDataEngineResult.mockResolvedValue({ result: '323984292398371634149', data })
+      getMultiplier.mockResolvedValue(1000193924414112587n)
+
+      const result = await calculatePrice({ ...param, multiplier })
+      expect(result.result).toBe('32404712086')
+      expect(result.rawMultipliedPrice).toBe(
+        (323984292398371634149n * 1000193924414112587n).toString(),
+      )
+    })
+
+    it('scales up when output decimals exceed the product decimals', async () => {
+      mockGetDataEngineResult.mockResolvedValue({ result: '15' + '0'.repeat(17), data })
+      getMultiplier.mockResolvedValue(2n * 10n ** 18n)
+
+      const result = await calculatePrice({ ...param, decimals: 40, multiplier })
+      expect(result.result).toBe('3' + '0'.repeat(40))
+    })
   })
 })

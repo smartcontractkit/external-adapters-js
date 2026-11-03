@@ -1,21 +1,27 @@
-import { Contract, parseUnits } from 'ethers'
+import { Contract, JsonRpcProvider, parseUnits } from 'ethers'
 import ABI from '../config/XstocksWrappedBackedTokenABI.json'
-import { defineIssuer, ethereumRpc, MULTIPLIER_DECIMALS, requireRpcUrl } from './issuer'
+import { chains } from '../lib/chains'
+import { AssetRequest, Issuer, MULTIPLIER_DECIMALS, Settings } from './issuer'
 
-const ONE_SHARE = parseUnits('1', MULTIPLIER_DECIMALS)
+/**
+ * ERC-4626 style wrapper on Ethereum: the multiplier is the amount of underlying
+ * asset one whole wrapped share converts to.
+ */
+export class Xstocks extends Issuer {
+  readonly name = 'xstocks'
 
-// ERC-4626 style wrapper on Ethereum: the multiplier is the amount of underlying asset for
-// one whole wrapped share
-export const xstocks = defineIssuer({
-  name: 'xstocks',
-  validate: (settings) => requireRpcUrl(settings, 'ETHEREUM_RPC_URL'),
-  rpc: ethereumRpc,
-  read: async (params, provider) => {
-    const wrapper = new Contract(params.asset, ABI, provider)
+  chain(settings: Settings) {
+    return chains.ethereum(settings)
+  }
+
+  async read({ asset }: AssetRequest, provider: JsonRpcProvider) {
+    const token = new Contract(asset, ABI, provider)
     const [multiplier, paused] = await Promise.all([
-      wrapper.convertToAssets(ONE_SHARE),
-      wrapper.isPaused(),
+      token.convertToAssets(parseUnits('1', MULTIPLIER_DECIMALS)),
+      token.isPaused(),
     ])
     return { multiplier: BigInt(multiplier), paused: Boolean(paused) }
-  },
-})
+  }
+}
+
+export const xstocks = new Xstocks()
