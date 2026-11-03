@@ -168,6 +168,9 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
         return []
       case 'ERROR':
         logger.warn(`dxLink error: ${message.error} ${message.message}`)
+        // Provider ERROR frames are informational for the stream (no request fails), but
+        // operators need an alertable signal for UNAUTHORIZED, INVALID_MESSAGE, TIMEOUT, etc.
+        // Label with the dxLink error code, not the free-text message, to bound cardinality.
         metrics
           .get('wsConnectionErrors')
           .labels({ message: message.error ?? 'unknown' })
@@ -179,9 +182,11 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
   }
 
   // Out-of-order events (and Trade vs TradeETH, which update the same price) must not overwrite
-  // newer data. This can't be checked against the response cache: reads are async, so frames
-  // arriving together would race. Errors have no provider time and always pass; the framework's
-  // cache already refuses to replace a valid, unexpired response with an error.
+  // newer data. This runs after parsing and before the framework cache write, so a stale frame
+  // never reaches the cache. The map is not reset on reconnect: an older replay cannot overwrite
+  // newer data, and cache expiry remains the framework's normal 504 path. Errors have no provider
+  // time and always pass; the framework cache refuses to replace a valid, unexpired response with
+  // an error.
   private isLatest({ params, response }: ProviderResult<DxLinkTransportTypes<T>>): boolean {
     const time =
       'timestamps' in response ? response.timestamps?.providerIndicatedTimeUnixMs : undefined

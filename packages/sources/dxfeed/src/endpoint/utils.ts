@@ -19,7 +19,7 @@ export const inputParameters = new InputParameters(
 )
 
 /** The WS transport needs settings that are optional for REST, so check them per request */
-export const validateWsSettings = (settings: typeof config.settings) => {
+export const validateWsEnvVars = (settings: typeof config.settings) => {
   if (!settings.WS_API_ENDPOINT) {
     return new AdapterInputError({ statusCode: 400, message: 'WS_API_ENDPOINT is not set' })
   }

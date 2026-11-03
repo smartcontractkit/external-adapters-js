@@ -5,7 +5,7 @@ import { config } from '../config'
 import overrides from '../config/overrides.json'
 import { buildDxFeedHttpTransport } from '../transport/price-http'
 import { transport as wsTransport } from '../transport/price-ws'
-import { inputParameters, validateWsSettings } from './utils'
+import { inputParameters, validateWsEnvVars } from './utils'
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -13,7 +13,7 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse
 }
 
-export const endpoint = new AdapterEndpoint<BaseEndpointTypes>({
+export const endpoint = new AdapterEndpoint({
   name: 'price',
   aliases: ['crypto', 'stock', 'forex', 'commodities'],
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()
@@ -22,6 +22,10 @@ export const endpoint = new AdapterEndpoint<BaseEndpointTypes>({
   defaultTransport: 'rest',
   inputParameters,
   overrides: overrides.dxfeed,
-  customInputValidation: (req, settings) =>
-    req.requestContext.transportName === 'ws' ? validateWsSettings(settings) : undefined,
+  customInputValidation: (req, settings) => {
+    if (req.requestContext.transportName === 'ws') {
+      return validateWsEnvVars(settings)
+    }
+    return
+  },
 })

@@ -296,6 +296,30 @@ describe('dxLink websocket transport', () => {
       expect(updated.json().data).toMatchObject({ bid_price: 110, ask_price: 111 })
     })
 
+    it('increments wsConnectionErrors with the dxLink error code, not the free-text message', async () => {
+      const errorsCounter = metrics.get('wsConnectionErrors')
+      const countTimeout = async (): Promise<number> =>
+        (await errorsCounter.get()).values
+          .filter((value) => value.labels.message === 'TIMEOUT')
+          .reduce((total, value) => total + value.value, 0)
+
+      const before = await countTimeout()
+      server.push({
+        type: 'ERROR',
+        channel: 0,
+        error: 'TIMEOUT',
+        message: 'keepalive timeout (test)',
+      })
+      await flushFrames(testAdapter, 2000)
+
+      expect(await countTimeout()).toBeGreaterThan(before)
+      expect(
+        (await errorsCounter.get()).values.some(
+          (value) => value.labels.message === 'keepalive timeout (test)',
+        ),
+      ).toBe(false)
+    })
+
     it('never hard-fails after a burst of ERROR frames (metrics-counters-only alerting)', async () => {
       const setupsBefore = server.countByType('SETUP')
 
