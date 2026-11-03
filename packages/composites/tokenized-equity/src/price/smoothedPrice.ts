@@ -50,7 +50,12 @@ export const smoothedStreamPrice = async (param: {
     param.overnightStreamId,
     param.overnightStreamMaxAgeInSeconds,
     param.streamMaxAgeSeconds,
-    param.sessionStartGatingEnabled ? { transitions: sessionSchedule.transitions } : undefined,
+    param.sessionStartGatingEnabled
+      ? {
+          transitions: sessionSchedule.transitions,
+          fallbackTransitions: sessionSchedule.fallbackTransitions,
+        }
+      : undefined,
   )
   const secondsFromTransition = sessionSchedule.secondsFromTransition
 

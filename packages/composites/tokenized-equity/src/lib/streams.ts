@@ -20,13 +20,16 @@ export type StreamMaxAgeSeconds = {
 }
 
 /**
- * Pre-open warm-up (session-start) gating. Passing this object enables the check;
- * `transitions` is the tradinghours market-session schedule. When the schedule is
- * unavailable (undefined) the check fails closed: a report whose session start cannot
- * be determined is rejected rather than passed through.
+ * Pre-open warm-up (session-start) gating. Passing this object enables the check.
+ * `transitions` is the tradinghours market-session schedule; `fallbackTransitions` is
+ * the hard-coded labeled schedule for the feed's market/type. The current session start
+ * is resolved from `transitions` first, then `fallbackTransitions` (tradinghours
+ * unreachable, or a schedule with no transition opening the selected session). When
+ * neither can supply the session start, the check fails closed (503).
  */
 export type SessionStartGating = {
   transitions?: SessionTransition[]
+  fallbackTransitions?: SessionTransition[]
 }
 
 // Latest transition at or before `now` whose status opens one of `statuses` — i.e. the
@@ -121,20 +124,29 @@ const describeCandidate = (c: StreamCandidate, sessionStartGating?: SessionStart
   return `${c.name} ${status}`
 }
 
+// Start of the current session for a stream eligible in `statuses`: the latest
+// transition at or before now from the tradinghours schedule, falling back to the
+// hard-coded schedule. undefined when neither source can place the session.
+const gatingSessionStartMs = (
+  statuses: TwentyfourFiveMarketStatus[],
+  sessionStartGating: SessionStartGating,
+  nowMs: number,
+): number | undefined =>
+  (sessionStartGating.transitions &&
+    currentSessionStartMs(statuses, sessionStartGating.transitions, nowMs)) ??
+  (sessionStartGating.fallbackTransitions &&
+    currentSessionStartMs(statuses, sessionStartGating.fallbackTransitions, nowMs))
+
 // Seconds by which the report predates the current session start, or undefined when the
 // report is in-session (or gating is off / the session start is unknown).
 const preSessionSeconds = (
   c: StreamCandidate,
   sessionStartGating?: SessionStartGating,
 ): number | undefined => {
-  if (!sessionStartGating?.transitions || c.result.status !== 'fulfilled') {
+  if (!sessionStartGating || c.result.status !== 'fulfilled') {
     return undefined
   }
-  const start = currentSessionStartMs(
-    c.eligibleStatuses,
-    sessionStartGating.transitions,
-    Date.now(),
-  )
+  const start = gatingSessionStartMs(c.eligibleStatuses, sessionStartGating, Date.now())
   if (start === undefined) {
     return undefined
   }
@@ -186,29 +198,15 @@ const getStream = (
   if (selected) {
     const value = (selected.result as PromiseFulfilledResult<DataEngineResponse>).value
     if (sessionStartGating) {
-      // Fail closed: with gating enabled, a report whose session start is unknown is
-      // rejected — we cannot prove it is not a pre-session leftover.
-      if (!sessionStartGating.transitions) {
-        throw new AdapterError({
-          statusCode: 503,
-          message: `Session start unknown (session schedule unavailable): ${candidates
-            .map((c) => describeCandidate(c, sessionStartGating))
-            .join(', ')}`,
-        })
-      }
-      const start = currentSessionStartMs(
-        selected.eligibleStatuses,
-        sessionStartGating.transitions,
-        Date.now(),
-      )
+      // Tradinghours schedule first, hard-coded fallback second. Fail closed only when
+      // neither can supply the session start (no market identity at all).
+      const start = gatingSessionStartMs(selected.eligibleStatuses, sessionStartGating, Date.now())
       if (start === undefined) {
         throw new AdapterError({
           statusCode: 503,
-          message: `Session start unknown (no ${
+          message: `Session start unknown (no schedule available for ${
             TwentyfourFiveMarketStatus[value.marketStatus]
-          } transition in session schedule): ${candidates
-            .map((c) => describeCandidate(c, sessionStartGating))
-            .join(', ')}`,
+          }): ${candidates.map((c) => describeCandidate(c, sessionStartGating)).join(', ')}`,
         })
       }
       const lastSeenMs = reportTimeMs(value.lastSeenTimestampNs)

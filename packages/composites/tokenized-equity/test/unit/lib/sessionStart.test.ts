@@ -2,7 +2,10 @@ import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framewor
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { getSessionSchedule } from '../../../src/lib/session/session'
-import { getSessionTransitions } from '../../../src/lib/session/tradingHoursSession'
+import {
+  getSessionTransitions,
+  SessionTransition,
+} from '../../../src/lib/session/tradingHoursSession'
 
 // Tests for the session transition schedule used by session-start (pre-open warm-up)
 // gating: unfiltered statuses, and the shared per-request fetch (getSessionSchedule)
@@ -101,10 +104,71 @@ describe('getSessionSchedule', () => {
 
     const schedule = await getSessionSchedule(URL, requester, BOUNDARIES, ...ARGS)
 
-    // Gating: undefined transitions → the caller rejects (fail closed).
+    // Gating: no tradinghours schedule (transitions undefined) — the caller walks to
+    // fallbackTransitions (next test).
     expect(schedule.transitions).toBeUndefined()
     // Smoother: historical sessionBoundaries fallback still applies.
     expect(schedule.secondsFromTransition?.source).toEqual('FALLBACK')
     expect(schedule.secondsFromTransition?.value).not.toEqual(Number.MAX_SAFE_INTEGER)
+  })
+
+  it('serves the hard-coded fallback schedule as fallbackTransitions when the fetch fails', async () => {
+    const requester = requesterWith(() => Promise.reject(new Error('tradinghours down')))
+
+    const schedule = await getSessionSchedule(URL, requester, BOUNDARIES, ...ARGS)
+
+    // Gating falls back to the hard-coded labeled schedule (never sessionBoundaries):
+    // labeled, and precise about the 09:30 regular open.
+    expect(schedule.fallbackTransitions).toBeDefined()
+    const fallback = schedule.fallbackTransitions as SessionTransition[]
+    expect(fallback.map((t) => t.status)).toContain(TwentyfourFiveMarketStatus.REGULAR)
+  })
+
+  it('returns no fallbackTransitions for market/type pairs without a hard-coded entry', async () => {
+    const requester = requesterWith(() => Promise.reject(new Error('tradinghours down')))
+
+    const schedule = await getSessionSchedule(URL, requester, BOUNDARIES, 'UTC', 'lse', '24/5')
+
+    expect(schedule.transitions).toBeUndefined()
+    expect(schedule.fallbackTransitions).toBeUndefined()
+    // The smoother's own fallback is unaffected by the unknown market.
+    expect(schedule.secondsFromTransition?.source).toEqual('FALLBACK')
+  })
+
+  it('always provides fallbackTransitions for a known market, even when tradinghours succeeds', async () => {
+    // Row 7 of the decision matrix: a tradinghours schedule that lacks a transition for the
+    // selected session is unusable — getStream walks to the fallback, so it must be present.
+    const requester = requesterWith(() =>
+      Promise.resolve(
+        scheduleResponse([
+          { status: 1, statusString: 'PRE_MARKET', time: '2024-01-08T04:00:00.000Z' },
+        ]),
+      ),
+    )
+
+    const schedule = await getSessionSchedule(URL, requester, BOUNDARIES, ...ARGS)
+
+    expect(schedule.transitions).toHaveLength(1)
+    expect(schedule.fallbackTransitions).toBeDefined()
+  })
+
+  it('gates without sessionBoundaries/sessionBoundariesTimeZone (smoother-only params)', async () => {
+    // Gating needs only sessionMarket/sessionMarketType; the timezone for the tier-1
+    // call and the fallback comes from the hard-coded map entry.
+    const requester = requesterWith(() =>
+      Promise.resolve(
+        scheduleResponse([
+          { status: 2, statusString: 'REGULAR', time: '2024-01-08T14:30:00.000Z' },
+        ]),
+      ),
+    )
+
+    const schedule = await getSessionSchedule(URL, requester, [], undefined, 'nyse', '24/5')
+
+    expect((requester.request as jest.Mock).mock.calls).toHaveLength(1)
+    expect(schedule.transitions).toHaveLength(1)
+    expect(schedule.fallbackTransitions).toBeDefined()
+    // The smoother's signal requires its own params and is absent here.
+    expect(schedule.secondsFromTransition).toBeUndefined()
   })
 })
