@@ -33,7 +33,8 @@ const buildResponses = (event: DxLinkEvent) => {
     return { response: error, requireVolumeResponse: error }
   }
 
-  // A side quoted at 0 has no liquidity, so the mid falls back to the other side
+  // A zero price is valid empty-book data, not null/NaN: no orders on that side.
+  // One side zero falls back to the other; both zero is a valid zero mid.
   const midPrice = bidPrice === 0 ? askPrice : askPrice === 0 ? bidPrice : (bidPrice + askPrice) / 2
   const bidVolume = toNumber(event.bidSize)
   const askVolume = toNumber(event.askSize)

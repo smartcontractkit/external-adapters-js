@@ -198,6 +198,7 @@ describe('dxLink websocket endpoints', () => {
       expect(body.data.mid_price).toBeCloseTo(190, 10)
       expect(body.result).toBeCloseTo(190, 10)
       expect(body.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000001000)
+      expect(body).toMatchSnapshot()
     })
 
     it('drops non-O quotes when isOvernight is true (exchange code O on both sides)', async () => {
@@ -308,6 +309,7 @@ describe('dxLink websocket endpoints', () => {
       expect(body.data).toEqual({ result: 189.98 })
       expect(body.result).toBe(189.98)
       expect(body.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000000000)
+      expect(body).toMatchSnapshot()
     })
 
     it('serves the record with the newest time when Trade and TradeETH both arrive', async () => {

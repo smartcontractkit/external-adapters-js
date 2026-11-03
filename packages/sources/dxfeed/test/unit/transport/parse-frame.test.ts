@@ -93,6 +93,10 @@ describe('dxLink COMPACT frame parsing', () => {
     server.setFeedData('Quote', 'NO_BID', [
       quoteFrame(quoteRecord('NO_BID', 1760000002000, 0, 190, 0, 10)),
     ])
+    // Both sides zero is a valid empty book, not null/NaN invalid data.
+    server.setFeedData('Quote', 'NO_SIDES', [
+      quoteFrame(quoteRecord('NO_SIDES', 1760000002000, 0, 0, 0, 0)),
+    ])
     // Spec sample: the JSON string "NaN" is invalid.
     server.setFeedData('Quote', 'NANQ', [
       quoteFrame(quoteRecord('NANQ', 1760000000000, 'NaN', 190.05, 100, 200)),
@@ -232,6 +236,15 @@ describe('dxLink COMPACT frame parsing', () => {
     const body = response.json()
     expect(body.data).toMatchObject({ bid_price: 0, ask_price: 190 })
     expect(body.data.mid_price).toBeCloseTo(190, 10)
+    expect(body.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000002000)
+  })
+
+  it('treats both sides at 0 as a valid empty book, not invalid data', async () => {
+    const response = await testAdapter.request(quotesRequest('NO_SIDES'))
+    expect(response.statusCode).toBe(200)
+    const body = response.json()
+    expect(body.data).toMatchObject({ bid_price: 0, ask_price: 0, mid_price: 0 })
+    expect(body.result).toBe(0)
     expect(body.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000002000)
   })
 
