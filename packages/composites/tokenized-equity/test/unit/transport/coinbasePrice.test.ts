@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
-import { getRegistryData } from '../../../src/lib/coinbase'
+import { issuers } from '../../../src/issuers'
 import { calculatePrice } from '../../../src/transport/coinbasePrice'
 import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
 
@@ -9,8 +9,7 @@ const mockSmoothedStreamPrice = smoothedStreamPrice as jest.MockedFunction<
   typeof smoothedStreamPrice
 >
 
-jest.mock('../../../src/lib/coinbase', () => ({ getRegistryData: jest.fn() }))
-const mockGetRegistryData = getRegistryData as jest.MockedFunction<typeof getRegistryData>
+const mockRead = jest.spyOn(issuers.coinbase, 'read')
 
 describe('calculatePrice', () => {
   const defaultParams = {
@@ -103,7 +102,7 @@ describe('calculatePrice', () => {
     ]
 
     mockSmoothedStreamPrice.mockResolvedValue(smoothedStreamPriceReturn)
-    mockGetRegistryData.mockResolvedValue({
+    mockRead.mockResolvedValue({
       multiplier: 5n * 10n ** 18n,
       paused: false,
     })
@@ -158,7 +157,7 @@ describe('calculatePrice', () => {
         sessionSource: 'FALLBACK' as const,
       },
     ])
-    mockGetRegistryData.mockResolvedValue({
+    mockRead.mockResolvedValue({
       multiplier: 5n * 10n ** 18n,
       paused: true,
     })

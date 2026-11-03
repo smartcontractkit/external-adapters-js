@@ -12,17 +12,3 @@ export const getTokenMultiplier = async (
   const multiplier = await contract.convertToAssets(unit)
   return BigInt(multiplier)
 }
-
-export const getTokenData = async (tokenContractAddress: string, provider: JsonRpcProvider) => {
-  const contract = new Contract(tokenContractAddress, ABI, provider)
-
-  const [multiplier, paused] = await Promise.all([
-    contract.convertToAssets(unit),
-    contract.isPaused(),
-  ])
-
-  return {
-    multiplier: BigInt(multiplier),
-    paused: Boolean(paused),
-  }
-}

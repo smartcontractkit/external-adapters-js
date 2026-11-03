@@ -1,30 +1,30 @@
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { JsonRpcProvider } from 'ethers'
-import { getTokenData } from '../lib/robinhood'
-import { Issuer, IssuerRequest, Settings } from './issuer'
+import { Contract, JsonRpcProvider } from 'ethers'
+import ABI from '../config/RobinhoodTokenABI.json'
+import { chains } from '../lib/chains'
+import { AssetRequest, Issuer, Settings } from './issuer'
 
 /**
- * ERC-8056 `uiMultiplier()` / `oraclePaused()` on the token, on the Robinhood chain
- * network from `ROBINHOOD_<NETWORK>_RPC_URL` and `ROBINHOOD_<NETWORK>_CHAIN_ID`.
+ * ERC-8056 `uiMultiplier()` and `oraclePaused()` on the token, on the Robinhood
+ * chain of the requested network.
  */
-class Robinhood extends Issuer {
+export class Robinhood extends Issuer {
   readonly name = 'robinhood'
 
-  rpc(settings: Settings, { network }: IssuerRequest) {
+  chain(settings: Settings, { network }: AssetRequest) {
     if (!network) {
       throw new AdapterInputError({
         statusCode: 400,
         message: `Missing required parameter network for issuer '${this.name}'`,
       })
     }
-    return {
-      url: settings.ROBINHOOD_NETWORK_RPC_URL.get(network),
-      chainId: settings.ROBINHOOD_NETWORK_CHAIN_ID.get(network),
-    }
+    return chains.robinhood(settings, network)
   }
 
-  protected fetch({ asset }: IssuerRequest, provider: JsonRpcProvider) {
-    return getTokenData(asset, provider)
+  async read({ asset }: AssetRequest, provider: JsonRpcProvider) {
+    const token = new Contract(asset, ABI, provider)
+    const [multiplier, paused] = await Promise.all([token.uiMultiplier(), token.oraclePaused()])
+    return { multiplier: BigInt(multiplier), paused: Boolean(paused) }
   }
 }
 

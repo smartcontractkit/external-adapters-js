@@ -1,8 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { getIssuer, issuerNames, MULTIPLIER_DECIMALS } from '../issuers'
+import { issuerNames, issuers, MULTIPLIER_DECIMALS } from '../issuers'
 import { DataEngineV11Data, priceFields, targetEndpointNames } from '../lib/dataEngine'
 import { issuerPrice247Transport } from '../transport/issuerPrice247'
 
@@ -99,7 +98,6 @@ export type BaseEndpointTypes = {
         network?: string
         value: string
         decimals: number
-        paused: boolean
       }
     }
   }
@@ -110,12 +108,10 @@ export const endpoint = new AdapterEndpoint({
   name: 'issuer-price-247',
   transport: issuerPrice247Transport,
   inputParameters,
-  customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
-    const { multiplier } = req.requestContext.data
-    // The issuer named in the request validates the rest of it
-    if (multiplier) {
-      getIssuer(multiplier.issuer).validate(adapterSettings, multiplier)
+  customInputValidation: ({ requestContext: { data } }, settings) => {
+    if (data.multiplier) {
+      issuers[data.multiplier.issuer].validate(settings, data.multiplier)
     }
-    return
+    return undefined
   },
 })

@@ -56,8 +56,9 @@ describe('getDataEngineResult', () => {
   })
 
   it('throws 400 when resultPath is not in the report', async () => {
-    const { lastTradedPrice, ...incomplete } = data
-    mockRequest.mockResolvedValue({ response: { data: { data: incomplete } } })
+    mockRequest.mockResolvedValue({
+      response: { data: { data: { ...data, lastTradedPrice: undefined } } },
+    })
 
     await expect(getDataEngineResult(param)).rejects.toMatchObject({
       statusCode: 400,

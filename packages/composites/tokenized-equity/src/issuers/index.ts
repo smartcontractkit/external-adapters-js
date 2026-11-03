@@ -1,28 +1,14 @@
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { coinbase } from './coinbase'
-import { Issuer } from './issuer'
 import { ondo } from './ondo'
 import { robinhood } from './robinhood'
 import { xstocks } from './xstocks'
 
-export { MULTIPLIER_DECIMALS } from './issuer'
-export type { Issuer, IssuerRequest, MultiplierData, Rpc } from './issuer'
-export { coinbase, ondo, robinhood, xstocks }
+export { Issuer, MULTIPLIER_DECIMALS } from './issuer'
+export type { AssetRequest, MultiplierState } from './issuer'
 
-// To support a new issuer, extend Issuer (or RegistryIssuer) and add it here
-const issuers = new Map<string, Issuer>(
-  [robinhood, coinbase, xstocks, ondo].map((issuer) => [issuer.name, issuer]),
-)
+// To support a new issuer, extend Issuer in its own file and add it here
+export const issuers = { robinhood, coinbase, xstocks, ondo }
 
-export const issuerNames = [...issuers.keys()]
+export type IssuerName = keyof typeof issuers
 
-export const getIssuer = (name: string): Issuer => {
-  const issuer = issuers.get(name)
-  if (!issuer) {
-    throw new AdapterInputError({
-      statusCode: 400,
-      message: `Unsupported issuer '${name}'. Supported issuers: ${issuerNames.join(', ')}`,
-    })
-  }
-  return issuer
-}
+export const issuerNames = Object.keys(issuers) as IssuerName[]
