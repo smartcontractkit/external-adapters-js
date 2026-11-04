@@ -1,9 +1,4 @@
-/**
- * Shared dxLink test doubles, derived from the OPDATA-9200 spec only:
- * - COMPACT FEED_DATA frames use the spec's field lists and sample records
- * - FEED_CONFIG uses the spec's sample eventFields
- * - control frames (ERROR/KEEPALIVE/CHANNEL_CLOSED) per dxLink protocol
- */
+/** Shared dxLink test doubles, derived from the requirement doc and dxLink protocol. */
 import {
   MockWebsocketServer,
   TestAdapter,
@@ -68,7 +63,7 @@ export const feedConfigFrame = (): object => ({
 export const errorFrame = { type: 'ERROR', channel: 1, message: 'provider error (test)' }
 export const keepaliveFrame = { type: 'KEEPALIVE', channel: 0 }
 
-/** One COMPACT Quote record (field order per the spec's FEED_CONFIG Quote list). */
+/** One COMPACT Quote record (FEED_CONFIG field order). */
 export const quoteRecord = (
   eventSymbol: string,
   time: number,
@@ -97,7 +92,7 @@ export const quoteFrame = (...records: unknown[][]): object => ({
   data: ['Quote', records.flat()],
 })
 
-/** One COMPACT Trade/TradeETH record (field order per the spec's FEED_CONFIG lists). */
+/** One COMPACT Trade/TradeETH record (FEED_CONFIG field order). */
 export const tradeRecord = (
   eventType: 'Trade' | 'TradeETH',
   eventSymbol: string,
@@ -179,9 +174,7 @@ export class ScriptedDxLinkServer {
   private sendTo(socket: any, frame: object): void {
     try {
       socket.send(JSON.stringify(frame))
-    } catch {
-      // socket already closed
-    }
+    } catch {}
   }
 
   /** Canned data frames replayed when the adapter subscribes (eventType, symbol). */
@@ -205,9 +198,7 @@ export class ScriptedDxLinkServer {
     for (const socket of this.sockets) {
       try {
         socket.close()
-      } catch {
-        // already closed
-      }
+      } catch {}
     }
   }
 
@@ -228,22 +219,7 @@ export class ScriptedDxLinkServer {
   }
 }
 
-/**
- * Test-clock invariant (see the framework's own suites, e.g. cfbenchmarks
- * test/integration/adapter-ws.test.ts): under `FakeTimers.install()` the
- * global setTimeout is FAKED — mock-socket queues every socket event behind a
- * fake 4ms timer. NEVER await a real sleep: nothing advances the installed
- * clock while a test is suspended, so it deadlocks until the test timeout.
- *
- * The choreography is therefore:
- * - warm-up: fire the request, then `await testAdapter.waitForCache(n)` (the
- *   framework drains its own timer queue via runAllUntil/nextAsync);
- * - per-test assertions: direct cache-hit `testAdapter.request()` calls
- *   (TestAdapter.request itself drains the installed clock via
- *   waitUntilResolved while the response resolves);
- * - pushed frames: `server.push(frame)` then `flushFrames(...)` / `awaitWs(...)`
- *   which advance the installed fake clock ONLY.
- */
+/** Fake timers: never await real sleeps; use flushFrames/awaitWs instead. */
 type TestAdapterLike = Pick<TestAdapter, 'request' | 'clock'>
 
 /** Drain queued mock-socket events through the installed fake clock. */
@@ -273,15 +249,8 @@ export async function awaitWs(
 }
 
 /**
- * REST-path warm-up, REST variant of the framework's own fire ->
- * waitForCache(n) -> cache-hit pattern (cfbenchmarks
- * startBackgroundExecuteThenGetResponse): the REST price transport's
- * background batch loop re-fetches ALL desired params on its interval and the
- * expected TOTAL cache size is not known to the test (the shared adapter
- * accumulates entries from every earlier test), so drain the installed clock
- * with plain tickAsync while re-issuing the request until the foreground poll
- * stops answering 504 (cache cold). No real timers anywhere: tickAsync always
- * resolves, so this cannot deadlock.
+ * REST warm-up: drain the installed clock and re-issue until the foreground poll
+ * stops returning 504. No real timers; tickAsync always resolves.
  */
 export async function restResponse(
   testAdapter: TestAdapterLike,

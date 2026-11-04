@@ -143,9 +143,7 @@ describe('dxLink websocket transport', () => {
         .filter((t) => ['SETUP', 'CHANNEL_REQUEST', 'FEED_SETUP'].includes(t))
       expect(control).toEqual(['SETUP', 'CHANNEL_REQUEST', 'FEED_SETUP'])
 
-      // Requirement doc SETUP frame: channel 0 with the 60s dxLink keepalive
-      // contract. The adapter's own KEEPALIVE cadence is the separate 30s
-      // WS_HEARTBEAT_INTERVAL_MS asserted in the heartbeat suite.
+      // Requirement SETUP: channel 0, 60s keepalive. The adapter KEEPALIVE cadence is separate.
       expect(server.clientMessages.find((m) => m.type === 'SETUP')).toMatchObject({
         channel: 0,
         keepaliveTimeout: 60,
@@ -244,12 +242,8 @@ describe('dxLink websocket transport', () => {
     it('sends KEEPALIVE on channel 0 on the WS_HEARTBEAT_INTERVAL_MS cadence', async () => {
       const countKeepalives = () =>
         server.clientMessages.filter((m) => m.type === 'KEEPALIVE').length
-      // Four-plus fires inside a 4-intervals-plus-epsilon window pins the
-      // KEEPALIVE cadence to WS_HEARTBEAT_INTERVAL_MS (5000 here): any window
-      // of this length must contain >= 4 fires of a 5000ms periodic timer,
-      // while a slower cadence (e.g. the framework's 10s default) cannot.
-      // tickAsync fires the periodic timer synchronously as fake time
-      // advances — no (real) sleep may be awaited under the installed clock.
+      // Four-plus fires in a 4-interval window pins the cadence to the test's
+      // 5s interval; tickAsync advances the timer without real sleeps.
       const before = countKeepalives()
       await testAdapter.clock?.tickAsync?.(4 * 5000 + 1000)
       expect(countKeepalives() - before).toBeGreaterThanOrEqual(4)
@@ -306,16 +300,13 @@ describe('dxLink websocket transport', () => {
     it('never hard-fails after a burst of ERROR frames', async () => {
       const setupsBefore = server.countByType('SETUP')
 
-      // The requirement says provider ERROR frames are informational: no
-      // request failure and no reconnect loop. The connection must stay up and
-      // the stream must keep flowing.
+      // Informational ERROR frames without a connection-level code do not reconnect.
       for (let i = 0; i < 30; i++) {
         server.push({ type: 'ERROR', channel: 1, message: `provider error (burst ${i})` })
         await testAdapter.clock?.tickAsync?.(100)
       }
       expect(server.countByType('SETUP')).toBe(setupsBefore)
 
-      // The stream is still healthy after the burst: newer data is served.
       server.push(quoteFrame(quoteRecord('TSLA', 1760000004000, 120, 121, 1, 2)))
       await flushFrames(testAdapter)
       const updated = await requestJson(quoteRequest)
@@ -371,7 +362,6 @@ describe('dxLink websocket transport', () => {
       expect(duringWindow.data).toMatchObject({ bid_price: 130, ask_price: 131 })
       expect(duringWindow.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000005000)
 
-      // The stream resumes on the new connection: a newer frame is served.
       server.push(quoteFrame(quoteRecord('TSLA', 1760000006000, 140, 141, 1, 2)))
       await flushFrames(testAdapter)
       const resumed = await requestJson(quoteRequest)

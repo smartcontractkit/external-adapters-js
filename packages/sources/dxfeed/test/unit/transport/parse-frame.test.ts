@@ -232,7 +232,6 @@ describe('dxLink COMPACT frame parsing', () => {
     const body = await overriddenQuoteBody('FLTR')
     expect(body.data).toMatchObject({ bid_price: 60, ask_price: 61 })
 
-    // The stream keeps flowing after the control frames.
     server.push(quoteFrame(quoteRecord('FLTR:USLF24', 1760000003000, 70, 71, 1, 1)))
     await flushFrames(testAdapter)
     const updated = await overriddenQuoteBody('FLTR')

@@ -1,10 +1,6 @@
 /**
- * WS-routed credential gating — OPDATA-9200 spec, customInputValidation, WS
- * paths only: the adapter starts with a valid dxLink URL and NO credentials;
- * a WS-routed request fails validation, a REST-routed request still serves.
- *
- * Boots the adapter once per file: jest isolates module state per test file,
- * so src/index.ts is evaluated exactly once here (fresh env read).
+ * WS-routed credential gating: the adapter starts with a valid dxLink URL and no
+ * credentials; WS requests fail validation, REST still serves.
  */
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { TestAdapter } from '@chainlink/external-adapter-framework/util/testing-utils'

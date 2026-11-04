@@ -33,14 +33,14 @@ describe('dxLink websocket endpoints', () => {
   let server: ScriptedDxLinkServer
   let testAdapter: TestAdapter
 
-  // Spec example: stock_quotes request with the dxfeed override.
+  // Requirement example: stock_quotes request with the dxfeed override.
   const stockQuotesRequest = {
     endpoint: 'stock_quotes',
     from: 'AAPL',
     to: 'USD',
     overrides: { dxfeed: { AAPL: 'AAPL:USLF24' } },
   }
-  // Spec example: price endpoint (stock alias) over the ws transport.
+  // Requirement example: price endpoint (stock alias) over WS.
   const priceRequest = {
     endpoint: 'stock',
     from: 'AAPL',
@@ -83,15 +83,14 @@ describe('dxLink websocket endpoints', () => {
     process.env.WS_HEARTBEAT_INTERVAL_MS = '5000'
 
     server = new ScriptedDxLinkServer(WS_URL)
-    // Spec stock_quotes sample_response: two COMPACT Quote records; the
-    // newest is the spec example response.
+    // Requirement stock_quotes sample: two Quote records; newest wins.
     server.setFeedData('Quote', 'AAPL:USLF24', [
       quoteFrame(
         quoteRecord('AAPL:USLF24', 1760000000000, 189.95, 190.05, 100, 200, 'V', 'V'),
         quoteRecord('AAPL:USLF24', 1760000001000, 189.9, 190.1, 50, 80, 'O', 'O'),
       ),
     ])
-    // Trade (spec sample) + an OLDER TradeETH: newest wins -> 189.98.
+    // Requirement Trade sample plus an older TradeETH: newest wins -> 189.98.
     server.setFeedData('Trade', 'AAPL:USLF24', [
       tradeFrame('Trade', tradeRecord('Trade', 'AAPL:USLF24', 1760000000000, 189.98)),
     ])
@@ -146,17 +145,13 @@ describe('dxLink websocket endpoints', () => {
 
     mockWebSocketProvider(WebSocketClassProvider)
     const adapter = (await import('./../../src')).adapter
-    // rateLimiting stays: undefined makes the fixed-interval period 0, which starves fake-timer ticks
+    // rateLimiting stays: period 0 starves fake-timer ticks.
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       clock: FakeTimers.install({ now: Date.parse('2026-01-01T00:00:00Z') }),
       testAdapter: {} as TestAdapter<never>,
     })
 
-    // Framework test pattern: fire each request, then let the framework drain
-    // its timer queue until the cache holds every expected entry
-    // (TestAdapter.waitForCache). Each awaited request self-drains the
-    // installed clock while the dxLink foreground gate waits for the
-    // background stream to fill the cache.
+    // Fire each request, then waitForCache; requests self-drain the installed clock.
     for (const request of [
       stockQuotesRequest,
       priceRequest,
@@ -218,8 +213,7 @@ describe('dxLink websocket endpoints', () => {
     })
 
     it('drops a mixed-side record under isOvernight (O required on BOTH sides)', async () => {
-      // The newest OXMIX record has bidExchangeCode O but askExchangeCode V:
-      // it must be dropped, and the older all-O record served instead.
+      // Newest O/V record is dropped for isOvernight; older O/O wins.
       const response = await testAdapter.request(oxmixOvernightRequest)
       expect(response.statusCode).toBe(200)
       const body = response.json()
@@ -261,8 +255,7 @@ describe('dxLink websocket endpoints', () => {
     })
 
     it('treats literal null volumes as missing, not as zero size (requireVolume absent)', async () => {
-      // Number(null) === 0 must not leak: the mid is still served, but the
-      // volumes must not surface as legitimate 0s.
+      // Number(null) === 0 must not leak; volumes stay null.
       const response = await testAdapter.request(nullVolumeRequest)
       expect(response.statusCode).toBe(200)
       const body = response.json()
@@ -274,8 +267,7 @@ describe('dxLink websocket endpoints', () => {
       const response = await testAdapter.request({ ...nullVolumeRequest, requireVolume: true })
       expect(response.statusCode).not.toBe(200)
       const body = response.json()
-      // Raw value preserved: a null from dxfeed must stay distinguishable
-      // from the 'NaN' string case in the 502 message.
+      // Keep the raw null distinct from the "NaN" string in the 502 message.
       expect(body.error ?? body.errorMessage).toContain('Bid volume: null or Ask volume: null')
     })
 
