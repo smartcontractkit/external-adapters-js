@@ -15,9 +15,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Data Provider Rate Limits
 
-|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                         Note                                         |
-| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :----------------------------------------------------------------------------------: |
-| default |                             |             20              |                           | Spiro does not publish a rate limit; using a conservative 1 request every 3 seconds. |
+|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                     Note                      |
+| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :-------------------------------------------: |
+| default |                             |             20              |                           | Use a conservative 1 request every 3 seconds. |
 
 ---
 

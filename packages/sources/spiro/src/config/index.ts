@@ -16,9 +16,9 @@ export const config = new AdapterConfig(
     },
   },
   {
+    // 20/min is a 3 s fixed interval. The default 2 s cache poll expires
+    // before a queued request completes, so use the framework maximum.
     envDefaultOverrides: {
-      RETRY: 1,
-      BACKGROUND_EXECUTE_MS_HTTP: 10_000,
       CACHE_POLLING_MAX_RETRIES: 20,
       CACHE_POLLING_SLEEP_MS: 1000,
     },
