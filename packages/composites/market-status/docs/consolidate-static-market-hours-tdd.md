@@ -2,15 +2,20 @@
 
 # 1. Problem Statement
 
-Static market-hours configuration lives in a standalone EA (`static-market-hours`) whose only
-consumer is the `market-status` composite — an extra deployed service, an extra hop, and a second
-place where market-session truth is maintained. Separately, consumers that need a labeled market
-_session schedule_ (not just the current status) must call the `tradinghours` EA directly and
-invent their own fallback when it is down: the `tokenized-equity` EA's pre-market warm-up gating
-today hard-codes an NYSE 24/5 fallback schedule in its own source tree, duplicating schedule
-knowledge that already exists (in richer, validated form) in `static-market-hours` config. If we
-do nothing, every new schedule consumer re-implements the same fallback, the static schedules
-drift across codebases, and we keep operating an EA that exists only to serve one other EA.
+Static market-hours configuration currently lives in a standalone EA
+(`static-market-hours`) whose only consumer is the `market-status`
+composite (this EA) — an extra deployed service, an extra hop, and a
+second place where market-session truth is maintained. Separately,
+consumers that need a labeled market _session schedule_ (not just the
+current status) must call the `tradinghours` EA directly and invent
+their own fallback when it is down: the `tokenized-equity` EA's
+pre-market warm-up gating requires an NYSE 24/5 fallback schedule and
+would need to duplicate the static fallback configuration (instead
+this TDD proposes exposing the static fallback schedule from
+`market-session`). If we make no changes, every new schedule consumer
+would need similar fallback, there is a risk that the static schedules
+drift across these EAs, and we keep operating an EA that exists only
+to serve one other EA.
 
 # 2. Goals
 
@@ -32,16 +37,16 @@ drift across codebases, and we keep operating an EA that exists only to serve on
 - A new `market-session` endpoint on `market-status` returns a labeled session-transition
   schedule: tradinghours first, static configured schedule as fallback — so no consumer ever
   needs to hard-code venue hours again.
-- `static-market-hours` remains deployable as a thin backwards-compatible shim that delegates to
+- optionally `static-market-hours` remains deployable as a thin backwards-compatible shim that delegates to
   `market-status`, so existing NOP/external deployments do not break; the static configuration
-  itself lives only in `market-status`.
+  itself lives only in `market-status`. See Risks & Open Questions.
 
 **Measurable improvements**
 
 - Zero HTTP hop and zero separate deployment for static market-hours fallback in the
   market-status path (baseline: 1 extra EA in the path for 15 CME/COMEX/NYMEX markets).
-- `tokenized-equity` deletes its hard-coded `FALLBACK_SESSION_SCHEDULE` (baseline: 1 hard-coded
-  schedule in consumer code; target: 0).
+- `tokenized-equity` does not need a hard-coded `FALLBACK_SESSION_SCHEDULE` (baseline: 1 hard-coded
+  schedule proposed in `tokenized-equity` code; target: 0).
 
 # 3. Non-Goals
 
@@ -103,7 +108,8 @@ network call — `static-market-hours` is the odd one out purely for historical 
    sources; it answers `market-status` requests by evaluating the configured `Schedule` for the
    requested market/type. In `marketSources`, the 15 CME/COMEX/NYMEX entries switch their
    secondary from `STATIC_MARKET_HOURS` (HTTP) to `STATIC_CONFIG` (in-process).
-4. **Backwards compatibility for `static-market-hours` deployments (shim).** The
+4. **Backwards compatibility for `static-market-hours` deployments (shim).** An alternative option
+   is to deprecate the `static-market-hours` EA instead of providing backwards compatibility. The
    `static-market-hours` package is updated so that, instead of requiring the schedule env vars,
    it accepts `MARKET_STATUS_ADAPTER_URL` and delegates each `market-status` request to the
    `market-status` EA (which now owns the static config and evaluates it in-process). The shim:
@@ -146,10 +152,10 @@ network call — `static-market-hours` is the odd one out purely for historical 
 
 ### Motivation
 
-The `tokenized-equity` EA's pre-market warm-up gating (see
+The `tokenized-equity` EA's pre-market warm-up gating feature (see
 `packages/composites/tokenized-equity/docs/stream-freshness-gating-tdd.md`) needs a **labeled
 session schedule** — the list of timed transitions that open each session (PRE_MARKET 04:00,
-REGULAR 09:30, POST_MARKET 16:00, OVERNIGHT 20:00, for NYSE 24/5). It fetches this from the
+REGULAR 09:30, POST_MARKET 16:00, OVERNIGHT 20:00, for NYSE 24/5). In its initial design it fetches this from the
 tradinghours EA's `market-session` endpoint and, on outage, falls back to a **hard-coded labeled
 schedule in its own source** (`nyse/24/5` only). That hard-coded schedule is exactly the kind of
 static venue knowledge that should live in one reviewed place — and `static-market-hours` config
