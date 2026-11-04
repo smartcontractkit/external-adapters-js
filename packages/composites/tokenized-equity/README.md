@@ -1,6 +1,6 @@
 # TOKENIZED_EQUITY
 
-![1.5.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/tokenized-equity/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.6.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/tokenized-equity/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -28,9 +28,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                     Options                                                                      | Default |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [coinbase](#coinbase-endpoint), [ondo](#ondo-endpoint), [price](#price-endpoint), [robinhood](#robinhood-endpoint), [xstocks](#xstocks-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                                                                                             Options                                                                                              | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [coinbase](#coinbase-endpoint), [issuer-price-247](#issuer-price-247-endpoint), [ondo](#ondo-endpoint), [price](#price-endpoint), [robinhood](#robinhood-endpoint), [xstocks](#xstocks-endpoint) | `price` |
 
 ## Coinbase Endpoint
 
@@ -260,6 +260,66 @@ Request:
   }
 }
 ```
+
+---
+
+## Issuer-price-247 Endpoint
+
+`issuer-price-247` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |        Name         | Aliases |                                                                                                             Description                                                                                                              |  Type  |                  Options                   | Default | Depends On | Not Valid With |
+| :-------: | :-----------------: | :-----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :----------------------------------------: | :-----: | :--------: | :------------: |
+|           |   targetEndpoint    |         |                                                                                      The data-engine EA endpoint to request the 24/7 feed from                                                                                       | string |                   `v11`                    |  `v11`  |            |                |
+|    ✅     |       feedId        |         |                                                                                    Data Streams feed ID of the 24/7 feed for the underlying asset                                                                                    | string |                                            |         |            |                |
+|    ✅     |     resultPath      |         |                                                                                          The data-engine EA price field to use as the price                                                                                          | string |   `ask`, `bid`, `lastTradedPrice`, `mid`   |         |            |                |
+|           |      decimals       |         |                     Decimals of output result, applied after the multiplier. With a multiplier the data-engine price is requested in the multiplier's 18 decimals, without one it is requested in these decimals                     | number |                                            |   `8`   |            |                |
+|           |     multiplier      |         |                                                                       On-chain multiplier applied to the price. When omitted, the raw stream price is returned                                                                       | object |                                            |         |            |                |
+|    ✅     |  multiplier.issuer  |         |                                                                                                  The issuer of the tokenized asset                                                                                                   | string | `coinbase`, `ondo`, `robinhood`, `xstocks` |         |            |                |
+|    ✅     |  multiplier.asset   |         |                                                                                                 Token address of the tokenized asset                                                                                                 | string |                                            |         |            |                |
+|           | multiplier.registry |         |                                                                               Address of the issuer registry contract. Required for coinbase and ondo                                                                                | string |                                            |         |            |                |
+|           | multiplier.network  |         | Robinhood chain network, e.g. `mainnet` (`ROBINHOOD_<NETWORK>_RPC_URL`). Required for robinhood. The other issuers read from a fixed chain: coinbase from Base (`BASE_RPC_URL`), xstocks and ondo from Ethereum (`ETHEREUM_RPC_URL`) | string |                                            |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "issuer-price-247",
+    "targetEndpoint": "v11",
+    "feedId": "0x000b0b1c31f90396e910c57ec94ed963271e4e39f15da3d92f81e273083ce4a1",
+    "resultPath": "lastTradedPrice",
+    "decimals": 8,
+    "multiplier": {
+      "issuer": "robinhood",
+      "asset": "0x2e0847E8910a9732eB3fb1bb4b70a580ADAD4FE3",
+      "network": "mainnet"
+    }
+  }
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "issuer-price-247",
+    "targetEndpoint": "v11",
+    "feedId": "0x000b0b1c31f90396e910c57ec94ed963271e4e39f15da3d92f81e273083ce4a1",
+    "resultPath": "lastTradedPrice",
+    "decimals": 8
+  }
+}
+```
+
+</details>
 
 ---
 

@@ -1,5 +1,11 @@
 # @chainlink/dxfeed-adapter
 
+## 2.9.1
+
+### Patch Changes
+
+- [#5536](https://github.com/smartcontractkit/external-adapters-js/pull/5536) [`7416b1e`](https://github.com/smartcontractkit/external-adapters-js/commit/7416b1e11a9549c72ae8a47ab2231b1870740bfb) Thanks [@swladyka](https://github.com/swladyka)! - Streams adapter: skip gRPC publish for observations with errorMessage
+
 ## 2.9.0
 
 ### Minor Changes

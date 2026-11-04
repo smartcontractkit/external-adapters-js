@@ -3,7 +3,7 @@ import { JsonRpcProvider } from 'ethers'
 
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { Smoother } from '../endpoint/common'
-import { getTokenData } from '../lib/robinhood'
+import { issuers } from '../issuers'
 
 import { smoothedStreamPrice } from './smoothedPrice'
 
@@ -28,7 +28,7 @@ export const calculatePrice = async (param: {
 }) => {
   const [result, { multiplier, paused }] = await Promise.all([
     smoothedStreamPrice(param),
-    getTokenData(param.asset, param.provider),
+    issuers.robinhood.read(param, param.provider),
   ])
 
   if (paused) {

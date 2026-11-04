@@ -1,5 +1,18 @@
 # @chainlink/tokenized-equity-adapter
 
+## 1.6.0
+
+### Minor Changes
+
+- [#5565](https://github.com/smartcontractkit/external-adapters-js/pull/5565) [`5581993`](https://github.com/smartcontractkit/external-adapters-js/commit/5581993c968f8b855f19a2a1bd89edd05990330f) Thanks [@cl-efornaciari](https://github.com/cl-efornaciari)! - Add `issuer-price-247` endpoint that returns a data-engine v11 24/7 feed price, optionally scaled by an issuer-agnostic on-chain multiplier (robinhood, coinbase, xstocks, ondo)
+
+## 1.5.2
+
+### Patch Changes
+
+- Updated dependencies [[`b9e8e9e`](https://github.com/smartcontractkit/external-adapters-js/commit/b9e8e9ed083c7c818936af4181b43b5fc2a91bac), [`de908f6`](https://github.com/smartcontractkit/external-adapters-js/commit/de908f603bde1a454380c873a0b60aff181dcb9f), [`99f2d92`](https://github.com/smartcontractkit/external-adapters-js/commit/99f2d929b645f5d169387846b2b65df172128623)]:
+  - @chainlink/data-engine-adapter@1.8.0
+
 ## 1.5.1
 
 ### Patch Changes

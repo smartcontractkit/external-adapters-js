@@ -98,6 +98,12 @@ export const inputParameters = new InputParameters(
               type: 'number',
               description: 'Maximum age in seconds of an anchor before it is discarded',
             },
+            emaHalfLifeSeconds: {
+              required: false,
+              type: 'number',
+              description:
+                'Half-life in seconds of the overnight session EMA smoother. Only for the `adaptive` mode',
+            },
           },
         },
       },
@@ -139,6 +145,7 @@ export const inputParameters = new InputParameters(
           blendSeconds: 30,
           sigmoidSteepness: 10,
           maxAnchorAgeSeconds: 600,
+          emaHalfLifeSeconds: 57.5,
         },
       },
       resultPath: 'stitchedMid',
@@ -166,6 +173,10 @@ export type BlendedData = {
   rawBid?: string
   rawAsk?: string
   rawMid?: string
+  // Reference quote fields, absent on Data Engine builds before reference quotes
+  referenceBid?: string
+  referenceAsk?: string
+  referenceMid?: string
 }
 
 /**
@@ -190,22 +201,11 @@ export type BlendedTimestamps = {
   windowEndTs: number
 }
 
-/**
- * Wire shape of the `metadata` group of the blended provider response.
- */
-export type BlendedMetadata = {
-  feedsUsed: string[]
-  stitchingApplied: boolean
-  anchor: { price: string; ts: number; ageSeconds: number } | null
-  stitching: { mode: string; params: Record<string, unknown>; phase: string }
-  indicator: { type: string; windowSeconds: number; endTs: number }
-}
-
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
     Result: string
-    Data: BlendedData & BlendedTimestamps & Partial<BlendedUnderlying> & BlendedMetadata
+    Data: BlendedData & BlendedTimestamps & Partial<BlendedUnderlying>
   }
   Settings: typeof config.settings
 }

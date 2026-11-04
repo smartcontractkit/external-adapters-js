@@ -180,7 +180,7 @@ func (c *Cache) SetTransformedKey(rawKey, transformedKey string) {
 		c.removeTransformedKeyMapping(item.TransformedKey, rawKey)
 	}
 	item.TransformedKey = transformedKey
-	item.RequiresInverse = c.requiresInverse(item.OriginalRequestData)
+	item.RequiresInverse = c.requiresInverse(rawKey, item.OriginalRequestData)
 	item.Status = types.StatusLearned
 	item.Timestamp = time.Now()
 	c.addTransformedKeyMapping(transformedKey, rawKey)
@@ -301,7 +301,7 @@ func (c *Cache) RawKeysByTransformed(transformedKey string) ([]string, bool) {
 	return result, true
 }
 
-func (c *Cache) requiresInverse(originalRequestData map[string]interface{}) bool {
+func (c *Cache) requiresInverse(rawKey string, originalRequestData map[string]interface{}) bool {
 	if originalRequestData == nil {
 		return false
 	}
@@ -316,11 +316,28 @@ func (c *Cache) requiresInverse(originalRequestData map[string]interface{}) bool
 	// the only source of truth for whether an observation must be inverted.
 	if c.includes != nil {
 		if inc, ok := c.includes.Lookup(originalBase, originalQuote); ok {
-			return inc.Inverse
+			return inc.Inverse && !nonPriceEndpoints[parseCacheKey(rawKey)["endpoint"]]
 		}
 	}
 
 	return false
+}
+
+// nonPriceEndpoints lists endpoints of adapters with includes that are not
+// PriceEndpoints. The JS PriceAdapter only applies includes to PriceEndpoints,
+// so e.g. ncfx forex-continuous ARS/USD is served directly, never inverted.
+// Names are in cache-key form (lowercase, '-' and '_' stripped).
+var nonPriceEndpoints = map[string]bool{
+	"cryptolwba":      true,
+	"cryptoyield":     true,
+	"eod":             true,
+	"forexcontinuous": true,
+	"fundingrate":     true,
+	"iex":             true,
+	"live":            true,
+	"marketstatus":    true,
+	"realizedvol":     true,
+	"stockquotes":     true,
 }
 
 func getPairValue(data map[string]interface{}, names ...string) string {

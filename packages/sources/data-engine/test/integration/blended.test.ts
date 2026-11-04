@@ -13,6 +13,7 @@ import {
   mockBlendedKalmanNoneResponse,
   mockBlendedNyseResponse,
   mockBlendedTwoSessionResponse,
+  mockBlendedWithoutMetadataResponse,
   SPY_FEEDS,
 } from './fixtures'
 
@@ -70,6 +71,21 @@ describe('blended endpoint', () => {
     expect(response.statusCode).toBe(200)
     expect(response.json().result).toBe('64640960000000000000000')
     expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should succeed without the debug-only metadata group and not forward it', async () => {
+    mockBlendedWithoutMetadataResponse('cme')
+    const response = await testAdapter.request({
+      endpoint: 'blended',
+      market: 'cme',
+      open: SPY_FEEDS.open,
+      closed: SPY_FEEDS.closed,
+    })
+    expect(response.statusCode).toBe(200)
+    const { result, data } = response.json()
+    expect(result).toBe('64640960000000000000000')
+    expect(data).not.toHaveProperty('feedsUsed')
+    expect(data).not.toHaveProperty('stitchingApplied')
   })
 
   it('should populate the result from resultPath when provided', async () => {
@@ -146,6 +162,25 @@ describe('blended endpoint', () => {
     expect(data.session).toBe(1)
     expect(data.lastSeenTimestampNs).toBe('1757001594123456789')
     expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should populate the result from a reference quote field', async () => {
+    mockBlendedAdaptiveResponse()
+    const response = await testAdapter.request({
+      endpoint: 'blended',
+      market: 'nyse',
+      ...SPY_FEEDS,
+      indicator: { type: 'none' },
+      stitching: { mode: 'adaptive', params: ADAPTIVE_PARAMS },
+      resultPath: 'referenceMid',
+      decimals: 8,
+    })
+    expect(response.statusCode).toBe(200)
+    const { result, data } = response.json()
+    expect(result).toBe('6464096000000')
+    expect(data.referenceBid).toBe('64640940000000000000000')
+    expect(data.referenceAsk).toBe('64640980000000000000000')
+    expect(data.referenceMid).toBe('64640960000000000000002')
   })
 
   it('should forward kalman stitching without params and expose bid, ask and volumes', async () => {

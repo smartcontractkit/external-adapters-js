@@ -560,6 +560,47 @@ func TestHandleCommand_Eval_FansOutToMultiplePayloadHashes(t *testing.T) {
 	}
 }
 
+func TestHandleCommand_Eval_DoesNotPublishErrorResponses(t *testing.T) {
+	c := cache.New(cache.Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	pub := transmitter.NewPublisher()
+	srv := New(Config{
+		Addr:      ":0",
+		Cache:     c,
+		Publisher: pub,
+		Logger:    slog.Default(),
+	})
+
+	rawKey := "endpoint=cryptolwba:from=btc:to=usd"
+	transformedKey := "base=btc:endpoint=cryptolwba:quote=usd"
+	hash := [32]byte{1, 2, 3}
+
+	c.SetNew(rawKey, nil, hash)
+	c.SetTransformedKey(rawKey, transformedKey)
+
+	ch := make(chan transmitter.Event, 1)
+	pub.Subscribe(hash, ch)
+
+	adapterKey := "prefix-adapter-endpoint-transport-" + transformedKey
+	value := `{"errorMessage":"upstream failure","statusCode":502,"timestamps":{},"meta":{}}`
+	conn := newMockConn()
+	srv.handleCommand(conn, makeCmd("EVAL", "script", "1", adapterKey, value))
+	require.Equal(t, 1, conn.writes[0].value)
+
+	select {
+	case <-ch:
+		t.Fatal("error response was published to gRPC subscriber")
+	default:
+	}
+
+	item := c.Get(rawKey)
+	require.NotNil(t, item)
+	require.NotNil(t, item.Observation)
+	require.False(t, item.Observation.Success)
+	require.Equal(t, "upstream failure", item.Observation.Error)
+}
+
 // ---------------------------------------------------------------------------
 // Transport-aware cache keys
 // ---------------------------------------------------------------------------

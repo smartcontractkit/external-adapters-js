@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 4.11.1
+
+### Patch Changes
+
+- [#5545](https://github.com/smartcontractkit/external-adapters-js/pull/5545) [`6b8d9cd`](https://github.com/smartcontractkit/external-adapters-js/commit/6b8d9cd30b9586b2a5acd12bdaa8f223840faf87) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - streams-adapter: only invert includes pairs on price endpoints
+
 ## 4.11.0
 
 ### Minor Changes

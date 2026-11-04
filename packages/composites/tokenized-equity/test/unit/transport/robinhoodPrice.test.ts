@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
-import { getTokenData } from '../../../src/lib/robinhood'
+import { issuers } from '../../../src/issuers'
 import { calculatePrice } from '../../../src/transport/robinhoodPrice'
 import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
 
@@ -9,8 +9,7 @@ const mockSmoothedStreamPrice = smoothedStreamPrice as jest.MockedFunction<
   typeof smoothedStreamPrice
 >
 
-jest.mock('../../../src/lib/robinhood', () => ({ getTokenData: jest.fn() }))
-const mockGetTokenData = getTokenData as jest.MockedFunction<typeof getTokenData>
+const mockRead = jest.spyOn(issuers.robinhood, 'read')
 
 describe('calculatePrice', () => {
   const defaultParams = {
@@ -102,7 +101,7 @@ describe('calculatePrice', () => {
     ]
 
     mockSmoothedStreamPrice.mockResolvedValue(smoothedStreamPriceReturn)
-    mockGetTokenData.mockResolvedValue({
+    mockRead.mockResolvedValue({
       multiplier: 5n * 10n ** 18n,
       paused: false,
     })
@@ -157,7 +156,7 @@ describe('calculatePrice', () => {
         sessionSource: 'FALLBACK' as const,
       },
     ])
-    mockGetTokenData.mockResolvedValue({
+    mockRead.mockResolvedValue({
       multiplier: 5n * 10n ** 18n,
       paused: true,
     })

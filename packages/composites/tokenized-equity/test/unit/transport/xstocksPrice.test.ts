@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
-import { getTokenMultiplier } from '../../../src/lib/xstocks'
+import { issuers } from '../../../src/issuers'
 import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
 import { calculatePrice } from '../../../src/transport/xstocksPrice'
 
@@ -9,8 +9,7 @@ const mockSmoothedStreamPrice = smoothedStreamPrice as jest.MockedFunction<
   typeof smoothedStreamPrice
 >
 
-jest.mock('../../../src/lib/xstocks', () => ({ getTokenMultiplier: jest.fn() }))
-const mockGetTokenMultiplier = getTokenMultiplier as jest.MockedFunction<typeof getTokenMultiplier>
+const mockRead = jest.spyOn(issuers.xstocks, 'read')
 
 describe('calculatePrice', () => {
   const defaultParams = {
@@ -102,7 +101,7 @@ describe('calculatePrice', () => {
     ]
 
     mockSmoothedStreamPrice.mockResolvedValue(smoothedStreamPriceReturn)
-    mockGetTokenMultiplier.mockResolvedValue(5n * 10n ** 18n)
+    mockRead.mockResolvedValue({ multiplier: 5n * 10n ** 18n, paused: false })
 
     const result = await calculatePrice({
       ...defaultParams,
@@ -121,5 +120,30 @@ describe('calculatePrice', () => {
       tokenContract: expectedTokenMultiplier,
       result: '5',
     })
+  })
+
+  it('computes the price even if a pause is reported', async () => {
+    mockSmoothedStreamPrice.mockResolvedValue([
+      {
+        result: 1n,
+        rawPrice: '1',
+        decimals: 6,
+        stream: streams,
+        smoother: {
+          smoother: 'kalman' as const,
+          price: '1',
+          x: '2',
+          p: '3',
+          secondsFromTransition: 0,
+        },
+        sessionSource: 'FALLBACK' as const,
+      },
+    ])
+    mockRead.mockResolvedValue({ multiplier: 5n * 10n ** 18n, paused: true })
+
+    const result = await calculatePrice({ ...defaultParams, smoother: 'kalman', decimals: 6 })
+
+    expect(result[0].result).toBe('5')
+    expect(result[0].tokenContract).toStrictEqual({ multiplier: '5000000000000000000' })
   })
 })
