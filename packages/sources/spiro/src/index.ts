@@ -13,7 +13,7 @@ export const adapter = new Adapter({
     tiers: {
       default: {
         rateLimit1m: 20,
-        note: 'Spiro does not publish a rate limit; using a conservative 1 request every 3 seconds.',
+        note: 'Use a conservative 1 request every 3 seconds.',
       },
     },
   },
