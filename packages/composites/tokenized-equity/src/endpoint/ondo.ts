@@ -1,10 +1,10 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
+import { issuers } from '../issuers'
 import { ondoTransport } from '../transport/ondoTransport'
 import type { output } from './common'
-import { inputDefinition, inputExample, validateSmoother, validateStreamIds } from './common'
+import { inputDefinition, inputExample, smoothedPriceInputValidation } from './common'
 
 export const inputParameters = new InputParameters(
   {
@@ -42,17 +42,5 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: ondoTransport,
   inputParameters,
-  customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
-    if (!adapterSettings.ETHEREUM_RPC_URL) {
-      throw new AdapterInputError({
-        message: 'Missing ETHEREUM_RPC_URL',
-        statusCode: 400,
-      })
-    }
-
-    validateStreamIds(req.requestContext.data)
-    validateSmoother(req.requestContext.data)
-
-    return
-  },
+  customInputValidation: smoothedPriceInputValidation(issuers.ondo),
 })
