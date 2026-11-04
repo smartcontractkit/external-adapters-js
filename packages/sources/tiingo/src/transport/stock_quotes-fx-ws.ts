@@ -1,0 +1,116 @@
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { BaseEndpointTypes } from '../endpoint/stock_quotes'
+import { TiingoWebsocketTransport, wsSelectUrl } from './utils'
+
+const logger = makeLogger('TiingoStockQuotesFxWebsocketTransport')
+
+// Tiingo publishes US index quotes (e.g. us30usd, us500usd, us100usd) on its FX feed rather than
+// the equities feed, so stock_quotes requests for indices are served from here.
+export interface Message {
+  service: string
+  messageType: string
+  // ['Q', ticker, date, bidSize, bidPrice, midPrice, askSize, askPrice]
+  data: [string, string, string, number, number, number, number, number]
+}
+
+export type WsTransportTypes = BaseEndpointTypes & {
+  Provider: {
+    WsMessage: Message
+  }
+}
+
+// For index definitions see:
+// https://www.tiingo.com/documentation/websockets/forex
+const tickerIndex = 1
+const dateIndex = 2
+const bidPriceIndex = 4
+const midPriceIndex = 5
+const askPriceIndex = 7
+
+// thresholdLevel 5 = top-of-book quote updates, same as the forex endpoint
+const THRESHOLD_LEVEL = 5
+
+const subscriptionMessage = (
+  eventName: 'subscribe' | 'unsubscribe',
+  apiKey: string,
+  base: string,
+) => ({
+  eventName,
+  authorization: apiKey,
+  eventData: {
+    thresholdLevel: THRESHOLD_LEVEL,
+    tickers: [base.toLowerCase()],
+  },
+})
+
+export class StockQuotesFxWebSocketTransport extends TiingoWebsocketTransport<WsTransportTypes> {
+  constructor() {
+    super({
+      url: (context, _desiredSubs, urlConfigFunctionParameters) => {
+        fxWsTransport.apiKey = context.adapterSettings.API_KEY
+        return wsSelectUrl(
+          context.adapterSettings.WS_API_ENDPOINT,
+          context.adapterSettings.SECONDARY_WS_API_ENDPOINT,
+          'fx',
+          urlConfigFunctionParameters,
+        )
+      },
+
+      handlers: {
+        close: (event) => {
+          if (event.code != 1000) {
+            logger.error('Possible issue with credentials')
+            logger.error(`Possible Solution:
+            1. Doublecheck your supplied credentials.
+            2. Contact Data Provider to ensure your subscription is active
+            3. If credentials are supplied under the node licensing agreement with Chainlink Labs, please make contact with us and we will look into it.`)
+          }
+        },
+        message(message) {
+          if (!message?.data?.length || message.messageType !== 'A') {
+            return []
+          }
+
+          const ticker = message.data[tickerIndex]
+          const bid_price = message.data[bidPriceIndex]
+          const mid_price = message.data[midPriceIndex]
+          const ask_price = message.data[askPriceIndex]
+
+          if (!ticker || !mid_price || !bid_price || !ask_price) {
+            return []
+          }
+
+          return [
+            {
+              params: { base: ticker.toLowerCase() },
+              response: {
+                data: {
+                  mid_price,
+                  bid_price,
+                  // The FX feed reports a fixed placeholder size (1,000,000) rather than real
+                  // liquidity, so volume is not meaningful for indices.
+                  bid_volume: 0,
+                  ask_price,
+                  ask_volume: 0,
+                },
+                result: null,
+                timestamps: {
+                  providerIndicatedTimeUnixMs: new Date(message.data[dateIndex]).getTime(),
+                },
+              },
+            },
+          ]
+        },
+      },
+
+      builders: {
+        subscribeMessage: (params) =>
+          subscriptionMessage('subscribe', fxWsTransport.apiKey, params.base),
+        unsubscribeMessage: (params) =>
+          subscriptionMessage('unsubscribe', fxWsTransport.apiKey, params.base),
+      },
+    })
+  }
+}
+
+export const fxWsTransport = new StockQuotesFxWebSocketTransport()
