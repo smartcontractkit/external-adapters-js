@@ -210,7 +210,7 @@ describe('dxLink websocket transport', () => {
       )
     })
 
-    it('subscribes Trade and TradeETH for a bare ticker (no :USLF24 gate)', async () => {
+    it('subscribes Trade only for a bare ticker (matches the incumbent)', async () => {
       // The awaited request self-drains the clock while the foreground gate
       // waits for the stream value, so the adds are on the wire by the time
       // the 200 comes back.
@@ -221,7 +221,7 @@ describe('dxLink websocket transport', () => {
         transport: 'ws',
       })
       expect(server.added().some((s) => s.symbol === 'TSLA' && s.type === 'Trade')).toBe(true)
-      expect(server.added().some((s) => s.symbol === 'TSLA' && s.type === 'TradeETH')).toBe(true)
+      expect(server.added().some((s) => s.symbol === 'TSLA' && s.type === 'TradeETH')).toBe(false)
     })
 
     it('subscribes Quote for the overridden :USLF24 ticker (stock_quotes)', async () => {
