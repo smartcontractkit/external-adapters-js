@@ -463,3 +463,7 @@ EAs' deployment configs; values are unchanged.
   pods — at their own pace.
 - **Operational changes:** one fewer EA to run after adoption; deprecation notice for legacy
   mode travels with release notes.
+
+# References
+
+- Google Doc Mirror of this TDD (for socialization and feedback): [2026-11-04 | Consolidate static-market-hours into market-status](https://docs.google.com/document/d/1t0OQrrObzlipGSB2mkDKNJN7JGvgKSCitgpfkiG_ZWc/edit?tab=t.0)
