@@ -23,7 +23,10 @@ export type BaseEndpointTypes = {
   Parameters: typeof stockQuotesInputParameters.definition
   Settings: typeof config.settings
   Response: {
-    // The mid price is the endpoint's primary result; data.mid_price remains the RDD path.
+    // Requirement: "stock_quotes: the mid price (bidPrice + askPrice) / 2 as
+    // its primary result" and the response example returns "result": 190.0.
+    // The framework Result generic also allows null for other endpoints; this
+    // endpoint's success result is the mid, and error responses omit result.
     Result: number
     Data: {
       mid_price: number

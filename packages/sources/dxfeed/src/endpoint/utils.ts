@@ -7,7 +7,8 @@ export const inputParameters = new InputParameters(
     base: {
       aliases: ['from', 'symbol', 'asset', 'coin', 'ticker', 'market'],
       type: 'string',
-      description: 'The symbol of the stock to query',
+      description:
+        'The symbol of the stock to query. Suffixes (:USLF24, :OCEA, :XNYM) are passed through exactly as given; request-level dxfeed overrides are applied before the transport sees the value.',
       required: true,
     },
   },

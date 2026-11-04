@@ -281,24 +281,24 @@ describe('dxLink websocket transport', () => {
 
     it('increments wsConnectionErrors with the dxLink error code, not the free-text message', async () => {
       const errorsCounter = metrics.get('wsConnectionErrors')
-      const countTimeout = async (): Promise<number> =>
+      const countUnauthorized = async (): Promise<number> =>
         (await errorsCounter.get()).values
-          .filter((value) => value.labels.message === 'TIMEOUT')
+          .filter((value) => value.labels.message === 'UNAUTHORIZED')
           .reduce((total, value) => total + value.value, 0)
 
-      const before = await countTimeout()
+      const before = await countUnauthorized()
       server.push({
         type: 'ERROR',
         channel: 0,
-        error: 'TIMEOUT',
-        message: 'keepalive timeout (test)',
+        error: 'UNAUTHORIZED',
+        message: 'bad credentials (test)',
       })
       await flushFrames(testAdapter, 2000)
 
-      expect(await countTimeout()).toBeGreaterThan(before)
+      expect(await countUnauthorized()).toBeGreaterThan(before)
       expect(
         (await errorsCounter.get()).values.some(
-          (value) => value.labels.message === 'keepalive timeout (test)',
+          (value) => value.labels.message === 'bad credentials (test)',
         ),
       ).toBe(false)
     })
@@ -481,9 +481,8 @@ describe('dxLink websocket transport', () => {
   })
 
   describe('stale subscription expiry', () => {
-    // Runs LAST on purpose: it advances the fake clock past
-    // WS_SUBSCRIPTION_TTL, which expires (and unsubscribes) every other
-    // test's subscriptions too — nothing after this test depends on them.
+    // Runs near the end: it advances the fake clock past WS_SUBSCRIPTION_TTL,
+    // which expires (and unsubscribes) every other test's subscriptions.
     it('keeps a shared subscription while another request still needs it', async () => {
       server.setFeedData('Quote', 'SHARED', [
         quoteFrame(quoteRecord('SHARED', 1760000002000, 110, 111, 1, 1, 'O', 'O')),
@@ -542,6 +541,66 @@ describe('dxLink websocket transport', () => {
       expect(removeMessage.remove).toEqual(
         expect.arrayContaining([{ symbol: 'REMOVE:USLF24', type: 'Quote' }]),
       )
+    })
+  })
+
+  describe('provider error reconnect policy', () => {
+    // Runs last so its reconnect attempts do not perturb earlier tests. The
+    // cooldown expiry itself is a simple time comparison; we do not advance
+    // the shared clock past it here because that would expire the suite's
+    // subscriptions and caches.
+    beforeAll(async () => {
+      server.setFeedData('Quote', 'TSLA', [
+        quoteFrame(quoteRecord('TSLA', 1760000010000, 150, 151, 1, 2)),
+      ])
+      await requestJson(quoteRequest)
+    })
+
+    it('does not reconnect on UNAUTHORIZED', async () => {
+      const setupsBefore = server.countByType('SETUP')
+      server.push({
+        type: 'ERROR',
+        channel: 0,
+        error: 'UNAUTHORIZED',
+        message: 'bad credentials (test)',
+      })
+      await testAdapter.clock?.tickAsync?.(2000)
+      expect(server.countByType('SETUP')).toBe(setupsBefore)
+    })
+
+    it('reconnects on TIMEOUT', async () => {
+      const setupsBefore = server.countByType('SETUP')
+      server.push({
+        type: 'ERROR',
+        channel: 0,
+        error: 'TIMEOUT',
+        message: 'keepalive timeout (test)',
+      })
+      const reconnected = await awaitWs(
+        testAdapter,
+        () => server.countByType('SETUP') > setupsBefore,
+      )
+      expect(reconnected).toBe(true)
+    })
+
+    it('retries INVALID_MESSAGE once, then suppresses repeats inside the cooldown', async () => {
+      const setupsBefore = server.countByType('SETUP')
+      const error = {
+        type: 'ERROR',
+        channel: 0,
+        error: 'INVALID_MESSAGE',
+        message: 'bad frame (test)',
+      }
+
+      server.push(error)
+      const first = await awaitWs(testAdapter, () => server.countByType('SETUP') > setupsBefore)
+      expect(first).toBe(true)
+      const afterFirst = server.countByType('SETUP')
+
+      // A repeat inside the cooldown must not create another reconnect.
+      server.push(error)
+      await testAdapter.clock?.tickAsync?.(1000)
+      expect(server.countByType('SETUP')).toBe(afterFirst)
     })
   })
 })
