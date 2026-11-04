@@ -1,8 +1,8 @@
 # 0004. The price and Issuer Multiplier are read independently each cycle, assuming 18 decimals
 
-Status: proposed
+Status: accepted
 Date: 2026-11-03
-Risk acceptance: pending Product re-acceptance (link: TBD)
+Risk acceptance: accepted by Product (Gabe Silva) and GTM (Karim Yassine Fanti) on 2026-11-04
 
 ## Context
 
@@ -46,7 +46,7 @@ Rejected:
   new multiplier, or the reverse. Asset Paused limits this for Robinhood, Coinbase and
   Ondo; xStocks has no such cover (see [0002](./0002-xstocks-ignores-asset-paused.md)).
   Owner: Product.
-- **Pending multipliers (open, needs sign-off).** Robinhood schedules changes with
+- **Pending multipliers.** Robinhood schedules changes with
   `newUIMultiplier()` / `effectiveAt()` and Ondo stores a `pendingSValue`; only the current
   value (`uiMultiplier()`, `getSValue()`) is read. If the current value does not switch over
   on its own at the effective time, feeds publish the old multiplier with status 200 until
@@ -54,12 +54,16 @@ Rejected:
   change. Owner: GTM to confirm switch-over behavior with Robinhood and Ondo; Product to
   accept until then. Revisit on the Issuers' answer or the first scheduled change after
   launch, which should be watched live.
-- **RPC dependency.** An RPC outage or rate limit becomes a 5xx for every payload on that
-  chain. Fails closed. Revisit on RPC rate-limit errors or a large growth in payloads.
-- **Hard-coded 18 decimals (fails open).** GTM confirmed 18 decimals for Ondo, Coinbase,
-  Robinhood and the wrapped xStocks token (`convertToAssets`) (link: TBD). The legacy xStocks
+- **RPC outage causes a pricing outage (accepted by Product).** An RPC outage or rate limit
+  becomes a 5xx for every payload on that chain, so the node produces no price. Fails
+  closed. Detection relies on existing feed alerting: on-call is alerted if the outage
+  reaches consensus failure or a missed heartbeat. Owner: Product. Revisit on RPC
+  rate-limit errors or a large growth in payloads.
+- **Hard-coded 18 decimals (fails open, accepted by GTM).** GTM (Karim Yassine Fanti, in
+  Slack) confirmed 18 decimals for Ondo, Coinbase, Robinhood and the wrapped xStocks token
+  (`convertToAssets`), and approved hard-coding them. The legacy xStocks
   API integration (float with 16 decimals, used for Streams v10) is not in this adapter and
   is out of scope. If an Issuer upgrades its contract or a new asset uses another precision,
-  every price is off by a power of 10 with status 200. Owner: Product. Revisit when
+  every price is off by a power of 10 with status 200. Owner: GTM. Revisit when
   onboarding an Issuer or asset, or on an Issuer contract upgrade; reading `decimals()`
   where exposed and failing closed on mismatch is the cheap mitigation.

@@ -1,8 +1,8 @@
 # 0005. The Issuer Multiplier is applied in an EA
 
-Status: proposed
+Status: accepted
 Date: 2026-11-03
-Risk acceptance: pending Product
+Risk acceptance: accepted by Product (Gabe Silva) on 2026-11-04
 
 ## Context
 
@@ -45,7 +45,10 @@ See the
 
 ## Risks accepted
 
-All owned by Product.
+None of these risks is new. The live 24/5 endpoints already apply the Issuer Multiplier in
+this EA with the same logic (data-engine price, on-chain multiplier read, multiply and
+scale), so they carry every risk below today. The 24/7 endpoint inherits them unchanged; it
+only extends the exposure to weekends and overnight. All owned and accepted by Product.
 
 1. **Limited telemetry.** No metrics on RPC reads, Issuer Multiplier values or Asset Paused,
    only the framework's request metrics. Partial mitigation: every response carries its

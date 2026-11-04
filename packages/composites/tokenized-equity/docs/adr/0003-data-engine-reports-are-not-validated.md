@@ -1,8 +1,8 @@
 # 0003. Data-engine reports are not validated beyond resultPath, and request errors use framework handling
 
-Status: proposed
+Status: accepted
 Date: 2026-11-03
-Risk acceptance: pending Product
+Risk acceptance: accepted by Product (Gabe Silva) on 2026-11-04
 
 ## Context
 
@@ -18,6 +18,8 @@ decimals) was added and then reverted as not worth carrying.
 - No catch around the data-engine call; failed requests surface as the framework throws them.
 - The only report check is that `resultPath` exists in the report (400 otherwise).
 - No check of the price value, `decimals`, `lastSeenTimestampNs` or Market Status.
+- Zero and negative prices are an accepted risk for launch. A guard is a fast follow, not a
+  launch blocker.
 
 ## Consequences
 
@@ -28,11 +30,12 @@ decimals) was added and then reverted as not worth carrying.
 
 ## Risks accepted
 
-- **Zero price returned as a 200 (highest severity).** A report whose `resultPath` field is
-  `""` or `"0"` scales to `result: "0"` with status 200, with or without a multiplier. It
-  fails open: consumers may treat the asset as worthless. Mitigations are data-engine
-  report guarantees and downstream deviation checks. Owner: Product. Revisit on the first
-  empty or zero field observed; the minimal fix is a `result > 0` guard.
+- **Zero or negative price returned as a 200 (highest severity).** A report whose
+  `resultPath` field is `""`, `"0"` or negative scales to a zero or negative `result` with
+  status 200, with or without a multiplier. It fails open: consumers may treat the asset as
+  worthless. Accepted for launch, to be revisited as a fast follow: the minimal fix is a
+  `result > 0` guard. Until then, mitigations are data-engine report guarantees and
+  downstream deviation checks. Owner: Product.
 - **Stale reports returned as a 200.** `maxAgeInSeconds` is not passed to the data-engine
   EA and `lastSeenTimestampNs` is not checked, so a stalled 24/7 stream keeps serving its
   last report. Response timestamps show the fetch time, not the observation time. Deferred

@@ -1,8 +1,8 @@
 # 0001. 24/7 Prices are served by a new issuer-agnostic endpoint, separate from the 24/5 endpoints
 
-Status: proposed
+Status: accepted
 Date: 2026-11-03
-Risk acceptance: pending validation of job spec feed mapping (owner: TBD)
+Risk acceptance: accepted by Product (Gabe Silva) on 2026-11-04; Gabe owns the feed mapping tooling follow-up with Growth
 
 ## Context
 
@@ -30,6 +30,7 @@ Issuer (robinhood, coinbase, ondo, xstocks); the Issuer-specific reads live in t
   also serves 24/7 feeds that are not tokenized assets.
 - `resultPath` is limited to the report's price fields: `mid`, `bid`, `ask`,
   `lastTradedPrice`.
+  - 24/5 endpoints use the `mid` whereas 24/7 endpoints use the `lastTradedPrice`.
 - `targetEndpoint` only allows `v11`.
 - The existing endpoints keep main's behavior unchanged.
 
@@ -64,12 +65,14 @@ or CRE) is decided in [0005](./0005-issuer-multiplier-is-applied-in-an-ea.md). G
 
 ## Risks accepted
 
-- **Feed mapping is not checked (open, needs validation).** `feedId` and `multiplier.asset`
+- **Feed mapping is not checked.** `feedId` and `multiplier.asset`
   are independent inputs, and nothing checks that they belong together. A job spec pairing an
   asset with another asset's feed returns a plausible wrong price with status 200. Every
-  launch job spec's pairing must be validated before go-live. Owner: TBD. One case of the
-  per-node-operator configuration risk in
-  [0005](./0005-issuer-multiplier-is-applied-in-an-ea.md).
+  launch job spec's pairing must be validated before go-live. Owner: Product (Gabe Silva),
+  coordinating with Growth to close the gap in the feed provisioning tooling, so that a mismatched
+  `feedId` and `multiplier.asset` is caught before a job spec reaches node operators. Until
+  then, pairings are checked by hand in RDD review. One case of the per-node-operator
+  configuration risk in [0005](./0005-issuer-multiplier-is-applied-in-an-ea.md).
 - **Ignored input is echoed back.** `multiplier.network` is required for Robinhood only.
   For other Issuers it is accepted, ignored and echoed in the response's
   `multiplier.network`; `registry` is likewise ignored for Robinhood and xStocks.
