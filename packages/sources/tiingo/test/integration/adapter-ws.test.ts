@@ -44,6 +44,18 @@ describe('websocket', () => {
     endpoint: 'stock_quotes',
     base: 'aapl',
   }
+  const stockQuotesDataIndex = {
+    endpoint: 'stock_quotes',
+    from: 'US30',
+    to: 'USD',
+    assetType: 'indices',
+    overrides: { tiingo: { US30: 'us30usd' } },
+  }
+  const stockQuotesDataEtf = {
+    endpoint: 'stock_quotes',
+    base: 'aapl',
+    assetType: 'etfs',
+  }
   const priceDataForex = {
     endpoint: 'forex',
     base: 'eur',
@@ -145,6 +157,12 @@ describe('websocket', () => {
       expect(response.json()).toMatchSnapshot()
       expect(response.statusCode).toBe(200)
     })
+
+    it('non-index assetType should still be served from the equities feed', async () => {
+      const response = await testAdapter.request(stockQuotesDataEtf)
+      expect(response.statusCode).toBe(200)
+      expect(response.json().data.mid_price).toBe(316.0025)
+    })
   })
 
   describe('iex endpoint', () => {
@@ -161,6 +179,24 @@ describe('websocket', () => {
       await runAllUntilTime(testAdapter.clock, 152000)
       const response = await testAdapter.request(priceDataAapl)
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  // Kept last: the iex heartbeat test above depends on the fake clock state left by earlier tests.
+  describe('stock_quotes endpoint (indices via FX feed)', () => {
+    it('indices request should be served from the FX feed', async () => {
+      await testAdapter.request(stockQuotesDataIndex)
+      await testAdapter.waitForCache(1)
+      const response = await testAdapter.request(stockQuotesDataIndex)
+      expect(response.statusCode).toBe(200)
+      expect(response.json().data).toEqual({
+        mid_price: 53473.72,
+        bid_price: 53472.47,
+        bid_volume: 0,
+        ask_price: 53474.97,
+        ask_volume: 0,
+      })
       expect(response.json()).toMatchSnapshot()
     })
   })
