@@ -92,12 +92,12 @@ describe('resolveStreamMaxAgeSeconds', () => {
   })
 })
 
-describe('config: DS_SESSION_START_GATING_ENABLED', () => {
+describe('config: SESSION_START_GATING_ENABLED', () => {
   const OLD_ENV = process.env
 
   beforeEach(() => {
     process.env = { ...OLD_ENV }
-    delete process.env.DS_SESSION_START_GATING_ENABLED
+    delete process.env.SESSION_START_GATING_ENABLED
   })
 
   afterAll(() => {
@@ -113,14 +113,14 @@ describe('config: DS_SESSION_START_GATING_ENABLED', () => {
   }
 
   it('defaults to false (disabled)', () => {
-    expect(buildSettings().DS_SESSION_START_GATING_ENABLED).toEqual(false)
+    expect(buildSettings().SESSION_START_GATING_ENABLED).toEqual(false)
   })
 
   it('parses boolean values from the environment', () => {
-    process.env.DS_SESSION_START_GATING_ENABLED = 'true'
-    expect(buildSettings().DS_SESSION_START_GATING_ENABLED).toEqual(true)
+    process.env.SESSION_START_GATING_ENABLED = 'true'
+    expect(buildSettings().SESSION_START_GATING_ENABLED).toEqual(true)
 
-    process.env.DS_SESSION_START_GATING_ENABLED = 'false'
-    expect(buildSettings().DS_SESSION_START_GATING_ENABLED).toEqual(false)
+    process.env.SESSION_START_GATING_ENABLED = 'false'
+    expect(buildSettings().SESSION_START_GATING_ENABLED).toEqual(false)
   })
 })
