@@ -1,8 +1,13 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { SessionTransition } from '../../../src/lib/session/tradingHoursSession'
 import { getPrice } from '../../../src/lib/streams'
+
+// The gate logs (fallback-activation lines) via the framework logger; unit tests run
+// without an adapter boot, so the factory must be set explicitly.
+LoggerFactoryProvider.set()
 
 // Tests for the pre-open warm-up (session-start) gating: when enabled, a selected
 // report whose lastSeenTimestampNs is before the start of the current session (per the
@@ -91,18 +96,12 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     )
     setupMock(regularData, null, null)
 
-    const result = await getPrice(
-      '',
-      requester,
-      regularStreamId,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      { transitions: regularSchedule },
-    )
+    const result = await getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
+      sessionStartGating: { transitions: regularSchedule },
+    })
 
     expect(result.price).toEqual(regularData.mid)
+    expect(result.gatingSessionSource).toBe('TRADINGHOURS')
   })
 
   it('rejects with 503 a report from before the current session start', async () => {
@@ -115,13 +114,38 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     setupMock(regularData, null, null)
 
     await expect(
-      getPrice('', requester, regularStreamId, undefined, undefined, undefined, undefined, {
-        transitions: regularSchedule,
+      getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
+        sessionStartGating: {
+          transitions: regularSchedule,
+        },
       }),
     ).rejects.toThrow(
       expect.objectContaining({
         statusCode: 503,
         message: expect.stringMatching(/Market data predates session start: regular PRE_SESSION/),
+      }),
+    )
+  })
+
+  it('includes the request context (asset, market, market session type) in the error message', async () => {
+    const regularData = createStreamData(
+      '100.5',
+      TwentyfourFiveMarketStatus.REGULAR,
+      nsAtMs(NOW_MS - 7_200_000),
+    )
+    setupMock(regularData, null, null)
+
+    await expect(
+      getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
+        sessionStartGating: { transitions: regularSchedule },
+        requestContext: { asset: 'AAPL', sessionMarket: 'nyse', sessionMarketType: '24/5' },
+      }),
+    ).rejects.toThrow(
+      expect.objectContaining({
+        statusCode: 503,
+        message: expect.stringMatching(
+          /Market data predates session start: regular PRE_SESSION.*\[asset=AAPL market=nyse marketType=24\/5\]/,
+        ),
       }),
     )
   })
@@ -137,16 +161,10 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     setupMock(regularData, null, null)
 
     await expect(
-      getPrice(
-        '',
-        requester,
-        regularStreamId,
-        undefined,
-        undefined,
-        undefined,
-        { regular: 30 },
-        { transitions: regularSchedule },
-      ),
+      getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
+        streamMaxAgeSeconds: { regular: 30 },
+        sessionStartGating: { transitions: regularSchedule },
+      }),
     ).rejects.toThrow(
       expect.objectContaining({
         statusCode: 503,
@@ -163,16 +181,9 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     )
     setupMock(regularData, null, null)
 
-    const result = await getPrice(
-      '',
-      requester,
-      regularStreamId,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      { transitions: regularSchedule },
-    )
+    const result = await getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
+      sessionStartGating: { transitions: regularSchedule },
+    })
 
     expect(result.price).toEqual(regularData.mid)
   })
@@ -202,9 +213,11 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     setupMock(regularData, null, null)
 
     await expect(
-      getPrice('', requester, regularStreamId, undefined, undefined, undefined, undefined, {
-        transitions: undefined,
-        fallbackTransitions: undefined,
+      getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
+        sessionStartGating: {
+          transitions: undefined,
+          fallbackTransitions: undefined,
+        },
       }),
     ).rejects.toThrow(
       expect.objectContaining({
@@ -224,19 +237,12 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     )
     setupMock(regularData, null, null)
 
-    const result = await getPrice(
-      '',
-      requester,
-      regularStreamId,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      {
+    const result = await getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
+      sessionStartGating: {
         transitions: undefined,
         fallbackTransitions: regularSchedule,
       },
-    )
+    })
 
     expect(result.price).toEqual(regularData.mid)
   })
@@ -252,9 +258,11 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     setupMock(regularData, null, null)
 
     await expect(
-      getPrice('', requester, regularStreamId, undefined, undefined, undefined, undefined, {
-        transitions: undefined,
-        fallbackTransitions: regularSchedule,
+      getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
+        sessionStartGating: {
+          transitions: undefined,
+          fallbackTransitions: regularSchedule,
+        },
       }),
     ).rejects.toThrow(
       expect.objectContaining({
@@ -274,21 +282,17 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     )
     setupMock(regularData, null, null)
 
-    const result = await getPrice(
-      '',
-      requester,
-      regularStreamId,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      {
+    const result = await getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
+      sessionStartGating: {
         transitions: [transition(TwentyfourFiveMarketStatus.OVERNIGHT, -3600)],
         fallbackTransitions: regularSchedule,
       },
-    )
+    })
 
     expect(result.price).toEqual(regularData.mid)
+    // Row 7: the fetch succeeded but lacked the transition — the gate's fallback use must
+    // be visible in the response (no error line is logged by the fetch path here).
+    expect(result.gatingSessionSource).toBe('FALLBACK')
   })
 
   it('uses the fallback schedule to reject pre-session reports when tradinghours lacks the transition', async () => {
@@ -300,9 +304,11 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     setupMock(regularData, null, null)
 
     await expect(
-      getPrice('', requester, regularStreamId, undefined, undefined, undefined, undefined, {
-        transitions: [transition(TwentyfourFiveMarketStatus.OVERNIGHT, -3600)],
-        fallbackTransitions: regularSchedule,
+      getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
+        sessionStartGating: {
+          transitions: [transition(TwentyfourFiveMarketStatus.OVERNIGHT, -3600)],
+          fallbackTransitions: regularSchedule,
+        },
       }),
     ).rejects.toThrow(
       expect.objectContaining({
@@ -332,8 +338,9 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
       extendedStreamId,
       undefined,
       undefined,
-      undefined,
-      { transitions: schedule },
+      {
+        sessionStartGating: { transitions: schedule },
+      },
     )
     expect(result.price).toEqual(inSession.mid)
 
@@ -345,8 +352,10 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     )
     setupMock(null, preSession, null)
     await expect(
-      getPrice('', requester, undefined, extendedStreamId, undefined, undefined, undefined, {
-        transitions: schedule,
+      getPrice('', requester, undefined, extendedStreamId, undefined, undefined, {
+        sessionStartGating: {
+          transitions: schedule,
+        },
       }),
     ).rejects.toThrow(expect.objectContaining({ statusCode: 503 }))
   })
@@ -367,11 +376,13 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
     setupMock(regularData, extendedData, null)
 
     await expect(
-      getPrice('', requester, regularStreamId, extendedStreamId, undefined, undefined, undefined, {
-        transitions: [
-          ...regularSchedule,
-          transition(TwentyfourFiveMarketStatus.POST_MARKET, -1800),
-        ],
+      getPrice('', requester, regularStreamId, extendedStreamId, undefined, undefined, {
+        sessionStartGating: {
+          transitions: [
+            ...regularSchedule,
+            transition(TwentyfourFiveMarketStatus.POST_MARKET, -1800),
+          ],
+        },
       }),
     ).rejects.toThrow(AdapterError)
   })
@@ -393,8 +404,11 @@ describe('getPrice session-start (pre-open warm-up) gating', () => {
       undefined,
       overnightStreamId,
       undefined,
-      undefined,
-      { transitions: [transition(TwentyfourFiveMarketStatus.OVERNIGHT, -600)] },
+      {
+        sessionStartGating: {
+          transitions: [transition(TwentyfourFiveMarketStatus.OVERNIGHT, -600)],
+        },
+      },
     )
 
     expect(result.price).toEqual(overnightData.mid)

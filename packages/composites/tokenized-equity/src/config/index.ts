@@ -1,5 +1,5 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { StreamMaxAgeSeconds } from '../lib/streams'
+import type { StreamMaxAgeSeconds } from '../lib/streams'
 
 export const settingsDefinition = {
   SOURCE_ADAPTER_URL: {

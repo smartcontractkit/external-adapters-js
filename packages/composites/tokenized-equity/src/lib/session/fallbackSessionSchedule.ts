@@ -50,8 +50,11 @@ const FALLBACK_SESSION_SCHEDULE: Record<string, FallbackSchedule> = {
   },
 }
 
+// Both segments lowercased for lookup — a silent miss here fails gating closed, so the
+// key match should be forgiving (slightly more lenient than upstream, which lowercases
+// only `market`).
 const getFallbackEntry = (market: string, marketType: string): FallbackSchedule | undefined =>
-  FALLBACK_SESSION_SCHEDULE[`${market.toLowerCase()}/${marketType}`]
+  FALLBACK_SESSION_SCHEDULE[`${market.toLowerCase()}/${marketType.toLowerCase()}`]
 
 // The timezone gating should use for a market/type (tradinghours fetch + fallback
 // evaluation), independent of the request's sessionBoundariesTimeZone.
@@ -59,8 +62,11 @@ export const getGatingTimezone = (market: string, marketType: string): string | 
   getFallbackEntry(market, marketType)?.timezone
 
 // Labeled session-open transitions for the days surrounding nowMs, or undefined when the
-// market/type has no hard-coded entry. Day offsets -1..+1 mirror getSessionsFallback's
-// midnight-crossover handling (e.g. a Monday 02:00 ET query sees Sunday's 20:00 open).
+// market/type has no hard-coded entry. Day offsets -2..+1 cover at least tradinghours'
+// rolling [now-1d, now+1d] window: at Saturday 00:00–04:00 ET the current overnight
+// session opened Thursday 20:00, which -1..+1 (Fri/Sat/Sun) cannot see — Friday has no
+// overnight open and Saturday has none at all — so the narrower window failed closed
+// while tradinghours still resolved the session.
 export const getFallbackSessionTransitions = (
   market: string,
   marketType: string,
@@ -74,7 +80,7 @@ export const getFallbackSessionTransitions = (
   const now = new TZDate(nowMs, entry.timezone)
   const transitions: SessionTransition[] = []
 
-  for (const offset of [-1, 0, 1]) {
+  for (const offset of [-2, -1, 0, 1]) {
     const day = new TZDate(
       now.getFullYear(),
       now.getMonth(),

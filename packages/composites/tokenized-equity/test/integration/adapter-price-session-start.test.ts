@@ -72,6 +72,27 @@ const mockTradingHoursResponseFailure = (): nock.Scope =>
     .reply(200, () => ({ statusCode: 500 }))
     .persist()
 
+// Schedule that answers successfully but has no transition opening PRE_MARKET —
+// matrix row 7: the gate silently walks to the hard-coded fallback schedule.
+const mockTradingHoursScheduleWithoutPreMarket = (): nock.Scope =>
+  nock('http://trading-hours', {
+    encodedQueryParams: true,
+  })
+    .post('/')
+    .reply(200, () => ({
+      data: {
+        result: [
+          {
+            status: 2,
+            statusString: 'REGULAR',
+            time: '2001-01-01T14:30:00.000Z',
+          },
+        ],
+      },
+      statusCode: 200,
+    }))
+    .persist()
+
 describe('price endpoint session-start gating', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
@@ -164,6 +185,24 @@ describe('price endpoint session-start gating', () => {
     })
 
     expect(response.statusCode).toBe(200)
+  })
+
+  it('surfaces gatingSessionSource=FALLBACK when a fetched schedule lacks a transition for the selected session', async () => {
+    // Matrix row 7: tradinghours answers 200 but its schedule has no PRE_MARKET
+    // transition. No fetch error is logged on this path, so the gate's fallback
+    // activation must be visible in the response instead.
+    mockDataEngine(nsAtMs(PRE_MARKET_OPEN_MS + 60_000))
+    mockTradingHoursScheduleWithoutPreMarket()
+
+    const response = await testAdapter.request({
+      ...requestData,
+      extendedStreamId: '0x000b6-schedule-missing-transition',
+    })
+
+    // The fallback's Monday PRE_MARKET open (04:00 ET = 09:00Z) matches the report
+    // (09:01Z), so the request passes — with the gate's source marked FALLBACK.
+    expect(response.statusCode).toBe(200)
+    expect(JSON.stringify(response.json())).toContain('"gatingSessionSource":"FALLBACK"')
   })
 
   it('rejects pre-session reports against the hard-coded fallback when tradinghours is unavailable', async () => {

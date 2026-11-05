@@ -18,9 +18,10 @@ type Response = {
 }
 
 // A single market-session transition (a point in time when the market enters a session
-// phase), used for session-start gating. Unlike getSessions below this keeps every
-// status (including REGULAR) and Sunday overnight transitions: gating needs the start
-// of whichever session is active, while smoothing deliberately skips some transitions.
+// phase), used for session-start gating. getSessionTransitions keeps every status
+// (including REGULAR) and Sunday overnight transitions: gating needs the start of
+// whichever session is active, while smoothing deliberately skips some transitions
+// (see processData).
 export type SessionTransition = {
   status: TwentyfourFiveMarketStatus
   timeMs: number
@@ -40,23 +41,6 @@ export const getSessionTransitions = async (
     sessionMarket,
     sessionMarketType,
   )
-
-export const getSessions = async (
-  tradingHoursUrl: string,
-  requester: Requester,
-  sessionBoundariesTimeZone: string,
-  sessionMarket: string,
-  sessionMarketType: string,
-): Promise<number[]> => {
-  const transitions = await fetchSessionSchedule(
-    tradingHoursUrl,
-    requester,
-    sessionBoundariesTimeZone,
-    sessionMarket,
-    sessionMarketType,
-  )
-  return processData(transitions, sessionBoundariesTimeZone)
-}
 
 const fetchSessionSchedule = async (
   tradingHoursUrl: string,

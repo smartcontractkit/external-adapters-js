@@ -35,7 +35,7 @@ jest.mock('../../../src/lib/session/session', () => ({ getSessionSchedule: jest.
 const mockGetSessionSchedule = getSessionSchedule as jest.MockedFunction<typeof getSessionSchedule>
 
 // sessionStartGating is getPrice's 8th (last) positional argument.
-const gatingArg = () => mockGetPrice.mock.calls[0][7]
+const gatingArg = () => mockGetPrice.mock.calls[0][6]?.sessionStartGating
 
 describe('smoothedStreamPrice session-start gating skip (no market identity)', () => {
   const baseParams = {

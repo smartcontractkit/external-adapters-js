@@ -133,6 +133,7 @@ describe('smoothedStreamPrice', () => {
           secondsFromTransition: 0,
         },
         sessionSource: 'FALLBACK',
+        gatingSessionSource: undefined,
       }
       expect(result[0]).toStrictEqual({
         ...expectedResult,
@@ -282,6 +283,7 @@ describe('smoothedStreamPrice', () => {
           secondsFromTransition: undefined,
         },
         sessionSource: undefined,
+        gatingSessionSource: undefined,
       })
     })
   })

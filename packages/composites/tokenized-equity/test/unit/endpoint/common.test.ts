@@ -27,6 +27,13 @@ describe('marketSessionOverride input validation', () => {
     expect(() => validate({ ...baseData, marketSessionOverride: 'REGULAR' })).not.toThrow()
   })
 
+  it.each([['PRE_MARKET'], ['REGULAR'], ['POST_MARKET'], ['OVERNIGHT']])(
+    'accepts the real session status %s',
+    (override) => {
+      expect(() => validate({ ...baseData, marketSessionOverride: override })).not.toThrow()
+    },
+  )
+
   it.each([['sessionMarket'], ['sessionMarketType']])(
     'rejects with 400 when marketSessionOverride is present but %s is missing',
     (missing) => {

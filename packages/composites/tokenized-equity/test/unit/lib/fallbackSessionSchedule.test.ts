@@ -8,9 +8,9 @@ import { SessionTransition } from '../../../src/lib/session/tradingHoursSession'
 
 const at = (iso: string) => new Date(iso).getTime()
 
-// The function materializes a ±1 day window around `nowMs` (all gating needs is the
-// current session's start), so each test queries from a time adjacent to the days it
-// asserts on. 2024-01-07 is a Sunday; January is EST = UTC-5.
+// The function materializes a -2..+1 day window around `nowMs` (covering tradinghours'
+// rolling [now-1d, now+1d] window), so each test queries from a time adjacent to the
+// days it asserts on. 2024-01-07 is a Sunday; January is EST = UTC-5.
 
 describe('getFallbackSessionTransitions', () => {
   it('returns labeled transitions for nyse/24/5 with the true 09:30 ET regular open', () => {
@@ -59,7 +59,7 @@ describe('getFallbackSessionTransitions', () => {
   })
 
   it('has no Friday 20:00 overnight open (Friday 20:00 ET → weekend)', () => {
-    // Query from Saturday → window covers Fri–Sun. Friday 2024-01-12 20:00 ET
+    // Query from Saturday → window covers Thu–Sun. Friday 2024-01-12 20:00 ET
     // (Sat 01:00 UTC) must have no overnight open…
     const result = getFallbackSessionTransitions('nyse', '24/5', at('2024-01-13T12:00:00.000Z'))
     expect(result).toBeDefined()
@@ -79,6 +79,27 @@ describe('getFallbackSessionTransitions', () => {
       status: TwentyfourFiveMarketStatus.POST_MARKET,
       timeMs: at('2024-01-12T21:00:00.000Z'),
     })
+  })
+
+  it('resolves the Thursday 20:00 overnight open on Saturday 00:00–04:00 ET', () => {
+    // Regression: during the Saturday overnight session (opened Thursday 20:00 ET),
+    // a -1..+1 window sees only Fri/Sat/Sun — Friday has no overnight open and
+    // Saturday has none — so the fallback found no past OVERNIGHT transition and
+    // failed closed (503) while tradinghours' rolling [now-1d, now+1d] window still
+    // resolved the session. The -2..+1 window must reach Thursday 20:00 ET
+    // (= Friday 2024-01-12 01:00 UTC) at every hour of that window.
+    for (const queryIso of [
+      '2024-01-13T05:00:00.000Z', // Sat 00:00 ET
+      '2024-01-13T07:00:00.000Z', // Sat 02:00 ET
+      '2024-01-13T08:59:00.000Z', // Sat 03:59 ET
+    ]) {
+      const result = getFallbackSessionTransitions('nyse', '24/5', at(queryIso))
+      expect(result).toBeDefined()
+      expect(result as SessionTransition[]).toContainEqual({
+        status: TwentyfourFiveMarketStatus.OVERNIGHT,
+        timeMs: at('2024-01-12T01:00:00.000Z'), // Thursday 20:00 ET
+      })
+    }
   })
 
   it('resolves ET wall-clock times correctly across DST', () => {

@@ -84,10 +84,12 @@ describe('getPrice session-start gating with marketSessionOverride', () => {
     transitions?: SessionTransition[],
     fallbackTransitions?: SessionTransition[],
   ) =>
-    getPrice('', requester, undefined, extendedStreamId, undefined, undefined, undefined, {
-      transitions,
-      fallbackTransitions,
-      marketSessionOverride,
+    getPrice('', requester, undefined, extendedStreamId, undefined, undefined, {
+      sessionStartGating: {
+        transitions,
+        fallbackTransitions,
+        marketSessionOverride,
+      },
     })
 
   it.each([
@@ -198,12 +200,13 @@ describe('getPrice session-start gating with marketSessionOverride', () => {
       extendedStreamId,
       undefined,
       undefined,
-      undefined,
       {
-        transitions: [
-          transition(TwentyfourFiveMarketStatus.PRE_MARKET, -3600),
-          transition(TwentyfourFiveMarketStatus.REGULAR, 3600),
-        ],
+        sessionStartGating: {
+          transitions: [
+            transition(TwentyfourFiveMarketStatus.PRE_MARKET, -3600),
+            transition(TwentyfourFiveMarketStatus.REGULAR, 3600),
+          ],
+        },
       },
     )
 
