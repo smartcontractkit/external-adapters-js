@@ -5,8 +5,8 @@ import { AssetRequest, Issuer, MULTIPLIER_DECIMALS, Settings } from './issuer'
 
 /**
  * ERC-4626 style wrapper on Ethereum: the multiplier is the amount of underlying
- * asset one whole wrapped share converts to. The wrapper's pause flag is not
- * read, so an xstocks asset is never treated as paused, as in the xstocks endpoint.
+ * asset one whole wrapped share converts to. xstocks ignores Asset Paused by GTM
+ * decision (docs/adr/0002): the wrapper's pause flag is not read.
  */
 export class Xstocks extends Issuer {
   readonly name = 'xstocks'
