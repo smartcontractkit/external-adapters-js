@@ -5,7 +5,7 @@ import {
 import nock from 'nock'
 
 // End-to-end pre-open warm-up (session-start) gating of the price endpoint, enabled
-// via DS_SESSION_START_GATING_ENABLED. Gating identifies the market from the request's
+// via SESSION_START_GATING_ENABLED. Gating identifies the market from the request's
 // sessionMarket/sessionMarketType and falls back to the hard-coded labeled schedule
 // (nyse/24/5) when tradinghours is unavailable or unusable — never to the smoother's
 // sessionBoundaries. Requests without sessionMarket/sessionMarketType (the
@@ -92,7 +92,7 @@ describe('price endpoint session-start gating', () => {
     process.env.DATA_ENGINE_ADAPTER_URL = 'http://data-engine'
     process.env.TRADING_HOURS_ADAPTER_URL = 'http://trading-hours'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '1000'
-    process.env.DS_SESSION_START_GATING_ENABLED = 'true'
+    process.env.SESSION_START_GATING_ENABLED = 'true'
     spy = jest.spyOn(Date, 'now').mockReturnValue(NOW_MS)
 
     const adapter = (await import('../../src')).adapter

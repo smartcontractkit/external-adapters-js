@@ -80,7 +80,7 @@ export const settingsDefinition = {
     sensitive: false,
   },
 
-  DS_SESSION_START_GATING_ENABLED: {
+  SESSION_START_GATING_ENABLED: {
     description:
       'Pre-open warm-up check: discard a selected data-engine report whose lastSeenTimestampNs is before the start of the current session (per the tradinghours market-session schedule). Requires the session* request params. Fails closed (503) when the session start cannot be determined. Default false (disabled).',
     type: 'boolean',

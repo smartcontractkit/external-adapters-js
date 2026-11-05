@@ -9,7 +9,7 @@ import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
 
 // Session-start gating is per-request. When the request carries no market identity
 // (sessionMarket/sessionMarketType) — the smoother:'none' feeds' steady state — the
-// check is skipped entirely even with DS_SESSION_START_GATING_ENABLED=true:
+// check is skipped entirely even with SESSION_START_GATING_ENABLED=true:
 // smoothedStreamPrice must call getPrice with no SessionStartGating object at all, so
 // the request passes through exactly as if gating were disabled (no fail-closed 503,
 // no fallback consultation).

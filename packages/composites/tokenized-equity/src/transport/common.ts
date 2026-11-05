@@ -53,7 +53,7 @@ export abstract class SmoothedPriceTransport<
     this.requester = dependencies.requester
     this.config = adapterSettings
     this.streamMaxAgeSeconds = resolveStreamMaxAgeSeconds(adapterSettings)
-    this.sessionStartGatingEnabled = adapterSettings.DS_SESSION_START_GATING_ENABLED
+    this.sessionStartGatingEnabled = adapterSettings.SESSION_START_GATING_ENABLED
     this.getDataEngineUrl()
   }
 
