@@ -4421,7 +4421,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/artex-amina/",\
         "packageDependencies": [\
           ["@chainlink/artex-amina-adapter", "workspace:packages/sources/artex-amina"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
