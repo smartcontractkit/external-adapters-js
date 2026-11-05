@@ -1,3 +1,25 @@
-# Data Feeds or Streams Engineers must approve changes that will trigger an external Release
-/package.json @smartcontractkit/data-feeds-engineers @smartcontractkit/data-streams-engineers
+# Default owners for normal changes.
+* @smartcontractkit/data-feeds-engineers @smartcontractkit/data-streams-engineers
+
+# Release artifacts, deliberately unowned so a release PR needs no extra team
+# approval (code owner review is evaluated per changed file). Must stay above
+# /package.json - last match wins.
+/.changeset/
+**/package.json
+**/README.md
+**/CHANGELOG.md
+
+# Internal release: private ECR build + infra-k8s dispatch.
 /MASTERLIST.md @smartcontractkit/data-feeds-engineers @smartcontractkit/data-streams-engineers
+/package.json @smartcontractkit/data-feeds-engineers @smartcontractkit/data-streams-engineers
+
+# Public release to node operators.
+/public-adapter-versions.yml @b16z-sc @walked08860
+
+# Release machinery, and this file.
+/.github/workflows/release.yml @b16z-sc @walked08860
+/.github/workflows/deploy.yml @b16z-sc @walked08860
+/.github/workflows/publish.yml @b16z-sc @walked08860
+/.github/workflows/create-public-versions-pr.yml @b16z-sc @walked08860
+/.github/actions/create-ecrs/ @b16z-sc @walked08860
+/.github/CODEOWNERS @b16z-sc @walked08860
