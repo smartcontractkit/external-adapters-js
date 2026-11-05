@@ -17,6 +17,7 @@ export const smoothedStreamPrice = async (param: {
   overnightStreamMaxAgeInSeconds?: number
   streamMaxAgeSeconds?: StreamMaxAgeSeconds
   sessionStartGatingEnabled?: boolean
+  marketSessionOverride?: string
   url: string
   tradingHoursUrl: string
   requester: Requester
@@ -59,6 +60,11 @@ export const smoothedStreamPrice = async (param: {
       ? {
           transitions: sessionSchedule.transitions,
           fallbackTransitions: sessionSchedule.fallbackTransitions,
+          marketSessionOverride: param.marketSessionOverride
+            ? TwentyfourFiveMarketStatus[
+                param.marketSessionOverride as keyof typeof TwentyfourFiveMarketStatus
+              ]
+            : undefined,
         }
       : undefined,
   )

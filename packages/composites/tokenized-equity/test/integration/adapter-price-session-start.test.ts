@@ -236,4 +236,61 @@ describe('price endpoint session-start gating', () => {
 
     expect(response.statusCode).toBe(200)
   })
+
+  it('marketSessionOverride forces the pre-session rejection for a fresh in-session report', async () => {
+    // Deterministic demo of the warm-up filter: the report is fresh and in-session
+    // (PRE_MARKET opened 09:00Z, report from 09:01Z), but the override gates against
+    // the NEXT REGULAR open (14:30Z per the mocked schedule) — after the report — so
+    // the check rejects exactly as if the data-engine had returned a pre-open leftover.
+    mockDataEngine(nsAtMs(PRE_MARKET_OPEN_MS + 60_000))
+    mockTradingHoursSchedule()
+
+    const response = await testAdapter.request({
+      ...requestData,
+      extendedStreamId: '0x000b6-override-regular',
+      marketSessionOverride: 'REGULAR',
+    })
+
+    expect(response.statusCode).toBe(503)
+    expect(JSON.stringify(response.json())).toMatch(
+      /predates session start.*PRE_SESSION.*\[marketSessionOverride=REGULAR\]/,
+    )
+  })
+
+  it('marketSessionOverride fails closed when the schedule has no future start for the overridden session', async () => {
+    // The mocked schedule's only PRE_MARKET transition (09:00Z) is in the past; the
+    // override resolves the NEXT PRE_MARKET start, tradinghours only (never the
+    // hard-coded fallback) — none exists, so 503 with the forced marker.
+    mockDataEngine(nsAtMs(PRE_MARKET_OPEN_MS + 60_000))
+    mockTradingHoursSchedule()
+
+    const response = await testAdapter.request({
+      ...requestData,
+      extendedStreamId: '0x000b6-override-premarket',
+      marketSessionOverride: 'PRE_MARKET',
+    })
+
+    expect(response.statusCode).toBe(503)
+    expect(JSON.stringify(response.json())).toMatch(
+      /Session start unknown.*\[marketSessionOverride=PRE_MARKET\]/,
+    )
+  })
+
+  it('rejects with 400 when marketSessionOverride is passed without market identity', async () => {
+    mockDataEngine(nsAtMs(PRE_MARKET_OPEN_MS + 60_000))
+    mockTradingHoursSchedule() // for earlier tests' still-warm gated subscriptions
+
+    const response = await testAdapter.request({
+      asset: '0x0',
+      extendedStreamId: '0x000b6-override-no-market',
+      smoother: 'none',
+      decimals: 8,
+      marketSessionOverride: 'REGULAR',
+    })
+
+    expect(response.statusCode).toBe(400)
+    expect(JSON.stringify(response.json())).toMatch(
+      /marketSessionOverride requires sessionMarket and sessionMarketType/,
+    )
+  })
 })

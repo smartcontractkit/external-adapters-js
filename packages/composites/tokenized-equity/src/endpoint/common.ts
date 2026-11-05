@@ -55,6 +55,13 @@ export const inputDefinition = new InputParameters(
       description:
         'The type of the market for session times, for example 24/5. This is passed to the tradinghours adapter as the `type` parameter.',
     },
+    marketSessionOverride: {
+      required: false,
+      type: 'string',
+      description:
+        'Test hook for the pre-market warm-up (session-start) gating check: instead of resolving the current session start from the wall clock, the check gates against the NEXT start of the named session, deterministically forcing the pre-session rejection. Accepts any TwentyfourFiveMarketStatus value. Requires sessionMarket and sessionMarketType; affects only the session-start gating check (not stream selection, smoothing, or staleness).',
+      options: ['UNKNOWN', 'PRE_MARKET', 'REGULAR', 'POST_MARKET', 'OVERNIGHT', 'WEEKEND'],
+    },
     sessionBoundaries: {
       type: 'string',
       array: true,
@@ -105,13 +112,24 @@ export const validateSmoother = ({
   sessionBoundariesTimeZone,
   sessionMarket,
   sessionMarketType,
+  marketSessionOverride,
 }: {
   smoother: string
   sessionBoundaries: string[]
   sessionBoundariesTimeZone?: string
   sessionMarket?: string
   sessionMarketType?: string
+  marketSessionOverride?: string
 }) => {
+  // marketSessionOverride is meaningless without market identity: gating is skipped
+  // without sessionMarket/sessionMarketType, so fail fast instead of silently ignoring it.
+  if (marketSessionOverride && (!sessionMarket || !sessionMarketType)) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Parameter marketSessionOverride requires sessionMarket and sessionMarketType`,
+    })
+  }
+
   if (smoother === 'none') {
     // sessionMarket/sessionMarketType are permitted with 'none': session-start gating
     // consumes market identity even without a smoother. The smoother's own
