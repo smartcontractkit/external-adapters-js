@@ -109,23 +109,3 @@ export const getSessionSchedule = async (
     }
   }
 }
-
-// Seconds relative to session boundary (-ve before, +ve after)
-export const calculateSecondsFromTransition = async (
-  tradingHoursUrl: string,
-  requester: Requester,
-  sessionBoundaries: string[],
-  sessionBoundariesTimeZone?: string,
-  sessionMarket?: string,
-  sessionMarketType?: string,
-): Promise<SecondsFromTransition | undefined> =>
-  (
-    await getSessionSchedule(
-      tradingHoursUrl,
-      requester,
-      sessionBoundaries,
-      sessionBoundariesTimeZone,
-      sessionMarket,
-      sessionMarketType,
-    )
-  ).secondsFromTransition

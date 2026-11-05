@@ -70,12 +70,43 @@ describe('getPrice staleness check', () => {
     jest.clearAllMocks()
   })
 
+  it.each([['not-a-number'], [''], ['12.34']])(
+    'rejects a malformed lastSeenTimestampNs (%s) with 503, not a SyntaxError/502',
+    async (badTimestamp) => {
+      const regularData = createStreamData(
+        '100.5',
+        TwentyfourFiveMarketStatus.REGULAR,
+        badTimestamp,
+      )
+      setupMock(regularData, null, null)
+
+      // Staleness enabled so the timestamp is actually evaluated on the happy path.
+      await expect(
+        getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
+          streamMaxAgeSeconds: { regular: 30 },
+        }),
+      ).rejects.toThrow(
+        expect.objectContaining({
+          statusCode: 503,
+          message: expect.stringMatching(/Malformed lastSeenTimestampNs/),
+        }),
+      )
+      await expect(
+        getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
+          streamMaxAgeSeconds: { regular: 30 },
+        }),
+      ).rejects.toThrow(AdapterError)
+    },
+  )
+
   it('passes through a fresh report within the threshold', async () => {
     const regularData = createStreamData('100.5', TwentyfourFiveMarketStatus.REGULAR, nsAtAge(5))
     setupMock(regularData, null, null)
 
     const result = await getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
-      regular: 30,
+      streamMaxAgeSeconds: {
+        regular: 30,
+      },
     })
 
     expect(result.price).toEqual(regularData.mid)
@@ -87,7 +118,9 @@ describe('getPrice staleness check', () => {
     setupMock(regularData, null, null)
 
     await expect(
-      getPrice('', requester, regularStreamId, undefined, undefined, undefined, { regular: 30 }),
+      getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
+        streamMaxAgeSeconds: { regular: 30 },
+      }),
     ).rejects.toThrow(
       expect.objectContaining({
         statusCode: 503,
@@ -107,7 +140,9 @@ describe('getPrice staleness check', () => {
 
     await expect(
       getPrice('', requester, regularStreamId, extendedStreamId, undefined, undefined, {
-        extended: 30,
+        streamMaxAgeSeconds: {
+          extended: 30,
+        },
       }),
     ).rejects.toThrow(
       expect.objectContaining({
@@ -129,7 +164,9 @@ describe('getPrice staleness check', () => {
 
     await expect(
       getPrice('', requester, regularStreamId, extendedStreamId, overnightStreamId, undefined, {
-        overnight: 30,
+        streamMaxAgeSeconds: {
+          overnight: 30,
+        },
       }),
     ).rejects.toThrow(
       expect.objectContaining({
@@ -153,8 +190,10 @@ describe('getPrice staleness check', () => {
 
     await expect(
       getPrice('', requester, regularStreamId, extendedStreamId, undefined, undefined, {
-        regular: 30,
-        extended: 30,
+        streamMaxAgeSeconds: {
+          regular: 30,
+          extended: 30,
+        },
       }),
     ).rejects.toThrow(AdapterError)
   })
@@ -164,7 +203,9 @@ describe('getPrice staleness check', () => {
     setupMock(atThreshold, null, null)
 
     const result = await getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
-      regular: 30,
+      streamMaxAgeSeconds: {
+        regular: 30,
+      },
     })
     expect(result.price).toEqual(atThreshold.mid)
 
@@ -176,7 +217,9 @@ describe('getPrice staleness check', () => {
     setupMock(pastThreshold, null, null)
 
     await expect(
-      getPrice('', requester, regularStreamId, undefined, undefined, undefined, { regular: 30 }),
+      getPrice('', requester, regularStreamId, undefined, undefined, undefined, {
+        streamMaxAgeSeconds: { regular: 30 },
+      }),
     ).rejects.toThrow(expect.objectContaining({ statusCode: 503 }))
   })
 
@@ -211,7 +254,9 @@ describe('getPrice staleness check', () => {
       undefined,
       overnightStreamId,
       undefined,
-      { regular: 30 },
+      {
+        streamMaxAgeSeconds: { regular: 30 },
+      },
     )
 
     expect(result.price).toEqual(regularData.mid)

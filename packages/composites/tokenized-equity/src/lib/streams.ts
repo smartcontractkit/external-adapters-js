@@ -1,3 +1,4 @@
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 
 import { getDeutscheBoersePrice } from '@chainlink/data-engine-adapter'
@@ -7,6 +8,8 @@ import { AdapterError } from '@chainlink/external-adapter-framework/validation/e
 import { SessionTransition } from './session/tradingHoursSession'
 
 type DataEngineResponse = BaseEndpointTypes['Response']['Data']
+
+const logger = makeLogger('Streams')
 
 /**
  * Per-session staleness thresholds in seconds (resolved from the
@@ -62,6 +65,30 @@ const overrideMarker = (sessionStartGating: SessionStartGating): string =>
       }]`
     : ''
 
+/**
+ * Request identity (asset / market / market session type) attached to error messages
+ * so gating rejections in the logs can be traced back to the request that caused them.
+ */
+export type RequestContext = {
+  asset?: string
+  sessionMarket?: string
+  sessionMarketType?: string
+}
+
+// Marker appended to error messages identifying the request being served, e.g.
+// ` [asset=AAPL market=US marketType=24/5]`.
+const contextMarker = (context?: RequestContext): string => {
+  if (!context) {
+    return ''
+  }
+  const parts = [
+    context.asset && `asset=${context.asset}`,
+    context.sessionMarket && `market=${context.sessionMarket}`,
+    context.sessionMarketType && `marketType=${context.sessionMarketType}`,
+  ].filter(Boolean)
+  return parts.length ? ` [${parts.join(' ')}]` : ''
+}
+
 // Latest transition at or before `now` whose status opens one of `statuses` — i.e. the
 // start time of the currently active session for a stream eligible in `statuses`.
 const currentSessionStartMs = (
@@ -76,8 +103,20 @@ const currentSessionStartMs = (
       undefined,
     )
 
-const reportTimeMs = (lastSeenTimestampNs: string): number =>
-  Number(BigInt(lastSeenTimestampNs) / 10n ** 6n)
+const reportTimeMs = (lastSeenTimestampNs: string): number => {
+  // BigInt('') is 0n (no throw), so validate the integer format explicitly; a malformed
+  // provider timestamp is an upstream-data problem — reject with 503 like the other data
+  // rejections, not an unguarded SyntaxError surfacing as a 502.
+  if (!/^\d+$/.test(lastSeenTimestampNs)) {
+    throw new AdapterError({
+      statusCode: 503,
+      message: `Malformed lastSeenTimestampNs from data engine: ${JSON.stringify(
+        lastSeenTimestampNs,
+      )}`,
+    })
+  }
+  return Number(BigInt(lastSeenTimestampNs) / 10n ** 6n)
+}
 
 export const getPrice = async (
   url: string,
@@ -86,9 +125,15 @@ export const getPrice = async (
   extendedStreamId?: string,
   overnightStreamId?: string,
   overnightStreamMaxAgeInSeconds?: number,
-  streamMaxAgeSeconds?: StreamMaxAgeSeconds,
-  sessionStartGating?: SessionStartGating,
+  // Trailing options grouped: three adjacent optional positional args (two of them
+  // objects) were too easy to transpose silently at call sites.
+  options?: {
+    streamMaxAgeSeconds?: StreamMaxAgeSeconds
+    sessionStartGating?: SessionStartGating
+    requestContext?: RequestContext
+  },
 ) => {
+  const { streamMaxAgeSeconds, sessionStartGating, requestContext } = options ?? {}
   const [regular, extended, overnight] = await Promise.allSettled(
     [regularStreamId, extendedStreamId, overnightStreamId].map((streamId) =>
       streamId
@@ -104,12 +149,23 @@ export const getPrice = async (
     ),
   )
 
-  const stream = getStream(regular, extended, overnight, streamMaxAgeSeconds, sessionStartGating)
+  const { stream, gatingSessionSource } = getStream(
+    regular,
+    extended,
+    overnight,
+    streamMaxAgeSeconds,
+    sessionStartGating,
+    requestContext,
+  )
 
   return {
     price: stream.mid,
     spread: BigInt(stream.ask) - BigInt(stream.bid),
     decimals: stream.decimals,
+    // Schedule source the session-start gate resolved from (TRADINGHOURS or FALLBACK),
+    // undefined when gating is off or skipped — surfaced in responses so the gate's
+    // fallback activation is visible even when the tradinghours fetch succeeded.
+    gatingSessionSource,
     // Live status of the feed that was actually selected, exposed so callers can gate
     // on it directly rather than on the trading-hours schedule.
     marketStatus: stream.marketStatus,
@@ -124,8 +180,8 @@ export const getPrice = async (
 // Age in seconds of a report, from its provider-side lastSeenTimestampNs against the
 // local clock. Thresholds are expected to be orders of magnitude larger than any NTP
 // skew, so this does not need to be precise.
-const reportAgeSeconds = (lastSeenTimestampNs: string): number =>
-  (Date.now() - reportTimeMs(lastSeenTimestampNs)) / 1000
+const reportAgeSeconds = (lastSeenTimestampNs: string, nowMs: number): number =>
+  (nowMs - reportTimeMs(lastSeenTimestampNs)) / 1000
 
 type StreamCandidate = {
   name: keyof StreamMaxAgeSeconds
@@ -135,14 +191,18 @@ type StreamCandidate = {
   maxAgeSeconds?: number
 }
 
-const describeCandidate = (c: StreamCandidate, sessionStartGating?: SessionStartGating): string => {
+const describeCandidate = (
+  c: StreamCandidate,
+  sessionStartGating: SessionStartGating | undefined,
+  nowMs: number,
+): string => {
   if (c.result.status !== 'fulfilled') {
     // NB: the double space matches the historical message format asserted by existing tests
     return `${c.name}  ${c.result.reason}`
   }
   const status = TwentyfourFiveMarketStatus[c.result.value.marketStatus]
-  const age = reportAgeSeconds(c.result.value.lastSeenTimestampNs)
-  const preSession = preSessionSeconds(c, sessionStartGating)
+  const age = reportAgeSeconds(c.result.value.lastSeenTimestampNs, nowMs)
+  const preSession = preSessionSeconds(c, sessionStartGating, nowMs)
   if (preSession !== undefined) {
     return `${c.name} PRE_SESSION(${status}, lastSeen ${preSession.toFixed(
       0,
@@ -151,42 +211,61 @@ const describeCandidate = (c: StreamCandidate, sessionStartGating?: SessionStart
   if (c.maxAgeSeconds !== undefined && age > c.maxAgeSeconds) {
     return `${c.name} STALE(${status}, age=${age.toFixed(0)}s>${c.maxAgeSeconds}s)`
   }
-  return `${c.name} ${status}`
+  // NB: the double space is the historical message format for fulfilled candidates too
+  // (pre-existing log queries may be keyed on it) — same as the rejected branch above.
+  return `${c.name}  ${status}`
 }
 
 // Start of the current session for a stream eligible in `statuses`: the latest
 // transition at or before now from the tradinghours schedule, falling back to the
-// hard-coded schedule. undefined when neither source can place the session.
-const gatingSessionStartMs = (
+// hard-coded schedule — plus which source supplied it, so the gate's fallback
+// activation is visible in telemetry even when the tradinghours fetch succeeded
+// (a fetched schedule can lack a transition opening the selected session).
+// startMs/source are undefined when neither source can place the session.
+const gatingSessionStart = (
   statuses: TwentyfourFiveMarketStatus[],
   sessionStartGating: SessionStartGating,
   nowMs: number,
-): number | undefined =>
-  sessionStartGating.marketSessionOverride !== undefined
-    ? // Override: next start of the named session, tradinghours schedule only — the
-      // hard-coded fallback is deliberately not consulted (per design: no future
-      // transition in tradinghours means the check fails closed).
+): { startMs?: number; source?: 'TRADINGHOURS' | 'FALLBACK' } => {
+  if (sessionStartGating.marketSessionOverride !== undefined) {
+    // Override: next start of the named session, tradinghours schedule only — the
+    // hard-coded fallback is deliberately not consulted (per design: no future
+    // transition in tradinghours means the check fails closed).
+    const startMs =
       sessionStartGating.transitions &&
       nextSessionStartMs(
         sessionStartGating.marketSessionOverride,
         sessionStartGating.transitions,
         nowMs,
       )
-    : (sessionStartGating.transitions &&
-        currentSessionStartMs(statuses, sessionStartGating.transitions, nowMs)) ??
-      (sessionStartGating.fallbackTransitions &&
-        currentSessionStartMs(statuses, sessionStartGating.fallbackTransitions, nowMs))
+    return { startMs, source: startMs === undefined ? undefined : 'TRADINGHOURS' }
+  }
+  const fromTradingHours =
+    sessionStartGating.transitions &&
+    currentSessionStartMs(statuses, sessionStartGating.transitions, nowMs)
+  if (fromTradingHours !== undefined) {
+    return { startMs: fromTradingHours, source: 'TRADINGHOURS' }
+  }
+  const fromFallback =
+    sessionStartGating.fallbackTransitions &&
+    currentSessionStartMs(statuses, sessionStartGating.fallbackTransitions, nowMs)
+  return {
+    startMs: fromFallback,
+    source: fromFallback === undefined ? undefined : 'FALLBACK',
+  }
+}
 
 // Seconds by which the report predates the current session start, or undefined when the
 // report is in-session (or gating is off / the session start is unknown).
 const preSessionSeconds = (
   c: StreamCandidate,
-  sessionStartGating?: SessionStartGating,
+  sessionStartGating: SessionStartGating | undefined,
+  nowMs: number,
 ): number | undefined => {
   if (!sessionStartGating || c.result.status !== 'fulfilled') {
     return undefined
   }
-  const start = gatingSessionStartMs(c.eligibleStatuses, sessionStartGating, Date.now())
+  const start = gatingSessionStart(c.eligibleStatuses, sessionStartGating, nowMs).startMs
   if (start === undefined) {
     return undefined
   }
@@ -200,7 +279,13 @@ const getStream = (
   overnight: PromiseSettledResult<DataEngineResponse>,
   streamMaxAgeSeconds?: StreamMaxAgeSeconds,
   sessionStartGating?: SessionStartGating,
+  requestContext?: RequestContext,
 ) => {
+  // One clock reading per request, shared by the gate, the staleness check, and the
+  // message text — at a session boundary the decision and the description cannot
+  // disagree about "now".
+  const nowMs = Date.now()
+  const describe = (c: StreamCandidate) => describeCandidate(c, sessionStartGating, nowMs)
   const candidates: StreamCandidate[] = [
     {
       name: 'regular',
@@ -237,18 +322,38 @@ const getStream = (
 
   if (selected) {
     const value = (selected.result as PromiseFulfilledResult<DataEngineResponse>).value
+    let gatingSessionSource: 'TRADINGHOURS' | 'FALLBACK' | undefined
     if (sessionStartGating) {
       // Tradinghours schedule first, hard-coded fallback second. Fail closed only when
       // neither can supply the session start (no market identity at all).
-      const start = gatingSessionStartMs(selected.eligibleStatuses, sessionStartGating, Date.now())
+      const { startMs: start, source } = gatingSessionStart(
+        selected.eligibleStatuses,
+        sessionStartGating,
+        nowMs,
+      )
+      gatingSessionSource = source
+      if (
+        source === 'FALLBACK' &&
+        sessionStartGating.transitions !== undefined &&
+        sessionStartGating.marketSessionOverride === undefined
+      ) {
+        // The fetch succeeded but the schedule has no transition opening the selected
+        // session — no error line is logged on that path, so say so distinctly here;
+        // otherwise the gate's fallback activation is invisible in telemetry.
+        logger.warn(
+          `Session-start gating: fetched tradinghours schedule has no transition opening the selected session; using the hard-coded fallback schedule${contextMarker(
+            requestContext,
+          )}`,
+        )
+      }
       if (start === undefined) {
         throw new AdapterError({
           statusCode: 503,
           message: `Session start unknown (no schedule available for ${
             TwentyfourFiveMarketStatus[value.marketStatus]
-          }): ${candidates
-            .map((c) => describeCandidate(c, sessionStartGating))
-            .join(', ')}${overrideMarker(sessionStartGating)}`,
+          }): ${candidates.map(describe).join(', ')}${overrideMarker(
+            sessionStartGating,
+          )}${contextMarker(requestContext)}`,
         })
       }
       const lastSeenMs = reportTimeMs(value.lastSeenTimestampNs)
@@ -256,27 +361,27 @@ const getStream = (
         throw new AdapterError({
           statusCode: 503,
           message: `Market data predates session start: ${candidates
-            .map((c) => describeCandidate(c, sessionStartGating))
-            .join(', ')}${overrideMarker(sessionStartGating)}`,
+            .map(describe)
+            .join(', ')}${overrideMarker(sessionStartGating)}${contextMarker(requestContext)}`,
         })
       }
     }
-    const age = reportAgeSeconds(value.lastSeenTimestampNs)
+    const age = reportAgeSeconds(value.lastSeenTimestampNs, nowMs)
     if (selected.maxAgeSeconds !== undefined && age > selected.maxAgeSeconds) {
       throw new AdapterError({
         statusCode: 503,
-        message: `Market data is stale: ${candidates
-          .map((c) => describeCandidate(c, sessionStartGating))
-          .join(', ')}`,
+        message: `Market data is stale: ${candidates.map(describe).join(', ')}${contextMarker(
+          requestContext,
+        )}`,
       })
     }
-    return value
+    return { stream: value, gatingSessionSource }
   }
 
   throw new AdapterError({
     statusCode: 503,
-    message: `Market is not open: ${candidates
-      .map((c) => describeCandidate(c, sessionStartGating))
-      .join(', ')}`,
+    message: `Market is not open: ${candidates.map(describe).join(', ')}${contextMarker(
+      requestContext,
+    )}`,
   })
 }

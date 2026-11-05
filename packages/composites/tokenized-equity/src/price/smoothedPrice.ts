@@ -1,5 +1,6 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { Smoother } from '../endpoint/common'
 import { getSessionSchedule } from '../lib/session/session'
 import {
@@ -28,20 +29,42 @@ export const smoothedStreamPrice = async (param: {
   smoother: Smoother
   decimals: number
 }) => {
+  // The override is a staging/test hook for the session-start check; reject it
+  // explicitly when that check is off instead of silently ignoring it.
+  if (param.marketSessionOverride && !param.sessionStartGatingEnabled) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Parameter marketSessionOverride requires SESSION_START_GATING_ENABLED=true`,
+    })
+  }
+
+  // The schedule has two consumers: session-start gating (unfiltered transitions) and
+  // the smoother's seconds-from-transition signal. Skip the fetch entirely when neither
+  // applies — gating off (or no market identity) AND smoother 'none' — so a
+  // smoother:'none' feed that carries market identity does not gain a per-request
+  // tradinghours dependency while the flag is off.
+  const gatingRequested = !!(
+    param.sessionStartGatingEnabled &&
+    param.sessionMarket &&
+    param.sessionMarketType
+  )
   // One tradinghours market-session fetch per request, shared by both schedule
   // consumers: the unfiltered transitions feed session-start gating (inside getPrice),
   // and the smoother's seconds-from-transition signal is derived from the same fetch.
   // Fetched before getPrice because the gating decision happens inside it. The
   // schedule changes only at session boundaries and tradinghours caches server-side,
   // so this request is cheap; it only runs when the session* params are present.
-  const sessionSchedule = await getSessionSchedule(
-    param.tradingHoursUrl,
-    param.requester,
-    param.sessionBoundaries,
-    param.sessionBoundariesTimeZone,
-    param.sessionMarket,
-    param.sessionMarketType,
-  )
+  const sessionSchedule =
+    gatingRequested || param.smoother !== 'none'
+      ? await getSessionSchedule(
+          param.tradingHoursUrl,
+          param.requester,
+          param.sessionBoundaries,
+          param.sessionBoundariesTimeZone,
+          param.sessionMarket,
+          param.sessionMarketType,
+        )
+      : { transitions: undefined, fallbackTransitions: undefined, secondsFromTransition: undefined }
 
   const price = await getPrice(
     param.url,
@@ -50,23 +73,30 @@ export const smoothedStreamPrice = async (param: {
     param.extendedStreamId,
     param.overnightStreamId,
     param.overnightStreamMaxAgeInSeconds,
-    param.streamMaxAgeSeconds,
-    // Skip the session-start check entirely when the request carries no market
-    // identity (sessionMarket/sessionMarketType) — currently this is feeds with smoother:'none'.
-    // Without market identity there is no way to determine the session start and thus nothing to gate
-    // against: there cannot be a tradinghours fetch and no fallback can be looked up, so gating is a
-    // pass-through exactly as if the flag were off, rather than failing closed.
-    param.sessionStartGatingEnabled && param.sessionMarket && param.sessionMarketType
-      ? {
-          transitions: sessionSchedule.transitions,
-          fallbackTransitions: sessionSchedule.fallbackTransitions,
-          marketSessionOverride: param.marketSessionOverride
-            ? TwentyfourFiveMarketStatus[
-                param.marketSessionOverride as keyof typeof TwentyfourFiveMarketStatus
-              ]
-            : undefined,
-        }
-      : undefined,
+    {
+      streamMaxAgeSeconds: param.streamMaxAgeSeconds,
+      // Skip the session-start check entirely when the request carries no market
+      // identity (sessionMarket/sessionMarketType) — currently this is feeds with smoother:'none'.
+      // Without market identity there is no way to determine the session start and thus nothing to gate
+      // against: there cannot be a tradinghours fetch and no fallback can be looked up, so gating is a
+      // pass-through exactly as if the flag were off, rather than failing closed.
+      sessionStartGating: gatingRequested
+        ? {
+            transitions: sessionSchedule.transitions,
+            fallbackTransitions: sessionSchedule.fallbackTransitions,
+            marketSessionOverride: param.marketSessionOverride
+              ? TwentyfourFiveMarketStatus[
+                  param.marketSessionOverride as keyof typeof TwentyfourFiveMarketStatus
+                ]
+              : undefined,
+          }
+        : undefined,
+      requestContext: {
+        asset: param.asset,
+        sessionMarket: param.sessionMarket,
+        sessionMarketType: param.sessionMarketType,
+      },
+    },
   )
   const secondsFromTransition = sessionSchedule.secondsFromTransition
 
@@ -143,6 +173,9 @@ export const smoothedStreamPrice = async (param: {
         secondsFromTransition: secondsFromTransition?.value,
       },
       sessionSource: secondsFromTransition?.source,
+      // Schedule source the session-start GATE resolved from (vs sessionSource, which is
+      // the smoother's). Absent when gating is off or skipped.
+      gatingSessionSource: price.gatingSessionSource,
     }
   })
 }

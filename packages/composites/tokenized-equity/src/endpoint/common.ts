@@ -59,8 +59,8 @@ export const inputDefinition = new InputParameters(
       required: false,
       type: 'string',
       description:
-        'Hook for overriding the pre-market warm-up (session-start) gating check: instead of resolving the current session start from the wall clock, the check gates against the NEXT start of the named session, which will deterministically forcing the pre-session rejection. Accepts any TwentyfourFiveMarketStatus value. Requires sessionMarket and sessionMarketType; affects only the session-start gating check.',
-      options: ['UNKNOWN', 'PRE_MARKET', 'REGULAR', 'POST_MARKET', 'OVERNIGHT', 'WEEKEND'],
+        'Hook for overriding the pre-market warm-up (session-start) gating check: instead of resolving the current session start from the wall clock, the check gates against the NEXT start of the named session, which will deterministically forcing the pre-session rejection. Requires sessionMarket and sessionMarketType; affects only the session-start gating check. Only the four real session statuses are accepted (UNKNOWN and WEEKEND can never match a tradinghours transition). Requests carrying this parameter are rejected with 400 unless SESSION_START_GATING_ENABLED=true.',
+      options: ['PRE_MARKET', 'REGULAR', 'POST_MARKET', 'OVERNIGHT'],
     },
     sessionBoundaries: {
       type: 'string',
@@ -221,4 +221,7 @@ export type output = {
     secondsFromTransition?: number
   }
   sessionSource?: 'TRADINGHOURS' | 'FALLBACK'
+  // Schedule source the session-start gate resolved from (sessionSource above is the
+  // smoother's). Absent when gating is off or skipped.
+  gatingSessionSource?: 'TRADINGHOURS' | 'FALLBACK'
 }
