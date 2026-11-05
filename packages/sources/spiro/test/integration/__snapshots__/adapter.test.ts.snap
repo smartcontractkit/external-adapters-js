@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute returns the PoR total reserves 1`] = `
+{
+  "body": {
+    "data": {
+      "result": 5400000,
+      "ripcord": false,
+      "ripcordAsInt": 0,
+      "totalReserves": 5400000,
+    },
+    "meta": {
+      "adapterName": "SPIRO",
+      "metrics": {
+        "feedId": "{\"fundId\":\"michigan-pilot\"}",
+      },
+      "transportName": "default_single_transport",
+    },
+    "result": 5400000,
+    "statusCode": 200,
+    "timestamps": {
+      "providerDataReceivedUnixMs": 978347471111,
+      "providerDataRequestedUnixMs": 978347471111,
+      "providerIndicatedTimeUnixMs": 1791849900000,
+    },
+  },
+  "statusCode": 200,
+}
+`;
+
+exports[`execute returns the latest NAV entry 1`] = `
+{
+  "body": {
+    "data": {
+      "aum": 5400000,
+      "nav": 1,
+      "result": 1,
+      "ripcord": false,
+      "ripcordAsInt": 0,
+    },
+    "meta": {
+      "adapterName": "SPIRO",
+      "metrics": {
+        "feedId": "{\"fundId\":\"michigan-pilot\"}",
+      },
+      "transportName": "default_single_transport",
+    },
+    "result": 1,
+    "statusCode": 200,
+    "timestamps": {
+      "providerDataReceivedUnixMs": 978347471111,
+      "providerDataRequestedUnixMs": 978347471111,
+      "providerIndicatedTimeUnixMs": 1791849600000,
+    },
+  },
+  "statusCode": 200,
+}
+`;

@@ -1,0 +1,12 @@
+{
+  "requests": [
+    {
+      "endpoint": "nav",
+      "fundId": "michigan-pilot"
+    },
+    {
+      "endpoint": "por",
+      "fundId": "michigan-pilot"
+    }
+  ]
+}
