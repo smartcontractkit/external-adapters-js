@@ -56,6 +56,7 @@ describe('smoothedStreamPrice session-start gating skip (no market identity)', (
       spread: 2n,
       decimals: 6,
       marketStatus: TwentyfourFiveMarketStatus.PRE_MARKET,
+      gatingSessionSource: undefined,
       data: { regular: emptyStreamData, extended: emptyStreamData, overnight: emptyStreamData },
     })
     // With no session params the real getSessionSchedule makes no tradinghours fetch

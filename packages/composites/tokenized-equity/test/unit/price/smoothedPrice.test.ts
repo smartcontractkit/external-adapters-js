@@ -98,6 +98,7 @@ describe('smoothedStreamPrice', () => {
         spread: 2n,
         decimals: 6,
         marketStatus: TwentyfourFiveMarketStatus.REGULAR,
+        gatingSessionSource: undefined,
         data: {
           regular: streams.regular,
           extended: streams.extended,
@@ -157,6 +158,7 @@ describe('smoothedStreamPrice', () => {
         spread: 2n,
         decimals: 7,
         marketStatus: TwentyfourFiveMarketStatus.REGULAR,
+        gatingSessionSource: undefined,
         data: {
           regular: emptyStreamData,
           extended: emptyStreamData,
@@ -185,6 +187,7 @@ describe('smoothedStreamPrice', () => {
         spread: 2n,
         decimals: 6,
         marketStatus: TwentyfourFiveMarketStatus.REGULAR,
+        gatingSessionSource: undefined,
         data: {
           regular: emptyStreamData,
           extended: emptyStreamData,
@@ -248,6 +251,7 @@ describe('smoothedStreamPrice', () => {
         spread: 2n,
         decimals: 6,
         marketStatus: TwentyfourFiveMarketStatus.REGULAR,
+        gatingSessionSource: undefined,
         data: {
           regular: streams.regular,
           extended: streams.extended,
@@ -297,6 +301,7 @@ describe('smoothedStreamPrice', () => {
         spread: 2n,
         decimals: 6,
         marketStatus: TwentyfourFiveMarketStatus.POST_MARKET,
+        gatingSessionSource: undefined,
         data: { regular: emptyStreamData, extended: emptyStreamData, overnight: emptyStreamData },
       })
       mockGetSessionSchedule.mockResolvedValue({
@@ -340,6 +345,7 @@ describe('smoothedStreamPrice', () => {
         spread: 2n,
         decimals: 6,
         marketStatus: TwentyfourFiveMarketStatus.PRE_MARKET,
+        gatingSessionSource: undefined,
         data: { regular: emptyStreamData, extended: emptyStreamData, overnight: emptyStreamData },
       })
       mockGetSessionSchedule.mockResolvedValue({
@@ -357,6 +363,7 @@ describe('smoothedStreamPrice', () => {
         spread: 2n,
         decimals: 6,
         marketStatus: TwentyfourFiveMarketStatus.OVERNIGHT,
+        gatingSessionSource: undefined,
         data: { regular: emptyStreamData, extended: emptyStreamData, overnight: emptyStreamData },
       })
       mockGetSessionSchedule.mockResolvedValue({
@@ -395,6 +402,7 @@ describe('smoothedStreamPrice', () => {
         spread: 2n,
         decimals: 6,
         marketStatus: TwentyfourFiveMarketStatus.OVERNIGHT,
+        gatingSessionSource: undefined,
         data: { regular: emptyStreamData, extended: emptyStreamData, overnight: emptyStreamData },
       })
 
@@ -417,6 +425,7 @@ describe('smoothedStreamPrice', () => {
           spread: 2n,
           decimals: 6,
           marketStatus,
+          gatingSessionSource: undefined,
           data: { regular: emptyStreamData, extended: emptyStreamData, overnight: emptyStreamData },
         })
         mockGetSessionSchedule.mockResolvedValue({
@@ -446,6 +455,7 @@ describe('smoothedStreamPrice', () => {
         spread: 2n,
         decimals: 6,
         marketStatus: TwentyfourFiveMarketStatus.OVERNIGHT,
+        gatingSessionSource: undefined,
         data: { regular: emptyStreamData, extended: emptyStreamData, overnight: emptyStreamData },
       })
       mockProcessOvernightUpdate.mockReturnValue({ price: 500_000n, x: 0n, p: 0 })
