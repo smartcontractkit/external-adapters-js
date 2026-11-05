@@ -2,7 +2,10 @@ import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framewor
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { calculateSecondsFromTransition } from '../../../src/lib/session/session'
+import {
+  calculateSecondsFromTransition,
+  getSessionSchedule,
+} from '../../../src/lib/session/session'
 import { getSessions } from '../../../src/lib/session/tradingHoursSession'
 
 describe('calculateSecondsFromTransition', () => {
@@ -412,5 +415,65 @@ describe('calculateSecondsFromTransition', () => {
 
       expect(result).toBeUndefined()
     })
+  })
+})
+
+describe('getSessionSchedule market-identity skip', () => {
+  beforeAll(() => {
+    jest.useFakeTimers()
+    LoggerFactoryProvider.set()
+    jest.setSystemTime(new Date('2024-01-15T10:30:00Z').getTime()) // a Monday
+  })
+
+  afterAll(() => {
+    jest.useRealTimers()
+  })
+
+  it.each([
+    ['neither param', undefined, undefined],
+    ['only sessionMarket', 'nyse', undefined],
+    ['only sessionMarketType', undefined, '24/5'],
+  ])(
+    'makes no tradinghours request and returns no schedule when %s is passed',
+    async (_name, sessionMarket, sessionMarketType) => {
+      const requester = { request: jest.fn() } as unknown as Requester
+
+      const result = await getSessionSchedule(
+        'https://tradinghours.example.com',
+        requester,
+        [],
+        undefined,
+        sessionMarket,
+        sessionMarketType,
+      )
+
+      // No market identity → nothing to gate against and no timezone for the fetch:
+      // no request, no transitions, no fallback — the caller skips gating entirely.
+      expect(requester.request).not.toHaveBeenCalled()
+      expect(result).toEqual({ fallbackTransitions: undefined })
+    },
+  )
+
+  it('fetches and keys the fallback when both params are present', async () => {
+    const requester = {
+      request: jest.fn().mockResolvedValue({
+        response: {
+          data: { data: { result: [] }, statusCode: 200 },
+        },
+      }),
+    } as unknown as Requester
+
+    const result = await getSessionSchedule(
+      'https://tradinghours.example.com',
+      requester,
+      [],
+      undefined,
+      'nyse',
+      '24/5',
+    )
+
+    expect(requester.request).toHaveBeenCalled()
+    expect(result.transitions).toEqual([])
+    expect(result.fallbackTransitions).toBeDefined()
   })
 })

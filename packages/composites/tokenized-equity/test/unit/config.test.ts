@@ -1,9 +1,7 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { resolveStreamMaxAgeSeconds, settingsDefinition } from '../../src/config'
 
-// PR1 checkpoint 1: config schema + resolution for the DS_VALID_MAX_AGE_SECONDS family
-// (DF-28181). resolveStreamMaxAgeSeconds does not exist yet — expected to fail until
-// checkpoint 2.
+// Config schema + resolution for the DS_VALID_MAX_AGE_SECONDS family.
 
 describe('config: DS_VALID_MAX_AGE_SECONDS', () => {
   const OLD_ENV = process.env

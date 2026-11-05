@@ -4,9 +4,9 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
 
-// PR1 checkpoint 1 (DF-28181): with no DS_VALID_MAX_AGE_SECONDS configured the staleness check
-// is disabled and stale reports pass through — the safe-rollout/rollback behavior. An adapter
-// can only boot once per test file, so this lives apart from adapter-price-staleness.test.ts
+// With no DS_VALID_MAX_AGE_SECONDS configured the staleness check is disabled and
+// stale reports pass through — the safe-rollout/rollback behavior. An adapter can only
+// boot once per test file, so this lives apart from adapter-price-staleness.test.ts
 // (which boots with the check enabled).
 
 const NOW_MS = new Date('2001-01-01T11:11:11.111Z').getTime()
@@ -14,7 +14,7 @@ const NOW_MS = new Date('2001-01-01T11:11:11.111Z').getTime()
 const nsAtAge = (ageSeconds: number) =>
   String(BigInt(Math.round(NOW_MS - ageSeconds * 1000)) * 10n ** 6n)
 
-describe('price endpoint staleness disabled (DF-28181)', () => {
+describe('price endpoint staleness disabled', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv

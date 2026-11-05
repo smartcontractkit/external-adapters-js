@@ -2,9 +2,9 @@ import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framewor
 import { getFallbackSessionTransitions } from '../../../src/lib/session/fallbackSessionSchedule'
 import { SessionTransition } from '../../../src/lib/session/tradingHoursSession'
 
-// Tests for the hard-coded fallback session schedule (DF-28181): gating's labeled
-// last-resort schedule when tradinghours is unavailable or unusable. Keyed by
-// market/type; initially nyse/24/5 only. Never derived from sessionBoundaries.
+// Tests for the hard-coded fallback session schedule: gating's labeled last-resort
+// schedule when tradinghours is unavailable or unusable. Keyed by market/type;
+// initially nyse/24/5 only. Never derived from sessionBoundaries.
 
 const at = (iso: string) => new Date(iso).getTime()
 
