@@ -4131,6 +4131,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/spiro-adapter@workspace:packages/sources/spiro":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/spiro-adapter@workspace:packages/sources/spiro"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.20.0"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    "@types/validator": "npm:13.15.10"
+    date-fns: "npm:4.1.0"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+    validator: "npm:13.15.26"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/stader-labs-adapter@workspace:packages/sources/stader-labs":
   version: 0.0.0-use.local
   resolution: "@chainlink/stader-labs-adapter@workspace:packages/sources/stader-labs"
@@ -11596,7 +11612,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/validator@npm:^13.15.3":
+"@types/validator@npm:13.15.10, @types/validator@npm:^13.15.3":
   version: 13.15.10
   resolution: "@types/validator@npm:13.15.10"
   checksum: 10/63117a776ced4d066d7fb63130d90ba487d38209dd45c25641ca1a6f5040e8394cc9a855750b919b72a923c5ffb51f8474f213b10b5aaa27d9db108bef07ad10
@@ -20676,7 +20692,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"validator@npm:^13.15.20, validator@npm:^13.6.0":
+"validator@npm:13.15.26, validator@npm:^13.15.20, validator@npm:^13.6.0":
   version: 13.15.26
   resolution: "validator@npm:13.15.26"
   checksum: 10/22488ae718ca724eda81b7c8bf505005d4d70cb6ff9a319f48fd897a31d40fd9a2971af4a3288667a04c56b4f95912555495519d54a5d8d63c2572bf4970081a
