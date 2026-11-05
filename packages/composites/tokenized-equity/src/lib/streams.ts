@@ -30,7 +30,37 @@ export type StreamMaxAgeSeconds = {
 export type SessionStartGating = {
   transitions?: SessionTransition[]
   fallbackTransitions?: SessionTransition[]
+  // Test hook: when set, gate against the NEXT start of this session (the first
+  // tradinghours transition strictly after now) instead of the current session's
+  // start — deterministically forcing the pre-session rejection. Resolved from the
+  // tradinghours schedule only (never the hard-coded fallback); when no future
+  // transition exists the check fails closed (503). Does not affect stream
+  // selection, smoothing, or the staleness check.
+  marketSessionOverride?: TwentyfourFiveMarketStatus
 }
+
+// Earliest transition strictly after `now` whose status opens `status` — the next
+// start of the named session. Used only by the marketSessionOverride test hook.
+const nextSessionStartMs = (
+  status: TwentyfourFiveMarketStatus,
+  transitions: SessionTransition[],
+  nowMs: number,
+): number | undefined =>
+  transitions
+    .filter((t) => t.status === status && t.timeMs > nowMs)
+    .reduce<number | undefined>(
+      (min, t) => (min === undefined || t.timeMs < min ? t.timeMs : min),
+      undefined,
+    )
+
+// Marker appended to gating error messages and PRE_SESSION descriptions so a
+// rejection forced by marketSessionOverride is unmistakable in staging logs.
+const overrideMarker = (sessionStartGating: SessionStartGating): string =>
+  sessionStartGating.marketSessionOverride !== undefined
+    ? ` [marketSessionOverride=${
+        TwentyfourFiveMarketStatus[sessionStartGating.marketSessionOverride]
+      }]`
+    : ''
 
 // Latest transition at or before `now` whose status opens one of `statuses` — i.e. the
 // start time of the currently active session for a stream eligible in `statuses`.
@@ -116,7 +146,7 @@ const describeCandidate = (c: StreamCandidate, sessionStartGating?: SessionStart
   if (preSession !== undefined) {
     return `${c.name} PRE_SESSION(${status}, lastSeen ${preSession.toFixed(
       0,
-    )}s before session start)`
+    )}s before session start)${sessionStartGating ? overrideMarker(sessionStartGating) : ''}`
   }
   if (c.maxAgeSeconds !== undefined && age > c.maxAgeSeconds) {
     return `${c.name} STALE(${status}, age=${age.toFixed(0)}s>${c.maxAgeSeconds}s)`
@@ -132,10 +162,20 @@ const gatingSessionStartMs = (
   sessionStartGating: SessionStartGating,
   nowMs: number,
 ): number | undefined =>
-  (sessionStartGating.transitions &&
-    currentSessionStartMs(statuses, sessionStartGating.transitions, nowMs)) ??
-  (sessionStartGating.fallbackTransitions &&
-    currentSessionStartMs(statuses, sessionStartGating.fallbackTransitions, nowMs))
+  sessionStartGating.marketSessionOverride !== undefined
+    ? // Override: next start of the named session, tradinghours schedule only — the
+      // hard-coded fallback is deliberately not consulted (per design: no future
+      // transition in tradinghours means the check fails closed).
+      sessionStartGating.transitions &&
+      nextSessionStartMs(
+        sessionStartGating.marketSessionOverride,
+        sessionStartGating.transitions,
+        nowMs,
+      )
+    : (sessionStartGating.transitions &&
+        currentSessionStartMs(statuses, sessionStartGating.transitions, nowMs)) ??
+      (sessionStartGating.fallbackTransitions &&
+        currentSessionStartMs(statuses, sessionStartGating.fallbackTransitions, nowMs))
 
 // Seconds by which the report predates the current session start, or undefined when the
 // report is in-session (or gating is off / the session start is unknown).
@@ -206,7 +246,9 @@ const getStream = (
           statusCode: 503,
           message: `Session start unknown (no schedule available for ${
             TwentyfourFiveMarketStatus[value.marketStatus]
-          }): ${candidates.map((c) => describeCandidate(c, sessionStartGating)).join(', ')}`,
+          }): ${candidates
+            .map((c) => describeCandidate(c, sessionStartGating))
+            .join(', ')}${overrideMarker(sessionStartGating)}`,
         })
       }
       const lastSeenMs = reportTimeMs(value.lastSeenTimestampNs)
@@ -215,7 +257,7 @@ const getStream = (
           statusCode: 503,
           message: `Market data predates session start: ${candidates
             .map((c) => describeCandidate(c, sessionStartGating))
-            .join(', ')}`,
+            .join(', ')}${overrideMarker(sessionStartGating)}`,
         })
       }
     }

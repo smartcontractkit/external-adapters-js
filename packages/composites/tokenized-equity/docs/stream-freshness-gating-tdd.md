@@ -505,8 +505,9 @@ rejection totals (a vanity metric here — rejections rising is only bad if the 
 
 ## 8. Interface & Data Changes
 
-**API / request interface: unchanged.** No new request parameters; the response schema is
-unchanged. The only user-visible difference is _new 503 rejections with distinct messages_, and
+**API / request interface: unchanged for production traffic.** The response schema is
+unchanged; one optional request parameter (`marketSessionOverride`, a staging test hook — see
+below) is added. The only user-visible difference is _new 503 rejections with distinct messages_, and
 only when the new env config is enabled. The 200 path is byte-identical with everything off.
 
 **No DB, schema, migration, backfill, or event changes.** No state is introduced.
@@ -526,6 +527,33 @@ check is off for that stream. Overrides are independent.
 
 **Backwards compatibility:** full. Default config = legacy behavior exactly (decision matrix row
 1). **Rollback of the interface change:** unset the env vars; no code revert needed.
+
+### Test hook: `marketSessionOverride` request parameter
+
+To demonstrate the warm-up filter deterministically in staging (the real condition — a report
+timestamped before the session start — occurs only intermittently), the shared input definition
+accepts an optional `marketSessionOverride` parameter (any `TwentyfourFiveMarketStatus` value:
+`UNKNOWN`, `PRE_MARKET`, `REGULAR`, `POST_MARKET`, `OVERNIGHT`, `WEEKEND`).
+
+When present, the session-start gating check resolves the **next start of the named session**
+(first tradinghours transition strictly after now) instead of the current session's start, and
+the real comparison runs unchanged — any live report predates a future start, so the request is
+rejected with the genuine 503 `Market data predates session start: ... PRE_SESSION(...)` path.
+Scope and semantics:
+
+- **Gating check only.** Stream selection, smoother transition filtering, overnight warm-up, and
+  the staleness check are unaffected.
+- **Tradinghours schedule only.** The hard-coded fallback schedule is never consulted for the
+  override; if tradinghours has no future transition for the named session the check fails
+  closed with 503 `Session start unknown`.
+- **Validation.** 400 `AdapterInputError` if `marketSessionOverride` is present without both
+  `sessionMarket` and `sessionMarketType` (gating is skipped without market identity, so the
+  override would otherwise be silently ignored).
+- **Observability.** Override-forced rejections append `[marketSessionOverride=<STATUS>]` to the
+  503 message and the `PRE_SESSION(...)` description, so they are unmistakable in logs.
+- **No env guard** — the parameter is honored wherever it is passed. Requests carrying it get
+  their own subscription/cache entry (dedupe key includes it), so they cannot poison prices for
+  non-override subscribers of the same feed.
 
 ## 9. Security
 
