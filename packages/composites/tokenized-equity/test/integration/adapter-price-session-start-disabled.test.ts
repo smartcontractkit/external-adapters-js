@@ -4,9 +4,11 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
 
-// marketSessionOverride is a staging/test hook for the session-start check. With
-// SESSION_START_GATING_ENABLED unset the parameter is rejected with 400 rather than
-// silently ignored; UNKNOWN/WEEKEND are rejected with 400 by input validation in any
+// marketSessionOverride is a staging/test hook for the session-start check. It is
+// rejected with 400 unless ALLOW_MARKET_SESSION_OVERRIDE=true (unit-tested in
+// smoothedPrice.sessionStart.test.ts), and — even when allowed — rejected with 400
+// when SESSION_START_GATING_ENABLED is unset (tested here) rather than silently
+// ignored; UNKNOWN/WEEKEND are rejected with 400 by input validation in any
 // case (they can never match a tradinghours transition). An adapter can only boot
 // once per test file, so this lives apart from adapter-price-session-start.test.ts
 // (which boots with the check enabled).
@@ -36,6 +38,7 @@ describe('price endpoint session-start gating disabled', () => {
     process.env.TRADING_HOURS_ADAPTER_URL = 'http://trading-hours'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '1000'
     delete process.env.SESSION_START_GATING_ENABLED
+    process.env.ALLOW_MARKET_SESSION_OVERRIDE = 'true'
     spy = jest.spyOn(Date, 'now').mockReturnValue(NOW_MS)
 
     const adapter = (await import('../../src')).adapter

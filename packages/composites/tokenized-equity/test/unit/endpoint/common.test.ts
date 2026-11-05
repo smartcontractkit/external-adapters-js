@@ -1,13 +1,17 @@
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { config } from '../../../src/config'
 import { smoothedPriceInputValidation } from '../../../src/endpoint/common'
+import { makeSettings } from '../fixtures/settings'
 
 // Validation of the marketSessionOverride test hook: it is meaningless without
 // market identity (gating is skipped without sessionMarket/sessionMarketType), so
 // the request is rejected with 400 instead of silently ignoring the override.
 
 describe('marketSessionOverride input validation', () => {
-  const settings = config.settings
+  const settings = makeSettings({
+    SOURCE_ADAPTER_URL: {
+      get: () => 'http://adapter',
+    },
+  })
 
   const validate = (data: Record<string, unknown>) =>
     smoothedPriceInputValidation()({ requestContext: { data } } as never, settings)

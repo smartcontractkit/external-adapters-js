@@ -80,6 +80,14 @@ export const settingsDefinition = {
     sensitive: false,
   },
 
+  ALLOW_MARKET_SESSION_OVERRIDE: {
+    description:
+      'Allow the marketSessionOverride request parameter (a staging/test hook for the session-start gating check). Requests carrying marketSessionOverride are rejected with 400 unless this is set to true. Default false (disabled).',
+    type: 'boolean',
+    default: false,
+    sensitive: false,
+  },
+
   SESSION_START_GATING_ENABLED: {
     description:
       'Pre-open warm-up check: discard a selected data-engine report whose lastSeenTimestampNs is before the start of the current session (per the tradinghours market-session schedule). Requires the session* request params. Fails closed (503) when the session start cannot be determined. Default false (disabled).',

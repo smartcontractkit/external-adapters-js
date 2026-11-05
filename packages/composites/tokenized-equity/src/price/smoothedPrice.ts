@@ -18,6 +18,7 @@ export const smoothedStreamPrice = async (param: {
   overnightStreamMaxAgeInSeconds?: number
   streamMaxAgeSeconds?: StreamMaxAgeSeconds
   sessionStartGatingEnabled?: boolean
+  allowMarketSessionOverride?: boolean
   marketSessionOverride?: string
   url: string
   tradingHoursUrl: string
@@ -30,7 +31,14 @@ export const smoothedStreamPrice = async (param: {
   decimals: number
 }) => {
   // The override is a staging/test hook for the session-start check; reject it
-  // explicitly when that check is off instead of silently ignoring it.
+  // explicitly unless it has been opted into via config, and again when the check
+  // it hooks into is off, instead of silently ignoring it.
+  if (param.marketSessionOverride && !param.allowMarketSessionOverride) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Parameter marketSessionOverride requires ALLOW_MARKET_SESSION_OVERRIDE=true`,
+    })
+  }
   if (param.marketSessionOverride && !param.sessionStartGatingEnabled) {
     throw new AdapterInputError({
       statusCode: 400,

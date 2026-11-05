@@ -19,6 +19,7 @@ export const calculatePrice = async (param: {
   overnightStreamMaxAgeInSeconds?: number
   streamMaxAgeSeconds?: StreamMaxAgeSeconds
   sessionStartGatingEnabled?: boolean
+  allowMarketSessionOverride?: boolean
   marketSessionOverride?: string
   url: string
   tradingHoursUrl: string
