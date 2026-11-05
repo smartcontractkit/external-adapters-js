@@ -9,10 +9,10 @@ configured ISIN, and publishes that position's raw share count as SmartData v9
 
 `por`
 
-| Parameter     | Type   | Required | Description                                                                       |
-| ------------- | ------ | -------- | --------------------------------------------------------------------------------- |
-| `portfolioNo` | number | yes      | AMINA portfolio number. The API range is 100000000–999999999.                     |
-| `isin`        | string | yes      | ISIN of the position to publish. The API pattern is `^[A-Z]{2}[A-Z0-9]{9}[0-9]$`. |
+| Parameter     | Type   | Required | Description                      |
+| ------------- | ------ | -------- | -------------------------------- |
+| `portfolioNo` | number | yes      | AMINA portfolio number.          |
+| `isin`        | string | yes      | ISIN of the position to publish. |
 
 Example request:
 
@@ -26,15 +26,18 @@ Example request:
 
 ## Environment
 
-| Variable                 | Required | Description                                                                                           |
-| ------------------------ | -------- | ----------------------------------------------------------------------------------------------------- |
-| `API_ENDPOINT`           | yes      | AMINA HTTPS host, for example `https://integration-test.aminagroup.io`. Do not include `/api/b2c/v1`. |
-| `AMINA_USER_ID`          | yes      | AMINA 8-digit user ID.                                                                                |
-| `AMINA_PASSWORD`         | yes      | AMINA password.                                                                                       |
-| `AMINA_HMAC_SECRET`      | yes      | AMINA HMAC secret.                                                                                    |
-| `AMINA_AGREEMENT_NUMBER` | yes      | AMINA agreement number.                                                                               |
+| Variable                 | Required | Description                                                                                         |
+| ------------------------ | -------- | --------------------------------------------------------------------------------------------------- |
+| `API_ENDPOINT`           | yes      | AMINA API host, for example `https://integration-test.aminagroup.io`. Do not include `/api/b2c/v1`. |
+| `AMINA_USER_ID`          | yes      | AMINA user ID.                                                                                      |
+| `AMINA_PASSWORD`         | yes      | AMINA password.                                                                                     |
+| `AMINA_HMAC_SECRET`      | yes      | AMINA HMAC secret.                                                                                  |
+| `AMINA_AGREEMENT_NUMBER` | yes      | AMINA agreement number.                                                                             |
 
-The adapter keeps these tuning values as code constants, not deployment settings: 3 attempts, 2 second base delay, 40 second cap, 100 ms active cache check, 1 second idle sleep, 60 second error cache, and the user-agent. The required envs are the five AMINA connection values above.
+The adapter keeps the retry limits (3 attempts, 2 second base delay, 40 second
+cap) and the user-agent as code constants. Cache and background timing use
+framework defaults. The required envs are the five AMINA connection values
+above.
 
 ## Behaviour
 
@@ -43,14 +46,15 @@ The adapter keeps these tuning values as code constants, not deployment settings
   URI, signature, agreement header, and request IDs.
 - The access token is reused until it expires. A 401 refreshes the token, then
   falls back to a full login. The adapter retries the page once.
-- Pagination starts at page 0 with size 20 and follows `last` and `totalPages`
-  until the final page. It scans every page before selecting the ISIN.
+- Pagination starts at page 0 with size 20 and follows `last` until the final
+  page. It scans every page before selecting the ISIN.
 - A missing ISIN, duplicate ISIN, malformed position, malformed page, or
   exhausted retry returns 502 and writes no report.
 - Retryable errors are network errors, 429, and 5xx. The adapter uses
   exponential backoff capped at 40 seconds for auth and positions. 400, 401,
-  and 403 are not retried; a positions 401 gets one token refresh. A failed
-  response is cached for 60 seconds before a background retry.
+  and 403 are not retried; a positions 401 gets one token refresh. Failed
+  responses use the framework cache age before the next background attempt.
+- The adapter limits each instance to 10 requests per minute.
 - The response `aum` is the raw source quantity. The adapter does not scale or
   round it. The stream configuration owns `decimals`.
 - `validFrom`/`observations` use the first positions GET time. The adapter sets

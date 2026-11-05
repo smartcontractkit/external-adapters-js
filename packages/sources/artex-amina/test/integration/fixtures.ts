@@ -8,20 +8,8 @@ export const AGREEMENT = '157769'
 export const USER_AGENT = 'chainlink-artex-amina-adapter/1.0.0'
 export const USER_ID = '25742014'
 export const HMAC_SECRET = 'hmac-secret'
-
-export function jwt(payload: Record<string, unknown>): string {
-  return `header.${Buffer.from(JSON.stringify(payload)).toString('base64url')}.signature`
-}
-
-export const ACCESS_TOKEN = jwt({
-  amina_user_id: USER_ID,
-  exp: Math.floor(Date.now() / 1000) + 3600,
-})
-
-export const REFRESH_TOKEN = jwt({
-  amina_user_id: USER_ID,
-  exp: Math.floor(Date.now() / 1000) + 86400,
-})
+export const ACCESS_TOKEN = 'access-token'
+export const REFRESH_TOKEN = 'refresh-token'
 
 export function mockAuth(accessToken = ACCESS_TOKEN, refreshToken = REFRESH_TOKEN): nock.Scope {
   return nock(HOST)
@@ -46,9 +34,7 @@ export function position(isin = ISIN, quantity = 100.5): { isin: string; quantit
 export function page(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {
     positions: [],
-    totalPages: 1,
     last: true,
-    number: 0,
     ...overrides,
   }
 }

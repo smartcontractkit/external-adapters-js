@@ -1,10 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import {
-  AdapterConnectionError,
-  AdapterDataProviderError,
-  AdapterError,
-} from '@chainlink/external-adapter-framework/validation/error'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { authUrl, DEFAULT_RETRY, withRetry } from './utils'
 
 const ACCESS_TOKEN_TTL_MS = 60 * 60 * 1000
@@ -14,12 +10,6 @@ const TOKEN_EXPIRY_BUFFER_MS = 60 * 1000
 export interface AminaAuthResponse {
   accessToken: string
   refreshToken: string
-}
-
-export interface JwtPayload {
-  amina_user_id?: string | number
-  exp?: number
-  [key: string]: unknown
 }
 
 export interface AuthSettings {
@@ -41,7 +31,7 @@ function invalid(message: string): AdapterError {
   return new AdapterError({ statusCode: 502, message })
 }
 
-export function parseAuthResponse(data: unknown): AminaAuthResponse {
+function parseAuthResponse(data: unknown): AminaAuthResponse {
   if (!isRecord(data)) {
     throw invalid('AMINA auth response is not an object')
   }
@@ -54,20 +44,6 @@ export function parseAuthResponse(data: unknown): AminaAuthResponse {
   return { accessToken: data.accessToken, refreshToken: data.refreshToken }
 }
 
-export function parseJwtPayload(token: string): JwtPayload | undefined {
-  const parts = token.split('.')
-  if (parts.length !== 3) {
-    return undefined
-  }
-  try {
-    const decoded = Buffer.from(parts[1], 'base64url').toString('utf8')
-    const payload: unknown = JSON.parse(decoded)
-    return isRecord(payload) ? (payload as JwtPayload) : undefined
-  } catch {
-    return undefined
-  }
-}
-
 export class AuthManager {
   private access?: CachedToken
   private refresh?: CachedToken
@@ -75,7 +51,24 @@ export class AuthManager {
   constructor(private readonly requester: Requester, private readonly settings: AuthSettings) {}
 
   async getAccessToken(): Promise<string> {
-    if (this.access && Date.now() < this.access.expiresAtMs - TOKEN_EXPIRY_BUFFER_MS) {
+    return this.getToken(false)
+  }
+
+  async refreshAfter401(): Promise<string> {
+    return this.getToken(true)
+  }
+
+  reset(): void {
+    this.access = undefined
+    this.refresh = undefined
+  }
+
+  private async getToken(forceRefresh: boolean): Promise<string> {
+    if (
+      !forceRefresh &&
+      this.access &&
+      Date.now() < this.access.expiresAtMs - TOKEN_EXPIRY_BUFFER_MS
+    ) {
       return this.access.token
     }
     if (this.refresh && Date.now() < this.refresh.expiresAtMs - TOKEN_EXPIRY_BUFFER_MS) {
@@ -88,24 +81,6 @@ export class AuthManager {
     }
     await this.login()
     return this.currentAccessToken()
-  }
-
-  async refreshAfter401(): Promise<string> {
-    if (this.refresh && Date.now() < this.refresh.expiresAtMs - TOKEN_EXPIRY_BUFFER_MS) {
-      try {
-        await this.refreshTokens()
-        return this.currentAccessToken()
-      } catch {
-        // The refresh token was rejected. Fall back to a full login.
-      }
-    }
-    await this.login()
-    return this.currentAccessToken()
-  }
-
-  reset(): void {
-    this.access = undefined
-    this.refresh = undefined
   }
 
   private currentAccessToken(): string {
@@ -143,72 +118,26 @@ export class AuthManager {
     kind: 'login' | 'refresh',
     body: Record<string, string>,
   ): Promise<AminaAuthResponse> {
-    try {
-      const result = await withRetry(
-        () =>
-          this.requester.request<unknown>(`amina-auth-${kind}:${Date.now()}:${randomUUID()}`, {
-            method: 'POST',
-            url: authUrl(this.settings.apiEndpoint),
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Request-Id': randomUUID(),
-              'X-Correlation-Id': randomUUID(),
-            },
-            data: body,
-          }),
-        DEFAULT_RETRY,
-      )
-      return parseAuthResponse(result.response.data)
-    } catch (error) {
-      if (error instanceof AdapterDataProviderError) {
-        throw new AdapterError({
-          statusCode: 502,
-          providerStatusCode: error.providerStatusCode,
-          message: `AMINA auth failed with status ${error.providerStatusCode ?? 'unknown'}`,
-        })
-      }
-      if (error instanceof AdapterConnectionError) {
-        throw new AdapterError({
-          statusCode: 502,
-          message: 'AMINA auth connection failed',
-        })
-      }
-      if (error instanceof AdapterError) {
-        throw error
-      }
-      throw new AdapterError({
-        statusCode: 502,
-        message: 'AMINA auth failed',
-      })
-    }
+    const result = await withRetry(
+      () =>
+        this.requester.request<unknown>(`amina-auth-${kind}:${Date.now()}:${randomUUID()}`, {
+          method: 'POST',
+          url: authUrl(this.settings.apiEndpoint),
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Request-Id': randomUUID(),
+            'X-Correlation-Id': randomUUID(),
+          },
+          data: body,
+        }),
+      DEFAULT_RETRY,
+    )
+    return parseAuthResponse(result.response.data)
   }
 
   private store(auth: AminaAuthResponse): void {
-    const accessPayload = parseJwtPayload(auth.accessToken)
-    if (
-      accessPayload?.amina_user_id !== undefined &&
-      String(accessPayload.amina_user_id) !== this.settings.userId
-    ) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: 'AMINA access token amina_user_id does not match AMINA_USER_ID',
-      })
-    }
-
     const now = Date.now()
-    const accessExpiry =
-      accessPayload && typeof accessPayload.exp === 'number' && Number.isFinite(accessPayload.exp)
-        ? accessPayload.exp * 1000
-        : now + ACCESS_TOKEN_TTL_MS
-    const refreshPayload = parseJwtPayload(auth.refreshToken)
-    const refreshExpiry =
-      refreshPayload &&
-      typeof refreshPayload.exp === 'number' &&
-      Number.isFinite(refreshPayload.exp)
-        ? refreshPayload.exp * 1000
-        : now + REFRESH_TOKEN_TTL_MS
-
-    this.access = { token: auth.accessToken, expiresAtMs: accessExpiry }
-    this.refresh = { token: auth.refreshToken, expiresAtMs: refreshExpiry }
+    this.access = { token: auth.accessToken, expiresAtMs: now + ACCESS_TOKEN_TTL_MS }
+    this.refresh = { token: auth.refreshToken, expiresAtMs: now + REFRESH_TOKEN_TTL_MS }
   }
 }

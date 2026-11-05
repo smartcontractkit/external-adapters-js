@@ -31,8 +31,8 @@ function pageResponse(data: unknown, requested = 1_000, received = 2_000) {
   }
 }
 
-function page(overrides: Record<string, unknown>) {
-  return { positions: [], totalPages: 1, last: true, number: 0, ...overrides }
+function page(overrides: Record<string, unknown> = {}) {
+  return { positions: [], last: true, ...overrides }
 }
 
 function providerError(status: number): AdapterDataProviderError {
@@ -47,6 +47,14 @@ function providerError(status: number): AdapterDataProviderError {
 }
 
 describe('AMINA transport', () => {
+  beforeAll(() => {
+    Object.assign(DEFAULT_RETRY, { maxAttempts: 1, baseDelayMs: 0, maxDelayMs: 0 })
+  })
+
+  afterAll(() => {
+    Object.assign(DEFAULT_RETRY, { maxAttempts: 3, baseDelayMs: 2_000, maxDelayMs: 40_000 })
+  })
+
   it('signs the manual HMAC example', () => {
     const payload = buildHmacPayload({
       method: 'GET',
@@ -84,27 +92,17 @@ describe('AMINA transport', () => {
   it('fetches all pages and keeps first/last timestamps', async () => {
     const requester = { request: jest.fn() }
     const auth = { getAccessToken: jest.fn().mockResolvedValue('token') }
-    Object.assign(DEFAULT_RETRY, { maxAttempts: 1, baseDelayMs: 0, maxDelayMs: 0 })
     requester.request
       .mockResolvedValueOnce(
         pageResponse(
-          page({
-            positions: [{ isin: 'OTHER', quantity: 1 }],
-            totalPages: 2,
-            last: false,
-            number: 0,
-          }),
+          page({ positions: [{ isin: 'OTHER', quantity: 1 }], last: false }),
           1_000,
           1_100,
         ),
       )
       .mockResolvedValueOnce(
         pageResponse(
-          page({
-            positions: [{ isin: 'US0378331005', quantity: 100.5 }],
-            totalPages: 2,
-            number: 1,
-          }),
+          page({ positions: [{ isin: 'US0378331005', quantity: 100.5 }] }),
           1_200,
           1_300,
         ),
@@ -127,27 +125,15 @@ describe('AMINA transport', () => {
   })
 
   it.each([
-    ['page number mismatch', [{ totalPages: 2, last: false, number: 1 }], 'AMINA returned page 1'],
-    ['last=false at totalPages', [{ totalPages: 1, last: false, number: 0 }], 'AMINA paging ended'],
-    ['last=true before totalPages', [{ totalPages: 2, last: true, number: 0 }], 'AMINA last=true'],
+    ['a page without positions', { last: true }, 'AMINA positions response has no positions array'],
     [
-      'totalPages change',
-      [
-        { totalPages: 3, last: false, number: 0 },
-        { totalPages: 2, last: true, number: 1 },
-      ],
-      'AMINA totalPages changed',
+      'a position with an invalid quantity',
+      page({ positions: [{ isin: 'US0378331005', quantity: -1 }] }),
+      'AMINA position 0 has an invalid quantity',
     ],
-    [
-      'missing number',
-      [{ totalPages: 1, last: true, number: undefined }],
-      'AMINA positions response has an invalid number',
-    ],
-  ])('rejects %s', async (_, pages, message) => {
-    const requester = { request: jest.fn() }
+  ])('rejects %s', async (_, data, message) => {
+    const requester = { request: jest.fn().mockResolvedValueOnce(pageResponse(data)) }
     const auth = { getAccessToken: jest.fn().mockResolvedValue('token') }
-    Object.assign(DEFAULT_RETRY, { maxAttempts: 1, baseDelayMs: 0, maxDelayMs: 0 })
-    pages.forEach((p) => requester.request.mockResolvedValueOnce(pageResponse(page(p))))
 
     await expect(
       fetchAllPositions({
@@ -160,8 +146,8 @@ describe('AMINA transport', () => {
   })
 
   it.each([
-    ['500', providerError(500), 2],
-    ['429', providerError(429), 2],
+    ['500', providerError(500)],
+    ['429', providerError(429)],
     [
       'connection',
       new AdapterConnectionError(
@@ -172,9 +158,8 @@ describe('AMINA transport', () => {
           providerIndicatedTimeUnixMs: undefined,
         },
       ),
-      2,
     ],
-  ])('retries %s and then succeeds', async (_, error, calls) => {
+  ])('retries %s and then succeeds', async (_, error) => {
     const fn = jest
       .fn<Promise<string>, []>()
       .mockRejectedValueOnce(error)
@@ -183,7 +168,7 @@ describe('AMINA transport', () => {
     await expect(withRetry(fn, { maxAttempts: 3, baseDelayMs: 0, maxDelayMs: 0 })).resolves.toBe(
       'ok',
     )
-    expect(fn).toHaveBeenCalledTimes(calls)
+    expect(fn).toHaveBeenCalledTimes(2)
     expect(isRetryableError(error)).toBe(true)
   })
 

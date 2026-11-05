@@ -10,10 +10,6 @@ import { mapAminaError } from './utils'
 
 const logger = makeLogger('PorTransport')
 
-const ACTIVE_CACHE_CHECK_MS = 100
-const IDLE_BACKGROUND_MS = 1_000
-const ERROR_CACHE_TTL_MS = 60_000
-
 type RequestParams = typeof inputParameters.validated
 
 class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
@@ -38,7 +34,7 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async backgroundHandler(
-    _context: EndpointContext<BaseEndpointTypes>,
+    context: EndpointContext<BaseEndpointTypes>,
     entries: RequestParams[],
   ): Promise<void> {
     for (const param of entries) {
@@ -48,7 +44,7 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
         await this.handleRequest(param)
       }
     }
-    await sleep(entries.length > 0 ? ACTIVE_CACHE_CHECK_MS : IDLE_BACKGROUND_MS)
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
   }
 
   async handleRequest(param: RequestParams): Promise<void> {
@@ -69,9 +65,6 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
       }
     }
     await this.responseCache.write(this.name, [{ params: param, response }])
-    if (response.statusCode !== 200) {
-      await this.responseCache.writeTTL(this.name, [param], ERROR_CACHE_TTL_MS)
-    }
   }
 
   async _handleRequest(

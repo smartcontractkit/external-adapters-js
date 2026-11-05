@@ -2,11 +2,6 @@ import type { Requester } from '@chainlink/external-adapter-framework/util/reque
 import { AuthManager } from '../../src/transport/auth'
 
 const NOW = new Date('2026-11-05T00:00:00Z').getTime()
-const NOW_S = Math.floor(NOW / 1000)
-
-function jwt(payload: Record<string, unknown>): string {
-  return `header.${Buffer.from(JSON.stringify(payload)).toString('base64url')}.signature`
-}
 
 function authResponse(accessToken: string, refreshToken: string) {
   return {
@@ -39,12 +34,10 @@ describe('AuthManager', () => {
   })
 
   it('logs in and reuses the access token', async () => {
-    const accessToken = jwt({ amina_user_id: '25742014', exp: NOW_S + 3600 })
-    const refreshToken = jwt({ amina_user_id: '25742014', exp: NOW_S + 86400 })
-    requester.request.mockResolvedValueOnce(authResponse(accessToken, refreshToken))
+    requester.request.mockResolvedValueOnce(authResponse('access-1', 'refresh-1'))
 
-    await expect(manager.getAccessToken()).resolves.toBe(accessToken)
-    await expect(manager.getAccessToken()).resolves.toBe(accessToken)
+    await expect(manager.getAccessToken()).resolves.toBe('access-1')
+    await expect(manager.getAccessToken()).resolves.toBe('access-1')
 
     expect(requester.request).toHaveBeenCalledTimes(1)
     const [key, request] = requester.request.mock.calls[0]
@@ -56,35 +49,18 @@ describe('AuthManager', () => {
     })
   })
 
-  it('refreshes an expired access token', async () => {
-    const firstAccess = jwt({ amina_user_id: '25742014', exp: NOW_S + 1 })
-    const firstRefresh = jwt({ amina_user_id: '25742014', exp: NOW_S + 86400 })
-    const secondAccess = jwt({ amina_user_id: '25742014', exp: NOW_S + 3600 })
-    const secondRefresh = jwt({ amina_user_id: '25742014', exp: NOW_S + 86400 })
+  it('refreshes the access token after one hour', async () => {
     requester.request
-      .mockResolvedValueOnce(authResponse(firstAccess, firstRefresh))
-      .mockResolvedValueOnce(authResponse(secondAccess, secondRefresh))
+      .mockResolvedValueOnce(authResponse('access-1', 'refresh-1'))
+      .mockResolvedValueOnce(authResponse('access-2', 'refresh-2'))
 
-    await expect(manager.getAccessToken()).resolves.toBe(firstAccess)
-    await expect(manager.getAccessToken()).resolves.toBe(secondAccess)
+    await expect(manager.getAccessToken()).resolves.toBe('access-1')
+    jest.setSystemTime(new Date(NOW + 2 * 60 * 60 * 1000))
+    await expect(manager.getAccessToken()).resolves.toBe('access-2')
 
     expect(requester.request).toHaveBeenCalledTimes(2)
-    expect(requester.request.mock.calls[1][1].data).toEqual({ refreshToken: firstRefresh })
-  })
-
-  it('rejects an access token for a different AMINA user', async () => {
-    const accessToken = jwt({ amina_user_id: '99999999', exp: NOW_S + 3600 })
-    const refreshToken = jwt({ amina_user_id: '99999999', exp: NOW_S + 86400 })
-    requester.request.mockResolvedValueOnce(authResponse(accessToken, refreshToken))
-
-    await expect(manager.getAccessToken()).rejects.toThrow(
-      'AMINA access token amina_user_id does not match AMINA_USER_ID',
-    )
-  })
-
-  it('accepts an opaque access token', async () => {
-    requester.request.mockResolvedValueOnce(authResponse('opaque-access', 'opaque-refresh'))
-
-    await expect(manager.getAccessToken()).resolves.toBe('opaque-access')
+    const [key, request] = requester.request.mock.calls[1]
+    expect(key).toMatch(/^amina-auth-refresh:/)
+    expect(request.data).toEqual({ refreshToken: 'refresh-1' })
   })
 })
