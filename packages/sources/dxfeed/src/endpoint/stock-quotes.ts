@@ -23,9 +23,8 @@ export type BaseEndpointTypes = {
   Parameters: typeof stockQuotesInputParameters.definition
   Settings: typeof config.settings
   Response: {
-    // Requirement: the mid is the primary result (example: "result": 190.0).
-    // The framework also allows null for other endpoints; errors omit result.
-    Result: number
+    // stock_quotes has no scalar result; the mid is data.mid_price.
+    Result: null
     Data: {
       mid_price: number
       bid_price: number

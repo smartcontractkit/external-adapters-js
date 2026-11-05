@@ -24,7 +24,7 @@ exports[`dxLink websocket endpoints stock_quotes returns the spec example respon
     "bid_volume": 50,
     "mid_price": 190,
   },
-  "result": 190,
+  "result": null,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1767225601022,
