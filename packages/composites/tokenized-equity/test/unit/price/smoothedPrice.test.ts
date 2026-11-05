@@ -4,7 +4,7 @@ import { calculateSecondsFromTransition } from '../../../src/lib/session/session
 import { processOvernightUpdate } from '../../../src/lib/smoother/overnightSmoother'
 import { processUpdate } from '../../../src/lib/smoother/smoother'
 import { getPrice } from '../../../src/lib/streams'
-import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
+import { smoothedStreamPrice } from '../../../src/price/smoothedPrice'
 
 jest.mock('../../../src/lib/streams', () => ({ getPrice: jest.fn() }))
 const mockGetPrice = getPrice as jest.MockedFunction<typeof getPrice>

@@ -7,7 +7,7 @@ import { AdapterError } from '@chainlink/external-adapter-framework/validation/e
 import { JsonRpcProvider } from 'ethers'
 import { Smoother } from '../endpoint/common'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/xstocks'
-import { calculatePrice } from './xstocksPrice'
+import { calculatePrice } from '../price/xstocksPrice'
 
 const logger = makeLogger('XstocksTransport')
 

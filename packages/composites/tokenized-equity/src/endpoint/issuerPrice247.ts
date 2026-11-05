@@ -3,7 +3,7 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { issuerNames, issuers, MULTIPLIER_DECIMALS } from '../issuers'
 import { DataEngineV11Data, priceFields, targetEndpointNames } from '../lib/dataEngine'
-import { issuerPrice247Transport } from '../transport/issuerPrice247'
+import { issuerPrice247Transport } from '../transport/issuerPrice247Transport'
 
 export const inputParameters = new InputParameters(
   {

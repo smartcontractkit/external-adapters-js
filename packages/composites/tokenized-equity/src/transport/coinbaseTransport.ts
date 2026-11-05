@@ -7,7 +7,7 @@ import { AdapterError } from '@chainlink/external-adapter-framework/validation/e
 import { JsonRpcProvider } from 'ethers'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/coinbase'
 import { Smoother } from '../endpoint/common'
-import { calculatePrice } from './coinbasePrice'
+import { calculatePrice } from '../price/coinbasePrice'
 
 const logger = makeLogger('CoinbaseTransport')
 
