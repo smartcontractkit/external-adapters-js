@@ -112,6 +112,7 @@ export const endpoint = new AdapterEndpoint({
     if (data.multiplier) {
       issuers[data.multiplier.issuer].validate(settings, data.multiplier)
     }
+    settings.SOURCE_ADAPTER_URL.get('DATA_ENGINE')
     return undefined
   },
 })
