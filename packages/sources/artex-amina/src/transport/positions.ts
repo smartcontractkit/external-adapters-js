@@ -1,19 +1,38 @@
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import type { AuthManager } from './auth'
-import { MAX_PAGES, PAGE_SIZE, positionsPath, trimEndpoint } from './constants'
-import { formatErrorBody, mapAminaError } from './errors'
-import { providerStatus, type RetryOptions, withRetry } from './retry'
 import { buildSignedGetHeaders } from './signing'
-import { type AminaPosition, type AminaPositionsPage, parsePositionsPage } from './types'
+import {
+  DEFAULT_RETRY,
+  formatErrorBody,
+  mapAminaError,
+  positionsPath,
+  providerStatus,
+  trimEndpoint,
+  USER_AGENT,
+  withRetry,
+} from './utils'
+
+const PAGE_SIZE = 20
+const MAX_PAGES = 100
+
+export interface AminaPosition {
+  isin: string
+  quantity: number
+}
+
+export interface AminaPositionsPage {
+  positions: AminaPosition[]
+  totalPages: number
+  last: boolean
+  number: number
+}
 
 export interface PositionsSettings {
   apiEndpoint: string
   userId: string
   hmacSecret: string
   agreementNumber: string
-  userAgent: string
-  retry: RetryOptions
 }
 
 export interface PositionsResult {
@@ -35,6 +54,56 @@ export interface FetchPositionsArgs {
   portfolioNo: number
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function invalid(message: string): AdapterError {
+  return new AdapterError({ statusCode: 502, message })
+}
+
+function parsePosition(raw: unknown, index: number): AminaPosition {
+  if (!isRecord(raw)) {
+    throw invalid(`AMINA position ${index} is not an object`)
+  }
+  if (typeof raw.isin !== 'string' || raw.isin.length === 0) {
+    throw invalid(`AMINA position ${index} has no isin`)
+  }
+  if (typeof raw.quantity !== 'number' || !Number.isFinite(raw.quantity) || raw.quantity < 0) {
+    throw invalid(`AMINA position ${index} has an invalid quantity`)
+  }
+  return { isin: raw.isin, quantity: raw.quantity }
+}
+
+export function parsePositionsPage(data: unknown): AminaPositionsPage {
+  if (!isRecord(data)) {
+    throw invalid('AMINA positions response is not an object')
+  }
+  if (!Array.isArray(data.positions)) {
+    throw invalid('AMINA positions response has no positions array')
+  }
+  const positions = data.positions.map(parsePosition)
+  if (
+    typeof data.totalPages !== 'number' ||
+    !Number.isInteger(data.totalPages) ||
+    data.totalPages < 0
+  ) {
+    throw invalid('AMINA positions response has an invalid totalPages')
+  }
+  if (typeof data.last !== 'boolean') {
+    throw invalid('AMINA positions response has an invalid last')
+  }
+  if (typeof data.number !== 'number' || !Number.isInteger(data.number) || data.number < 0) {
+    throw invalid('AMINA positions response has an invalid number')
+  }
+  return {
+    positions,
+    totalPages: data.totalPages,
+    last: data.last,
+    number: data.number,
+  }
+}
+
 async function fetchPage(args: FetchPositionsArgs, pageNo: number): Promise<PageResult> {
   const { requester, auth, settings, portfolioNo } = args
   const uri = positionsPath(portfolioNo)
@@ -50,18 +119,18 @@ async function fetchPage(args: FetchPositionsArgs, pageNo: number): Promise<Page
         userId: settings.userId,
         hmacSecret: settings.hmacSecret,
         agreementNumber: settings.agreementNumber,
-        userAgent: settings.userAgent,
+        userAgent: USER_AGENT,
       }),
     })
 
   let token = await auth.getAccessToken()
   let result: Awaited<ReturnType<typeof makeRequest>>
   try {
-    result = await withRetry(() => makeRequest(token), settings.retry)
+    result = await withRetry(() => makeRequest(token), DEFAULT_RETRY)
   } catch (error) {
     if (providerStatus(error) === 401) {
       token = await auth.refreshAfter401()
-      result = await withRetry(() => makeRequest(token), settings.retry)
+      result = await withRetry(() => makeRequest(token), DEFAULT_RETRY)
     } else {
       throw mapAminaError(error)
     }

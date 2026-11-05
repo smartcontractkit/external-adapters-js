@@ -33,12 +33,8 @@ Example request:
 | `AMINA_PASSWORD`         | yes      | AMINA password.                                                                                       |
 | `AMINA_HMAC_SECRET`      | yes      | AMINA HMAC secret.                                                                                    |
 | `AMINA_AGREEMENT_NUMBER` | yes      | AMINA agreement number.                                                                               |
-| `AMINA_USER_AGENT`       | no       | User-Agent header. Default: `chainlink-artex-amina-adapter/1.0.0`.                                    |
-| `BACKGROUND_EXECUTE_MS`  | no       | Idle background sleep. Active cache entries are checked every 100 ms. Default: 1000.                  |
-| `MAX_ATTEMPTS`           | no       | Maximum attempts for a retryable request. Default: 3.                                                 |
-| `RETRY_BASE_DELAY_MS`    | no       | Base retry delay. Default: 2000.                                                                      |
-| `RETRY_MAX_DELAY_MS`     | no       | Maximum retry delay. Default: 40000.                                                                  |
-| `ERROR_CACHE_TTL_MS`     | no       | How long a failed response stays cached before a retry. Default: 60000.                               |
+
+The adapter keeps these tuning values as code constants, not deployment settings: 3 attempts, 2 second base delay, 40 second cap, 100 ms active cache check, 1 second idle sleep, 60 second error cache, and the user-agent. The required envs are the five AMINA connection values above.
 
 ## Behaviour
 
@@ -54,7 +50,7 @@ Example request:
 - Retryable errors are network errors, 429, and 5xx. The adapter uses
   exponential backoff capped at 40 seconds for auth and positions. 400, 401,
   and 403 are not retried; a positions 401 gets one token refresh. A failed
-  response is cached for `ERROR_CACHE_TTL_MS` before a background retry.
+  response is cached for 60 seconds before a background retry.
 - The response `aum` is the raw source quantity. The adapter does not scale or
   round it. The stream configuration owns `decimals`.
 - `validFrom`/`observations` use the first positions GET time. The adapter sets

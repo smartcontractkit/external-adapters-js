@@ -3,21 +3,22 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
+import { DEFAULT_RETRY } from '../../src/transport/utils'
 import {
   AGREEMENT,
   HOST,
   ISIN,
   mockAuth,
   mockPositions,
-  PORTFOLIO_NO,
   page,
+  PORTFOLIO_NO,
   position,
-  USER_AGENT,
 } from './fixtures'
 
 describe('execute', () => {
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
+  let dateSpy: jest.SpyInstance
 
   beforeAll(async () => {
     oldEnv = { ...process.env }
@@ -26,13 +27,10 @@ describe('execute', () => {
     process.env.AMINA_PASSWORD = 'password'
     process.env.AMINA_HMAC_SECRET = 'hmac-secret'
     process.env.AMINA_AGREEMENT_NUMBER = AGREEMENT
-    process.env.AMINA_USER_AGENT = USER_AGENT
-    process.env.BACKGROUND_EXECUTE_MS = '0'
-    process.env.MAX_ATTEMPTS = '1'
-    process.env.RETRY_BASE_DELAY_MS = '0'
-    process.env.RETRY_MAX_DELAY_MS = '0'
+    Object.assign(DEFAULT_RETRY, { maxAttempts: 1, baseDelayMs: 0, maxDelayMs: 0 })
+    dateSpy = jest.spyOn(Date, 'now').mockReturnValue(new Date('2026-11-05T00:00:00Z').getTime())
 
-    const adapter = (await import('./../../src')).adapter
+    const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
@@ -44,16 +42,13 @@ describe('execute', () => {
     await testAdapter.api.close()
     nock.restore()
     nock.cleanAll()
+    dateSpy.mockRestore()
+    Object.assign(DEFAULT_RETRY, { maxAttempts: 3, baseDelayMs: 2_000, maxDelayMs: 40_000 })
   })
 
-  it('returns the selected position as aum with source timestamps', async () => {
+  it('returns the selected position as aum', async () => {
     mockAuth()
-    mockPositions(
-      0,
-      page({
-        positions: [position(ISIN, 100.5)],
-      }),
-    )
+    mockPositions(0, page({ positions: [position(ISIN, 100.5)] }))
 
     const response = await testAdapter.request({
       endpoint: 'por',
@@ -62,17 +57,16 @@ describe('execute', () => {
     })
 
     expect(response.statusCode).toBe(200)
-    const body = response.json()
-    expect(body.result).toBe(100.5)
-    expect(body.data.aum).toBe(100.5)
-    expect(body.data.ripcord).toBe(0)
-    expect(body.data.navPerShare).toBe(0)
-    expect(body.data.navDate).toBe(0)
-    expect(body.data.nativeFee).toBe(0)
-    expect(body.data.linkFee).toBe(0)
-    expect(body.timestamps.providerDataRequestedUnixMs).toBeGreaterThan(0)
-    expect(body.timestamps.providerIndicatedTimeUnixMs).toBe(
-      body.timestamps.providerDataRequestedUnixMs,
-    )
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it.each([
+    ['portfolioNo', { portfolioNo: 1, isin: ISIN }],
+    ['isin', { portfolioNo: PORTFOLIO_NO, isin: 'bad' }],
+  ])('rejects an invalid %s', async (field, data) => {
+    const response = await testAdapter.request({ endpoint: 'por', ...data })
+
+    expect(response.statusCode).toBe(400)
+    expect(response.json().error?.message).toContain(field)
   })
 })

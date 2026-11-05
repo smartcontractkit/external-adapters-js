@@ -5,11 +5,14 @@ import { type AdapterResponse, makeLogger, sleep } from '@chainlink/external-ada
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import type { BaseEndpointTypes, inputParameters } from '../endpoint/por'
 import { AuthManager } from './auth'
-import { ACTIVE_CACHE_CHECK_MS } from './constants'
-import { mapAminaError } from './errors'
 import { fetchAllPositions, selectQuantity } from './positions'
+import { mapAminaError } from './utils'
 
 const logger = makeLogger('PorTransport')
+
+const ACTIVE_CACHE_CHECK_MS = 100
+const IDLE_BACKGROUND_MS = 1_000
+const ERROR_CACHE_TTL_MS = 60_000
 
 type RequestParams = typeof inputParameters.validated
 
@@ -31,16 +34,11 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
       apiEndpoint: adapterSettings.API_ENDPOINT,
       userId: adapterSettings.AMINA_USER_ID,
       password: adapterSettings.AMINA_PASSWORD,
-      retry: {
-        maxAttempts: adapterSettings.MAX_ATTEMPTS,
-        baseDelayMs: adapterSettings.RETRY_BASE_DELAY_MS,
-        maxDelayMs: adapterSettings.RETRY_MAX_DELAY_MS,
-      },
     })
   }
 
   async backgroundHandler(
-    context: EndpointContext<BaseEndpointTypes>,
+    _context: EndpointContext<BaseEndpointTypes>,
     entries: RequestParams[],
   ): Promise<void> {
     for (const param of entries) {
@@ -50,9 +48,7 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
         await this.handleRequest(param)
       }
     }
-    await sleep(
-      entries.length > 0 ? ACTIVE_CACHE_CHECK_MS : context.adapterSettings.BACKGROUND_EXECUTE_MS,
-    )
+    await sleep(entries.length > 0 ? ACTIVE_CACHE_CHECK_MS : IDLE_BACKGROUND_MS)
   }
 
   async handleRequest(param: RequestParams): Promise<void> {
@@ -74,7 +70,7 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
     await this.responseCache.write(this.name, [{ params: param, response }])
     if (response.statusCode !== 200) {
-      await this.responseCache.writeTTL(this.name, [param], this.settings.ERROR_CACHE_TTL_MS)
+      await this.responseCache.writeTTL(this.name, [param], ERROR_CACHE_TTL_MS)
     }
   }
 
@@ -89,12 +85,6 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
         userId: this.settings.AMINA_USER_ID,
         hmacSecret: this.settings.AMINA_HMAC_SECRET,
         agreementNumber: this.settings.AMINA_AGREEMENT_NUMBER,
-        userAgent: this.settings.AMINA_USER_AGENT,
-        retry: {
-          maxAttempts: this.settings.MAX_ATTEMPTS,
-          baseDelayMs: this.settings.RETRY_BASE_DELAY_MS,
-          maxDelayMs: this.settings.RETRY_MAX_DELAY_MS,
-        },
       },
       portfolioNo: param.portfolioNo,
     })

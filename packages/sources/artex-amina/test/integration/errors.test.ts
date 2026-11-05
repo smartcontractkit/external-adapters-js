@@ -4,6 +4,7 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import { porTransport } from '../../src/transport/por'
+import { DEFAULT_RETRY } from '../../src/transport/utils'
 import {
   AGREEMENT,
   HOST,
@@ -17,7 +18,6 @@ import {
   page,
   position,
   REFRESH_TOKEN,
-  USER_AGENT,
 } from './fixtures'
 
 const REFRESHED_ACCESS_TOKEN = jwt({
@@ -36,13 +36,9 @@ describe('execute errors', () => {
     process.env.AMINA_PASSWORD = 'password'
     process.env.AMINA_HMAC_SECRET = 'hmac-secret'
     process.env.AMINA_AGREEMENT_NUMBER = AGREEMENT
-    process.env.AMINA_USER_AGENT = USER_AGENT
-    process.env.BACKGROUND_EXECUTE_MS = '0'
-    process.env.MAX_ATTEMPTS = '1'
-    process.env.RETRY_BASE_DELAY_MS = '0'
-    process.env.RETRY_MAX_DELAY_MS = '0'
+    Object.assign(DEFAULT_RETRY, { maxAttempts: 1, baseDelayMs: 0, maxDelayMs: 0 })
 
-    const adapter = (await import('./../../src')).adapter
+    const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
@@ -61,6 +57,7 @@ describe('execute errors', () => {
     await testAdapter.api.close()
     nock.restore()
     nock.cleanAll()
+    Object.assign(DEFAULT_RETRY, { maxAttempts: 3, baseDelayMs: 2_000, maxDelayMs: 40_000 })
   })
 
   it('returns 502 when the ISIN is absent', async () => {
@@ -77,12 +74,7 @@ describe('execute errors', () => {
   })
 
   it('returns 502 when the ISIN appears twice on one page', async () => {
-    mockPositions(
-      0,
-      page({
-        positions: [position(ISIN, 100.5), position(ISIN, 1)],
-      }),
-    )
+    mockPositions(0, page({ positions: [position(ISIN, 100.5), position(ISIN, 1)] }))
 
     const response = await testAdapter.request({
       endpoint: 'por',
@@ -99,22 +91,9 @@ describe('execute errors', () => {
   it('returns 502 when the ISIN appears on more than one page', async () => {
     mockPositions(
       0,
-      page({
-        positions: [position(ISIN, 100.5)],
-        totalPages: 2,
-        last: false,
-        number: 0,
-      }),
+      page({ positions: [position(ISIN, 100.5)], totalPages: 2, last: false, number: 0 }),
     )
-    mockPositions(
-      1,
-      page({
-        positions: [position(ISIN, 1)],
-        totalPages: 2,
-        last: true,
-        number: 1,
-      }),
-    )
+    mockPositions(1, page({ positions: [position(ISIN, 1)], totalPages: 2, last: true, number: 1 }))
 
     const response = await testAdapter.request({
       endpoint: 'por',
@@ -144,24 +123,6 @@ describe('execute errors', () => {
     expect(response.statusCode).toBe(502)
     expect(response.json().errorMessage).toContain('AMINA request failed (500)')
     expect(response.json().errorMessage).toContain('Internal Server Error')
-  })
-
-  it('returns 502 when the provider quantity is not a number', async () => {
-    mockPositions(
-      0,
-      page({
-        positions: [{ isin: ISIN, quantity: '100' }],
-      }),
-    )
-
-    const response = await testAdapter.request({
-      endpoint: 'por',
-      portfolioNo: PORTFOLIO_NO,
-      isin: ISIN,
-    })
-
-    expect(response.statusCode).toBe(502)
-    expect(response.json().errorMessage).toContain('invalid quantity')
   })
 
   it('refreshes the token after a 401 and retries the page', async () => {

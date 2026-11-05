@@ -5,25 +5,67 @@ import {
   AdapterDataProviderError,
   AdapterError,
 } from '@chainlink/external-adapter-framework/validation/error'
-import {
-  ACCESS_TOKEN_TTL_MS,
-  authUrl,
-  REFRESH_TOKEN_TTL_MS,
-  TOKEN_EXPIRY_BUFFER_MS,
-} from './constants'
-import { type RetryOptions, withRetry } from './retry'
-import { type AminaAuthResponse, parseAuthResponse, parseJwtPayload } from './types'
+import { authUrl, DEFAULT_RETRY, withRetry } from './utils'
+
+const ACCESS_TOKEN_TTL_MS = 60 * 60 * 1000
+const REFRESH_TOKEN_TTL_MS = 24 * 60 * 60 * 1000
+const TOKEN_EXPIRY_BUFFER_MS = 60 * 1000
+
+export interface AminaAuthResponse {
+  accessToken: string
+  refreshToken: string
+}
+
+export interface JwtPayload {
+  amina_user_id?: string | number
+  exp?: number
+  [key: string]: unknown
+}
 
 export interface AuthSettings {
   apiEndpoint: string
   userId: string
   password: string
-  retry: RetryOptions
 }
 
 interface CachedToken {
   token: string
   expiresAtMs: number
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function invalid(message: string): AdapterError {
+  return new AdapterError({ statusCode: 502, message })
+}
+
+export function parseAuthResponse(data: unknown): AminaAuthResponse {
+  if (!isRecord(data)) {
+    throw invalid('AMINA auth response is not an object')
+  }
+  if (typeof data.accessToken !== 'string' || data.accessToken.length === 0) {
+    throw invalid('AMINA auth response has no accessToken')
+  }
+  if (typeof data.refreshToken !== 'string' || data.refreshToken.length === 0) {
+    throw invalid('AMINA auth response has no refreshToken')
+  }
+  return { accessToken: data.accessToken, refreshToken: data.refreshToken }
+}
+
+export function parseJwtPayload(token: string): JwtPayload | undefined {
+  const parts = token.split('.')
+  if (parts.length !== 3) {
+    return undefined
+  }
+  try {
+    const decoded = Buffer.from(parts[1], 'base64url').toString('utf8')
+    const payload: unknown = JSON.parse(decoded)
+    return isRecord(payload) ? (payload as JwtPayload) : undefined
+  } catch {
+    return undefined
+  }
 }
 
 export class AuthManager {
@@ -114,7 +156,7 @@ export class AuthManager {
             },
             data: body,
           }),
-        this.settings.retry,
+        DEFAULT_RETRY,
       )
       return parseAuthResponse(result.response.data)
     } catch (error) {
