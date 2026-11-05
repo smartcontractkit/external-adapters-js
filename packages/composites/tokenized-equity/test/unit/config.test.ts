@@ -124,3 +124,41 @@ describe('config: SESSION_START_GATING_ENABLED', () => {
     expect(buildSettings().SESSION_START_GATING_ENABLED).toEqual(false)
   })
 })
+
+describe('config: ALLOW_MARKET_SESSION_OVERRIDE', () => {
+  const OLD_ENV = process.env
+
+  beforeEach(() => {
+    process.env = { ...OLD_ENV }
+    delete process.env.ALLOW_MARKET_SESSION_OVERRIDE
+  })
+
+  afterAll(() => {
+    process.env = OLD_ENV
+  })
+
+  const buildSettings = () => {
+    const cfg = new AdapterConfig({
+      ...settingsDefinition,
+    })
+    cfg.initialize()
+    return cfg.settings as Record<string, unknown>
+  }
+
+  it('defaults to false (disabled)', () => {
+    expect(buildSettings().ALLOW_MARKET_SESSION_OVERRIDE).toEqual(false)
+  })
+
+  it('parses boolean values from the environment', () => {
+    process.env.ALLOW_MARKET_SESSION_OVERRIDE = 'true'
+    expect(buildSettings().ALLOW_MARKET_SESSION_OVERRIDE).toEqual(true)
+
+    process.env.ALLOW_MARKET_SESSION_OVERRIDE = 'false'
+    expect(buildSettings().ALLOW_MARKET_SESSION_OVERRIDE).toEqual(false)
+  })
+
+  it('treats any string other than true as false', () => {
+    process.env.ALLOW_MARKET_SESSION_OVERRIDE = 'yes'
+    expect(buildSettings().ALLOW_MARKET_SESSION_OVERRIDE).toEqual(false)
+  })
+})

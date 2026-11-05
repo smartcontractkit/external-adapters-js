@@ -59,7 +59,7 @@ export const inputDefinition = new InputParameters(
       required: false,
       type: 'string',
       description:
-        'Hook for overriding the pre-market warm-up (session-start) gating check: instead of resolving the current session start from the wall clock, the check gates against the NEXT start of the named session, which will deterministically forcing the pre-session rejection. Requires sessionMarket and sessionMarketType; affects only the session-start gating check. Only the four real session statuses are accepted (UNKNOWN and WEEKEND can never match a tradinghours transition). Requests carrying this parameter are rejected with 400 unless SESSION_START_GATING_ENABLED=true.',
+        'Hook for overriding the pre-market warm-up (session-start) gating check: instead of resolving the current session start from the wall clock, the check gates against the NEXT start of the named session, which will deterministically forcing the pre-session rejection. Requires sessionMarket and sessionMarketType; affects only the session-start gating check. Only the four real session statuses are accepted (UNKNOWN and WEEKEND can never match a tradinghours transition). Requests carrying this parameter are rejected with 400 unless ALLOW_MARKET_SESSION_OVERRIDE=true (and SESSION_START_GATING_ENABLED=true, since the hook only affects that check).',
       options: ['PRE_MARKET', 'REGULAR', 'POST_MARKET', 'OVERNIGHT'],
     },
     sessionBoundaries: {

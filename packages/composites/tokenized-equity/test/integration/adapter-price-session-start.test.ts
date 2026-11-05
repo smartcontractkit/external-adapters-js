@@ -114,6 +114,7 @@ describe('price endpoint session-start gating', () => {
     process.env.TRADING_HOURS_ADAPTER_URL = 'http://trading-hours'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '1000'
     process.env.SESSION_START_GATING_ENABLED = 'true'
+    process.env.ALLOW_MARKET_SESSION_OVERRIDE = 'true'
     spy = jest.spyOn(Date, 'now').mockReturnValue(NOW_MS)
 
     const adapter = (await import('../../src')).adapter

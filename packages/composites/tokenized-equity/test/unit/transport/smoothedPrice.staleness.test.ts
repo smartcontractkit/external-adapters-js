@@ -4,7 +4,7 @@ import { getSessionSchedule } from '../../../src/lib/session/session'
 import { processOvernightUpdate } from '../../../src/lib/smoother/overnightSmoother'
 import { processUpdate } from '../../../src/lib/smoother/smoother'
 import { getPrice } from '../../../src/lib/streams'
-import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
+import { smoothedStreamPrice } from '../../../src/price/smoothedPrice'
 
 // A stale-stream rejection from getPrice must propagate and must never reach the
 // smoothers — stale ticks must not poison kalman/EMA/overnight-EMA state.

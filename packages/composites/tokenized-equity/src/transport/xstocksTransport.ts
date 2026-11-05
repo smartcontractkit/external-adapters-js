@@ -36,6 +36,7 @@ export class XstocksTransport extends SmoothedPriceTransport<BaseEndpointTypes> 
       requester: this.requester,
       streamMaxAgeSeconds: this.streamMaxAgeSeconds,
       sessionStartGatingEnabled: this.sessionStartGatingEnabled,
+      allowMarketSessionOverride: this.allowMarketSessionOverride,
     })
 
     return Object.fromEntries(

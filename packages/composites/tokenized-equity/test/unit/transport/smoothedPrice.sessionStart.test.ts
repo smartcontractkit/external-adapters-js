@@ -5,7 +5,7 @@ import { getSessionSchedule } from '../../../src/lib/session/session'
 import { processOvernightUpdate } from '../../../src/lib/smoother/overnightSmoother'
 import { processUpdate } from '../../../src/lib/smoother/smoother'
 import { getPrice } from '../../../src/lib/streams'
-import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
+import { smoothedStreamPrice } from '../../../src/price/smoothedPrice'
 
 // Session-start gating is per-request. When the request carries no market identity
 // (sessionMarket/sessionMarketType) — the smoother:'none' feeds' steady state — the
@@ -130,5 +130,58 @@ describe('smoothedStreamPrice session-start gating skip (no market identity)', (
 
     expect(result).toHaveLength(1)
     expect(result[0].result.toString()).toEqual('100') // 1 * 10^8 / 10^6
+  })
+})
+
+describe('smoothedStreamPrice marketSessionOverride config gating', () => {
+  const baseParams = {
+    asset: 'FLHYon',
+    extendedStreamId: 'extended-stream-id',
+    url: 'https://api.example.com',
+    tradingHoursUrl: 'https://trading-hours.example.com',
+    requester: {} as Requester,
+    sessionMarket: 'nyse',
+    sessionMarketType: '24/5',
+    sessionBoundaries: [] as string[],
+    smoother: 'none' as const,
+    decimals: 8,
+    marketSessionOverride: 'REGULAR',
+  }
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    mockGetSessionSchedule.mockResolvedValue({})
+  })
+
+  it('rejects with 400 when ALLOW_MARKET_SESSION_OVERRIDE is off, even with gating on', async () => {
+    await expect(
+      smoothedStreamPrice({
+        ...baseParams,
+        sessionStartGatingEnabled: true,
+        allowMarketSessionOverride: false,
+      }),
+    ).rejects.toMatchObject({
+      statusCode: 400,
+      message: expect.stringMatching(
+        /marketSessionOverride requires ALLOW_MARKET_SESSION_OVERRIDE=true/,
+      ),
+    })
+    expect(mockGetPrice).not.toHaveBeenCalled()
+  })
+
+  it('rejects with 400 when the override is allowed but SESSION_START_GATING_ENABLED is off', async () => {
+    await expect(
+      smoothedStreamPrice({
+        ...baseParams,
+        sessionStartGatingEnabled: false,
+        allowMarketSessionOverride: true,
+      }),
+    ).rejects.toMatchObject({
+      statusCode: 400,
+      message: expect.stringMatching(
+        /marketSessionOverride requires SESSION_START_GATING_ENABLED=true/,
+      ),
+    })
+    expect(mockGetPrice).not.toHaveBeenCalled()
   })
 })
