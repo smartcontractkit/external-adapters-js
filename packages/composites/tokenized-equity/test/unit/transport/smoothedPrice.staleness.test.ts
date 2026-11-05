@@ -6,10 +6,8 @@ import { processUpdate } from '../../../src/lib/smoother/smoother'
 import { getPrice } from '../../../src/lib/streams'
 import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
 
-// PR1 checkpoint 1 (DF-28181): a stale-stream rejection from getPrice must propagate and must
-// never reach the smoothers — stale ticks must not poison kalman/EMA/overnight-EMA state.
-// This passes on current code too (any getPrice rejection propagates); it pins the behavior so
-// checkpoint 2's new rejection path cannot regress it.
+// A stale-stream rejection from getPrice must propagate and must never reach the
+// smoothers — stale ticks must not poison kalman/EMA/overnight-EMA state.
 
 jest.mock('../../../src/lib/streams', () => ({ getPrice: jest.fn() }))
 const mockGetPrice = getPrice as jest.MockedFunction<typeof getPrice>

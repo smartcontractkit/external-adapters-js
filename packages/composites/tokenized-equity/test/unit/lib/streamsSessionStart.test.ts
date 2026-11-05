@@ -4,9 +4,9 @@ import { AdapterError } from '@chainlink/external-adapter-framework/validation/e
 import { SessionTransition } from '../../../src/lib/session/tradingHoursSession'
 import { getPrice } from '../../../src/lib/streams'
 
-// Tests for the pre-open warm-up (session-start) gating (DF-28181): when enabled, a
-// selected report whose lastSeenTimestampNs is before the start of the current session
-// (per the tradinghours market-session schedule) is rejected with 503.
+// Tests for the pre-open warm-up (session-start) gating: when enabled, a selected
+// report whose lastSeenTimestampNs is before the start of the current session (per the
+// tradinghours market-session schedule) is rejected with 503.
 
 const mockGetDeutscheBoersePrice = jest.fn()
 

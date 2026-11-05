@@ -4,9 +4,8 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
 
-// PR1 checkpoint 1 (DF-28181): end-to-end staleness behavior of the price endpoint.
-// DS_VALID_MAX_AGE_SECONDS is not part of the adapter config yet — the "rejects" tests fail
-// (the adapter ignores the env var and returns 200) until checkpoint 2.
+// End-to-end staleness behavior of the price endpoint with DS_VALID_MAX_AGE_SECONDS
+// configured.
 
 const NOW_MS = new Date('2001-01-01T11:11:11.111Z').getTime()
 
@@ -42,7 +41,7 @@ const mockTradingHoursResponseFailure = (): nock.Scope =>
     .reply(200, () => ({ statusCode: 500 }))
     .persist()
 
-describe('price endpoint staleness (DF-28181)', () => {
+describe('price endpoint staleness', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv

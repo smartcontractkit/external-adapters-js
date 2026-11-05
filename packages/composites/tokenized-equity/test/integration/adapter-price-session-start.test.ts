@@ -4,11 +4,12 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
 
-// End-to-end pre-open warm-up (session-start) gating of the price endpoint (DF-28181),
-// enabled via DS_SESSION_START_GATING_ENABLED. Gating identifies the market from the
-// request's sessionMarket/sessionMarketType and falls back to the hard-coded labeled
-// schedule (nyse/24/5) when tradinghours is unavailable or unusable — never to the
-// smoother's sessionBoundaries. With no market identity at all it fails closed (503).
+// End-to-end pre-open warm-up (session-start) gating of the price endpoint, enabled
+// via DS_SESSION_START_GATING_ENABLED. Gating identifies the market from the request's
+// sessionMarket/sessionMarketType and falls back to the hard-coded labeled schedule
+// (nyse/24/5) when tradinghours is unavailable or unusable — never to the smoother's
+// sessionBoundaries. Requests without sessionMarket/sessionMarketType (the
+// smoother:'none' feeds' steady state) skip the check entirely: pass-through, no fetch.
 
 const NOW_MS = new Date('2001-01-01T11:11:11.111Z').getTime() // a Monday, 06:11 ET (EST)
 
@@ -71,7 +72,7 @@ const mockTradingHoursResponseFailure = (): nock.Scope =>
     .reply(200, () => ({ statusCode: 500 }))
     .persist()
 
-describe('price endpoint session-start gating (DF-28181)', () => {
+describe('price endpoint session-start gating', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
@@ -110,6 +111,17 @@ describe('price endpoint session-start gating (DF-28181)', () => {
   })
 
   afterEach(() => {
+    nock.cleanAll()
+    // Re-install benign persisted mocks after cleanup: subscriptions from earlier
+    // tests stay warm (background execute keeps polling them), and without
+    // interceptors their ENOTFOUND retries and backoff sleeps starve the shared
+    // Requester queue, timing out later tests' requests. Each test cleans these
+    // before installing its own.
+    mockDataEngine(nsAtMs(PRE_MARKET_OPEN_MS + 60_000))
+    mockTradingHoursSchedule()
+  })
+
+  beforeEach(() => {
     nock.cleanAll()
   })
 
@@ -189,9 +201,12 @@ describe('price endpoint session-start gating (DF-28181)', () => {
     expect(response.statusCode).toBe(200)
   })
 
-  it("fails closed (503) for a smoother 'none' feed with no market identity", async () => {
-    // No sessionMarket/sessionMarketType → neither tradinghours nor the hard-coded map
-    // can be keyed → no schedule of any kind → 503 while the flag is on.
+  it("skips session-start gating for a smoother 'none' feed with no market identity", async () => {
+    // No sessionMarket/sessionMarketType → no market identity to gate against, so the
+    // check is a pass-through even with the flag on (and no tradinghours fetch — pinned
+    // at the unit level). The tradinghours mock is for earlier tests' still-warm gated
+    // subscriptions, whose background polls would otherwise stall the shared requester
+    // on ENOTFOUND retries.
     mockDataEngine(nsAtMs(PRE_MARKET_OPEN_MS + 60_000))
     mockTradingHoursSchedule()
 
@@ -202,7 +217,23 @@ describe('price endpoint session-start gating (DF-28181)', () => {
       decimals: 8,
     })
 
-    expect(response.statusCode).toBe(503)
-    expect(JSON.stringify(response.json())).toMatch(/Session start unknown/)
+    expect(response.statusCode).toBe(200)
+  })
+
+  it("serves a pre-session report for a smoother 'none' feed with no market identity", async () => {
+    // Same skip, now with a report that WOULD be rejected if gating applied: 30 minutes
+    // before the extended session opened. The skip means even a pre-open leftover
+    // passes through — the accepted coverage gap for feeds without market identity.
+    mockDataEngine(nsAtMs(PRE_MARKET_OPEN_MS - 30 * 60_000))
+    mockTradingHoursSchedule() // for earlier tests' still-warm gated subscriptions
+
+    const response = await testAdapter.request({
+      asset: '0x0',
+      extendedStreamId: '0x000b6-none-no-market-presession',
+      smoother: 'none',
+      decimals: 8,
+    })
+
+    expect(response.statusCode).toBe(200)
   })
 })

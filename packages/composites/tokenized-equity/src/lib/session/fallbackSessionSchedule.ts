@@ -5,7 +5,7 @@ import { SessionTransition } from './tradingHoursSession'
 
 // Hard-coded fallback session schedules for session-start (pre-open warm-up) gating:
 // the labeled last resort when the tradinghours market-session schedule is unavailable
-// or unusable (DF-28181). Gating deliberately never uses the per-feed sessionBoundaries
+// or unusable. Gating deliberately never uses the per-feed sessionBoundaries
 // parameter — its times are unlabeled and conventionally lack the regular open.
 //
 // Keyed by `<market>/<type>` for the market/types we actually serve. An entry is the

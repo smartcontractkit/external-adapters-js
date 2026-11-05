@@ -114,7 +114,7 @@ export const validateSmoother = ({
 }) => {
   if (smoother === 'none') {
     // sessionMarket/sessionMarketType are permitted with 'none': session-start gating
-    // (DF-28181) consumes market identity even without a smoother. The smoother's own
+    // consumes market identity even without a smoother. The smoother's own
     // fallback inputs remain meaningless — and forbidden — without a smoother.
     if (sessionBoundaries.length > 0 || sessionBoundariesTimeZone) {
       throw new AdapterInputError({

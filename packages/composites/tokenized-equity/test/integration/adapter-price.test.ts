@@ -146,8 +146,8 @@ describe('execute', () => {
     })
 
     it('allows sessionMarket/sessionMarketType with smoother none (gating consumer)', async () => {
-      // DF-28181: session-start gating consumes market identity even without a smoother,
-      // so these two params are permitted with smoother 'none'.
+      // Session-start gating consumes market identity even without a smoother, so
+      // these two params are permitted with smoother 'none'.
       const data = {
         asset: '0x0',
         extendedStreamId: '0x000b6',

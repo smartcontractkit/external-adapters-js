@@ -50,7 +50,12 @@ export const smoothedStreamPrice = async (param: {
     param.overnightStreamId,
     param.overnightStreamMaxAgeInSeconds,
     param.streamMaxAgeSeconds,
-    param.sessionStartGatingEnabled
+    // Skip the session-start check entirely when the request carries no market
+    // identity (sessionMarket/sessionMarketType) — currently this is feeds with smoother:'none'.
+    // Without market identity there is no way to determine the session start and thus nothing to gate
+    // against: there cannot be a tradinghours fetch and no fallback can be looked up, so gating is a
+    // pass-through exactly as if the flag were off, rather than failing closed.
+    param.sessionStartGatingEnabled && param.sessionMarket && param.sessionMarketType
       ? {
           transitions: sessionSchedule.transitions,
           fallbackTransitions: sessionSchedule.fallbackTransitions,

@@ -3,9 +3,8 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { getPrice } from '../../../src/lib/streams'
 
-// PR1 checkpoint 1: tests for the consumer-side staleness/freshness check (DF-28181).
-// These exercise the new trailing `streamMaxAgeSeconds` argument of getPrice, which does not
-// exist yet — this file is expected to fail (compile / assertions) until checkpoint 2.
+// Tests for the consumer-side staleness/freshness check: the trailing
+// `streamMaxAgeSeconds` argument of getPrice.
 
 const mockGetDeutscheBoersePrice = jest.fn()
 

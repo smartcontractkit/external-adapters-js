@@ -136,8 +136,8 @@ describe('getSessionSchedule', () => {
   })
 
   it('always provides fallbackTransitions for a known market, even when tradinghours succeeds', async () => {
-    // Row 7 of the decision matrix: a tradinghours schedule that lacks a transition for the
-    // selected session is unusable — getStream walks to the fallback, so it must be present.
+    // A tradinghours schedule that lacks a transition for the selected session is
+    // unusable — getStream walks to the fallback, so it must be present.
     const requester = requesterWith(() =>
       Promise.resolve(
         scheduleResponse([
