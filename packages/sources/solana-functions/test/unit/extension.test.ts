@@ -315,10 +315,44 @@ describe('ExtensionTransport', () => {
       })
 
       await expect(transport._handleRequest(param)).rejects.toMatchObject({
-        statusCode: 502,
-        message: expect.stringContaining(
-          `Expected account '${galaxyMinterAccountAddress}' to be owned by the Token-2022 program`,
-        ),
+        statusCode: 400,
+        message: `Account '${galaxyMinterAccountAddress}' is not owned by the Token-2022 program`,
+      })
+    })
+
+    it('should reject extension fields from a Token-2022 account that is not a mint', async () => {
+      const [encodedData, encoding] = galaxyMinterAccountData.result.value.data
+      const data = Buffer.from(encodedData, encoding as BufferEncoding)
+      data[extensionDataOffset - 1] = 2 // AccountType.Account
+
+      getGalaxyMintercAccountInfoMock.mockResolvedValue({
+        ...galaxyMinterAccountData.result,
+        value: {
+          ...galaxyMinterAccountData.result.value,
+          data: [data.toString(encoding as BufferEncoding), encoding],
+        },
+      })
+
+      const param = makeStub('param', {
+        endpoint: 'extension',
+        stateAccountAddress: galaxyMinterAccountAddress,
+        baseFields: [],
+        extensionDataOffset,
+        extensionFields: [
+          {
+            extensionType: 25,
+            name: 'multiplier',
+            offset: 32,
+            type: 'float64' as const,
+          },
+        ],
+        resultName: undefined,
+        resultDecimals: undefined,
+      })
+
+      await expect(transport._handleRequest(param)).rejects.toMatchObject({
+        statusCode: 400,
+        message: `Expected account '${galaxyMinterAccountAddress}' to be a Token-2022 mint`,
       })
     })
 
