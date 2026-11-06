@@ -3,6 +3,7 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { BaseEndpointTypes } from '../../src/endpoint/extension'
+import { LEGACY_TOKEN_PROGRAM_ADDRESS } from '../../src/shared/buffer-layout-accounts'
 import { ExtensionTransport } from '../../src/transport/extension'
 import * as galaxyMinterAccountData from '../fixtures/galaxy-digital-inc-account-data-2025-11-07.json'
 
@@ -278,6 +279,81 @@ describe('ExtensionTransport', () => {
           currentMultiplier: 1,
           newMultiplier: 1,
           activationDateTime: '0',
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+    })
+
+    it('should reject extension fields from an account not owned by Token-2022', async () => {
+      getGalaxyMintercAccountInfoMock.mockResolvedValue({
+        ...galaxyMinterAccountData.result,
+        value: {
+          ...galaxyMinterAccountData.result.value,
+          owner: LEGACY_TOKEN_PROGRAM_ADDRESS,
+        },
+      })
+
+      const param = makeStub('param', {
+        endpoint: 'extension',
+        stateAccountAddress: galaxyMinterAccountAddress,
+        baseFields: [],
+        extensionDataOffset,
+        extensionFields: [
+          {
+            extensionType: 25,
+            name: 'multiplier',
+            offset: 32,
+            type: 'float64' as const,
+          },
+        ],
+        resultName: undefined,
+        resultDecimals: undefined,
+      })
+
+      await expect(transport._handleRequest(param)).rejects.toMatchObject({
+        statusCode: 502,
+        message: expect.stringContaining(
+          `Expected account '${galaxyMinterAccountAddress}' to be owned by the Token-2022 program`,
+        ),
+      })
+    })
+
+    it('should allow base fields from an account not owned by Token-2022', async () => {
+      getGalaxyMintercAccountInfoMock.mockResolvedValue({
+        ...galaxyMinterAccountData.result,
+        value: {
+          ...galaxyMinterAccountData.result.value,
+          owner: LEGACY_TOKEN_PROGRAM_ADDRESS,
+        },
+      })
+
+      const param = makeStub('param', {
+        endpoint: 'extension',
+        stateAccountAddress: galaxyMinterAccountAddress,
+        baseFields: [
+          {
+            name: 'supply',
+            offset: 36,
+            type: 'uint64' as const,
+          },
+        ],
+        extensionDataOffset,
+        extensionFields: [],
+        resultName: undefined,
+        resultDecimals: undefined,
+      })
+
+      const response = await transport._handleRequest(param)
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: null,
+        data: {
+          supply: expectedTokenSupply,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),

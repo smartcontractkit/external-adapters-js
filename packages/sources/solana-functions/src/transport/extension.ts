@@ -6,6 +6,8 @@ import { AdapterInputError } from '@chainlink/external-adapter-framework/validat
 import { type Address } from '@solana/addresses'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import { BaseEndpointTypes, RequestParams } from '../endpoint/extension'
+import { TOKEN_2022_PROGRAM_ADDRESS } from '../shared/buffer-layout-accounts'
+import { assertOwnerProgram } from '../shared/solana-account-utils'
 import { SolanaRpcFactory } from '../shared/solana-rpc-factory'
 
 const logger = makeLogger('ExtensionTransport')
@@ -111,6 +113,16 @@ export class ExtensionTransport extends SubscriptionTransport<BaseEndpointTypes>
     const resp = await this.rpc
       .getAccountInfo(params.stateAccountAddress as Address, { encoding })
       .send()
+
+    if (params.extensionFields?.length) {
+      assertOwnerProgram(
+        resp.value,
+        `account '${params.stateAccountAddress}'`,
+        [TOKEN_2022_PROGRAM_ADDRESS],
+        'the Token-2022 program',
+      )
+    }
+
     const data = Buffer.from(resp.value?.data[0] as string, encoding)
     const resultData: Record<string, number | string> = {}
 
