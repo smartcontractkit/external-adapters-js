@@ -3,8 +3,8 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { issuers } from '../../../src/issuers'
 import { ChainProviders } from '../../../src/lib/chains'
 import { getDataEngineResult } from '../../../src/lib/dataEngine'
-import { scaleDecimals } from '../../../src/lib/decimals'
-import { calculatePrice } from '../../../src/transport/issuerPrice247'
+
+import { calculatePrice } from '../../../src/price/issuerPrice247'
 import { makeSettings } from '../fixtures/settings'
 
 LoggerFactoryProvider.set()
@@ -56,20 +56,6 @@ const stream = {
   feedId: '0x000b',
   resultPath: 'lastTradedPrice',
 }
-
-describe('scaleDecimals', () => {
-  it('scales down with truncation', () => {
-    expect(scaleDecimals(123456789n, 6, 2)).toBe(12345n)
-  })
-
-  it('scales up', () => {
-    expect(scaleDecimals(12n, 2, 6)).toBe(120000n)
-  })
-
-  it('keeps value when decimals match', () => {
-    expect(scaleDecimals(12n, 4, 4)).toBe(12n)
-  })
-})
 
 describe('calculatePrice', () => {
   let getMultiplier: jest.SpyInstance
