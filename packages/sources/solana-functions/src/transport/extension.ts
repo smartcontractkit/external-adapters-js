@@ -2,7 +2,10 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterDataProviderError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { type Address } from '@solana/addresses'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import { ACCOUNT_TYPE_SIZE, AccountType } from '@solana/spl-token'
@@ -127,15 +130,25 @@ export class ExtensionTransport extends SubscriptionTransport<BaseEndpointTypes>
         )
       } catch (e) {
         throw new AdapterInputError({
-          message: `Account '${params.stateAccountAddress}' is not owned by the Token-2022 program`,
+          message:
+            e instanceof AdapterDataProviderError
+              ? e.message
+              : `Account '${params.stateAccountAddress}' is not owned by the Token-2022 program`,
           statusCode: 400,
         })
       }
-      if (data[params.extensionDataOffset - ACCOUNT_TYPE_SIZE] !== AccountType.Mint)
+      if (data.length <= params.extensionDataOffset - ACCOUNT_TYPE_SIZE) {
+        throw new AdapterInputError({
+          message: `Account '${params.stateAccountAddress}' has no extensions`,
+          statusCode: 400,
+        })
+      }
+      if (data[params.extensionDataOffset - ACCOUNT_TYPE_SIZE] !== AccountType.Mint) {
         throw new AdapterInputError({
           message: `Expected account '${params.stateAccountAddress}' to be a Token-2022 mint`,
           statusCode: 400,
         })
+      }
     }
 
     const resultData: Record<string, number | string> = {}

@@ -316,7 +316,9 @@ describe('ExtensionTransport', () => {
 
       await expect(transport._handleRequest(param)).rejects.toMatchObject({
         statusCode: 400,
-        message: `Account '${galaxyMinterAccountAddress}' is not owned by the Token-2022 program`,
+        message: expect.stringContaining(
+          `Expected account '${galaxyMinterAccountAddress}' to be owned by the Token-2022 program`,
+        ),
       })
     })
 
@@ -353,6 +355,42 @@ describe('ExtensionTransport', () => {
       await expect(transport._handleRequest(param)).rejects.toMatchObject({
         statusCode: 400,
         message: `Expected account '${galaxyMinterAccountAddress}' to be a Token-2022 mint`,
+      })
+    })
+
+    it('should reject extension fields from a Token-2022 mint with no extensions', async () => {
+      const [encodedData, encoding] = galaxyMinterAccountData.result.value.data
+      // A Token-2022 mint with no extensions is only the 82-byte base mint layout
+      const data = Buffer.from(encodedData, encoding as BufferEncoding).subarray(0, 82)
+
+      getGalaxyMintercAccountInfoMock.mockResolvedValue({
+        ...galaxyMinterAccountData.result,
+        value: {
+          ...galaxyMinterAccountData.result.value,
+          data: [data.toString(encoding as BufferEncoding), encoding],
+        },
+      })
+
+      const param = makeStub('param', {
+        endpoint: 'extension',
+        stateAccountAddress: galaxyMinterAccountAddress,
+        baseFields: [],
+        extensionDataOffset,
+        extensionFields: [
+          {
+            extensionType: 25,
+            name: 'multiplier',
+            offset: 32,
+            type: 'float64' as const,
+          },
+        ],
+        resultName: undefined,
+        resultDecimals: undefined,
+      })
+
+      await expect(transport._handleRequest(param)).rejects.toMatchObject({
+        statusCode: 400,
+        message: `Account '${galaxyMinterAccountAddress}' has no extensions`,
       })
     })
 
