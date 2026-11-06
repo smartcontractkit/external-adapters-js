@@ -273,6 +273,22 @@ describe('dxLink websocket transport', () => {
       expect(updated.data).toMatchObject({ bid_price: 110, ask_price: 111 })
     })
 
+    it('ignores unknown message types and keeps the stream flowing', async () => {
+      const unknownRequest = { base: 'UNK', quote: 'USD', endpoint: 'stock_quotes' }
+      server.setFeedData('Quote', 'UNK', [
+        quoteFrame(quoteRecord('UNK', 1760000001000, 150, 151, 1, 2)),
+      ])
+      const first = await requestJson(unknownRequest)
+      expect(first.data).toMatchObject({ bid_price: 150, ask_price: 151 })
+
+      server.push({ type: 'UNKNOWN_TEST_FRAME', channel: 1 })
+      server.push(quoteFrame(quoteRecord('UNK', 1760000007000, 170, 171, 1, 2)))
+      await flushFrames(testAdapter)
+
+      const body = await requestJson(unknownRequest)
+      expect(body.data).toMatchObject({ bid_price: 170, ask_price: 171 })
+    })
+
     it('increments wsConnectionErrors with the dxLink error code, not the free-text message', async () => {
       const errorsCounter = metrics.get('wsConnectionErrors')
       const countUnauthorized = async (): Promise<number> =>
