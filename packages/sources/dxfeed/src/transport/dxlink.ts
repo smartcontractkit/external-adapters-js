@@ -20,8 +20,6 @@ const CONTROL_CHANNEL = 0
 const FEED_CHANNEL = 1
 
 const TIMEOUT_ERROR = 'TIMEOUT'
-const RETRY_ONCE_ERRORS = new Set(['INVALID_MESSAGE', 'BAD_ACTION', 'UNKNOWN'])
-const ERROR_RECONNECT_COOLDOWN_MS = 5 * 60_000
 
 const EVENT_FIELDS = {
   Quote: [
@@ -78,8 +76,6 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
   private fieldsByEventType = new Map<string, string[]>()
   // Latest provider time written per params, to drop events that arrive out of order
   private latestTimes = new Map<string, number>()
-  // Last reconnect attempt per provider error code, for the retry-once policy
-  private errorReconnectAt = new Map<string, number>()
 
   protected abstract parseEvent(event: DxLinkEvent): ProviderResult<DxLinkTransportTypes<T>>[]
 
@@ -172,31 +168,15 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
           .get('wsConnectionErrors')
           .labels({ message: message.error ?? 'unknown' })
           .inc()
-        if (this.shouldReconnect(message.error)) {
-          logger.info(`dxLink error ${message.error}; reconnecting`)
+        // Only TIMEOUT means the connection is unusable; other errors do not stop data.
+        if (message.error === TIMEOUT_ERROR) {
+          logger.info('dxLink TIMEOUT; reconnecting')
           this.wsConnection?.close()
         }
         return []
       default:
         return []
     }
-  }
-
-  // TIMEOUT reconnects; client-state errors retry once per 5m; auth/protocol errors never.
-  private shouldReconnect(code: string | undefined): boolean {
-    if (code === TIMEOUT_ERROR) {
-      return true
-    }
-    if (!code || !RETRY_ONCE_ERRORS.has(code)) {
-      return false
-    }
-    const now = Date.now()
-    const lastAttempt = this.errorReconnectAt.get(code) ?? -Infinity
-    if (now - lastAttempt < ERROR_RECONNECT_COOLDOWN_MS) {
-      return false
-    }
-    this.errorReconnectAt.set(code, now)
-    return true
   }
 
   // Newest provider time wins. This runs before the cache write and is synchronous,
