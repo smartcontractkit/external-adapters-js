@@ -3,7 +3,6 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { issuers } from '../../../src/issuers'
 import { ChainProviders } from '../../../src/lib/chains'
 import { getDataEngineResult } from '../../../src/lib/dataEngine'
-
 import { calculatePrice } from '../../../src/price/issuerPrice247'
 import { makeSettings } from '../fixtures/settings'
 
