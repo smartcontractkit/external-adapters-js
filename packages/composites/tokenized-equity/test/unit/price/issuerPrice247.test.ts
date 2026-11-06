@@ -79,8 +79,42 @@ describe('calculatePrice', () => {
         rawPriceDecimals: 8,
         dataEngine: data,
       })
-      expect(mockGetDataEngineResult).toHaveBeenCalledWith({ ...stream, decimals: 8 })
+      expect(mockGetDataEngineResult).toHaveBeenCalledWith({
+        ...stream,
+        decimals: 8,
+        maxAgeSeconds: undefined,
+      })
       expect(getMultiplier).not.toHaveBeenCalled()
+    })
+
+    it('threads DS_VALID_MAX_AGE_SECONDS into the data-engine call', async () => {
+      mockGetDataEngineResult.mockResolvedValue({ result: '32398429239', data })
+
+      await calculatePrice({
+        ...param,
+        settings: makeSettings({ DS_VALID_MAX_AGE_SECONDS: 60 }),
+      })
+
+      expect(mockGetDataEngineResult).toHaveBeenCalledWith({
+        ...stream,
+        decimals: 8,
+        maxAgeSeconds: 60,
+      })
+    })
+
+    it('treats DS_VALID_MAX_AGE_SECONDS=0 as disabled', async () => {
+      mockGetDataEngineResult.mockResolvedValue({ result: '32398429239', data })
+
+      await calculatePrice({
+        ...param,
+        settings: makeSettings({ DS_VALID_MAX_AGE_SECONDS: 0 }),
+      })
+
+      expect(mockGetDataEngineResult).toHaveBeenCalledWith({
+        ...stream,
+        decimals: 8,
+        maxAgeSeconds: undefined,
+      })
     })
   })
 
@@ -106,7 +140,11 @@ describe('calculatePrice', () => {
           decimals: 18,
         },
       })
-      expect(mockGetDataEngineResult).toHaveBeenCalledWith({ ...stream, decimals: 18 })
+      expect(mockGetDataEngineResult).toHaveBeenCalledWith({
+        ...stream,
+        decimals: 18,
+        maxAgeSeconds: undefined,
+      })
       expect(getMultiplier).toHaveBeenCalledWith(multiplier, {
         url: 'robinhood-url',
         chainId: 4663,

@@ -1,5 +1,6 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 
+import { resolve247MaxAgeSeconds } from '../config'
 import { AssetRequest, IssuerName, issuers, MULTIPLIER_DECIMALS } from '../issuers'
 import { Settings } from '../issuers/issuer'
 import { ChainProviders } from '../lib/chains'
@@ -31,8 +32,13 @@ export const calculatePrice = async ({
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const stream = { ...param, url: settings.SOURCE_ADAPTER_URL.get('DATA_ENGINE')! }
 
+  // Staleness gate: the shared DS_VALID_MAX_AGE_SECONDS
+  // threshold also covers the 24/7 stream. Undefined when unset or 0 — the check
+  // ships dark like the 24/5 gates.
+  const maxAgeSeconds = resolve247MaxAgeSeconds(settings)
+
   if (!multiplier) {
-    const { result, data } = await getDataEngineResult(stream)
+    const { result, data } = await getDataEngineResult({ ...stream, maxAgeSeconds })
     return {
       result,
       decimals: param.decimals,
@@ -47,7 +53,7 @@ export const calculatePrice = async ({
 
   // Request the price in the multiplier's decimals so both share a scale
   const [price, value] = await Promise.all([
-    getDataEngineResult({ ...stream, decimals: MULTIPLIER_DECIMALS }),
+    getDataEngineResult({ ...stream, decimals: MULTIPLIER_DECIMALS, maxAgeSeconds }),
     issuer.getMultiplier(multiplier, provider),
   ])
 
