@@ -491,16 +491,15 @@ export const mockForexWebSocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     const sent = new Set<string>()
-    const parseMessage = (message: string) => {
-      const tickers: string[] = JSON.parse(message)?.eventData?.tickers ?? []
+    socket.on('message', (message) => {
+      const tickers: string[] = JSON.parse(message.toString())?.eventData?.tickers ?? []
       for (const ticker of tickers) {
         if (quotes[ticker] && !sent.has(ticker)) {
           sent.add(ticker)
           socket.send(JSON.stringify({ messageType: 'A', service: 'fx', data: quotes[ticker] }))
         }
       }
-    }
-    socket.on('message', parseMessage)
+    })
   })
 
   return mockWsServer
