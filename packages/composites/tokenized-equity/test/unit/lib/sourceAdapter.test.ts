@@ -58,14 +58,16 @@ describe('getMultiplier', () => {
     })
   })
 
-  it('propagates the source adapter status code when the body has no data', async () => {
+  it('throws 500 when the body has no data', async () => {
     mockRequest.mockResolvedValue({
-      response: { data: { statusCode: 504 }, status: 200, statusText: 'OK' },
+      response: { data: { statusCode: 500 }, status: 200, statusText: 'OK' },
     })
 
     await expect(getMultiplier(adapter, url, params, requester)).rejects.toMatchObject({
-      statusCode: 504,
-      message: expect.stringContaining('EA SOLANA_FUNCTIONS request failed: {"statusCode":504}'),
+      statusCode: 500,
+      message: expect.stringContaining(
+        'EA SOLANA_FUNCTIONS request failed: {"statusCode":500} 200 OK AdapterError',
+      ),
     })
   })
 

@@ -30,7 +30,7 @@ export const getMultiplier = async (
     const data = response?.response?.data
     if (!data || !data.data) {
       throw new AdapterError({
-        statusCode: data?.statusCode || 500,
+        statusCode: 500,
         message: `EA ${adapter} request failed: ${JSON.stringify(response?.response?.data)} ${
           response?.response?.status
         } ${response?.response?.statusText}`,
