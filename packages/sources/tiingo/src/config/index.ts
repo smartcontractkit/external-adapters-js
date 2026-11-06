@@ -10,7 +10,8 @@ export const config = new AdapterConfig(
       sensitive: false,
     },
     API_KEY: {
-      description: 'API key for tiingo, valid for all endpoints except stock_quotes',
+      description:
+        'API key for tiingo, valid for all endpoints except stock_quotes (stock_quotes with assetType indices uses this key)',
       type: 'string',
       required: true,
       sensitive: true,
