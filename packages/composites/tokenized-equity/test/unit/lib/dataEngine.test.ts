@@ -101,4 +101,42 @@ describe('getDataEngineResult', () => {
       message: expect.stringContaining('Request failed with status code 504'),
     })
   })
+
+  // The 24/7 staleness gate: a stalled 24/7 stream must not
+  // keep serving its last report once DS_VALID_MAX_AGE_SECONDS is set.
+  describe('staleness check (maxAgeSeconds)', () => {
+    const freshData = () => ({
+      ...data,
+      lastSeenTimestampNs: (BigInt(Date.now()) * 10n ** 6n).toString(),
+    })
+
+    it('passes a fresh report through when maxAgeSeconds is set', async () => {
+      mockRequest.mockResolvedValue({ response: { data: { data: freshData() } } })
+
+      await expect(getDataEngineResult({ ...param, maxAgeSeconds: 60 })).resolves.toMatchObject({
+        result: '32398429239',
+      })
+    })
+
+    it('rejects with 503 a report older than maxAgeSeconds', async () => {
+      const stale = {
+        ...freshData(),
+        lastSeenTimestampNs: (BigInt(Date.now() - 120_000) * 10n ** 6n).toString(),
+      }
+      mockRequest.mockResolvedValue({ response: { data: { data: stale } } })
+
+      await expect(getDataEngineResult({ ...param, maxAgeSeconds: 60 })).rejects.toMatchObject({
+        statusCode: 503,
+        message: expect.stringMatching(/^Market data is stale: 0x000b STALE\(age=\d+s>60s\)$/),
+      })
+    })
+
+    it('does not check age when maxAgeSeconds is unset', async () => {
+      mockRequest.mockResolvedValue({ response: { data: { data } } })
+
+      await expect(getDataEngineResult(param)).resolves.toMatchObject({
+        result: '32398429239',
+      })
+    })
+  })
 })
