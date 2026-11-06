@@ -8,7 +8,7 @@ export const inputParameters = new InputParameters(
       aliases: ['from', 'symbol', 'asset', 'coin', 'ticker', 'market'],
       type: 'string',
       description:
-        'The symbol of the stock to query; suffixes such as :USLF24 are passed through as given.',
+        'The stock symbol after any dxfeed override; suffixes such as :USLF24 are passed through unchanged.',
       required: true,
     },
   },
