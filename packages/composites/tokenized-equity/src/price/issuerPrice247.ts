@@ -27,7 +27,9 @@ export const calculatePrice = async ({
   multiplier,
   ...param
 }: PriceParams) => {
-  const stream = { ...param, url: settings.DATA_ENGINE_ADAPTER_URL }
+  // Validated in endpoint's customInputValidation
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const stream = { ...param, url: settings.SOURCE_ADAPTER_URL.get('DATA_ENGINE')! }
 
   if (!multiplier) {
     const { result, data } = await getDataEngineResult(stream)

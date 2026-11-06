@@ -184,6 +184,8 @@ export const smoothedPriceInputValidation =
     issuer?.validate(settings, data)
     validateStreamIds(data)
     validateSmoother(data)
+    settings.SOURCE_ADAPTER_URL.get('DATA_ENGINE')
+    settings.SOURCE_ADAPTER_URL.get('TRADING_HOURS')
     return undefined
   }
 
