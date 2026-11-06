@@ -6,7 +6,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { Smoother } from '../endpoint/common'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
-import { smoothedStreamPrice } from './smoothedPrice'
+import { smoothedStreamPrice } from '../price/smoothedPrice'
 
 const logger = makeLogger('PriceTransport')
 

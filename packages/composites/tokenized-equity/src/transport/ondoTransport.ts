@@ -7,7 +7,7 @@ import { AdapterError } from '@chainlink/external-adapter-framework/validation/e
 import { JsonRpcProvider } from 'ethers'
 import { Smoother } from '../endpoint/common'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/ondo'
-import { calculatePrice } from './ondoPrice'
+import { calculatePrice } from '../price/ondoPrice'
 
 const logger = makeLogger('OndoTransport')
 

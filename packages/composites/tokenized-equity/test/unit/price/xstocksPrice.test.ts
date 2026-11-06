@@ -1,10 +1,10 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
 import { issuers } from '../../../src/issuers'
-import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
-import { calculatePrice } from '../../../src/transport/xstocksPrice'
+import { smoothedStreamPrice } from '../../../src/price/smoothedPrice'
+import { calculatePrice } from '../../../src/price/xstocksPrice'
 
-jest.mock('../../../src/transport/smoothedPrice', () => ({ smoothedStreamPrice: jest.fn() }))
+jest.mock('../../../src/price/smoothedPrice', () => ({ smoothedStreamPrice: jest.fn() }))
 const mockSmoothedStreamPrice = smoothedStreamPrice as jest.MockedFunction<
   typeof smoothedStreamPrice
 >
