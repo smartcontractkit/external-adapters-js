@@ -1,6 +1,6 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/stock_quotes'
-import { TiingoWebsocketTransport, wsSelectUrl } from './utils'
+import { TiingoWebsocketTransport, wsMessageContent, wsSelectUrl } from './utils'
 
 const logger = makeLogger('TiingoStockQuotesFxWebsocketTransport')
 
@@ -29,19 +29,6 @@ const askPriceIndex = 7
 
 // thresholdLevel 5 = top-of-book quote updates, same as the forex endpoint
 const THRESHOLD_LEVEL = 5
-
-const subscriptionMessage = (
-  eventName: 'subscribe' | 'unsubscribe',
-  apiKey: string,
-  base: string,
-) => ({
-  eventName,
-  authorization: apiKey,
-  eventData: {
-    thresholdLevel: THRESHOLD_LEVEL,
-    tickers: [base.toLowerCase()],
-  },
-})
 
 export class StockQuotesFxWebSocketTransport extends TiingoWebsocketTransport<WsTransportTypes> {
   constructor() {
@@ -103,11 +90,26 @@ export class StockQuotesFxWebSocketTransport extends TiingoWebsocketTransport<Ws
         },
       },
 
+      // base is already the full FX ticker (e.g. us30usd), so no quote is appended
       builders: {
         subscribeMessage: (params) =>
-          subscriptionMessage('subscribe', fxWsTransport.apiKey, params.base),
+          wsMessageContent(
+            'subscribe',
+            fxWsTransport.apiKey,
+            THRESHOLD_LEVEL,
+            params.base,
+            '',
+            true,
+          ),
         unsubscribeMessage: (params) =>
-          subscriptionMessage('unsubscribe', fxWsTransport.apiKey, params.base),
+          wsMessageContent(
+            'unsubscribe',
+            fxWsTransport.apiKey,
+            THRESHOLD_LEVEL,
+            params.base,
+            '',
+            true,
+          ),
       },
     })
   }
