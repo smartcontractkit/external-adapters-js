@@ -48,6 +48,7 @@ export abstract class SmoothedPriceTransport<
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.requester = dependencies.requester
     this.config = adapterSettings
+    this.getDataEngineUrl()
   }
 
   async backgroundHandler(context: EndpointContext<T>, entries: SmoothedPriceParams<T>[]) {
