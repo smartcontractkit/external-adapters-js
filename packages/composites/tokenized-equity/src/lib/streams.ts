@@ -103,7 +103,7 @@ const currentSessionStartMs = (
       undefined,
     )
 
-export const reportTimeMs = (lastSeenTimestampNs: string): number => {
+const reportTimeMs = (lastSeenTimestampNs: string): number => {
   // BigInt('') is 0n (no throw), so validate the integer format explicitly; a malformed
   // provider timestamp is an upstream-data problem — reject with 503 like the other data
   // rejections, not an unguarded SyntaxError surfacing as a 502.

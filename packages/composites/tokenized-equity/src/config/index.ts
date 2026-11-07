@@ -59,7 +59,7 @@ export const settingsDefinition = {
 
   DS_VALID_MAX_AGE_SECONDS: {
     description:
-      'Consumer-side staleness check: reject a selected data-engine report whose age (now - lastSeenTimestampNs) exceeds this many seconds. Shared default for all session streams, and the threshold for the 24/7 issuer-price-247 stream (which has no sessions); unset or 0 disables the check.',
+      'Consumer-side staleness check: reject a selected data-engine report whose age (now - lastSeenTimestampNs) exceeds this many seconds. Shared default for all session streams; unset or 0 disables the check.',
     type: 'number',
     sensitive: false,
   },
@@ -119,9 +119,3 @@ export const resolveStreamMaxAgeSeconds = (settings: StreamMaxAgeSettings): Stre
     overnight: enabled(settings.DS_VALID_MAX_AGE_SECONDS_OVERNIGHT) ?? shared,
   }
 }
-
-// The staleness threshold for the 24/7 issuer-price-247 stream: the shared
-// DS_VALID_MAX_AGE_SECONDS value (a 24/7 stream has no sessions, so the
-// per-session overrides do not apply to it). Undefined disables the check.
-export const resolve247MaxAgeSeconds = (settings: StreamMaxAgeSettings): number | undefined =>
-  enabled(settings.DS_VALID_MAX_AGE_SECONDS)
