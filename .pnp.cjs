@@ -4998,7 +4998,7 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.20.0"],\
           ["decimal.js", "npm:10.5.0"],\
           ["fast-redact", "npm:3.5.0"],\
-          ["fastify", "npm:5.12.5"],\
+          ["fastify", "npm:5.12.8"],\
           ["lodash", "npm:4.18.1"],\
           ["lru-cache", "npm:6.0.0"],\
           ["mock-socket", "npm:9.3.1"],\
@@ -20116,8 +20116,8 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:5.12.5", {\
-        "packageLocation": "./.yarn/cache/fastify-npm-5.12.5-e50dbfc152-282ec56b8b.zip/node_modules/fastify/",\
+      ["npm:5.12.8", {\
+        "packageLocation": "./.yarn/cache/fastify-npm-5.12.8-935020b0b5-d53eb91ab8.zip/node_modules/fastify/",\
         "packageDependencies": [\
           ["@fastify/ajv-compiler", "npm:4.0.5"],\
           ["@fastify/error", "npm:4.0.0"],\
@@ -20126,8 +20126,8 @@ const RAW_RUNTIME_STATE =
           ["abstract-logging", "npm:2.0.1"],\
           ["avvio", "npm:9.1.0"],\
           ["fast-json-stringify", "npm:7.0.1"],\
-          ["fastify", "npm:5.12.5"],\
-          ["find-my-way", "npm:9.7.0"],\
+          ["fastify", "npm:5.12.8"],\
+          ["find-my-way", "npm:9.10.0"],\
           ["light-my-request", "npm:6.4.0"],\
           ["pino", "npm:10.3.1"],\
           ["process-warning", "npm:5.1.0"],\
@@ -20294,6 +20294,16 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["find-my-way", [\
+      ["npm:9.10.0", {\
+        "packageLocation": "./.yarn/cache/find-my-way-npm-9.10.0-ee14d15a10-976617acb5.zip/node_modules/find-my-way/",\
+        "packageDependencies": [\
+          ["fast-deep-equal", "npm:3.1.3"],\
+          ["fast-querystring", "npm:1.1.2"],\
+          ["find-my-way", "npm:9.10.0"],\
+          ["safe-regex2", "npm:5.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:9.7.0", {\
         "packageLocation": "./.yarn/cache/find-my-way-npm-9.7.0-70f500cfe9-c22817d48c.zip/node_modules/find-my-way/",\
         "packageDependencies": [\
