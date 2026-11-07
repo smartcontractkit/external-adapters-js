@@ -205,6 +205,8 @@ adapters:
     version: 1.0.5
   - name: solana-functions
     version: 1.9.0
+  - name: spiro
+    version: 1.0.0
   - name: stader-labs
     version: 3.0.27
   - name: starknet-gas-price
