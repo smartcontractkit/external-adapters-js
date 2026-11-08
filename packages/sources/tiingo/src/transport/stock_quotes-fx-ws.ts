@@ -30,6 +30,9 @@ const askPriceIndex = 7
 // thresholdLevel 5 = top-of-book quote updates, same as the forex endpoint
 const THRESHOLD_LEVEL = 5
 
+const isValidPrice = (value: unknown): value is number =>
+  typeof value === 'number' && Number.isFinite(value) && value > 0
+
 export class StockQuotesFxWebSocketTransport extends TiingoWebsocketTransport<WsTransportTypes> {
   constructor() {
     super({
@@ -63,7 +66,12 @@ export class StockQuotesFxWebSocketTransport extends TiingoWebsocketTransport<Ws
           const mid_price = message.data[midPriceIndex]
           const ask_price = message.data[askPriceIndex]
 
-          if (!ticker || !mid_price || !bid_price || !ask_price) {
+          if (
+            typeof ticker !== 'string' ||
+            !isValidPrice(mid_price) ||
+            !isValidPrice(bid_price) ||
+            !isValidPrice(ask_price)
+          ) {
             return []
           }
 

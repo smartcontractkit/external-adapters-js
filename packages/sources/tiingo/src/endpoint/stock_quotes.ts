@@ -1,7 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { stockEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter/stock'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
-import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
@@ -49,27 +48,27 @@ const EQUITIES_TRANSPORT = 'ws'
 const FX_TRANSPORT = 'fx'
 const INDICES_ASSET_TYPE = 'indices'
 
-const isIndexRequest = (req: AdapterRequest<typeof inputParameters.validated>) =>
-  req.requestContext.data.assetType?.toLowerCase() === INDICES_ASSET_TYPE
-
-// assetType only picks the transport. Drop it afterwards so it doesn't leak into the cache key:
-// the transports write responses keyed by base alone, and callers already send other values
-// (e.g. assetType: etfs) that must keep resolving on the equities feed.
-const dropAssetTypeRequestTransform =
-  () => (req: AdapterRequest<typeof inputParameters.validated>) => {
-    delete req.requestContext.data.assetType
-  }
-
 export const endpoint = new AdapterEndpoint({
   name: 'stock_quotes',
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()
     .register(EQUITIES_TRANSPORT, wsTransport)
     .register(FX_TRANSPORT, fxWsTransport),
   defaultTransport: EQUITIES_TRANSPORT,
-  customRouter: (req) => (isIndexRequest(req) ? FX_TRANSPORT : EQUITIES_TRANSPORT),
+  customRouter: (req) =>
+    req.requestContext.data.assetType?.toLowerCase() === INDICES_ASSET_TYPE
+      ? FX_TRANSPORT
+      : EQUITIES_TRANSPORT,
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
-  requestTransforms: [tiingoCommonSubscriptionRequestTransform(), dropAssetTypeRequestTransform()],
+  requestTransforms: [
+    tiingoCommonSubscriptionRequestTransform(),
+    // assetType only picks the transport. Drop it afterwards so it doesn't leak into the cache key:
+    // the transports write responses keyed by base alone, and callers already send other values
+    // (e.g. assetType: etfs) that must keep resolving on the equities feed.
+    (req) => {
+      delete req.requestContext.data.assetType
+    },
+  ],
   customInputValidation: (req, settings): undefined => {
     // Indices are served from the FX feed with API_KEY, so only the equities feed needs EQUITIES_API_KEY
     if (req.requestContext.transportName !== FX_TRANSPORT && !settings.EQUITIES_API_KEY) {
