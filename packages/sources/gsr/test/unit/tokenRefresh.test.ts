@@ -1,6 +1,6 @@
 import {
-  EARLY_CLOSE_WINDOW_MS,
   MAX_TIMEOUT_MS,
+  REAUTH_MIN_INTERVAL_MS,
   refreshDelayMs,
   shouldDiscardTokenAfterClose,
   TOKEN_REFRESH_MARGIN_MS,
@@ -38,31 +38,27 @@ describe('refreshDelayMs', () => {
 })
 
 describe('shouldDiscardTokenAfterClose', () => {
-  it('discards the token when a session closes without a ticker inside the early window', () => {
-    // The production rejection arrives about 1.4s after the handshake, often
-    // with an empty reason, so the window is the reliable signal.
-    expect(shouldDiscardTokenAfterClose('', 1_400, false)).toBe(true)
-    expect(shouldDiscardTokenAfterClose(undefined, 1_400, false)).toBe(true)
-  })
-
-  it('treats the early-close window as open-ended at its boundary', () => {
-    expect(shouldDiscardTokenAfterClose('', EARLY_CLOSE_WINDOW_MS - 1, false)).toBe(true)
-    expect(shouldDiscardTokenAfterClose('', EARLY_CLOSE_WINDOW_MS, false)).toBe(false)
-  })
-
-  it('discards the token when GSR says Bye even after the early window', () => {
-    // The reason is provider-controlled, so ignore case and surrounding space.
-    expect(shouldDiscardTokenAfterClose('Bye', 60_000, false)).toBe(true)
-    expect(shouldDiscardTokenAfterClose(' BYE ', 60_000, false)).toBe(true)
+  it('discards the token the first time a session closes without a ticker', () => {
+    // This is the post-incident case: a token minted before the outage is
+    // refused, and recovery should take one reconnect.
+    expect(shouldDiscardTokenAfterClose(false, NOW, undefined)).toBe(true)
   })
 
   it('keeps the token once the session has delivered a ticker', () => {
     // A ticker proves the token was accepted; a later close is not a rejection.
-    expect(shouldDiscardTokenAfterClose('', 1_400, true)).toBe(false)
-    expect(shouldDiscardTokenAfterClose('Bye', 60_000, true)).toBe(false)
+    expect(shouldDiscardTokenAfterClose(true, NOW, undefined)).toBe(false)
+    expect(shouldDiscardTokenAfterClose(true, NOW, NOW - ONE_HOUR_MS)).toBe(false)
   })
 
-  it('keeps the token when a data-less session outlived the early window without Bye', () => {
-    expect(shouldDiscardTokenAfterClose('', 60_000, false)).toBe(false)
+  it('spaces forced re-authentications so a refusing provider is not flooded', () => {
+    // A provider that refuses fresh tokens too would otherwise get a token
+    // request on every reconnect, about once a second.
+    expect(shouldDiscardTokenAfterClose(false, NOW, NOW - 1_000)).toBe(false)
+    expect(shouldDiscardTokenAfterClose(false, NOW, NOW - REAUTH_MIN_INTERVAL_MS + 1)).toBe(false)
+  })
+
+  it('allows another forced re-authentication once the interval has passed', () => {
+    expect(shouldDiscardTokenAfterClose(false, NOW, NOW - REAUTH_MIN_INTERVAL_MS)).toBe(true)
+    expect(shouldDiscardTokenAfterClose(false, NOW, NOW - ONE_HOUR_MS)).toBe(true)
   })
 })

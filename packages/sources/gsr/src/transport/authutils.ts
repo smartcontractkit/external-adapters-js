@@ -47,7 +47,13 @@ const tokenRequestError = (operation: string, error: unknown): Error => {
   if (status === undefined) {
     return new Error(`${operation} failed: ${error.message}`)
   }
-  return new Error(`${operation} failed: HTTP ${status}`)
+
+  // GSR's own error text (for example "Signature mismatch") comes from the
+  // response, which never echoes the request, so it is safe to keep.
+  const providerError = (error.response?.data as { error?: unknown } | undefined)?.error
+  const detail =
+    typeof providerError === 'string' && providerError ? `: ${providerError.slice(0, 200)}` : ''
+  return new Error(`${operation} failed: HTTP ${status}${detail}`)
 }
 
 /** Runs a token request, replacing any failure with an error that cannot carry the request body. */

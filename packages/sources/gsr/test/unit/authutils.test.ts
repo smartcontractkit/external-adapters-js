@@ -82,6 +82,16 @@ describe('GSR access token expiry', () => {
     expect((caught as { request?: unknown }).request).toBeUndefined()
     expect(JSON.stringify(caught)).not.toContain(publicKey)
   })
+
+  it("keeps GSR's own error text from a failed response", async () => {
+    nock(apiHost)
+      .post('/v1/token')
+      .reply(401, { success: false, ts: 1, error: 'Signature mismatch' })
+
+    await expect(getToken(apiEndpoint, userId, publicKey, privateKey)).rejects.toThrow(
+      'Access token request failed: HTTP 401: Signature mismatch',
+    )
+  })
 })
 
 describe('GSR access token renewal', () => {

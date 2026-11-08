@@ -43,8 +43,10 @@ type Settings = WsTransportTypes['Settings']
 export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
   private cachedToken: TokenWithExpiry | null = null
   private refreshTimer?: NodeJS.Timeout
-  private connectionOpenedAtMs?: number
   private receivedTicker = false
+  private lastForcedReauthAtMs?: number
+  // The socket the fields above describe. Compared by identity only.
+  private currentConnection?: unknown
 
   constructor() {
     super({
@@ -56,12 +58,28 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
         },
       }),
       handlers: {
-        open: async (_connection, context) => {
-          this.connectionOpenedAtMs = Date.now()
+        open: async (connection, context) => {
+          this.currentConnection = connection
           this.receivedTicker = false
           this.scheduleRefresh(context.adapterSettings)
         },
         close: (event) => {
+          // When the framework drops an unresponsive connection it opens the
+          // replacement in the same pass. GSR normally acknowledges the close
+          // within tens of milliseconds, before the new handshake completes, but
+          // `ws` waits up to 30s for a peer that does not. If the old socket's
+          // close lands after the new open, the fields on this transport already
+          // describe the new connection and must be left alone: clearing the
+          // timer here would leave the new token with no renewal.
+          if (event.target !== this.currentConnection) {
+            logger.debug(
+              `Ignoring close of a replaced connection (code=${event.code}, reason=${
+                event.reason || 'none'
+              })`,
+            )
+            return
+          }
+
           // Timers only ever live alongside a connection. Without this an idle
           // adapter — one whose subscriptions have lapsed, so the framework has
           // no reason to reconnect — would go on renewing tokens and then report
@@ -69,24 +87,24 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
           this.clearTimers()
           logger.info(`Connection closed (code=${event.code}, reason=${event.reason || 'none'})`)
 
-          const lifetimeMs =
-            this.connectionOpenedAtMs === undefined ? 0 : Date.now() - this.connectionOpenedAtMs
           const receivedTicker = this.receivedTicker
-          this.connectionOpenedAtMs = undefined
           this.receivedTicker = false
+          this.currentConnection = undefined
 
-          // GSR accepts the handshake and then closes a session it will not
-          // serve, so a close without a ticker can mean the token was refused.
-          // Keeping that token would repeat the rejection on every reconnect
-          // until it reaches its refresh margin. Dropping it makes the next
-          // connection mint a fresh one.
+          // GSR refuses a token by closing the session ("Bye") or by staying
+          // silent, so a session that closed without a ticker may have been
+          // refused. Keeping that token would repeat the rejection on every
+          // reconnect until it reaches its refresh margin. Dropping it makes the
+          // next connection mint a fresh one, at most once per interval.
+          const now = Date.now()
           if (
             this.cachedToken &&
-            shouldDiscardTokenAfterClose(event.reason, lifetimeMs, receivedTicker)
+            shouldDiscardTokenAfterClose(receivedTicker, now, this.lastForcedReauthAtMs)
           ) {
             this.cachedToken = null
+            this.lastForcedReauthAtMs = now
             logger.warn(
-              `Connection was not accepted (no ticker after ${lifetimeMs}ms, reason=${
+              `Connection closed before any ticker (code=${event.code}, reason=${
                 event.reason || 'none'
               }); discarding cached token so the next connection re-authenticates`,
             )

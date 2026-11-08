@@ -20,27 +20,30 @@ export const refreshDelayMs = (token: TokenWithExpiry, nowMs: number): number | 
 }
 
 /**
- * How soon after opening a session GSR closes it when it will not serve the
- * connection. The production rejection arrives about 1.4s after the handshake,
- * so this leaves room for slower rejections while staying close to the moment
- * the session was opened.
+ * Minimum time between forced re-authentications. The framework only backs off
+ * when opening a connection throws; a session that opens and is then refused
+ * reconnects on the next background pass, about a second later. Without this
+ * floor, a provider that keeps refusing fresh tokens would get a token request
+ * on every pass, from every adapter instance, while it is already struggling.
  */
-export const EARLY_CLOSE_WINDOW_MS = 10_000
+export const REAUTH_MIN_INTERVAL_MS = 30_000
 
 /**
  * Whether a closed session should invalidate the cached access token.
  *
- * GSR carries the token in the WebSocket handshake and closes a session it
- * will not serve rather than sending an error frame, so the close itself is
- * the only rejection signal. A ticker proves the token was accepted; without
- * one, a session that dies inside the early-close window or ends with GSR's
- * "Bye" reason was not accepted, and reusing the token would repeat the
- * rejection until it reaches its refresh margin.
+ * GSR carries the token in the WebSocket handshake and signals a refused token
+ * only by closing the session (code 1000, reason "Bye", right after the
+ * handshake) or by staying silent until the framework closes it as
+ * unresponsive. A ticker proves the token was accepted. Without one, reusing
+ * the token could repeat the rejection until it reaches its refresh margin.
+ *
+ * The first discard is always allowed, so recovery after a provider incident
+ * takes seconds; later ones are spaced by REAUTH_MIN_INTERVAL_MS.
  */
 export const shouldDiscardTokenAfterClose = (
-  reason: string | undefined,
-  lifetimeMs: number,
   receivedTicker: boolean,
+  nowMs: number,
+  lastForcedReauthAtMs: number | undefined,
 ): boolean =>
   !receivedTicker &&
-  (lifetimeMs < EARLY_CLOSE_WINDOW_MS || (reason ?? '').trim().toLowerCase() === 'bye')
+  (lastForcedReauthAtMs === undefined || nowMs - lastForcedReauthAtMs >= REAUTH_MIN_INTERVAL_MS)
