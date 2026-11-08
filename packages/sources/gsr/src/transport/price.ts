@@ -2,7 +2,7 @@ import { WebSocketTransport } from '@chainlink/external-adapter-framework/transp
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/price'
 import { getToken, renewToken, TokenWithExpiry } from './authutils'
-import { refreshDelayMs } from './tokenRefresh'
+import { refreshDelayMs, shouldDiscardTokenAfterClose } from './tokenRefresh'
 
 const logger = makeLogger('GSR WS price')
 
@@ -43,6 +43,8 @@ type Settings = WsTransportTypes['Settings']
 export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
   private cachedToken: TokenWithExpiry | null = null
   private refreshTimer?: NodeJS.Timeout
+  private connectionOpenedAtMs?: number
+  private receivedTicker = false
 
   constructor() {
     super({
@@ -55,6 +57,8 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
       }),
       handlers: {
         open: async (_connection, context) => {
+          this.connectionOpenedAtMs = Date.now()
+          this.receivedTicker = false
           this.scheduleRefresh(context.adapterSettings)
         },
         close: (event) => {
@@ -64,6 +68,29 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
           // the resulting silence as a failed renewal.
           this.clearTimers()
           logger.info(`Connection closed (code=${event.code}, reason=${event.reason || 'none'})`)
+
+          const lifetimeMs =
+            this.connectionOpenedAtMs === undefined ? 0 : Date.now() - this.connectionOpenedAtMs
+          const receivedTicker = this.receivedTicker
+          this.connectionOpenedAtMs = undefined
+          this.receivedTicker = false
+
+          // GSR accepts the handshake and then closes a session it will not
+          // serve, so a close without a ticker can mean the token was refused.
+          // Keeping that token would repeat the rejection on every reconnect
+          // until it reaches its refresh margin. Dropping it makes the next
+          // connection mint a fresh one.
+          if (
+            this.cachedToken &&
+            shouldDiscardTokenAfterClose(event.reason, lifetimeMs, receivedTicker)
+          ) {
+            this.cachedToken = null
+            logger.warn(
+              `Connection was not accepted (no ticker after ${lifetimeMs}ms, reason=${
+                event.reason || 'none'
+              }); discarding cached token so the next connection re-authenticates`,
+            )
+          }
         },
         message: (message) => this.parsePriceUpdate(message),
       },
@@ -180,6 +207,8 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
     } else if (message.type != 'ticker') {
       return
     }
+
+    this.receivedTicker = true
 
     const pair = message.data.symbol.split('.')
     if (pair.length != 2) {

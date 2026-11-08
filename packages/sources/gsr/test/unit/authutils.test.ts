@@ -65,6 +65,23 @@ describe('GSR access token expiry', () => {
       'API key mismatch',
     )
   })
+
+  it('reduces a failed request to the HTTP status so credentials stay out of logs', async () => {
+    nock(apiHost).post('/v1/token').reply(520, 'origin error')
+
+    let caught: unknown
+    try {
+      await getToken(apiEndpoint, userId, publicKey, privateKey)
+    } catch (e) {
+      caught = e
+    }
+
+    expect(caught).toBeInstanceOf(Error)
+    expect((caught as Error).message).toEqual('Access token request failed: HTTP 520')
+    expect((caught as { config?: unknown }).config).toBeUndefined()
+    expect((caught as { request?: unknown }).request).toBeUndefined()
+    expect(JSON.stringify(caught)).not.toContain(publicKey)
+  })
 })
 
 describe('GSR access token renewal', () => {
@@ -129,5 +146,22 @@ describe('GSR access token renewal', () => {
     await expect(renewToken(apiEndpoint, userId, privateKey, existingToken)).rejects.toThrow(
       'Signature mismatch',
     )
+  })
+
+  it('reduces a failed renewal to the HTTP status so credentials stay out of logs', async () => {
+    nock(apiHost).put('/v1/token').reply(500, 'origin error')
+
+    let caught: unknown
+    try {
+      await renewToken(apiEndpoint, userId, privateKey, existingToken)
+    } catch (e) {
+      caught = e
+    }
+
+    expect(caught).toBeInstanceOf(Error)
+    expect((caught as Error).message).toEqual('Access token renewal failed: HTTP 500')
+    expect((caught as { config?: unknown }).config).toBeUndefined()
+    expect((caught as { request?: unknown }).request).toBeUndefined()
+    expect(JSON.stringify(caught)).not.toContain(existingToken)
   })
 })

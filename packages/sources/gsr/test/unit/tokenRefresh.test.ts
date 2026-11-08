@@ -1,6 +1,8 @@
 import {
+  EARLY_CLOSE_WINDOW_MS,
   MAX_TIMEOUT_MS,
   refreshDelayMs,
+  shouldDiscardTokenAfterClose,
   TOKEN_REFRESH_MARGIN_MS,
 } from '../../src/transport/tokenRefresh'
 
@@ -32,5 +34,35 @@ describe('refreshDelayMs', () => {
     const token = { token: 't', expiresAtMs: NOW + 100 * 365 * 24 * ONE_HOUR_MS }
 
     expect(refreshDelayMs(token, NOW)).toEqual(MAX_TIMEOUT_MS)
+  })
+})
+
+describe('shouldDiscardTokenAfterClose', () => {
+  it('discards the token when a session closes without a ticker inside the early window', () => {
+    // The production rejection arrives about 1.4s after the handshake, often
+    // with an empty reason, so the window is the reliable signal.
+    expect(shouldDiscardTokenAfterClose('', 1_400, false)).toBe(true)
+    expect(shouldDiscardTokenAfterClose(undefined, 1_400, false)).toBe(true)
+  })
+
+  it('treats the early-close window as open-ended at its boundary', () => {
+    expect(shouldDiscardTokenAfterClose('', EARLY_CLOSE_WINDOW_MS - 1, false)).toBe(true)
+    expect(shouldDiscardTokenAfterClose('', EARLY_CLOSE_WINDOW_MS, false)).toBe(false)
+  })
+
+  it('discards the token when GSR says Bye even after the early window', () => {
+    // The reason is provider-controlled, so ignore case and surrounding space.
+    expect(shouldDiscardTokenAfterClose('Bye', 60_000, false)).toBe(true)
+    expect(shouldDiscardTokenAfterClose(' BYE ', 60_000, false)).toBe(true)
+  })
+
+  it('keeps the token once the session has delivered a ticker', () => {
+    // A ticker proves the token was accepted; a later close is not a rejection.
+    expect(shouldDiscardTokenAfterClose('', 1_400, true)).toBe(false)
+    expect(shouldDiscardTokenAfterClose('Bye', 60_000, true)).toBe(false)
+  })
+
+  it('keeps the token when a data-less session outlived the early window without Bye', () => {
+    expect(shouldDiscardTokenAfterClose('', 60_000, false)).toBe(false)
   })
 })
