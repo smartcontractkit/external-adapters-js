@@ -64,13 +64,12 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
           this.scheduleRefresh(context.adapterSettings)
         },
         close: (event) => {
-          // When the framework drops an unresponsive connection it opens the
-          // replacement in the same pass. GSR normally acknowledges the close
-          // within tens of milliseconds, before the new handshake completes, but
-          // `ws` waits up to 30s for a peer that does not. If the old socket's
-          // close lands after the new open, the fields on this transport already
-          // describe the new connection and must be left alone: clearing the
-          // timer here would leave the new token with no renewal.
+          // The framework replaces an unresponsive connection by closing it and
+          // opening the new one in the same pass, so the old socket's close can
+          // arrive after the new connection has opened. The fields on this
+          // transport describe only the current connection, so a close from any
+          // other socket is ignored rather than clearing the current one's timer
+          // and ticker state.
           if (event.target !== this.currentConnection) {
             logger.debug(
               `Ignoring close of a replaced connection (code=${event.code}, reason=${
