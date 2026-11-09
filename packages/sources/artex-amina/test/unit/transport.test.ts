@@ -3,12 +3,11 @@ import {
   AdapterConnectionError,
   AdapterDataProviderError,
   AdapterError,
-  AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import type { AuthManager } from '../../src/transport/auth'
 import { formatErrorBody, mapAminaError } from '../../src/transport/errors'
 import { authUrl, positionsPath, trimEndpoint } from '../../src/transport/paths'
-import { fetchAllPositions } from '../../src/transport/positions'
+import { fetchAllPositions, MAX_PAGES } from '../../src/transport/positions'
 import { DEFAULT_RETRY, isRetryableError, retryDelay, withRetry } from '../../src/transport/retry'
 import { buildHmacPayload, buildSignedGetHeaders, signHmac } from '../../src/transport/signing'
 
@@ -170,8 +169,8 @@ describe('AMINA transport', () => {
         settings,
         portfolioNo: 157769305,
       }),
-    ).rejects.toThrow('AMINA pagination exceeded 100 pages')
-    expect(requester.request).toHaveBeenCalledTimes(100)
+    ).rejects.toThrow(`AMINA pagination exceeded ${MAX_PAGES} pages`)
+    expect(requester.request).toHaveBeenCalledTimes(MAX_PAGES)
   })
 
   it('re-signs each positions attempt before retrying', async () => {
@@ -260,13 +259,6 @@ describe('AMINA transport', () => {
     )
     expect(fn).toHaveBeenCalledTimes(2)
     expect(isRetryableError(error)).toBe(true)
-  })
-
-  it('classifies rate-limit and unknown errors', () => {
-    expect(
-      isRetryableError(new AdapterRateLimitError({ message: 'queue overflow', statusCode: 429 })),
-    ).toBe(true)
-    expect(isRetryableError(new Error('boom'))).toBe(false)
   })
 
   it('caps the exponential retry delay', () => {

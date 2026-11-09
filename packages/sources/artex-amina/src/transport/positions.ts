@@ -10,7 +10,7 @@ import { DEFAULT_RETRY, withRetry } from './retry'
 import { buildSignedGetHeaders } from './signing'
 
 const PAGE_SIZE = 20
-const MAX_PAGES = 100
+export const MAX_PAGES = 100
 const USER_AGENT = 'chainlink-artex-amina-adapter/1.0.0'
 
 export interface AminaPosition {

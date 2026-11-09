@@ -6,10 +6,7 @@ import {
 
 export interface AminaErrorResponse {
   title?: string
-  detail?: string
   instance?: string
-  status?: number
-  type?: string
 }
 
 const MAX_ERROR_FIELD_LENGTH = 200

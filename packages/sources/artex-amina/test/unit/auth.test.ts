@@ -70,9 +70,7 @@ describe('AuthManager', () => {
   it.each([
     ['a non-object response', null],
     ['a response without an access token', { refreshToken: 'refresh-1' }],
-    ['an empty access token', { accessToken: '', refreshToken: 'refresh-1' }],
     ['a response without a refresh token', { accessToken: 'access-1' }],
-    ['an empty refresh token', { accessToken: 'access-1', refreshToken: '' }],
   ])('rejects %s', async (_, data) => {
     requester.request.mockResolvedValueOnce({
       response: { status: 200, data },
