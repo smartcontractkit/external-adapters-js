@@ -72,6 +72,9 @@ export class StockQuotesFxWebSocketTransport extends TiingoWebsocketTransport<Ws
             !isValidPrice(bid_price) ||
             !isValidPrice(ask_price)
           ) {
+            logger.warn(
+              `Received ${JSON.stringify(message)} with invalid ticker or bid/mid/ask price`,
+            )
             return []
           }
 
