@@ -7,11 +7,11 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
 
-// When GSR refuses fresh tokens as well, discarding the token on every refused
-// session would send a token request on every reconnect, about once a second.
-// Forced re-authentication must be spaced out instead, while the reconnects
-// themselves carry on.
-describe('early close re-authentication against a provider that keeps refusing', () => {
+// When GSR keeps refusing sessions, the framework reconnects about once a
+// second. Requesting a fresh token for each of those reconnects would flood
+// GSR's token endpoint, so token requests must be spaced out while the
+// reconnects themselves carry on.
+describe('token requests against a provider that keeps refusing sessions', () => {
   let mockWsServer: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
@@ -80,11 +80,10 @@ describe('early close re-authentication against a provider that keeps refusing',
     await testAdapter.api.close()
   })
 
-  it('keeps reconnecting but re-authenticates only once inside the interval', async () => {
-    // Several refused sessions, all well inside REAUTH_MIN_INTERVAL_MS.
+  it('keeps reconnecting but requests only one token inside the interval', async () => {
+    // Several refused sessions, all well inside MIN_TOKEN_REQUEST_INTERVAL_MS.
     await waitFor(() => connectionCount >= 4)
 
-    // The initial token plus one forced re-authentication.
-    expect(tokenRequests).toEqual(2)
+    expect(tokenRequests).toEqual(1)
   }, 30_000)
 })

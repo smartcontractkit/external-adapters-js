@@ -1,8 +1,8 @@
 import {
+  canReuseToken,
   MAX_TIMEOUT_MS,
-  REAUTH_MIN_INTERVAL_MS,
+  MIN_TOKEN_REQUEST_INTERVAL_MS,
   refreshDelayMs,
-  shouldDiscardTokenAfterClose,
   TOKEN_REFRESH_MARGIN_MS,
 } from '../../src/transport/tokenRefresh'
 
@@ -37,28 +37,26 @@ describe('refreshDelayMs', () => {
   })
 })
 
-describe('shouldDiscardTokenAfterClose', () => {
-  it('discards the token the first time a session closes without a ticker', () => {
-    // This is the post-incident case: a token minted before the outage is
-    // refused, and recovery should take one reconnect.
-    expect(shouldDiscardTokenAfterClose(false, NOW, undefined)).toBe(true)
+describe('canReuseToken', () => {
+  const token = { token: 't', expiresAtMs: NOW + ONE_HOUR_MS }
+
+  it('requests a fresh token once the cached one is older than the interval', () => {
+    // The post-incident case: a token requested before the outage may be one
+    // GSR now refuses, so the next connection must not carry it over.
+    expect(canReuseToken(token, NOW - MIN_TOKEN_REQUEST_INTERVAL_MS, NOW)).toBe(false)
+    expect(canReuseToken(token, NOW - 20 * 60 * 1000, NOW)).toBe(false)
   })
 
-  it('keeps the token once the session has delivered a ticker', () => {
-    // A ticker proves the token was accepted; a later close is not a rejection.
-    expect(shouldDiscardTokenAfterClose(true, NOW, undefined)).toBe(false)
-    expect(shouldDiscardTokenAfterClose(true, NOW, NOW - ONE_HOUR_MS)).toBe(false)
+  it('reuses a token requested within the interval so a refusing provider is not flooded', () => {
+    // Refused sessions reconnect about once a second; without this each one
+    // would send a token request.
+    expect(canReuseToken(token, NOW - 1_000, NOW)).toBe(true)
+    expect(canReuseToken(token, NOW - MIN_TOKEN_REQUEST_INTERVAL_MS + 1, NOW)).toBe(true)
   })
 
-  it('spaces forced re-authentications so a refusing provider is not flooded', () => {
-    // A provider that refuses fresh tokens too would otherwise get a token
-    // request on every reconnect, about once a second.
-    expect(shouldDiscardTokenAfterClose(false, NOW, NOW - 1_000)).toBe(false)
-    expect(shouldDiscardTokenAfterClose(false, NOW, NOW - REAUTH_MIN_INTERVAL_MS + 1)).toBe(false)
-  })
+  it('does not reuse a token already inside its refresh margin', () => {
+    const expiring = { token: 't', expiresAtMs: NOW + TOKEN_REFRESH_MARGIN_MS - 1 }
 
-  it('allows another forced re-authentication once the interval has passed', () => {
-    expect(shouldDiscardTokenAfterClose(false, NOW, NOW - REAUTH_MIN_INTERVAL_MS)).toBe(true)
-    expect(shouldDiscardTokenAfterClose(false, NOW, NOW - ONE_HOUR_MS)).toBe(true)
+    expect(canReuseToken(expiring, NOW, NOW)).toBe(false)
   })
 })

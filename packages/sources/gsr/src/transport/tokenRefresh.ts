@@ -20,30 +20,30 @@ export const refreshDelayMs = (token: TokenWithExpiry, nowMs: number): number | 
 }
 
 /**
- * Minimum time between forced re-authentications. The framework only backs off
- * when opening a connection throws; a session that opens and is then refused
- * reconnects on the next background pass, about a second later. Without this
- * floor, a provider that keeps refusing fresh tokens would get a token request
- * on every pass, from every adapter instance, while it is already struggling.
+ * Minimum time between token requests made for new connections. The framework
+ * only backs off when opening a connection throws; a session that opens and is
+ * then refused reconnects on the next background pass, about a second later.
+ * Without this floor, a provider that keeps refusing sessions would get a token
+ * request on every pass, from every adapter instance, while it is already
+ * struggling.
  */
-export const REAUTH_MIN_INTERVAL_MS = 30_000
+export const MIN_TOKEN_REQUEST_INTERVAL_MS = 30_000
 
 /**
- * Whether a closed session should invalidate the cached access token.
+ * Whether a new connection may reuse the cached token instead of requesting a
+ * fresh one.
  *
- * GSR carries the token in the WebSocket handshake and signals a refused token
- * only by closing the session (code 1000, reason "Bye", right after the
- * handshake) or by staying silent until the framework closes it as
- * unresponsive. A ticker proves the token was accepted. Without one, reusing
- * the token could repeat the rejection until it reaches its refresh margin.
- *
- * The first discard is always allowed, so recovery after a provider incident
- * takes seconds; later ones are spaced by REAUTH_MIN_INTERVAL_MS.
+ * GSR carries the token in the WebSocket handshake and refuses one only by
+ * closing the session (code 1000, reason "Bye") or by going silent, so a token
+ * carried over from an earlier connection may be one GSR has already refused.
+ * Reusing it would repeat the rejection until the token reached its refresh
+ * margin. Each connection therefore gets a fresh token, except when the cached
+ * one was requested within MIN_TOKEN_REQUEST_INTERVAL_MS; a run of refused
+ * sessions then costs one token request per interval, not one per reconnect.
  */
-export const shouldDiscardTokenAfterClose = (
-  receivedTicker: boolean,
+export const canReuseToken = (
+  token: TokenWithExpiry,
+  requestedAtMs: number,
   nowMs: number,
-  lastForcedReauthAtMs: number | undefined,
 ): boolean =>
-  !receivedTicker &&
-  (lastForcedReauthAtMs === undefined || nowMs - lastForcedReauthAtMs >= REAUTH_MIN_INTERVAL_MS)
+  nowMs - requestedAtMs < MIN_TOKEN_REQUEST_INTERVAL_MS && refreshDelayMs(token, nowMs) !== null

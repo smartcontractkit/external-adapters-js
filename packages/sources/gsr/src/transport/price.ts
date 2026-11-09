@@ -2,7 +2,7 @@ import { WebSocketTransport } from '@chainlink/external-adapter-framework/transp
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/price'
 import { getToken, renewToken, TokenWithExpiry } from './authutils'
-import { refreshDelayMs, shouldDiscardTokenAfterClose } from './tokenRefresh'
+import { canReuseToken, refreshDelayMs } from './tokenRefresh'
 
 const logger = makeLogger('GSR WS price')
 
@@ -42,11 +42,9 @@ type Settings = WsTransportTypes['Settings']
  */
 export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
   private cachedToken: TokenWithExpiry | null = null
+  // When cachedToken was last requested; renewals do not count.
+  private tokenRequestedAtMs?: number
   private refreshTimer?: NodeJS.Timeout
-  private receivedTicker = false
-  private lastForcedReauthAtMs?: number
-  // The socket the fields above describe. Compared by identity only.
-  private currentConnection?: unknown
 
   constructor() {
     super({
@@ -58,19 +56,19 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
         },
       }),
       handlers: {
-        open: async (connection, context) => {
-          this.currentConnection = connection
-          this.receivedTicker = false
+        open: async (_connection, context) => {
           this.scheduleRefresh(context.adapterSettings)
         },
         close: (event) => {
-          // The framework replaces an unresponsive connection by closing it and
-          // opening the new one in the same pass, so the old socket's close can
-          // arrive after the new connection has opened. The fields on this
-          // transport describe only the current connection, so a close from any
-          // other socket is ignored rather than clearing the current one's timer
-          // and ticker state.
-          if (event.target !== this.currentConnection) {
+          // The framework replaces an unresponsive connection by closing it,
+          // clearing wsConnection, and opening the new one in the same pass, so
+          // the old socket's close can arrive after the new connection has
+          // opened. wsConnection is assigned as soon as the new open handler
+          // returns, before any close event can be delivered, so a close from a
+          // socket other than a set wsConnection belongs to a replaced
+          // connection and must not clear the current one's refresh timer.
+          // While wsConnection is unset nothing is open, so the close is handled.
+          if (this.wsConnection && event.target !== this.wsConnection) {
             logger.debug(
               `Ignoring close of a replaced connection (code=${event.code}, reason=${
                 event.reason || 'none'
@@ -85,29 +83,6 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
           // the resulting silence as a failed renewal.
           this.clearTimers()
           logger.info(`Connection closed (code=${event.code}, reason=${event.reason || 'none'})`)
-
-          const receivedTicker = this.receivedTicker
-          this.receivedTicker = false
-          this.currentConnection = undefined
-
-          // GSR refuses a token by closing the session ("Bye") or by staying
-          // silent, so a session that closed without a ticker may have been
-          // refused. Keeping that token would repeat the rejection on every
-          // reconnect until it reaches its refresh margin. Dropping it makes the
-          // next connection mint a fresh one, at most once per interval.
-          const now = Date.now()
-          if (
-            this.cachedToken &&
-            shouldDiscardTokenAfterClose(receivedTicker, now, this.lastForcedReauthAtMs)
-          ) {
-            this.cachedToken = null
-            this.lastForcedReauthAtMs = now
-            logger.warn(
-              `Connection closed before any ticker (code=${event.code}, reason=${
-                event.reason || 'none'
-              }); discarding cached token so the next connection re-authenticates`,
-            )
-          }
         },
         message: (message) => this.parsePriceUpdate(message),
       },
@@ -139,9 +114,14 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
     })
   }
 
-  /** Reuses the cached token while it has comfortably more life than the refresh margin. */
+  /** A fresh token per connection, unless one was just requested (see canReuseToken). */
   private async tokenForConnection(settings: Settings): Promise<string> {
-    if (this.cachedToken && refreshDelayMs(this.cachedToken, Date.now()) !== null) {
+    if (
+      this.cachedToken &&
+      this.tokenRequestedAtMs !== undefined &&
+      canReuseToken(this.cachedToken, this.tokenRequestedAtMs, Date.now())
+    ) {
+      logger.debug('Reusing access token requested within the last interval')
       return this.cachedToken.token
     }
 
@@ -151,6 +131,7 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
       settings.WS_PUBLIC_KEY,
       settings.WS_PRIVATE_KEY,
     )
+    this.tokenRequestedAtMs = Date.now()
     return this.cachedToken.token
   }
 
@@ -160,8 +141,9 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
   }
 
   private closeForReconnect(reason: string) {
+    // The token is already inside its refresh margin, so the next connection
+    // requests a fresh one (see canReuseToken).
     logger.info(`${reason}; closing connection to reconnect`)
-    this.cachedToken = null
     // Close only — deliberately leaving wsConnection set. streamHandler bails
     // out early when there is no connection *and* no new subscription, so
     // clearing the field from outside its loop would strand the transport with
@@ -175,6 +157,12 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
     this.clearTimers()
 
     if (!this.cachedToken) {
+      // options() requests a token before every connection, so this should not
+      // happen; say so rather than leaving the connection without renewal
+      // silently.
+      logger.warn(
+        "No cached token at connection open; connection will rely on the framework's staleness check",
+      )
       return
     }
 
@@ -224,8 +212,6 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
     } else if (message.type != 'ticker') {
       return
     }
-
-    this.receivedTicker = true
 
     const pair = message.data.symbol.split('.')
     if (pair.length != 2) {
