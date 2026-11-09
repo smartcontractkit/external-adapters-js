@@ -26,6 +26,7 @@ export type BaseEndpointTypes = {
     Result: null
     Data: {
       mid_price: number
+      midSource: 'computed'
       bid_price: number
       bid_volume: number | null
       ask_price: number

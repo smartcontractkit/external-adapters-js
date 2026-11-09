@@ -22,6 +22,7 @@ exports[`dxLink websocket endpoints stock_quotes returns the spec example respon
     "ask_volume": 80,
     "bid_price": 189.9,
     "bid_volume": 50,
+    "midSource": "computed",
     "mid_price": 190,
   },
   "result": null,
