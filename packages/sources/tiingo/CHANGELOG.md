@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.16.0
+
+### Minor Changes
+
+- [#5575](https://github.com/smartcontractkit/external-adapters-js/pull/5575) [`205d54d`](https://github.com/smartcontractkit/external-adapters-js/commit/205d54d5a165be34c70fb497b4d3054d5ac37dad) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - stock_quotes requests with `assetType: indices` (e.g. us30usd) are now served from the Tiingo FX feed, returning mid/bid/ask with zero volume.
+
 ## 2.15.0
 
 ### Minor Changes
