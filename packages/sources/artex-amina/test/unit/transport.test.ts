@@ -4,14 +4,10 @@ import {
   AdapterDataProviderError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import type { AuthManager } from '../../src/transport/auth'
+import { mapAminaError } from '../../src/transport/errors'
 import { fetchAllPositions } from '../../src/transport/positions'
+import { DEFAULT_RETRY, isRetryableError, withRetry } from '../../src/transport/retry'
 import { buildHmacPayload, buildSignedGetHeaders, signHmac } from '../../src/transport/signing'
-import {
-  DEFAULT_RETRY,
-  isRetryableError,
-  mapAminaError,
-  withRetry,
-} from '../../src/transport/utils'
 
 const settings = {
   apiEndpoint: 'https://amina.test',
@@ -122,6 +118,35 @@ describe('AMINA transport', () => {
     expect(result.firstPageRequestedUnixMs).toBe(1_000)
     expect(result.lastPageReceivedUnixMs).toBe(1_300)
     expect(requester.request.mock.calls[1][1].url).toContain('page=1&size=20')
+  })
+
+  it('re-signs each positions attempt before retrying', async () => {
+    const requester = { request: jest.fn() }
+    const auth = { getAccessToken: jest.fn().mockResolvedValue('token') }
+    requester.request
+      .mockRejectedValueOnce(providerError(500))
+      .mockResolvedValueOnce(
+        pageResponse(page({ positions: [{ isin: 'US0378331005', quantity: 100.5 }] })),
+      )
+
+    const previousRetry = { ...DEFAULT_RETRY }
+    Object.assign(DEFAULT_RETRY, { maxAttempts: 2, baseDelayMs: 0, maxDelayMs: 0 })
+    try {
+      await fetchAllPositions({
+        requester: requester as unknown as Requester,
+        auth: auth as unknown as AuthManager,
+        settings,
+        portfolioNo: 157769305,
+      })
+    } finally {
+      Object.assign(DEFAULT_RETRY, previousRetry)
+    }
+
+    expect(requester.request).toHaveBeenCalledTimes(2)
+    const firstHeaders = requester.request.mock.calls[0][1].headers
+    const secondHeaders = requester.request.mock.calls[1][1].headers
+    expect(firstHeaders['Amina-Nonce']).not.toBe(secondHeaders['Amina-Nonce'])
+    expect(firstHeaders['Amina-Signature']).not.toBe(secondHeaders['Amina-Signature'])
   })
 
   it.each([

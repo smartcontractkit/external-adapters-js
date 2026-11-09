@@ -1,7 +1,8 @@
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { randomUUID } from 'node:crypto'
-import { authUrl, DEFAULT_RETRY, withRetry } from './utils'
+import { authUrl } from './paths'
+import { DEFAULT_RETRY, withRetry } from './retry'
 
 const ACCESS_TOKEN_TTL_MS = 60 * 60 * 1000
 const REFRESH_TOKEN_TTL_MS = 24 * 60 * 60 * 1000

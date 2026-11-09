@@ -6,7 +6,7 @@ import type { Requester } from '@chainlink/external-adapter-framework/util/reque
 import type { BaseEndpointTypes, inputParameters } from '../endpoint/por'
 import { AuthManager } from './auth'
 import { fetchAllPositions, selectQuantity } from './positions'
-import { mapAminaError } from './utils'
+import { mapAminaError } from './errors'
 
 const logger = makeLogger('PorTransport')
 

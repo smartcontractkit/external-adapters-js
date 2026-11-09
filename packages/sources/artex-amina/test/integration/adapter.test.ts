@@ -4,7 +4,7 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import { porTransport } from '../../src/transport/por'
-import { DEFAULT_RETRY } from '../../src/transport/utils'
+import { DEFAULT_RETRY } from '../../src/transport/retry'
 import {
   AGREEMENT,
   HOST,

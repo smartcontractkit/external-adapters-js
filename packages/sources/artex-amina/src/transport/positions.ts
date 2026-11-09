@@ -1,19 +1,17 @@
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import type { AuthManager } from './auth'
-import { buildSignedGetHeaders } from './signing'
 import {
-  DEFAULT_RETRY,
-  mapAminaError,
-  positionsPath,
-  providerStatus,
-  trimEndpoint,
-  USER_AGENT,
-  withRetry,
-} from './utils'
+  AdapterDataProviderError,
+  AdapterError,
+} from '@chainlink/external-adapter-framework/validation/error'
+import type { AuthManager } from './auth'
+import { mapAminaError } from './errors'
+import { positionsPath, trimEndpoint } from './paths'
+import { DEFAULT_RETRY, withRetry } from './retry'
+import { buildSignedGetHeaders } from './signing'
 
 const PAGE_SIZE = 20
 const MAX_PAGES = 100
+const USER_AGENT = 'chainlink-artex-amina-adapter/1.0.0'
 
 export interface AminaPosition {
   isin: string
@@ -106,7 +104,7 @@ async function fetchPage(args: FetchPositionsArgs, pageNo: number): Promise<Page
   try {
     result = await withRetry(() => makeRequest(token), DEFAULT_RETRY)
   } catch (error) {
-    if (providerStatus(error) === 401) {
+    if (error instanceof AdapterDataProviderError && error.providerStatusCode === 401) {
       token = await auth.refreshAfter401()
       result = await withRetry(() => makeRequest(token), DEFAULT_RETRY)
     } else {
