@@ -476,3 +476,67 @@ describe('getSessionSchedule market-identity skip', () => {
     expect(result.fallbackTransitions).toBeDefined()
   })
 })
+
+describe('getSessionSchedule nyse/regular wiring', () => {
+  beforeAll(() => {
+    jest.useFakeTimers()
+    LoggerFactoryProvider.set()
+    // Monday 2024-01-15 10:30 UTC — inside no session, schedule content is what matters.
+    jest.setSystemTime(new Date('2024-01-15T10:30:00Z').getTime())
+  })
+
+  afterAll(() => {
+    jest.useRealTimers()
+  })
+
+  it('returns the nyse/regular fallback and drives the fetch timezone from the schedule entry', async () => {
+    const requester = {
+      request: jest.fn().mockResolvedValue({
+        response: {
+          data: { data: { result: [] }, statusCode: 200 },
+        },
+      }),
+    } as unknown as Requester
+
+    const result = await getSessionSchedule(
+      'https://tradinghours.example.com',
+      requester,
+      [],
+      'UTC', // the smoother's timezone — the schedule entry must win for the fetch
+      'nyse',
+      'regular',
+    )
+
+    expect(requester.request).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        data: { data: expect.objectContaining({ timezone: 'America/New_York' }) },
+      }),
+    )
+    expect(result.fallbackTransitions).toBeDefined()
+    // The narrowed nyse/regular fallback only ever carries REGULAR opens.
+    expect(
+      (result.fallbackTransitions ?? []).every(
+        (t) => t.status === TwentyfourFiveMarketStatus.REGULAR,
+      ),
+    ).toBe(true)
+  })
+
+  it('still returns the nyse/regular fallback when the tradinghours fetch fails', async () => {
+    const failingRequester = {
+      request: jest.fn().mockRejectedValue(new Error('TradingHours EA unavailable')),
+    } as unknown as Requester
+
+    const result = await getSessionSchedule(
+      'https://tradinghours.example.com',
+      failingRequester,
+      [],
+      undefined,
+      'nyse',
+      'regular',
+    )
+
+    expect(result.transitions).toBeUndefined()
+    expect(result.fallbackTransitions).toBeDefined()
+  })
+})

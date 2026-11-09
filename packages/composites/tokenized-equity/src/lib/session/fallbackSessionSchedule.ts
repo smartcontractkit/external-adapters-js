@@ -26,11 +26,28 @@ type FallbackSchedule = {
   weeklyOpens: Partial<Record<number, SessionOpen[]>>
 }
 
-const WEEKDAY_OPENS: SessionOpen[] = [
-  { at: '04:00', opens: TwentyfourFiveMarketStatus.PRE_MARKET },
-  { at: '09:30', opens: TwentyfourFiveMarketStatus.REGULAR },
-  { at: '16:00', opens: TwentyfourFiveMarketStatus.POST_MARKET },
-  { at: '20:00', opens: TwentyfourFiveMarketStatus.OVERNIGHT },
+const NYSE_WEEKDAY_REGULAR_OPEN: SessionOpen = {
+  at: '09:30',
+  opens: TwentyfourFiveMarketStatus.REGULAR,
+}
+const NYSE_WEEKDAY_PRE_MARKET_OPEN: SessionOpen = {
+  at: '04:00',
+  opens: TwentyfourFiveMarketStatus.PRE_MARKET,
+}
+const NYSE_WEEKDAY_POST_MARKET_OPEN: SessionOpen = {
+  at: '16:00',
+  opens: TwentyfourFiveMarketStatus.POST_MARKET,
+}
+const NYSE_OVERNIGHT_OPEN: SessionOpen = {
+  at: '20:00',
+  opens: TwentyfourFiveMarketStatus.OVERNIGHT,
+}
+
+const NYSE_WEEKDAY_OPENS: SessionOpen[] = [
+  NYSE_WEEKDAY_PRE_MARKET_OPEN,
+  NYSE_WEEKDAY_REGULAR_OPEN,
+  NYSE_WEEKDAY_POST_MARKET_OPEN,
+  NYSE_OVERNIGHT_OPEN,
 ]
 
 const FALLBACK_SESSION_SCHEDULE: Record<string, FallbackSchedule> = {
@@ -39,12 +56,26 @@ const FALLBACK_SESSION_SCHEDULE: Record<string, FallbackSchedule> = {
   'nyse/24/5': {
     timezone: 'America/New_York',
     weeklyOpens: {
-      0: [{ at: '20:00', opens: TwentyfourFiveMarketStatus.OVERNIGHT }], // Sunday
-      1: WEEKDAY_OPENS,
-      2: WEEKDAY_OPENS,
-      3: WEEKDAY_OPENS,
-      4: WEEKDAY_OPENS,
-      5: WEEKDAY_OPENS.filter((o) => o.opens !== TwentyfourFiveMarketStatus.OVERNIGHT), // Friday
+      0: [NYSE_OVERNIGHT_OPEN], // 0:Sunday
+      1: NYSE_WEEKDAY_OPENS, // 1:Monday
+      2: NYSE_WEEKDAY_OPENS, // 2:Tuesday
+      3: NYSE_WEEKDAY_OPENS, // 3:Wednesday
+      4: NYSE_WEEKDAY_OPENS, // 4:Thursday
+      5: NYSE_WEEKDAY_OPENS.filter((o) => o.opens !== TwentyfourFiveMarketStatus.OVERNIGHT), // 5:Friday, exclude OVERNIGHT, on Friday's the market closes
+      6: [], // 6:Saturday
+    },
+  },
+  // Regular-hours-only gating: just the 09:30 ET regular open on weekdays — no
+  // pre/post-market or overnight sessions, and none on Sunday or Saturday.
+  'nyse/regular': {
+    timezone: 'America/New_York',
+    weeklyOpens: {
+      0: [], // Sunday
+      1: [NYSE_WEEKDAY_REGULAR_OPEN],
+      2: [NYSE_WEEKDAY_REGULAR_OPEN],
+      3: [NYSE_WEEKDAY_REGULAR_OPEN],
+      4: [NYSE_WEEKDAY_REGULAR_OPEN],
+      5: [NYSE_WEEKDAY_REGULAR_OPEN], // Friday
       6: [], // Saturday
     },
   },

@@ -1,10 +1,14 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
-import { getFallbackSessionTransitions } from '../../../src/lib/session/fallbackSessionSchedule'
+import {
+  getFallbackSessionTransitions,
+  getGatingTimezone,
+} from '../../../src/lib/session/fallbackSessionSchedule'
 import { SessionTransition } from '../../../src/lib/session/tradingHoursSession'
 
 // Tests for the hard-coded fallback session schedule: gating's labeled last-resort
 // schedule when tradinghours is unavailable or unusable. Keyed by market/type;
-// initially nyse/24/5 only. Never derived from sessionBoundaries.
+// nyse/24/5 (full 24/5 session structure) and nyse/regular (regular-hours only).
+// Never derived from sessionBoundaries.
 
 const at = (iso: string) => new Date(iso).getTime()
 
@@ -119,14 +123,95 @@ describe('getFallbackSessionTransitions', () => {
     expect(
       getFallbackSessionTransitions('lse', '24/5', at('2024-01-10T12:00:00.000Z')),
     ).toBeUndefined()
-    expect(
-      getFallbackSessionTransitions('nyse', 'regular', at('2024-01-10T12:00:00.000Z')),
-    ).toBeUndefined()
   })
 
   it('is case-insensitive on the market (tradinghours accepts NYSE)', () => {
     expect(
       getFallbackSessionTransitions('NYSE', '24/5', at('2024-01-10T12:00:00.000Z')),
     ).toBeDefined()
+  })
+})
+
+describe('getFallbackSessionTransitions - nyse/regular', () => {
+  it('returns the 09:30 ET REGULAR open on weekdays', () => {
+    // Query from Tuesday → window covers Mon–Wed. January is EST = UTC-5.
+    const transitions = getFallbackSessionTransitions(
+      'nyse',
+      'regular',
+      at('2024-01-09T12:00:00.000Z'),
+    )
+
+    expect(transitions).toBeDefined()
+    // Monday 2024-01-08 and Tuesday 2024-01-09 REGULAR opens: 09:30 ET = 14:30 UTC
+    expect(transitions).toContainEqual({
+      status: TwentyfourFiveMarketStatus.REGULAR,
+      timeMs: at('2024-01-08T14:30:00.000Z'),
+    })
+    expect(transitions).toContainEqual({
+      status: TwentyfourFiveMarketStatus.REGULAR,
+      timeMs: at('2024-01-09T14:30:00.000Z'),
+    })
+  })
+
+  it('contains only REGULAR transitions — no pre/post-market or overnight sessions', () => {
+    // Pins the deliberate narrowing vs nyse/24/5: a nyse/regular feed must never gate
+    // open on an extended-hours or overnight session from the fallback. Query from
+    // Saturday → window covers Thu–Sun, the widest spread of distinct weekdays.
+    const result = getFallbackSessionTransitions('nyse', 'regular', at('2024-01-13T12:00:00.000Z'))
+    expect(result).toBeDefined()
+    const transitions = result as SessionTransition[]
+
+    expect(transitions.length).toBeGreaterThan(0)
+    expect(transitions.every((t) => t.status === TwentyfourFiveMarketStatus.REGULAR)).toBe(true)
+  })
+
+  it('has no Sunday or Saturday sessions, and Friday has no overnight open', () => {
+    // Query from Saturday 2024-01-13 → window covers Thu 11th through Sun 14th.
+    const result = getFallbackSessionTransitions('nyse', 'regular', at('2024-01-13T12:00:00.000Z'))
+    expect(result).toBeDefined()
+    const transitions = result as SessionTransition[]
+
+    // Thursday and Friday REGULAR opens are present…
+    expect(transitions).toContainEqual({
+      status: TwentyfourFiveMarketStatus.REGULAR,
+      timeMs: at('2024-01-11T14:30:00.000Z'),
+    })
+    expect(transitions).toContainEqual({
+      status: TwentyfourFiveMarketStatus.REGULAR,
+      timeMs: at('2024-01-12T14:30:00.000Z'),
+    })
+    // …and there are no transitions at all on Saturday 13th or Sunday 14th ET
+    // (Sat 00:00 ET = Sat 05:00 UTC, Sun 23:59 ET = Mon 04:59 UTC).
+    const satStartUtc = at('2024-01-13T05:00:00.000Z')
+    const sunEndUtc = at('2024-01-15T04:59:59.000Z')
+    expect(transitions.filter((t) => t.timeMs >= satStartUtc && t.timeMs <= sunEndUtc)).toEqual([])
+  })
+
+  it('resolves the 09:30 ET wall-clock open correctly across DST', () => {
+    // July: EDT = UTC-4, so REGULAR 09:30 ET = 13:30 UTC (not 14:30).
+    const result = getFallbackSessionTransitions('nyse', 'regular', at('2024-07-09T12:00:00.000Z'))
+    expect(result).toBeDefined()
+
+    expect(result as SessionTransition[]).toContainEqual({
+      status: TwentyfourFiveMarketStatus.REGULAR,
+      timeMs: at('2024-07-08T13:30:00.000Z'), // Monday 2024-07-08
+    })
+  })
+
+  it('is case-insensitive on the market type segment', () => {
+    expect(
+      getFallbackSessionTransitions('nyse', 'REGULAR', at('2024-01-10T12:00:00.000Z')),
+    ).toBeDefined()
+  })
+})
+
+describe('getGatingTimezone', () => {
+  it('returns America/New_York for both nyse entries', () => {
+    expect(getGatingTimezone('nyse', '24/5')).toBe('America/New_York')
+    expect(getGatingTimezone('nyse', 'regular')).toBe('America/New_York')
+  })
+
+  it('returns undefined for market/type pairs without a hard-coded entry', () => {
+    expect(getGatingTimezone('lse', '24/5')).toBeUndefined()
   })
 })
