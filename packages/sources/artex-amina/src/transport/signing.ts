@@ -10,6 +10,9 @@ export interface HmacInput {
   bodyHash?: string
 }
 
+// AMINA manual p.6: HMAC-SHA256 over
+// method\ntimestamp\nnonce\nuri\nuser_id\nagreement_number.
+// The framework has no HMAC helper; this is the primitive the manual specifies.
 export function buildHmacPayload(input: HmacInput): string {
   const fields = [
     input.method.toUpperCase(),

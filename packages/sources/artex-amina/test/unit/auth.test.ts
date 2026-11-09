@@ -49,6 +49,21 @@ describe('AuthManager', () => {
     })
   })
 
+  it('rejects a malformed auth response', async () => {
+    requester.request.mockResolvedValueOnce({
+      response: { status: 200, data: { accessToken: 'access-1' } },
+      timestamps: {
+        providerDataRequestedUnixMs: 1,
+        providerDataReceivedUnixMs: 2,
+        providerIndicatedTimeUnixMs: undefined,
+      },
+    })
+
+    await expect(manager.getAccessToken()).rejects.toThrow(
+      'AMINA auth response must contain accessToken and refreshToken',
+    )
+  })
+
   it('refreshes the access token after one hour', async () => {
     requester.request
       .mockResolvedValueOnce(authResponse('access-1', 'refresh-1'))

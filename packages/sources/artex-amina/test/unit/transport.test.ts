@@ -125,11 +125,11 @@ describe('AMINA transport', () => {
   })
 
   it.each([
-    ['a page without positions', { last: true }, 'AMINA positions response has no positions array'],
+    ['a page without positions', { last: true }, 'AMINA positions response is malformed'],
     [
       'a position with an invalid quantity',
       page({ positions: [{ isin: 'US0378331005', quantity: -1 }] }),
-      'AMINA position 0 has an invalid quantity',
+      'AMINA positions response is malformed',
     ],
   ])('rejects %s', async (_, data, message) => {
     const requester = { request: jest.fn().mockResolvedValueOnce(pageResponse(data)) }

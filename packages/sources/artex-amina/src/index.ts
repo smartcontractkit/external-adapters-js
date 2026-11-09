@@ -12,6 +12,7 @@ export const adapter = new Adapter({
     tiers: {
       default: {
         rateLimit1m: 10,
+        note: 'AMINA documents no read-only rate limit; self-imposed cap for a monthly feed.',
       },
     },
   },

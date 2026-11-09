@@ -1,6 +1,6 @@
-import { randomUUID } from 'node:crypto'
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { randomUUID } from 'node:crypto'
 import { authUrl, DEFAULT_RETRY, withRetry } from './utils'
 
 const ACCESS_TOKEN_TTL_MS = 60 * 60 * 1000
@@ -31,19 +31,25 @@ function invalid(message: string): AdapterError {
   return new AdapterError({ statusCode: 502, message })
 }
 
-function parseAuthResponse(data: unknown): AminaAuthResponse {
-  if (!isRecord(data)) {
-    throw invalid('AMINA auth response is not an object')
-  }
-  if (typeof data.accessToken !== 'string' || data.accessToken.length === 0) {
-    throw invalid('AMINA auth response has no accessToken')
-  }
-  if (typeof data.refreshToken !== 'string' || data.refreshToken.length === 0) {
-    throw invalid('AMINA auth response has no refreshToken')
-  }
-  return { accessToken: data.accessToken, refreshToken: data.refreshToken }
+function isAuthResponse(data: unknown): data is AminaAuthResponse {
+  return (
+    isRecord(data) &&
+    typeof data.accessToken === 'string' &&
+    data.accessToken.length > 0 &&
+    typeof data.refreshToken === 'string' &&
+    data.refreshToken.length > 0
+  )
 }
 
+function parseAuthResponse(data: unknown): AminaAuthResponse {
+  if (!isAuthResponse(data)) {
+    throw invalid('AMINA auth response must contain accessToken and refreshToken')
+  }
+  return data
+}
+
+// The framework has no token manager: HttpTransport only issues requests and
+// prepareRequests is synchronous. AMINA's login/refresh/401 flow lives here.
 export class AuthManager {
   private access?: CachedToken
   private refresh?: CachedToken
@@ -73,35 +79,23 @@ export class AuthManager {
     }
     if (this.refresh && Date.now() < this.refresh.expiresAtMs - TOKEN_EXPIRY_BUFFER_MS) {
       try {
-        await this.refreshTokens()
-        return this.currentAccessToken()
+        return await this.refreshTokens()
       } catch {
         // The refresh token was rejected. Fall back to a full login.
       }
     }
-    await this.login()
-    return this.currentAccessToken()
+    return this.login()
   }
 
-  private currentAccessToken(): string {
-    if (!this.access) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: 'AMINA access token is unavailable',
-      })
-    }
-    return this.access.token
-  }
-
-  private async login(): Promise<void> {
+  private async login(): Promise<string> {
     const auth = await this.requestAuth('login', {
       username: this.settings.userId,
       password: this.settings.password,
     })
-    this.store(auth)
+    return this.store(auth)
   }
 
-  private async refreshTokens(): Promise<void> {
+  private async refreshTokens(): Promise<string> {
     if (!this.refresh) {
       throw new AdapterError({
         statusCode: 502,
@@ -111,7 +105,7 @@ export class AuthManager {
     const auth = await this.requestAuth('refresh', {
       refreshToken: this.refresh.token,
     })
-    this.store(auth)
+    return this.store(auth)
   }
 
   private async requestAuth(
@@ -135,9 +129,10 @@ export class AuthManager {
     return parseAuthResponse(result.response.data)
   }
 
-  private store(auth: AminaAuthResponse): void {
+  private store(auth: AminaAuthResponse): string {
     const now = Date.now()
     this.access = { token: auth.accessToken, expiresAtMs: now + ACCESS_TOKEN_TTL_MS }
     this.refresh = { token: auth.refreshToken, expiresAtMs: now + REFRESH_TOKEN_TTL_MS }
+    return auth.accessToken
   }
 }

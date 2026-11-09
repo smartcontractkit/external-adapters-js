@@ -35,6 +35,10 @@ export const config = new AdapterConfig(
   },
   {
     envDefaultOverrides: {
+      // The framework retry loop re-sends the same Axios config, including the
+      // AMINA nonce/timestamp/signature. Manual p.6 requires a unique nonce per
+      // request, so framework retries are disabled and transport/utils.ts
+      // re-signs every attempt.
       RETRY: 0,
     },
   },

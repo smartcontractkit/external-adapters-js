@@ -54,7 +54,8 @@ above.
   exponential backoff capped at 40 seconds for auth and positions. 400, 401,
   and 403 are not retried; a positions 401 gets one token refresh. Failed
   responses use the framework cache age before the next background attempt.
-- The adapter limits each instance to 10 requests per minute.
+- The adapter caps outbound requests at 10 per minute. AMINA documents no
+  read-only rate limit; this is a self-imposed cap for a monthly feed.
 - The response `aum` is the raw source quantity. The adapter does not scale or
   round it. The stream configuration owns `decimals`.
 - `validFrom`/`observations` use the first positions GET time. The adapter sets

@@ -59,33 +59,27 @@ function invalid(message: string): AdapterError {
   return new AdapterError({ statusCode: 502, message })
 }
 
-function parsePosition(raw: unknown, index: number): AminaPosition {
-  if (!isRecord(raw)) {
-    throw invalid(`AMINA position ${index} is not an object`)
-  }
-  if (typeof raw.isin !== 'string' || raw.isin.length === 0) {
-    throw invalid(`AMINA position ${index} has no isin`)
-  }
-  if (typeof raw.quantity !== 'number' || !Number.isFinite(raw.quantity) || raw.quantity < 0) {
-    throw invalid(`AMINA position ${index} has an invalid quantity`)
-  }
-  return { isin: raw.isin, quantity: raw.quantity }
+function isPosition(value: unknown): value is AminaPosition {
+  return (
+    isRecord(value) &&
+    typeof value.isin === 'string' &&
+    value.isin.length > 0 &&
+    typeof value.quantity === 'number' &&
+    Number.isFinite(value.quantity) &&
+    value.quantity >= 0
+  )
 }
 
 export function parsePositionsPage(data: unknown): AminaPositionsPage {
-  if (!isRecord(data)) {
-    throw invalid('AMINA positions response is not an object')
+  if (
+    !isRecord(data) ||
+    !Array.isArray(data.positions) ||
+    !data.positions.every(isPosition) ||
+    typeof data.last !== 'boolean'
+  ) {
+    throw invalid('AMINA positions response is malformed')
   }
-  if (!Array.isArray(data.positions)) {
-    throw invalid('AMINA positions response has no positions array')
-  }
-  if (typeof data.last !== 'boolean') {
-    throw invalid('AMINA positions response has an invalid last')
-  }
-  return {
-    positions: data.positions.map(parsePosition),
-    last: data.last,
-  }
+  return { positions: data.positions, last: data.last }
 }
 
 async function fetchPage(args: FetchPositionsArgs, pageNo: number): Promise<PageResult> {
@@ -127,6 +121,9 @@ async function fetchPage(args: FetchPositionsArgs, pageNo: number): Promise<Page
   }
 }
 
+// AMINA returns `last` per page, so page N+1 depends on page N.
+// HttpTransport.prepareRequests prepares requests up front and cannot chain
+// them; SubscriptionTransport is the framework seam for this custom flow.
 export async function fetchAllPositions(args: FetchPositionsArgs): Promise<PositionsResult> {
   const positions: AminaPosition[] = []
   let firstPageRequestedUnixMs: number | undefined
