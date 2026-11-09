@@ -204,7 +204,7 @@ adapters:
   - name: solactive
     version: 1.0.5
   - name: solana-functions
-    version: 1.9.0
+    version: 1.10.0
   - name: stader-labs
     version: 3.0.27
   - name: starknet-gas-price
