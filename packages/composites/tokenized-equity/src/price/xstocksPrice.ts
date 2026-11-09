@@ -23,7 +23,7 @@ export const calculatePrice = async (param: {
   smoother: Smoother
   decimals: number
 }) => {
-  // xstocks has historically not respected market paused, pending GTM input on enforcing pauses
+  // xstocks ignores Asset Paused by GTM decision, see docs/adr/0002
   const [result, { multiplier }] = await Promise.all([
     smoothedStreamPrice(param),
     issuers.xstocks.read(param, param.provider),

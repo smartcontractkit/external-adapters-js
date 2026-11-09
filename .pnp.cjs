@@ -6482,7 +6482,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/solana-functions", {\
         "packageLocation": "./packages/sources/solana-functions/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@chainlink/solana-functions-adapter", "workspace:packages/sources/solana-functions"],\
           ["@coral-xyz/anchor", "npm:0.31.1"],\
           ["@solana/addresses", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.3"],\
@@ -6493,7 +6493,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/spl-token", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:0.4.15"],\
           ["@solana/sysvars", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.3"],\
           ["@solana/web3.js", "npm:1.98.4"],\
-          ["@types/bn.js", "npm:5.1.6"],\
+          ["@types/bn.js", "npm:5.2.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["bn.js", "npm:5.2.5"],\
@@ -15882,6 +15882,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-bn.js-npm-5.1.6-f95fd017b1-db565b5a2a.zip/node_modules/@types/bn.js/",\
         "packageDependencies": [\
           ["@types/bn.js", "npm:5.1.6"],\
+          ["@types/node", "npm:22.14.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:5.2.0", {\
+        "packageLocation": "./.yarn/cache/@types-bn.js-npm-5.2.0-3df8f9db07-06c93841f7.zip/node_modules/@types/bn.js/",\
+        "packageDependencies": [\
+          ["@types/bn.js", "npm:5.2.0"],\
           ["@types/node", "npm:22.14.1"]\
         ],\
         "linkType": "HARD"\
