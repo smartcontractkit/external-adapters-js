@@ -7,25 +7,20 @@ export interface HmacInput {
   uri: string
   userId: string
   agreementNumber: string
-  bodyHash?: string
 }
 
 // AMINA manual p.6: HMAC-SHA256 over
 // method\ntimestamp\nnonce\nuri\nuser_id\nagreement_number.
 // The framework has no HMAC helper; this is the primitive the manual specifies.
 export function buildHmacPayload(input: HmacInput): string {
-  const fields = [
+  return [
     input.method.toUpperCase(),
     input.timestamp,
     input.nonce,
     input.uri,
     input.userId,
     input.agreementNumber,
-  ]
-  if (input.bodyHash) {
-    fields.push(input.bodyHash)
-  }
-  return fields.join('\n')
+  ].join('\n')
 }
 
 export function signHmac(payload: string, hmacSecret: string): string {

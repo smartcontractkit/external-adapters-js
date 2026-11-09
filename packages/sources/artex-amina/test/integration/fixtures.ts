@@ -19,6 +19,14 @@ export function mockAuth(accessToken = ACCESS_TOKEN, refreshToken = REFRESH_TOKE
     .reply(200, { accessToken, refreshToken })
 }
 
+export function mockAuthError(status: number, body: Record<string, unknown> = {}): nock.Scope {
+  return nock(HOST)
+    .post('/api/b2c/v1/auth')
+    .matchHeader('X-Request-Id', /.+/)
+    .matchHeader('X-Correlation-Id', /.+/)
+    .reply(status, body)
+}
+
 export function mockRefresh(accessToken = ACCESS_TOKEN, refreshToken = REFRESH_TOKEN): nock.Scope {
   return nock(HOST)
     .post('/api/b2c/v1/auth', { refreshToken: REFRESH_TOKEN })

@@ -80,7 +80,7 @@ export class AuthManager {
     }
     if (this.refresh && Date.now() < this.refresh.expiresAtMs - TOKEN_EXPIRY_BUFFER_MS) {
       try {
-        return await this.refreshTokens()
+        return await this.refreshTokens(this.refresh.token)
       } catch {
         // The refresh token was rejected. Fall back to a full login.
       }
@@ -96,16 +96,8 @@ export class AuthManager {
     return this.store(auth)
   }
 
-  private async refreshTokens(): Promise<string> {
-    if (!this.refresh) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: 'AMINA refresh token is unavailable',
-      })
-    }
-    const auth = await this.requestAuth('refresh', {
-      refreshToken: this.refresh.token,
-    })
+  private async refreshTokens(refreshToken: string): Promise<string> {
+    const auth = await this.requestAuth('refresh', { refreshToken })
     return this.store(auth)
   }
 

@@ -31,19 +31,19 @@ export function isRetryableError(error: unknown): boolean {
   return false
 }
 
+export function retryDelay(attempt: number, options: RetryOptions): number {
+  return Math.min(options.baseDelayMs * 2 ** attempt, options.maxDelayMs)
+}
+
 export async function withRetry<T>(fn: () => Promise<T>, options: RetryOptions): Promise<T> {
-  let lastError: unknown
-  for (let attempt = 0; attempt < options.maxAttempts; attempt++) {
+  for (let attempt = 0; ; attempt++) {
     try {
       return await fn()
     } catch (error) {
-      lastError = error
-      if (attempt === options.maxAttempts - 1 || !isRetryableError(error)) {
+      if (attempt >= options.maxAttempts - 1 || !isRetryableError(error)) {
         throw error
       }
-      const delay = Math.min(options.baseDelayMs * 2 ** attempt, options.maxDelayMs)
-      await sleep(delay)
+      await sleep(retryDelay(attempt, options))
     }
   }
-  throw lastError
 }

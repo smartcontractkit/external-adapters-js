@@ -10,6 +10,7 @@ import {
   HOST,
   ISIN,
   mockAuth,
+  mockAuthError,
   mockPositions,
   mockPositionsError,
   mockRefresh,
@@ -147,5 +148,36 @@ describe('execute', () => {
 
     expect(response.statusCode).toBe(200)
     expect(response.json().data.aum).toBe(100.5)
+  })
+
+  it('returns 502 when auth rejects the credentials', async () => {
+    nock.cleanAll()
+    mockAuthError(401, { title: 'Unauthorized' })
+
+    const response = await testAdapter.request({
+      endpoint: 'por',
+      portfolioNo: PORTFOLIO_NO,
+      isin: ISIN,
+    })
+
+    expect(response.statusCode).toBe(502)
+    expect(response.json().errorMessage).toContain('AMINA request failed (401)')
+    expect(response.json().errorMessage).toContain('Unauthorized')
+  })
+
+  it('returns 502 when the refreshed token is rejected too', async () => {
+    mockPositionsError(0, 401)
+    const refresh = mockRefresh(REFRESHED_ACCESS_TOKEN)
+    mockPositionsError(0, 401, {}, REFRESHED_ACCESS_TOKEN)
+
+    const response = await testAdapter.request({
+      endpoint: 'por',
+      portfolioNo: PORTFOLIO_NO,
+      isin: ISIN,
+    })
+
+    expect(response.statusCode).toBe(502)
+    expect(response.json().errorMessage).toContain('AMINA request failed (401)')
+    expect(refresh.isDone()).toBe(true)
   })
 })

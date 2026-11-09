@@ -1,7 +1,9 @@
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 import { AuthManager } from '../../src/transport/auth'
 
 const NOW = new Date('2026-11-05T00:00:00Z').getTime()
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
 function authResponse(accessToken: string, refreshToken: string) {
   return {
@@ -12,6 +14,17 @@ function authResponse(accessToken: string, refreshToken: string) {
       providerIndicatedTimeUnixMs: undefined,
     },
   }
+}
+
+function providerError(status: number): AdapterDataProviderError {
+  return new AdapterDataProviderError(
+    { statusCode: 502, providerStatusCode: status, message: `status ${status}` },
+    {
+      providerDataRequestedUnixMs: 1,
+      providerDataReceivedUnixMs: 2,
+      providerIndicatedTimeUnixMs: undefined,
+    },
+  )
 }
 
 describe('AuthManager', () => {
@@ -46,12 +59,23 @@ describe('AuthManager', () => {
       method: 'POST',
       url: 'https://amina.test/api/b2c/v1/auth',
       data: { username: '25742014', password: 'password' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
+    expect(request.headers?.['X-Request-Id']).toMatch(UUID)
+    expect(request.headers?.['X-Correlation-Id']).toMatch(UUID)
   })
 
-  it('rejects a malformed auth response', async () => {
+  it.each([
+    ['a non-object response', null],
+    ['a response without an access token', { refreshToken: 'refresh-1' }],
+    ['an empty access token', { accessToken: '', refreshToken: 'refresh-1' }],
+    ['a response without a refresh token', { accessToken: 'access-1' }],
+    ['an empty refresh token', { accessToken: 'access-1', refreshToken: '' }],
+  ])('rejects %s', async (_, data) => {
     requester.request.mockResolvedValueOnce({
-      response: { status: 200, data: { accessToken: 'access-1' } },
+      response: { status: 200, data },
       timestamps: {
         providerDataRequestedUnixMs: 1,
         providerDataReceivedUnixMs: 2,
@@ -64,18 +88,53 @@ describe('AuthManager', () => {
     )
   })
 
-  it('refreshes the access token after one hour', async () => {
+  it('refreshes the access token after one hour and stores the rotated refresh token', async () => {
     requester.request
       .mockResolvedValueOnce(authResponse('access-1', 'refresh-1'))
+      .mockResolvedValueOnce(authResponse('access-2', 'refresh-2'))
+      .mockResolvedValueOnce(authResponse('access-3', 'refresh-3'))
+
+    await expect(manager.getAccessToken()).resolves.toBe('access-1')
+    jest.setSystemTime(new Date(NOW + 2 * 60 * 60 * 1000))
+    await expect(manager.getAccessToken()).resolves.toBe('access-2')
+    jest.setSystemTime(new Date(NOW + 4 * 60 * 60 * 1000))
+    await expect(manager.getAccessToken()).resolves.toBe('access-3')
+
+    expect(requester.request).toHaveBeenCalledTimes(3)
+    const [key, request] = requester.request.mock.calls[1]
+    expect(key).toMatch(/^amina-auth-refresh:/)
+    expect(request.data).toEqual({ refreshToken: 'refresh-1' })
+    expect(requester.request.mock.calls[2][1].data).toEqual({ refreshToken: 'refresh-2' })
+  })
+
+  it('falls back to a full login when the refresh token is rejected', async () => {
+    requester.request
+      .mockResolvedValueOnce(authResponse('access-1', 'refresh-1'))
+      .mockRejectedValueOnce(providerError(401))
       .mockResolvedValueOnce(authResponse('access-2', 'refresh-2'))
 
     await expect(manager.getAccessToken()).resolves.toBe('access-1')
     jest.setSystemTime(new Date(NOW + 2 * 60 * 60 * 1000))
     await expect(manager.getAccessToken()).resolves.toBe('access-2')
 
+    expect(requester.request).toHaveBeenCalledTimes(3)
+    expect(requester.request.mock.calls[1][1].data).toEqual({ refreshToken: 'refresh-1' })
+    expect(requester.request.mock.calls[2][1].data).toEqual({
+      username: '25742014',
+      password: 'password',
+    })
+  })
+
+  it('retries an auth server error and then succeeds', async () => {
+    requester.request
+      .mockRejectedValueOnce(providerError(500))
+      .mockResolvedValueOnce(authResponse('access-1', 'refresh-1'))
+
+    const token = manager.getAccessToken()
+    await Promise.resolve()
+    await jest.runAllTimersAsync()
+
+    await expect(token).resolves.toBe('access-1')
     expect(requester.request).toHaveBeenCalledTimes(2)
-    const [key, request] = requester.request.mock.calls[1]
-    expect(key).toMatch(/^amina-auth-refresh:/)
-    expect(request.data).toEqual({ refreshToken: 'refresh-1' })
   })
 })
