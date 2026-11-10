@@ -250,3 +250,12 @@ adapters:
   - name: view-function
     version: 3.3.0
   - name: view-function-multi-chain
+    version: 1.13.0
+  - name: view-starknet-latest-answer
+    version: 1.0.28
+  - name: wbtc-address-set
+    version: 2.1.24
+  - name: wisdomtree
+    version: 1.0.6
+  - name: xsushi-price
+    version: 2.0.168
