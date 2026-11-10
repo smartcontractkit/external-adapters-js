@@ -234,7 +234,7 @@ adapters:
   - name: token-balance
     version: 3.7.0
   - name: tokenized-equity
-    version: 1.6.0
+    version: 1.7.0
   - name: tp
     version: 1.14.0
   - name: tradermade
