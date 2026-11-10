@@ -1,4 +1,5 @@
-import { BaseEndpointTypes, inputParameters } from '../endpoint/lwba'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import {
   makeLogger,
   PartialAdapterResponse,
@@ -6,8 +7,7 @@ import {
   ProviderResultGenerics,
 } from '@chainlink/external-adapter-framework/util'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/lwba'
 import { logPossibleSolutionForKnownErrors } from './error-handling'
 import { ResponseError } from './types'
 
@@ -18,8 +18,7 @@ export type MultiVarResult<T extends ProviderResultGenerics> = {
   response: PartialAdapterResponse<T['Response']>
 }
 
-export type WsCryptoLwbaSuccessResponse = {
-  pair: string
+export type WsCryptoLwbaQuoteFields = {
   time: string
   ask_price: string
   ask_size: string
@@ -29,6 +28,20 @@ export type WsCryptoLwbaSuccessResponse = {
   spread: string
   cm_sequence_id: string
 }
+
+/** Response shape from `/timeseries-stream/asset-quotes` */
+export type WsCryptoLwbaAssetQuoteSuccessResponse = WsCryptoLwbaQuoteFields & {
+  asset: string
+}
+
+/** Legacy response shape from `/timeseries-stream/pair-quotes` */
+export type WsCryptoLwbaPairQuoteSuccessResponse = WsCryptoLwbaQuoteFields & {
+  pair: string
+}
+
+export type WsCryptoLwbaSuccessResponse =
+  | WsCryptoLwbaAssetQuoteSuccessResponse
+  | WsCryptoLwbaPairQuoteSuccessResponse
 export type WsCryptoLwbaErrorResponse = {
   error: ResponseError
 }
@@ -85,8 +98,33 @@ export const handleCryptoLwbaMessage = (
   } else if ('type' in message && message.type === 'reorg') {
     logger.info(message, `Reorg response from websocket`)
   } else if ('mid_price' in message) {
-    const [base, quote] = message.pair.split('-')
-    const res = Number(message.mid_price)
+    let base: string
+    let quote: string
+    if ('asset' in message) {
+      base = message.asset
+      quote = 'USD'
+    } else if ('pair' in message) {
+      const [pairBase, pairQuote] = message.pair.split('-')
+      base = pairBase
+      quote = pairQuote ?? 'USD'
+    } else {
+      logger.warn('LWBA quote message missing asset or pair field')
+      return undefined
+    }
+    const bid = Number(message.bid_price)
+    const mid = Number(message.mid_price)
+    const ask = Number(message.ask_price)
+    if (bid && mid && ask && (mid < bid || mid > ask)) {
+      // CoinMetrics can occasionally emit a snapshot where bid ≤ mid ≤ ask doesn't hold,
+      // typically due to timing skew between the bid, mid, and ask updates on thinner markets.
+      // The framework's LWBA output validation will reject this when served; log it here so the
+      // skewed snapshot is attributable to the provider (and asset) rather than only surfacing
+      // as a per-request validation error.
+      logger.warn(
+        { base, bid, mid, ask, time: message.time },
+        'CoinMetrics LWBA snapshot violates bid ≤ mid ≤ ask (likely timing skew between updates)',
+      )
+    }
     return [
       {
         params: {
@@ -96,9 +134,9 @@ export const handleCryptoLwbaMessage = (
         response: {
           result: null,
           data: {
-            bid: Number(message.bid_price),
-            mid: res,
-            ask: Number(message.ask_price),
+            bid,
+            mid,
+            ask,
           },
           timestamps: {
             providerIndicatedTimeUnixMs: new Date(message.time).getTime(),
