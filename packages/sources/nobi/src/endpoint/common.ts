@@ -32,12 +32,11 @@ export class FillFirstTransportRoutes<T extends TransportGenerics> {
 
   defaultTransportName = () => indexToTransportName(0)
 
-  routeRequest = (base: string, quote: string, maxSubscriptionsPerTransport: number): string => {
+  routeRequest = (pair: string, maxSubscriptionsPerTransport: number): string => {
     // find if key is in the mapping already
-    const mappingKey = `${base}/${quote}`
-    const transportName = this.requestMapping.get(mappingKey)
+    const transportName = this.requestMapping.get(pair)
     if (transportName) {
-      logger.debug(`Routing mapping found for ${mappingKey}: transportName = ${transportName}`)
+      logger.debug(`Routing mapping found for ${pair}: transportName = ${transportName}`)
       return transportName
     }
 
@@ -54,9 +53,9 @@ export class FillFirstTransportRoutes<T extends TransportGenerics> {
 
     // assign the new transport in the mapping and return it
     const newTransportName = indexToTransportName(transportIndex)
-    this.requestMapping.set(mappingKey, newTransportName)
+    this.requestMapping.set(pair, newTransportName)
     logger.debug(
-      `Routing new ${mappingKey} to ${newTransportName}, current requestMapping size = ${this.requestMapping.size}`,
+      `Routing new ${pair} to ${newTransportName}, current requestMapping size = ${this.requestMapping.size}`,
     )
 
     return newTransportName

@@ -6,6 +6,7 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import {
+  baseToUpperCase,
   buildPair,
   buildQuoteTransport,
   invalidPairs,
@@ -38,9 +39,9 @@ export type BaseEndpointTypes = {
     Data: {
       mid_price: number
       bid_price: number
-      bid_volume: number | undefined
+      bid_volume: number | null
       ask_price: number
-      ask_volume: number | undefined
+      ask_volume: number | null
       last_price: number
     }
   }
@@ -72,8 +73,13 @@ export const endpoint = new AdapterEndpoint({
   defaultTransport: transportRoutes.defaultTransportName(),
   customRouter: (req, settings) =>
     transportRoutes.routeRequest(
-      req.requestContext.data.base,
-      req.requestContext.data.quote,
+      buildPair(req.requestContext.data),
       settings.MAX_SUBSCRIPTIONS_PER_TRANSPORT,
     ),
+  requestTransforms: [
+    (req) => {
+      req.requestContext.data.base = baseToUpperCase(req.requestContext.data.base)
+      req.requestContext.data.quote = req.requestContext.data.quote.toUpperCase()
+    },
+  ],
 })

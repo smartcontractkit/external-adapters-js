@@ -148,7 +148,9 @@ exports[`websocket stock_quotes endpoint - Index:US:SPX/USD (value frame) should
 {
   "data": {
     "ask_price": 5321.45,
+    "ask_volume": null,
     "bid_price": 5321.45,
+    "bid_volume": null,
     "last_price": 5321.45,
     "mid_price": 5321.45,
   },

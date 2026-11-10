@@ -31,8 +31,7 @@ export const endpoint = new AdapterEndpoint({
   defaultTransport: transportRoutes.defaultTransportName(),
   customRouter: (req, settings) =>
     transportRoutes.routeRequest(
-      req.requestContext.data.base,
-      req.requestContext.data.quote,
+      `${req.requestContext.data.base}/${req.requestContext.data.quote}`,
       settings.MAX_SUBSCRIPTIONS_PER_TRANSPORT,
     ),
 })

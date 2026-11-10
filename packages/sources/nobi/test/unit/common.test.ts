@@ -68,60 +68,60 @@ describe('FillFirstTransportRoutes', () => {
     })
 
     it('routes the same pair to the same transport on repeated calls', () => {
-      const first = routes.routeRequest('ETH', 'USD', 10)
-      const second = routes.routeRequest('ETH', 'USD', 10)
+      const first = routes.routeRequest('ETH/USD', 10)
+      const second = routes.routeRequest('ETH/USD', 10)
       expect(first).toBe(second)
     })
 
     it('routes new pairs to wsa by default', () => {
-      expect(routes.routeRequest('ETH', 'USD', 10)).toBe('wsa')
+      expect(routes.routeRequest('ETH/USD', 10)).toBe('wsa')
     })
 
     it('routes different pairs to the same transport when capacity allows', () => {
-      expect(routes.routeRequest('ETH', 'USD', 10)).toBe('wsa')
-      expect(routes.routeRequest('BTC', 'USD', 10)).toBe('wsa')
+      expect(routes.routeRequest('ETH/USD', 10)).toBe('wsa')
+      expect(routes.routeRequest('BTC/USD', 10)).toBe('wsa')
     })
 
     it('spills over to wsb when wsa reaches capacity', () => {
-      routes.routeRequest('ETH', 'USD', 1)
-      expect(routes.routeRequest('BTC', 'USD', 1)).toBe('wsb')
+      routes.routeRequest('ETH/USD', 1)
+      expect(routes.routeRequest('BTC/USD', 1)).toBe('wsb')
     })
 
     it('keeps spilling across transports as each fills up', () => {
-      routes.routeRequest('ETH', 'USD', 1) // wsa
-      routes.routeRequest('BTC', 'USD', 1) // wsb
-      expect(routes.routeRequest('SOL', 'USD', 1)).toBe('wsc')
+      routes.routeRequest('ETH/USD', 1) // wsa
+      routes.routeRequest('BTC/USD', 1) // wsb
+      expect(routes.routeRequest('SOL/USD', 1)).toBe('wsc')
     })
 
     it('fills every registered transport before running out of capacity', () => {
       const assigned = EXPECTED_TRANSPORT_NAMES.map((_, i) =>
-        routes.routeRequest(`ASSET${i}`, 'USD', 1),
+        routes.routeRequest(`ASSET${i}/USD`, 1),
       )
       expect(assigned).toEqual(EXPECTED_TRANSPORT_NAMES)
     })
 
     it('throws 429 when all transports are at capacity', () => {
       for (let i = 0; i < MAX_TRANSPORTS; i++) {
-        routes.routeRequest(`ASSET${i}`, 'USD', 1)
+        routes.routeRequest(`ASSET${i}/USD`, 1)
       }
-      expect(() => routes.routeRequest('OVERFLOW', 'USD', 1)).toThrow(
+      expect(() => routes.routeRequest('OVERFLOW/USD', 1)).toThrow(
         expect.objectContaining({ statusCode: 429 }),
       )
     })
 
     it('does not count the same pair twice against capacity', () => {
       for (let i = 0; i < MAX_TRANSPORTS; i++) {
-        routes.routeRequest(`ASSET${i}`, 'USD', 1)
+        routes.routeRequest(`ASSET${i}/USD`, 1)
       }
-      expect(() => routes.routeRequest('ASSET0', 'USD', 1)).not.toThrow()
-      expect(routes.routeRequest('ASSET0', 'USD', 1)).toBe('wsa')
+      expect(() => routes.routeRequest('ASSET0/USD', 1)).not.toThrow()
+      expect(routes.routeRequest('ASSET0/USD', 1)).toBe('wsa')
     })
 
     it('keeps routing state isolated between instances', () => {
       const other = makeRoutes()
-      routes.routeRequest('ETH', 'USD', 1) // fills wsa on this instance only
-      expect(routes.routeRequest('BTC', 'USD', 1)).toBe('wsb')
-      expect(other.routeRequest('BTC', 'USD', 1)).toBe('wsa')
+      routes.routeRequest('ETH/USD', 1) // fills wsa on this instance only
+      expect(routes.routeRequest('BTC/USD', 1)).toBe('wsb')
+      expect(other.routeRequest('BTC/USD', 1)).toBe('wsa')
     })
   })
 })

@@ -41,8 +41,8 @@ export const buildQuoteTransport = () =>
       message: (message) => {
         if (message.message && message.message.startsWith('pair not found: ')) {
           const pair = message.message.split('pair not found: ')[1] || ''
-          const base = pair.split('/')[0]
-          const quote = pair.split('/')[1]
+          const base = baseToUpperCase(pair.split('/')[0])
+          const quote = pair.split('/')[1]?.toUpperCase()
           if (!base || !quote) {
             logger.warn(`Received invalid base or quote in error message: ${message.message}`)
             return
@@ -68,8 +68,8 @@ export const buildQuoteTransport = () =>
         if (!message.c || !message.k) {
           return
         }
-        const base = message.c.split('/')[0]
-        const quote = message.c.split('/')[1]
+        const base = baseToUpperCase(message.c.split('/')[0])
+        const quote = message.c.split('/')[1]?.toUpperCase()
         if (!base || !quote) {
           logger.warn(`Received invalid base or quote in message: ${message.c}`)
           return
@@ -91,6 +91,7 @@ export const buildQuoteTransport = () =>
           {
             ...subscriptions,
             desired: subscriptions.desired.filter((params) => !invalidPairs.has(buildPair(params))),
+            stale: subscriptions.stale.filter((params) => !invalidPairs.has(buildPair(params))),
           },
           buildPair,
           'subscribe_market_data',
@@ -100,14 +101,17 @@ export const buildQuoteTransport = () =>
   })
 
 export const buildPair = (params: { base: string; quote: string }) =>
-  `${params.base}/${params.quote}`
+  `${baseToUpperCase(params.base)}/${params.quote.toUpperCase()}`
+
+// "Index:kr:kospi200" -> "Index:KR:KOSPI200"
+export const baseToUpperCase = (base?: string) => base?.replace(/:.*/, (s) => s.toUpperCase()) || ''
 
 const handleValueFrames = (params: { base: string; quote: string }, message: WSResponse) => {
-  if (!message.v || isNaN(Number(message.v))) {
-    logger.warn(`Received non-numeric v in message: ${JSON.stringify(message)}`)
+  const value = getPrice(message.v)
+  if (value === null) {
+    logger.warn(`Received invalid v in message: ${JSON.stringify(message)}`)
     return
   }
-  const value = Number(message.v)
 
   invalidPairs.delete(buildPair(params))
   return [
@@ -125,40 +129,47 @@ const handleValueFrames = (params: { base: string; quote: string }, message: WSR
         data: {
           mid_price: value,
           bid_price: value,
-          bid_volume: undefined,
+          bid_volume: null,
           ask_price: value,
-          ask_volume: undefined,
+          ask_volume: null,
           last_price: value,
         },
-        timestamps: {
-          providerIndicatedTimeUnixMs: new Date(message.t).getTime(),
-        },
+        ...getProviderIndicatedTimeUnixMs(message.t),
       },
     },
   ]
 }
 
 const handleQuoteFrames = (params: { base: string; quote: string }, message: WSResponse) => {
-  if (!message.m || isNaN(Number(message.m)) || !message.lp || isNaN(Number(message.lp))) {
-    logger.warn(`Received non-numeric m/lp in message: ${JSON.stringify(message)}`)
+  const midPrice = getPrice(message.m)
+  const lastTradedPrice = getPrice(message.lp)
+  if (midPrice === null || lastTradedPrice === null) {
+    logger.warn(`Received invalid m/lp in message: ${JSON.stringify(message)}`)
     return
   }
 
-  const m = Number(message.m)
+  const bidPrice = getPrice(message.b) ?? midPrice
+  const askPrice = getPrice(message.a) ?? midPrice
+
+  if (bidPrice > midPrice || askPrice < midPrice) {
+    logger.warn(`Received invalid bid/ask prices in message: ${JSON.stringify(message)}`)
+    return
+  }
+
+  const bidVolume = getNumber(message.bv)
+  const askVolume = getNumber(message.av)
 
   const response = {
-    result: Number(message.lp),
+    result: lastTradedPrice,
     data: {
-      mid_price: m,
-      bid_price: !message.b || isNaN(Number(message.b)) ? m : Number(message.b),
-      bid_volume: Number(message.bv),
-      ask_price: !message.a || isNaN(Number(message.a)) ? m : Number(message.a),
-      last_price: Number(message.lp),
-      ask_volume: Number(message.av),
+      mid_price: midPrice,
+      bid_price: bidPrice,
+      bid_volume: bidVolume,
+      ask_price: askPrice,
+      last_price: lastTradedPrice,
+      ask_volume: askVolume,
     },
-    timestamps: {
-      providerIndicatedTimeUnixMs: new Date(message.t).getTime(),
-    },
+    ...getProviderIndicatedTimeUnixMs(message.t),
   }
 
   invalidPairs.delete(buildPair(params))
@@ -166,7 +177,7 @@ const handleQuoteFrames = (params: { base: string; quote: string }, message: WSR
     {
       params: { ...params, requireVolume: true },
       response:
-        isNaN(Number(message.bv)) || isNaN(Number(message.av))
+        bidVolume === null || askVolume === null
           ? {
               statusCode: 502,
               errorMessage: `Bid volume: ${message.bv} or Ask volume: ${message.av} for ${message.c} is invalid.`,
@@ -178,4 +189,39 @@ const handleQuoteFrames = (params: { base: string; quote: string }, message: WSR
       response,
     },
   ]
+}
+
+const getProviderIndicatedTimeUnixMs = (time: number) => {
+  if (isFinite(time)) {
+    const date = new Date(time)
+    if (2000 < date.getUTCFullYear() && date.getUTCFullYear() < 2100) {
+      return {
+        timestamps: {
+          providerIndicatedTimeUnixMs: date.getTime(),
+        },
+      }
+    }
+  }
+  return null
+}
+
+const getPrice = (value: unknown) => {
+  const price = getNumber(value) ?? 0
+  return price > 0 ? price : null
+}
+
+const getNumber = (value: unknown) => {
+  if (typeof value !== 'string' && typeof value !== 'number') {
+    return null
+  }
+  if (value.toString().trim().length === 0) {
+    return null
+  }
+
+  const number = Number(value)
+  if (isFinite(number) && number >= 0) {
+    return number
+  }
+
+  return null
 }

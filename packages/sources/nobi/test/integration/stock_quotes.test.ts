@@ -166,7 +166,9 @@ describe('websocket', () => {
       expect(response.json().data).toEqual({
         mid_price: 5321.45,
         bid_price: 5321.45,
+        bid_volume: null,
         ask_price: 5321.45,
+        ask_volume: null,
         last_price: 5321.45,
       })
       expect(response.json()).toMatchSnapshot()
