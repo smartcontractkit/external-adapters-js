@@ -19,6 +19,8 @@ jobs:
   calculate-changes:
     name: Compute changed adapters
     runs-on: [ubuntu-latest]
+    permissions:
+      contents: read
     outputs:
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
     steps:
