@@ -204,7 +204,7 @@ adapters:
   - name: solactive
     version: 1.0.5
   - name: solana-functions
-    version: 1.9.0
+    version: 1.10.0
   - name: spiro
     version: 1.0.0
   - name: stader-labs
@@ -250,12 +250,3 @@ adapters:
   - name: view-function
     version: 3.3.0
   - name: view-function-multi-chain
-    version: 1.13.0
-  - name: view-starknet-latest-answer
-    version: 1.0.28
-  - name: wbtc-address-set
-    version: 2.1.24
-  - name: wisdomtree
-    version: 1.0.6
-  - name: xsushi-price
-    version: 2.0.168

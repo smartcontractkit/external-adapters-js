@@ -1,15 +1,15 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
 import { issuers } from '../../../src/issuers'
-import { calculatePrice } from '../../../src/transport/ondoPrice'
-import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
+import { calculatePrice } from '../../../src/price/coinbasePrice'
+import { smoothedStreamPrice } from '../../../src/price/smoothedPrice'
 
-jest.mock('../../../src/transport/smoothedPrice', () => ({ smoothedStreamPrice: jest.fn() }))
+jest.mock('../../../src/price/smoothedPrice', () => ({ smoothedStreamPrice: jest.fn() }))
 const mockSmoothedStreamPrice = smoothedStreamPrice as jest.MockedFunction<
   typeof smoothedStreamPrice
 >
 
-const mockRead = jest.spyOn(issuers.ondo, 'read')
+const mockRead = jest.spyOn(issuers.coinbase, 'read')
 
 describe('calculatePrice', () => {
   const defaultParams = {
@@ -84,6 +84,7 @@ describe('calculatePrice', () => {
           secondsFromTransition: 0,
         },
         sessionSource: 'FALLBACK' as const,
+        gatingSessionSource: 'FALLBACK' as const,
       },
       {
         result: 1n,
@@ -98,6 +99,7 @@ describe('calculatePrice', () => {
           secondsFromTransition: 0,
         },
         sessionSource: 'FALLBACK' as const,
+        gatingSessionSource: 'FALLBACK' as const,
       },
     ]
 
@@ -113,7 +115,7 @@ describe('calculatePrice', () => {
       decimals: 6,
     })
 
-    const expectedRegistry = { sValue: '5000000000000000000', paused: false }
+    const expectedRegistry = { multiplier: '5000000000000000000', paused: false }
     expect(result[0]).toStrictEqual({
       ...smoothedStreamPriceReturn[0],
       registry: expectedRegistry,
@@ -141,6 +143,7 @@ describe('calculatePrice', () => {
           secondsFromTransition: 0,
         },
         sessionSource: 'FALLBACK' as const,
+        gatingSessionSource: 'FALLBACK' as const,
       },
       {
         result: 1n,
@@ -155,6 +158,7 @@ describe('calculatePrice', () => {
           secondsFromTransition: 0,
         },
         sessionSource: 'FALLBACK' as const,
+        gatingSessionSource: 'FALLBACK' as const,
       },
     ])
     mockRead.mockResolvedValue({

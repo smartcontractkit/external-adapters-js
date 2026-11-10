@@ -1,19 +1,20 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
 import { issuers } from '../../../src/issuers'
-import { calculatePrice } from '../../../src/transport/robinhoodPrice'
-import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
+import { calculatePrice } from '../../../src/price/ondoPrice'
+import { smoothedStreamPrice } from '../../../src/price/smoothedPrice'
 
-jest.mock('../../../src/transport/smoothedPrice', () => ({ smoothedStreamPrice: jest.fn() }))
+jest.mock('../../../src/price/smoothedPrice', () => ({ smoothedStreamPrice: jest.fn() }))
 const mockSmoothedStreamPrice = smoothedStreamPrice as jest.MockedFunction<
   typeof smoothedStreamPrice
 >
 
-const mockRead = jest.spyOn(issuers.robinhood, 'read')
+const mockRead = jest.spyOn(issuers.ondo, 'read')
 
 describe('calculatePrice', () => {
   const defaultParams = {
-    asset: '0x1234567890123456789012345678901234567890',
+    asset: 'USDC',
+    registry: '0x1234567890123456789012345678901234567890',
     provider: {} as JsonRpcProvider,
     regularStreamId: 'regular-stream-id',
     extendedStreamId: 'extended-stream-id',
@@ -83,6 +84,7 @@ describe('calculatePrice', () => {
           secondsFromTransition: 0,
         },
         sessionSource: 'FALLBACK' as const,
+        gatingSessionSource: 'FALLBACK' as const,
       },
       {
         result: 1n,
@@ -97,6 +99,7 @@ describe('calculatePrice', () => {
           secondsFromTransition: 0,
         },
         sessionSource: 'FALLBACK' as const,
+        gatingSessionSource: 'FALLBACK' as const,
       },
     ]
 
@@ -112,20 +115,20 @@ describe('calculatePrice', () => {
       decimals: 6,
     })
 
-    const expectedTokenData = { multiplier: '5000000000000000000', paused: false }
+    const expectedRegistry = { sValue: '5000000000000000000', paused: false }
     expect(result[0]).toStrictEqual({
       ...smoothedStreamPriceReturn[0],
-      tokenContract: expectedTokenData,
+      registry: expectedRegistry,
       result: '5',
     })
     expect(result[1]).toStrictEqual({
       ...smoothedStreamPriceReturn[1],
-      tokenContract: expectedTokenData,
+      registry: expectedRegistry,
       result: '5',
     })
   })
 
-  it('throws when token is paused', async () => {
+  it('throws when registry is paused', async () => {
     mockSmoothedStreamPrice.mockResolvedValue([
       {
         result: 1n,
@@ -140,6 +143,7 @@ describe('calculatePrice', () => {
           secondsFromTransition: 0,
         },
         sessionSource: 'FALLBACK' as const,
+        gatingSessionSource: 'FALLBACK' as const,
       },
       {
         result: 1n,
@@ -154,6 +158,7 @@ describe('calculatePrice', () => {
           secondsFromTransition: 0,
         },
         sessionSource: 'FALLBACK' as const,
+        gatingSessionSource: 'FALLBACK' as const,
       },
     ])
     mockRead.mockResolvedValue({
@@ -169,7 +174,7 @@ describe('calculatePrice', () => {
       }),
     ).rejects.toMatchObject({
       statusCode: 503,
-      message: `asset: '0x1234567890123456789012345678901234567890' paused`,
+      message: 'asset: USDC paused on registry 0x1234567890123456789012345678901234567890',
     })
   })
 })

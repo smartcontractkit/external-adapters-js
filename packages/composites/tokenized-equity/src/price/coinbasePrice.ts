@@ -4,6 +4,7 @@ import { JsonRpcProvider } from 'ethers'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { Smoother } from '../endpoint/common'
 import { issuers } from '../issuers'
+import { StreamMaxAgeSeconds } from '../lib/streams'
 
 import { smoothedStreamPrice } from './smoothedPrice'
 
@@ -11,11 +12,16 @@ const MULTIPLIER_DECIMALS = 18n
 
 export const calculatePrice = async (param: {
   asset: string
+  registry: string
   provider: JsonRpcProvider
   regularStreamId?: string
   extendedStreamId?: string
   overnightStreamId?: string
   overnightStreamMaxAgeInSeconds?: number
+  streamMaxAgeSeconds?: StreamMaxAgeSeconds
+  sessionStartGatingEnabled?: boolean
+  allowMarketSessionOverride?: boolean
+  marketSessionOverride?: string
   url: string
   tradingHoursUrl: string
   requester: Requester
@@ -28,19 +34,19 @@ export const calculatePrice = async (param: {
 }) => {
   const [result, { multiplier, paused }] = await Promise.all([
     smoothedStreamPrice(param),
-    issuers.robinhood.read(param, param.provider),
+    issuers.coinbase.read(param, param.provider),
   ])
 
   if (paused) {
     throw new AdapterError({
       statusCode: 503,
-      message: `asset: '${param.asset}' paused`,
+      message: `asset: ${param.asset} paused on registry ${param.registry}`,
     })
   }
 
   return result.map((r) => ({
     ...r,
-    tokenContract: {
+    registry: {
       multiplier: multiplier.toString(),
       paused,
     },

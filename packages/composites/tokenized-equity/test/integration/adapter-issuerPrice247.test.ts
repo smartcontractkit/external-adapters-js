@@ -91,7 +91,6 @@ describe('execute', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.DATA_ENGINE_ADAPTER_URL = 'http://data-engine'
-    process.env.TRADING_HOURS_ADAPTER_URL = 'http://trading-hours'
     process.env.ETHEREUM_RPC_URL = 'fake-eth-url'
     process.env.BASE_RPC_URL = 'fake-base-url'
     process.env.ROBINHOOD_MAINNET_RPC_URL = 'fake-robinhood-url'

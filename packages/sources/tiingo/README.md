@@ -1,6 +1,6 @@
 # TIINGO
 
-![2.15.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.16.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -19,7 +19,7 @@ If the value of `WS_SUBSCRIPTION_TTL` is less than the value of `CACHE_MAX_AGE`,
 | Required? |            Name             |                                                                      Description                                                                      |  Type  | Options |            Default             |
 | :-------: | :-------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------: |
 |           |       `API_ENDPOINT`        |                                                                API endpoint for tiingo                                                                | string |         |   `https://api.tiingo.com/`    |
-|    ✅     |          `API_KEY`          |                                            API key for tiingo, valid for all endpoints except stock_quotes                                            | string |         |                                |
+|    ✅     |          `API_KEY`          |                  API key for tiingo, valid for all endpoints except stock_quotes (stock_quotes with assetType indices uses this key)                  | string |         |                                |
 |           |     `EQUITIES_API_KEY`      |                                                 API key for tiingo, valid the stock_quotes endpoints                                                  | string |         |                                |
 |           |      `WS_API_ENDPOINT`      |                                                             Websocket endpoint for tiingo                                                             | string |         |     `wss://api.tiingo.com`     |
 |           | `SECONDARY_WS_API_ENDPOINT` | Secondary websocket endpoint for tiingo. To effectively disable failover and use only the primary URL, set this to the same value as WS_API_ENDPOINT. | string |         | `wss://api.redundantstack.com` |
@@ -181,9 +181,10 @@ Request:
 
 ### Input Params
 
-| Required? | Name |                   Aliases                   |        Description        |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :-----------------------------------------: | :-----------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `asset`, `coin`, `from`, `symbol`, `ticker` | The stock ticker to query | string |         |         |            |                |
+| Required? |   Name    |                   Aliases                   |                                                         Description                                                         |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------: | :-----------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |   base    | `asset`, `coin`, `from`, `symbol`, `ticker` |                                                  The stock ticker to query                                                  | string |         |         |            |                |
+|           | assetType |                                             | Asset type of the base. "indices" is served from the Tiingo FX feed (e.g. us30usd); any other value uses the equities feed. | string |         |         |            |                |
 
 ### Example
 
@@ -197,6 +198,23 @@ Request:
   }
 }
 ```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "stock_quotes",
+    "base": "us30usd",
+    "assetType": "indices"
+  }
+}
+```
+
+</details>
 
 ---
 

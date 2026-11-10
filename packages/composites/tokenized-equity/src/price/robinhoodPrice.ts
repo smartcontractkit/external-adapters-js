@@ -1,7 +1,11 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
+
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { Smoother } from '../endpoint/common'
 import { issuers } from '../issuers'
+import { StreamMaxAgeSeconds } from '../lib/streams'
+
 import { smoothedStreamPrice } from './smoothedPrice'
 
 const MULTIPLIER_DECIMALS = 18n
@@ -13,6 +17,10 @@ export const calculatePrice = async (param: {
   extendedStreamId?: string
   overnightStreamId?: string
   overnightStreamMaxAgeInSeconds?: number
+  streamMaxAgeSeconds?: StreamMaxAgeSeconds
+  sessionStartGatingEnabled?: boolean
+  allowMarketSessionOverride?: boolean
+  marketSessionOverride?: string
   url: string
   tradingHoursUrl: string
   requester: Requester
@@ -23,16 +31,23 @@ export const calculatePrice = async (param: {
   smoother: Smoother
   decimals: number
 }) => {
-  // xstocks has historically not respected market paused, pending GTM input on enforcing pauses
-  const [result, { multiplier }] = await Promise.all([
+  const [result, { multiplier, paused }] = await Promise.all([
     smoothedStreamPrice(param),
-    issuers.xstocks.read(param, param.provider),
+    issuers.robinhood.read(param, param.provider),
   ])
+
+  if (paused) {
+    throw new AdapterError({
+      statusCode: 503,
+      message: `asset: '${param.asset}' paused`,
+    })
+  }
 
   return result.map((r) => ({
     ...r,
     tokenContract: {
       multiplier: multiplier.toString(),
+      paused,
     },
     result: ((BigInt(r.result) * multiplier) / 10n ** MULTIPLIER_DECIMALS).toString(),
   }))

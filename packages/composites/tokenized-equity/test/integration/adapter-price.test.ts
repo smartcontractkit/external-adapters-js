@@ -145,11 +145,14 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('error when no smoother with session parameters', async () => {
+    it('allows sessionMarket/sessionMarketType with smoother none (gating consumer)', async () => {
+      // Session-start gating consumes market identity even without a smoother, so
+      // these two params are permitted with smoother 'none'.
       const data = {
         asset: '0x0',
         extendedStreamId: '0x000b6',
         sessionMarket: 'nyse',
+        sessionMarketType: '24/5',
         smoother: 'none',
         decimals: 8,
       }
@@ -157,8 +160,25 @@ describe('execute', () => {
 
       const response = await testAdapter.request(data)
 
+      expect(response.statusCode).toBe(200)
+    })
+
+    it('still rejects sessionBoundaries/sessionBoundariesTimeZone with smoother none', async () => {
+      // The smoother's fallback inputs remain meaningless (and forbidden) with 'none'.
+      const data = {
+        asset: '0x0',
+        extendedStreamId: '0x000b6',
+        sessionMarket: 'nyse',
+        sessionMarketType: '24/5',
+        sessionBoundaries: ['04:00'],
+        sessionBoundariesTimeZone: 'UTC',
+        smoother: 'none',
+        decimals: 8,
+      }
+
+      const response = await testAdapter.request(data)
+
       expect(response.statusCode).toBe(400)
-      expect(response.json()).toMatchSnapshot()
     })
 
     it('bad sessionBoundariesTimeZone', async () => {
