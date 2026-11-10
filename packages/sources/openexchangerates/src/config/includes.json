@@ -31,5 +31,60 @@
         "inverse": true
       }
     ]
+  },
+  {
+    "from": "ARS",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "ARS",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "MXN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "MXN",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "BRL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "BRL",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "CLP",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "CLP",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "PEN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "PEN",
+        "inverse": true
+      }
+    ]
   }
 ]
