@@ -2,7 +2,7 @@ import { WebSocketTransport } from '@chainlink/external-adapter-framework/transp
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/price'
 import { getToken, renewToken, TokenWithExpiry } from './authutils'
-import { refreshDelayMs } from './tokenRefresh'
+import { canReuseToken, refreshDelayMs } from './tokenRefresh'
 
 const logger = makeLogger('GSR WS price')
 
@@ -42,6 +42,8 @@ type Settings = WsTransportTypes['Settings']
  */
 export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
   private cachedToken: TokenWithExpiry | null = null
+  // When cachedToken was last requested; renewals do not count.
+  private tokenRequestedAtMs?: number
   private refreshTimer?: NodeJS.Timeout
 
   constructor() {
@@ -58,6 +60,23 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
           this.scheduleRefresh(context.adapterSettings)
         },
         close: (event) => {
+          // The framework replaces an unresponsive connection by closing it,
+          // clearing wsConnection, and opening the new one in the same pass, so
+          // the old socket's close can arrive after the new connection has
+          // opened. wsConnection is assigned as soon as the new open handler
+          // returns, before any close event can be delivered, so a close from a
+          // socket other than a set wsConnection belongs to a replaced
+          // connection and must not clear the current one's refresh timer.
+          // While wsConnection is unset nothing is open, so the close is handled.
+          if (this.wsConnection && event.target !== this.wsConnection) {
+            logger.debug(
+              `Ignoring close of a replaced connection (code=${event.code}, reason=${
+                event.reason || 'none'
+              })`,
+            )
+            return
+          }
+
           // Timers only ever live alongside a connection. Without this an idle
           // adapter — one whose subscriptions have lapsed, so the framework has
           // no reason to reconnect — would go on renewing tokens and then report
@@ -95,9 +114,14 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
     })
   }
 
-  /** Reuses the cached token while it has comfortably more life than the refresh margin. */
+  /** A fresh token per connection, unless one was just requested (see canReuseToken). */
   private async tokenForConnection(settings: Settings): Promise<string> {
-    if (this.cachedToken && refreshDelayMs(this.cachedToken, Date.now()) !== null) {
+    if (
+      this.cachedToken &&
+      this.tokenRequestedAtMs !== undefined &&
+      canReuseToken(this.cachedToken, this.tokenRequestedAtMs, Date.now())
+    ) {
+      logger.debug('Reusing access token requested within the last interval')
       return this.cachedToken.token
     }
 
@@ -107,6 +131,7 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
       settings.WS_PUBLIC_KEY,
       settings.WS_PRIVATE_KEY,
     )
+    this.tokenRequestedAtMs = Date.now()
     return this.cachedToken.token
   }
 
@@ -116,8 +141,9 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
   }
 
   private closeForReconnect(reason: string) {
+    // The token is already inside its refresh margin, so the next connection
+    // requests a fresh one (see canReuseToken).
     logger.info(`${reason}; closing connection to reconnect`)
-    this.cachedToken = null
     // Close only — deliberately leaving wsConnection set. streamHandler bails
     // out early when there is no connection *and* no new subscription, so
     // clearing the field from outside its loop would strand the transport with
@@ -131,6 +157,12 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
     this.clearTimers()
 
     if (!this.cachedToken) {
+      // options() requests a token before every connection, so this should not
+      // happen; say so rather than leaving the connection without renewal
+      // silently.
+      logger.warn(
+        "No cached token at connection open; connection will rely on the framework's staleness check",
+      )
       return
     }
 
