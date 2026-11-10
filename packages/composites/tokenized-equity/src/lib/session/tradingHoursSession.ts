@@ -17,13 +17,38 @@ type Response = {
   statusCode: number
 }
 
-export const getSessions = async (
+// A single market-session transition (a point in time when the market enters a session
+// phase), used for session-start gating. getSessionTransitions keeps every status
+// (including REGULAR) and Sunday overnight transitions: gating needs the start of
+// whichever session is active, while smoothing deliberately skips some transitions
+// (see processData).
+export type SessionTransition = {
+  status: TwentyfourFiveMarketStatus
+  timeMs: number
+}
+
+export const getSessionTransitions = async (
   tradingHoursUrl: string,
   requester: Requester,
   sessionBoundariesTimeZone: string,
   sessionMarket: string,
   sessionMarketType: string,
-): Promise<number[]> => {
+): Promise<SessionTransition[]> =>
+  fetchSessionSchedule(
+    tradingHoursUrl,
+    requester,
+    sessionBoundariesTimeZone,
+    sessionMarket,
+    sessionMarketType,
+  )
+
+const fetchSessionSchedule = async (
+  tradingHoursUrl: string,
+  requester: Requester,
+  sessionBoundariesTimeZone: string,
+  sessionMarket: string,
+  sessionMarketType: string,
+): Promise<SessionTransition[]> => {
   const requestConfig = {
     baseURL: tradingHoursUrl,
     method: 'POST',
@@ -49,7 +74,10 @@ export const getSessions = async (
         } ${response?.response?.statusText}`,
       })
     }
-    return processData(data.data.result, sessionBoundariesTimeZone)
+    return data.data.result.map((d) => ({
+      status: d.status as TwentyfourFiveMarketStatus,
+      timeMs: new TZDate(d.time, sessionBoundariesTimeZone).getTime(),
+    }))
   } catch (e) {
     if (e instanceof AdapterError) {
       e.message = `TradingHoursEA request failed: ${e.message} ${
@@ -60,15 +88,19 @@ export const getSessions = async (
   }
 }
 
-const processData = (data: Response['data']['result'], timezone: string): number[] =>
-  data
+// The smoother's view of the schedule: only the boundaries it reacts to. REGULAR is
+// dropped (smoothing only changes behavior at thin-liquidity session boundaries) and
+// Sunday OVERNIGHT is dropped (stale weekend data must not feed smoothing). Gating
+// needs the unfiltered list — use getSessionTransitions for that.
+export const processData = (transitions: SessionTransition[], timezone: string): number[] =>
+  transitions
     .filter(
       (d) =>
         d.status === TwentyfourFiveMarketStatus.PRE_MARKET ||
         d.status === TwentyfourFiveMarketStatus.POST_MARKET ||
         d.status === TwentyfourFiveMarketStatus.OVERNIGHT,
     )
-    .map((d) => ({ status: d.status, time: new TZDate(d.time, timezone) }))
+    .map((d) => ({ status: d.status, time: new TZDate(d.timeMs, timezone) }))
     .filter(
       (d) =>
         // Skip Sunday Overnight because we don't want to use stale weekend data to smooth
