@@ -55,11 +55,18 @@ export const inputDefinition = new InputParameters(
       description:
         'The type of the market for session times, for example 24/5. This is passed to the tradinghours adapter as the `type` parameter.',
     },
+    marketSessionOverride: {
+      required: false,
+      type: 'string',
+      description:
+        'Hook for overriding the pre-market warm-up (session-start) gating check: instead of resolving the current session start from the wall clock, the check gates against the NEXT start of the named session, which will deterministically forcing the pre-session rejection. Requires sessionMarket and sessionMarketType; affects only the session-start gating check. Only the four real session statuses are accepted (UNKNOWN and WEEKEND can never match a tradinghours transition). Requests carrying this parameter are rejected with 400 unless ALLOW_MARKET_SESSION_OVERRIDE=true (and SESSION_START_GATING_ENABLED=true, since the hook only affects that check).',
+      options: ['PRE_MARKET', 'REGULAR', 'POST_MARKET', 'OVERNIGHT'],
+    },
     sessionBoundaries: {
       type: 'string',
       array: true,
       description:
-        '(backup) A list of time where market trasition from 1 session to the next in the format of HH:MM. This is only used when the adapter is unable to fetch session times from the tradinghours EA',
+        '(backup) A list of time where market transition from 1 session to the next in the format of HH:MM. This is only used when the adapter is unable to fetch session times from the tradinghours EA',
     },
     sessionBoundariesTimeZone: {
       type: 'string',
@@ -105,23 +112,32 @@ export const validateSmoother = ({
   sessionBoundariesTimeZone,
   sessionMarket,
   sessionMarketType,
+  marketSessionOverride,
 }: {
   smoother: string
   sessionBoundaries: string[]
   sessionBoundariesTimeZone?: string
   sessionMarket?: string
   sessionMarketType?: string
+  marketSessionOverride?: string
 }) => {
+  // marketSessionOverride is meaningless without market identity: gating is skipped
+  // without sessionMarket/sessionMarketType, so fail fast instead of silently ignoring it.
+  if (marketSessionOverride && (!sessionMarket || !sessionMarketType)) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Parameter marketSessionOverride requires sessionMarket and sessionMarketType`,
+    })
+  }
+
   if (smoother === 'none') {
-    if (
-      sessionBoundaries.length > 0 ||
-      sessionBoundariesTimeZone ||
-      sessionMarket ||
-      sessionMarketType
-    ) {
+    // sessionMarket/sessionMarketType are permitted with 'none': session-start gating
+    // consumes market identity even without a smoother. The smoother's own
+    // fallback inputs remain meaningless — and forbidden — without a smoother.
+    if (sessionBoundaries.length > 0 || sessionBoundariesTimeZone) {
       throw new AdapterInputError({
         statusCode: 400,
-        message: `Parameters sessionBoundaries, sessionBoundariesTimeZone, sessionMarket, and sessionMarketType should not be provided when smoother is 'none'`,
+        message: `Parameters sessionBoundaries and sessionBoundariesTimeZone should not be provided when smoother is 'none'`,
       })
     }
     return
@@ -205,4 +221,7 @@ export type output = {
     secondsFromTransition?: number
   }
   sessionSource?: 'TRADINGHOURS' | 'FALLBACK'
+  // Schedule source the session-start gate resolved from (sessionSource above is the
+  // smoother's). Absent when gating is off or skipped.
+  gatingSessionSource?: 'TRADINGHOURS' | 'FALLBACK'
 }
