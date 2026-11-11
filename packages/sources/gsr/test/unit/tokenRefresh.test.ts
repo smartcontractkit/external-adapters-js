@@ -1,5 +1,7 @@
 import {
+  canReuseToken,
   MAX_TIMEOUT_MS,
+  MIN_TOKEN_REQUEST_INTERVAL_MS,
   refreshDelayMs,
   TOKEN_REFRESH_MARGIN_MS,
 } from '../../src/transport/tokenRefresh'
@@ -32,5 +34,29 @@ describe('refreshDelayMs', () => {
     const token = { token: 't', expiresAtMs: NOW + 100 * 365 * 24 * ONE_HOUR_MS }
 
     expect(refreshDelayMs(token, NOW)).toEqual(MAX_TIMEOUT_MS)
+  })
+})
+
+describe('canReuseToken', () => {
+  const token = { token: 't', expiresAtMs: NOW + ONE_HOUR_MS }
+
+  it('requests a fresh token once the cached one is older than the interval', () => {
+    // The post-incident case: a token requested before the outage may be one
+    // GSR now refuses, so the next connection must not carry it over.
+    expect(canReuseToken(token, NOW - MIN_TOKEN_REQUEST_INTERVAL_MS, NOW)).toBe(false)
+    expect(canReuseToken(token, NOW - 20 * 60 * 1000, NOW)).toBe(false)
+  })
+
+  it('reuses a token requested within the interval so a refusing provider is not flooded', () => {
+    // Refused sessions reconnect about once a second; without this each one
+    // would send a token request.
+    expect(canReuseToken(token, NOW - 1_000, NOW)).toBe(true)
+    expect(canReuseToken(token, NOW - MIN_TOKEN_REQUEST_INTERVAL_MS + 1, NOW)).toBe(true)
+  })
+
+  it('does not reuse a token already inside its refresh margin', () => {
+    const expiring = { token: 't', expiresAtMs: NOW + TOKEN_REFRESH_MARGIN_MS - 1 }
+
+    expect(canReuseToken(expiring, NOW, NOW)).toBe(false)
   })
 })
