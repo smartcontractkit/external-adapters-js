@@ -62,6 +62,21 @@ describe('AuthManager', () => {
     expect(request.headers?.['X-Correlation-Id']).toMatch(UUID)
   })
 
+  it('shares one login across concurrent callers', async () => {
+    let resolveLogin!: (value: ReturnType<typeof authResponse>) => void
+    const login = new Promise<ReturnType<typeof authResponse>>((resolve) => {
+      resolveLogin = resolve
+    })
+    requester.request.mockReturnValueOnce(login)
+
+    const first = manager.getAccessToken()
+    const second = manager.getAccessToken()
+    resolveLogin(authResponse('access-1', 'refresh-1'))
+
+    await expect(Promise.all([first, second])).resolves.toEqual(['access-1', 'access-1'])
+    expect(requester.request).toHaveBeenCalledTimes(1)
+  })
+
   it('refreshes after the access token TTL and rotates the refresh token', async () => {
     requester.request
       .mockResolvedValueOnce(authResponse('access-1', 'refresh-1'))

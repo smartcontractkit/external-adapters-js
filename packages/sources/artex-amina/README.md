@@ -9,10 +9,10 @@ configured ISIN, and publishes that position's raw share count as SmartData v9
 
 `por`
 
-| Parameter     | Type   | Required | Description                      |
-| ------------- | ------ | -------- | -------------------------------- |
-| `portfolioNo` | number | yes      | AMINA portfolio number.          |
-| `isin`        | string | yes      | ISIN of the position to publish. |
+| Parameter     | Type   | Required | Description       |
+| ------------- | ------ | -------- | ----------------- |
+| `portfolioNo` | number | yes      | portfolio number. |
+| `isin`        | string | yes      | ISIN.             |
 
 Example request:
 
@@ -26,13 +26,13 @@ Example request:
 
 ## Environment
 
-| Variable                 | Required | Description                                                                                                                                        |
-| ------------------------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `API_ENDPOINT`           | yes      | AMINA API host, for example `https://integration-test.aminagroup.io`. Must be an HTTPS origin with no path or query. Do not include `/api/b2c/v1`. |
-| `AMINA_USER_ID`          | yes      | AMINA 8-digit user ID.                                                                                                                             |
-| `AMINA_PASSWORD`         | yes      | AMINA password.                                                                                                                                    |
-| `AMINA_HMAC_SECRET`      | yes      | AMINA HMAC secret.                                                                                                                                 |
-| `AMINA_AGREEMENT_NUMBER` | yes      | AMINA agreement number.                                                                                                                            |
+| Variable                 | Required | Description       |
+| ------------------------ | -------- | ----------------- |
+| `API_ENDPOINT`           | yes      | api endpoint.     |
+| `AMINA_USER_ID`          | yes      | user ID.          |
+| `AMINA_PASSWORD`         | yes      | password.         |
+| `AMINA_HMAC_SECRET`      | yes      | HMAC secret.      |
+| `AMINA_AGREEMENT_NUMBER` | yes      | agreement number. |
 
 The adapter keeps the retry limits (3 attempts, 2 second base delay, 40 second
 cap) and the user-agent as code constants. Cache and subscription TTLs are

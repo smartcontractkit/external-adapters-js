@@ -5,8 +5,7 @@ const EIGHT_DIGITS = /^\d{8}$/
 export const config = new AdapterConfig(
   {
     API_ENDPOINT: {
-      description:
-        'AMINA API host, for example https://integration-test.aminagroup.io. Must use HTTPS.',
+      description: 'api endpoint',
       type: 'string',
       required: true,
       sensitive: false,
@@ -32,7 +31,7 @@ export const config = new AdapterConfig(
       },
     },
     AMINA_USER_ID: {
-      description: 'AMINA 8-digit user ID',
+      description: 'user ID',
       type: 'string',
       required: true,
       sensitive: false,
@@ -47,19 +46,19 @@ export const config = new AdapterConfig(
       },
     },
     AMINA_PASSWORD: {
-      description: 'AMINA password',
+      description: 'password',
       type: 'string',
       required: true,
       sensitive: true,
     },
     AMINA_HMAC_SECRET: {
-      description: 'AMINA HMAC secret',
+      description: 'HMAC secret',
       type: 'string',
       required: true,
       sensitive: true,
     },
     AMINA_AGREEMENT_NUMBER: {
-      description: 'AMINA agreement number used in the HMAC and request header',
+      description: 'agreement number',
       type: 'string',
       required: true,
       sensitive: false,

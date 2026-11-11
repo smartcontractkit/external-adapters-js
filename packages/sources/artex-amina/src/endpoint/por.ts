@@ -10,12 +10,12 @@ export const inputParameters = new InputParameters(
     portfolioNo: {
       required: true,
       type: 'number',
-      description: 'AMINA portfolio number',
+      description: 'portfolio number',
     },
     isin: {
       required: true,
       type: 'string',
-      description: 'ISIN of the position to publish',
+      description: 'ISIN',
     },
   },
   [

@@ -54,6 +54,7 @@ function parseAuthResponse(data: unknown): AminaAuthResponse {
 export class AuthManager {
   private access?: CachedToken
   private refresh?: CachedToken
+  private inFlight?: Promise<string>
 
   constructor(private readonly requester: Requester, private readonly settings: AuthSettings) {}
 
@@ -68,6 +69,7 @@ export class AuthManager {
   reset(): void {
     this.access = undefined
     this.refresh = undefined
+    this.inFlight = undefined
   }
 
   private async getToken(forceRefresh: boolean): Promise<string> {
@@ -78,6 +80,21 @@ export class AuthManager {
     ) {
       return this.access.token
     }
+    if (this.inFlight) {
+      return this.inFlight
+    }
+    const pending = this.acquireToken()
+    this.inFlight = pending
+    try {
+      return await pending
+    } finally {
+      if (this.inFlight === pending) {
+        this.inFlight = undefined
+      }
+    }
+  }
+
+  private async acquireToken(): Promise<string> {
     if (this.refresh && Date.now() < this.refresh.expiresAtMs - TOKEN_EXPIRY_BUFFER_MS) {
       try {
         return await this.refreshTokens(this.refresh.token)
