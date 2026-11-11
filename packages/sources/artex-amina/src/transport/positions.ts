@@ -66,7 +66,8 @@ function isPosition(value: unknown): value is AminaPosition {
     value.isin.length > 0 &&
     typeof value.quantity === 'number' &&
     Number.isFinite(value.quantity) &&
-    value.quantity >= 0
+    value.quantity >= 0 &&
+    Number(value.quantity.toFixed(4)) === value.quantity
   )
 }
 
@@ -168,6 +169,13 @@ export async function fetchAllPositions(args: FetchPositionsArgs): Promise<Posit
       throw new AdapterError({
         statusCode: 502,
         message: `AMINA totalPages changed from ${expectedTotalPages} to ${result.page.totalPages}`,
+      })
+    }
+
+    if (expectedTotalPages === 0 && result.page.positions.length > 0) {
+      throw new AdapterError({
+        statusCode: 502,
+        message: 'AMINA returned positions with totalPages=0',
       })
     }
 

@@ -1,7 +1,6 @@
 {
   "blacklist": [
     "anyblock",
-    "artex-amina",
     "coingecko",
     "dlc-btc-por",
     "implied-price",

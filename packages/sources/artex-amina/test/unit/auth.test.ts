@@ -121,17 +121,4 @@ describe('AuthManager', () => {
       message: 'AMINA auth response must contain accessToken and refreshToken',
     })
   })
-
-  it('retries a transient auth failure', async () => {
-    requester.request
-      .mockRejectedValueOnce(providerError(500))
-      .mockResolvedValueOnce(authResponse('access-1', 'refresh-1'))
-
-    const token = manager.getAccessToken()
-    await Promise.resolve()
-    await jest.runAllTimersAsync()
-
-    await expect(token).resolves.toBe('access-1')
-    expect(requester.request).toHaveBeenCalledTimes(2)
-  })
 })

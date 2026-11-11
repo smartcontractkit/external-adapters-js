@@ -11,15 +11,22 @@ export const config = new AdapterConfig(
       required: true,
       sensitive: false,
       validate: {
-        meta: { details: 'Value must be an HTTPS URL' },
+        meta: { details: 'Value must be an HTTPS origin' },
         fn: (value) => {
           if (typeof value !== 'string') {
-            return 'Value must be an HTTPS URL'
+            return 'Value must be an HTTPS origin'
           }
           try {
-            return new URL(value).protocol === 'https:' ? undefined : 'Value must use HTTPS'
+            const url = new URL(value)
+            if (url.protocol !== 'https:') {
+              return 'Value must use HTTPS'
+            }
+            if (url.pathname !== '/' || url.search || url.hash || url.username || url.password) {
+              return 'Value must be an origin without a path, query, fragment, or credentials'
+            }
+            return undefined
           } catch {
-            return 'Value must be an HTTPS URL'
+            return 'Value must be an HTTPS origin'
           }
         },
       },
@@ -65,9 +72,11 @@ export const config = new AdapterConfig(
       // request, so framework retries are disabled. The adapter bootstrap
       // rejects any RETRY override so this cannot be re-enabled by env.
       RETRY: 0,
-      // 3 attempts x 30 s API timeout + 2 s + 4 s backoff = 96 s, so the
-      // framework default 90 s background timeout is too short.
-      BACKGROUND_EXECUTE_TIMEOUT: 180_000,
+      // 5 min covers the auth + page retry budget; 1 h is the framework max
+      // for a monthly source.
+      BACKGROUND_EXECUTE_TIMEOUT: 300_000,
+      CACHE_MAX_AGE: 60 * 60 * 1000,
+      WARMUP_SUBSCRIPTION_TTL: 60 * 60 * 1000,
     },
   },
 )

@@ -26,27 +26,28 @@ Example request:
 
 ## Environment
 
-| Variable                 | Required | Description                                                                                                         |
-| ------------------------ | -------- | ------------------------------------------------------------------------------------------------------------------- |
-| `API_ENDPOINT`           | yes      | AMINA API host, for example `https://integration-test.aminagroup.io`. Must use HTTPS. Do not include `/api/b2c/v1`. |
-| `AMINA_USER_ID`          | yes      | AMINA 8-digit user ID.                                                                                              |
-| `AMINA_PASSWORD`         | yes      | AMINA password.                                                                                                     |
-| `AMINA_HMAC_SECRET`      | yes      | AMINA HMAC secret.                                                                                                  |
-| `AMINA_AGREEMENT_NUMBER` | yes      | AMINA agreement number.                                                                                             |
+| Variable                 | Required | Description                                                                                                                                        |
+| ------------------------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `API_ENDPOINT`           | yes      | AMINA API host, for example `https://integration-test.aminagroup.io`. Must be an HTTPS origin with no path or query. Do not include `/api/b2c/v1`. |
+| `AMINA_USER_ID`          | yes      | AMINA 8-digit user ID.                                                                                                                             |
+| `AMINA_PASSWORD`         | yes      | AMINA password.                                                                                                                                    |
+| `AMINA_HMAC_SECRET`      | yes      | AMINA HMAC secret.                                                                                                                                 |
+| `AMINA_AGREEMENT_NUMBER` | yes      | AMINA agreement number.                                                                                                                            |
 
 The adapter keeps the retry limits (3 attempts, 2 second base delay, 40 second
-cap) and the user-agent as code constants. Cache timing uses framework defaults.
-The background execute timeout is 180 seconds to cover the 3-attempt retry
-budget. The required envs are the five AMINA connection values above.
+cap) and the user-agent as code constants. Cache and subscription TTLs are
+capped at 1 hour; the background execute timeout is 300 seconds to cover the
+retry budget. The required envs are the five AMINA connection values above.
 
 ## Behaviour
 
 - Login and refresh use `POST /api/b2c/v1/auth` without HMAC headers.
 - Every positions GET uses a Bearer token and a fresh HMAC nonce, timestamp,
   URI, signature, agreement header, and request IDs.
-- The access token is reused until it expires. A 401 refreshes the token, then
-  falls back to a full login. Transient auth/positions failures use exponential
-  backoff (3 attempts, 2 second base, 40 second cap).
+- The access token is reused until it expires. A 401 refreshes the token once
+  and retries the page; if the refresh request itself fails, it falls back to a
+  full login. Transient auth/positions failures use exponential backoff
+  (3 attempts, 2 second base, 40 second cap).
 - `portfolioNo` must be an integer between 100000000 and 999999999 and `isin`
   must match `^[A-Z]{2}[A-Z0-9]{9}[0-9]$`; otherwise the EA returns 400 before
   calling the provider.
@@ -77,8 +78,8 @@ budget. The required envs are the five AMINA connection values above.
 
 The requirement reuses the v9 `aum` field for the ARTEX share count because v9
 has no quantity field. The v9 schema labels `aum` as USD AUM. The ARTEX
-consumer must read this stream as a share count. The owner-approved waiver W-1
-records the 4-decimal stream encoding (scale 10^4).
+consumer must read this stream as a share count; the stream applies the
+4-decimal scale.
 
 ## Commands
 

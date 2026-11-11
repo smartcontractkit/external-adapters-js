@@ -87,12 +87,17 @@ describe('execute', () => {
     expect(response.json().errorMessage).toContain('No AMINA position found for ISIN US0378331005')
   })
 
-  it('returns 502 when the ISIN appears on more than one page', async () => {
-    mockPositions(
-      0,
-      page({ positions: [position(ISIN, 12345.6789)], totalPages: 2, number: 0, last: false }),
-    )
-    mockPositions(1, page({ positions: [position(ISIN, 1)], totalPages: 2, number: 1 }))
+  it.each([
+    ['twice on one page', [page({ positions: [position(ISIN, 12345.6789), position(ISIN, 1)] })]],
+    [
+      'across pages',
+      [
+        page({ positions: [position(ISIN, 12345.6789)], totalPages: 2, number: 0, last: false }),
+        page({ positions: [position(ISIN, 1)], totalPages: 2, number: 1 }),
+      ],
+    ],
+  ])('returns 502 when the ISIN appears %s', async (_, pages) => {
+    pages.forEach((body, pageNo) => mockPositions(pageNo, body))
 
     const response = await testAdapter.request({
       endpoint: 'por',
@@ -152,5 +157,20 @@ describe('execute', () => {
 
     expect(response.statusCode).toBe(502)
     expect(response.json().errorMessage).toBe('AMINA request failed (401): Unauthorized')
+  })
+
+  it.each([
+    ['portfolioNo', { portfolioNo: 1, isin: ISIN }],
+    ['isin', { portfolioNo: PORTFOLIO_NO, isin: 'not-an-isin' }],
+  ])('returns 400 for an invalid %s', async (field, data) => {
+    nock.cleanAll()
+
+    const response = await testAdapter.request({
+      endpoint: 'por',
+      ...data,
+    })
+
+    expect(response.statusCode).toBe(400)
+    expect(response.json().error?.message).toContain(field)
   })
 })

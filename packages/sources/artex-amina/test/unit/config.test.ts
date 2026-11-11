@@ -41,13 +41,16 @@ describe('AMINA config', () => {
 
     expect(config.settings).toMatchObject({
       RETRY: 0,
-      BACKGROUND_EXECUTE_TIMEOUT: 180_000,
+      BACKGROUND_EXECUTE_TIMEOUT: 300_000,
+      CACHE_MAX_AGE: 3_600_000,
+      WARMUP_SUBSCRIPTION_TTL: 3_600_000,
     })
   })
 
   const invalidSettings: Array<[string, Record<string, string>, RegExp]> = [
     ['a non-HTTPS endpoint', { API_ENDPOINT: 'http://amina.test' }, /HTTPS/],
     ['an unparseable endpoint', { API_ENDPOINT: 'not-a-url' }, /HTTPS/],
+    ['an endpoint with a path', { API_ENDPOINT: 'https://amina.test/api/b2c/v1' }, /origin/],
     ['a user ID that is too short', { AMINA_USER_ID: '1234567' }, /8-digit/],
   ]
 
