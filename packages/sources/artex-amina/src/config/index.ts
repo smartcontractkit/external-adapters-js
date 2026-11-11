@@ -72,13 +72,9 @@ export const config = new AdapterConfig(
   },
   {
     envDefaultOverrides: {
-      // The framework retry loop re-sends the same Axios config, including the
-      // AMINA nonce/timestamp/signature. Manual p.6 requires a unique nonce per
-      // request, so framework retries are disabled. The adapter bootstrap
-      // rejects any RETRY override so this cannot be re-enabled by env.
+      // Framework retries replay the signed nonce (Manual p.6).
       RETRY: 0,
-      // 5 min covers the auth + page retry budget; 1 h is the framework max
-      // for a monthly source.
+      // 5 min covers the auth + page retry budget.
       BACKGROUND_EXECUTE_TIMEOUT: 300_000,
       CACHE_MAX_AGE: 60 * 60 * 1000,
       WARMUP_SUBSCRIPTION_TTL: 60 * 60 * 1000,
