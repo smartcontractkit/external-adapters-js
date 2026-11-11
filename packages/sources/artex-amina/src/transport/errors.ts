@@ -37,10 +37,12 @@ export function mapAminaError(error: unknown): AdapterError {
   if (error instanceof AdapterDataProviderError) {
     const status = error.providerStatusCode
     const detail = formatErrorBody(error.errorResponse)
+    const statusSuffix = status ? ` (${status})` : ''
+    const detailSuffix = detail ? `: ${detail}` : ''
     return new AdapterError({
       statusCode: 502,
       providerStatusCode: status,
-      message: `AMINA request failed${status ? ` (${status})` : ''}${detail ? `: ${detail}` : ''}`,
+      message: `AMINA request failed${statusSuffix}${detailSuffix}`,
     })
   }
   if (error instanceof AdapterConnectionError) {

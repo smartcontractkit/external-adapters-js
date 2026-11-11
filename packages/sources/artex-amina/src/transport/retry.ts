@@ -18,17 +18,14 @@ export const DEFAULT_RETRY: RetryOptions = {
 }
 
 export function isRetryableError(error: unknown): boolean {
-  if (error instanceof AdapterConnectionError) {
+  if (error instanceof AdapterConnectionError || error instanceof AdapterRateLimitError) {
     return true
   }
-  if (error instanceof AdapterRateLimitError) {
-    return true
+  if (!(error instanceof AdapterDataProviderError)) {
+    return false
   }
-  if (error instanceof AdapterDataProviderError) {
-    const status = error.providerStatusCode
-    return status === 429 || (status !== undefined && status >= 500 && status <= 599)
-  }
-  return false
+  const status = error.providerStatusCode
+  return status === 429 || (status !== undefined && status >= 500 && status <= 599)
 }
 
 export function retryDelay(attempt: number, options: RetryOptions): number {
