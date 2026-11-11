@@ -100,6 +100,7 @@ describe('execute', () => {
     expect(body.timestamps.providerDataReceivedUnixMs).toBeGreaterThanOrEqual(
       body.timestamps.providerDataRequestedUnixMs,
     )
+    expect(body).toMatchSnapshot()
   })
 
   it('returns 502 when the ISIN is absent', async () => {
