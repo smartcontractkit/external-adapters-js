@@ -9,7 +9,7 @@ import { positionsPath, trimEndpoint } from './paths'
 import { DEFAULT_RETRY, withRetry } from './retry'
 import { buildSignedGetHeaders } from './signing'
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 2000
 export const MAX_PAGES = 100
 const USER_AGENT = 'chainlink-artex-amina-adapter/1.0.0'
 
@@ -20,6 +20,8 @@ export interface AminaPosition {
 
 export interface AminaPositionsPage {
   positions: AminaPosition[]
+  totalPages: number
+  number: number
   last: boolean
 }
 
@@ -73,11 +75,22 @@ export function parsePositionsPage(data: unknown): AminaPositionsPage {
     !isRecord(data) ||
     !Array.isArray(data.positions) ||
     !data.positions.every(isPosition) ||
+    typeof data.totalPages !== 'number' ||
+    !Number.isInteger(data.totalPages) ||
+    data.totalPages < 0 ||
+    typeof data.number !== 'number' ||
+    !Number.isInteger(data.number) ||
+    data.number < 0 ||
     typeof data.last !== 'boolean'
   ) {
     throw invalid('AMINA positions response is malformed')
   }
-  return { positions: data.positions, last: data.last }
+  return {
+    positions: data.positions,
+    totalPages: data.totalPages,
+    number: data.number,
+    last: data.last,
+  }
 }
 
 async function fetchPage(args: FetchPositionsArgs, pageNo: number): Promise<PageResult> {
@@ -124,27 +137,80 @@ async function fetchPage(args: FetchPositionsArgs, pageNo: number): Promise<Page
 // them; SubscriptionTransport is the framework seam for this custom flow.
 export async function fetchAllPositions(args: FetchPositionsArgs): Promise<PositionsResult> {
   const positions: AminaPosition[] = []
+  let expectedTotalPages: number | undefined
   let firstPageRequestedUnixMs: number | undefined
+  let lastPageReceivedUnixMs: number | undefined
+  let completed = false
 
   for (let pageNo = 0; pageNo < MAX_PAGES; pageNo++) {
     const result = await fetchPage(args, pageNo)
-    const firstRequested = firstPageRequestedUnixMs ?? result.requestedUnixMs
-    firstPageRequestedUnixMs = firstRequested
+    if (firstPageRequestedUnixMs === undefined) {
+      firstPageRequestedUnixMs = result.requestedUnixMs
+    }
+    lastPageReceivedUnixMs = result.receivedUnixMs
+
+    if (result.page.number !== pageNo) {
+      throw new AdapterError({
+        statusCode: 502,
+        message: `AMINA returned page ${result.page.number} for requested page ${pageNo}`,
+      })
+    }
+
+    if (expectedTotalPages === undefined) {
+      expectedTotalPages = result.page.totalPages
+      if (expectedTotalPages > MAX_PAGES) {
+        throw new AdapterError({
+          statusCode: 502,
+          message: `AMINA totalPages ${expectedTotalPages} exceeds ${MAX_PAGES} pages`,
+        })
+      }
+    } else if (result.page.totalPages !== expectedTotalPages) {
+      throw new AdapterError({
+        statusCode: 502,
+        message: `AMINA totalPages changed from ${expectedTotalPages} to ${result.page.totalPages}`,
+      })
+    }
+
     positions.push(...result.page.positions)
 
     if (result.page.last) {
-      return {
-        positions,
-        firstPageRequestedUnixMs: firstRequested,
-        lastPageReceivedUnixMs: result.receivedUnixMs,
+      if (expectedTotalPages > 0 && pageNo + 1 < expectedTotalPages) {
+        throw new AdapterError({
+          statusCode: 502,
+          message: `AMINA last=true before totalPages (page ${pageNo}, totalPages ${expectedTotalPages})`,
+        })
       }
+      completed = true
+      break
+    }
+
+    if (pageNo + 1 >= expectedTotalPages) {
+      throw new AdapterError({
+        statusCode: 502,
+        message: `AMINA paging ended before last=true (page ${pageNo}, totalPages ${expectedTotalPages})`,
+      })
     }
   }
 
-  throw new AdapterError({
-    statusCode: 502,
-    message: `AMINA pagination exceeded ${MAX_PAGES} pages`,
-  })
+  if (!completed) {
+    throw new AdapterError({
+      statusCode: 502,
+      message: `AMINA pagination exceeded ${MAX_PAGES} pages`,
+    })
+  }
+
+  if (firstPageRequestedUnixMs === undefined || lastPageReceivedUnixMs === undefined) {
+    throw new AdapterError({
+      statusCode: 502,
+      message: 'AMINA positions response has no timestamps',
+    })
+  }
+
+  return {
+    positions,
+    firstPageRequestedUnixMs,
+    lastPageReceivedUnixMs,
+  }
 }
 
 export function selectQuantity(positions: AminaPosition[], isin: string): number {

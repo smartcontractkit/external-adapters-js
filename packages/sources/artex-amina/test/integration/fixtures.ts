@@ -42,6 +42,8 @@ export function position(isin = ISIN, quantity = 100.5): { isin: string; quantit
 export function page(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {
     positions: [],
+    totalPages: 1,
+    number: 0,
     last: true,
     ...overrides,
   }
@@ -54,7 +56,7 @@ export function mockPositions(
 ): nock.Scope {
   return nock(HOST)
     .get('/api/b2c/v1/securities/portfolios/157769305/positions')
-    .query({ page: pageNo, size: 20 })
+    .query({ page: pageNo, size: 2000 })
     .matchHeader('Authorization', `Bearer ${token}`)
     .matchHeader('Amina-Context-Agreement-Number', AGREEMENT)
     .matchHeader('Amina-Uri', '/api/b2c/v1/securities/portfolios/157769305/positions')
@@ -90,7 +92,7 @@ export function mockPositionsError(
 ): nock.Scope {
   return nock(HOST)
     .get('/api/b2c/v1/securities/portfolios/157769305/positions')
-    .query({ page: pageNo, size: 20 })
+    .query({ page: pageNo, size: 2000 })
     .matchHeader('Authorization', `Bearer ${token}`)
     .reply(status, body)
 }

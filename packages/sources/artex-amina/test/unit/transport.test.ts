@@ -36,7 +36,7 @@ function pageResponse(data: unknown, requested = 1_000, received = 2_000) {
 }
 
 function page(overrides: Record<string, unknown> = {}) {
-  return { positions: [], last: true, ...overrides }
+  return { positions: [], totalPages: 1, number: 0, last: true, ...overrides }
 }
 
 function providerError(status: number): AdapterDataProviderError {
@@ -127,14 +127,23 @@ describe('AMINA transport', () => {
     requester.request
       .mockResolvedValueOnce(
         pageResponse(
-          page({ positions: [{ isin: 'OTHER', quantity: 1 }], last: false }),
+          page({
+            positions: [{ isin: 'OTHER', quantity: 1 }],
+            totalPages: 2,
+            number: 0,
+            last: false,
+          }),
           1_000,
           1_100,
         ),
       )
       .mockResolvedValueOnce(
         pageResponse(
-          page({ positions: [{ isin: 'US0378331005', quantity: 100.5 }] }),
+          page({
+            positions: [{ isin: 'US0378331005', quantity: 100.5 }],
+            totalPages: 2,
+            number: 1,
+          }),
           1_200,
           1_300,
         ),
@@ -153,12 +162,16 @@ describe('AMINA transport', () => {
     ])
     expect(result.firstPageRequestedUnixMs).toBe(1_000)
     expect(result.lastPageReceivedUnixMs).toBe(1_300)
-    expect(requester.request.mock.calls[1][1].url).toContain('page=1&size=20')
+    expect(requester.request.mock.calls[1][1].url).toContain('page=1&size=2000')
   })
 
-  it('fails after the maximum number of pages', async () => {
+  it('fails when totalPages exceeds the page cap', async () => {
     const requester = {
-      request: jest.fn().mockResolvedValue(pageResponse(page({ last: false }))),
+      request: jest
+        .fn()
+        .mockResolvedValueOnce(
+          pageResponse(page({ totalPages: MAX_PAGES + 1, number: 0, last: false })),
+        ),
     }
     const auth = { getAccessToken: jest.fn().mockResolvedValue('token') }
 
@@ -169,8 +182,8 @@ describe('AMINA transport', () => {
         settings,
         portfolioNo: 157769305,
       }),
-    ).rejects.toThrow(`AMINA pagination exceeded ${MAX_PAGES} pages`)
-    expect(requester.request).toHaveBeenCalledTimes(MAX_PAGES)
+    ).rejects.toThrow(`AMINA totalPages ${MAX_PAGES + 1} exceeds ${MAX_PAGES} pages`)
+    expect(requester.request).toHaveBeenCalledTimes(1)
   })
 
   it('re-signs each positions attempt before retrying', async () => {
@@ -220,6 +233,9 @@ describe('AMINA transport', () => {
       page({ positions: [{ isin: 'US0378331005', quantity: Number.NaN }] }),
       'AMINA positions response is malformed',
     ],
+    ['a non-boolean last', page({ last: 'false' }), 'AMINA positions response is malformed'],
+    ['an invalid totalPages', page({ totalPages: -1 }), 'AMINA positions response is malformed'],
+    ['an invalid page number', page({ number: 1.5 }), 'AMINA positions response is malformed'],
   ])('rejects %s', async (_, data, message) => {
     const requester = { request: jest.fn().mockResolvedValueOnce(pageResponse(data)) }
     const auth = { getAccessToken: jest.fn().mockResolvedValue('token') }
@@ -232,6 +248,54 @@ describe('AMINA transport', () => {
         portfolioNo: 157769305,
       }),
     ).rejects.toThrow(message)
+  })
+
+  it.each([
+    [
+      'a page number mismatch',
+      page({ totalPages: 2, number: 1, last: false }),
+      'AMINA returned page 1 for requested page 0',
+    ],
+    [
+      'last=true before totalPages',
+      page({ totalPages: 2, number: 0, last: true }),
+      'AMINA last=true before totalPages',
+    ],
+    [
+      'paging ended before last=true',
+      page({ totalPages: 1, number: 0, last: false }),
+      'AMINA paging ended before last=true',
+    ],
+  ])('rejects %s', async (_, data, message) => {
+    const requester = { request: jest.fn().mockResolvedValueOnce(pageResponse(data)) }
+    const auth = { getAccessToken: jest.fn().mockResolvedValue('token') }
+
+    await expect(
+      fetchAllPositions({
+        requester: requester as unknown as Requester,
+        auth: auth as unknown as AuthManager,
+        settings,
+        portfolioNo: 157769305,
+      }),
+    ).rejects.toThrow(message)
+  })
+
+  it('rejects a totalPages change between pages', async () => {
+    const requester = { request: jest.fn() }
+    const auth = { getAccessToken: jest.fn().mockResolvedValue('token') }
+    requester.request
+      .mockResolvedValueOnce(pageResponse(page({ totalPages: 3, number: 0, last: false })))
+      .mockResolvedValueOnce(pageResponse(page({ totalPages: 2, number: 1, last: true })))
+
+    await expect(
+      fetchAllPositions({
+        requester: requester as unknown as Requester,
+        auth: auth as unknown as AuthManager,
+        settings,
+        portfolioNo: 157769305,
+      }),
+    ).rejects.toThrow('AMINA totalPages changed from 3 to 2')
+    expect(requester.request).toHaveBeenCalledTimes(2)
   })
 
   it.each([

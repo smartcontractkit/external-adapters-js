@@ -8,13 +8,12 @@ export const adapter = new Adapter({
   name: 'ARTEX_AMINA',
   config,
   endpoints: [por],
-  rateLimiting: {
-    tiers: {
-      default: {
-        rateLimit1m: 10,
-        note: 'AMINA documents no read-only rate limit; self-imposed cap for a monthly feed.',
-      },
-    },
+  bootstrap: async (adapterInstance) => {
+    if (adapterInstance.config.settings.RETRY !== 0) {
+      throw new Error(
+        'AMINA requires RETRY=0: framework retries replay the signed nonce/timestamp/signature',
+      )
+    }
   },
 })
 

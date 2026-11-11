@@ -34,11 +34,12 @@ describe('execute', () => {
     process.env.AMINA_HMAC_SECRET = 'hmac-secret'
     process.env.AMINA_AGREEMENT_NUMBER = AGREEMENT
     process.env.BACKGROUND_EXECUTE_MS_HTTP = '10'
+    // Keep integration tests fast. The 3-attempt retry policy is covered in
+    // test/unit/transport.test.ts, and RETRY=1 startup rejection in config.test.ts.
     Object.assign(DEFAULT_RETRY, { maxAttempts: 1, baseDelayMs: 0, maxDelayMs: 0 })
     dateSpy = jest.spyOn(Date, 'now').mockReturnValue(new Date('2026-11-05T00:00:00Z').getTime())
 
     const adapter = (await import('../../src')).adapter
-    adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
     })
@@ -102,8 +103,11 @@ describe('execute', () => {
   })
 
   it('returns 502 when the ISIN appears on more than one page', async () => {
-    mockPositions(0, page({ positions: [position(ISIN, 100.5)], last: false }))
-    mockPositions(1, page({ positions: [position(ISIN, 1)] }))
+    mockPositions(
+      0,
+      page({ positions: [position(ISIN, 100.5)], totalPages: 2, number: 0, last: false }),
+    )
+    mockPositions(1, page({ positions: [position(ISIN, 1)], totalPages: 2, number: 1 }))
 
     const response = await testAdapter.request({
       endpoint: 'por',
@@ -179,5 +183,20 @@ describe('execute', () => {
     expect(response.statusCode).toBe(502)
     expect(response.json().errorMessage).toContain('AMINA request failed (401)')
     expect(refresh.isDone()).toBe(true)
+  })
+
+  it.each([
+    ['portfolioNo', { portfolioNo: 1, isin: ISIN }],
+    ['isin', { portfolioNo: PORTFOLIO_NO, isin: 'not-an-isin' }],
+  ])('returns 400 for an invalid %s', async (field, data) => {
+    nock.cleanAll()
+
+    const response = await testAdapter.request({
+      endpoint: 'por',
+      ...data,
+    })
+
+    expect(response.statusCode).toBe(400)
+    expect(response.json().error?.message).toContain(field)
   })
 })

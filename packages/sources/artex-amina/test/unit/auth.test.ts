@@ -105,6 +105,21 @@ describe('AuthManager', () => {
     expect(requester.request.mock.calls[2][1].data).toEqual({ refreshToken: 'refresh-2' })
   })
 
+  it('logs in again after the refresh token expires', async () => {
+    requester.request
+      .mockResolvedValueOnce(authResponse('access-1', 'refresh-1'))
+      .mockResolvedValueOnce(authResponse('access-2', 'refresh-2'))
+
+    await expect(manager.getAccessToken()).resolves.toBe('access-1')
+    jest.setSystemTime(new Date(NOW + 25 * 60 * 60 * 1000))
+    await expect(manager.getAccessToken()).resolves.toBe('access-2')
+
+    expect(requester.request).toHaveBeenCalledTimes(2)
+    const [key, request] = requester.request.mock.calls[1]
+    expect(key).toMatch(/^amina-auth-login:/)
+    expect(request.data).toEqual({ username: '25742014', password: 'password' })
+  })
+
   it('falls back to a full login when the refresh token is rejected', async () => {
     requester.request
       .mockResolvedValueOnce(authResponse('access-1', 'refresh-1'))
