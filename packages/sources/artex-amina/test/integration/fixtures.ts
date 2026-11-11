@@ -57,6 +57,7 @@ export function mockPositions(
   pageNo: number,
   body: Record<string, unknown>,
   token = ACCESS_TOKEN,
+  onRequest?: () => void,
 ): nock.Scope {
   return nock(HOST)
     .get('/api/b2c/v1/securities/portfolios/157769305/positions')
@@ -71,6 +72,7 @@ export function mockPositions(
     .matchHeader('Amina-Timestamp', /^\d+$/)
     .matchHeader('Amina-Signature', /.+/)
     .reply(function (this: nock.ReplyFnContext) {
+      onRequest?.()
       const headers = this.req.headers
       const expected = signHmac(
         buildHmacPayload({

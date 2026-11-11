@@ -1,3 +1,4 @@
+import { sleep } from '@chainlink/external-adapter-framework/util'
 import {
   setEnvVariables,
   TestAdapter,
@@ -6,6 +7,7 @@ import * as nock from 'nock'
 import { porTransport } from '../../src/transport/por'
 import { DEFAULT_RETRY } from '../../src/transport/retry'
 import {
+  ACCESS_TOKEN,
   AGREEMENT,
   HOST,
   ISIN,
@@ -140,24 +142,30 @@ describe('execute', () => {
     )
   })
 
-  it('returns 502 with the provider status and problem fields', async () => {
-    mockPositionsError(0, 500, {
-      title: 'Internal Server Error',
-      detail: 'boom',
-      instance: 'instance-1',
-    })
-
-    const response = await testAdapter.request({
-      endpoint: 'por',
-      portfolioNo: PORTFOLIO_NO,
-      isin: ISIN,
-    })
-
-    expect(response.statusCode).toBe(502)
-    expect(response.json().errorMessage).toBe(
+  it.each([
+    [
+      500,
+      { title: 'Internal Server Error', detail: 'boom', instance: 'instance-1' },
       'AMINA request failed (500): Internal Server Error | instance-1',
-    )
-  })
+    ],
+    // 403 means a bad signature or path, so it must surface directly. A token
+    // refresh would consume no auth mock and change this to a connection error.
+    [403, { title: 'Forbidden' }, 'AMINA request failed (403): Forbidden'],
+  ])(
+    'returns 502 with the provider status and problem fields for a %i response',
+    async (status, body, message) => {
+      mockPositionsError(0, status, body)
+
+      const response = await testAdapter.request({
+        endpoint: 'por',
+        portfolioNo: PORTFOLIO_NO,
+        isin: ISIN,
+      })
+
+      expect(response.statusCode).toBe(502)
+      expect(response.json().errorMessage).toBe(message)
+    },
+  )
 
   it('refreshes the token after a 401 and returns the position', async () => {
     mockPositionsError(0, 401)
@@ -172,6 +180,77 @@ describe('execute', () => {
 
     expect(response.statusCode).toBe(200)
     expect(response.json().data.aum).toBe(12345.6789)
+  })
+
+  it('refreshes a 401 on a later page without restarting pagination', async () => {
+    mockPositions(
+      0,
+      page({ positions: [position(ISIN, 5.5)], totalPages: 2, number: 0, last: false }),
+    )
+    mockPositionsError(1, 401)
+    const refresh = mockRefresh(REFRESHED_ACCESS_TOKEN)
+    mockPositions(
+      1,
+      page({ positions: [position('OTHER', 1)], totalPages: 2, number: 1 }),
+      REFRESHED_ACCESS_TOKEN,
+    )
+
+    const response = await testAdapter.request({
+      endpoint: 'por',
+      portfolioNo: PORTFOLIO_NO,
+      isin: ISIN,
+    })
+
+    expect(response.statusCode).toBe(200)
+    expect(response.json().data.aum).toBe(5.5)
+    expect(refresh.isDone()).toBe(true)
+  })
+
+  it('returns 502 after a single refresh when the retried page is rejected again', async () => {
+    mockPositionsError(0, 401)
+    const refresh = mockRefresh(REFRESHED_ACCESS_TOKEN)
+    mockPositionsError(0, 401, {}, REFRESHED_ACCESS_TOKEN)
+
+    const response = await testAdapter.request({
+      endpoint: 'por',
+      portfolioNo: PORTFOLIO_NO,
+      isin: ISIN,
+    })
+
+    expect(response.statusCode).toBe(502)
+    // A second refresh or login fallback would have no mock and surface as a
+    // connection failure instead.
+    expect(response.json().errorMessage).toBe('AMINA request failed (401)')
+    expect(refresh.isDone()).toBe(true)
+  })
+
+  it('serves a second request from the cache without calling the provider again', async () => {
+    let positionsCalls = 0
+    mockPositions(
+      0,
+      page({ positions: [position(ISIN, 12345.6789)] }),
+      ACCESS_TOKEN,
+      () => (positionsCalls += 1),
+    ).persist()
+
+    const first = await testAdapter.request({
+      endpoint: 'por',
+      portfolioNo: PORTFOLIO_NO,
+      isin: ISIN,
+    })
+    const second = await testAdapter.request({
+      endpoint: 'por',
+      portfolioNo: PORTFOLIO_NO,
+      isin: ISIN,
+    })
+    // Let the background executor run again so a missing cache check would
+    // hit the persisted provider mock.
+    await sleep(50)
+
+    expect(first.statusCode).toBe(200)
+    expect(second.statusCode).toBe(200)
+    expect(second.json()).toEqual(first.json())
+    expect(positionsCalls).toBe(1)
   })
 
   it('returns 502 when login is rejected', async () => {
