@@ -67,8 +67,9 @@ describe('websocket', () => {
       await testAdapter.request(request)
       await testAdapter.request(withRequireVolume(request))
     }
-    // Every frame produces one cache entry per requireVolume variant: 4 pairs x 2
-    await testAdapter.waitForCache(8)
+    // Every frame produces one cache entry per requireVolume variant (4 pairs x 2), except MSFT:
+    // its frame has no volumes, so nothing is cached for the requireVolume variant
+    await testAdapter.waitForCache(7)
   })
 
   afterAll(async () => {
@@ -148,12 +149,10 @@ describe('websocket', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should return 502 when requireVolume is true', async () => {
+    it('should return 504 when requireVolume is true', async () => {
+      // Frames without volumes are never cached for the requireVolume variant
       const response = await testAdapter.request(withRequireVolume(msftUsd))
-      expect(response.statusCode).toBe(502)
-      expect(response.json().errorMessage).toBe(
-        'Bid volume: undefined or Ask volume: undefined for Equity:US:MSFT/USD is invalid.',
-      )
+      expect(response.statusCode).toBe(504)
       expect(response.json()).toMatchSnapshot()
     })
   })
@@ -219,8 +218,9 @@ describe('websocket', () => {
     it('should leave the invalid pair out of the next subscribe message', async () => {
       // A new pair forces a fresh subscribe_market_data, which re-sends every desired pair
       await testAdapter.request(nvdaUsd)
-      // 5 valid pairs x 2 variants + the cached 502 for FAKE x 2 variants
-      await testAdapter.waitForCache(12)
+      // 5 valid pairs x 2 variants, minus MSFT's requireVolume variant, + the cached 502 for
+      // FAKE x 2 variants
+      await testAdapter.waitForCache(11)
 
       const response = await testAdapter.request(nvdaUsd)
       expect(response.statusCode).toBe(200)

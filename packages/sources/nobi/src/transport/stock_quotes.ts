@@ -16,7 +16,7 @@ export type WSResponse = {
   av: string // ask volume
   lp: string // last traded price
   v: string // latest available index value -> only for k = "value"
-  t: number // source timestamp (ms)
+  t: string // source timestamp (ms)
   message: string // error message
 }
 
@@ -53,6 +53,8 @@ export const buildQuoteTransport = () =>
           }
 
           invalidPairs.add(buildPair({ base, quote }))
+          logger.warn(`Blocking pair ${base}/${quote} until EA restart.`)
+
           return [
             {
               params: { base, quote, requireVolume: true },
@@ -113,6 +115,12 @@ const handleValueFrames = (params: { base: string; quote: string }, message: WSR
     return
   }
 
+  const timestamps = getProviderIndicatedTimeUnixMs(message.t)
+  if (message.t != null && timestamps === null) {
+    logger.warn(`Received invalid t in message: ${JSON.stringify(message)}`)
+    return
+  }
+
   invalidPairs.delete(buildPair(params))
   return [
     {
@@ -134,7 +142,7 @@ const handleValueFrames = (params: { base: string; quote: string }, message: WSR
           ask_volume: null,
           last_price: value,
         },
-        ...getProviderIndicatedTimeUnixMs(message.t),
+        ...timestamps,
       },
     },
   ]
@@ -143,16 +151,22 @@ const handleValueFrames = (params: { base: string; quote: string }, message: WSR
 const handleQuoteFrames = (params: { base: string; quote: string }, message: WSResponse) => {
   const midPrice = getPrice(message.m)
   const lastTradedPrice = getPrice(message.lp)
-  if (midPrice === null || lastTradedPrice === null) {
-    logger.warn(`Received invalid m/lp in message: ${JSON.stringify(message)}`)
+  if (midPrice === null) {
+    logger.warn(`Received invalid m in message: ${JSON.stringify(message)}`)
     return
   }
 
-  const bidPrice = getPrice(message.b) ?? midPrice
-  const askPrice = getPrice(message.a) ?? midPrice
+  const bidPrice = message.b == null ? midPrice : getPrice(message.b)
+  const askPrice = message.a == null ? midPrice : getPrice(message.a)
 
-  if (bidPrice > midPrice || askPrice < midPrice) {
+  if (!bidPrice || !askPrice || bidPrice > midPrice || askPrice < midPrice) {
     logger.warn(`Received invalid bid/ask prices in message: ${JSON.stringify(message)}`)
+    return
+  }
+
+  const timestamps = getProviderIndicatedTimeUnixMs(message.t)
+  if (message.t != null && timestamps === null) {
+    logger.warn(`Received invalid t in message: ${JSON.stringify(message)}`)
     return
   }
 
@@ -169,31 +183,30 @@ const handleQuoteFrames = (params: { base: string; quote: string }, message: WSR
       last_price: lastTradedPrice,
       ask_volume: askVolume,
     },
-    ...getProviderIndicatedTimeUnixMs(message.t),
+    ...timestamps,
   }
 
   invalidPairs.delete(buildPair(params))
   return [
     {
-      params: { ...params, requireVolume: true },
-      response:
-        bidVolume === null || askVolume === null
-          ? {
-              statusCode: 502,
-              errorMessage: `Bid volume: ${message.bv} or Ask volume: ${message.av} for ${message.c} is invalid.`,
-            }
-          : response,
-    },
-    {
       params: { ...params, requireVolume: false },
       response,
     },
-  ]
+  ].concat(
+    bidVolume === null || askVolume === null
+      ? []
+      : [
+          {
+            params: { ...params, requireVolume: true },
+            response,
+          },
+        ],
+  )
 }
 
-const getProviderIndicatedTimeUnixMs = (time: number) => {
-  if (isFinite(time)) {
-    const date = new Date(time)
+const getProviderIndicatedTimeUnixMs = (time: string) => {
+  if (isFinite(Number(time))) {
+    const date = new Date(Number(time))
     if (2000 < date.getUTCFullYear() && date.getUTCFullYear() < 2100) {
       return {
         timestamps: {
@@ -215,6 +228,9 @@ const getNumber = (value: unknown) => {
     return null
   }
   if (value.toString().trim().length === 0) {
+    return null
+  }
+  if (value.toString().includes('x') || value.toString().includes('X')) {
     return null
   }
 

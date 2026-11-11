@@ -35,14 +35,14 @@ export const inputParameters = new InputParameters(
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    Result: number
+    Result: number | null
     Data: {
       mid_price: number
       bid_price: number
       bid_volume: number | null
       ask_price: number
       ask_volume: number | null
-      last_price: number
+      last_price: number | null
     }
   }
   Settings: typeof config.settings
@@ -54,17 +54,11 @@ export const endpoint = new AdapterEndpoint({
   name: 'stock_quotes',
   aliases: ['stock'],
   inputParameters,
-  customInputValidation: (req, settings): AdapterInputError | undefined => {
+  customInputValidation: (_, settings): AdapterInputError | undefined => {
     if (!settings.QUOTES_API_KEY) {
       throw new AdapterInputError({
         statusCode: 400,
         message: 'QUOTES_API_KEY is required for stock_quotes endpoint',
-      })
-    }
-    if (invalidPairs.has(buildPair(req.requestContext.data))) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: 'The requested pair does not exist, is inactive, or is suspended.',
       })
     }
     return
@@ -78,6 +72,13 @@ export const endpoint = new AdapterEndpoint({
     ),
   requestTransforms: [
     (req) => {
+      // customInputValidation run before overrides
+      if (invalidPairs.has(buildPair(req.requestContext.data))) {
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: 'The requested pair does not exist, is inactive, or is suspended.',
+        })
+      }
       req.requestContext.data.base = baseToUpperCase(req.requestContext.data.base)
       req.requestContext.data.quote = req.requestContext.data.quote.toUpperCase()
     },
