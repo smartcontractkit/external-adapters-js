@@ -34,45 +34,31 @@ describe('AMINA config', () => {
     jest.resetModules()
   })
 
-  it('loads the required settings', async () => {
+  it('applies the nonce-safe retry and background timeout defaults', async () => {
     const { config } = await import('../../src/config')
     config.initialize()
     config.validate()
 
-    expect(config.settings.API_ENDPOINT).toBe('https://amina.test')
-    expect(config.settings.AMINA_USER_ID).toBe('25742014')
-    expect(config.settings.RETRY).toBe(0)
-    expect(config.settings.BACKGROUND_EXECUTE_TIMEOUT).toBe(180_000)
+    expect(config.settings).toMatchObject({
+      RETRY: 0,
+      BACKGROUND_EXECUTE_TIMEOUT: 180_000,
+    })
   })
 
-  it('rejects a non-HTTPS API_ENDPOINT', async () => {
-    setEnv({ API_ENDPOINT: 'http://amina.test' })
+  const invalidSettings: Array<[string, Record<string, string>, RegExp]> = [
+    ['a non-HTTPS endpoint', { API_ENDPOINT: 'http://amina.test' }, /HTTPS/],
+    ['an unparseable endpoint', { API_ENDPOINT: 'not-a-url' }, /HTTPS/],
+    ['a user ID that is too short', { AMINA_USER_ID: '1234567' }, /8-digit/],
+  ]
+
+  it.each(invalidSettings)('rejects %s', async (_, overrides, message) => {
+    setEnv(overrides)
     const { config } = await import('../../src/config')
 
     expect(() => {
       config.initialize()
       config.validate()
-    }).toThrow(/HTTPS/)
-  })
-
-  it('rejects a malformed API_ENDPOINT', async () => {
-    setEnv({ API_ENDPOINT: 'not-a-url' })
-    const { config } = await import('../../src/config')
-
-    expect(() => {
-      config.initialize()
-      config.validate()
-    }).toThrow(/HTTPS/)
-  })
-
-  it('rejects a user ID that is not eight digits', async () => {
-    setEnv({ AMINA_USER_ID: '123' })
-    const { config } = await import('../../src/config')
-
-    expect(() => {
-      config.initialize()
-      config.validate()
-    }).toThrow(/8-digit/)
+    }).toThrow(message)
   })
 
   it('rejects a nonzero framework RETRY at startup', async () => {

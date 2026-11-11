@@ -10,6 +10,7 @@ export const USER_ID = '25742014'
 export const HMAC_SECRET = 'hmac-secret'
 export const ACCESS_TOKEN = 'access-token'
 export const REFRESH_TOKEN = 'refresh-token'
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
 export function mockAuth(accessToken = ACCESS_TOKEN, refreshToken = REFRESH_TOKEN): nock.Scope {
   return nock(HOST)
@@ -58,6 +59,8 @@ export function mockPositions(
     .get('/api/b2c/v1/securities/portfolios/157769305/positions')
     .query({ page: pageNo, size: 2000 })
     .matchHeader('Authorization', `Bearer ${token}`)
+    .matchHeader('X-Request-Id', UUID)
+    .matchHeader('X-Correlation-Id', UUID)
     .matchHeader('Amina-Context-Agreement-Number', AGREEMENT)
     .matchHeader('Amina-Uri', '/api/b2c/v1/securities/portfolios/157769305/positions')
     .matchHeader('User-Agent', USER_AGENT)

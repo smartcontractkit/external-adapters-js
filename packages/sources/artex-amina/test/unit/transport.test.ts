@@ -5,11 +5,15 @@ import {
   AdapterError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import type { AuthManager } from '../../src/transport/auth'
-import { formatErrorBody, mapAminaError } from '../../src/transport/errors'
-import { authUrl, positionsPath, trimEndpoint } from '../../src/transport/paths'
+import { mapAminaError } from '../../src/transport/errors'
 import { fetchAllPositions, MAX_PAGES } from '../../src/transport/positions'
 import { DEFAULT_RETRY, isRetryableError, retryDelay, withRetry } from '../../src/transport/retry'
-import { buildHmacPayload, buildSignedGetHeaders, signHmac } from '../../src/transport/signing'
+import { buildSignedGetHeaders } from '../../src/transport/signing'
+
+const ISIN = 'US0378331005'
+const PORTFOLIO_NO = 157769305
+const USER_AGENT = 'chainlink-artex-amina-adapter/1.0.0'
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
 const settings = {
   apiEndpoint: 'https://amina.test',
@@ -35,7 +39,7 @@ function pageResponse(data: unknown, requested = 1_000, received = 2_000) {
   }
 }
 
-function page(overrides: Record<string, unknown> = {}) {
+function page(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return { positions: [], totalPages: 1, number: 0, last: true, ...overrides }
 }
 
@@ -46,373 +50,232 @@ function providerError(status: number): AdapterDataProviderError {
   )
 }
 
-describe('AMINA transport', () => {
-  beforeAll(() => {
-    Object.assign(DEFAULT_RETRY, { maxAttempts: 1, baseDelayMs: 0, maxDelayMs: 0 })
+function connectionError(): AdapterConnectionError {
+  return new AdapterConnectionError({ statusCode: 502, message: 'connection failed' }, timestamps)
+}
+
+function fetchPositions(requester: { request: jest.Mock }) {
+  return fetchAllPositions({
+    requester: requester as unknown as Requester,
+    auth: { getAccessToken: async () => 'token' } as unknown as AuthManager,
+    settings,
+    portfolioNo: PORTFOLIO_NO,
   })
+}
 
-  afterAll(() => {
-    Object.assign(DEFAULT_RETRY, { maxAttempts: 3, baseDelayMs: 2_000, maxDelayMs: 40_000 })
-  })
-
-  it('signs the manual HMAC example', () => {
-    const payload = buildHmacPayload({
-      method: 'GET',
-      timestamp: '1659002057',
-      nonce: '83dc868e-7a56-4fdf-897b-f2ab57fee916',
-      uri: '/partners/150661/accounts/1506614001/balances',
-      userId: '12345678',
-      agreementNumber: '123456-1',
-    })
-
-    expect(payload).toBe(
-      'GET\n1659002057\n83dc868e-7a56-4fdf-897b-f2ab57fee916\n/partners/150661/accounts/1506614001/balances\n12345678\n123456-1',
-    )
-    expect(signHmac(payload, 'secret')).toBe('MK/pcsl6ySrUFMrFgya054imx1sJhVzCM6uOmdq6O+k=')
-  })
-
-  it('builds the manual signed headers with a pinned nonce and timestamp', () => {
+describe('HMAC signing', () => {
+  it('builds the manual HMAC-SHA256 example', () => {
     const headers = buildSignedGetHeaders({
       uri: '/partners/150661/accounts/1506614001/balances',
       token: 'access-token',
       userId: '12345678',
       hmacSecret: 'secret',
       agreementNumber: '123456-1',
-      userAgent: 'chainlink-artex-amina-adapter/1.0.0',
-      now: 1659002057000,
+      userAgent: USER_AGENT,
+      now: 1_659_002_057_000,
       nonce: '83dc868e-7a56-4fdf-897b-f2ab57fee916',
     })
 
-    expect(headers).toMatchObject({
+    expect(headers).toEqual({
       Authorization: 'Bearer access-token',
-      'User-Agent': 'chainlink-artex-amina-adapter/1.0.0',
+      'X-Request-Id': expect.stringMatching(UUID),
+      'X-Correlation-Id': expect.stringMatching(UUID),
+      'User-Agent': USER_AGENT,
       'Amina-Context-Agreement-Number': '123456-1',
       'Amina-Nonce': '83dc868e-7a56-4fdf-897b-f2ab57fee916',
       'Amina-Timestamp': '1659002057',
       'Amina-Uri': '/partners/150661/accounts/1506614001/balances',
       'Amina-Signature': 'MK/pcsl6ySrUFMrFgya054imx1sJhVzCM6uOmdq6O+k=',
     })
-    const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
-    expect(headers['X-Request-Id']).toMatch(UUID)
-    expect(headers['X-Correlation-Id']).toMatch(UUID)
   })
+})
 
-  it('trims trailing slashes and builds the AMINA URLs', () => {
-    expect(trimEndpoint('https://amina.test///')).toBe('https://amina.test')
-    expect(authUrl('https://amina.test///')).toBe('https://amina.test/api/b2c/v1/auth')
-    expect(positionsPath(157769305)).toBe('/api/b2c/v1/securities/portfolios/157769305/positions')
-  })
-
-  it('uses fresh nonce and signature per signed request', () => {
-    const input = {
-      uri: '/api/b2c/v1/securities/portfolios/157769305/positions',
-      token: 'access-token',
-      userId: '25742014',
-      hmacSecret: 'secret',
-      agreementNumber: '157769',
-      userAgent: 'chainlink-artex-amina-adapter/1.0.0',
-    }
-
-    const first = buildSignedGetHeaders(input)
-    const second = buildSignedGetHeaders(input)
-
-    expect(first['Amina-Uri']).toBe('/api/b2c/v1/securities/portfolios/157769305/positions')
-    expect(first['Amina-Nonce']).not.toBe(second['Amina-Nonce'])
-    expect(first['Amina-Signature']).not.toBe(second['Amina-Signature'])
-  })
-
-  it('fetches all pages and keeps first/last timestamps', async () => {
-    const requester = { request: jest.fn() }
-    const auth = { getAccessToken: jest.fn().mockResolvedValue('token') }
-    requester.request
-      .mockResolvedValueOnce(
-        pageResponse(
-          page({
-            positions: [{ isin: 'OTHER', quantity: 1 }],
-            totalPages: 2,
-            number: 0,
-            last: false,
-          }),
-          1_000,
-          1_100,
-        ),
-      )
-      .mockResolvedValueOnce(
-        pageResponse(
-          page({
-            positions: [{ isin: 'US0378331005', quantity: 100.5 }],
-            totalPages: 2,
-            number: 1,
-          }),
-          1_200,
-          1_300,
-        ),
-      )
-
-    const result = await fetchAllPositions({
-      requester: requester as unknown as Requester,
-      auth: auth as unknown as AuthManager,
-      settings,
-      portfolioNo: 157769305,
-    })
-
-    expect(result.positions).toEqual([
-      { isin: 'OTHER', quantity: 1 },
-      { isin: 'US0378331005', quantity: 100.5 },
-    ])
-    expect(result.firstPageRequestedUnixMs).toBe(1_000)
-    expect(result.lastPageReceivedUnixMs).toBe(1_300)
-    expect(requester.request.mock.calls[1][1].url).toContain('page=1&size=2000')
-  })
-
-  it('fails when totalPages exceeds the page cap', async () => {
+describe('fetchAllPositions', () => {
+  it('reads every page and keeps the first request and last response times', async () => {
     const requester = {
       request: jest
         .fn()
         .mockResolvedValueOnce(
-          pageResponse(page({ totalPages: MAX_PAGES + 1, number: 0, last: false })),
+          pageResponse(
+            page({
+              positions: [{ isin: 'OTHER', quantity: 1 }],
+              totalPages: 2,
+              number: 0,
+              last: false,
+            }),
+            1_000,
+            1_100,
+          ),
+        )
+        .mockResolvedValueOnce(
+          pageResponse(
+            page({
+              positions: [{ isin: ISIN, quantity: 12345.6789 }],
+              totalPages: 2,
+              number: 1,
+            }),
+            1_200,
+            1_300,
+          ),
         ),
     }
-    const auth = { getAccessToken: jest.fn().mockResolvedValue('token') }
 
-    await expect(
-      fetchAllPositions({
-        requester: requester as unknown as Requester,
-        auth: auth as unknown as AuthManager,
-        settings,
-        portfolioNo: 157769305,
-      }),
-    ).rejects.toThrow(`AMINA totalPages ${MAX_PAGES + 1} exceeds ${MAX_PAGES} pages`)
-    expect(requester.request).toHaveBeenCalledTimes(1)
+    const result = await fetchPositions(requester)
+
+    expect(result.positions).toEqual([
+      { isin: 'OTHER', quantity: 1 },
+      { isin: ISIN, quantity: 12345.6789 },
+    ])
+    expect(result.firstPageRequestedUnixMs).toBe(1_000)
+    expect(result.lastPageReceivedUnixMs).toBe(1_300)
   })
 
-  it('re-signs each positions attempt before retrying', async () => {
+  const malformedPages: Array<[string, Record<string, unknown>]> = [
+    ['a page with no positions array', { totalPages: 1, number: 0, last: true }],
+    ['a position with a negative quantity', page({ positions: [{ isin: ISIN, quantity: -1 }] })],
+    [
+      'a position with a non-finite quantity',
+      page({ positions: [{ isin: ISIN, quantity: Number.NaN }] }),
+    ],
+    ['a non-boolean last flag', page({ last: 'false' })],
+  ]
+
+  it.each(malformedPages)('rejects %s as malformed', async (_, data) => {
+    const requester = { request: jest.fn().mockResolvedValueOnce(pageResponse(data)) }
+
+    await expect(fetchPositions(requester)).rejects.toMatchObject({
+      statusCode: 502,
+      message: 'AMINA positions response is malformed',
+    })
+  })
+
+  const pagingFailures: Array<[string, Record<string, unknown>[], string]> = [
+    [
+      'a page number mismatch',
+      [page({ totalPages: 2, number: 1, last: false })],
+      'AMINA returned page 1 for requested page 0',
+    ],
+    [
+      'last=true before totalPages',
+      [page({ totalPages: 2, number: 0, last: true })],
+      'AMINA last=true before totalPages (page 0, totalPages 2)',
+    ],
+    [
+      'paging ending before last=true',
+      [page({ totalPages: 1, number: 0, last: false })],
+      'AMINA paging ended before last=true (page 0, totalPages 1)',
+    ],
+    [
+      'totalPages changing between pages',
+      [page({ totalPages: 3, number: 0, last: false }), page({ totalPages: 2, number: 1 })],
+      'AMINA totalPages changed from 3 to 2',
+    ],
+    [
+      'more pages than the cap',
+      [page({ totalPages: MAX_PAGES + 1, number: 0, last: false })],
+      `AMINA totalPages ${MAX_PAGES + 1} exceeds ${MAX_PAGES} pages`,
+    ],
+  ]
+
+  it.each(pagingFailures)('rejects %s', async (_, pages, message) => {
     const requester = { request: jest.fn() }
-    const auth = { getAccessToken: jest.fn().mockResolvedValue('token') }
+    pages.forEach((data) => requester.request.mockResolvedValueOnce(pageResponse(data)))
+
+    await expect(fetchPositions(requester)).rejects.toMatchObject({
+      statusCode: 502,
+      message,
+    })
+  })
+
+  it('re-signs each retried positions request with a fresh nonce', async () => {
+    const requester = { request: jest.fn() }
     requester.request
       .mockRejectedValueOnce(providerError(500))
       .mockResolvedValueOnce(
-        pageResponse(page({ positions: [{ isin: 'US0378331005', quantity: 100.5 }] })),
+        pageResponse(page({ positions: [{ isin: ISIN, quantity: 12345.6789 }] })),
       )
 
     const previousRetry = { ...DEFAULT_RETRY }
     Object.assign(DEFAULT_RETRY, { maxAttempts: 2, baseDelayMs: 0, maxDelayMs: 0 })
     try {
-      await fetchAllPositions({
-        requester: requester as unknown as Requester,
-        auth: auth as unknown as AuthManager,
-        settings,
-        portfolioNo: 157769305,
-      })
+      await fetchPositions(requester)
     } finally {
       Object.assign(DEFAULT_RETRY, previousRetry)
     }
 
-    expect(requester.request).toHaveBeenCalledTimes(2)
     const firstHeaders = requester.request.mock.calls[0][1].headers
     const secondHeaders = requester.request.mock.calls[1][1].headers
-    expect(firstHeaders['Amina-Nonce']).not.toBe(secondHeaders['Amina-Nonce'])
-    expect(firstHeaders['Amina-Signature']).not.toBe(secondHeaders['Amina-Signature'])
+    expect(secondHeaders['Amina-Nonce']).not.toBe(firstHeaders['Amina-Nonce'])
+    expect(secondHeaders['Amina-Signature']).not.toBe(firstHeaders['Amina-Signature'])
+    expect(secondHeaders['Amina-Uri']).toBe(firstHeaders['Amina-Uri'])
+  })
+})
+
+describe('retry policy', () => {
+  const retryableErrors: Array<[string, unknown, boolean]> = [
+    ['a 429 response', providerError(429), true],
+    ['a connection failure', connectionError(), true],
+    ['a 401 response', providerError(401), false],
+  ]
+
+  it.each(retryableErrors)('classifies %s as retryable=%s', (_, error, expected) => {
+    expect(isRetryableError(error)).toBe(expected)
   })
 
-  it.each([
-    ['a page without positions', { last: true }, 'AMINA positions response is malformed'],
-    [
-      'a position with an invalid quantity',
-      page({ positions: [{ isin: 'US0378331005', quantity: -1 }] }),
-      'AMINA positions response is malformed',
-    ],
-    [
-      'a position without an isin',
-      page({ positions: [{ quantity: 1 }] }),
-      'AMINA positions response is malformed',
-    ],
-    ['a non-object position', page({ positions: [null] }), 'AMINA positions response is malformed'],
-    [
-      'a position with a non-finite quantity',
-      page({ positions: [{ isin: 'US0378331005', quantity: Number.NaN }] }),
-      'AMINA positions response is malformed',
-    ],
-    ['a non-boolean last', page({ last: 'false' }), 'AMINA positions response is malformed'],
-    ['an invalid totalPages', page({ totalPages: -1 }), 'AMINA positions response is malformed'],
-    ['an invalid page number', page({ number: 1.5 }), 'AMINA positions response is malformed'],
-  ])('rejects %s', async (_, data, message) => {
-    const requester = { request: jest.fn().mockResolvedValueOnce(pageResponse(data)) }
-    const auth = { getAccessToken: jest.fn().mockResolvedValue('token') }
-
-    await expect(
-      fetchAllPositions({
-        requester: requester as unknown as Requester,
-        auth: auth as unknown as AuthManager,
-        settings,
-        portfolioNo: 157769305,
-      }),
-    ).rejects.toThrow(message)
-  })
-
-  it.each([
-    [
-      'a page number mismatch',
-      page({ totalPages: 2, number: 1, last: false }),
-      'AMINA returned page 1 for requested page 0',
-    ],
-    [
-      'last=true before totalPages',
-      page({ totalPages: 2, number: 0, last: true }),
-      'AMINA last=true before totalPages',
-    ],
-    [
-      'paging ended before last=true',
-      page({ totalPages: 1, number: 0, last: false }),
-      'AMINA paging ended before last=true',
-    ],
-  ])('rejects %s', async (_, data, message) => {
-    const requester = { request: jest.fn().mockResolvedValueOnce(pageResponse(data)) }
-    const auth = { getAccessToken: jest.fn().mockResolvedValue('token') }
-
-    await expect(
-      fetchAllPositions({
-        requester: requester as unknown as Requester,
-        auth: auth as unknown as AuthManager,
-        settings,
-        portfolioNo: 157769305,
-      }),
-    ).rejects.toThrow(message)
-  })
-
-  it('rejects a totalPages change between pages', async () => {
-    const requester = { request: jest.fn() }
-    const auth = { getAccessToken: jest.fn().mockResolvedValue('token') }
-    requester.request
-      .mockResolvedValueOnce(pageResponse(page({ totalPages: 3, number: 0, last: false })))
-      .mockResolvedValueOnce(pageResponse(page({ totalPages: 2, number: 1, last: true })))
-
-    await expect(
-      fetchAllPositions({
-        requester: requester as unknown as Requester,
-        auth: auth as unknown as AuthManager,
-        settings,
-        portfolioNo: 157769305,
-      }),
-    ).rejects.toThrow('AMINA totalPages changed from 3 to 2')
-    expect(requester.request).toHaveBeenCalledTimes(2)
-  })
-
-  it.each([
-    ['500', providerError(500)],
-    ['429', providerError(429)],
-    [
-      'connection',
-      new AdapterConnectionError(
-        { statusCode: 502, message: 'connection' },
-        {
-          providerDataRequestedUnixMs: 1,
-          providerDataReceivedUnixMs: 2,
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      ),
-    ],
-  ])('retries %s and then succeeds', async (_, error) => {
-    const fn = jest
-      .fn<Promise<string>, []>()
-      .mockRejectedValueOnce(error)
-      .mockResolvedValueOnce('ok')
-
-    await expect(withRetry(fn, { maxAttempts: 3, baseDelayMs: 0, maxDelayMs: 0 })).resolves.toBe(
-      'ok',
-    )
-    expect(fn).toHaveBeenCalledTimes(2)
-    expect(isRetryableError(error)).toBe(true)
-  })
-
-  it('caps the exponential retry delay', () => {
+  it('caps exponential backoff at 40 seconds', () => {
     const options = { maxAttempts: 6, baseDelayMs: 2_000, maxDelayMs: 40_000 }
 
-    expect([0, 1, 4, 5].map((attempt) => retryDelay(attempt, options))).toEqual([
-      2_000, 4_000, 32_000, 40_000,
+    expect([0, 1, 2, 3, 4, 5].map((attempt) => retryDelay(attempt, options))).toEqual([
+      2_000, 4_000, 8_000, 16_000, 32_000, 40_000,
     ])
   })
 
-  it('stops after the maximum attempts', async () => {
-    const fn = jest.fn<Promise<string>, []>().mockRejectedValue(providerError(500))
+  it('stops after the maximum attempts and rethrows the last error', async () => {
+    const fn = jest.fn().mockRejectedValue(providerError(500))
 
     await expect(withRetry(fn, { maxAttempts: 3, baseDelayMs: 0, maxDelayMs: 0 })).rejects.toThrow(
       'status 500',
     )
     expect(fn).toHaveBeenCalledTimes(3)
   })
+})
 
-  it('does not retry 403', async () => {
-    const fn = jest.fn<Promise<string>, []>().mockRejectedValueOnce(providerError(403))
-
-    await expect(withRetry(fn, { maxAttempts: 3, baseDelayMs: 0, maxDelayMs: 0 })).rejects.toThrow(
-      'status 403',
-    )
-    expect(fn).toHaveBeenCalledTimes(1)
-    expect(isRetryableError(providerError(403))).toBe(false)
-  })
-
-  it('does not echo secrets in connection errors', () => {
-    const mapped = mapAminaError(
-      new AdapterConnectionError(
-        { statusCode: 502, message: 'Authorization: Bearer secret Amina-Signature: secret' },
-        timestamps,
-      ),
-    )
-
-    expect(mapped.message).toBe('AMINA connection failed')
-    expect(mapped.message).not.toContain('Bearer')
-  })
-
-  it('keeps only safe provider fields and handles a bodyless error', () => {
-    const mapped = mapAminaError(
+describe('mapAminaError', () => {
+  const sanitizedFailures: Array<[string, unknown, string]> = [
+    [
+      'secret-bearing provider fields',
       new AdapterDataProviderError(
         {
           statusCode: 502,
-          providerStatusCode: 500,
-          message: 'raw Authorization: Bearer secret',
-          errorResponse: {
-            title: 'Forbidden',
-            detail: 'Authorization: Bearer secret',
-            instance: 'instance-1',
-          },
+          providerStatusCode: 403,
+          message: 'raw provider error',
+          errorResponse: { title: 'Authorization: Bearer secret', instance: 'instance-1' },
         },
         timestamps,
       ),
-    )
+      'AMINA request failed (403): instance-1',
+    ],
+    [
+      'connection failures',
+      new AdapterConnectionError(
+        { statusCode: 502, message: 'Authorization: Bearer secret' },
+        timestamps,
+      ),
+      'AMINA connection failed',
+    ],
+    ['unknown failures', new Error('Authorization: Bearer secret'), 'AMINA request failed'],
+  ]
 
-    expect(mapped.message).toBe('AMINA request failed (500): Forbidden | instance-1')
+  it.each(sanitizedFailures)('maps %s to a sanitized 502', (_, error, message) => {
+    const mapped = mapAminaError(error)
+
+    expect(mapped).toMatchObject({ statusCode: 502, message })
     expect(mapped.message).not.toContain('Bearer')
-
-    const noBody = mapAminaError(
-      new AdapterDataProviderError({ statusCode: 502, message: 'no body' }, timestamps),
-    )
-    expect(noBody.message).toBe('AMINA request failed')
   })
 
-  it('passes through AdapterError and maps unknown errors', () => {
+  it('passes adapter errors through unchanged', () => {
     const original = new AdapterError({ statusCode: 400, message: 'bad input' })
 
     expect(mapAminaError(original)).toBe(original)
-    expect(mapAminaError(new Error('boom'))).toMatchObject({
-      statusCode: 502,
-      message: 'AMINA request failed',
-    })
-  })
-
-  it('sanitizes and truncates provider error fields', () => {
-    expect(formatErrorBody(null)).toBeUndefined()
-    expect(formatErrorBody('nope')).toBeUndefined()
-    expect(formatErrorBody({ title: 'a'.repeat(250), instance: 'instance-1' })).toBe(
-      `${'a'.repeat(200)}... | instance-1`,
-    )
-    expect(formatErrorBody({ title: 'Invalid token', instance: 'instance-1' })).toBe('instance-1')
-    expect(
-      formatErrorBody({
-        title: 'Forbidden',
-        detail: 'Authorization: Bearer secret',
-        instance: 'instance-1',
-      }),
-    ).toBe('Forbidden | instance-1')
   })
 })

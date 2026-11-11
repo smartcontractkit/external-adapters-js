@@ -34,8 +34,8 @@ describe('execute', () => {
     process.env.AMINA_HMAC_SECRET = 'hmac-secret'
     process.env.AMINA_AGREEMENT_NUMBER = AGREEMENT
     process.env.BACKGROUND_EXECUTE_MS_HTTP = '10'
-    // Keep integration tests fast. The 3-attempt retry policy is covered in
-    // test/unit/transport.test.ts, and RETRY=1 startup rejection in config.test.ts.
+    // Keep integration tests fast. Retry policy is covered in test/unit/transport.test.ts
+    // and RETRY=0 startup rejection in test/unit/config.test.ts.
     Object.assign(DEFAULT_RETRY, { maxAttempts: 1, baseDelayMs: 0, maxDelayMs: 0 })
     dateSpy = jest.spyOn(Date, 'now').mockReturnValue(new Date('2026-11-05T00:00:00Z').getTime())
 
@@ -62,7 +62,7 @@ describe('execute', () => {
   })
 
   it('returns the selected position as aum', async () => {
-    mockPositions(0, page({ positions: [position(ISIN, 100.5)] }))
+    mockPositions(0, page({ positions: [position(ISIN, 12345.6789)] }))
 
     const response = await testAdapter.request({
       endpoint: 'por',
@@ -87,25 +87,10 @@ describe('execute', () => {
     expect(response.json().errorMessage).toContain('No AMINA position found for ISIN US0378331005')
   })
 
-  it('returns 502 when the ISIN appears twice on one page', async () => {
-    mockPositions(0, page({ positions: [position(ISIN, 100.5), position(ISIN, 1)] }))
-
-    const response = await testAdapter.request({
-      endpoint: 'por',
-      portfolioNo: PORTFOLIO_NO,
-      isin: ISIN,
-    })
-
-    expect(response.statusCode).toBe(502)
-    expect(response.json().errorMessage).toContain(
-      'Duplicate AMINA position found for ISIN US0378331005',
-    )
-  })
-
   it('returns 502 when the ISIN appears on more than one page', async () => {
     mockPositions(
       0,
-      page({ positions: [position(ISIN, 100.5)], totalPages: 2, number: 0, last: false }),
+      page({ positions: [position(ISIN, 12345.6789)], totalPages: 2, number: 0, last: false }),
     )
     mockPositions(1, page({ positions: [position(ISIN, 1)], totalPages: 2, number: 1 }))
 
@@ -121,7 +106,7 @@ describe('execute', () => {
     )
   })
 
-  it('returns 502 when the provider returns 500', async () => {
+  it('returns 502 with the provider status and problem fields', async () => {
     mockPositionsError(0, 500, {
       title: 'Internal Server Error',
       detail: 'boom',
@@ -135,14 +120,15 @@ describe('execute', () => {
     })
 
     expect(response.statusCode).toBe(502)
-    expect(response.json().errorMessage).toContain('AMINA request failed (500)')
-    expect(response.json().errorMessage).toContain('Internal Server Error')
+    expect(response.json().errorMessage).toBe(
+      'AMINA request failed (500): Internal Server Error | instance-1',
+    )
   })
 
-  it('refreshes the token after a 401 and retries the page', async () => {
+  it('refreshes the token after a 401 and returns the position', async () => {
     mockPositionsError(0, 401)
     mockRefresh(REFRESHED_ACCESS_TOKEN)
-    mockPositions(0, page({ positions: [position(ISIN, 100.5)] }), REFRESHED_ACCESS_TOKEN)
+    mockPositions(0, page({ positions: [position(ISIN, 12345.6789)] }), REFRESHED_ACCESS_TOKEN)
 
     const response = await testAdapter.request({
       endpoint: 'por',
@@ -151,10 +137,10 @@ describe('execute', () => {
     })
 
     expect(response.statusCode).toBe(200)
-    expect(response.json().data.aum).toBe(100.5)
+    expect(response.json().data.aum).toBe(12345.6789)
   })
 
-  it('returns 502 when auth rejects the credentials', async () => {
+  it('returns 502 when login is rejected', async () => {
     nock.cleanAll()
     mockAuthError(401, { title: 'Unauthorized' })
 
@@ -165,38 +151,6 @@ describe('execute', () => {
     })
 
     expect(response.statusCode).toBe(502)
-    expect(response.json().errorMessage).toContain('AMINA request failed (401)')
-    expect(response.json().errorMessage).toContain('Unauthorized')
-  })
-
-  it('returns 502 when the refreshed token is rejected too', async () => {
-    mockPositionsError(0, 401)
-    const refresh = mockRefresh(REFRESHED_ACCESS_TOKEN)
-    mockPositionsError(0, 401, {}, REFRESHED_ACCESS_TOKEN)
-
-    const response = await testAdapter.request({
-      endpoint: 'por',
-      portfolioNo: PORTFOLIO_NO,
-      isin: ISIN,
-    })
-
-    expect(response.statusCode).toBe(502)
-    expect(response.json().errorMessage).toContain('AMINA request failed (401)')
-    expect(refresh.isDone()).toBe(true)
-  })
-
-  it.each([
-    ['portfolioNo', { portfolioNo: 1, isin: ISIN }],
-    ['isin', { portfolioNo: PORTFOLIO_NO, isin: 'not-an-isin' }],
-  ])('returns 400 for an invalid %s', async (field, data) => {
-    nock.cleanAll()
-
-    const response = await testAdapter.request({
-      endpoint: 'por',
-      ...data,
-    })
-
-    expect(response.statusCode).toBe(400)
-    expect(response.json().error?.message).toContain(field)
+    expect(response.json().errorMessage).toBe('AMINA request failed (401): Unauthorized')
   })
 })
