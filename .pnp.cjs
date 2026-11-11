@@ -5084,7 +5084,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-scripts", "workspace:packages/scripts"],\
-          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@types/command-line-args", "npm:5.2.3"],\
           ["@types/command-line-usage", "npm:5.0.4"],\
           ["@types/jest", "npm:29.5.14"],\
