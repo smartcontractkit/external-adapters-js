@@ -11,7 +11,7 @@ export interface AminaErrorResponse {
 
 const MAX_ERROR_FIELD_LENGTH = 200
 const SECRET_PATTERN =
-  /\b(?:authorization|bearer|amina-signature|signature|password|passwd|secret|token|hmac|api[_-]?key|access[_-]?token|refresh[_-]?token|credential)\b/i
+  /(?:authorization|bearer|signature|password|passwd|secret|token|hmac|api[-_]?key|credential)/i
 
 function safeField(value: unknown): string | undefined {
   if (typeof value !== 'string' || value.length === 0 || SECRET_PATTERN.test(value)) {

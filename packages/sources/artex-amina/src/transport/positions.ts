@@ -67,7 +67,8 @@ function isPosition(value: unknown): value is AminaPosition {
     typeof value.quantity === 'number' &&
     Number.isFinite(value.quantity) &&
     value.quantity >= 0 &&
-    Number(value.quantity.toFixed(4)) === value.quantity
+    Number(value.quantity.toFixed(4)) === value.quantity &&
+    value.quantity <= Number.MAX_SAFE_INTEGER / 10_000
   )
 }
 

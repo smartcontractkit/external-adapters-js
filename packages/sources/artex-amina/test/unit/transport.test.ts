@@ -5,7 +5,7 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import type { AuthManager } from '../../src/transport/auth'
 import { mapAminaError } from '../../src/transport/errors'
-import { fetchAllPositions, MAX_PAGES } from '../../src/transport/positions'
+import { fetchAllPositions } from '../../src/transport/positions'
 import { DEFAULT_RETRY, isRetryableError, retryDelay, withRetry } from '../../src/transport/retry'
 import { buildSignedGetHeaders } from '../../src/transport/signing'
 
@@ -137,10 +137,14 @@ describe('fetchAllPositions', () => {
   })
 
   const paginationFailures: Array<[string, Record<string, unknown>, string]> = [
-    ['a page with no positions', { totalPages: 1, number: 0, last: true }, 'malformed'],
     [
       'a quantity with more than four decimals',
       page({ positions: [{ isin: ISIN, quantity: 1.23456 }] }),
+      'malformed',
+    ],
+    [
+      'a quantity outside the v9 integer range',
+      page({ positions: [{ isin: ISIN, quantity: 1e60 }] }),
       'malformed',
     ],
     [
@@ -154,14 +158,9 @@ describe('fetchAllPositions', () => {
       'last=true before totalPages',
     ],
     [
-      'positions with totalPages=0',
-      page({ positions: [{ isin: ISIN, quantity: 1 }], totalPages: 0, number: 0 }),
-      'totalPages=0',
-    ],
-    [
-      'more pages than the cap',
-      page({ totalPages: MAX_PAGES + 1, number: 0, last: false }),
-      `exceeds ${MAX_PAGES} pages`,
+      'paging ending before last=true',
+      page({ totalPages: 1, number: 0, last: false }),
+      'paging ended before last=true',
     ],
   ]
 
@@ -171,6 +170,18 @@ describe('fetchAllPositions', () => {
     await expect(fetchPositions(requester)).rejects.toMatchObject({
       statusCode: 502,
       message: expect.stringContaining(message),
+    })
+  })
+
+  it('rejects a totalPages change between pages', async () => {
+    const requester = { request: jest.fn() }
+    requester.request
+      .mockResolvedValueOnce(pageResponse(page({ totalPages: 3, number: 0, last: false })))
+      .mockResolvedValueOnce(pageResponse(page({ totalPages: 2, number: 1, last: true })))
+
+    await expect(fetchPositions(requester)).rejects.toMatchObject({
+      statusCode: 502,
+      message: 'AMINA totalPages changed from 3 to 2',
     })
   })
 
@@ -236,7 +247,8 @@ describe('mapAminaError', () => {
           providerStatusCode: 403,
           message: 'raw provider error',
           errorResponse: {
-            title: 'Authorization: Bearer secret accessToken=abc',
+            title:
+              'hmacSecret=abc HMAC_SECRET=def client_secret=ghi credentials=jkl Authorization: Bearer secret',
             instance: 'instance-1',
           },
         },

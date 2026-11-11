@@ -21,6 +21,16 @@ import {
 
 const REFRESHED_ACCESS_TOKEN = 'refreshed-access-token'
 
+function clearSubscriptionSet(): void {
+  const set = porTransport.subscriptionSet as unknown as {
+    map: Map<string, unknown>
+    delete: (key: string) => void
+  }
+  for (const key of set.map.keys()) {
+    set.delete(key)
+  }
+}
+
 describe('execute', () => {
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
@@ -49,6 +59,7 @@ describe('execute', () => {
     nock.cleanAll()
     testAdapter.mockCache?.cache.clear()
     porTransport.authManager.reset()
+    clearSubscriptionSet()
     mockAuth()
   })
 
@@ -71,7 +82,24 @@ describe('execute', () => {
     })
 
     expect(response.statusCode).toBe(200)
-    expect(response.json()).toMatchSnapshot()
+    const body = response.json()
+    expect(body.result).toBe(12345.6789)
+    expect(body.data).toMatchObject({
+      result: 12345.6789,
+      aum: 12345.6789,
+      ripcord: 0,
+      navPerShare: 0,
+      navDate: 0,
+      nativeFee: 0,
+      linkFee: 0,
+    })
+    expect(body.timestamps.providerDataRequestedUnixMs).toBeGreaterThan(0)
+    expect(body.timestamps.providerIndicatedTimeUnixMs).toBe(
+      body.timestamps.providerDataRequestedUnixMs,
+    )
+    expect(body.timestamps.providerDataReceivedUnixMs).toBeGreaterThanOrEqual(
+      body.timestamps.providerDataRequestedUnixMs,
+    )
   })
 
   it('returns 502 when the ISIN is absent', async () => {
