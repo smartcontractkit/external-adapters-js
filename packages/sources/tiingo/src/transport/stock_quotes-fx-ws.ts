@@ -1,6 +1,6 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/stock_quotes'
-import { TiingoWebsocketTransport, wsMessageContent, wsSelectUrl } from './utils'
+import { TiingoWebsocketTransport, wsMessageContent } from './utils'
 
 const logger = makeLogger('TiingoStockQuotesFxWebsocketTransport')
 
@@ -36,14 +36,9 @@ const isValidPrice = (value: unknown): value is number =>
 export class StockQuotesFxWebSocketTransport extends TiingoWebsocketTransport<WsTransportTypes> {
   constructor() {
     super({
-      url: (context, _desiredSubs, urlConfigFunctionParameters) => {
+      url: (context) => {
         fxWsTransport.apiKey = context.adapterSettings.API_KEY
-        return wsSelectUrl(
-          context.adapterSettings.WS_API_ENDPOINT,
-          context.adapterSettings.SECONDARY_WS_API_ENDPOINT,
-          'fx',
-          urlConfigFunctionParameters,
-        )
+        return `${context.adapterSettings.WS_API_ENDPOINT}/fx`
       },
 
       handlers: {

@@ -1,12 +1,9 @@
-import {
-  WebsocketTransportGenerics,
-  WebSocketUrlConfigFunctionParameters,
-} from '@chainlink/external-adapter-framework/transports'
+import { WebsocketTransportGenerics } from '@chainlink/external-adapter-framework/transports'
 import {
   WebsocketReverseMappingTransport,
   WebSocketTransport,
 } from '@chainlink/external-adapter-framework/transports/websocket'
-import { makeLogger, splitArrayIntoChunks } from '@chainlink/external-adapter-framework/util'
+import { splitArrayIntoChunks } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { BaseCryptoEndpointTypes, inputParameters } from '../endpoint/utils'
 export interface ProviderResponseBody {
@@ -30,8 +27,6 @@ export interface ProviderResponseBody {
     tradesDone: number
   }[]
 }
-
-const logger = makeLogger('TiingoTransportUtils')
 
 export type CryptoHttpTransportTypes = BaseCryptoEndpointTypes & {
   Provider: {
@@ -139,34 +134,6 @@ export const wsMessageContent = (
       tickers: [ticker.toLowerCase()],
     },
   }
-}
-
-// There exists similar functionality in tiingo-state EA
-// urlConfigFunctionParameters.streamHandlerInvocationsWithNoConnection is 1-indexed
-// Reads WS_URL_PRIMARY_ATTEMPTS and WS_URL_SECONDARY_ATTEMPTS from config (env).
-export const wsSelectUrl = (
-  primaryBaseUrl: string,
-  secondaryBaseUrl: string,
-  urlSuffix: string,
-  urlConfigFunctionParameters: WebSocketUrlConfigFunctionParameters,
-): string => {
-  const primaryAttempts = config.settings.WS_URL_PRIMARY_ATTEMPTS
-  const secondaryAttempts = config.settings.WS_URL_SECONDARY_ATTEMPTS
-  const cycleLength = primaryAttempts + secondaryAttempts
-  const primaryUrl = `${primaryBaseUrl}/${urlSuffix}`
-  const secondaryUrl = `${secondaryBaseUrl}/${urlSuffix}`
-
-  const zeroIndexedNumAttemptedConnections =
-    urlConfigFunctionParameters.streamHandlerInvocationsWithNoConnection - 1
-  const cycle = zeroIndexedNumAttemptedConnections % cycleLength
-  const url = cycle < primaryAttempts ? primaryUrl : secondaryUrl
-
-  logger.info(
-    `wsSelectUrl: connection attempts ${zeroIndexedNumAttemptedConnections}, using ${
-      url === primaryUrl ? 'primary' : 'secondary'
-    } (cycle position: ${cycle}, cycle length: ${cycleLength})`,
-  )
-  return url
 }
 
 export class TiingoWebsocketTransport<
