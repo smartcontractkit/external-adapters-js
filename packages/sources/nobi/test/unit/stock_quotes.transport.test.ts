@@ -45,10 +45,16 @@ const expectDropped = (message: unknown) => {
   expect(handleMessage(message)).toBeUndefined()
 }
 
-// Values that must never be accepted as a price
-const invalidPrices: [string, unknown][] = [
+// Values that count as a missing field
+const missingPrices: [string, unknown][] = [
+  ['missing', undefined],
+  ['null', null],
   ['empty string', ''],
   ['whitespace', '   '],
+]
+
+// Present values that must never be accepted as a price
+const invalidPrices: [string, unknown][] = [
   ['zero', '0'],
   ['zero with decimals', '0.00'],
   ['negative', '-1.5'],
@@ -58,6 +64,10 @@ const invalidPrices: [string, unknown][] = [
   ['thousands separator', '1,000.5'],
   ['hex', '0x10'],
   ['upper case hex', '0X10'],
+  ['binary', '0b101'],
+  ['octal', '0o17'],
+  ['leading plus', '+100'],
+  ['inner whitespace', '1 000'],
   ['NaN', 'NaN'],
   ['Infinity', 'Infinity'],
   ['numeric zero', 0],
@@ -78,6 +88,9 @@ const invalidVolumes: [string, unknown][] = [
   ['negative', '-1'],
   ['text', 'abc'],
   ['hex', '0x10'],
+  ['binary', '0b1'],
+  ['octal', '0o7'],
+  ['leading plus', '+1'],
   ['NaN', 'NaN'],
   ['Infinity', 'Infinity'],
   ['boolean', true],
@@ -94,6 +107,8 @@ const invalidTimestamps: [string, unknown][] = [
   ['microseconds instead of milliseconds', '1762819200000000'],
   ['NaN', 'NaN'],
   ['Infinity', 'Infinity'],
+  ['hex', '0x19a6b2f6800'],
+  ['leading plus', `+${T}`],
   ['last ms of year 2000', String(Date.UTC(2001, 0, 1) - 1)],
   ['first ms of year 2100', String(Date.UTC(2100, 0, 1))],
   ['beyond the Date range', '9e15'],
@@ -253,54 +268,44 @@ describe('stock_quotes transport message handler', () => {
     })
 
     describe('mid and last traded price', () => {
-      it.each([['missing', undefined], ['null', null], ...invalidPrices])(
-        'rejects the frame when m is %s',
-        (_, m) => {
-          expectDropped(quoteFrame({ m }))
-        },
-      )
+      it.each(invalidPrices)('rejects the frame when m is present but %s', (_, m) => {
+        expectDropped(quoteFrame({ m }))
+      })
 
-      it.each([['missing', undefined], ['null', null], ...invalidPrices])(
-        'accepts the frame with a null last price when lp is %s',
-        (_, lp) => {
-          const response = {
-            result: null,
-            data: { ...data, last_price: null },
-            timestamps: { providerIndicatedTimeUnixMs: T },
-          }
+      it.each(missingPrices)('computes mid from bid and ask when m is %s', (_, m) => {
+        const result = handleMessage(quoteFrame({ m, b: '100', a: '102' }))
 
-          expect(handleMessage(quoteFrame({ lp }))).toEqual([
-            { params: { ...params, requireVolume: false }, response },
-            { params: { ...params, requireVolume: true }, response },
-          ])
-        },
-      )
+        expect(result).toHaveLength(2)
+        expect(result[0].response.data).toEqual({
+          ...data,
+          mid_price: 101,
+          bid_price: 100,
+          ask_price: 102,
+        })
+      })
 
-      it('accepts a frame without lp when the volumes are missing as well', () => {
-        const result = handleMessage(without(quoteFrame(), 'lp', 'bv', 'av'))
+      it.each([
+        ['b', without(quoteFrame(), 'm', 'b')],
+        ['a', without(quoteFrame(), 'm', 'a')],
+        ['b and a', without(quoteFrame(), 'm', 'b', 'a')],
+      ])('rejects the frame when m and %s are missing', (_, message) => {
+        expectDropped(message)
+      })
 
-        expect(result).toHaveLength(1)
-        expect(result[0].params).toEqual({ ...params, requireVolume: false })
-        expect(result[0].response.result).toBeNull()
-        expect(result[0].response.data.last_price).toBeNull()
+      it.each([...missingPrices, ...invalidPrices])('rejects the frame when lp is %s', (_, lp) => {
+        expectDropped(quoteFrame({ lp }))
       })
     })
 
     describe('bid and ask price', () => {
-      it.each([
-        ['missing', undefined],
-        ['null', null],
-      ])('falls back to mid when b is %s', (_, b) => {
+      it.each(missingPrices)('falls back to mid when b is %s', (_, b) => {
         const result = handleMessage(quoteFrame({ b }))
 
         expect(result).toHaveLength(2)
         expect(result[0].response.data).toEqual({ ...data, bid_price: 100.5 })
       })
 
-      it.each([
-        ['missing', undefined],
-        ['null', null],
-      ])('falls back to mid when a is %s', (_, a) => {
+      it.each(missingPrices)('falls back to mid when a is %s', (_, a) => {
         const result = handleMessage(quoteFrame({ a }))
 
         expect(result).toHaveLength(2)
@@ -485,12 +490,9 @@ describe('stock_quotes transport message handler', () => {
       expect(handleMessage(valueFrame({ v: 5000.5 }))[1].response.result).toBe(5000.5)
     })
 
-    it.each([['missing', undefined], ['null', null], ...invalidPrices])(
-      'rejects the frame when v is %s',
-      (_, v) => {
-        expectDropped(valueFrame({ v }))
-      },
-    )
+    it.each([...missingPrices, ...invalidPrices])('rejects the frame when v is %s', (_, v) => {
+      expectDropped(valueFrame({ v }))
+    })
 
     it.each([
       ['missing', undefined],
@@ -531,13 +533,6 @@ describe('stock_quotes transport message handler', () => {
       expect(invalidPairs.has(PAIR)).toBe(false)
     })
 
-    it('unblocks a pair when the quote frame has no usable last traded price', () => {
-      invalidPairs.add(PAIR)
-
-      handleMessage(quoteFrame({ lp: 'abc' }))
-      expect(invalidPairs.has(PAIR)).toBe(false)
-    })
-
     it('unblocks a pair regardless of the casing of c', () => {
       invalidPairs.add(PAIR)
 
@@ -547,7 +542,9 @@ describe('stock_quotes transport message handler', () => {
 
     it.each([
       ['invalid mid', quoteFrame({ m: '0' })],
-      ['invalid bid', quoteFrame({ b: '' })],
+      ['invalid bid', quoteFrame({ b: 'abc' })],
+      ['invalid last traded price', quoteFrame({ lp: 'abc' })],
+      ['no mid and no bid/ask pair', without(quoteFrame(), 'm', 'b')],
       ['bid above mid', quoteFrame({ b: '200' })],
       ['invalid timestamp', quoteFrame({ t: 'abc' })],
       ['unknown k', quoteFrame({ k: 'trade' })],

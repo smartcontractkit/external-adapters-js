@@ -149,17 +149,37 @@ const handleValueFrames = (params: { base: string; quote: string }, message: WSR
 }
 
 const handleQuoteFrames = (params: { base: string; quote: string }, message: WSResponse) => {
-  const midPrice = getPrice(message.m)
+  // undefined = missing, null = present but invalid
+  const providerMid = getOptionalPrice(message.m)
+  const providerBid = getOptionalPrice(message.b)
+  const providerAsk = getOptionalPrice(message.a)
   const lastTradedPrice = getPrice(message.lp)
-  if (midPrice === null) {
-    logger.warn(`Received invalid m in message: ${JSON.stringify(message)}`)
+  if (
+    providerMid === null ||
+    providerBid === null ||
+    providerAsk === null ||
+    lastTradedPrice === null
+  ) {
+    logger.warn(`Received invalid m/b/a/lp in message: ${JSON.stringify(message)}`)
     return
   }
 
-  const bidPrice = message.b == null ? midPrice : getPrice(message.b)
-  const askPrice = message.a == null ? midPrice : getPrice(message.a)
+  // Use the provider mid when present, otherwise compute it from two valid sides, never from one
+  const midPrice =
+    providerMid ??
+    (providerBid !== undefined && providerAsk !== undefined
+      ? (providerBid + providerAsk) / 2
+      : undefined)
+  if (midPrice === undefined) {
+    logger.warn(`Received no m and no bid/ask pair in message: ${JSON.stringify(message)}`)
+    return
+  }
 
-  if (!bidPrice || !askPrice || bidPrice > midPrice || askPrice < midPrice) {
+  // Spec: fall back to mid when b/a is missing
+  const bidPrice = providerBid ?? midPrice
+  const askPrice = providerAsk ?? midPrice
+
+  if (bidPrice > midPrice || askPrice < midPrice) {
     logger.warn(`Received invalid bid/ask prices in message: ${JSON.stringify(message)}`)
     return
   }
@@ -204,9 +224,10 @@ const handleQuoteFrames = (params: { base: string; quote: string }, message: WSR
   )
 }
 
-const getProviderIndicatedTimeUnixMs = (time: string) => {
-  if (isFinite(Number(time))) {
-    const date = new Date(Number(time))
+const getProviderIndicatedTimeUnixMs = (time: unknown) => {
+  const ms = getNumber(time)
+  if (ms !== null) {
+    const date = new Date(ms)
     if (2000 < date.getUTCFullYear() && date.getUTCFullYear() < 2100) {
       return {
         timestamps: {
@@ -223,18 +244,25 @@ const getPrice = (value: unknown) => {
   return price > 0 ? price : null
 }
 
+const isMissing = (value: unknown) =>
+  value == null || (typeof value === 'string' && value.trim().length === 0)
+
+const getOptionalPrice = (value: unknown) => (isMissing(value) ? undefined : getPrice(value))
+
+// Plain decimal with an optional exponent. Rejects hex, binary, octal, a leading '+',
+// thousands separators and surrounding text, all of which Number() would otherwise accept or coerce.
+const NUMBER_FORMAT = /^-?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$/
+
 const getNumber = (value: unknown) => {
-  if (typeof value !== 'string' && typeof value !== 'number') {
-    return null
-  }
-  if (value.toString().trim().length === 0) {
-    return null
-  }
-  if (value.toString().includes('x') || value.toString().includes('X')) {
+  let number: number
+  if (typeof value === 'number') {
+    number = value
+  } else if (typeof value === 'string' && NUMBER_FORMAT.test(value.trim())) {
+    number = Number(value)
+  } else {
     return null
   }
 
-  const number = Number(value)
   if (isFinite(number) && number >= 0) {
     return number
   }
