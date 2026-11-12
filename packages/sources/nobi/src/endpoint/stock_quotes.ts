@@ -35,14 +35,14 @@ export const inputParameters = new InputParameters(
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    Result: number | null
+    Result: number
     Data: {
       mid_price: number
       bid_price: number
       bid_volume: number | null
       ask_price: number
       ask_volume: number | null
-      last_price: number | null
+      last_price: number
     }
   }
   Settings: typeof config.settings
