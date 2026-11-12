@@ -1,9 +1,9 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { PoRAdapter } from '@chainlink/external-adapter-framework/adapter/por'
 import { config } from './config'
 import { por } from './endpoint'
 
-export const adapter = new Adapter({
+export const adapter = new PoRAdapter({
   defaultEndpoint: por.name,
   name: 'ARTEX_AMINA',
   config,

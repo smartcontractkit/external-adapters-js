@@ -1,5 +1,7 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import type { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  PoRProviderEndpoint,
+  PoRProviderResponse,
+} from '@chainlink/external-adapter-framework/adapter/por'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import type { config } from '../config'
@@ -30,10 +32,9 @@ const ISIN_PATTERN = /^[A-Z]{2}[A-Z0-9]{9}[0-9]$/
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse & {
+  Response: PoRProviderResponse & {
     Data: {
       aum: number
-      ripcord: boolean
       ripcordAsInt: number
       navPerShare: number
       navDate: number
@@ -44,7 +45,7 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new PoRProviderEndpoint({
   name: 'por',
   transport: porTransport,
   inputParameters,
