@@ -3810,7 +3810,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nobi-adapter@workspace:packages/sources/nobi"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.20.0"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
