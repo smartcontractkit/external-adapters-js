@@ -110,7 +110,7 @@ export const baseToUpperCase = (base?: string) => base?.replace(/:.*/, (s) => s.
 
 const handleValueFrames = (params: { base: string; quote: string }, message: WSResponse) => {
   const value = getPrice(message.v)
-  if (value === null) {
+  if (isNaN(value)) {
     logger.warn(`Received invalid v in message: ${JSON.stringify(message)}`)
     return
   }
@@ -137,9 +137,9 @@ const handleValueFrames = (params: { base: string; quote: string }, message: WSR
         data: {
           mid_price: value,
           bid_price: value,
-          bid_volume: null,
+          bid_volume: NaN,
           ask_price: value,
-          ask_volume: null,
+          ask_volume: NaN,
           last_price: value,
         },
         ...timestamps,
@@ -149,16 +149,15 @@ const handleValueFrames = (params: { base: string; quote: string }, message: WSR
 }
 
 const handleQuoteFrames = (params: { base: string; quote: string }, message: WSResponse) => {
-  // undefined = missing, null = present but invalid
   const providerMid = getOptionalPrice(message.m)
   const providerBid = getOptionalPrice(message.b)
   const providerAsk = getOptionalPrice(message.a)
   const lastTradedPrice = getPrice(message.lp)
   if (
-    providerMid === null ||
-    providerBid === null ||
-    providerAsk === null ||
-    lastTradedPrice === null
+    isNaN(providerMid ?? 0) ||
+    isNaN(providerBid ?? 0) ||
+    isNaN(providerAsk ?? 0) ||
+    isNaN(lastTradedPrice)
   ) {
     logger.warn(`Received invalid m/b/a/lp in message: ${JSON.stringify(message)}`)
     return
@@ -167,10 +166,8 @@ const handleQuoteFrames = (params: { base: string; quote: string }, message: WSR
   // Use the provider mid when present, otherwise compute it from two valid sides, never from one
   const midPrice =
     providerMid ??
-    (providerBid !== undefined && providerAsk !== undefined
-      ? (providerBid + providerAsk) / 2
-      : undefined)
-  if (midPrice === undefined) {
+    (providerBid !== null && providerAsk !== null ? (providerBid + providerAsk) / 2 : null)
+  if (midPrice === null) {
     logger.warn(`Received no m and no bid/ask pair in message: ${JSON.stringify(message)}`)
     return
   }
@@ -213,7 +210,7 @@ const handleQuoteFrames = (params: { base: string; quote: string }, message: WSR
       response,
     },
   ].concat(
-    bidVolume === null || askVolume === null
+    isNaN(bidVolume) || isNaN(askVolume)
       ? []
       : [
           {
@@ -224,9 +221,10 @@ const handleQuoteFrames = (params: { base: string; quote: string }, message: WSR
   )
 }
 
+// Returns null for both missing and invalid time
 const getProviderIndicatedTimeUnixMs = (time: unknown) => {
   const ms = getNumber(time)
-  if (ms !== null) {
+  if (!isNaN(ms)) {
     const date = new Date(ms)
     if (2000 < date.getUTCFullYear() && date.getUTCFullYear() < 2100) {
       return {
@@ -236,18 +234,20 @@ const getProviderIndicatedTimeUnixMs = (time: unknown) => {
       }
     }
   }
-  return null
-}
 
-const getPrice = (value: unknown) => {
-  const price = getNumber(value) ?? 0
-  return price > 0 ? price : null
+  return null
 }
 
 const isMissing = (value: unknown) =>
   value == null || (typeof value === 'string' && value.trim().length === 0)
 
-const getOptionalPrice = (value: unknown) => (isMissing(value) ? undefined : getPrice(value))
+// null = missing, NaN = present but invalid
+const getOptionalPrice = (value: unknown) => (isMissing(value) ? null : getPrice(value))
+
+const getPrice = (value: unknown) => {
+  const price = getNumber(value)
+  return price > 0 ? price : NaN
+}
 
 // Plain decimal with an optional exponent. Rejects hex, binary, octal, a leading '+',
 // thousands separators and surrounding text, all of which Number() would otherwise accept or coerce.
@@ -260,12 +260,12 @@ const getNumber = (value: unknown) => {
   } else if (typeof value === 'string' && NUMBER_FORMAT.test(value.trim())) {
     number = Number(value)
   } else {
-    return null
+    return NaN
   }
 
   if (isFinite(number) && number >= 0) {
     return number
   }
 
-  return null
+  return NaN
 }

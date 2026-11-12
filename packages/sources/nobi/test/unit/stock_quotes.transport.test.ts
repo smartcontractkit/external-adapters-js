@@ -369,7 +369,7 @@ describe('stock_quotes transport message handler', () => {
               params: { ...params, requireVolume: false },
               response: {
                 result: 100.25,
-                data: { ...data, bid_volume: null },
+                data: { ...data, bid_volume: NaN },
                 timestamps: { providerIndicatedTimeUnixMs: T },
               },
             },
@@ -387,7 +387,7 @@ describe('stock_quotes transport message handler', () => {
               params: { ...params, requireVolume: false },
               response: {
                 result: 100.25,
-                data: { ...data, ask_volume: null },
+                data: { ...data, ask_volume: NaN },
                 timestamps: { providerIndicatedTimeUnixMs: T },
               },
             },
@@ -400,7 +400,7 @@ describe('stock_quotes transport message handler', () => {
 
         expect(result).toHaveLength(1)
         expect(result[0].params.requireVolume).toBe(false)
-        expect(result[0].response.data).toEqual({ ...data, bid_volume: null, ask_volume: null })
+        expect(result[0].response.data).toEqual({ ...data, bid_volume: NaN, ask_volume: NaN })
       })
 
       it('treats zero as a valid volume', () => {
@@ -451,9 +451,9 @@ describe('stock_quotes transport message handler', () => {
     const data = {
       mid_price: 5000.5,
       bid_price: 5000.5,
-      bid_volume: null,
+      bid_volume: NaN,
       ask_price: 5000.5,
-      ask_volume: null,
+      ask_volume: NaN,
       last_price: 5000.5,
     }
 
