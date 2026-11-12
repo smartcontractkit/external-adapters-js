@@ -9,6 +9,7 @@ import { fetchAllPositions, selectQuantity } from './positions'
 import { mapAminaError } from './errors'
 
 const logger = makeLogger('PorTransport')
+const ERROR_CACHE_TTL_MS = 60_000
 
 type RequestParams = typeof inputParameters.validated
 
@@ -49,9 +50,11 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
   async handleRequest(param: RequestParams): Promise<void> {
     let response: AdapterResponse<BaseEndpointTypes['Response']>
+    let failed = false
     try {
       response = await this._handleRequest(param)
     } catch (error) {
+      failed = true
       const mapped = mapAminaError(error)
       logger.error(mapped.message)
       response = {
@@ -65,6 +68,9 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
       }
     }
     await this.responseCache.write(this.name, [{ params: param, response }])
+    if (failed) {
+      await this.responseCache.writeTTL(this.name, [param], ERROR_CACHE_TTL_MS)
+    }
   }
 
   async _handleRequest(

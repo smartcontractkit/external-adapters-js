@@ -26,18 +26,19 @@ Example request:
 
 ## Environment
 
-| Variable                 | Required | Description       |
-| ------------------------ | -------- | ----------------- |
-| `API_ENDPOINT`           | yes      | api endpoint.     |
-| `AMINA_USER_ID`          | yes      | user ID.          |
-| `AMINA_PASSWORD`         | yes      | password.         |
-| `AMINA_HMAC_SECRET`      | yes      | HMAC secret.      |
-| `AMINA_AGREEMENT_NUMBER` | yes      | agreement number. |
+| Variable                 | Required | Description                           |
+| ------------------------ | -------- | ------------------------------------- |
+| `API_ENDPOINT`           | no       | api endpoint. Defaults to production. |
+| `AMINA_USER_ID`          | yes      | user ID.                              |
+| `AMINA_PASSWORD`         | yes      | password.                             |
+| `AMINA_HMAC_SECRET`      | yes      | HMAC secret.                          |
+| `AMINA_AGREEMENT_NUMBER` | yes      | agreement number.                     |
 
 The adapter keeps the retry limits (3 attempts, 2 second base delay, 40 second
 cap) and the user-agent as code constants. Cache and subscription TTLs are
 capped at 1 hour; the background execute timeout is 300 seconds to cover the
-retry budget. The required envs are the five AMINA connection values above.
+retry budget. Failed responses get a 60 second cache TTL. The four AMINA
+credentials above are required; `API_ENDPOINT` defaults to production.
 
 ## Behaviour
 

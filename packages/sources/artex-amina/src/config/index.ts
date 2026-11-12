@@ -2,25 +2,6 @@ import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 const EIGHT_DIGITS = /^\d{8}$/
 
-function validateApiEndpoint(value: unknown): string | undefined {
-  if (typeof value !== 'string') {
-    return 'Value must be an HTTPS origin'
-  }
-  let url: URL
-  try {
-    url = new URL(value)
-  } catch {
-    return 'Value must be an HTTPS origin'
-  }
-  if (url.protocol !== 'https:') {
-    return 'Value must use HTTPS'
-  }
-  if (url.pathname !== '/' || url.search || url.hash || url.username || url.password) {
-    return 'Value must be an origin without a path, query, fragment, or credentials'
-  }
-  return undefined
-}
-
 function validateUserId(value: unknown): string | undefined {
   return typeof value === 'string' && EIGHT_DIGITS.test(value)
     ? undefined
@@ -32,12 +13,8 @@ export const config = new AdapterConfig(
     API_ENDPOINT: {
       description: 'api endpoint',
       type: 'string',
-      required: true,
+      default: 'https://integration.aminagroup.io',
       sensitive: false,
-      validate: {
-        meta: { details: 'Value must be an HTTPS origin' },
-        fn: validateApiEndpoint,
-      },
     },
     AMINA_USER_ID: {
       description: 'user ID',

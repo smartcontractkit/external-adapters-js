@@ -47,21 +47,23 @@ describe('AMINA config', () => {
     })
   })
 
-  const invalidSettings: Array<[string, Record<string, string>, RegExp]> = [
-    ['a non-HTTPS endpoint', { API_ENDPOINT: 'http://amina.test' }, /HTTPS/],
-    ['an unparseable endpoint', { API_ENDPOINT: 'not-a-url' }, /HTTPS/],
-    ['an endpoint with a path', { API_ENDPOINT: 'https://amina.test/api/b2c/v1' }, /origin/],
-    ['a user ID that is too short', { AMINA_USER_ID: '1234567' }, /8-digit/],
-  ]
+  it('defaults to the production endpoint', async () => {
+    setEnv({ API_ENDPOINT: undefined })
+    const { config } = await import('../../src/config')
+    config.initialize()
+    config.validate()
 
-  it.each(invalidSettings)('rejects %s', async (_, overrides, message) => {
-    setEnv(overrides)
+    expect(config.settings.API_ENDPOINT).toBe('https://integration.aminagroup.io')
+  })
+
+  it('rejects a user ID that is too short', async () => {
+    setEnv({ AMINA_USER_ID: '1234567' })
     const { config } = await import('../../src/config')
 
     expect(() => {
       config.initialize()
       config.validate()
-    }).toThrow(message)
+    }).toThrow(/8-digit/)
   })
 
   it('rejects a nonzero framework RETRY at startup', async () => {

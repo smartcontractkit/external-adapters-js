@@ -9,8 +9,8 @@ import { positionsPath, trimEndpoint } from './paths'
 import { DEFAULT_RETRY, withRetry } from './retry'
 import { buildSignedGetHeaders } from './signing'
 
-const PAGE_SIZE = 2000
-export const MAX_PAGES = 100
+const PAGE_SIZE = 2000 // Manual max
+const MAX_PAGES = 100 // cap a bad totalPages
 const USER_AGENT = 'chainlink-artex-amina-adapter/1.0.0'
 
 export interface AminaPosition {
