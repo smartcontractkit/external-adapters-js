@@ -204,7 +204,9 @@ adapters:
   - name: solactive
     version: 1.0.5
   - name: solana-functions
-    version: 1.9.0
+    version: 1.10.0
+  - name: spiro
+    version: 1.0.0
   - name: stader-labs
     version: 3.0.27
   - name: starknet-gas-price
@@ -234,7 +236,7 @@ adapters:
   - name: token-balance
     version: 3.7.0
   - name: tokenized-equity
-    version: 1.6.0
+    version: 1.7.0
   - name: tp
     version: 1.14.0
   - name: tradermade
