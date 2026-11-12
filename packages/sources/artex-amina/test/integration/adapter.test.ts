@@ -89,7 +89,8 @@ describe('execute', () => {
     expect(body.data).toMatchObject({
       result: 12345.6789,
       aum: 12345.6789,
-      ripcord: 0,
+      ripcord: false,
+      ripcordAsInt: 0,
       navPerShare: 0,
       navDate: 0,
       nativeFee: 0,

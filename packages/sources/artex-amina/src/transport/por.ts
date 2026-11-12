@@ -89,7 +89,8 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
       data: {
         result: quantity,
         aum: quantity,
-        ripcord: 0,
+        ripcord: false,
+        ripcordAsInt: 0,
         navPerShare: 0,
         navDate: 0,
         nativeFee: 0,

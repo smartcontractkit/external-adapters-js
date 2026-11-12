@@ -33,7 +33,8 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse & {
     Data: {
       aum: number
-      ripcord: number
+      ripcord: boolean
+      ripcordAsInt: number
       navPerShare: number
       navDate: number
       nativeFee: number

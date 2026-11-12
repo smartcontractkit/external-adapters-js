@@ -70,7 +70,8 @@ retry budget. The required envs are the five AMINA connection values above.
   round it. The stream configuration owns `decimals`.
 - `validFrom`/`observations` use the first positions GET time. The adapter sets
   `providerIndicatedTimeUnixMs` to that time.
-- `ripcord` is always 0. `navPerShare`, `navDate`, `nativeFee`, and `linkFee`
+- `ripcord` is always `false` for feeds routing; the v9 `ripcord` value is
+  `ripcordAsInt: 0`. `navPerShare`, `navDate`, `nativeFee`, and `linkFee`
   are returned as 0. `feedId`, `expiresAt`, and `decimals` are stream
   configuration fields.
 
