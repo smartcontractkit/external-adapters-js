@@ -17,17 +17,37 @@ export function parseScore(value: unknown): number {
 }
 
 export function parseTimestamp(value: unknown): number {
-  if (typeof value !== 'string') {
+  const match =
+    typeof value === 'string'
+      ? /^([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})(?::([0-9]{2}))?Z$/.exec(value)
+      : null
+  if (!match) {
     throw new AdapterError({
       statusCode: 502,
-      message: 'The provider last_modified_date_time is not a string',
+      message: 'The provider last_modified_date_time is not a UTC ISO-8601 timestamp',
     })
   }
-  const timestampMs = new Date(value).getTime()
-  if (!Number.isFinite(timestampMs)) {
+
+  const year = Number(match[1])
+  const month = Number(match[2])
+  const day = Number(match[3])
+  const hour = Number(match[4])
+  const minute = Number(match[5])
+  const second = Number(match[6] ?? '0')
+  const timestampMs = Date.UTC(year, month - 1, day, hour, minute, second)
+  const date = new Date(timestampMs)
+  if (
+    !Number.isFinite(timestampMs) ||
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() !== month - 1 ||
+    date.getUTCDate() !== day ||
+    date.getUTCHours() !== hour ||
+    date.getUTCMinutes() !== minute ||
+    date.getUTCSeconds() !== second
+  ) {
     throw new AdapterError({
       statusCode: 502,
-      message: 'The provider last_modified_date_time is not parseable',
+      message: 'The provider last_modified_date_time is not a valid calendar timestamp',
     })
   }
   return timestampMs
@@ -42,6 +62,7 @@ export function parseProviderRecords(payload: unknown): ProviderRecord[] {
   }
 
   const records: ProviderRecord[] = []
+  const seen = new Set<string>()
   for (const item of payload) {
     if (!item || typeof item !== 'object') {
       throw new AdapterError({
@@ -50,12 +71,13 @@ export function parseProviderRecords(payload: unknown): ProviderRecord[] {
       })
     }
     const record = item as Record<string, unknown>
-    if (typeof record.security_id !== 'string') {
+    if (typeof record.security_id !== 'string' || seen.has(record.security_id)) {
       throw new AdapterError({
         statusCode: 502,
         message: 'The data provider returned a malformed payload',
       })
     }
+    seen.add(record.security_id)
     records.push({
       security_id: record.security_id,
       ssa: record.ssa,

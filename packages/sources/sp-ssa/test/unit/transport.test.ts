@@ -33,7 +33,7 @@ const tokenResponse = {
 }
 
 const dataResponse = (records: Record<string, unknown>[]) => ({
-  response: { data: records },
+  response: { data: records, status: 200 },
   timestamps: { providerDataRequestedUnixMs: 100, providerDataReceivedUnixMs: 200 },
 })
 
@@ -44,6 +44,7 @@ describe('provider record parsing', () => {
     expect(parseScore(records[0]?.ssa)).toBe(2)
     expect(parseTimestamp(records[0]?.last_modified_date_time)).toBe(1737072000000)
     expect(() => parseProviderRecords({})).toThrow('malformed payload')
+    expect(() => parseProviderRecords([record(), record()])).toThrow('malformed payload')
   })
 
   it.each([['0'], ['6'], ['2.5'], ['abc'], [''], [' 2 '], [null], [2]])(
@@ -53,12 +54,18 @@ describe('provider record parsing', () => {
     },
   )
 
-  it.each([['not-a-date'], [''], [null], [123]])(
-    'rejects an unparseable provider timestamp %p',
-    (value) => {
-      expect(() => parseTimestamp(value)).toThrow('last_modified_date_time')
-    },
-  )
+  it.each([
+    ['not-a-date'],
+    [''],
+    [null],
+    [123],
+    ['2025-02-30T00:00Z'],
+    ['2025-01-17T00:00:00'],
+    ['01/17/2025'],
+    ['0'],
+  ])('rejects an unparseable provider timestamp %p', (value) => {
+    expect(() => parseTimestamp(value)).toThrow('last_modified_date_time')
+  })
 })
 
 describe('SsaTransport', () => {
@@ -168,7 +175,8 @@ describe('adapter configuration', () => {
   it('ships a bounded default rate limit', async () => {
     const { adapter } = await import('../../src')
     const tier = adapter.rateLimiting?.tiers?.default
-    expect(tier?.rateLimit1m ?? 0).toBeGreaterThan(0)
+    expect(tier?.rateLimit1m).toBe(10)
     expect(tier?.note ?? '').toContain('RATE_LIMIT_CAPACITY_MINUTE')
+    expect(adapter.config.settings.RATE_LIMITING_STRATEGY).toBe('burst')
   })
 })

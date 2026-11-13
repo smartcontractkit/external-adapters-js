@@ -3,6 +3,7 @@ import {
   AdapterDataProviderError,
   AdapterError,
 } from '@chainlink/external-adapter-framework/validation/error'
+import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 
 export interface AuthSettings {
   TOKEN_ENDPOINT: string
@@ -51,6 +52,16 @@ export class AuthManager {
     this.cached = undefined
   }
 
+  private static escapeRegExp(value: string): string {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
+  private static registerCensoredToken(token: string): void {
+    const list = CensorList.getAll().filter((entry) => entry.key !== 'ACCESS_TOKEN')
+    list.push({ key: 'ACCESS_TOKEN', value: new RegExp(AuthManager.escapeRegExp(token), 'g') })
+    CensorList.set(list)
+  }
+
   private async requestToken(): Promise<string> {
     let response
     try {
@@ -84,7 +95,13 @@ export class AuthManager {
       })
     }
 
-    const expiresInSeconds = Number(body?.expires_in)
+    const rawExpiresIn = body?.expires_in
+    const expiresInSeconds =
+      typeof rawExpiresIn === 'number'
+        ? rawExpiresIn
+        : typeof rawExpiresIn === 'string' && rawExpiresIn.trim() !== ''
+        ? Number(rawExpiresIn)
+        : Number.NaN
     if (!Number.isFinite(expiresInSeconds) || expiresInSeconds <= 0) {
       throw new AdapterError({
         statusCode: 502,
@@ -92,6 +109,7 @@ export class AuthManager {
       })
     }
 
+    AuthManager.registerCensoredToken(accessToken)
     this.cached = {
       token: accessToken,
       expiresAtMs: Date.now() + expiresInSeconds * 1000,

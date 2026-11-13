@@ -17,9 +17,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Data Provider Rate Limits
 
-|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                                                                      Note                                                                                       |
-| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| default |                             |             10              |                           | 300/min per apikey per environment is shared across all DON nodes. Set RATE_LIMIT_CAPACITY_MINUTE to floor(300 / instances); the 10/min default is safe for up to 30 processes. |
+|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                                                                                                                                      Note                                                                                                                                                      |
+| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| default |                             |             10              |                           | The provider hard cap is 300/min per apikey per environment, shared across all DON nodes. The 10/min tier is a safe per-process share for up to 30 processes; set RATE_LIMIT_CAPACITY_MINUTE to floor(300 / instances). The burst strategy lets the token and first data call run immediately on a cold start. |
 
 ---
 

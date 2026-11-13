@@ -100,11 +100,14 @@ describe('execute', () => {
     expect(response.json().errorMessage).toContain('malformed payload')
   })
 
-  it('returns 502 when the provider returns a non-200 status', async () => {
-    scoresStatus = 500
+  it.each([
+    [500, 'status 500'],
+    [201, 'status 201'],
+  ])('returns 502 when the provider returns a non-200 status %i', async (status, expected) => {
+    scoresStatus = status
     scoresBody = { message: 'x' }
-    const response = await request('SP-DAI')
+    const response = await request(status === 201 ? 'SP-201' : 'SP-DAI')
     expect(response.statusCode).toBe(502)
-    expect(response.json().errorMessage).toContain('status 500')
+    expect(response.json().errorMessage).toContain(expected)
   })
 })

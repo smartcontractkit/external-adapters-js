@@ -12,7 +12,7 @@ export const adapter = new Adapter({
     tiers: {
       default: {
         rateLimit1m: 10,
-        note: '300/min per apikey per environment is shared across all DON nodes. Set RATE_LIMIT_CAPACITY_MINUTE to floor(300 / instances); the 10/min default is safe for up to 30 processes.',
+        note: 'The provider hard cap is 300/min per apikey per environment, shared across all DON nodes. The 10/min tier is a safe per-process share for up to 30 processes; set RATE_LIMIT_CAPACITY_MINUTE to floor(300 / instances). The burst strategy lets the token and first data call run immediately on a cold start.',
       },
     },
   },

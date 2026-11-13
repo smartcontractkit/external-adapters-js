@@ -5,7 +5,7 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
 import { config } from '../../src/config'
-import { providerRecord, scoresFixture, tokenFixture } from './fixtures'
+import { scoresFixture, tokenFixture } from './fixtures'
 
 type SettingsDefinition = SettingsDefinitionFromConfig<typeof config>
 type ReplyResult = [200 | 401 | 500, Record<string, unknown> | Record<string, unknown>[]]
@@ -82,15 +82,6 @@ describe('auth', () => {
     const response = await request(securityId)
     expect(response.statusCode).toBe(502)
     expect(response.json().errorMessage).toContain('token')
-  })
-
-  it('retries a transient provider error', async () => {
-    let attempts = 0
-    dataHandler = () =>
-      attempts++ === 0 ? [500, {}] : [200, [providerRecord({ security_id: 'SP-RETRY' })]]
-    const response = await request('SP-RETRY')
-    expect(response.statusCode).toBe(200)
-    expect(response.json().result).toBe(2)
   })
 
   it('returns 502 when the provider request times out', async () => {

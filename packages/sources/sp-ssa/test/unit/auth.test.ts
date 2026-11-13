@@ -1,5 +1,6 @@
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
+import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { AuthManager, AuthSettings } from '../../src/transport/auth'
 
 const settings: AuthSettings = {
@@ -41,6 +42,7 @@ describe('AuthManager', () => {
     }
     await manager.getToken()
 
+    expect(CensorList.getAll().some((entry) => entry.key === 'ACCESS_TOKEN')).toBe(true)
     expect(requester.request).toHaveBeenCalledTimes(expectedCalls)
     expect(requester.request).toHaveBeenNthCalledWith(1, 'sp-ssa-token', {
       method: 'POST',
@@ -75,6 +77,7 @@ describe('AuthManager', () => {
     [{ access_token: '', expires_in: 1800 }],
     [{ access_token: 'token', expires_in: 'abc' }],
     [{ access_token: 'token', expires_in: 0 }],
+    [{ access_token: 'token', expires_in: true }],
   ])('rejects an unusable token response %p', async (body) => {
     const requester = makeStub('requester', { request: jest.fn() })
     requester.request.mockResolvedValue({

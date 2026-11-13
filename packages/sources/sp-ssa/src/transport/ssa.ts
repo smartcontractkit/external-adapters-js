@@ -83,6 +83,13 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
         },
       })
 
+      if (providerResponse.response.status !== 200) {
+        throw new AdapterError({
+          statusCode: 502,
+          message: `The data provider returned status ${providerResponse.response.status}`,
+        })
+      }
+
       const records = parseProviderRecords(providerResponse.response.data)
       const results: TimestampedProviderResult<SsaTransportTypes>[] = entries.map((entry) => {
         try {
