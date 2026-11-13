@@ -70,10 +70,14 @@ describe('execute', () => {
     },
   )
 
-  it('returns 400 when security_id is missing', async () => {
+  it('returns 400 when security_id is missing or blank', async () => {
     const response = await testAdapter.request({ endpoint: 'ssa' })
     expect(response.statusCode).toBe(400)
     expect(JSON.stringify(response.json())).toContain('security_id')
+
+    const blank = await testAdapter.request({ endpoint: 'ssa', security_id: '   ' })
+    expect(blank.statusCode).toBe(400)
+    expect(JSON.stringify(blank.json())).toContain('security_id')
   })
 
   it('returns 502 when the security_id is not in the provider response', async () => {

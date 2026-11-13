@@ -76,22 +76,29 @@ describe('provider record parsing', () => {
   })
 
   it.each([
-    ['not-a-date'],
-    [''],
-    [null],
-    [123],
-    ['2025-02-30T00:00Z'],
-    ['2025-01-17T00:00:00'],
-    ['2025-1-7T00:00Z'],
-    ['2025-01-17T24:00Z'],
-    ['2025-01-17T00:00:05.5Z'],
-    ['2025-01-17T00:00:05Z '],
-    ['1900-01-01T00:00Z'],
-    ['9999-12-31T23:59Z'],
-    ['01/17/2025'],
-    ['0'],
-  ])('rejects an invalid provider timestamp %p', (value) => {
-    expect(() => parseTimestamp(value)).toThrow('last_modified_date_time')
+    { value: '2025-01-17T00:00Z', expected: 1737072000000 },
+    { value: '2025-01-17T00:00:00Z', expected: 1737072000000 },
+    { value: '2024-12-04T00:00Z', expected: 1733270400000 },
+    { value: 'not-a-date' },
+    { value: '' },
+    { value: null },
+    { value: 123 },
+    { value: '2025-02-30T00:00Z' },
+    { value: '2025-01-17T00:00:00' },
+    { value: '2025-1-7T00:00Z' },
+    { value: '2025-01-17T24:00Z' },
+    { value: '2025-01-17T00:00:05.5Z' },
+    { value: '2025-01-17T00:00:05Z ' },
+    { value: '1900-01-01T00:00Z' },
+    { value: '9999-12-31T23:59Z' },
+    { value: '01/17/2025' },
+    { value: '0' },
+  ])('validates a provider timestamp $value', ({ value, expected }) => {
+    if (expected === undefined) {
+      expect(() => parseTimestamp(value)).toThrow('last_modified_date_time')
+    } else {
+      expect(parseTimestamp(value)).toBe(expected)
+    }
   })
 })
 
@@ -132,7 +139,7 @@ describe('SsaTransport', () => {
     cache: { delete: jest.fn(async (key: string) => cacheStore.delete(key)) },
   }
   const subscriptionSetFactory = makeStub('subscriptionSetFactory', {
-    buildSet: jest.fn(() => ({ getAll: jest.fn() })),
+    buildSet: jest.fn(() => ({ add: jest.fn(), getAll: jest.fn() })),
   })
   const dependencies = makeStub('dependencies', {
     requester,
@@ -187,6 +194,26 @@ describe('SsaTransport', () => {
     expect(written[0].response.result).toBe(2)
     expect(written[1].params.security_id).toBe('SP-GUSD')
     expect(responseCache.cache.delete).not.toHaveBeenCalled()
+
+    const slowSettings = {
+      ...adapterSettings,
+      BACKGROUND_EXECUTE_MS_HTTP: 1000,
+    } as SsaTransportTypes['Settings']
+    const slowContext = {
+      adapterSettings: slowSettings,
+      endpointName: 'ssa',
+    } as EndpointContext<SsaTransportTypes>
+    const sleeping = transport.backgroundHandler(slowContext, [])
+    await new Promise((resolve) => setImmediate(resolve))
+    const started = Date.now()
+    await transport.registerRequest(
+      {
+        requestContext: { data: { security_id: 'SP-WAKE' }, cacheKey: 'wake-key' },
+      } as never,
+      slowSettings,
+    )
+    await sleeping
+    expect(Date.now() - started).toBeLessThan(500)
   })
 
   it('deletes the cached success before writing a provider error', async () => {
@@ -312,6 +339,7 @@ describe('SsaTransport', () => {
         new SsaAuthError(new AdapterError({ statusCode: 502, providerStatusCode: 401 })),
       ),
     ).toBe(true)
+    expect(isCredentialFailure(new SsaAuthError(new AdapterError({ statusCode: 502 })))).toBe(true)
 
     const rateLimitedTransport = new SsaTransport()
     requester.request.mockReset()
@@ -323,10 +351,12 @@ describe('SsaTransport', () => {
       'default_single_transport',
     )
     requester.request.mockReset()
+    responseCache.cache.delete.mockClear()
     requester.request.mockRejectedValueOnce(
       new AdapterRateLimitError({ statusCode: 429, message: 'rate limited' }),
     )
     await rateLimitedTransport.backgroundHandler(context, [{ security_id: 'SP-429' }])
+    expect(responseCache.cache.delete).not.toHaveBeenCalled()
     expect(responseCache.write).toHaveBeenLastCalledWith('default_single_transport', [
       expect.objectContaining({
         response: expect.objectContaining({

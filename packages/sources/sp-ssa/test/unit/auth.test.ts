@@ -3,6 +3,7 @@ import CensorList from '@chainlink/external-adapter-framework/util/censor/censor
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import {
+  AdapterConnectionError,
   AdapterDataProviderError,
   AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
@@ -97,6 +98,8 @@ describe('AuthManager', () => {
       .mockResolvedValueOnce(tokenResponse('token-a'))
       .mockResolvedValueOnce(tokenResponse('token-b'))
       .mockResolvedValueOnce(tokenResponse('token-c'))
+      .mockResolvedValueOnce(tokenResponse('token-d'))
+      .mockResolvedValueOnce(tokenResponse('token-e'))
     const manager = new AuthManager(requester as unknown as Requester, settings)
 
     await manager.getToken()
@@ -104,13 +107,18 @@ describe('AuthManager', () => {
     await manager.getToken()
     manager.invalidate()
     await manager.getToken()
+    manager.invalidate()
+    await manager.getToken()
+    manager.invalidate()
+    await manager.getToken()
 
     const entries = CensorList.getAll().filter((entry) => entry.key === 'ACCESS_TOKEN')
-    expect(entries.length).toBeGreaterThan(0)
-    expect(entries.length).toBeLessThanOrEqual(4)
-    const censoredA = censor({ headers: { authorization: 'Bearer token-b' } }, CensorList.getAll())
-    expect(JSON.stringify(censoredA)).toContain('ACCESS_TOKEN REDACTED')
-    expect(JSON.stringify(censoredA)).not.toContain('token-b')
+    expect(entries.length).toBe(4)
+    const censoredB = censor({ headers: { authorization: 'Bearer token-b' } }, CensorList.getAll())
+    expect(JSON.stringify(censoredB)).toContain('ACCESS_TOKEN REDACTED')
+    expect(JSON.stringify(censoredB)).not.toContain('token-b')
+    const staleA = censor({ headers: { authorization: 'Bearer token-a' } }, CensorList.getAll())
+    expect(JSON.stringify(staleA)).toContain('token-a')
 
     CensorList.set(CensorList.getAll().filter((entry) => entry.key !== 'ACCESS_TOKEN'))
     manager.ensureCachedTokenCensored()
@@ -189,5 +197,22 @@ describe('AuthManager', () => {
     )
     const rateLimited = new AuthManager(requester as unknown as Requester, settings)
     await expect(rateLimited.getToken()).rejects.toMatchObject({ statusCode: 429 })
+
+    requester.request.mockReset()
+    requester.request.mockRejectedValueOnce(
+      new AdapterConnectionError(
+        { statusCode: 502, message: 'timeout' },
+        {
+          providerDataRequestedUnixMs: 1,
+          providerDataReceivedUnixMs: 2,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      ),
+    )
+    const connectionError = new AuthManager(requester as unknown as Requester, settings)
+    await expect(connectionError.getToken()).rejects.toMatchObject({
+      statusCode: 502,
+      timestamps: { providerDataRequestedUnixMs: 1, providerDataReceivedUnixMs: 2 },
+    })
   })
 })

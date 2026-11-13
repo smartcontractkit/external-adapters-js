@@ -12,8 +12,10 @@ import {
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import {
+  AdapterConnectionError,
   AdapterDataProviderError,
   AdapterError,
+  AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { AuthManager } from './auth'
@@ -270,18 +272,22 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
         timestamps,
       },
     }))
-    await this.enqueueWrite(results, generation)
+    const replaceCachedSuccess = !(
+      error instanceof AdapterConnectionError || error instanceof AdapterRateLimitError
+    )
+    await this.enqueueWrite(results, generation, replaceCachedSuccess)
   }
 
   private enqueueWrite(
     results: TimestampedProviderResult<SsaTransportTypes>[],
     generation: number,
+    replaceCachedSuccess = true,
   ): Promise<void> {
     const write = this.writeQueue.then(async () => {
       if (generation !== this.generation) {
         return
       }
-      await this.writeResults(results)
+      await this.writeResults(results, replaceCachedSuccess)
     })
     this.writeQueue = write.catch(() => undefined)
     return write
@@ -289,9 +295,10 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
 
   private async writeResults(
     results: TimestampedProviderResult<SsaTransportTypes>[],
+    replaceCachedSuccess: boolean,
   ): Promise<void> {
     const errorResults = results.filter((result) => result.response.errorMessage)
-    if (errorResults.length > 0) {
+    if (replaceCachedSuccess && errorResults.length > 0) {
       await Promise.all(
         errorResults.map((result) =>
           this.responseCache.cache.delete(this.responseCache.getCacheKey(this.name, result.params)),
