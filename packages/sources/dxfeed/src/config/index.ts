@@ -16,7 +16,7 @@ export const config = new AdapterConfig({
   },
   WS_API_ENDPOINT: {
     description:
-      'The dxLink websocket url for dxfeed. Credentials are taken from API_USERNAME and API_PASSWORD, not the url',
+      'The dxLink websocket url for dxfeed.',
     type: 'string',
     sensitive: true,
     validate: {
