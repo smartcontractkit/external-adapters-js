@@ -1,6 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { type AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import type { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import type { config } from '../config'
 import overrides from '../config/overrides.json'
 import { transport } from '../transport/stock-quotes'
