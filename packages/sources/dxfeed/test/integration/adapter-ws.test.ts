@@ -66,9 +66,6 @@ describe('dxLink websocket endpoints', () => {
     server.setFeedData('Quote', 'MISSING_VOLUME', [
       quoteFrame(quoteRecord('MISSING_VOLUME', 1760000001000, 170, 172, 'NaN', 'NaN')),
     ])
-    server.setFeedData('Quote', 'BAD_TIME', [
-      quoteFrame(quoteRecord('BAD_TIME', NaN, 170, 172, 1, 2)),
-    ])
     server.setFeedData('Trade', 'TRADE:USLF24', [
       tradeFrame('Trade', tradeRecord('Trade', 'TRADE:USLF24', 1760000000000, 189.98)),
     ])
@@ -173,8 +170,11 @@ describe('dxLink websocket endpoints', () => {
     expect(response.statusCode).toBe(502)
   })
 
-  it('rejects a quote with an invalid provider time', async () => {
-    const response = await request({ base: 'BAD_TIME', quote: 'USD', endpoint: 'stock_quotes' })
-    expect(response.statusCode).toBe(502)
+  it('serves a quote with a missing provider time and leaves the timestamp unset', async () => {
+    server.setFeedData('Quote', 'BAD_TIME', [
+      quoteFrame(quoteRecord('BAD_TIME', NaN, 170, 172, 1, 2)),
+    ])
+    const body = await ok({ base: 'BAD_TIME', quote: 'USD', endpoint: 'stock_quotes' })
+    expect(body.timestamps.providerIndicatedTimeUnixMs).toBeUndefined()
   })
 })

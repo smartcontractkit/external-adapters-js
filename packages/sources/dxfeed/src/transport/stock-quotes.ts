@@ -26,14 +26,6 @@ export class StockQuotesTransport extends DxLinkTransport<BaseEndpointTypes> {
       ])
 
     const time = eventTimeOf(event)
-    if (time === null) {
-      const error = {
-        statusCode: 502,
-        errorMessage: `Time: ${event.time ?? event.eventTime} for ${base} is invalid.`,
-      }
-      return emit(error, error)
-    }
-
     const prices = parsePrices(event)
     if (prices.kind === 'invalid') {
       const error = { statusCode: 502, errorMessage: prices.message }
@@ -53,7 +45,7 @@ export class StockQuotesTransport extends DxLinkTransport<BaseEndpointTypes> {
         ask_price: prices.ask,
         ask_volume: askVolume,
       },
-      timestamps: { providerIndicatedTimeUnixMs: time },
+      timestamps: { providerIndicatedTimeUnixMs: time ?? undefined },
     }
     const requireVolumeResponse =
       bidVolume === null || askVolume === null
