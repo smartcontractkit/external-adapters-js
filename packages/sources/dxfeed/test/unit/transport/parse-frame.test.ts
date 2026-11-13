@@ -166,6 +166,20 @@ describe('dxLink COMPACT frame parsing', () => {
       tradeFrame('TradeETH', tradeRecord('TradeETH', 'TRDNEW:USLF24', 1760000001000, 191.5)),
     ])
 
+    // One COMPACT frame can carry several event types: [type, values, type, values, ...]
+    server.setFeedData('Trade', 'MULTI:USLF24', [
+      {
+        type: 'FEED_DATA',
+        channel: 1,
+        data: [
+          'Trade',
+          tradeRecord('Trade', 'MULTI:USLF24', 1760000000000, 100),
+          'TradeETH',
+          tradeRecord('TradeETH', 'MULTI:USLF24', 1760000001000, 101),
+        ],
+      },
+    ])
+
     mockWebSocketProvider(WebSocketClassProvider)
     const adapter = (await import('./../../../src')).adapter
     // rateLimiting stays: undefined makes the fixed-interval period 0, which starves fake-timer ticks
@@ -344,23 +358,30 @@ describe('dxLink COMPACT frame parsing', () => {
     expect(after.json().data).toMatchObject({ bid_price: 10, ask_price: 11 })
   })
 
-  it('drops a FEED_DATA frame when the announced field list is empty', async () => {
-    testLogger.warn.mockClear()
+  it('ignores an empty field list in FEED_CONFIG and keeps decoding with the previous one', async () => {
     server.push({ type: 'FEED_CONFIG', channel: 1, eventFields: { Quote: [] } })
     server.push(quoteFrame(quoteRecord('AAPL:USLF24', 1760000007000, 120, 121, 1, 2)))
     await flushFrames(testAdapter)
-    expect(
-      testLogger.warn.mock.calls.some((call) =>
-        String(call[0]).includes('No FEED_CONFIG field list'),
-      ),
-    ).toBe(true)
-
-    // Restore the canonical field map: the stream recovers on the next frame.
-    server.push(feedConfigFrame())
-    server.push(quoteFrame(quoteRecord('AAPL:USLF24', 1760000008000, 122, 123, 1, 2)))
-    await flushFrames(testAdapter)
     const response = await testAdapter.request(overriddenQuotesRequest('AAPL'))
     expect(response.statusCode).toBe(200)
-    expect(response.json().data).toMatchObject({ bid_price: 122, ask_price: 123 })
+    expect(response.json().data).toMatchObject({ bid_price: 120, ask_price: 121 })
+  })
+
+  it('decodes every event type in a frame that carries more than one', async () => {
+    const response = await testAdapter.request(priceRequest('MULTI'))
+    expect(response.statusCode).toBe(200)
+    expect(response.json().result).toBe(101)
+  })
+
+  it('does not replace a valid cached price with a newer invalid one', async () => {
+    const before = await testAdapter.request(priceRequest('PRC'))
+    expect(before.json().result).toBe(189.98)
+
+    server.push(tradeFrame('Trade', tradeRecord('Trade', 'PRC:USLF24', 1760000001000, 'NaN')))
+    await flushFrames(testAdapter)
+
+    const after = await testAdapter.request(priceRequest('PRC'))
+    expect(after.statusCode).toBe(200)
+    expect(after.json().result).toBe(189.98)
   })
 })
