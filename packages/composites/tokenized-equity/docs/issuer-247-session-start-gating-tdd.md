@@ -4,22 +4,27 @@ The 24/7 tokenized-equity endpoint (`issuer-price-247`, introduced by
 [ADR-0001](./adr/0001-issuer-price-247-is-a-new-issuer-agnostic-endpoint.md)) serves prices
 around the clock from a single 24/7 Data Streams feed. It performs **no check on when the
 report was produced relative to the current market session**: it consumes whatever report the
-stream delivers, so a report left over from a previous session can reach the chain with nothing
-in the pipeline positioned to reject it.
+stream delivers, so a report from a previous session can reach the tokenized-equity with a `lastSeenTimestampNs`
+from before the current session start, be labeled with the current session and 24/7 would consider it
+a valid, fresh price when it should discard it..
 
-This is the same **pre-session "warm-up" / leftover-report** failure mode that motivated
-session-start gating on the 24/5 path (see the
-[stream freshness gating TDD](./stream-freshness-gating-tdd.md) §1 and
-[ADR-0006](./adr/0006-session-start-gating-no-tolerance-and-hard-coded-fallback.md)): providers
-transmit invalid placeholder prices before a session open, carrying fresh timestamps, and only
-guarantee validity for updates timestamped after the open. On 24/5 this produced spurious
-onchain moves at session opens that corrected within a minute. The same check also covers the
-mirror-image case: the provider simply not having published yet after a session open, so the
-report being served still carries a `lastSeenTimestampNs` from the previous session. The 24/7
-feed trades through
-every underlying equity session boundary — pre-market, regular, post-market, overnight, and the
-weekend — so it is exposed to the same failure mode at every one of those boundaries, and today
-has no protection at any of them.
+This is the same **pre-session "warm-up" / leftover-report** failure
+mode (though pre-session "warm-up" is not a risk for 24/7 streams as
+the data-engine has already filtered away pre-session reports) that
+motivated session-start gating on the 24/5 path (see the [stream
+freshness gating TDD](./stream-freshness-gating-tdd.md) §1 and
+[ADR-0006](./adr/0006-session-start-gating-no-tolerance-and-hard-coded-fallback.md)):
+providers transmit invalid placeholder prices before a session open,
+carrying fresh timestamps, and only guarantee validity for updates
+timestamped after the open. On 24/5 this produced spurious onchain
+moves at session opens that typically corrected within a minute. The same check
+also covers the mirror-image case: the provider simply not having
+published yet after a session open, so the report being served still
+carries a `lastSeenTimestampNs` from the previous session. The 24/7
+feed trades through every underlying equity session boundary —
+pre-market, regular, post-market, overnight, and the weekend — so it
+is exposed to the same failure mode at every one of those boundaries,
+and today has no protection at any of them.
 
 ADR-0001 deliberately specified "No Market Status gate" for 24/7 on the grounds that a 24/7
 Price is priced around the clock. That remains correct for _market-closed_ gating (the feed
@@ -33,8 +38,7 @@ does not eliminate them.
 
 - No spurious onchain moves at session opens on 24/7 feeds: a report whose
   `lastSeenTimestampNs` predates the start of the session it belongs to is rejected (503)
-  instead of published, even when it is fresh by age (the warm-up failure mode an age bound
-  cannot catch).
+  instead of published, even when it is fresh by age (a tighter tolerance for a stale price from before the session start).
 - 24/7 availability preserved: the feed keeps serving around the clock — no market-closed 503
   is introduced. Gating only ever rejects _pre-session_ reports.
 
@@ -102,6 +106,13 @@ info (it gates the _selected stream_ against schedule-derived sessions). On 24/7
 one stream and no selection — the report itself declares its session via `marketStatus`, and we
 gate against that session's start.
 
+Note the two sides of the comparison come from **independent calendar sources**: the report's
+`marketStatus` is determined upstream by the data-engine from a static `calendar_json` runtime
+config (weekly template + dated holiday exceptions; no live API), while the session start is
+resolved here from the tradinghours EA's live schedule (with the hard-coded fallback). The
+vocabularies match by design (both use the 0–5 status enum, where 5 means closed — weekend or
+holiday), but the calendars are updated by different processes and can drift; see §12 #6.
+
 ### Status → session-start mapping
 
 | Report `marketStatus`              | Session start used for gating                                   |
@@ -139,6 +150,16 @@ rule) keeps holiday early-closes (e.g. a 13:00 ET close before July 4th) correct
 The hard-coded fallback schedule is extended congruently: its entries gain the same `endTime`
 data (Friday post-market ends 20:00 ET), so the fallback path computes the weekend start with
 the same code and the same arguments as the tradinghours path.
+
+**Holidays are covered by the same mechanism.** The ecosystem reports a full-day closure with
+`marketStatus: WEEKEND` (the tradinghours `market-status` catch-all maps `Closed` plus an
+unrecognized reason — e.g. a holiday name — to `WEEKEND`), and the derivation above is really
+"start of the current closed span": on Thanksgiving week the last `POST_MARKET` `endTime` is
+Wednesday 20:00 ET, so reports arriving during the holiday are gated against that — correctly,
+with no holiday-specific code. (The fallback schedule stays holiday-unaware, an already
+accepted risk, §12 #3.) See
+[tradinghours ADR-0001](../../../sources/tradinghours/docs/adr/0001-market-session-exposes-phase-end-times.md)
+for the closed-span model.
 
 ### Flattened hard-coded fallback schedule
 
@@ -414,13 +435,14 @@ otherwise.
 
 ## 12. Risks & Open Questions
 
-| #   | Item                                                                                                                                                                                                       | Impact                                                                            | Likelihood                                                            | Mitigation                                                                                                                                                                    | Owner |
-| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 1   | **Zero tolerance at 24/7 session opens.** Every boundary (including thin sessions and the Friday weekend start) is a rejection window of provider first-post-open latency.                                 | Brief 503s at every session open on 24/7 feeds                                    | Certain at every open; window length unconfirmed for thin sessions    | Product risk acceptance recorded in ADR-0007; runbook/alert tuning treats bounded windows as the mitigation working; confirm publish-vs-last-trade semantics with data-engine | TBD   |
-| 2   | **Fail-closed turns previously-good responses into 503s** during tradinghours outages when the fallback cannot resolve a start — a behavior change for an endpoint that has never gated.                   | 503s during schedule outages                                                      | Low — tradinghours is monitored; the flattened fallback covers `nyse` | Deliberate, Product-accepted (ADR-0007); `ISSUER_247_SESSION_GATING_FAIL_ON_INDETERMINATE_SESSION=false` is the no-deploy escape hatch                                        | TBD   |
-| 3   | **Hard-coded schedule drift**, now including the Friday weekend start. Holidays/early closes are unknown to a fixed schedule — but the weekend start is only fallback-sourced during tradinghours outages. | Wrong weekend/session starts during outages (admits or rejects the wrong reports) | Low                                                                   | Fallback only runs during tradinghours outages; changes are reviewed code edits; tradinghours monitoring limits outage windows                                                | TBD   |
-| 4   | **`lastSeenTimestampNs` semantics unconfirmed** (publish time vs. last trade) for the 24/7 stream. If last-trade-based, thin sessions could be gated longer than publish latency at every open.            | Longer rejection windows at thin-session opens                                    | Medium                                                                | Same acceptance as ADR-0006 (extended by ADR-0007); confirm with the data-engine team; revisit only if windows prove unbounded                                                | TBD   |
-| 5   | **24/5 regression via the fallback flatten.** Shared configuration is being restructured under live 24/5 gating.                                                                                           | Wrong 24/5 gating decisions if the flatten drops or mislabels a transition        | Low                                                                   | §10 item 3: existing 24/5 session-start test suites must pass unchanged; flatten is a pure refactor of data layout, not of gating logic                                       | TBD   |
+| #   | Item                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Impact                                                                                                                                                                                                                                   | Likelihood                                                                                                                        | Mitigation                                                                                                                                                                                                                               | Owner |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| 1   | **Zero tolerance at 24/7 session opens.** Every boundary (including thin sessions and the Friday weekend start) is a rejection window of provider first-post-open latency.                                                                                                                                                                                                                                                                                    | Brief 503s at every session open on 24/7 feeds                                                                                                                                                                                           | Certain at every open; window length unconfirmed for thin sessions                                                                | Product risk acceptance recorded in ADR-0007; runbook/alert tuning treats bounded windows as the mitigation working; confirm publish-vs-last-trade semantics with data-engine                                                            | TBD   |
+| 2   | **Fail-closed turns previously-good responses into 503s** during tradinghours outages when the fallback cannot resolve a start — a behavior change for an endpoint that has never gated.                                                                                                                                                                                                                                                                      | 503s during schedule outages                                                                                                                                                                                                             | Low — tradinghours is monitored; the flattened fallback covers `nyse`                                                             | Deliberate, Product-accepted (ADR-0007); `ISSUER_247_SESSION_GATING_FAIL_ON_INDETERMINATE_SESSION=false` is the no-deploy escape hatch                                                                                                   | TBD   |
+| 3   | **Hard-coded schedule drift**, now including the Friday weekend start. Holidays/early closes are unknown to a fixed schedule — but the weekend start is only fallback-sourced during tradinghours outages.                                                                                                                                                                                                                                                    | Wrong weekend/session starts during outages (admits or rejects the wrong reports)                                                                                                                                                        | Low                                                                                                                               | Fallback only runs during tradinghours outages; changes are reviewed code edits; tradinghours monitoring limits outage windows                                                                                                           | TBD   |
+| 4   | **`lastSeenTimestampNs` semantics unconfirmed** (publish time vs. last trade) for the 24/7 stream. If last-trade-based, thin sessions could be gated longer than publish latency at every open.                                                                                                                                                                                                                                                               | Longer rejection windows at thin-session opens                                                                                                                                                                                           | Medium                                                                                                                            | Same acceptance as ADR-0006 (extended by ADR-0007); confirm with the data-engine team; revisit only if windows prove unbounded                                                                                                           | TBD   |
+| 5   | **24/5 regression via the fallback flatten.** Shared configuration is being restructured under live 24/5 gating.                                                                                                                                                                                                                                                                                                                                              | Wrong 24/5 gating decisions if the flatten drops or mislabels a transition                                                                                                                                                               | Low                                                                                                                               | §10 item 3: existing 24/5 session-start test suites must pass unchanged; flatten is a pure refactor of data layout, not of gating logic                                                                                                  | TBD   |
+| 6   | **Two independent sources of session truth.** The report's `marketStatus` is decided by the data-engine's static `calendar_json` runtime config (weekly template + dated exceptions, `defaultStatus`); this gate resolves that session's _start_ from the tradinghours EA (live) and the hard-coded fallback. The calendars can disagree — a holiday exception present in one but missing/stale in the other, or `calendar_json` nearing its `lastValidDate`. | Mis-gating: e.g. report says REGULAR on a day tradinghours knows is closed (gate resolves a 09:30 start that never really opened), or report says WEEKEND while tradinghours still shows an overnight phase — wrong admits or wrong 503s | Low–Medium — both calendars derive from the same venue hours but are updated by different processes (config restart vs. live API) | Reconciliation check/monitoring comparing the data-engine calendar against tradinghours (the data-engine's `lastValidDate` gauge alerts on one side); the fail-on-indeterminate flag bounds the blast radius; document in the §5 runbook | TBD   |
 
 # **Additional Considerations**
 

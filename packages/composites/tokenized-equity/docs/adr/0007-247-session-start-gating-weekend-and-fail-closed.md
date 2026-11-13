@@ -4,6 +4,10 @@ Status: proposed
 
 Date: 2026-11-13
 
+Cross-references:
+[tradinghours ADR-0001](../../../../sources/tradinghours/docs/adr/0001-market-session-exposes-phase-end-times.md)
+(the `endTime` passthrough and closed-span model this decision relies on)
+
 Risk acceptance: pending Product (Gabe Silva) — the zero-tolerance stance extended to 24/7 and
 the fail-closed default on indeterminate sessions, resolving risk items #1 and #2 of the
 [24/7 session-start gating TDD](../issuer-247-session-start-gating-tdd.md)
