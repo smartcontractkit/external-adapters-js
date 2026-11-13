@@ -6494,11 +6494,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@chainlink/sp-ssa-adapter", "workspace:packages/sources/sp-ssa"],\
+          ["@date-fns/utc", "npm:2.1.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
+          ["@types/validator", "npm:13.15.10"],\
+          ["date-fns", "npm:4.1.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
+          ["validator", "npm:13.15.26"]\
         ],\
         "linkType": "SOFT"\
       }]\

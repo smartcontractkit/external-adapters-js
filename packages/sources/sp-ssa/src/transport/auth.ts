@@ -1,9 +1,9 @@
+import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import {
   AdapterDataProviderError,
   AdapterError,
 } from '@chainlink/external-adapter-framework/validation/error'
-import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 
 export interface AuthSettings {
   TOKEN_ENDPOINT: string
@@ -21,10 +21,51 @@ interface CachedToken {
   expiresAtMs: number
 }
 
+const TOKEN_CENSOR_KEY = 'ACCESS_TOKEN'
+const MAX_CENSORED_TOKENS = 4
+const REFRESH_RETRY_MS = 30_000
+const REFRESH_MARGIN_MS = 5 * 60 * 1000
+const TOKEN_REQUEST_KEY = 'sp-ssa-token'
+const TOKEN_REQUEST_COST = 0
+
+// CensorList accepts only RegExp values, so a literal token has to be escaped
+// before it can be registered. This mirrors the framework's buildCensorList.
+const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+const isUsableAccessToken = (value: unknown): value is string =>
+  typeof value === 'string' && value.length > 0 && value.trim() === value
+
+const toExpiresInSeconds = (value: unknown): number | undefined => {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) && value > 0 ? value : undefined
+  }
+  if (typeof value !== 'string' || value.trim() === '') {
+    return undefined
+  }
+  const seconds = Number(value)
+  return Number.isFinite(seconds) && seconds > 0 ? seconds : undefined
+}
+
+const readTokenBody = (data: unknown): { accessToken: string; expiresInSeconds: number } => {
+  const body = data as TokenResponse | undefined
+  if (!isUsableAccessToken(body?.access_token)) {
+    throw new AdapterError({
+      statusCode: 502,
+      message: 'The token response did not include a usable access_token',
+    })
+  }
+  const expiresInSeconds = toExpiresInSeconds(body?.expires_in)
+  if (expiresInSeconds === undefined) {
+    throw new AdapterError({
+      statusCode: 502,
+      message: 'The token response did not include a numeric expires_in',
+    })
+  }
+  return { accessToken: body.access_token, expiresInSeconds }
+}
+
 export class AuthManager {
-  private static readonly REFRESH_MARGIN_MS = 5 * 60 * 1000
-  private static readonly TOKEN_REQUEST_KEY = 'sp-ssa-token'
-  private static readonly TOKEN_REQUEST_COST = 0
+  private static recentTokens: string[] = []
 
   private readonly requester: Requester
   private readonly settings: AuthSettings
@@ -38,30 +79,16 @@ export class AuthManager {
   }
 
   async getToken(): Promise<string> {
-    const now = Date.now()
-    if (this.cached && now < this.cached.refreshAtMs) {
-      AuthManager.ensureCensored(this.cached.token)
-      return this.cached.token
-    }
-    if (this.cached && now < this.refreshRetryAtMs && now < this.cached.expiresAtMs) {
-      AuthManager.ensureCensored(this.cached.token)
-      return this.cached.token
+    const reusable = this.reusableToken(Date.now())
+    if (reusable) {
+      return reusable
     }
     if (this.pending) {
       return this.pending
     }
-    this.pending = this.requestToken()
-      .catch((e) => {
-        if (this.cached && Date.now() < this.cached.expiresAtMs) {
-          this.refreshRetryAtMs = Date.now() + 30_000
-          this.ensureCachedTokenCensored()
-          return this.cached.token
-        }
-        throw e
-      })
-      .finally(() => {
-        this.pending = undefined
-      })
+    this.pending = this.mintToken().finally(() => {
+      this.pending = undefined
+    })
     return this.pending
   }
 
@@ -72,41 +99,84 @@ export class AuthManager {
 
   ensureCachedTokenCensored(): void {
     if (this.cached) {
-      AuthManager.ensureCensored(this.cached.token)
+      AuthManager.rememberToken(this.cached.token)
     }
   }
 
-  private static escapeRegExp(value: string): string {
-    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  private reusableToken(now: number): string | undefined {
+    if (!this.cached) {
+      return undefined
+    }
+    const isFresh = now < this.cached.refreshAtMs
+    const isValidWhileBackingOff = now < this.refreshRetryAtMs && now < this.cached.expiresAtMs
+    if (!isFresh && !isValidWhileBackingOff) {
+      return undefined
+    }
+    AuthManager.rememberToken(this.cached.token)
+    return this.cached.token
   }
 
-  private static registerCensoredToken(token: string): void {
-    const boundary = `(?<![A-Za-z0-9._-])${AuthManager.escapeRegExp(token)}(?![A-Za-z0-9._-])`
-    const all = CensorList.getAll()
-    const others = all.filter((entry) => entry.key !== 'ACCESS_TOKEN')
-    const recent = all.filter((entry) => entry.key === 'ACCESS_TOKEN').slice(-3)
-    CensorList.set([
-      ...others,
-      ...recent,
-      { key: 'ACCESS_TOKEN', value: new RegExp(boundary, 'g') },
-    ])
+  private async mintToken(): Promise<string> {
+    try {
+      return await this.requestToken()
+    } catch (error) {
+      if (!this.cached || Date.now() >= this.cached.expiresAtMs) {
+        throw error
+      }
+      this.refreshRetryAtMs = Date.now() + REFRESH_RETRY_MS
+      AuthManager.rememberToken(this.cached.token)
+      return this.cached.token
+    }
   }
 
-  private static ensureCensored(token: string): void {
-    const escaped = AuthManager.escapeRegExp(token)
-    const present = CensorList.getAll().some(
-      (entry) => entry.key === 'ACCESS_TOKEN' && entry.value.source.includes(escaped),
+  private static rememberToken(token: string): void {
+    const pattern = escapeRegExp(token)
+    const alreadyCensored = CensorList.getAll().some(
+      ({ key, value }) => key === TOKEN_CENSOR_KEY && value.source === pattern,
     )
-    if (!present) {
-      AuthManager.registerCensoredToken(token)
+    AuthManager.recentTokens = [
+      ...AuthManager.recentTokens.filter((recent) => recent !== token),
+      token,
+    ].slice(-MAX_CENSORED_TOKENS)
+    if (alreadyCensored) {
+      return
     }
+    const otherEntries = CensorList.getAll().filter(({ key }) => key !== TOKEN_CENSOR_KEY)
+    const tokenEntries = AuthManager.recentTokens.map((recent) => ({
+      key: TOKEN_CENSOR_KEY,
+      value: new RegExp(escapeRegExp(recent), 'g'),
+    }))
+    CensorList.set([...otherEntries, ...tokenEntries])
   }
 
   private async requestToken(): Promise<string> {
-    let response
+    const response = await this.requestTokenResponse()
+
+    if (response.response.status !== 200) {
+      throw new AdapterError({
+        statusCode: 502,
+        message: `The token endpoint returned status ${response.response.status}`,
+      })
+    }
+
+    const { accessToken, expiresInSeconds } = readTokenBody(response.response.data)
+    AuthManager.rememberToken(accessToken)
+
+    const expiresInMs = expiresInSeconds * 1000
+    const refreshMarginMs = Math.min(REFRESH_MARGIN_MS, expiresInMs / 2)
+    this.refreshRetryAtMs = 0
+    this.cached = {
+      token: accessToken,
+      refreshAtMs: Date.now() + expiresInMs - refreshMarginMs,
+      expiresAtMs: Date.now() + expiresInMs,
+    }
+    return this.cached.token
+  }
+
+  private async requestTokenResponse() {
     try {
-      response = await this.requester.request<TokenResponse>(
-        AuthManager.TOKEN_REQUEST_KEY,
+      return await this.requester.request<TokenResponse>(
+        TOKEN_REQUEST_KEY,
         {
           method: 'POST',
           baseURL: this.settings.TOKEN_ENDPOINT,
@@ -116,59 +186,18 @@ export class AuthManager {
           },
           data: 'grant_type=client_credentials&scope=rtg_ssa',
         },
-        AuthManager.TOKEN_REQUEST_COST,
+        TOKEN_REQUEST_COST,
       )
-    } catch (e) {
-      if (e instanceof AdapterDataProviderError) {
-        throw new AdapterError({
-          statusCode: 502,
-          message: `Unable to obtain an access token: ${e.message}`,
-          providerStatusCode: e.providerStatusCode,
-          cause: e,
-        })
+    } catch (error) {
+      if (!(error instanceof AdapterDataProviderError)) {
+        throw error
       }
-      throw e
-    }
-
-    if (response.response.status !== 200) {
       throw new AdapterError({
         statusCode: 502,
-        message: `The token endpoint returned status ${response.response.status}`,
+        message: `Unable to obtain an access token: ${error.message}`,
+        providerStatusCode: error.providerStatusCode,
+        cause: error,
       })
     }
-
-    const body = response.response.data as TokenResponse | undefined
-    const accessToken = body?.access_token
-    if (typeof accessToken !== 'string' || accessToken.length === 0 || /\s/.test(accessToken)) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: 'The token response did not include a usable access_token',
-      })
-    }
-
-    const rawExpiresIn = body?.expires_in
-    const expiresInSeconds =
-      typeof rawExpiresIn === 'number'
-        ? rawExpiresIn
-        : typeof rawExpiresIn === 'string' && rawExpiresIn.trim() !== ''
-        ? Number(rawExpiresIn)
-        : Number.NaN
-    if (!Number.isFinite(expiresInSeconds) || expiresInSeconds <= 0) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: 'The token response did not include a numeric expires_in',
-      })
-    }
-
-    AuthManager.registerCensoredToken(accessToken)
-    const expiresInMs = expiresInSeconds * 1000
-    const refreshMarginMs = Math.min(AuthManager.REFRESH_MARGIN_MS, expiresInMs / 2)
-    this.refreshRetryAtMs = 0
-    this.cached = {
-      token: accessToken,
-      refreshAtMs: Date.now() + expiresInMs - refreshMarginMs,
-      expiresAtMs: Date.now() + expiresInMs,
-    }
-    return this.cached.token
   }
 }

@@ -11,12 +11,14 @@ import {
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { AuthManager } from './auth'
 import { config } from '../config'
+import { AuthManager } from './auth'
 import {
   errorMessage,
+  errorStatusCode,
   errorTimestamps,
   fetchScoresWithReauth,
+  ProviderResponse,
   SsaAuthError,
   writeCooldownErrors,
 } from './request'
@@ -80,120 +82,141 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
       CLIENT_ID: adapterSettings.CLIENT_ID,
     })
     config.buildCensorList()
-    try {
-      await this.authManager.getToken()
-    } catch {
-      // The first request will retry the token mint and surface the auth error.
-    }
-    // The framework rebuilds the censor list after transport initialization, so
-    // re-register the prefetched token once the adapter finishes starting.
-    setImmediate(() => this.authManager.ensureCachedTokenCensored())
+    await this.prefetchToken()
   }
 
   async backgroundHandler(
     context: EndpointContext<SsaTransportTypes>,
     entries: RequestParams[],
   ): Promise<void> {
-    if (Date.now() < this.authFailureUntil) {
-      if (await writeCooldownErrors(this.responseCache, this.name, entries)) {
-        return
-      }
-      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
-      return
-    }
     if (entries.length === 0) {
-      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
-      return
+      return this.sleepUntilNextTick(context)
     }
+    if (Date.now() < this.authFailureUntil) {
+      await writeCooldownErrors(this.responseCache, this.name, entries)
+      return this.sleepUntilNextTick(context)
+    }
+
     const generation = ++this.generation
-
     try {
-      const sortedEntries = [...entries].sort((a, b) => a.security_id.localeCompare(b.security_id))
-      const requestKey = calculateHttpRequestKey<SsaTransportTypes>({
-        context: {
-          adapterSettings: this.settings,
-          inputParameters,
-          endpointName: this.endpointName,
-        },
-        data: sortedEntries,
-        transportName: this.name,
-      })
-      const providerResponse = await fetchScoresWithReauth(
-        this.requester,
-        this.settings,
-        this.authManager,
-        requestKey,
-      )
-      if (providerResponse.response.status !== 200) {
-        throw new AdapterError({
-          statusCode: 502,
-          message: `The data provider returned status ${providerResponse.response.status}`,
-        })
-      }
-
-      const records = parseProviderRecords(providerResponse.response.data)
-      if (generation !== this.generation) {
-        return
-      }
-      const results = entries.map((entry): TimestampedProviderResult<SsaTransportTypes> => {
-        try {
-          const record = selectRecord(records, entry.security_id)
-          const result = parseScore(record.ssa)
-          const providerIndicatedTimeUnixMs = parseTimestamp(record.last_modified_date_time)
-          return {
-            params: entry,
-            response: {
-              result,
-              data: { result },
-              timestamps: {
-                ...providerResponse.timestamps,
-                providerIndicatedTimeUnixMs,
-              },
-            },
-          }
-        } catch (e) {
-          return {
-            params: entry,
-            response: {
-              statusCode: 502,
-              errorMessage: `The data provider returned invalid data for security_id ${
-                entry.security_id
-              }: ${e instanceof Error ? e.message : 'unknown error'}`,
-              timestamps: {
-                ...providerResponse.timestamps,
-                providerIndicatedTimeUnixMs: undefined,
-              },
-            },
-          }
-        }
-      })
-      if (results.length > 0) {
+      const results = await this.fetchResults(entries)
+      if (generation === this.generation) {
         await this.enqueueWrite(results, generation)
       }
-    } catch (e) {
+    } catch (error) {
       if (generation !== this.generation) {
         return
       }
-      if (e instanceof SsaAuthError) {
-        this.authFailureUntil = Date.now() + SsaTransport.AUTH_FAILURE_COOLDOWN_MS
-      }
-      const message = errorMessage(e)
-      logger.error(message)
-      const timestamps = errorTimestamps(e)
-      const results: TimestampedProviderResult<SsaTransportTypes>[] = entries.map((entry) => ({
-        params: entry,
-        response: {
-          statusCode: (e as AdapterError)?.statusCode || 502,
-          errorMessage: message,
-          timestamps,
-        },
-      }))
-      await this.enqueueWrite(results, generation)
+      await this.writeErrorResults(error, entries, generation)
     }
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: SsaTransportTypes['Settings']): number {
     return adapterSettings.WARMUP_SUBSCRIPTION_TTL
+  }
+
+  private async prefetchToken(): Promise<void> {
+    try {
+      await this.authManager.getToken()
+    } catch {
+      // The first request retries the token mint and surfaces the auth error.
+    }
+    // The framework rebuilds the censor list after transport initialization, so
+    // re-register the prefetched token once the adapter finishes starting.
+    setImmediate(() => this.authManager.ensureCachedTokenCensored())
+  }
+
+  private sleepUntilNextTick(context: EndpointContext<SsaTransportTypes>): Promise<void> {
+    return sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
+  }
+
+  private async fetchResults(
+    entries: RequestParams[],
+  ): Promise<TimestampedProviderResult<SsaTransportTypes>[]> {
+    const sortedEntries = [...entries].sort((a, b) => a.security_id.localeCompare(b.security_id))
+    const requestKey = calculateHttpRequestKey<SsaTransportTypes>({
+      context: {
+        adapterSettings: this.settings,
+        inputParameters,
+        endpointName: this.endpointName,
+      },
+      data: sortedEntries,
+      transportName: this.name,
+    })
+    const providerResponse = await fetchScoresWithReauth(
+      this.requester,
+      this.settings,
+      this.authManager,
+      requestKey,
+    )
+    if (providerResponse.response.status !== 200) {
+      throw new AdapterError({
+        statusCode: 502,
+        message: `The data provider returned status ${providerResponse.response.status}`,
+      })
+    }
+
+    const records = parseProviderRecords(providerResponse.response.data)
+    return entries.map((entry) => this.resultForEntry(entry, records, providerResponse.timestamps))
+  }
+
+  private resultForEntry(
+    entry: RequestParams,
+    records: ReturnType<typeof parseProviderRecords>,
+    timestamps: ProviderResponse['timestamps'],
+  ): TimestampedProviderResult<SsaTransportTypes> {
+    try {
+      const record = selectRecord(records, entry.security_id)
+      const result = parseScore(record.ssa)
+      return {
+        params: entry,
+        response: {
+          result,
+          data: { result },
+          timestamps: {
+            ...timestamps,
+            providerIndicatedTimeUnixMs: parseTimestamp(record.last_modified_date_time),
+          },
+        },
+      }
+    } catch (error) {
+      return {
+        params: entry,
+        response: {
+          statusCode: 502,
+          errorMessage: `The data provider returned invalid data for security_id ${
+            entry.security_id
+          }: ${errorMessage(error)}`,
+          timestamps: {
+            ...timestamps,
+            providerIndicatedTimeUnixMs: undefined,
+          },
+        },
+      }
+    }
+  }
+
+  private async writeErrorResults(
+    error: unknown,
+    entries: RequestParams[],
+    generation: number,
+  ): Promise<void> {
+    if (error instanceof SsaAuthError) {
+      this.authFailureUntil = Date.now() + SsaTransport.AUTH_FAILURE_COOLDOWN_MS
+    }
+    const message = errorMessage(error)
+    logger.error(message)
+    const timestamps = errorTimestamps(error)
+    const statusCode = errorStatusCode(error)
+    const results: TimestampedProviderResult<SsaTransportTypes>[] = entries.map((params) => ({
+      params,
+      response: {
+        statusCode,
+        errorMessage: message,
+        timestamps,
+      },
+    }))
+    await this.enqueueWrite(results, generation)
   }
 
   private enqueueWrite(
