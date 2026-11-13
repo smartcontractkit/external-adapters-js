@@ -1,11 +1,12 @@
 /**
- * dxLink WebSocket transport tests — OPDATA-9200 spec.
+ * dxLink websocket transport tests — OPDATA-9200 requirement doc.
  *
- * Everything is asserted from the spec's contract (dxLink handshake sequence,
- * Basic auth on the WS handshake, FEED_SUBSCRIPTION add/remove fanout,
- * KEEPALIVE, provider ERROR frames), through the adapter's real request path
- * against a scripted dxLink server. The legacy cometd transport (clientId,
- * /meta/connect heartbeats) is deleted and must not appear on the wire.
+ * Everything is asserted from the requirement doc and the dxLink protocol
+ * (handshake sequence, Basic auth on the WS handshake, FEED_SUBSCRIPTION
+ * add/remove fanout, KEEPALIVE, provider ERROR frames), through the adapter's
+ * real request path against a scripted dxLink server. The legacy cometd
+ * transport (clientId, /meta/connect heartbeats) is deleted and must not appear
+ * on the wire.
  */
 import { metrics } from '@chainlink/external-adapter-framework/metrics'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
@@ -24,6 +25,7 @@ import {
   quoteFrame,
   quoteRecord,
   ScriptedDxLinkServer,
+  setDxLinkTestEnv,
   tradeFrame,
   tradeRecord,
 } from './fixtures'
@@ -34,7 +36,10 @@ describe('dxLink websocket transport', () => {
   let oldEnv: NodeJS.ProcessEnv
   let server: ScriptedDxLinkServer
   let testAdapter: TestAdapter
-  let recordedSocketOptions: { url: string; options: any }[]
+  let recordedSocketOptions: {
+    url: string
+    options?: { headers?: { Authorization?: string } }
+  }[]
 
   const quoteRequest = { base: 'TSLA', quote: 'USD', endpoint: 'stock_quotes' }
   const priceRequest = {
@@ -45,20 +50,19 @@ describe('dxLink websocket transport', () => {
     overrides: { dxfeed: { AAPL: 'AAPL:USLF24' } },
   }
 
+  const requestJson = async (request: object) => {
+    const response = await testAdapter.request(request)
+    expect(response.statusCode).toBe(200)
+    return response.json()
+  }
+
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.WS_API_ENDPOINT = WS_URL
-    process.env.API_USERNAME = 'fake-user'
-    process.env.API_PASSWORD = 'fake-pass'
-    process.env.WS_SUBSCRIPTION_TTL = '60000'
-    // Above any intra-file fake-clock gap, so no connection is ever closed as
-    // unresponsive mid-suite (that would inject extra SETUPs/replays).
-    process.env.WS_SUBSCRIPTION_UNRESPONSIVE_TTL = '180000'
-    process.env.CACHE_MAX_AGE = '60000'
-    process.env.WS_CONNECTION_OPEN_TIMEOUT = '2000'
-    process.env.WS_HEARTBEAT_INTERVAL_MS = '5000'
+    setDxLinkTestEnv(WS_URL, { WS_SUBSCRIPTION_UNRESPONSIVE_TTL: '180000' })
 
     server = new ScriptedDxLinkServer(WS_URL)
+    // Warm-up symbols only. Each test seeds the symbols it needs, so the
+    // fixture block stays next to the behaviour under test.
     server.setFeedData('Quote', 'TSLA', [
       quoteFrame(quoteRecord('TSLA', 1760000002000, 100, 101, 1, 2)),
     ])
@@ -77,31 +81,20 @@ describe('dxLink websocket transport', () => {
     server.setFeedData('Trade', 'TSLA', [
       tradeFrame('Trade', tradeRecord('Trade', 'TSLA', 1760000002000, 250)),
     ])
-    server.setFeedData('Quote', 'SHARED', [
-      quoteFrame(quoteRecord('SHARED', 1760000002000, 110, 111, 1, 1, 'O', 'O')),
-    ])
-    server.setFeedData('Quote', 'ALONE', [
-      quoteFrame(quoteRecord('ALONE', 1760000002000, 115, 116, 1, 1)),
-    ])
-    server.setFeedData('Quote', 'GATE', [
-      quoteFrame(quoteRecord('GATE', 1760000002000, 120, 121, 3, 4)),
-    ])
-    server.setFeedData('Quote', 'REMOVE:USLF24', [
-      quoteFrame(quoteRecord('REMOVE:USLF24', 1760000002000, 130, 131, 5, 6)),
-    ])
 
     mockWebSocketProvider(WebSocketClassProvider)
-    // Idempotent: register the framework prom-client counters so the
-    // metrics-verification test below can read counter deltas (the framework's
-    // ws close handler increments wsConnectionClosures through this singleton).
+    // Idempotent: register the framework prom-client counters so the metric
+    // assertions below can read counter deltas.
     metrics.initialize()
-    // Record the handshake options the adapter hands to the WebSocket client
-    // (the framework passes transport options() straight to the ctor).
+    // Record the handshake options the adapter hands to the WebSocket client.
     recordedSocketOptions = []
     const MockedSocket = WebSocketClassProvider.get() as any
     class RecordingSocket extends MockedSocket {
       constructor(url: string, protocol?: unknown, options?: unknown) {
-        recordedSocketOptions.push({ url, options })
+        recordedSocketOptions.push({
+          url,
+          options: options as { headers?: { Authorization?: string } },
+        })
         super(url, protocol)
       }
     }
@@ -114,13 +107,11 @@ describe('dxLink websocket transport', () => {
       testAdapter: {} as TestAdapter<never>,
     })
 
-    // Framework test pattern: fire the requests, then let the framework drain
-    // its own timer queue until the cache holds both endpoints' entries
-    // (quoteRequest + priceRequest). TestAdapter.request self-drains the
-    // installed clock while the dxLink foreground gate waits for the
-    // background stream to fill the cache.
-    await testAdapter.request(quoteRequest)
-    await testAdapter.request(priceRequest)
+    // Fire one request per endpoint so both transports connect and subscribe;
+    // the framework drains its own timer queue while the foreground gate waits
+    // for the background stream to fill the cache.
+    await requestJson(quoteRequest)
+    await requestJson(priceRequest)
     await testAdapter.waitForCache(2)
   })
 
@@ -152,10 +143,9 @@ describe('dxLink websocket transport', () => {
         .filter((t) => ['SETUP', 'CHANNEL_REQUEST', 'FEED_SETUP'].includes(t))
       expect(control).toEqual(['SETUP', 'CHANNEL_REQUEST', 'FEED_SETUP'])
 
-      // Spec primary_command SETUP: channel 0 with the 60s dxLink keepalive
-      // contract (the adapter's own KEEPALIVE send cadence is the separate
-      // 30s WS_HEARTBEAT_INTERVAL_MS asserted in the heartbeat suite).
-      // version per the spec primary_command's live-verified SETUP frame.
+      // Requirement doc SETUP frame: channel 0 with the 60s dxLink keepalive
+      // contract. The adapter's own KEEPALIVE cadence is the separate 30s
+      // WS_HEARTBEAT_INTERVAL_MS asserted in the heartbeat suite.
       expect(server.clientMessages.find((m) => m.type === 'SETUP')).toMatchObject({
         channel: 0,
         keepaliveTimeout: 60,
@@ -191,8 +181,8 @@ describe('dxLink websocket transport', () => {
       // No cometd meta channels or clientId handshakes may be sent.
       expect(server.clientMessages.some((m) => JSON.stringify(m).includes('/meta/'))).toBe(false)
       expect(server.clientMessages.some((m) => m.clientId !== undefined)).toBe(false)
-      // Spec credentialNotes: the dxLink AUTH message "exists but is NOT
-      // used" — credentials ride the HTTP Basic header on the upgrade only.
+      // Requirement doc: the dxLink AUTH message exists but is not used;
+      // credentials ride the HTTP Basic header on the upgrade only.
       expect(server.clientMessages.some((m) => m.type === 'AUTH')).toBe(false)
     })
   })
@@ -203,7 +193,7 @@ describe('dxLink websocket transport', () => {
         1,
       )
       // Re-request with identical params: no duplicate add may be sent.
-      await testAdapter.request(quoteRequest)
+      await requestJson(quoteRequest)
       await flushFrames(testAdapter)
       expect(server.added().filter((s) => s.symbol === 'TSLA' && s.type === 'Quote')).toHaveLength(
         1,
@@ -226,28 +216,23 @@ describe('dxLink websocket transport', () => {
       // The awaited request self-drains the clock while the foreground gate
       // waits for the stream value, so the adds are on the wire by the time
       // the 200 comes back.
-      const response = await testAdapter.request({
+      await requestJson({
         endpoint: 'stock',
         from: 'TSLA',
         to: 'USD',
         transport: 'ws',
       })
-      expect(response.statusCode).toBe(200)
       expect(server.added().some((s) => s.symbol === 'TSLA' && s.type === 'Trade')).toBe(true)
       expect(server.added().some((s) => s.symbol === 'TSLA' && s.type === 'TradeETH')).toBe(true)
     })
 
     it('subscribes Quote for the overridden :USLF24 ticker (stock_quotes)', async () => {
-      // Plan proving case (round1-subscription-fanout): the SAME :USLF24
-      // desired params must yield a Quote add from stock_quotes alongside the
-      // Trade/TradeETH adds the price endpoint fans out.
-      const response = await testAdapter.request({
+      await requestJson({
         endpoint: 'stock_quotes',
         base: 'AAPL',
         quote: 'USD',
         overrides: { dxfeed: { AAPL: 'AAPL:USLF24' } },
       })
-      expect(response.statusCode).toBe(200)
       await flushFrames(testAdapter)
       expect(server.added()).toEqual(
         expect.arrayContaining([{ symbol: 'AAPL:USLF24', type: 'Quote' }]),
@@ -276,8 +261,8 @@ describe('dxLink websocket transport', () => {
 
   describe('provider error frames', () => {
     it('ignores ERROR frames without throwing or corrupting the stream', async () => {
-      const before = await testAdapter.request(quoteRequest)
-      expect(before.statusCode).toBe(200)
+      const before = await requestJson(quoteRequest)
+      expect(before.data).toMatchObject({ bid_price: 100, ask_price: 101 })
 
       server.push(errorFrame)
       server.push(keepaliveFrame)
@@ -285,25 +270,45 @@ describe('dxLink websocket transport', () => {
 
       // No ProviderResult was produced and no error thrown: the last good
       // value is still served, then newer data still flows.
-      const after = await testAdapter.request(quoteRequest)
-      expect(after.statusCode).toBe(200)
-      expect(after.json().data).toMatchObject({ bid_price: 100, ask_price: 101 })
+      const after = await requestJson(quoteRequest)
+      expect(after.data).toMatchObject({ bid_price: 100, ask_price: 101 })
 
       server.push(quoteFrame(quoteRecord('TSLA', 1760000003000, 110, 111, 1, 2)))
       await flushFrames(testAdapter)
-      const updated = await testAdapter.request(quoteRequest)
-      expect(updated.statusCode).toBe(200)
-      expect(updated.json().data).toMatchObject({ bid_price: 110, ask_price: 111 })
+      const updated = await requestJson(quoteRequest)
+      expect(updated.data).toMatchObject({ bid_price: 110, ask_price: 111 })
     })
 
-    it('never hard-fails after a burst of ERROR frames (metrics-counters-only alerting)', async () => {
+    it('increments wsConnectionErrors with the dxLink error code, not the free-text message', async () => {
+      const errorsCounter = metrics.get('wsConnectionErrors')
+      const countTimeout = async (): Promise<number> =>
+        (await errorsCounter.get()).values
+          .filter((value) => value.labels.message === 'TIMEOUT')
+          .reduce((total, value) => total + value.value, 0)
+
+      const before = await countTimeout()
+      server.push({
+        type: 'ERROR',
+        channel: 0,
+        error: 'TIMEOUT',
+        message: 'keepalive timeout (test)',
+      })
+      await flushFrames(testAdapter, 2000)
+
+      expect(await countTimeout()).toBeGreaterThan(before)
+      expect(
+        (await errorsCounter.get()).values.some(
+          (value) => value.labels.message === 'keepalive timeout (test)',
+        ),
+      ).toBe(false)
+    })
+
+    it('never hard-fails after a burst of ERROR frames', async () => {
       const setupsBefore = server.countByType('SETUP')
 
-      // Far beyond any plausible failure budget: the spec's owner decision
-      // (degraded_stream_alerting = metrics_counters_only) forbids a hard
-      // error or a reconnect loop on provider ERROR frames. The alerting is
-      // log/metrics-only by spec, so the observable contract is that the
-      // connection stays up and the stream keeps flowing.
+      // The requirement says provider ERROR frames are informational: no
+      // request failure and no reconnect loop. The connection must stay up and
+      // the stream must keep flowing.
       for (let i = 0; i < 30; i++) {
         server.push({ type: 'ERROR', channel: 1, message: `provider error (burst ${i})` })
         await testAdapter.clock?.tickAsync?.(100)
@@ -313,30 +318,25 @@ describe('dxLink websocket transport', () => {
       // The stream is still healthy after the burst: newer data is served.
       server.push(quoteFrame(quoteRecord('TSLA', 1760000004000, 120, 121, 1, 2)))
       await flushFrames(testAdapter)
-      const updated = await testAdapter.request(quoteRequest)
-      expect(updated.statusCode).toBe(200)
-      expect(updated.json().data).toMatchObject({ bid_price: 120, ask_price: 121 })
+      const updated = await requestJson(quoteRequest)
+      expect(updated.data).toMatchObject({ bid_price: 120, ask_price: 121 })
     })
   })
 
   describe('reconnect', () => {
     it('after CHANNEL_CLOSED the adapter re-handshakes, re-subscribes, and serves the cached last value during the window', async () => {
-      // Self-contained setup: refresh the subscription (a direct cache-hit
-      // request also re-arms the framework's subscription TTL), then push +
-      // drain a fresh newest quote and assert it is served BEFORE the channel
-      // is closed.
-      const refreshed = await testAdapter.request(quoteRequest)
-      expect(refreshed.statusCode).toBe(200)
+      // Refresh the subscription (a cache-hit request also re-arms the
+      // framework's subscription TTL), then push a fresh newest quote and
+      // assert it is served before the channel is closed.
+      await requestJson(quoteRequest)
       server.push(quoteFrame(quoteRecord('TSLA', 1760000005000, 130, 131, 1, 2)))
       await flushFrames(testAdapter)
-      const preClose = await testAdapter.request(quoteRequest)
-      expect(preClose.statusCode).toBe(200)
-      expect(preClose.json().data).toMatchObject({ bid_price: 130, ask_price: 131 })
-      expect(preClose.json().timestamps?.providerIndicatedTimeUnixMs).toBe(1760000005000)
+      const preClose = await requestJson(quoteRequest)
+      expect(preClose.data).toMatchObject({ bid_price: 130, ask_price: 131 })
+      expect(preClose.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000005000)
 
-      // The reconnect replay must carry the newest record: the fresh
-      // subscription gets the provider's current data, so the cached value
-      // after the re-subscribe is deterministic (130/131).
+      // The reconnect replay must carry the newest record so the cached value
+      // after the re-subscribe is deterministic.
       server.setFeedData('Quote', 'TSLA', [
         quoteFrame(quoteRecord('TSLA', 1760000005000, 130, 131, 1, 2)),
       ])
@@ -345,14 +345,12 @@ describe('dxLink websocket transport', () => {
       const addsBefore = server.added().length
 
       // dxLink closes the feed channel: the CHANNEL_CLOSED control frame
-      // followed by the server dropping the socket (both endpoint
-      // transports' connections — the assertion set is per (symbol, eventType),
-      // not per connection).
+      // followed by the server dropping the socket.
       server.push({ type: 'CHANNEL_CLOSED', channel: 1 })
       server.closeAll()
 
       // The framework reconnects: a fresh control handshake runs and the
-      // desired FEED_SUBSCRIPTION adds are re-sent (subscriptions.new = desired).
+      // desired FEED_SUBSCRIPTION adds are re-sent.
       const reconnected = await awaitWs(
         testAdapter,
         () => server.countByType('SETUP') > setupsBefore && server.added().length > addsBefore,
@@ -360,46 +358,34 @@ describe('dxLink websocket transport', () => {
       expect(reconnected).toBe(true)
       expect(server.added().some((s) => s.symbol === 'TSLA' && s.type === 'Quote')).toBe(true)
 
-      // The SAME add set is received again after the forced reconnect: each
-      // desired (symbol, eventType) pair was added exactly once on the first
-      // connection (dedupe test above), so a second add proves the full
-      // desired set — BOTH endpoints' subscriptions — was re-sent. That
-      // includes the price endpoint's gated pair: Trade and TradeETH for the
-      // :USLF24 ticker (owner decision tradeteth_subscription_policy =
-      // match_reference).
+      // The whole desired set is re-sent, including the price endpoint's
+      // Trade and TradeETH pair.
       const addCount = (symbol: string, type: string): number =>
         server.added().filter((s) => s.symbol === symbol && s.type === type).length
       expect(addCount('TSLA', 'Quote')).toBeGreaterThanOrEqual(2)
       expect(addCount('AAPL:USLF24', 'Trade')).toBeGreaterThanOrEqual(2)
       expect(addCount('AAPL:USLF24', 'TradeETH')).toBeGreaterThanOrEqual(2)
 
-      // Owner decision reconnect_cache_behavior = serve_cached_last_value:
-      // a request during the reconnect + re-handshake window serves the last
-      // value with its original provider timestamp — it does not error.
-      const duringWindow = await testAdapter.request(quoteRequest)
-      expect(duringWindow.statusCode).toBe(200)
-      expect(duringWindow.json().data).toMatchObject({ bid_price: 130, ask_price: 131 })
-      expect(duringWindow.json().timestamps?.providerIndicatedTimeUnixMs).toBe(1760000005000)
+      // The cached last value is served during the reconnect window.
+      const duringWindow = await requestJson(quoteRequest)
+      expect(duringWindow.data).toMatchObject({ bid_price: 130, ask_price: 131 })
+      expect(duringWindow.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000005000)
 
       // The stream resumes on the new connection: a newer frame is served.
       server.push(quoteFrame(quoteRecord('TSLA', 1760000006000, 140, 141, 1, 2)))
       await flushFrames(testAdapter)
-      const resumed = await testAdapter.request(quoteRequest)
-      expect(resumed.statusCode).toBe(200)
-      expect(resumed.json().data).toMatchObject({ bid_price: 140, ask_price: 141 })
-      expect(resumed.json().timestamps?.providerIndicatedTimeUnixMs).toBe(1760000006000)
+      const resumed = await requestJson(quoteRequest)
+      expect(resumed.data).toMatchObject({ bid_price: 140, ask_price: 141 })
+      expect(resumed.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000006000)
     })
 
-    it('increments the framework wsConnectionClosures counter on the closure (metrics-counters-only alerting)', async () => {
+    it('increments the framework wsConnectionClosures counter on the closure', async () => {
       // A known good value is cached before the closure so the window check
       // below has something to serve.
-      const before = await testAdapter.request(quoteRequest)
-      expect(before.statusCode).toBe(200)
+      await requestJson(quoteRequest)
 
-      // Owner decision degraded_stream_alerting = metrics_counters_only: the
-      // observable alerting surface for a dropped connection is the
-      // framework's own wsConnectionClosures counter (labels code/url) — no
-      // adapter error path. Sum the counter's labelled series; only the delta
+      // A dropped connection increments the framework's own
+      // wsConnectionClosures counter (labels code/url). Only the delta
       // matters, so pre-existing series from earlier tests are irrelevant.
       const closuresCounter = metrics.get('wsConnectionClosures')
       const closureCount = async (): Promise<number> =>
@@ -419,12 +405,11 @@ describe('dxLink websocket transport', () => {
       expect(reconnected).toBe(true)
       expect(await closureCount()).toBeGreaterThan(closuresBefore)
 
-      // The adapter itself raises no error: the cached last value is served
-      // while the reconnect window is open.
-      // The replayed snapshot (t=...5000) is older than the cached quote (t=...6000), so it is dropped
-      const duringWindow = await testAdapter.request(quoteRequest)
-      expect(duringWindow.statusCode).toBe(200)
-      expect(duringWindow.json().data).toMatchObject({ bid_price: 140, ask_price: 141 })
+      // The replayed snapshot (t=...5000) is older than the cached quote
+      // (t=...6000), so the cached value is still served and no adapter error
+      // is raised.
+      const duringWindow = await requestJson(quoteRequest)
+      expect(duringWindow.data).toMatchObject({ bid_price: 140, ask_price: 141 })
     })
 
     it('closes the socket on CHANNEL_CLOSED when the server keeps it open', async () => {
@@ -446,6 +431,9 @@ describe('dxLink websocket transport', () => {
 
   describe('open gate', () => {
     it('rejects the open handshake when FEED_CONFIG never arrives, then recovers', async () => {
+      server.setFeedData('Quote', 'GATE', [
+        quoteFrame(quoteRecord('GATE', 1760000002000, 120, 121, 3, 4)),
+      ])
       const gateRequest = { base: 'GATE', quote: 'USD', endpoint: 'stock_quotes' }
 
       server.suppressFeedConfig = true
@@ -468,10 +456,9 @@ describe('dxLink websocket transport', () => {
       const setupsBeforeRecovery = server.countByType('SETUP')
       server.closeAll()
       await awaitWs(testAdapter, () => server.countByType('SETUP') > setupsBeforeRecovery)
-      const recovered = await testAdapter.request(gateRequest)
-      expect(recovered.statusCode).toBe(200)
-      expect(recovered.json().data).toMatchObject({ bid_price: 120, ask_price: 121 })
-      expect(recovered.json().timestamps?.providerIndicatedTimeUnixMs).toBe(1760000002000)
+      const recovered = await requestJson(gateRequest)
+      expect(recovered.data).toMatchObject({ bid_price: 120, ask_price: 121 })
+      expect(recovered.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000002000)
     })
   })
 
@@ -489,8 +476,7 @@ describe('dxLink websocket transport', () => {
       server.failHandshake = false
       const setupsBeforeRecovery = server.countByType('SETUP')
       await awaitWs(testAdapter, () => server.countByType('FEED_SETUP') > setupsBeforeRecovery)
-      const recovered = await testAdapter.request(quoteRequest)
-      expect(recovered.statusCode).toBe(200)
+      await requestJson(quoteRequest)
     })
   })
 
@@ -499,15 +485,23 @@ describe('dxLink websocket transport', () => {
     // WS_SUBSCRIPTION_TTL, which expires (and unsubscribes) every other
     // test's subscriptions too — nothing after this test depends on them.
     it('keeps a shared subscription while another request still needs it', async () => {
+      server.setFeedData('Quote', 'SHARED', [
+        quoteFrame(quoteRecord('SHARED', 1760000002000, 110, 111, 1, 1, 'O', 'O')),
+      ])
+      server.setFeedData('Quote', 'ALONE', [
+        quoteFrame(quoteRecord('ALONE', 1760000002000, 115, 116, 1, 1)),
+      ])
       // Both requests map to the same (SHARED, Quote) dxLink subscription
       const regular = { base: 'SHARED', endpoint: 'stock_quotes' }
       const overnight = { ...regular, isOvernight: true }
       const alone = { base: 'ALONE', endpoint: 'stock_quotes' }
       for (const request of [regular, overnight, alone]) {
-        await testAdapter.request(request)
+        await requestJson(request)
       }
 
-      // Keep requesting only `regular` until the other two subscriptions have expired
+      // Keep requesting only `regular` until the other two subscriptions have expired.
+      // The loop deliberately does not assert 200: the cached value may outlive
+      // CACHE_MAX_AGE mid-loop; the request still re-arms the subscription TTL.
       const deadline = Number(testAdapter.clock?.now) + 70_000
       while (Number(testAdapter.clock?.now) < deadline) {
         await flushFrames(testAdapter, 5_000)
@@ -520,9 +514,11 @@ describe('dxLink websocket transport', () => {
     })
 
     it('sends FEED_SUBSCRIPTION remove arrays when subscriptions go stale', async () => {
+      server.setFeedData('Quote', 'REMOVE:USLF24', [
+        quoteFrame(quoteRecord('REMOVE:USLF24', 1760000002000, 130, 131, 5, 6)),
+      ])
       const removeRequest = { base: 'REMOVE:USLF24', quote: 'USD', endpoint: 'stock_quotes' }
-      const response = await testAdapter.request(removeRequest)
-      expect(response.statusCode).toBe(200)
+      await requestJson(removeRequest)
 
       // WS_SUBSCRIPTION_TTL (60000) after the last request for the params,
       // the framework's subscription set expires the entry and the stream

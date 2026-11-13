@@ -25,18 +25,40 @@ export class StockQuotesTransport extends DxLinkTransport<BaseEndpointTypes> {
 const buildResponses = (event: DxLinkEvent) => {
   const bidPrice = toNumber(event.bidPrice)
   const askPrice = toNumber(event.askPrice)
-  if (bidPrice === null || askPrice === null) {
+  // stock_quotes is the equity endpoint: a quote needs a positive bid and ask.
+  // Zero/negative is an empty book or a bad value, not something to repair.
+  if (bidPrice === null || askPrice === null || bidPrice <= 0 || askPrice <= 0) {
     const error = {
       statusCode: 502,
       errorMessage: `Bid price: ${event.bidPrice} or Ask price: ${event.askPrice} for ${event.eventSymbol} is invalid.`,
     }
     return { response: error, requireVolumeResponse: error }
   }
+  if (bidPrice > askPrice) {
+    const error = {
+      statusCode: 502,
+      errorMessage: `Bid price: ${event.bidPrice} is greater than Ask price: ${event.askPrice} for ${event.eventSymbol}.`,
+    }
+    return { response: error, requireVolumeResponse: error }
+  }
 
-  // A side quoted at 0 has no liquidity, so the mid falls back to the other side
-  const midPrice = bidPrice === 0 ? askPrice : askPrice === 0 ? bidPrice : (bidPrice + askPrice) / 2
-  const bidVolume = toNumber(event.bidSize)
-  const askVolume = toNumber(event.askSize)
+  const midPrice = (bidPrice + askPrice) / 2
+  if (!Number.isFinite(midPrice)) {
+    const error = {
+      statusCode: 502,
+      errorMessage: `Mid price for ${event.eventSymbol} is invalid.`,
+    }
+    return { response: error, requireVolumeResponse: error }
+  }
+
+  // Volume is optional, but a negative size is not a valid size: treat it as
+  // missing rather than carrying a bad value through the response.
+  const volumeOrNull = (value: unknown): number | null => {
+    const parsed = toNumber(value)
+    return parsed !== null && parsed >= 0 ? parsed : null
+  }
+  const bidVolume = volumeOrNull(event.bidSize)
+  const askVolume = volumeOrNull(event.askSize)
 
   const response = {
     result: midPrice,

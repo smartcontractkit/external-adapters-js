@@ -3,15 +3,6 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('Config')
 
-const hasEmbeddedCredentials = (url: string): boolean => {
-  try {
-    const { username, password } = new URL(url)
-    return Boolean(username || password)
-  } catch {
-    return false
-  }
-}
-
 export const config = new AdapterConfig(
   {
     API_USERNAME: {
@@ -33,10 +24,19 @@ export const config = new AdapterConfig(
         meta: {
           details: 'Must not contain credentials',
         },
-        fn: (value?: string): string =>
-          value && hasEmbeddedCredentials(value)
-            ? 'WS_API_ENDPOINT must not contain credentials, use API_USERNAME and API_PASSWORD instead'
-            : '',
+        fn: (value?: string): string => {
+          if (!value) {
+            return ''
+          }
+          try {
+            const { username, password } = new URL(value)
+            return username || password
+              ? 'WS_API_ENDPOINT must not contain credentials, use API_USERNAME and API_PASSWORD instead'
+              : ''
+          } catch {
+            return ''
+          }
+        },
       },
     },
     API_ENDPOINT: {
@@ -61,6 +61,8 @@ export const config = new AdapterConfig(
   },
   {
     envDefaultOverrides: {
+      // dxLink's server-side keepalive timeout is 60s; the requirement is a
+      // KEEPALIVE every 30s. The framework default is 10s, so pin the cadence.
       WS_HEARTBEAT_INTERVAL_MS: 30_000,
     },
   },
