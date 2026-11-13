@@ -83,7 +83,7 @@ const PRE = 'PRETRADINGSESSION'
 const POST = 'POSTTRADINGSESSION'
 const OVERNIGHT = 'OVERNIGHT'
 
-const parseMarketSession = (data: ResponseBody) =>
+export const parseMarketSession = (data: ResponseBody) =>
   data.data.schedule
     .map((s) => {
       const type = s.phase_type.toUpperCase().replace(/[\s-]+/g, '') // All hyphens and spaces
@@ -103,6 +103,7 @@ const parseMarketSession = (data: ResponseBody) =>
         status,
         statusString: TwentyfourFiveMarketStatus[status],
         time: s.start,
+        endTime: s.end,
       }
     })
     .filter((r) => r.status !== TwentyfourFiveMarketStatus.UNKNOWN)
