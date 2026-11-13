@@ -1,0 +1,1 @@
+# @chainlink/artex-amina-adapter

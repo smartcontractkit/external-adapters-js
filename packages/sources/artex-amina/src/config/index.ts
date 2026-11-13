@@ -11,13 +11,13 @@ function validateUserId(value: unknown): string | undefined {
 export const config = new AdapterConfig(
   {
     API_ENDPOINT: {
-      description: 'api endpoint',
+      description: 'AMINA host or OpenAPI server URL; a trailing /api/b2c/v1 is stripped',
       type: 'string',
       default: 'https://integration.aminagroup.io',
       sensitive: false,
     },
     AMINA_USER_ID: {
-      description: 'user ID',
+      description: '8-digit AMINA user ID',
       type: 'string',
       required: true,
       sensitive: false,
@@ -51,10 +51,9 @@ export const config = new AdapterConfig(
     envDefaultOverrides: {
       // Framework retries replay the signed nonce (Manual p.6).
       RETRY: 0,
-      // 5 min covers the auth + page retry budget.
-      BACKGROUND_EXECUTE_TIMEOUT: 300_000,
-      CACHE_MAX_AGE: 60 * 60 * 1000,
-      WARMUP_SUBSCRIPTION_TTL: 60 * 60 * 1000,
+      // Cold start is auth (186s) + page 0 (186s); keep headroom within the
+      // framework maximum. The transport also single-flights a cache key.
+      BACKGROUND_EXECUTE_TIMEOUT: 600_000,
     },
   },
 )

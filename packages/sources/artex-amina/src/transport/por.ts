@@ -3,10 +3,14 @@ import type { TransportDependencies } from '@chainlink/external-adapter-framewor
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { type AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import {
+  AdapterConnectionError,
+  AdapterDataProviderError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import type { BaseEndpointTypes, inputParameters } from '../endpoint/por'
 import { AuthManager } from './auth'
-import { fetchAllPositions, selectQuantity } from './positions'
 import { mapAminaError } from './errors'
+import { fetchAllPositions, selectQuantity } from './positions'
 
 const logger = makeLogger('PorTransport')
 const ERROR_CACHE_TTL_MS = 60_000
@@ -17,6 +21,7 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
   settings!: BaseEndpointTypes['Settings']
   authManager!: AuthManager
+  private readonly inFlight = new Map<string, Promise<void>>()
 
   override async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -42,43 +47,85 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
     for (const param of entries) {
       const key = this.responseCache.getCacheKey(this.name, param)
       const cached = await this.responseCache.get(key)
-      if (!cached) {
-        await this.handleRequest(param)
-        didWork = true
+      if (cached) {
+        continue
       }
+      // A timed-out background execute is not cancelled by the framework and
+      // the executor starts the next one in 10ms. Share the same scan instead
+      // of starting a second auth + pagination sequence.
+      const running = this.inFlight.get(key)
+      if (running) {
+        await running
+        didWork = true
+        continue
+      }
+      const task = this.handleRequest(param, context)
+      const tracked = task.finally(() => {
+        if (this.inFlight.get(key) === tracked) {
+          this.inFlight.delete(key)
+        }
+      })
+      this.inFlight.set(key, tracked)
+      await tracked
+      didWork = true
     }
     if (!didWork) {
       await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
     }
   }
 
-  async handleRequest(param: RequestParams): Promise<void> {
+  async handleRequest(
+    param: RequestParams,
+    context: EndpointContext<BaseEndpointTypes>,
+  ): Promise<void> {
+    const key = this.responseCache.getCacheKey(this.name, param)
     let response: AdapterResponse<BaseEndpointTypes['Response']>
-    let failed = false
     try {
-      response = await this._handleRequest(param)
+      response = await this._handleRequest(param, context)
     } catch (error) {
-      failed = true
       const mapped = mapAminaError(error)
       logger.error(mapped.message)
-      response = {
+      const cached = await this.responseCache.get(key)
+      // Preserve a live report. The requirement says a failed scan writes
+      // nothing and the previous report remains until expiresAt.
+      if (cached && cached.statusCode === 200 && !cached.errorMessage) {
+        return
+      }
+      const errorTimestamps =
+        error instanceof AdapterDataProviderError || error instanceof AdapterConnectionError
+          ? error.timestamps
+          : undefined
+      const failedResponse: AdapterResponse<BaseEndpointTypes['Response']> = {
         statusCode: mapped.statusCode,
         errorMessage: mapped.message,
         timestamps: {
-          providerDataRequestedUnixMs: 0,
-          providerDataReceivedUnixMs: 0,
-          providerIndicatedTimeUnixMs: undefined,
+          providerDataRequestedUnixMs: errorTimestamps?.providerDataRequestedUnixMs ?? 0,
+          providerDataReceivedUnixMs: errorTimestamps?.providerDataReceivedUnixMs ?? 0,
+          providerIndicatedTimeUnixMs: errorTimestamps?.providerIndicatedTimeUnixMs,
         },
       }
+      await this.responseCache.write(this.name, [{ params: param, response: failedResponse }])
+      await this.responseCache.writeTTL(this.name, [param], ERROR_CACHE_TTL_MS)
+      return
+    }
+
+    const cached = await this.responseCache.get(key)
+    const candidateRequestedUnixMs = response.timestamps.providerDataRequestedUnixMs ?? 0
+    if (
+      cached &&
+      cached.timestamps?.providerDataRequestedUnixMs !== undefined &&
+      cached.timestamps.providerDataRequestedUnixMs > candidateRequestedUnixMs
+    ) {
+      // An older scan finished after a newer one; never overwrite the newer
+      // snapshot.
+      return
     }
     await this.responseCache.write(this.name, [{ params: param, response }])
-    if (failed) {
-      await this.responseCache.writeTTL(this.name, [param], ERROR_CACHE_TTL_MS)
-    }
   }
 
   async _handleRequest(
     param: RequestParams,
+    context: EndpointContext<BaseEndpointTypes>,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const result = await fetchAllPositions({
       requester: this.requester,
@@ -90,6 +137,8 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
         agreementNumber: this.settings.AMINA_AGREEMENT_NUMBER,
       },
       portfolioNo: param.portfolioNo,
+      context,
+      transportName: this.name,
     })
 
     const quantity = selectQuantity(result.positions, param.isin)

@@ -1,9 +1,12 @@
+import type { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { sleep } from '@chainlink/external-adapter-framework/util'
 import {
   setEnvVariables,
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
+import type { BaseEndpointTypes } from '../../src/endpoint/por'
+import { inputParameters } from '../../src/endpoint/por'
 import { porTransport } from '../../src/transport/por'
 import { DEFAULT_RETRY } from '../../src/transport/retry'
 import {
@@ -165,8 +168,54 @@ describe('execute', () => {
 
       expect(response.statusCode).toBe(502)
       expect(response.json().errorMessage).toBe(message)
+      expect(response.json().timestamps.providerDataRequestedUnixMs).toBeGreaterThan(0)
+      expect(response.json().timestamps.providerDataReceivedUnixMs).toBeGreaterThan(0)
     },
   )
+
+  it('preserves a live report when a later scan fails', async () => {
+    let positionsCalls = 0
+    mockPositions(
+      0,
+      page({ positions: [position(ISIN, 12345.6789)] }),
+      ACCESS_TOKEN,
+      () => (positionsCalls += 1),
+    ).persist()
+
+    const first = await testAdapter.request({
+      endpoint: 'por',
+      portfolioNo: PORTFOLIO_NO,
+      isin: ISIN,
+    })
+    expect(first.statusCode).toBe(200)
+    expect(positionsCalls).toBe(1)
+
+    nock.cleanAll()
+    mockPositionsError(0, 500)
+
+    const context = {
+      endpointName: 'por',
+      inputParameters,
+      adapterSettings: porTransport.settings,
+    } as unknown as EndpointContext<BaseEndpointTypes>
+    await porTransport.handleRequest({ portfolioNo: PORTFOLIO_NO, isin: ISIN }, context)
+
+    const cache = testAdapter.mockCache?.cache
+    const entry = [...(cache?.values() ?? [])][0] as
+      | { data: { expirationTimestamp: number } }
+      | undefined
+    expect(entry).toBeDefined()
+    const remainingTtl = entry ? entry.data.expirationTimestamp - Date.now() : 0
+    expect(remainingTtl).toBeGreaterThan(300_000)
+
+    const second = await testAdapter.request({
+      endpoint: 'por',
+      portfolioNo: PORTFOLIO_NO,
+      isin: ISIN,
+    })
+    expect(second.statusCode).toBe(200)
+    expect(second.json().data.aum).toBe(12345.6789)
+  })
 
   it('refreshes the token after a 401 and returns the position', async () => {
     mockPositionsError(0, 401)

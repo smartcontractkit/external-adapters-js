@@ -2,7 +2,6 @@ import { sleep } from '@chainlink/external-adapter-framework/util'
 import {
   AdapterConnectionError,
   AdapterDataProviderError,
-  AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
 
 export interface RetryOptions {
@@ -18,7 +17,7 @@ export const DEFAULT_RETRY: RetryOptions = {
 }
 
 export function isRetryableError(error: unknown): boolean {
-  if (error instanceof AdapterConnectionError || error instanceof AdapterRateLimitError) {
+  if (error instanceof AdapterConnectionError) {
     return true
   }
   if (!(error instanceof AdapterDataProviderError)) {

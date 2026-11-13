@@ -1,9 +1,12 @@
+import { censor } from '@chainlink/external-adapter-framework/util'
+import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 import { AuthManager } from '../../src/transport/auth'
 
 const NOW = new Date('2026-11-05T00:00:00Z').getTime()
 const HOUR_MS = 60 * 60 * 1000
+const ORIGINAL_CENSOR_LIST = CensorList.getAll()
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
 const timestamps = {
@@ -42,6 +45,7 @@ describe('AuthManager', () => {
   })
 
   afterEach(() => {
+    CensorList.set(ORIGINAL_CENSOR_LIST)
     jest.useRealTimers()
   })
 
@@ -60,6 +64,19 @@ describe('AuthManager', () => {
     })
     expect(request.headers?.['X-Request-Id']).toMatch(UUID)
     expect(request.headers?.['X-Correlation-Id']).toMatch(UUID)
+  })
+
+  it('registers the runtime tokens with the framework censor list', async () => {
+    requester.request.mockResolvedValueOnce(authResponse('access-1', 'refresh-1'))
+
+    await manager.getAccessToken()
+
+    const censored = censor(
+      { Authorization: 'Bearer access-1', refreshToken: 'refresh-1' },
+      CensorList.getAll(),
+    ) as { Authorization: string; refreshToken: string }
+    expect(censored.Authorization).not.toContain('access-1')
+    expect(censored.refreshToken).not.toContain('refresh-1')
   })
 
   it('shares one login across concurrent callers', async () => {

@@ -1,10 +1,12 @@
+import type { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import {
   AdapterDataProviderError,
   AdapterError,
 } from '@chainlink/external-adapter-framework/validation/error'
+import type { BaseEndpointTypes } from '../endpoint/por'
 import type { AuthManager } from './auth'
-import { mapAminaError } from './errors'
 import { positionsPath, trimEndpoint } from './paths'
 import { DEFAULT_RETRY, withRetry } from './retry'
 import { buildSignedGetHeaders } from './signing'
@@ -49,6 +51,8 @@ export interface FetchPositionsArgs {
   auth: AuthManager
   settings: PositionsSettings
   portfolioNo: number
+  context: EndpointContext<BaseEndpointTypes>
+  transportName: string
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -136,11 +140,16 @@ function checkPage(
 }
 
 async function fetchPage(args: FetchPositionsArgs, pageNo: number): Promise<PageResult> {
-  const { requester, auth, settings, portfolioNo } = args
+  const { requester, auth, settings, portfolioNo, context, transportName } = args
   const uri = positionsPath(portfolioNo)
+  const requestKey = calculateHttpRequestKey({
+    context,
+    data: { portfolioNo, pageNo },
+    transportName,
+  })
 
   const makeRequest = (token: string) =>
-    requester.request<unknown>(`amina-positions:${portfolioNo}:${pageNo}`, {
+    requester.request<unknown>(requestKey, {
       method: 'GET',
       baseURL: trimEndpoint(settings.apiEndpoint),
       url: `${uri}?page=${pageNo}&size=${PAGE_SIZE}`,
@@ -162,7 +171,9 @@ async function fetchPage(args: FetchPositionsArgs, pageNo: number): Promise<Page
     result = await requestPage(token)
   } catch (error) {
     if (!(error instanceof AdapterDataProviderError && error.providerStatusCode === 401)) {
-      throw mapAminaError(error)
+      // Let the transport map it: the original error carries the provider
+      // request/receive timestamps that the 502 response must preserve.
+      throw error
     }
     result = await requestPage(await auth.refreshAfter401())
   }

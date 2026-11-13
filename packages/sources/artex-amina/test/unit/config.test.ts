@@ -34,26 +34,23 @@ describe('AMINA config', () => {
     jest.resetModules()
   })
 
-  it('applies the nonce-safe retry and background timeout defaults', async () => {
-    const { config } = await import('../../src/config')
-    config.initialize()
-    config.validate()
+  it('applies the nonce-safe retry, PoR cache, and background timeout defaults', async () => {
+    const { adapter } = await import('../../src')
 
-    expect(config.settings).toMatchObject({
+    expect(adapter.config.settings).toMatchObject({
       RETRY: 0,
-      BACKGROUND_EXECUTE_TIMEOUT: 300_000,
-      CACHE_MAX_AGE: 3_600_000,
-      WARMUP_SUBSCRIPTION_TTL: 3_600_000,
+      API_TIMEOUT: 60_000,
+      BACKGROUND_EXECUTE_TIMEOUT: 600_000,
+      CACHE_MAX_AGE: 360_000,
+      WARMUP_SUBSCRIPTION_TTL: 300_000,
     })
   })
 
   it('defaults to the production endpoint', async () => {
     setEnv({ API_ENDPOINT: undefined })
-    const { config } = await import('../../src/config')
-    config.initialize()
-    config.validate()
+    const { adapter } = await import('../../src')
 
-    expect(config.settings.API_ENDPOINT).toBe('https://integration.aminagroup.io')
+    expect(adapter.config.settings.API_ENDPOINT).toBe('https://integration.aminagroup.io')
   })
 
   it('rejects a user ID that is too short', async () => {

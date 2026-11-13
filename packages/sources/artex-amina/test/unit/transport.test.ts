@@ -1,10 +1,15 @@
+import type { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import {
   AdapterConnectionError,
   AdapterDataProviderError,
+  AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
+import type { BaseEndpointTypes } from '../../src/endpoint/por'
 import type { AuthManager } from '../../src/transport/auth'
 import { mapAminaError } from '../../src/transport/errors'
+import { trimEndpoint } from '../../src/transport/paths'
 import { fetchAllPositions } from '../../src/transport/positions'
 import { DEFAULT_RETRY, isRetryableError, retryDelay, withRetry } from '../../src/transport/retry'
 import { buildSignedGetHeaders } from '../../src/transport/signing'
@@ -53,14 +58,56 @@ function connectionError(): AdapterConnectionError {
   return new AdapterConnectionError({ statusCode: 502, message: 'connection failed' }, timestamps)
 }
 
+beforeAll(() => {
+  const log = {
+    trace: jest.fn(),
+    debug: jest.fn(),
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+    fatal: jest.fn(),
+  }
+  LoggerFactoryProvider.set({ child: () => log as never })
+})
+
+afterAll(() => {
+  LoggerFactoryProvider.set(undefined)
+})
+
+const context = {
+  endpointName: 'por',
+  inputParameters: { definition: {} },
+  adapterSettings: {
+    MAX_COMMON_KEY_SIZE: 300,
+    FEED_ID_JSON: false,
+    DEFAULT_CACHE_KEY: 'DEFAULT_CACHE_KEY',
+  },
+} as unknown as EndpointContext<BaseEndpointTypes>
+
 function fetchPositions(requester: { request: jest.Mock }) {
   return fetchAllPositions({
     requester: requester as unknown as Requester,
     auth: { getAccessToken: async () => 'token' } as unknown as AuthManager,
     settings,
     portfolioNo: PORTFOLIO_NO,
+    context,
+    transportName: 'default_single_transport',
   })
 }
+
+describe('endpoint normalization', () => {
+  it('accepts the host-only and canonical OpenAPI server forms', () => {
+    expect(trimEndpoint('https://integration.aminagroup.io')).toBe(
+      'https://integration.aminagroup.io',
+    )
+    expect(trimEndpoint('https://integration.aminagroup.io/')).toBe(
+      'https://integration.aminagroup.io',
+    )
+    expect(trimEndpoint('https://integration.aminagroup.io/api/b2c/v1')).toBe(
+      'https://integration.aminagroup.io',
+    )
+  })
+})
 
 describe('HMAC signing', () => {
   it('builds the manual HMAC-SHA256 example', () => {
@@ -143,6 +190,11 @@ describe('fetchAllPositions', () => {
       'malformed',
     ],
     [
+      'a quantity above the 4-dp JavaScript-safe cap',
+      page({ positions: [{ isin: ISIN, quantity: 1e12 }] }),
+      'malformed',
+    ],
+    [
       'a quantity outside the v9 integer range',
       page({ positions: [{ isin: ISIN, quantity: 1e60 }] }),
       'malformed',
@@ -215,6 +267,15 @@ describe('retry policy', () => {
     ['a connection failure', connectionError(), true],
     ['a 401 response', providerError(401), false],
     ['a 403 response', providerError(403), false],
+    [
+      'a framework queue overflow',
+      new AdapterRateLimitError({
+        statusCode: 429,
+        message: 'Too many requests in the queue',
+        msUntilNextExecution: 60_000,
+      }),
+      false,
+    ],
   ]
 
   it.each(retryableErrors)('classifies %s as retryable=%s', (_, error, expected) => {
