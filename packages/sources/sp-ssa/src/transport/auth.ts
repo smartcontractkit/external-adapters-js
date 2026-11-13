@@ -67,6 +67,7 @@ export class AuthManager {
 
   invalidate(): void {
     this.cached = undefined
+    this.refreshRetryAtMs = 0
   }
 
   ensureCachedTokenCensored(): void {
@@ -162,6 +163,7 @@ export class AuthManager {
     AuthManager.registerCensoredToken(accessToken)
     const expiresInMs = expiresInSeconds * 1000
     const refreshMarginMs = Math.min(AuthManager.REFRESH_MARGIN_MS, expiresInMs / 2)
+    this.refreshRetryAtMs = 0
     this.cached = {
       token: accessToken,
       refreshAtMs: Date.now() + expiresInMs - refreshMarginMs,

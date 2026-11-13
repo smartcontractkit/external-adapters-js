@@ -4,12 +4,13 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import {
   makeLogger,
+  SingleNumberResultResponse,
   sleep,
   TimestampedProviderResult,
 } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/ssa'
 import { AuthManager } from './auth'
 import { config } from '../config'
 import {
@@ -22,6 +23,27 @@ import {
 import { parseProviderRecords, parseScore, parseTimestamp, selectRecord } from './utils'
 
 const logger = makeLogger('SsaTransport')
+
+export const inputParameters = new InputParameters(
+  {
+    security_id: {
+      description: 'The S&P security identifier to report, for example SP-EURC',
+      type: 'string',
+      required: true,
+    },
+  },
+  [
+    {
+      security_id: 'SP-EURC',
+    },
+  ],
+)
+
+export type BaseEndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
+}
 
 type RequestParams = typeof inputParameters.validated
 
@@ -41,6 +63,7 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
   authManager!: AuthManager
   private generation = 0
   private authFailureUntil = 0
+  private writeQueue: Promise<void> = Promise.resolve()
 
   override async initialize(
     dependencies: TransportDependencies<SsaTransportTypes>,
@@ -145,7 +168,7 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
         }
       })
       if (results.length > 0) {
-        await this.writeResults(results)
+        await this.enqueueWrite(results, generation)
       }
     } catch (e) {
       if (generation !== this.generation) {
@@ -165,12 +188,26 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
           timestamps,
         },
       }))
-      await this.writeResults(results)
+      await this.enqueueWrite(results, generation)
     }
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: SsaTransportTypes['Settings']): number {
     return adapterSettings.WARMUP_SUBSCRIPTION_TTL
+  }
+
+  private enqueueWrite(
+    results: TimestampedProviderResult<SsaTransportTypes>[],
+    generation: number,
+  ): Promise<void> {
+    const write = this.writeQueue.then(async () => {
+      if (generation !== this.generation) {
+        return
+      }
+      await this.writeResults(results)
+    })
+    this.writeQueue = write.catch(() => undefined)
+    return write
   }
 
   private async writeResults(

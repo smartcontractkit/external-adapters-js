@@ -33,7 +33,7 @@ describe('AuthManager', () => {
     ['refreshes inside the refresh margin', 1_500_001, false, 2, 1800, false],
     ['refreshes after invalidate', 1000, true, 2, 1800, false],
     ['reuses a short-lived token for half its lifetime', 61_000, false, 2, 120, false],
-    ['falls back to a still-valid token on refresh failure', 1_500_001, false, 2, 1800, true],
+    ['falls back to a still-valid token on refresh failure', 1_500_001, false, 3, 1800, true],
     ['rejects an expired token when the refresh fails', 2_500, false, 2, 2, true],
   ])('%s', async (_, advanceMs, invalidate, expectedCalls, expiresIn, failRefresh) => {
     const requester = makeStub('requester', { request: jest.fn() })
@@ -41,6 +41,7 @@ describe('AuthManager', () => {
       requester.request
         .mockResolvedValueOnce(tokenResponse('token-1', expiresIn))
         .mockRejectedValueOnce(new Error('mint failed'))
+        .mockResolvedValueOnce(tokenResponse('token-2', expiresIn))
     } else {
       requester.request.mockResolvedValue(tokenResponse('token-1', expiresIn))
     }
@@ -59,6 +60,8 @@ describe('AuthManager', () => {
         expect(second).toBe('token-1')
         const third = await manager.getToken()
         expect(third).toBe('token-1')
+        manager.invalidate()
+        await expect(manager.getToken()).resolves.toBe('token-2')
       }
     } else {
       await manager.getToken()

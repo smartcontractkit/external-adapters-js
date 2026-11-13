@@ -252,20 +252,49 @@ describe('SsaTransport', () => {
       }
       return Promise.resolve(
         dataResponse([
-          record({ security_id: 'SP-RACE', last_modified_date_time: '2025-01-17T00:00Z' }),
+          record({
+            security_id: 'SP-RACE',
+            ssa: '5',
+            last_modified_date_time: '2025-01-17T00:00Z',
+          }),
         ]),
       )
     })
+    const baseWrite = responseCache.write.getMockImplementation()
+    let releaseWrite: (() => void) | undefined
+    const writeGate = new Promise<void>((resolve) => {
+      releaseWrite = resolve
+    })
+    let blocked = false
+    responseCache.write.mockImplementation(
+      async (name: string, results: { params: { security_id: string }; response: unknown }[]) => {
+        if (!blocked) {
+          blocked = true
+          await writeGate
+        }
+        await baseWrite?.(name, results)
+      },
+    )
+
     const first = transport.backgroundHandler(context, [{ security_id: 'SP-RACE' }])
-    const second = transport.backgroundHandler(context, [{ security_id: 'SP-RACE' }])
-    await second
     resolveFirstData?.(
       dataResponse([
-        record({ security_id: 'SP-RACE', last_modified_date_time: '2024-12-04T00:00Z' }),
+        record({
+          security_id: 'SP-RACE',
+          ssa: '1',
+          last_modified_date_time: '2024-12-04T00:00Z',
+        }),
       ]),
     )
-    await first
-    expect(responseCache.write).toHaveBeenCalledTimes(3)
+    await new Promise((resolve) => setImmediate(resolve))
+    const second = transport.backgroundHandler(context, [{ security_id: 'SP-RACE' }])
+    releaseWrite?.()
+    await Promise.all([first, second])
+
+    expect(responseCache.write).toHaveBeenCalledTimes(4)
+    const final = cacheStore.get('cache-key-SP-RACE') as { result?: number } | undefined
+    expect(final?.result).toBe(5)
+    responseCache.write.mockImplementation(baseWrite!)
   })
 })
 
