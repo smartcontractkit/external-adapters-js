@@ -29,10 +29,7 @@ export class SsaAuthError extends AdapterError {
       cause: error,
       providerStatusCode: error instanceof AdapterError ? error.providerStatusCode : undefined,
     })
-    const timestamps = (error as { timestamps?: ResponseTimestamps })?.timestamps
-    if (timestamps) {
-      this.timestamps = timestamps
-    }
+    this.timestamps = (error as { timestamps?: ResponseTimestamps })?.timestamps
   }
 }
 
