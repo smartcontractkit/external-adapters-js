@@ -26,53 +26,46 @@ const validateWsEndpoint = (value?: string): string => {
   }
 }
 
-export const config = new AdapterConfig(
-  {
-    API_USERNAME: {
-      description: 'username for dxfeed API',
-      type: 'string',
-      sensitive: false,
-    },
-    API_PASSWORD: {
-      description: 'password for dxfeed API',
-      type: 'string',
-      sensitive: true,
-    },
-    WS_API_ENDPOINT: {
-      description:
-        'The dxLink websocket url for dxfeed. Credentials are taken from API_USERNAME and API_PASSWORD, not the url',
-      type: 'string',
-      sensitive: true,
-      validate: {
-        meta: {
-          details: 'Must be the dxLink endpoint and must not contain credentials',
-        },
-        fn: validateWsEndpoint,
+export const config = new AdapterConfig({
+  API_USERNAME: {
+    description: 'username for dxfeed API',
+    type: 'string',
+    sensitive: false,
+  },
+  API_PASSWORD: {
+    description: 'password for dxfeed API',
+    type: 'string',
+    sensitive: true,
+  },
+  WS_API_ENDPOINT: {
+    description:
+      'The dxLink websocket url for dxfeed. Credentials are taken from API_USERNAME and API_PASSWORD, not the url',
+    type: 'string',
+    sensitive: true,
+    validate: {
+      meta: {
+        details: 'Must be the dxLink endpoint and must not contain credentials',
       },
-    },
-    API_ENDPOINT: {
-      description: 'The API url for dxfeed',
-      type: 'string',
-      default: 'https://tools.dxfeed.com/webservice/rest',
-      validate: {
-        meta: {
-          details: 'API endpoint warning',
-        },
-        fn: (value?: string): string => {
-          if (value === 'https://tools.dxfeed.com/webservice/rest') {
-            logger.warn(
-              `Using demo endpoint: https://tools.dxfeed.com/webservice/rest (Please do not use in production!)`,
-            )
-          }
-          return ''
-        },
-      },
-      sensitive: false,
+      fn: validateWsEndpoint,
     },
   },
-  {
-    envDefaultOverrides: {
-      WS_HEARTBEAT_INTERVAL_MS: 30_000,
+  API_ENDPOINT: {
+    description: 'The API url for dxfeed',
+    type: 'string',
+    default: 'https://tools.dxfeed.com/webservice/rest',
+    validate: {
+      meta: {
+        details: 'API endpoint warning',
+      },
+      fn: (value?: string): string => {
+        if (value === 'https://tools.dxfeed.com/webservice/rest') {
+          logger.warn(
+            `Using demo endpoint: https://tools.dxfeed.com/webservice/rest (Please do not use in production!)`,
+          )
+        }
+        return ''
+      },
     },
+    sensitive: false,
   },
-)
+})

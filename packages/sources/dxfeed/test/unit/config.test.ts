@@ -54,7 +54,7 @@ describe('dxfeed config env surface', () => {
     expect(config.settings.WS_API_ENDPOINT ?? null).toBeNull()
   })
 
-  it('accepts a dxLink URL and pins the 30s heartbeat', async () => {
+  it('accepts a dxLink URL and uses the framework heartbeat default', async () => {
     setValidEnv()
     const config = await importFreshConfig()
     expect(() => {
@@ -63,7 +63,7 @@ describe('dxfeed config env surface', () => {
     }).not.toThrow()
     expect(config.settings.WS_API_ENDPOINT).toBe(VALID_WS_URL)
     expect(config.settings.API_ENDPOINT).toBe(REST_DEFAULT)
-    expect(config.settings.WS_HEARTBEAT_INTERVAL_MS).toBe(30000)
+    expect(config.settings.WS_HEARTBEAT_INTERVAL_MS).toBe(10000)
   })
 
   it.each([
