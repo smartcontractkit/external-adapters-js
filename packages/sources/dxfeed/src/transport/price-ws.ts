@@ -2,6 +2,11 @@ import { BaseEndpointTypes } from '../endpoint/price'
 import { DxLinkEvent, DxLinkEventType, DxLinkTransport } from './dxlink'
 import { toNumber } from './utils'
 
+// Session-agnostic by design: price has no session parameter, so the newest
+// provider time wins across Trade and TradeETH. After a restart a regular
+// Trade can be served to an extended/overnight stream until the newer TradeETH
+// replay arrives; the reconnect snapshot burst closes that window. This is
+// incumbent behaviour, not a regression.
 export class PriceTransport extends DxLinkTransport<BaseEndpointTypes> {
   constructor() {
     // Negotiate both field sets; eventTypesForSymbol gates the subscriptions.

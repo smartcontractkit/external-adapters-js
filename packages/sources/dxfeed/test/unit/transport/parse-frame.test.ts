@@ -338,6 +338,22 @@ describe('dxLink COMPACT frame parsing', () => {
     expect(body.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000009000)
   })
 
+  it('serves the regular-session Trade on a cold start until the newer TradeETH replay arrives', async () => {
+    seedTrade('Trade', 'RESTART:USLF24', 1760000000000, 189.98)
+    const before = await priceBody('RESTART')
+    expect(before.data.result).toBe(189.98)
+    expect(before.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000000000)
+
+    server.push(
+      tradeFrame('TradeETH', tradeRecord('TradeETH', 'RESTART:USLF24', 1760000005000, 191.5)),
+    )
+    await flushFrames(testAdapter)
+
+    const after = await priceBody('RESTART')
+    expect(after.data.result).toBe(191.5)
+    expect(after.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000005000)
+  })
+
   it('drops an older frame that arrives after a newer one', async () => {
     seedTrade('Trade', 'OLD:USLF24', 1760000005000, 200)
     const first = await priceBody('OLD')
