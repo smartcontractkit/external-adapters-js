@@ -40,9 +40,11 @@ export class AuthManager {
   async getToken(): Promise<string> {
     const now = Date.now()
     if (this.cached && now < this.cached.refreshAtMs) {
+      AuthManager.ensureCensored(this.cached.token)
       return this.cached.token
     }
-    if (this.cached && now < this.refreshRetryAtMs) {
+    if (this.cached && now < this.refreshRetryAtMs && now < this.cached.expiresAtMs) {
+      AuthManager.ensureCensored(this.cached.token)
       return this.cached.token
     }
     if (this.pending) {
@@ -80,6 +82,16 @@ export class AuthManager {
       ...recent,
       { key: 'ACCESS_TOKEN', value: new RegExp(boundary, 'g') },
     ])
+  }
+
+  private static ensureCensored(token: string): void {
+    const escaped = AuthManager.escapeRegExp(token)
+    const present = CensorList.getAll().some(
+      (entry) => entry.key === 'ACCESS_TOKEN' && entry.value.source.includes(escaped),
+    )
+    if (!present) {
+      AuthManager.registerCensoredToken(token)
+    }
   }
 
   private async requestToken(): Promise<string> {

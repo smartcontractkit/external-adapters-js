@@ -11,6 +11,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/ssa'
 import { AuthManager } from './auth'
+import { config } from '../config'
 import {
   errorMessage,
   errorTimestamps,
@@ -40,7 +41,6 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
   authManager!: AuthManager
   private generation = 0
   private authFailureUntil = 0
-  private readonly latestProviderTimeMs = new Map<string, number>()
 
   override async initialize(
     dependencies: TransportDependencies<SsaTransportTypes>,
@@ -56,6 +56,7 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
       TOKEN_ENDPOINT: adapterSettings.TOKEN_ENDPOINT,
       CLIENT_ID: adapterSettings.CLIENT_ID,
     })
+    config.buildCensorList()
     try {
       await this.authManager.getToken()
     } catch {
@@ -108,45 +109,38 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
       if (generation !== this.generation) {
         return
       }
-      const results = entries
-        .map((entry): TimestampedProviderResult<SsaTransportTypes> | undefined => {
-          try {
-            const record = selectRecord(records, entry.security_id)
-            const result = parseScore(record.ssa)
-            const providerIndicatedTimeUnixMs = parseTimestamp(record.last_modified_date_time)
-            const previousTime = this.latestProviderTimeMs.get(entry.security_id)
-            if (previousTime !== undefined && providerIndicatedTimeUnixMs < previousTime) {
-              return undefined
-            }
-            this.latestProviderTimeMs.set(entry.security_id, providerIndicatedTimeUnixMs)
-            return {
-              params: entry,
-              response: {
-                result,
-                data: { result },
-                timestamps: {
-                  ...providerResponse.timestamps,
-                  providerIndicatedTimeUnixMs,
-                },
+      const results = entries.map((entry): TimestampedProviderResult<SsaTransportTypes> => {
+        try {
+          const record = selectRecord(records, entry.security_id)
+          const result = parseScore(record.ssa)
+          const providerIndicatedTimeUnixMs = parseTimestamp(record.last_modified_date_time)
+          return {
+            params: entry,
+            response: {
+              result,
+              data: { result },
+              timestamps: {
+                ...providerResponse.timestamps,
+                providerIndicatedTimeUnixMs,
               },
-            }
-          } catch (e) {
-            return {
-              params: entry,
-              response: {
-                statusCode: 502,
-                errorMessage: `The data provider returned invalid data for security_id ${
-                  entry.security_id
-                }: ${e instanceof Error ? e.message : 'unknown error'}`,
-                timestamps: {
-                  ...providerResponse.timestamps,
-                  providerIndicatedTimeUnixMs: undefined,
-                },
-              },
-            }
+            },
           }
-        })
-        .filter((result): result is TimestampedProviderResult<SsaTransportTypes> => !!result)
+        } catch (e) {
+          return {
+            params: entry,
+            response: {
+              statusCode: 502,
+              errorMessage: `The data provider returned invalid data for security_id ${
+                entry.security_id
+              }: ${e instanceof Error ? e.message : 'unknown error'}`,
+              timestamps: {
+                ...providerResponse.timestamps,
+                providerIndicatedTimeUnixMs: undefined,
+              },
+            },
+          }
+        }
+      })
       if (results.length > 0) {
         await this.writeResults(results)
       }

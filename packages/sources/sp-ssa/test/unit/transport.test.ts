@@ -3,9 +3,18 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub, setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
+import { config } from '../../src/config'
 import '../../src/endpoint/ssa'
 import { SsaTransport, SsaTransportTypes } from '../../src/transport/ssa'
 import { parseScore, parseTimestamp } from '../../src/transport/utils'
+
+beforeAll(() => {
+  process.env.API_ENDPOINT = 'http://api.com'
+  process.env.TOKEN_ENDPOINT = 'http://token.com/token'
+  process.env.CLIENT_ID = 'client-id'
+  process.env.API_KEY = 'api-key'
+  config.initialize()
+})
 
 const log = jest.fn()
 const mockLogger = {
@@ -164,7 +173,7 @@ describe('SsaTransport', () => {
     expect(written[0].response.errorMessage).toContain('SSA score')
   })
 
-  it('backs off after a persistent provider 401', async () => {
+  it('recovers from one 401 and backs off after a persistent one', async () => {
     const authError = new AdapterDataProviderError(
       { statusCode: 502, message: 'unauthorized', providerStatusCode: 401 },
       {
@@ -173,21 +182,47 @@ describe('SsaTransport', () => {
         providerIndicatedTimeUnixMs: undefined,
       },
     )
+    const freshToken = {
+      response: { data: { access_token: 'fresh-token', expires_in: 1800 }, status: 200 },
+      timestamps: { providerDataRequestedUnixMs: 1, providerDataReceivedUnixMs: 2 },
+    }
     requester.request
       .mockRejectedValueOnce(authError)
-      .mockResolvedValueOnce(tokenResponse)
+      .mockResolvedValueOnce(freshToken)
+      .mockResolvedValueOnce(dataResponse([record({ security_id: 'SP-RECOVER' })]))
+    await transport.backgroundHandler(context, [{ security_id: 'SP-RECOVER' }])
+    expect(requester.request).toHaveBeenCalledTimes(3)
+    expect(requester.request).toHaveBeenNthCalledWith(
+      3,
+      expect.any(String),
+      expect.objectContaining({
+        headers: expect.objectContaining({ Authorization: 'Bearer fresh-token' }),
+      }),
+    )
+    expect(responseCache.write).toHaveBeenLastCalledWith('default_single_transport', [
+      expect.objectContaining({
+        response: expect.objectContaining({ result: 2 }),
+      }),
+    ])
+
+    const persistent = new SsaTransport()
+    requester.request.mockReset()
+    requester.request.mockResolvedValueOnce(tokenResponse)
+    await persistent.initialize(dependencies, adapterSettings, 'ssa', 'default_single_transport')
+    requester.request.mockReset()
+    requester.request
       .mockRejectedValueOnce(authError)
-
-    await transport.backgroundHandler(context, [{ security_id: 'SP-401' }])
+      .mockResolvedValueOnce(freshToken)
+      .mockRejectedValueOnce(authError)
+    await persistent.backgroundHandler(context, [{ security_id: 'SP-401' }])
     const callsAfterFirst = requester.request.mock.calls.length
-    await transport.backgroundHandler(context, [{ security_id: 'SP-401' }])
-
-    expect(requester.request.mock.calls.length).toBe(callsAfterFirst)
+    await persistent.backgroundHandler(context, [{ security_id: 'SP-401' }])
     expect(callsAfterFirst).toBe(3)
-    expect(responseCache.write).toHaveBeenCalledTimes(1)
+    expect(requester.request.mock.calls.length).toBe(3)
+    expect(responseCache.write).toHaveBeenCalledTimes(2)
   })
 
-  it('drops stale and overlapping results', async () => {
+  it('publishes a backdated provider response and drops an overlapping older handler', async () => {
     requester.request.mockResolvedValueOnce(
       dataResponse([
         record({ security_id: 'SP-STALE', last_modified_date_time: '2025-01-17T00:00Z' }),
@@ -200,7 +235,7 @@ describe('SsaTransport', () => {
       ]),
     )
     await transport.backgroundHandler(context, [{ security_id: 'SP-STALE' }])
-    expect(responseCache.write).toHaveBeenCalledTimes(1)
+    expect(responseCache.write).toHaveBeenCalledTimes(2)
 
     let resolveFirstData: ((value: ReturnType<typeof dataResponse>) => void) | undefined
     const firstData = new Promise<ReturnType<typeof dataResponse>>((resolve) => {
@@ -230,7 +265,7 @@ describe('SsaTransport', () => {
       ]),
     )
     await first
-    expect(responseCache.write).toHaveBeenCalledTimes(2)
+    expect(responseCache.write).toHaveBeenCalledTimes(3)
   })
 })
 
@@ -254,5 +289,7 @@ describe('adapter configuration', () => {
     expect(tier?.rateLimit1m).toBe(300)
     expect(tier?.note ?? '').toContain('RATE_LIMIT_CAPACITY_MINUTE')
     expect(adapter.config.settings.RATE_LIMITING_STRATEGY).toBe('fixed-interval')
+    expect(adapter.config.settings.API_TIMEOUT).toBe(10_000)
+    expect(adapter.config.settings.RETRY).toBe(0)
   })
 })

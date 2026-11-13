@@ -1,4 +1,4 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { NumericResultEndpoint } from '@chainlink/external-adapter-framework/adapter/numeric-result'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import type { config } from '../config'
@@ -25,7 +25,7 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new NumericResultEndpoint({
   name: 'ssa',
   aliases: [],
   transport: ssaTransport,

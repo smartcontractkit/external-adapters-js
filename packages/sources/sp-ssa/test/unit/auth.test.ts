@@ -33,6 +33,7 @@ describe('AuthManager', () => {
     ['refreshes after invalidate', 1000, true, 2, 1800, false],
     ['reuses a short-lived token for half its lifetime', 61_000, false, 2, 120, false],
     ['falls back to a still-valid token on refresh failure', 1_500_001, false, 2, 1800, true],
+    ['rejects an expired token when the refresh fails', 2_500, false, 2, 2, true],
   ])('%s', async (_, advanceMs, invalidate, expectedCalls, expiresIn, failRefresh) => {
     const requester = makeStub('requester', { request: jest.fn() })
     if (failRefresh) {
@@ -49,11 +50,17 @@ describe('AuthManager', () => {
     if (invalidate) {
       manager.invalidate()
     }
-    const second = await manager.getToken()
     if (failRefresh) {
-      expect(second).toBe('token-1')
-      const third = await manager.getToken()
-      expect(third).toBe('token-1')
+      if (advanceMs >= expiresIn * 1000) {
+        await expect(manager.getToken()).rejects.toThrow('mint failed')
+      } else {
+        const second = await manager.getToken()
+        expect(second).toBe('token-1')
+        const third = await manager.getToken()
+        expect(third).toBe('token-1')
+      }
+    } else {
+      await manager.getToken()
     }
 
     expect(CensorList.getAll().some((entry) => entry.key === 'ACCESS_TOKEN')).toBe(true)
@@ -116,17 +123,19 @@ describe('AuthManager', () => {
     expect(requester.request).toHaveBeenCalledTimes(1)
   })
 
-  it.each([
-    [{ access_token: undefined, expires_in: 1800 }],
-    [{ access_token: '', expires_in: 1800 }],
-    [{ access_token: '   ', expires_in: 1800 }],
-    [{ access_token: 'token', expires_in: 'abc' }],
-    [{ access_token: 'token', expires_in: 0 }],
-    [{ access_token: 'token', expires_in: true }],
-  ])('rejects an unusable token response %p', async (body) => {
+  it.each<[number, Record<string, unknown>]>([
+    [200, { access_token: undefined, expires_in: 1800 }],
+    [200, { access_token: '', expires_in: 1800 }],
+    [200, { access_token: '   ', expires_in: 1800 }],
+    [200, { access_token: 'token', expires_in: 'abc' }],
+    [200, { access_token: 'token', expires_in: 0 }],
+    [200, { access_token: 'token', expires_in: true }],
+    [201, { access_token: 'token', expires_in: 1800 }],
+    [401, { errorCode: 'invalid_client' }],
+  ])('rejects an unusable token response (status %i, %p)', async (status, body) => {
     const requester = makeStub('requester', { request: jest.fn() })
     requester.request.mockResolvedValue({
-      response: { data: body, status: 200 },
+      response: { data: body, status },
       timestamps: { providerDataRequestedUnixMs: 1, providerDataReceivedUnixMs: 2 },
     })
     const manager = new AuthManager(requester as unknown as Requester, settings)

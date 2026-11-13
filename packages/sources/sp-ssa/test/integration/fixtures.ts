@@ -22,4 +22,10 @@ export const scoresFixture = (records?: Record<string, unknown>[]) =>
       security_id: 'SP-GUSD',
       security_name: 'GUSD',
     }),
+    providerRecord({
+      last_modified_date_time: 'not-a-date',
+      security_id: 'SP-UNRELATED',
+      security_name: 'UNRELATED',
+      ssa: 'not-assessed',
+    }),
   ]

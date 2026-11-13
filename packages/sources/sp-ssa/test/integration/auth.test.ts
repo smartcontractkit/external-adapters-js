@@ -58,6 +58,9 @@ describe('auth', () => {
     nowMs += 61_000
     spy.mockReturnValue(nowMs)
     transport.authManager.invalidate()
+    // A late background 401 from the previous case can set the cooldown after
+    // the clock move; reset it so each case starts without a stale cooldown.
+    ;(transport as unknown as { authFailureUntil: number }).authFailureUntil = 0
     tokenHandler = () => [200, tokenFixture]
     dataHandler = () => [200, scoresFixture()]
   })
@@ -70,31 +73,9 @@ describe('auth', () => {
     spy.mockRestore()
   })
 
-  it.each([
-    [
-      'HTTP 200 error body',
-      'SP-TOKEN-BODY',
-      () => {
-        tokenHandler = () => [200, { statusCode: 400, body: 'Authorization header is missing' }]
-      },
-    ],
-    [
-      'HTTP 401',
-      'SP-TOKEN-401',
-      () => {
-        tokenHandler = () => [401, { errorCode: 'invalid_client' }]
-      },
-    ],
-    [
-      'HTTP 201',
-      'SP-TOKEN-201',
-      () => {
-        tokenHandler = () => [201, tokenFixture]
-      },
-    ],
-  ])('returns 502 for a token endpoint %s', async (_, securityId, configure) => {
-    configure()
-    const response = await request(securityId)
+  it('returns 502 for a token endpoint HTTP 200 error body', async () => {
+    tokenHandler = () => [200, { statusCode: 400, body: 'Authorization header is missing' }]
+    const response = await request('SP-TOKEN-BODY')
     expect(response.statusCode).toBe(502)
     expect(response.json().errorMessage).toContain('token')
   })
