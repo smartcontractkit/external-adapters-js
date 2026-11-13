@@ -18,8 +18,8 @@ import {
   errorStatusCode,
   errorTimestamps,
   fetchScoresWithReauth,
+  isCredentialFailure,
   ProviderResponse,
-  SsaAuthError,
   writeCooldownErrors,
 } from './request'
 import { parseProviderRecords, parseScore, parseTimestamp, selectRecord } from './utils'
@@ -80,9 +80,10 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     this.authManager = new AuthManager(this.requester, {
       TOKEN_ENDPOINT: adapterSettings.TOKEN_ENDPOINT,
       CLIENT_ID: adapterSettings.CLIENT_ID,
+      ORIGIN: adapterSettings.ORIGIN,
     })
     config.buildCensorList()
-    await this.prefetchToken()
+    void this.prefetchToken()
   }
 
   async backgroundHandler(
@@ -104,10 +105,11 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
         await this.enqueueWrite(results, generation)
       }
     } catch (error) {
-      if (generation !== this.generation) {
-        return
+      if (generation === this.generation) {
+        await this.writeErrorResults(error, entries, generation)
       }
-      await this.writeErrorResults(error, entries, generation)
+    } finally {
+      await this.sleepUntilNextTick(context)
     }
   }
 
@@ -201,7 +203,7 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     entries: RequestParams[],
     generation: number,
   ): Promise<void> {
-    if (error instanceof SsaAuthError) {
+    if (isCredentialFailure(error)) {
       this.authFailureUntil = Date.now() + SsaTransport.AUTH_FAILURE_COOLDOWN_MS
     }
     const message = errorMessage(error)

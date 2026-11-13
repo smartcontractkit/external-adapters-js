@@ -8,8 +8,8 @@ exports[`execute returns the SSA score and provider timestamp for SP-EURC 1`] = 
   "result": 2,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
+    "providerDataReceivedUnixMs": 1737112271111,
+    "providerDataRequestedUnixMs": 1737112271111,
     "providerIndicatedTimeUnixMs": 1737072000000,
   },
 }
@@ -23,8 +23,8 @@ exports[`execute returns the SSA score and provider timestamp for sp-eurc 1`] = 
   "result": 2,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
+    "providerDataReceivedUnixMs": 1737112271111,
+    "providerDataRequestedUnixMs": 1737112271111,
     "providerIndicatedTimeUnixMs": 1737072000000,
   },
 }

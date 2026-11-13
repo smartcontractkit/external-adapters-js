@@ -40,6 +40,13 @@ export interface ProviderResponse {
 const isUnauthorized = (error: unknown): boolean =>
   error instanceof AdapterDataProviderError && error.providerStatusCode === 401
 
+const AUTH_FAILURE_STATUS_CODES = new Set([401, 403])
+
+export const isCredentialFailure = (error: unknown): boolean =>
+  error instanceof SsaAuthError &&
+  (error.providerStatusCode === undefined ||
+    AUTH_FAILURE_STATUS_CODES.has(error.providerStatusCode))
+
 const emptyTimestamps = (): ResponseTimestamps => ({
   providerDataRequestedUnixMs: 0,
   providerDataReceivedUnixMs: 0,
@@ -48,7 +55,7 @@ const emptyTimestamps = (): ResponseTimestamps => ({
 
 const requestScores = (
   requester: Requester,
-  settings: { API_ENDPOINT: string; API_KEY: string },
+  settings: { API_ENDPOINT: string; API_KEY: string; ORIGIN?: string },
   token: string,
   requestKey: string,
 ): Promise<ProviderResponse> =>
@@ -61,6 +68,7 @@ const requestScores = (
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
       apikey: settings.API_KEY,
+      ...(settings.ORIGIN ? { Origin: settings.ORIGIN } : {}),
     },
   })
 

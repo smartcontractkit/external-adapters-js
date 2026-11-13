@@ -1,4 +1,5 @@
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { validator } from '@chainlink/external-adapter-framework/validation/utils'
 import { utc } from '@date-fns/utc'
 import { isMatch, isValid, parse } from 'date-fns'
 import isIn from 'validator/lib/isIn'
@@ -43,7 +44,15 @@ export function parseTimestamp(value: unknown): number {
       'The provider last_modified_date_time is not a valid calendar timestamp',
     )
   }
-  return parsed.getTime()
+
+  const timestampMs = parsed.getTime()
+  const timestampError = validator.responseTimestamp().fn(timestampMs)
+  if (timestampError) {
+    throw providerDataError(
+      `The provider last_modified_date_time is outside the accepted range: ${timestampError}`,
+    )
+  }
+  return timestampMs
 }
 
 const toProviderRecord = (item: unknown): ProviderRecord => {

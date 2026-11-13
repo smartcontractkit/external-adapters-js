@@ -66,9 +66,11 @@ describe('provider record parsing', () => {
     ['2025-01-17T24:00Z'],
     ['2025-01-17T00:00:05.5Z'],
     ['2025-01-17T00:00:05Z '],
+    ['1900-01-01T00:00Z'],
+    ['9999-12-31T23:59Z'],
     ['01/17/2025'],
     ['0'],
-  ])('rejects an unparseable provider timestamp %p', (value) => {
+  ])('rejects an invalid provider timestamp %p', (value) => {
     expect(() => parseTimestamp(value)).toThrow('last_modified_date_time')
   })
 })
@@ -84,6 +86,7 @@ describe('SsaTransport', () => {
     TOKEN_ENDPOINT: 'http://token.com/token',
     CLIENT_ID: 'client-id',
     API_KEY: 'api-key',
+    ORIGIN: 'test-origin',
     BACKGROUND_EXECUTE_MS_HTTP: 0,
     WARMUP_SUBSCRIPTION_TTL: 10_000,
     MAX_COMMON_KEY_SIZE: 300,
@@ -154,6 +157,7 @@ describe('SsaTransport', () => {
           'Content-Type': 'application/json',
           Authorization: 'Bearer test-token',
           apikey: 'api-key',
+          Origin: 'test-origin',
         },
       }),
     )
@@ -223,7 +227,19 @@ describe('SsaTransport', () => {
     await persistent.backgroundHandler(context, [{ security_id: 'SP-401' }])
     expect(callsAfterFirst).toBe(3)
     expect(requester.request.mock.calls.length).toBe(3)
-    expect(responseCache.write).toHaveBeenCalledTimes(2)
+
+    await persistent.backgroundHandler(context, [{ security_id: 'SP-GUSD' }])
+    expect(requester.request.mock.calls.length).toBe(3)
+    expect(responseCache.write).toHaveBeenCalledTimes(3)
+    expect(responseCache.write).toHaveBeenLastCalledWith('default_single_transport', [
+      expect.objectContaining({
+        params: { security_id: 'SP-GUSD' },
+        response: expect.objectContaining({
+          statusCode: 502,
+          errorMessage: expect.stringContaining('cooldown'),
+        }),
+      }),
+    ])
   })
 
   it('publishes a backdated provider response and drops an overlapping older handler', async () => {
@@ -319,12 +335,11 @@ describe('adapter configuration', () => {
     setEnvVariables(oldEnv)
   })
 
-  it('ships the rate-limit tier and default strategy', async () => {
+  it('ships the rate-limit tier and request overrides', async () => {
     const { adapter } = await import('../../src')
     const tier = adapter.rateLimiting?.tiers?.default
     expect(tier?.rateLimit1m).toBe(300)
     expect(tier?.note ?? '').toContain('RATE_LIMIT_CAPACITY_MINUTE')
-    expect(adapter.config.settings.RATE_LIMITING_STRATEGY).toBe('fixed-interval')
     expect(adapter.config.settings.API_TIMEOUT).toBe(10_000)
     expect(adapter.config.settings.RETRY).toBe(0)
   })

@@ -6,12 +6,13 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |       Name       |                 Description                 |  Type  | Options | Default |
-| :-------: | :--------------: | :-----------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |  `API_ENDPOINT`  |  The S&P SSA base URL for the environment   | string |         |         |
-|    ✅     | `TOKEN_ENDPOINT` | The S&P OAuth token URL for the environment | string |         |         |
-|    ✅     |   `CLIENT_ID`    |           The S&P OAuth client id           | string |         |         |
-|    ✅     |    `API_KEY`     |  The S&P apikey sent on SSA data requests   | string |         |         |
+| Required? |       Name       |                         Description                         |  Type  | Options | Default |
+| :-------: | :--------------: | :---------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |  `API_ENDPOINT`  |          The S&P SSA base URL for the environment           | string |         |         |
+|    ✅     | `TOKEN_ENDPOINT` |         The S&P OAuth token URL for the environment         | string |         |         |
+|    ✅     |   `CLIENT_ID`    |                   The S&P OAuth client id                   | string |         |         |
+|    ✅     |    `API_KEY`     |          The S&P apikey sent on SSA data requests           | string |         |         |
+|           |     `ORIGIN`     | The node origin sent to S&P so it can distinguish DON nodes | string |         |         |
 
 ---
 

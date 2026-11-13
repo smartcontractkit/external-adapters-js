@@ -29,7 +29,7 @@ describe('execute', () => {
     process.env.RETRY = '1'
     process.env.REQUESTER_SLEEP_BEFORE_REQUEUEING_MS = '1'
 
-    const mockDate = new Date('2001-01-01T11:11:11.111Z')
+    const mockDate = new Date('2025-01-17T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     const adapter = (await import('../../src')).adapter
@@ -97,11 +97,17 @@ describe('execute', () => {
   })
 
   it.each([
-    ['non-array', {}],
-    ['duplicate', [providerRecord(), providerRecord()]],
-  ])('returns 502 when the provider payload is malformed (%s)', async (_, body) => {
+    ['non-array', 'SP-TUSD', {}],
+    [
+      'duplicate',
+      'SP-DUP',
+      [providerRecord({ security_id: 'SP-DUP' }), providerRecord({ security_id: 'SP-DUP' })],
+    ],
+    ['null element', 'SP-NULL', [null]],
+    ['non-string id', 'SP-NUM', [{ security_id: 1 }]],
+  ])('returns 502 when the provider payload is malformed (%s)', async (_, id, body) => {
     scoresBody = body
-    const response = await request('SP-TUSD')
+    const response = await request(id)
     expect(response.statusCode).toBe(502)
     expect(response.json().errorMessage).toContain('malformed payload')
   })

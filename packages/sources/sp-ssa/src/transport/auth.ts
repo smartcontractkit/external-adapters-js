@@ -8,6 +8,7 @@ import {
 export interface AuthSettings {
   TOKEN_ENDPOINT: string
   CLIENT_ID: string
+  ORIGIN?: string
 }
 
 interface TokenResponse {
@@ -176,6 +177,7 @@ export class AuthManager {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             Authorization: `Basic ${this.settings.CLIENT_ID}`,
+            ...(this.settings.ORIGIN ? { Origin: this.settings.ORIGIN } : {}),
           },
           data: 'grant_type=client_credentials&scope=rtg_ssa',
         },

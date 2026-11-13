@@ -26,6 +26,12 @@ export const config = new AdapterConfig(
       required: true,
       sensitive: true,
     },
+    ORIGIN: {
+      description: 'The node origin sent to S&P so it can distinguish DON nodes',
+      type: 'string',
+      required: false,
+      sensitive: false,
+    },
   },
   {
     envDefaultOverrides: {
