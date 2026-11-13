@@ -174,7 +174,9 @@ export class ScriptedDxLinkServer {
   private sendTo(socket: any, frame: object): void {
     try {
       socket.send(JSON.stringify(frame))
-    } catch {}
+    } catch {
+      // socket already closed
+    }
   }
 
   /** Canned data frames replayed when the adapter subscribes (eventType, symbol). */
@@ -198,7 +200,9 @@ export class ScriptedDxLinkServer {
     for (const socket of this.sockets) {
       try {
         socket.close()
-      } catch {}
+      } catch {
+        // already closed
+      }
     }
   }
 
