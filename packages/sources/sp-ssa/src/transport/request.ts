@@ -9,6 +9,7 @@ import {
   AdapterConnectionError,
   AdapterDataProviderError,
   AdapterError,
+  AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import {
   InputParametersDefinition,
@@ -28,9 +29,19 @@ export class SsaAuthError extends AdapterError {
       cause: error,
       providerStatusCode: error instanceof AdapterError ? error.providerStatusCode : undefined,
     })
-    if (error instanceof AdapterDataProviderError || error instanceof AdapterConnectionError) {
-      this.timestamps = error.timestamps
+    const timestamps = (error as { timestamps?: ResponseTimestamps })?.timestamps
+    if (timestamps) {
+      this.timestamps = timestamps
     }
+  }
+}
+
+export class SsaProviderDataError extends AdapterError {
+  timestamps: ResponseTimestamps
+
+  constructor(message: string, timestamps: ResponseTimestamps) {
+    super({ statusCode: 502, message })
+    this.timestamps = timestamps
   }
 }
 
@@ -82,6 +93,9 @@ const mintToken = async (authManager: AuthManager): Promise<string> => {
   try {
     return await authManager.getToken()
   } catch (error) {
+    if (error instanceof AdapterRateLimitError) {
+      throw error
+    }
     throw new SsaAuthError(error)
   }
 }
@@ -128,6 +142,9 @@ export function errorTimestamps(error: unknown): ResponseTimestamps {
     return error.timestamps
   }
   if (error instanceof SsaAuthError && error.timestamps) {
+    return error.timestamps
+  }
+  if (error instanceof SsaProviderDataError) {
     return error.timestamps
   }
   return emptyTimestamps()

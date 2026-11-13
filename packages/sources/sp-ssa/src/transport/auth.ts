@@ -1,8 +1,11 @@
+import { ResponseTimestamps } from '@chainlink/external-adapter-framework/util'
 import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import {
+  AdapterConnectionError,
   AdapterDataProviderError,
   AdapterError,
+  AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
 
 export interface AuthSettings {
@@ -20,6 +23,19 @@ interface CachedToken {
   token: string
   refreshAtMs: number
   expiresAtMs: number
+}
+
+class TokenRequestError extends AdapterError {
+  timestamps: ResponseTimestamps
+
+  constructor(
+    message: string,
+    providerStatusCode: number | undefined,
+    timestamps: ResponseTimestamps,
+  ) {
+    super({ statusCode: 502, message, providerStatusCode })
+    this.timestamps = timestamps
+  }
 }
 
 const TOKEN_CENSOR_KEY = 'ACCESS_TOKEN'
@@ -147,14 +163,30 @@ export class AuthManager {
     const response = await this.requestTokenResponse()
 
     if (response.response.status !== 200) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `The token endpoint returned status ${response.response.status}`,
-        providerStatusCode: response.response.status,
-      })
+      throw new TokenRequestError(
+        `The token endpoint returned status ${response.response.status}`,
+        response.response.status,
+        {
+          ...response.timestamps,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      )
     }
 
-    const { accessToken, expiresInSeconds } = parseTokenResponse(response.response.data)
+    let parsed: { accessToken: string; expiresInSeconds: number }
+    try {
+      parsed = parseTokenResponse(response.response.data)
+    } catch (error) {
+      throw new TokenRequestError(
+        error instanceof Error ? error.message : 'The token response was invalid',
+        undefined,
+        {
+          ...response.timestamps,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      )
+    }
+    const { accessToken, expiresInSeconds } = parsed
     AuthManager.rememberToken(accessToken)
 
     const expiresInMs = expiresInSeconds * 1000
@@ -185,15 +217,17 @@ export class AuthManager {
         TOKEN_REQUEST_COST,
       )
     } catch (error) {
-      if (!(error instanceof AdapterDataProviderError)) {
+      if (error instanceof AdapterRateLimitError) {
         throw error
       }
-      throw new AdapterError({
-        statusCode: 502,
-        message: `Unable to obtain an access token: ${error.message}`,
-        providerStatusCode: error.providerStatusCode,
-        cause: error,
-      })
+      if (error instanceof AdapterDataProviderError || error instanceof AdapterConnectionError) {
+        throw new TokenRequestError(
+          `Unable to obtain an access token: ${error.message}`,
+          error.providerStatusCode,
+          error.timestamps,
+        )
+      }
+      throw error
     }
   }
 }

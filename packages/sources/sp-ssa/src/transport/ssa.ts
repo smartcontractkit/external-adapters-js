@@ -3,6 +3,7 @@ import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/c
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import {
+  AdapterRequest,
   makeLogger,
   SingleNumberResultResponse,
   sleep,
@@ -10,7 +11,10 @@ import {
 } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterDataProviderError,
+  AdapterError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { AuthManager } from './auth'
 import {
@@ -20,6 +24,7 @@ import {
   fetchScoresWithReauth,
   isCredentialFailure,
   ProviderResponse,
+  SsaProviderDataError,
   writeCooldownErrors,
 } from './request'
 import { parseProviderRecords, parseScore, parseTimestamp, selectRecord } from './utils'
@@ -66,6 +71,7 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
   private generation = 0
   private authFailureUntil = 0
   private writeQueue: Promise<void> = Promise.resolve()
+  private wakeEmptySetSleep?: () => void
 
   override async initialize(
     dependencies: TransportDependencies<SsaTransportTypes>,
@@ -86,12 +92,22 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     void this.prefetchToken()
   }
 
+  override async registerRequest(
+    req: AdapterRequest<RequestParams>,
+    settings: SsaTransportTypes['Settings'],
+  ): Promise<void> {
+    await super.registerRequest(req, settings)
+    // Wake the empty-set sleep so a newly configured stream is fetched without
+    // waiting a full background interval.
+    this.wakeEmptySetSleep?.()
+  }
+
   async backgroundHandler(
     context: EndpointContext<SsaTransportTypes>,
     entries: RequestParams[],
   ): Promise<void> {
     if (entries.length === 0) {
-      return this.sleepUntilNextTick(context)
+      return this.sleepUntilNextTick(context, true)
     }
     if (Date.now() < this.authFailureUntil) {
       await writeCooldownErrors(this.responseCache, this.name, entries)
@@ -127,8 +143,22 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     setImmediate(() => this.authManager.ensureCachedTokenCensored())
   }
 
-  private sleepUntilNextTick(context: EndpointContext<SsaTransportTypes>): Promise<void> {
-    return sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
+  private sleepUntilNextTick(
+    context: EndpointContext<SsaTransportTypes>,
+    wakeOnSubscription = false,
+  ): Promise<void> {
+    if (!wakeOnSubscription) {
+      return sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
+    }
+    return new Promise((resolve) => {
+      const done = () => {
+        clearTimeout(timer)
+        this.wakeEmptySetSleep = undefined
+        resolve()
+      }
+      const timer = setTimeout(done, context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
+      this.wakeEmptySetSleep = done
+    })
   }
 
   private async fetchResults(
@@ -164,8 +194,24 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
       )
     }
 
-    const records = parseProviderRecords(providerResponse.response.data)
+    const records = this.parseRecords(providerResponse)
     return entries.map((entry) => this.resultForEntry(entry, records, providerResponse.timestamps))
+  }
+
+  private parseRecords(
+    providerResponse: ProviderResponse,
+  ): ReturnType<typeof parseProviderRecords> {
+    try {
+      return parseProviderRecords(providerResponse.response.data)
+    } catch (error) {
+      if (error instanceof AdapterError) {
+        throw new SsaProviderDataError(error.message, {
+          ...providerResponse.timestamps,
+          providerIndicatedTimeUnixMs: undefined,
+        })
+      }
+      throw error
+    }
   }
 
   private resultForEntry(

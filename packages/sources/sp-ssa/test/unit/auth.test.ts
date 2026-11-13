@@ -2,7 +2,10 @@ import { censor } from '@chainlink/external-adapter-framework/util'
 import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterDataProviderError,
+  AdapterRateLimitError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { AuthManager, AuthSettings } from '../../src/transport/auth'
 
 const settings: AuthSettings = {
@@ -151,7 +154,13 @@ describe('AuthManager', () => {
     const manager = new AuthManager(requester as unknown as Requester, settings)
 
     await expect(manager.getToken()).rejects.toMatchObject(
-      status === 201 ? { statusCode: 502, providerStatusCode: 201 } : { statusCode: 502 },
+      status === 201
+        ? {
+            statusCode: 502,
+            providerStatusCode: 201,
+            timestamps: { providerDataRequestedUnixMs: 1, providerDataReceivedUnixMs: 2 },
+          }
+        : { statusCode: 502 },
     )
   })
 
@@ -173,5 +182,12 @@ describe('AuthManager', () => {
       statusCode: 502,
       message: expect.stringContaining('access token'),
     })
+
+    requester.request.mockReset()
+    requester.request.mockRejectedValueOnce(
+      new AdapterRateLimitError({ statusCode: 429, message: 'rate limited' }),
+    )
+    const rateLimited = new AuthManager(requester as unknown as Requester, settings)
+    await expect(rateLimited.getToken()).rejects.toMatchObject({ statusCode: 429 })
   })
 })

@@ -110,6 +110,7 @@ describe('execute', () => {
     const response = await request(id)
     expect(response.statusCode).toBe(502)
     expect(response.json().errorMessage).toContain('malformed payload')
+    expect(response.json().timestamps.providerDataRequestedUnixMs).toBeGreaterThan(0)
   })
 
   it.each([

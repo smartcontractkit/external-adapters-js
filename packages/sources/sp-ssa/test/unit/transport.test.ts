@@ -5,6 +5,7 @@ import { makeStub, setEnvVariables } from '@chainlink/external-adapter-framework
 import {
   AdapterDataProviderError,
   AdapterError,
+  AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../../src/config'
 import '../../src/endpoint/ssa'
@@ -311,6 +312,29 @@ describe('SsaTransport', () => {
         new SsaAuthError(new AdapterError({ statusCode: 502, providerStatusCode: 401 })),
       ),
     ).toBe(true)
+
+    const rateLimitedTransport = new SsaTransport()
+    requester.request.mockReset()
+    requester.request.mockResolvedValueOnce(tokenResponse)
+    await rateLimitedTransport.initialize(
+      dependencies,
+      adapterSettings,
+      'ssa',
+      'default_single_transport',
+    )
+    requester.request.mockReset()
+    requester.request.mockRejectedValueOnce(
+      new AdapterRateLimitError({ statusCode: 429, message: 'rate limited' }),
+    )
+    await rateLimitedTransport.backgroundHandler(context, [{ security_id: 'SP-429' }])
+    expect(responseCache.write).toHaveBeenLastCalledWith('default_single_transport', [
+      expect.objectContaining({
+        response: expect.objectContaining({
+          statusCode: 429,
+          errorMessage: 'rate limited',
+        }),
+      }),
+    ])
   })
 
   it('publishes a backdated provider response and drops an overlapping older handler', async () => {
