@@ -53,16 +53,6 @@ describe('AMINA config', () => {
     expect(adapter.config.settings.API_ENDPOINT).toBe('https://integration.aminagroup.io')
   })
 
-  it('rejects a user ID that is too short', async () => {
-    setEnv({ AMINA_USER_ID: '1234567' })
-    const { config } = await import('../../src/config')
-
-    expect(() => {
-      config.initialize()
-      config.validate()
-    }).toThrow(/8-digit/)
-  })
-
   it('rejects a nonzero framework RETRY at startup', async () => {
     process.env.RETRY = '1'
     const { adapter } = await import('../../src')

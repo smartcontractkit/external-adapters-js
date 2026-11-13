@@ -1,19 +1,5 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-function isDigit(char: string): boolean {
-  return char >= '0' && char <= '9'
-}
-
-function isEightDigitId(value: string): boolean {
-  return [...value].every(isDigit)
-}
-
-function validateUserId(value: unknown): string | undefined {
-  return typeof value === 'string' && value.length === 8 && isEightDigitId(value)
-    ? undefined
-    : 'Value must be an 8-digit AMINA user ID'
-}
-
 export const config = new AdapterConfig(
   {
     API_ENDPOINT: {
@@ -27,12 +13,6 @@ export const config = new AdapterConfig(
       type: 'string',
       required: true,
       sensitive: false,
-      validate: {
-        meta: {
-          details: 'Value must be an 8-digit AMINA user ID',
-        },
-        fn: validateUserId,
-      },
     },
     AMINA_PASSWORD: {
       description: 'password',
