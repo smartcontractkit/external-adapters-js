@@ -16,8 +16,8 @@ is priced around the clock, so there is no market-closed 503 and no stream selec
 session."** That remains correct for market-closed gating — but it leaves the endpoint with no
 protection against the pre-session "warm-up" failure mode that
 [ADR-0006](./0006-session-start-gating-no-tolerance-and-hard-coded-fallback.md) addressed for
-24/5: providers may not have not yet produced a price following a session open, with fresh
-timestamps within the active session. The 24/7 feed crosses every underlying equity session
+24/5: providers may not yet have produced a price following a session open, having stale
+timestamps from before the active session. The 24/7 feed crosses every underlying equity session
 boundary — pre-market, regular, post-market, overnight, and the weekend — so the exposure exists
 at every boundary.
 
@@ -56,7 +56,7 @@ risk-bearing consequences:
 - **The WEEKEND session start is derived in tokenized-equity** as the `endTime` of the last
   POST_MARKET phase before the weekend gap (Friday 20:00 ET in a normal week, correct on
   holiday early-closes). To make it derivable, the tradinghours `market-session` transport
-  gains an additive `endTime` passthrough (the upstream API already returns phase ends; the
+  gains an additive `endTime` pass-through (the upstream API already returns phase ends; the
   parser discards them today; tokenized-equity is the endpoint's only consumer). The hard-coded
   fallback schedule is flattened to a single per-market `nyse` entry holding all five session
   opens plus end times — shaped congruently with the tradinghours response, times as named
@@ -72,12 +72,12 @@ risk-bearing consequences:
   selection to gate, and the report's own `marketStatus` is the tightest, authoritative
   declaration of which session produced it.
 - **A pre-open tolerance on 24/7:** rejected; per ADR-0006, warm-up placeholders are
-  transmitted milliseconds before the open, so any tolerance incorectly re-admits them.
+  transmitted milliseconds before the open, so any tolerance incorrectly re-admits them.
 - **Synthesizing WEEKEND transitions inside the tradinghours adapter:** rejected for now; it
-  puts policy in a shared source adapter where pure plumbing (the `endTime` passthrough)
+  puts policy in a shared source adapter where pure plumbing (the `endTime` pass-through)
   suffices, and keeps derivation and its tests in the only consumer. Revisit if a second
   consumer ever needs weekend transitions.
-- **Fallback-only weekend starts (no tradinghours change):** rejected; a hardcoded Friday 20:00
+- **Fallback-only weekend starts (no tradinghours change):** rejected; a hard-coded Friday 20:00
   is wrong on holiday early-closes, and the two schedule tiers would disagree in coverage.
 - **Post-market start + fixed 4h duration:** rejected; a magic constant that lies on half-day
   Fridays and any schedule change.
