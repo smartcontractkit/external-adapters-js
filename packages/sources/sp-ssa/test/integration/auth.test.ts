@@ -5,6 +5,7 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
 import { config } from '../../src/config'
+import type { SsaTransport } from '../../src/transport/ssa'
 import { scoresFixture, tokenFixture } from './fixtures'
 
 type SettingsDefinition = SettingsDefinitionFromConfig<typeof config>
@@ -17,6 +18,7 @@ describe('auth', () => {
   let tokenHandler: () => ReplyResult = () => [200, tokenFixture]
   let dataHandler: () => ReplyResult | Promise<ReplyResult> = () => [200, scoresFixture()]
   let nowMs = 0
+  let transport: SsaTransport
 
   const request = (security_id: string) => testAdapter.request({ endpoint: 'ssa', security_id })
 
@@ -37,14 +39,15 @@ describe('auth', () => {
 
     const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
-    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
-      testAdapter: {} as TestAdapter<SettingsDefinition>,
-    })
-
     nock('http://token.com')
       .post('/token', 'grant_type=client_credentials&scope=rtg_ssa')
       .reply(() => tokenHandler())
       .persist()
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<SettingsDefinition>,
+    })
+    transport = (await import('../../src/transport/ssa')).ssaTransport
+
     nock('http://api.com')
       .get('/api/v1/ssa/getAllScores')
       .reply(() => dataHandler())
@@ -54,6 +57,7 @@ describe('auth', () => {
   beforeEach(() => {
     nowMs += 61_000
     spy.mockReturnValue(nowMs)
+    transport.authManager.invalidate()
     tokenHandler = () => [200, tokenFixture]
     dataHandler = () => [200, scoresFixture()]
   })

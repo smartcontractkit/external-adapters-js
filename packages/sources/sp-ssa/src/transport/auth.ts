@@ -30,6 +30,7 @@ export class AuthManager {
   private readonly settings: AuthSettings
   private cached?: CachedToken
   private pending?: Promise<string>
+  private refreshRetryAtMs = 0
 
   constructor(requester: Requester, settings: AuthSettings) {
     this.requester = requester
@@ -41,12 +42,16 @@ export class AuthManager {
     if (this.cached && now < this.cached.refreshAtMs) {
       return this.cached.token
     }
+    if (this.cached && now < this.refreshRetryAtMs) {
+      return this.cached.token
+    }
     if (this.pending) {
       return this.pending
     }
     this.pending = this.requestToken()
       .catch((e) => {
         if (this.cached && Date.now() < this.cached.expiresAtMs) {
+          this.refreshRetryAtMs = Date.now() + 30_000
           return this.cached.token
         }
         throw e

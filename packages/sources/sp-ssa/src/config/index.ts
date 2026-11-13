@@ -30,6 +30,7 @@ export const config = new AdapterConfig(
   {
     envDefaultOverrides: {
       API_TIMEOUT: 10_000,
+      RETRY: 0,
     },
   },
 )

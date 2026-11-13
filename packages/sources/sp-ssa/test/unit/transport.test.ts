@@ -113,23 +113,24 @@ describe('SsaTransport', () => {
   beforeEach(async () => {
     cacheStore.clear()
     jest.clearAllMocks()
+    requester.request.mockReset()
+    requester.request.mockResolvedValue(tokenResponse)
     transport = new SsaTransport()
     await transport.initialize(dependencies, adapterSettings, 'ssa', 'default_single_transport')
+    requester.request.mockReset()
   })
 
   it('batches all subscriptions into one provider request', async () => {
-    requester.request
-      .mockResolvedValueOnce(tokenResponse)
-      .mockResolvedValueOnce(
-        dataResponse([record(), record({ security_id: 'SP-GUSD', security_name: 'GUSD' })]),
-      )
+    requester.request.mockResolvedValueOnce(
+      dataResponse([record(), record({ security_id: 'SP-GUSD', security_name: 'GUSD' })]),
+    )
 
     const entries = [{ security_id: 'SP-EURC' }, { security_id: 'SP-GUSD' }]
     await transport.backgroundHandler(context, entries)
 
-    expect(requester.request).toHaveBeenCalledTimes(2)
+    expect(requester.request).toHaveBeenCalledTimes(1)
     expect(requester.request).toHaveBeenNthCalledWith(
-      2,
+      1,
       expect.any(String),
       expect.objectContaining({
         method: 'GET',
@@ -152,9 +153,7 @@ describe('SsaTransport', () => {
   })
 
   it('deletes the cached success before writing a provider error', async () => {
-    requester.request
-      .mockResolvedValueOnce(tokenResponse)
-      .mockResolvedValueOnce(dataResponse([record({ ssa: '0' })]))
+    requester.request.mockResolvedValueOnce(dataResponse([record({ ssa: '0' })]))
 
     await transport.backgroundHandler(context, [{ security_id: 'SP-EURC' }])
 
@@ -175,7 +174,6 @@ describe('SsaTransport', () => {
       },
     )
     requester.request
-      .mockResolvedValueOnce(tokenResponse)
       .mockRejectedValueOnce(authError)
       .mockResolvedValueOnce(tokenResponse)
       .mockRejectedValueOnce(authError)
@@ -185,18 +183,16 @@ describe('SsaTransport', () => {
     await transport.backgroundHandler(context, [{ security_id: 'SP-401' }])
 
     expect(requester.request.mock.calls.length).toBe(callsAfterFirst)
-    expect(callsAfterFirst).toBe(4)
+    expect(callsAfterFirst).toBe(3)
     expect(responseCache.write).toHaveBeenCalledTimes(1)
   })
 
   it('drops stale and overlapping results', async () => {
-    requester.request
-      .mockResolvedValueOnce(tokenResponse)
-      .mockResolvedValueOnce(
-        dataResponse([
-          record({ security_id: 'SP-STALE', last_modified_date_time: '2025-01-17T00:00Z' }),
-        ]),
-      )
+    requester.request.mockResolvedValueOnce(
+      dataResponse([
+        record({ security_id: 'SP-STALE', last_modified_date_time: '2025-01-17T00:00Z' }),
+      ]),
+    )
     await transport.backgroundHandler(context, [{ security_id: 'SP-STALE' }])
     requester.request.mockResolvedValueOnce(
       dataResponse([

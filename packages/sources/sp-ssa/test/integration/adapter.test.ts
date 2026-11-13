@@ -34,14 +34,14 @@ describe('execute', () => {
 
     const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
-    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
-      testAdapter: {} as TestAdapter<SettingsDefinition>,
-    })
-
     nock('http://token.com')
       .post('/token', 'grant_type=client_credentials&scope=rtg_ssa')
       .reply(200, tokenFixture)
       .persist()
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<SettingsDefinition>,
+    })
+
     nock('http://api.com')
       .get('/api/v1/ssa/getAllScores')
       .reply(() => [scoresStatus, scoresBody])

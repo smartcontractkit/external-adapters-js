@@ -56,6 +56,11 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
       TOKEN_ENDPOINT: adapterSettings.TOKEN_ENDPOINT,
       CLIENT_ID: adapterSettings.CLIENT_ID,
     })
+    try {
+      await this.authManager.getToken()
+    } catch {
+      // The first request will retry the token mint and surface the auth error.
+    }
   }
 
   async backgroundHandler(

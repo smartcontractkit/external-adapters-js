@@ -28,13 +28,20 @@ describe('AuthManager', () => {
   })
 
   it.each([
-    ['reuses a valid cached token', 1000, false, 1, 1800],
-    ['refreshes inside the refresh margin', 1_500_001, false, 2, 1800],
-    ['refreshes after invalidate', 1000, true, 2, 1800],
-    ['reuses a short-lived token for half its lifetime', 61_000, false, 2, 120],
-  ])('%s', async (_, advanceMs, invalidate, expectedCalls, expiresIn) => {
+    ['reuses a valid cached token', 1000, false, 1, 1800, false],
+    ['refreshes inside the refresh margin', 1_500_001, false, 2, 1800, false],
+    ['refreshes after invalidate', 1000, true, 2, 1800, false],
+    ['reuses a short-lived token for half its lifetime', 61_000, false, 2, 120, false],
+    ['falls back to a still-valid token on refresh failure', 1_500_001, false, 2, 1800, true],
+  ])('%s', async (_, advanceMs, invalidate, expectedCalls, expiresIn, failRefresh) => {
     const requester = makeStub('requester', { request: jest.fn() })
-    requester.request.mockResolvedValue(tokenResponse('token-1', expiresIn))
+    if (failRefresh) {
+      requester.request
+        .mockResolvedValueOnce(tokenResponse('token-1', expiresIn))
+        .mockRejectedValueOnce(new Error('mint failed'))
+    } else {
+      requester.request.mockResolvedValue(tokenResponse('token-1', expiresIn))
+    }
     const manager = new AuthManager(requester as unknown as Requester, settings)
 
     await manager.getToken()
@@ -42,7 +49,12 @@ describe('AuthManager', () => {
     if (invalidate) {
       manager.invalidate()
     }
-    await manager.getToken()
+    const second = await manager.getToken()
+    if (failRefresh) {
+      expect(second).toBe('token-1')
+      const third = await manager.getToken()
+      expect(third).toBe('token-1')
+    }
 
     expect(CensorList.getAll().some((entry) => entry.key === 'ACCESS_TOKEN')).toBe(true)
     const censored = censor({ headers: { authorization: 'Bearer token-1' } }, CensorList.getAll())
