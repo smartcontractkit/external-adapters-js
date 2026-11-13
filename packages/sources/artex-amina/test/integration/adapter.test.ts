@@ -208,6 +208,40 @@ describe('execute', () => {
     expect(second.json().data.aum).toBe(12345.6789)
   })
 
+  it('replaces a newer cached error with an older successful scan', async () => {
+    const cache = testAdapter.mockCache
+    if (!cache) {
+      throw new Error('mock cache was not initialized')
+    }
+    const param = { portfolioNo: PORTFOLIO_NO, isin: ISIN }
+    const key = porTransport.responseCache.getCacheKey(porTransport.name, param)
+    await cache.set(
+      key,
+      {
+        statusCode: 502,
+        errorMessage: 'cached failure',
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now() + 1_000,
+          providerDataReceivedUnixMs: Date.now() + 1_000,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      },
+      60_000,
+    )
+    mockPositions(0, page({ positions: [position(ISIN, 12345.6789)] }))
+
+    const context = {
+      endpointName: 'por',
+      inputParameters,
+      adapterSettings: porTransport.settings,
+    } as unknown as EndpointContext<BaseEndpointTypes>
+    await porTransport.handleRequest(param, context)
+
+    const cached = (await cache.get(key)) as { statusCode: number; result: number } | undefined
+    expect(cached?.statusCode).toBe(200)
+    expect(cached?.result).toBe(12345.6789)
+  })
+
   it('refreshes the token after a 401 and returns the position', async () => {
     mockPositionsError(0, 401)
     mockRefresh(REFRESHED_ACCESS_TOKEN)
