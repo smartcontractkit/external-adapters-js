@@ -173,10 +173,6 @@ export type BlendedData = {
   rawBid?: string
   rawAsk?: string
   rawMid?: string
-  // Reference quote fields, absent on Data Engine builds before reference quotes
-  referenceBid?: string
-  referenceAsk?: string
-  referenceMid?: string
 }
 
 /**
@@ -201,11 +197,22 @@ export type BlendedTimestamps = {
   windowEndTs: number
 }
 
+/**
+ * Wire shape of the `metadata` group of the blended provider response.
+ */
+export type BlendedMetadata = {
+  feedsUsed: string[]
+  stitchingApplied: boolean
+  anchor: { price: string; ts: number; ageSeconds: number } | null
+  stitching: { mode: string; params: Record<string, unknown>; phase: string }
+  indicator: { type: string; windowSeconds: number; endTs: number }
+}
+
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
     Result: string
-    Data: BlendedData & BlendedTimestamps & Partial<BlendedUnderlying>
+    Data: BlendedData & BlendedTimestamps & Partial<BlendedUnderlying> & BlendedMetadata
   }
   Settings: typeof config.settings
 }

@@ -1,13 +1,5 @@
 # @chainlink/solana-functions-adapter
 
-## 1.10.0
-
-### Minor Changes
-
-- [#5583](https://github.com/smartcontractkit/external-adapters-js/pull/5583) [`617b55e`](https://github.com/smartcontractkit/external-adapters-js/commit/617b55e319fb42bed009563934c873b7e0a07477) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Validate that the account in the extension endpoint is a Token-2022 mint when extension fields are requested
-
-  Bump dependency minor version
-
 ## 1.9.0
 
 ### Minor Changes

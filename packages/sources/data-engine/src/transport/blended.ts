@@ -7,6 +7,7 @@ import { TypeFromDefinition } from '@chainlink/external-adapter-framework/valida
 import {
   BaseEndpointTypes,
   BlendedData,
+  BlendedMetadata,
   BlendedTimestamps,
   BlendedUnderlying,
 } from '../endpoint/blended'
@@ -27,8 +28,7 @@ export interface BlendedResponseBody {
   underlying?: Omit<BlendedUnderlying, 'lastSeenTimestampNs'> & {
     lastSeenTimestampNs: string | number
   }
-  // The response also carries a `metadata` group. It is debug-only and its shape is not stable,
-  // so the adapter deliberately neither validates nor forwards it
+  metadata?: BlendedMetadata
 }
 
 /**
@@ -96,8 +96,8 @@ export const blendedTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
   },
 
   parseResponse: (params, response) => {
-    const { data, timestamps, underlying } = response.data
-    if (!data?.indicatorPrice || !timestamps) {
+    const { data, timestamps, underlying, metadata } = response.data
+    if (!data?.indicatorPrice || !timestamps || !metadata) {
       return params.map((param) => ({
         params: param,
         response: {
@@ -115,6 +115,7 @@ export const blendedTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
           ...underlying,
           lastSeenTimestampNs: String(underlying.lastSeenTimestampNs),
         }),
+        ...metadata,
       }
 
       try {

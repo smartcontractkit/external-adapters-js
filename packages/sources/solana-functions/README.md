@@ -1,6 +1,6 @@
 # SOLANA_FUNCTIONS
 
-![1.10.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.9.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -155,21 +155,21 @@ Request:
 
 ### Input Params
 
-| Required? |             Name              | Aliases |                                                   Description                                                    |   Type   |           Options            | Default | Depends On | Not Valid With |
-| :-------: | :---------------------------: | :-----: | :--------------------------------------------------------------------------------------------------------------: | :------: | :--------------------------: | :-----: | :--------: | :------------: |
-|    ✅     |      stateAccountAddress      |         |              Address of the account to read. Must be a Token-2022 mint when extensionFields is set               |  string  |                              |         |            |                |
-|           |          baseFields           |         |                             Fields to get from the base section of the account data                              | object[] |                              |         |            |                |
-|    ✅     |        baseFields.name        |         |                                   Name to give the value in the response data                                    |  string  |                              |         |            |                |
-|    ✅     |       baseFields.offset       |         |                                   Byte offset of the field in the account data                                   |  number  |                              |         |            |                |
-|    ✅     |        baseFields.type        |         |                                              Data type of the field                                              |  string  | `float64`, `int64`, `uint64` |         |            |                |
-|           |      extensionDataOffset      |         |                       Byte offset where the extensions section starts in the account data                        |  number  |                              |  `166`  |            |                |
-|           |        extensionFields        |         | Fields to get from the token extension section of the account data. Requires the account to be a Token-2022 mint | object[] |                              |         |            |                |
-|    ✅     | extensionFields.extensionType |         |                                    The number identifying the extension type                                     |  number  |                              |         |            |                |
-|    ✅     |     extensionFields.name      |         |                                   Name to give the value in the response data                                    |  string  |                              |         |            |                |
-|    ✅     |    extensionFields.offset     |         |                                   Byte offset of the field in the account data                                   |  number  |                              |         |            |                |
-|    ✅     |     extensionFields.type      |         |                                              Data type of the field                                              |  string  | `float64`, `int64`, `uint64` |         |            |                |
-|           |          resultName           |         |                                 Name of the field to be on result response field                                 |  string  |                              |         |            |                |
-|           |        resultDecimals         |         |                                      decimals of the result response field                                       |  number  |                              |         |            |                |
+| Required? |             Name              | Aliases |                             Description                             |   Type   |           Options            | Default | Depends On | Not Valid With |
+| :-------: | :---------------------------: | :-----: | :-----------------------------------------------------------------: | :------: | :--------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |      stateAccountAddress      |         |              The state account address for the program              |  string  |                              |         |            |                |
+|           |          baseFields           |         |       Fields to get from the base section of the account data       | object[] |                              |         |            |                |
+|    ✅     |        baseFields.name        |         |             Name to give the value in the response data             |  string  |                              |         |            |                |
+|    ✅     |       baseFields.offset       |         |            Byte offset of the field in the account data             |  number  |                              |         |            |                |
+|    ✅     |        baseFields.type        |         |                       Data type of the field                        |  string  | `float64`, `int64`, `uint64` |         |            |                |
+|           |      extensionDataOffset      |         | Byte offset where the extensions section starts in the account data |  number  |                              |  `166`  |            |                |
+|           |        extensionFields        |         | Fields to get from the token extension section of the account data  | object[] |                              |         |            |                |
+|    ✅     | extensionFields.extensionType |         |              The number identifying the extension type              |  number  |                              |         |            |                |
+|    ✅     |     extensionFields.name      |         |             Name to give the value in the response data             |  string  |                              |         |            |                |
+|    ✅     |    extensionFields.offset     |         |            Byte offset of the field in the account data             |  number  |                              |         |            |                |
+|    ✅     |     extensionFields.type      |         |                       Data type of the field                        |  string  | `float64`, `int64`, `uint64` |         |            |                |
+|           |          resultName           |         |          Name of the field to be on result response field           |  string  |                              |         |            |                |
+|           |        resultDecimals         |         |                decimals of the result response field                |  number  |                              |         |            |                |
 
 ### Example
 

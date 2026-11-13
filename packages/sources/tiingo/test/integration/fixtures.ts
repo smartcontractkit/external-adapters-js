@@ -465,41 +465,30 @@ export const mockStockQuotesWebSocketServer = (URL: string): MockWebsocketServer
 }
 
 export const mockForexWebSocketServer = (URL: string): MockWebsocketServer => {
-  // Quotes keyed by ticker. US index quotes are published on the FX feed too.
-  const quotes: Record<string, [string, string, string, number, number, number, number, number]> = {
-    eurusd: [
-      'Q',
-      'eurusd',
-      '2022-04-14T19:33:12.474000+00:00',
-      1000000,
-      1.08267,
-      1.08272,
-      1000000,
-      1.08277,
-    ],
-    us30usd: [
-      'Q',
-      'us30usd',
-      '2026-11-04T21:42:27.016000+00:00',
-      1000000,
-      53472.47,
-      53473.72,
-      1000000,
-      53474.97,
-    ],
-  }
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    const sent = new Set<string>()
-    socket.on('message', (message) => {
-      const tickers: string[] = JSON.parse(message.toString())?.eventData?.tickers ?? []
-      for (const ticker of tickers) {
-        if (quotes[ticker] && !sent.has(ticker)) {
-          sent.add(ticker)
-          socket.send(JSON.stringify({ messageType: 'A', service: 'fx', data: quotes[ticker] }))
-        }
+    let counter = 0
+    const parseMessage = () => {
+      if (counter++ === 0) {
+        socket.send(
+          JSON.stringify({
+            messageType: 'A',
+            service: 'fx',
+            data: [
+              'Q',
+              'eurusd',
+              '2022-04-14T19:33:12.474000+00:00',
+              1000000,
+              1.08267,
+              1.08272,
+              1000000,
+              1.08277,
+            ],
+          }),
+        )
       }
-    })
+    }
+    socket.on('message', parseMessage)
   })
 
   return mockWsServer

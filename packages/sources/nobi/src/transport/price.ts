@@ -1,9 +1,8 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { BaseEndpointTypes } from '../endpoint/price'
-import { customSubscriptionMessages, heartbeat } from './common'
 
-const logger = makeLogger('NobiPriceTransport')
+const logger = makeLogger('NobiWsTransport')
 
 export type WSResponse = {
   asset_code: string
@@ -22,7 +21,10 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export const buildPriceTransport = () =>
+const constructNobiSymbol = (params: { base: string; quote: string }): string =>
+  `Crypto:${params.base}/${params.quote}`
+
+export const buildNobiWsTransport = () =>
   new WebSocketTransport<WsTransportTypes>({
     url: (context) => context.adapterSettings.WS_API_ENDPOINT,
     options: (context) => ({
@@ -31,7 +33,9 @@ export const buildPriceTransport = () =>
       },
     }),
     handlers: {
-      heartbeat,
+      heartbeat: (connection) => {
+        connection.send(JSON.stringify({ method: 'ping' }))
+      },
       message: (message) => {
         if (
           !message.asset_code ||
@@ -66,10 +70,24 @@ export const buildPriceTransport = () =>
       },
     },
     builders: {
-      customSubscriptionMessages: (_, subscriptions) =>
-        customSubscriptionMessages(subscriptions, buildPair, 'subscribe', 'unsubscribe'),
+      customSubscriptionMessages: (_context, subscriptions) => {
+        const messages: unknown[] = []
+
+        if (subscriptions.new.length > 0) {
+          messages.push({
+            method: 'subscribe',
+            params: { pairs: subscriptions.desired.map(constructNobiSymbol) },
+          })
+        }
+
+        if (subscriptions.stale.length > 0) {
+          messages.push({
+            method: 'unsubscribe',
+            params: { pairs: subscriptions.stale.map(constructNobiSymbol) },
+          })
+        }
+
+        return messages
+      },
     },
   })
-
-const buildPair = (params: { base: string; quote: string }): string =>
-  `Crypto:${params.base}/${params.quote}`

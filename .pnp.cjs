@@ -479,10 +479,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/solana-functions"\
     },\
     {\
-      "name": "@chainlink/spiro-adapter",\
-      "reference": "workspace:packages/sources/spiro"\
-    },\
-    {\
       "name": "@chainlink/stader-labs-adapter",\
       "reference": "workspace:packages/sources/stader-labs"\
     },\
@@ -696,7 +692,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/six-adapter", ["workspace:packages/sources/six"]],\
     ["@chainlink/solactive-adapter", ["workspace:packages/sources/solactive"]],\
     ["@chainlink/solana-functions-adapter", ["workspace:packages/sources/solana-functions"]],\
-    ["@chainlink/spiro-adapter", ["workspace:packages/sources/spiro"]],\
     ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
     ["@chainlink/starknet-gas-price-adapter", ["workspace:packages/sources/starknet-gas-price"]],\
     ["@chainlink/static-market-hours-adapter", ["workspace:packages/sources/static-market-hours"]],\
@@ -6118,7 +6113,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/nobi", {\
         "packageLocation": "./packages/sources/nobi/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/nobi-adapter", "workspace:packages/sources/nobi"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -6462,7 +6457,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/solana-functions", {\
         "packageLocation": "./packages/sources/solana-functions/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/solana-functions-adapter", "workspace:packages/sources/solana-functions"],\
           ["@coral-xyz/anchor", "npm:0.31.1"],\
           ["@solana/addresses", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.3"],\
@@ -6473,30 +6468,12 @@ const RAW_RUNTIME_STATE =
           ["@solana/spl-token", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:0.4.15"],\
           ["@solana/sysvars", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.3"],\
           ["@solana/web3.js", "npm:1.98.4"],\
-          ["@types/bn.js", "npm:5.2.0"],\
+          ["@types/bn.js", "npm:5.1.6"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["bn.js", "npm:5.2.5"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/spiro-adapter", [\
-      ["workspace:packages/sources/spiro", {\
-        "packageLocation": "./packages/sources/spiro/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
-          ["@chainlink/spiro-adapter", "workspace:packages/sources/spiro"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/validator", "npm:13.15.10"],\
-          ["date-fns", "npm:4.1.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
-          ["validator", "npm:13.15.26"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -15862,14 +15839,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-bn.js-npm-5.1.6-f95fd017b1-db565b5a2a.zip/node_modules/@types/bn.js/",\
         "packageDependencies": [\
           ["@types/bn.js", "npm:5.1.6"],\
-          ["@types/node", "npm:22.14.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:5.2.0", {\
-        "packageLocation": "./.yarn/cache/@types-bn.js-npm-5.2.0-3df8f9db07-06c93841f7.zip/node_modules/@types/bn.js/",\
-        "packageDependencies": [\
-          ["@types/bn.js", "npm:5.2.0"],\
           ["@types/node", "npm:22.14.1"]\
         ],\
         "linkType": "HARD"\

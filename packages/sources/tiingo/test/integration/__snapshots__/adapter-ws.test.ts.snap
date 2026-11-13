@@ -122,25 +122,6 @@ exports[`websocket iex endpoint should update the ttl after heartbeat is receive
 }
 `;
 
-exports[`websocket stock_quotes endpoint (indices via FX feed) indices request should be served from the FX feed 1`] = `
-{
-  "data": {
-    "ask_price": 53474.97,
-    "ask_volume": 0,
-    "bid_price": 53472.47,
-    "bid_volume": 0,
-    "mid_price": 53473.72,
-  },
-  "result": null,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 162728,
-    "providerDataStreamEstablishedUnixMs": 162720,
-    "providerIndicatedTimeUnixMs": 1793828547016,
-  },
-}
-`;
-
 exports[`websocket stock_quotes endpoint A request should return success 1`] = `
 {
   "data": {

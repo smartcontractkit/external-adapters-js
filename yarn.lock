@@ -3810,7 +3810,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nobi-adapter@workspace:packages/sources/nobi"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.20.0"
+    "@chainlink/external-adapter-framework": "npm:2.17.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4112,38 +4112,22 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/solana-functions-adapter@workspace:packages/sources/solana-functions"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.20.0"
+    "@chainlink/external-adapter-framework": "npm:2.17.1"
     "@coral-xyz/anchor": "npm:^0.31.1"
     "@solana/addresses": "npm:^3.0.2"
     "@solana/buffer-layout": "npm:^4.0.1"
     "@solana/codecs-strings": "npm:^3.0.2"
     "@solana/rpc": "npm:^3.0.2"
     "@solana/spl-stake-pool": "npm:^1.1.8"
-    "@solana/spl-token": "npm:^0.4.15"
+    "@solana/spl-token": "npm:^0.4.14"
     "@solana/sysvars": "npm:3.0.3"
     "@solana/web3.js": "npm:^1.95.8"
-    "@types/bn.js": "npm:^5.2.0"
+    "@types/bn.js": "npm:^5.1.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    bn.js: "npm:^5.2.5"
+    bn.js: "npm:^5.2.0"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/spiro-adapter@workspace:packages/sources/spiro":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/spiro-adapter@workspace:packages/sources/spiro"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.20.0"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/validator": "npm:13.15.10"
-    date-fns: "npm:4.1.0"
-    nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-    validator: "npm:13.15.26"
   languageName: unknown
   linkType: soft
 
@@ -10481,7 +10465,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/spl-token@npm:^0.4.15":
+"@solana/spl-token@npm:^0.4.14":
   version: 0.4.15
   resolution: "@solana/spl-token@npm:0.4.15"
   dependencies:
@@ -11224,15 +11208,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/bn.js@npm:^5.2.0":
-  version: 5.2.0
-  resolution: "@types/bn.js@npm:5.2.0"
-  dependencies:
-    "@types/node": "npm:*"
-  checksum: 10/06c93841f74e4a5e5b81b74427d56303b223c9af36389b4cd3c562bda93f43c425c7e241aee1b0b881dde57238dc2e07f21d30d412b206a7dae4435af4c054e8
-  languageName: node
-  linkType: hard
-
 "@types/command-line-args@npm:5.2.3":
   version: 5.2.3
   resolution: "@types/command-line-args@npm:5.2.3"
@@ -11621,7 +11596,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/validator@npm:13.15.10, @types/validator@npm:^13.15.3":
+"@types/validator@npm:^13.15.3":
   version: 13.15.10
   resolution: "@types/validator@npm:13.15.10"
   checksum: 10/63117a776ced4d066d7fb63130d90ba487d38209dd45c25641ca1a6f5040e8394cc9a855750b919b72a923c5ffb51f8474f213b10b5aaa27d9db108bef07ad10
@@ -12643,7 +12618,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bn.js@npm:^5.1.2, bn.js@npm:^5.2.0, bn.js@npm:^5.2.1, bn.js@npm:^5.2.5":
+"bn.js@npm:^5.1.2, bn.js@npm:^5.2.0, bn.js@npm:^5.2.1":
   version: 5.2.5
   resolution: "bn.js@npm:5.2.5"
   checksum: 10/10b1ac91e76fd828c1187cf65a9f1a0374e7afb9acd167e19c2d7c4108f6216841007c1e3aef145fa95cc7b3d07f705236a707184af1537667362b3a842d01ac
@@ -20701,7 +20676,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"validator@npm:13.15.26, validator@npm:^13.15.20, validator@npm:^13.6.0":
+"validator@npm:^13.15.20, validator@npm:^13.6.0":
   version: 13.15.26
   resolution: "validator@npm:13.15.26"
   checksum: 10/22488ae718ca724eda81b7c8bf505005d4d70cb6ff9a319f48fd897a31d40fd9a2971af4a3288667a04c56b4f95912555495519d54a5d8d63c2572bf4970081a

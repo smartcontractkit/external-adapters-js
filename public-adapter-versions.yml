@@ -60,11 +60,11 @@ adapters:
   - name: cryptocompare
     version: 3.5.3
   - name: data-engine
-    version: 1.8.0
+    version: 1.7.0
   - name: deep-blue
     version: 1.0.22
   - name: deutsche-boerse
-    version: 1.9.0
+    version: 1.8.0
   - name: dlc-btc-por
     version: 4.4.6
   - name: dlc-cbtc-por
@@ -168,9 +168,9 @@ adapters:
   - name: nav-generic
     version: 1.0.6
   - name: ncfx
-    version: 4.11.1
+    version: 4.11.0
   - name: nobi
-    version: 1.2.0
+    version: 1.1.0
   - name: nomia
     version: 2.0.5
   - name: nomia2
@@ -196,7 +196,7 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.17
   - name: savax-price
-    version: 3.0.169
+    version: 3.0.168
   - name: securitize
     version: 1.0.5
   - name: six
@@ -204,9 +204,7 @@ adapters:
   - name: solactive
     version: 1.0.5
   - name: solana-functions
-    version: 1.10.0
-  - name: spiro
-    version: 1.0.0
+    version: 1.9.0
   - name: stader-labs
     version: 3.0.27
   - name: starknet-gas-price
@@ -228,7 +226,7 @@ adapters:
   - name: the-network-firm
     version: 1.11.0
   - name: tickerlayer
-    version: 1.2.1
+    version: 1.2.0
   - name: tiingo
     version: 2.15.0
   - name: tiingo-state
@@ -236,7 +234,7 @@ adapters:
   - name: token-balance
     version: 3.7.0
   - name: tokenized-equity
-    version: 1.7.0
+    version: 1.5.1
   - name: tp
     version: 1.14.0
   - name: tradermade
@@ -258,4 +256,4 @@ adapters:
   - name: wisdomtree
     version: 1.0.6
   - name: xsushi-price
-    version: 2.0.168
+    version: 2.0.167

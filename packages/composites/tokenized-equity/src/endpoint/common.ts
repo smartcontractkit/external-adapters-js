@@ -2,8 +2,6 @@ import { BaseEndpointTypes as DataEngineResponse } from '@chainlink/data-engine-
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
-import { config } from '../config'
-import type { AssetRequest, Issuer } from '../issuers'
 
 export const inputExample = {
   asset: '0x0',
@@ -55,18 +53,11 @@ export const inputDefinition = new InputParameters(
       description:
         'The type of the market for session times, for example 24/5. This is passed to the tradinghours adapter as the `type` parameter.',
     },
-    marketSessionOverride: {
-      required: false,
-      type: 'string',
-      description:
-        'Hook for overriding the pre-market warm-up (session-start) gating check: instead of resolving the current session start from the wall clock, the check gates against the NEXT start of the named session, which will deterministically forcing the pre-session rejection. Requires sessionMarket and sessionMarketType; affects only the session-start gating check. Only the four real session statuses are accepted (UNKNOWN and WEEKEND can never match a tradinghours transition). Requests carrying this parameter are rejected with 400 unless ALLOW_MARKET_SESSION_OVERRIDE=true (and SESSION_START_GATING_ENABLED=true, since the hook only affects that check).',
-      options: ['PRE_MARKET', 'REGULAR', 'POST_MARKET', 'OVERNIGHT'],
-    },
     sessionBoundaries: {
       type: 'string',
       array: true,
       description:
-        '(backup) A list of time where market transition from 1 session to the next in the format of HH:MM. This is only used when the adapter is unable to fetch session times from the tradinghours EA',
+        '(backup) A list of time where market trasition from 1 session to the next in the format of HH:MM. This is only used when the adapter is unable to fetch session times from the tradinghours EA',
     },
     sessionBoundariesTimeZone: {
       type: 'string',
@@ -112,32 +103,23 @@ export const validateSmoother = ({
   sessionBoundariesTimeZone,
   sessionMarket,
   sessionMarketType,
-  marketSessionOverride,
 }: {
   smoother: string
   sessionBoundaries: string[]
   sessionBoundariesTimeZone?: string
   sessionMarket?: string
   sessionMarketType?: string
-  marketSessionOverride?: string
 }) => {
-  // marketSessionOverride is meaningless without market identity: gating is skipped
-  // without sessionMarket/sessionMarketType, so fail fast instead of silently ignoring it.
-  if (marketSessionOverride && (!sessionMarket || !sessionMarketType)) {
-    throw new AdapterInputError({
-      statusCode: 400,
-      message: `Parameter marketSessionOverride requires sessionMarket and sessionMarketType`,
-    })
-  }
-
   if (smoother === 'none') {
-    // sessionMarket/sessionMarketType are permitted with 'none': session-start gating
-    // consumes market identity even without a smoother. The smoother's own
-    // fallback inputs remain meaningless — and forbidden — without a smoother.
-    if (sessionBoundaries.length > 0 || sessionBoundariesTimeZone) {
+    if (
+      sessionBoundaries.length > 0 ||
+      sessionBoundariesTimeZone ||
+      sessionMarket ||
+      sessionMarketType
+    ) {
       throw new AdapterInputError({
         statusCode: 400,
-        message: `Parameters sessionBoundaries and sessionBoundariesTimeZone should not be provided when smoother is 'none'`,
+        message: `Parameters sessionBoundaries, sessionBoundariesTimeZone, sessionMarket, and sessionMarketType should not be provided when smoother is 'none'`,
       })
     }
     return
@@ -185,26 +167,6 @@ export const validateSmoother = ({
   return
 }
 
-type SmoothedPriceInput = TypeFromDefinition<typeof inputDefinition.definition> & AssetRequest
-
-/**
- * Input validation of the smoothed price endpoints. Issuer endpoints also check
- * the request and config their issuer needs.
- */
-export const smoothedPriceInputValidation =
-  (issuer?: Issuer) =>
-  (
-    { requestContext: { data } }: { requestContext: { data: SmoothedPriceInput } },
-    settings: typeof config.settings,
-  ): undefined => {
-    issuer?.validate(settings, data)
-    validateStreamIds(data)
-    validateSmoother(data)
-    settings.SOURCE_ADAPTER_URL.get('DATA_ENGINE')
-    settings.SOURCE_ADAPTER_URL.get('TRADING_HOURS')
-    return undefined
-  }
-
 export type output = {
   result: string
   decimals: number
@@ -221,7 +183,4 @@ export type output = {
     secondsFromTransition?: number
   }
   sessionSource?: 'TRADINGHOURS' | 'FALLBACK'
-  // Schedule source the session-start gate resolved from (sessionSource above is the
-  // smoother's). Absent when gating is off or skipped.
-  gatingSessionSource?: 'TRADINGHOURS' | 'FALLBACK'
 }

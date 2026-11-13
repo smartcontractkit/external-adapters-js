@@ -342,9 +342,6 @@
       "path": "./sources/solana-functions"
     },
     {
-      "path": "./sources/spiro"
-    },
-    {
       "path": "./sources/stader-labs"
     },
     {

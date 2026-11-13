@@ -1,6 +1,4 @@
 export { endpoint as coinbase } from './coinbase'
-export { endpoint as eaMultiplier } from './eaMultiplier'
-export { endpoint as issuerPrice247 } from './issuerPrice247'
 export { endpoint as ondo } from './ondo'
 export { endpoint as price } from './price'
 export { endpoint as robinhood } from './robinhood'
