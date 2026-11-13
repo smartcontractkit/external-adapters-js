@@ -1,5 +1,11 @@
 # @chainlink/nobi-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- [#5604](https://github.com/smartcontractkit/external-adapters-js/pull/5604) [`2b7ff01`](https://github.com/smartcontractkit/external-adapters-js/commit/2b7ff01facbc23577cc74328690ba3820808052f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix symbol splitting bug
+
 ## 1.2.0
 
 ### Minor Changes
