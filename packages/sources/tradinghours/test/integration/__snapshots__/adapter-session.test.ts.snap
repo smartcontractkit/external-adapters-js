@@ -16,21 +16,25 @@ exports[`Market status endpoint should return success 1`] = `
   "data": {
     "result": [
       {
+        "endTime": "2022-01-01T04:00:00-05:00",
         "status": 4,
         "statusString": "OVERNIGHT",
         "time": "2022-12-31T20:00:00-05:00",
       },
       {
+        "endTime": "2022-01-01T09:30:00-05:00",
         "status": 1,
         "statusString": "PRE_MARKET",
         "time": "2022-01-01T04:00:00-05:00",
       },
       {
+        "endTime": "2022-01-01T16:00:00-05:00",
         "status": 2,
         "statusString": "REGULAR",
         "time": "2022-01-01T09:30:00-05:00",
       },
       {
+        "endTime": "2022-01-01T20:00:00-05:00",
         "status": 3,
         "statusString": "POST_MARKET",
         "time": "2022-01-01T16:00:00-05:00",

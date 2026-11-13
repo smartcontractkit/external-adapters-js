@@ -34,6 +34,7 @@ export type BaseEndpointTypes = {
         status: MarketStatusResultResponse['Result']
         statusString: string
         time: string
+        endTime: string
       }[]
     }
   }
