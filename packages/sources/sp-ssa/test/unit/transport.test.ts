@@ -60,6 +60,11 @@ describe('provider record parsing', () => {
   })
 })
 
+type WrittenResult = {
+  params: { security_id: string }
+  response: { result?: number; statusCode?: number; errorMessage?: string }
+}
+
 describe('SsaTransport', () => {
   const adapterSettings = makeStub('adapterSettings', {
     API_ENDPOINT: 'http://api.com',
@@ -75,10 +80,20 @@ describe('SsaTransport', () => {
   } as unknown as SsaTransportTypes['Settings'])
 
   const requester = makeStub('requester', { request: jest.fn() })
+  const cacheStore = new Map<string, unknown>()
   const responseCache = {
-    write: jest.fn(),
-    getCacheKey: jest.fn(() => 'cache-key'),
-    cache: { delete: jest.fn() },
+    write: jest.fn(
+      async (_name: string, results: { params: { security_id: string }; response: unknown }[]) => {
+        for (const result of results) {
+          cacheStore.set(`cache-key-${result.params.security_id}`, result.response)
+        }
+      },
+    ),
+    get: jest.fn(async (key: string) => cacheStore.get(key)),
+    getCacheKey: jest.fn(
+      (_: string, params: { security_id: string }) => `cache-key-${params.security_id}`,
+    ),
+    cache: { delete: jest.fn(async (key: string) => cacheStore.delete(key)) },
   }
   const subscriptionSetFactory = makeStub('subscriptionSetFactory', {
     buildSet: jest.fn(() => ({ getAll: jest.fn() })),
@@ -96,6 +111,7 @@ describe('SsaTransport', () => {
   let transport: SsaTransport
 
   beforeEach(async () => {
+    cacheStore.clear()
     jest.clearAllMocks()
     transport = new SsaTransport()
     await transport.initialize(dependencies, adapterSettings, 'ssa', 'default_single_transport')
@@ -128,7 +144,7 @@ describe('SsaTransport', () => {
       }),
     )
     expect(responseCache.write).toHaveBeenCalledTimes(1)
-    const written = responseCache.write.mock.calls[0][1]
+    const written = responseCache.write.mock.calls[0][1] as WrittenResult[]
     expect(written).toHaveLength(2)
     expect(written[0].response.result).toBe(2)
     expect(written[1].params.security_id).toBe('SP-GUSD')
@@ -142,9 +158,9 @@ describe('SsaTransport', () => {
 
     await transport.backgroundHandler(context, [{ security_id: 'SP-EURC' }])
 
-    expect(responseCache.cache.delete).toHaveBeenCalledWith('cache-key')
+    expect(responseCache.cache.delete).toHaveBeenCalledWith('cache-key-SP-EURC')
     expect(responseCache.write).toHaveBeenCalledTimes(1)
-    const written = responseCache.write.mock.calls[0][1]
+    const written = responseCache.write.mock.calls[0][1] as WrittenResult[]
     expect(written[0].response.statusCode).toBe(502)
     expect(written[0].response.errorMessage).toContain('SSA score')
   })
@@ -158,13 +174,18 @@ describe('SsaTransport', () => {
         providerIndicatedTimeUnixMs: undefined,
       },
     )
-    requester.request.mockResolvedValueOnce(tokenResponse).mockRejectedValueOnce(authError)
+    requester.request
+      .mockResolvedValueOnce(tokenResponse)
+      .mockRejectedValueOnce(authError)
+      .mockResolvedValueOnce(tokenResponse)
+      .mockRejectedValueOnce(authError)
 
     await transport.backgroundHandler(context, [{ security_id: 'SP-401' }])
     const callsAfterFirst = requester.request.mock.calls.length
     await transport.backgroundHandler(context, [{ security_id: 'SP-401' }])
 
     expect(requester.request.mock.calls.length).toBe(callsAfterFirst)
+    expect(callsAfterFirst).toBe(4)
     expect(responseCache.write).toHaveBeenCalledTimes(1)
   })
 
@@ -231,11 +252,11 @@ describe('adapter configuration', () => {
     setEnvVariables(oldEnv)
   })
 
-  it('ships the bounded rate-limit tier and burst strategy', async () => {
+  it('ships the rate-limit tier and default strategy', async () => {
     const { adapter } = await import('../../src')
     const tier = adapter.rateLimiting?.tiers?.default
-    expect(tier?.rateLimit1m).toBe(10)
+    expect(tier?.rateLimit1m).toBe(300)
     expect(tier?.note ?? '').toContain('RATE_LIMIT_CAPACITY_MINUTE')
-    expect(adapter.config.settings.RATE_LIMITING_STRATEGY).toBe('burst')
+    expect(adapter.config.settings.RATE_LIMITING_STRATEGY).toBe('fixed-interval')
   })
 })

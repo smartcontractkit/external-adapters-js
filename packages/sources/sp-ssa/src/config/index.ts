@@ -29,7 +29,7 @@ export const config = new AdapterConfig(
   },
   {
     envDefaultOverrides: {
-      RATE_LIMITING_STRATEGY: 'burst',
+      API_TIMEOUT: 10_000,
     },
   },
 )

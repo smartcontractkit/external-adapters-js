@@ -11,8 +11,8 @@ export const adapter = new Adapter({
   rateLimiting: {
     tiers: {
       default: {
-        rateLimit1m: 10,
-        note: 'The provider hard cap is 300/min per apikey per environment, shared across all DON nodes. The 10/min tier is a safe per-process share for up to 30 processes; set RATE_LIMIT_CAPACITY_MINUTE to floor(300 / instances). The burst strategy lets the token and first data call run immediately on a cold start and can cluster up to 10 requests at a minute boundary, so the deployment must size for that window.',
+        rateLimit1m: 300,
+        note: 'The provider hard cap is 300/min per apikey per environment, shared across all DON nodes. This adapter ships rateLimit1m: 300 as the per-process hard ceiling; the deployment must set RATE_LIMIT_CAPACITY_MINUTE to floor(300 / instances). If the per-process rate is below 60/min, also raise CACHE_POLLING_MAX_RETRIES so the foreground cache poll window exceeds the limiter period.',
       },
     },
   },

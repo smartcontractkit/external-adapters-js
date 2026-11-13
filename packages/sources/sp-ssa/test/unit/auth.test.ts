@@ -65,6 +65,28 @@ describe('AuthManager', () => {
     )
   })
 
+  it('redacts the access token after multiple refreshes', async () => {
+    const requester = makeStub('requester', { request: jest.fn() })
+    requester.request
+      .mockResolvedValueOnce(tokenResponse('token-a'))
+      .mockResolvedValueOnce(tokenResponse('token-b'))
+      .mockResolvedValueOnce(tokenResponse('token-c'))
+    const manager = new AuthManager(requester as unknown as Requester, settings)
+
+    await manager.getToken()
+    manager.invalidate()
+    await manager.getToken()
+    manager.invalidate()
+    await manager.getToken()
+
+    const entries = CensorList.getAll().filter((entry) => entry.key === 'ACCESS_TOKEN')
+    expect(entries.length).toBeGreaterThan(0)
+    expect(entries.length).toBeLessThanOrEqual(4)
+    const censoredA = censor({ headers: { authorization: 'Bearer token-b' } }, CensorList.getAll())
+    expect(JSON.stringify(censoredA)).toContain('ACCESS_TOKEN REDACTED')
+    expect(JSON.stringify(censoredA)).not.toContain('token-b')
+  })
+
   it('shares one token request between concurrent callers', async () => {
     const requester = makeStub('requester', { request: jest.fn() })
     requester.request.mockImplementation(

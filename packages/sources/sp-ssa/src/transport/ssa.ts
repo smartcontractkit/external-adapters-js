@@ -11,7 +11,13 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/ssa'
 import { AuthManager } from './auth'
-import { errorMessage, errorTimestamps } from './errors'
+import {
+  errorMessage,
+  errorTimestamps,
+  fetchScoresWithReauth,
+  SsaAuthError,
+  writeCooldownErrors,
+} from './request'
 import { parseProviderRecords, parseScore, parseTimestamp, selectRecord } from './utils'
 
 const logger = makeLogger('SsaTransport')
@@ -57,6 +63,9 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     entries: RequestParams[],
   ): Promise<void> {
     if (Date.now() < this.authFailureUntil) {
+      if (await writeCooldownErrors(this.responseCache, this.name, entries)) {
+        return
+      }
       await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
       return
     }
@@ -67,7 +76,6 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     const generation = ++this.generation
 
     try {
-      const token = await this.authManager.getToken()
       const sortedEntries = [...entries].sort((a, b) => a.security_id.localeCompare(b.security_id))
       const requestKey = calculateHttpRequestKey<SsaTransportTypes>({
         context: {
@@ -78,18 +86,12 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
         data: sortedEntries,
         transportName: this.name,
       })
-      const providerResponse = await this.requester.request<unknown>(requestKey, {
-        method: 'GET',
-        baseURL: this.settings.API_ENDPOINT,
-        url: '/api/v1/ssa/getAllScores',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-          apikey: this.settings.API_KEY,
-        },
-      })
-
+      const providerResponse = await fetchScoresWithReauth(
+        this.requester,
+        this.settings,
+        this.authManager,
+        requestKey,
+      )
       if (providerResponse.response.status !== 200) {
         throw new AdapterError({
           statusCode: 502,
@@ -144,13 +146,11 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
         await this.writeResults(results)
       }
     } catch (e) {
-      const adapterError = e as AdapterError
-      if (adapterError?.providerStatusCode === 401) {
-        this.authManager.invalidate()
-        this.authFailureUntil = Date.now() + SsaTransport.AUTH_FAILURE_COOLDOWN_MS
-      }
       if (generation !== this.generation) {
         return
+      }
+      if (e instanceof SsaAuthError) {
+        this.authFailureUntil = Date.now() + SsaTransport.AUTH_FAILURE_COOLDOWN_MS
       }
       const message = errorMessage(e)
       logger.error(message)
@@ -158,7 +158,7 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
       const results: TimestampedProviderResult<SsaTransportTypes>[] = entries.map((entry) => ({
         params: entry,
         response: {
-          statusCode: adapterError?.statusCode || 502,
+          statusCode: (e as AdapterError)?.statusCode || 502,
           errorMessage: message,
           timestamps,
         },

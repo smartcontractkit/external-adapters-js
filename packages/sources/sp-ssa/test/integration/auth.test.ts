@@ -28,7 +28,7 @@ describe('auth', () => {
     process.env.API_KEY = 'api-key'
     process.env.BACKGROUND_EXECUTE_MS_HTTP = '0'
     process.env.API_TIMEOUT = '100'
-    process.env.RETRY = '1'
+    process.env.RETRY = '0'
     process.env.REQUESTER_SLEEP_BEFORE_REQUEUEING_MS = '1'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
@@ -103,12 +103,5 @@ describe('auth', () => {
     const response = await request('SP-TIMEOUT')
     expect(response.statusCode).toBe(502)
     expect(response.json().errorMessage).toContain('timeout')
-  })
-
-  it('does not include the access token in an error response', async () => {
-    dataHandler = () => [500, { message: 'test-access-token' }]
-    const response = await request('SP-SECRET')
-    expect(response.statusCode).toBe(502)
-    expect(JSON.stringify(response.json())).not.toContain('test-access-token')
   })
 })

@@ -18,6 +18,7 @@ interface TokenResponse {
 interface CachedToken {
   token: string
   refreshAtMs: number
+  expiresAtMs: number
 }
 
 export class AuthManager {
@@ -43,9 +44,16 @@ export class AuthManager {
     if (this.pending) {
       return this.pending
     }
-    this.pending = this.requestToken().finally(() => {
-      this.pending = undefined
-    })
+    this.pending = this.requestToken()
+      .catch((e) => {
+        if (this.cached && Date.now() < this.cached.expiresAtMs) {
+          return this.cached.token
+        }
+        throw e
+      })
+      .finally(() => {
+        this.pending = undefined
+      })
     return this.pending
   }
 
@@ -59,9 +67,14 @@ export class AuthManager {
 
   private static registerCensoredToken(token: string): void {
     const boundary = `(?<![A-Za-z0-9._-])${AuthManager.escapeRegExp(token)}(?![A-Za-z0-9._-])`
-    const list = CensorList.getAll()
-    list.push({ key: 'ACCESS_TOKEN', value: new RegExp(boundary, 'g') })
-    CensorList.set(list)
+    const all = CensorList.getAll()
+    const others = all.filter((entry) => entry.key !== 'ACCESS_TOKEN')
+    const recent = all.filter((entry) => entry.key === 'ACCESS_TOKEN').slice(-3)
+    CensorList.set([
+      ...others,
+      ...recent,
+      { key: 'ACCESS_TOKEN', value: new RegExp(boundary, 'g') },
+    ])
   }
 
   private async requestToken(): Promise<string> {
@@ -128,6 +141,7 @@ export class AuthManager {
     this.cached = {
       token: accessToken,
       refreshAtMs: Date.now() + expiresInMs - refreshMarginMs,
+      expiresAtMs: Date.now() + expiresInMs,
     }
     return this.cached.token
   }
