@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute returns the selected position as aum 1`] = `
+{
+  "data": {
+    "aum": 12345.6789,
+    "linkFee": 0,
+    "nativeFee": 0,
+    "navDate": 0,
+    "navPerShare": 0,
+    "result": 12345.6789,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+  },
+  "result": 12345.6789,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1793836800000,
+    "providerDataRequestedUnixMs": 1793836800000,
+    "providerIndicatedTimeUnixMs": 1793836800000,
+  },
+}
+`;
