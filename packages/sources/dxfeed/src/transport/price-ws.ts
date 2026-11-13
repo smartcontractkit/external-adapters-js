@@ -1,11 +1,16 @@
 import { BaseEndpointTypes } from '../endpoint/price'
-import { DxLinkEvent, DxLinkTransport } from './dxlink'
+import { DxLinkEvent, DxLinkEventType, DxLinkTransport } from './dxlink'
 import { toNumber } from './utils'
 
 export class PriceTransport extends DxLinkTransport<BaseEndpointTypes> {
   constructor() {
-    // Subscribe both; newest provider time wins, so no session/clock logic.
+    // Negotiate both field sets; eventTypesForSymbol gates the subscriptions.
     super(['Trade', 'TradeETH'])
+  }
+
+  protected eventTypesForSymbol(symbol: string): DxLinkEventType[] {
+    // Match the incumbent: :USLF24 gets Trade + TradeETH; bare tickers get Trade.
+    return symbol.toUpperCase().includes(':USLF24') ? ['Trade', 'TradeETH'] : ['Trade']
   }
 
   protected parseEvent(event: DxLinkEvent) {

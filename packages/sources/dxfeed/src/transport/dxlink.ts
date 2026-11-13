@@ -68,8 +68,8 @@ export type DxLinkTransportTypes<T extends BaseTransportTypes> = T & {
 }
 
 /**
- * WebSocketTransport for dxLink. It subscribes each `base` to the subclass' event
- * types and passes decoded events to `parseEvent`.
+ * WebSocketTransport for dxLink. It subscribes each `base` to the event types
+ * selected by the subclass and passes decoded events to `parseEvent`.
  */
 export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebSocketTransport<
   DxLinkTransportTypes<T>
@@ -238,8 +238,15 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
     ]
   }
 
+  /** Event types to subscribe for one symbol; subclasses can narrow this per symbol. */
+  protected eventTypesForSymbol(_symbol: string): DxLinkEventType[] {
+    return this.eventTypes
+  }
+
   private toSubscriptions(symbols: string[]) {
-    return symbols.flatMap((symbol) => this.eventTypes.map((type) => ({ type, symbol })))
+    return symbols.flatMap((symbol) =>
+      this.eventTypesForSymbol(symbol).map((type) => ({ type, symbol })),
+    )
   }
 
   private storeFeedConfig(message: DxLinkMessage) {
