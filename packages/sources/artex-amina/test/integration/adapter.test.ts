@@ -320,6 +320,7 @@ describe('execute', () => {
   it.each([
     ['portfolioNo', { portfolioNo: 1, isin: ISIN }],
     ['isin', { portfolioNo: PORTFOLIO_NO, isin: 'not-an-isin' }],
+    ['isin', { portfolioNo: PORTFOLIO_NO, isin: 'US0378331006' }],
   ])('returns 400 for an invalid %s', async (field, data) => {
     nock.cleanAll()
 
