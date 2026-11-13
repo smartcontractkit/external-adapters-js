@@ -15,8 +15,7 @@ export const config = new AdapterConfig({
     sensitive: true,
   },
   WS_API_ENDPOINT: {
-    description:
-      'The dxLink websocket url for dxfeed.',
+    description: 'The dxLink websocket url for dxfeed.',
     type: 'string',
     sensitive: true,
     validate: {
