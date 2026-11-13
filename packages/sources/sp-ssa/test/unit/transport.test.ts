@@ -261,6 +261,9 @@ describe('SsaTransport', () => {
       )
     })
     const baseWrite = responseCache.write.getMockImplementation()
+    if (!baseWrite) {
+      throw new Error('missing cache write implementation')
+    }
     let releaseWrite: (() => void) | undefined
     const writeGate = new Promise<void>((resolve) => {
       releaseWrite = resolve
@@ -272,7 +275,7 @@ describe('SsaTransport', () => {
           blocked = true
           await writeGate
         }
-        await baseWrite?.(name, results)
+        await baseWrite(name, results)
       },
     )
 
@@ -294,7 +297,7 @@ describe('SsaTransport', () => {
     expect(responseCache.write).toHaveBeenCalledTimes(4)
     const final = cacheStore.get('cache-key-SP-RACE') as { result?: number } | undefined
     expect(final?.result).toBe(5)
-    responseCache.write.mockImplementation(baseWrite!)
+    responseCache.write.mockImplementation(baseWrite)
   })
 })
 
