@@ -18,9 +18,10 @@ The Tokenized Equity EA that is used to create 24/5 data feeds (DF1) performs no
 - No onchain price moves caused by stale reports: a report older than the configured freshness
   threshold is rejected (503) instead of published, so feeds retain their last valid value
   through provider outages rather than printing stale data.
-- No spurious moves at session opens: reports timestamped before the current session's start are
-  discarded, even when they are fresh by age (the warm-up failure mode a freshness bound cannot
-  catch).
+- No spurious moves at session opens: reports timestamped before the start of the session they
+  belong to — the session named by the report's own `marketStatus` label — are discarded, even
+  when they are fresh by age (the warm-up failure mode a freshness bound cannot catch). The
+  gate's session of reference is the report's label, not the wall-clock session (§4).
 
 **Engineering/operational outcomes**
 
@@ -95,6 +96,26 @@ Stream selection itself is unchanged: the pre-existing eligibility fall-through 
 regular → extended → overnight, a stream eligible only when its report's `marketStatus` matches
 the session it serves) is preserved exactly. The new checks gate the _selected_ stream only.
 
+**Session of reference: the report's own label, not the wall clock.** Both boundary checks
+evaluate the selected report against the start of the session named by the report's _own_
+`marketStatus` — never against the session the schedule says is active at request time.
+Selection already treats the provider's label as truth (a REGULAR-labeled report is served by
+the regular stream regardless of the wall-clock session), so the gate deliberately holds that
+same label to its own session's open. Consequences:
+
+- _Caught_: a report timestamped just before its session's open still served after it — the
+  observed warm-up incident (a 09:29:59 REGULAR placeholder published at 09:30:05, in the
+  ~40–50s provider warm-up window), and Friday overnight leftovers served at the Sunday 20:00
+  overnight open.
+- _Not caught — deliberately out of scope_: a report whose label contradicts the wall-clock
+  session but is in-session for its own label. A 15:59:59 REGULAR print still labeled REGULAR
+  at 16:30 postdates the 09:30 regular open, so it passes; a REGULAR-labeled warm-up
+  placeholder transmitted at 09:24 (before the open) postdates the previous regular open, so
+  it passes. Rejecting these would require gating against the schedule-active session and
+  overriding the provider's label — a different design, rejected below (§4, alternatives).
+  The production failure mode this feature exists for (a spurious move _at_ the open, §1)
+  occurs after the open, inside the gate's protection window.
+
 ### Design constraints
 
 - **Provider validity contract.** The provider guarantees validity only for updates timestamped
@@ -133,11 +154,16 @@ opening transition and could never gate the regular open; without Sunday OVERNIG
 open could not be distinguished from Friday leftovers. A single fetch per price request is shared
 by both consumers.
 
-A selected report whose `lastSeenTimestampNs` predates the current session start is a leftover
-from the previous session and is rejected with 503 `Market data predates session start: …
-PRE_SESSION(...)`, even if it is fresh by age. This catches what the age check cannot: a report
-produced just before a boundary but served just after it (the 15:59:59 REGULAR print echoed into
-POST_MARKET; Friday overnight data served at the Sunday open). This check runs **before** the
+A selected report whose `lastSeenTimestampNs` predates the start of the session named by its
+own `marketStatus` is a leftover from that session's previous occurrence and is rejected with
+503 `Market data predates session start: … PRE_SESSION(...)`, even if it is fresh by age. This
+catches what the age check cannot: a report produced just before its session's open but served
+just after it (the 09:29:59 REGULAR warm-up placeholder served at 09:30:05 — the observed
+incident; Friday overnight data served at the Sunday 20:00 overnight open). Note the
+consequence of the session-of-reference rule (§4 Overview): the 15:59:59 REGULAR print echoed
+into POST_MARKET is **not** rejected by this check — while the provider keeps labeling it
+REGULAR it is in-session for its own label, and selection continues to prefer the regular
+stream. This check runs **before** the
 staleness check: a pre-session leftover is invalid regardless of its age.
 
 ### Check 2: staleness gating
@@ -280,7 +306,8 @@ Criteria columns:
 - **session-start gating** — `SESSION_START_GATING_ENABLED`.
 - **schedule** — is the tradinghours `market-session` schedule available, and does it contain a
   transition opening the selected session?
-- **lastSeen vs start** — report timestamp vs the current session's start.
+- **lastSeen vs start** — report timestamp vs the start of the selected stream's own session
+  (the session named by the report's `marketStatus` — not the wall-clock session; §4 Overview).
 
 | #   | marketStatus match                                                 | staleness check                                   | age         | session-start gating                               | schedule                                                       | lastSeen vs start         | Outcome                                                                                                                                                                                                                                                                                 |
 | --- | ------------------------------------------------------------------ | ------------------------------------------------- | ----------- | -------------------------------------------------- | -------------------------------------------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -321,6 +348,15 @@ Notes:
   its freshness is precisely what makes it dangerous. Running the boundary check first means a
   report that is both pre-session and stale reports `PRE_SESSION`, and staleness only ever
   evaluates reports that provably belong to the current session.
+- **Gate against the report's own session, not the wall-clock session.** The alternative —
+  resolving the schedule-active session at request time and rejecting any selected report that
+  contradicts it — would catch cross-session echoes (a REGULAR print served during POST_MARKET)
+  but at the cost of second-guessing the provider's label with a schedule the provider may not
+  follow exactly (early opens/closes, label-vs-schedule skew at boundaries). Selection already
+  trusts the label; making the gate distrust it would put two components at odds on the same
+  input and could 503 valid in-session data at every boundary skew. The observed warm-up
+  failure mode (§1) is fully covered by the own-session rule, so the cross-session exposure is
+  accepted deliberately.
 - **Consumer-side gating vs fixing providers/upstream.** Provider warm-up behavior and upstream
   staleness are outside our control and timeline; the EA is the last point where bad data can be
   stopped before it reaches the chain, and it already sees every stream plus the session
