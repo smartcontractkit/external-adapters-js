@@ -10,7 +10,8 @@ export type Settings = typeof config.settings
 
 /**
  * Every issuer keeps its multiplier as an 18 decimal fixed point number.
- * Hardcoded, like the issuer-specific endpoints, rather than read from chain.
+ * Hardcoded, like the issuer-specific endpoints, rather than read from chain
+ * (docs/adr/0004): confirm the decimals when onboarding an issuer or asset.
  */
 export const MULTIPLIER_DECIMALS = 18
 
