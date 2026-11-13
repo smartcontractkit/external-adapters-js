@@ -4,16 +4,10 @@ import type { AdapterError } from '@chainlink/external-adapter-framework/validat
 import type { config } from '../config'
 import overrides from '../config/overrides.json'
 import { transport } from '../transport/stock-quotes'
-import { wsEnvPresenceError } from './utils'
+import { inputParameters, wsEnvPresenceError } from './utils'
 
 export const stockQuotesInputParameters = new InputParameters({
-  base: {
-    aliases: ['from', 'symbol', 'asset', 'coin', 'ticker', 'market'],
-    type: 'string',
-    description: 'The symbol of the stock to query; passed to the provider exactly as given',
-    required: true,
-  },
-
+  ...inputParameters.definition,
   requireVolume: {
     default: false,
     description: 'If true, throw error if bid/ask volume is invalid',
@@ -34,9 +28,9 @@ export type BaseEndpointTypes = {
     Data: {
       mid_price: number
       bid_price: number
-      bid_volume: number | null
+      bid_volume: number
       ask_price: number
-      ask_volume: number | null
+      ask_volume: number
     }
   }
 }
@@ -47,6 +41,5 @@ export const endpoint = new AdapterEndpoint({
   transport,
   inputParameters: stockQuotesInputParameters,
   overrides: overrides.dxfeed,
-
   customInputValidation: (_, settings): AdapterError | undefined => wsEnvPresenceError(settings),
 })
