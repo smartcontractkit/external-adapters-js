@@ -10,8 +10,7 @@ export class StockQuotesTransport extends DxLinkTransport<BaseEndpointTypes> {
   protected parseEvent(event: DxLinkEvent) {
     const base = event.eventSymbol
     const { response, requireVolumeResponse } = buildResponses(event)
-    // Every quote serves regular requests, but isOvernight requests only accept quotes from
-    // the overnight venue (exchange code O on both sides)
+    // Regular requests accept every quote; isOvernight accepts only O/O.
     const isOvernightQuote = event.bidExchangeCode === 'O' && event.askExchangeCode === 'O'
     const sessions = isOvernightQuote ? [false, true] : [false]
 
@@ -25,8 +24,7 @@ export class StockQuotesTransport extends DxLinkTransport<BaseEndpointTypes> {
 const buildResponses = (event: DxLinkEvent) => {
   const bidPrice = toNumber(event.bidPrice)
   const askPrice = toNumber(event.askPrice)
-  // stock_quotes is the equity endpoint: a quote needs a positive bid and ask.
-  // Zero/negative is an empty book or a bad value, not something to repair.
+  // Equity quote needs positive bid/ask; reject, never repair.
   if (bidPrice === null || askPrice === null || bidPrice <= 0 || askPrice <= 0) {
     const error = {
       statusCode: 502,
@@ -51,8 +49,7 @@ const buildResponses = (event: DxLinkEvent) => {
     return { response: error, requireVolumeResponse: error }
   }
 
-  // Volume is optional, but a negative size is not a valid size: treat it as
-  // missing rather than carrying a bad value through the response.
+  // Negative volume means missing, not zero.
   const volumeOrNull = (value: unknown): number | null => {
     const parsed = toNumber(value)
     return parsed !== null && parsed >= 0 ? parsed : null

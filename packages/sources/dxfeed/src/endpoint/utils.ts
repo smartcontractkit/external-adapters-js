@@ -8,7 +8,7 @@ export const inputParameters = new InputParameters(
       aliases: ['from', 'symbol', 'asset', 'coin', 'ticker', 'market'],
       type: 'string',
       description:
-        'The symbol of the stock to query. Suffixes (:USLF24, :OCEA, :XNYM) are passed through exactly as given; request-level dxfeed overrides are applied before the transport sees the value.',
+        'The symbol of the stock to query; suffixes such as :USLF24 are passed through as given.',
       required: true,
     },
   },
@@ -19,7 +19,7 @@ export const inputParameters = new InputParameters(
   ],
 )
 
-/** The WS transport needs settings that are optional for REST, so check them per request */
+/** WS-only env checks; REST can run without them. */
 export const validateWsEnvVars = (settings: typeof config.settings) => {
   if (!settings.WS_API_ENDPOINT) {
     return new AdapterInputError({ statusCode: 400, message: 'WS_API_ENDPOINT is not set' })

@@ -1,11 +1,7 @@
 /**
- * Config env-surface tests — OPDATA-9200 spec, external_adapter_specifications
- * .environment_variables. Asserts the adapter config contract, never an
- * implementation detail:
- *
- * WS_API_ENDPOINT / API_USERNAME / API_PASSWORD are required=false at
- * AdapterConfig level (spec environment_variables table): the REST
- * transport starts standalone
+ * Config env-surface tests for OPDATA-9200.
+ * WS_API_ENDPOINT / API_USERNAME / API_PASSWORD are optional at AdapterConfig
+ * level so the REST transport starts standalone.
  */
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
@@ -31,10 +27,7 @@ const clearWsEnv = (): void => {
   }
 }
 
-// Fresh src modules per test so env changes are re-read from scratch — WITHOUT
-// jest.resetModules(), which forks the framework module graph (the logger
-// factory singleton and the Adapter class identity must stay shared with the
-// test graph).
+// Fresh src modules per test so env changes are re-read without resetModules().
 const clearSrcCache = (): void => {
   for (const key of Object.keys(require.cache)) {
     if (key.includes('/dxfeed/src/')) {
@@ -53,11 +46,7 @@ describe('dxfeed config env surface', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    // The restored incumbent API_ENDPOINT demo-warning logs from the config
-    // validate fn; the real server sets the logger factory in
-    // adapter.initialize() before any logging. These tests construct the
-    // AdapterConfig standalone, so mirror that bootstrap here (default
-    // factory, no-arg set()).
+    // The config validator logs the demo warning; mirror the server's logger bootstrap.
     LoggerFactoryProvider.set()
   })
 
@@ -73,7 +62,6 @@ describe('dxfeed config env surface', () => {
         config.initialize()
         config.validate()
       }).not.toThrow()
-      // No WS endpoint configured: unset reads as absent.
       expect(config.settings.WS_API_ENDPOINT ?? null).toBeNull()
     })
   })
@@ -86,10 +74,9 @@ describe('dxfeed config env surface', () => {
       config.validate()
     }).not.toThrow()
     expect(config.settings.WS_API_ENDPOINT).toBe(VALID_WS_URL)
-    // API_ENDPOINT is optional with the spec default; the REST transport is
-    // unchanged by the migration.
+    // API_ENDPOINT is optional with the framework default; REST is unchanged.
     expect(config.settings.API_ENDPOINT).toBe(REST_DEFAULT)
-    // Framework default: 10s, safely below the 60s dxLink server timeout.
+    // Framework default: 10s, below the 60s dxLink timeout.
     expect(config.settings.WS_HEARTBEAT_INTERVAL_MS).toBe(10000)
   })
 

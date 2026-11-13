@@ -354,14 +354,8 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
 }
 
 /**
- * Batch-tolerant REST mock (framework HttpTransport batching): the transport's
- * prepareRequests folds ALL desired params of the shared adapter into ONE
- * request (symbols=NVDA,XAU,...), and the background batch loop re-fetches
- * every still-desired symbol on each interval — including symbols registered
- * by earlier tests. The registry therefore ACCUMULATES registrations across
- * tests, the interceptor matches when ANY requested symbol is registered, and
- * the reply is built at request time for EVERY requested symbol (a symbol
- * missing from the registry replies null -> the adapter's 502 path).
+ * Batch-tolerant REST mock: the transport batches all desired params into one
+ * request and re-fetches across tests, so the registry accumulates symbols.
  */
 const symbolPriceRegistry = new Map<string, number | null>()
 

@@ -15,15 +15,10 @@ import type { config } from '../config'
 
 const logger = makeLogger('DxLinkTransport')
 
-// dxLink multiplexes services over channels: 0 is the connection-level control
-// channel, and we open a single FEED service on channel 1.
+// Channel 0 is control; channel 1 is the FEED service.
 const CONTROL_CHANNEL = 0
 const FEED_CHANNEL = 1
 
-// A TIMEOUT means the connection is unusable and should always be replaced.
-// Client-state errors get one reconnect per cooldown so a deterministic bad
-// frame cannot create a reconnect loop. Auth/protocol errors are config bugs;
-// reconnecting with the same settings cannot fix them.
 const TIMEOUT_ERROR = 'TIMEOUT'
 const RETRY_ONCE_ERRORS = new Set(['INVALID_MESSAGE', 'BAD_ACTION', 'UNKNOWN'])
 const ERROR_RECONNECT_COOLDOWN_MS = 5 * 60_000
@@ -46,10 +41,7 @@ const EVENT_FIELDS = {
 
 export type DxLinkEventType = keyof typeof EVENT_FIELDS
 
-/**
- * A decoded COMPACT record, keyed by the field names from FEED_CONFIG.
- * Doubles can arrive as numbers, null, or the strings "NaN" / "Infinity".
- */
+/** A decoded COMPACT record, keyed by FEED_CONFIG field order. */
 export type DxLinkEvent = {
   eventType: DxLinkEventType
   eventSymbol: string
@@ -76,8 +68,8 @@ export type DxLinkTransportTypes<T extends BaseTransportTypes> = T & {
 }
 
 /**
- * WebSocketTransport for the dxLink protocol. It subscribes every requested `base` to the
- * subclass' event types, and hands each decoded event to the subclass' `parseEvent`.
+ * WebSocketTransport for dxLink. It subscribes each `base` to the subclass' event
+ * types and passes decoded events to `parseEvent`.
  */
 export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebSocketTransport<
   DxLinkTransportTypes<T>
@@ -113,7 +105,7 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
     })
   }
 
-  // The connection is ready once the server answers FEED_SETUP with FEED_CONFIG
+  // The connection is ready once FEED_SETUP is answered with FEED_CONFIG
   private handshake(connection: WebSocket): Promise<void> {
     return new Promise((resolve, reject) => {
       connection.addEventListener('message', (event: WebSocket.MessageEvent) => {
@@ -175,9 +167,7 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
         return []
       case 'ERROR':
         logger.warn(`dxLink error: ${message.error} ${message.message}`)
-        // Provider ERROR frames are informational for requests, but operators need
-        // an alertable signal for UNAUTHORIZED, INVALID_MESSAGE, TIMEOUT, etc.
-        // Label with the dxLink error code, not the free-text message, to bound cardinality.
+        // Provider ERRORs are informational; count them by dxLink error code for alerting.
         metrics
           .get('wsConnectionErrors')
           .labels({ message: message.error ?? 'unknown' })
@@ -192,11 +182,7 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
     }
   }
 
-  // A TIMEOUT always reconnects. Client-state errors (INVALID_MESSAGE,
-  // BAD_ACTION, UNKNOWN) get one reconnect per cooldown, so a repeatable bad
-  // frame does not create a reconnect loop. UNAUTHORIZED/UNSUPPORTED_PROTOCOL
-  // are configuration/protocol mismatches; reconnect with the same settings
-  // cannot fix them.
+  // TIMEOUT reconnects; client-state errors retry once per 5m; auth/protocol errors never.
   private shouldReconnect(code: string | undefined): boolean {
     if (code === TIMEOUT_ERROR) {
       return true
@@ -213,16 +199,9 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
     return true
   }
 
-  // Out-of-order events (and Trade vs TradeETH, which update the same price) must not overwrite
-  // newer data. This runs after parsing and before the framework cache write, so a stale frame
-  // never reaches the cache. The map is not reset on reconnect: an older replay cannot overwrite
-  // newer data, and cache expiry remains the framework's normal 504 path. Errors have no provider
-  // time and always pass; the framework cache refuses to replace a valid, unexpired response with
-  // an error.
-  //
-  // CompareResponseCache is not used here: it is installed by CompositeTransport and reads each
-  // cache key asynchronously, so two frames in the same tick can both observe the old value and
-  // race. This synchronous per-params guard orders them before the cache write.
+  // Newest provider time wins. This runs before the cache write and is synchronous,
+  // so same-tick frames cannot race. CompareResponseCache is not a substitute: it
+  // reads each key asynchronously. Errors bypass this and cannot replace a valid cache.
   private isLatest({ params, response }: ProviderResult<DxLinkTransportTypes<T>>): boolean {
     const time =
       'timestamps' in response ? response.timestamps?.providerIndicatedTimeUnixMs : undefined
@@ -237,8 +216,7 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
     return true
   }
 
-  // Requests that differ only in other params (e.g. stock_quotes' isOvernight) share one
-  // dxLink subscription, so work with unique symbols and never remove one still desired.
+  // Shared subscription: never remove a symbol another request still wants.
   private subscriptionMessages({
     new: added,
     stale,
@@ -286,7 +264,6 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
   }
 }
 
-// Every dxfeed endpoint has a `base` param, which TS can't see through the generic params type
 const toSymbols = (params: object[]): Set<string> =>
   new Set(params.map((p) => (p as { base: string }).base.toUpperCase()))
 
