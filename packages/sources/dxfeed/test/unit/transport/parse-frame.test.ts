@@ -146,7 +146,7 @@ describe('dxLink COMPACT frame parsing', () => {
       ask_volume: 80,
     })
     expect(body.data.mid_price).toBeCloseTo(190, 10)
-    expect(body.result).toBeCloseTo(190, 10)
+    expect(body.result).toBeNull()
     expect(body.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000001000)
   })
 

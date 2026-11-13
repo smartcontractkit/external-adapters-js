@@ -58,7 +58,7 @@ const buildResponses = (event: DxLinkEvent) => {
   const askVolume = volumeOrNull(event.askSize)
 
   const response = {
-    result: midPrice,
+    result: null,
     data: {
       mid_price: midPrice,
       bid_price: bidPrice,
