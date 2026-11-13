@@ -46,6 +46,9 @@ export const endpoint = new AdapterEndpoint<BaseEndpointTypes>({
     return wsEnvPresenceError(settings)
   },
 
+  // AdapterEndpoint (unlike the framework's PriceEndpoint) has no built-in
+  // check that `result` is actually a number -- replicate the numeric-result
+  // validation dxfeed relied on upstream.
   customOutputValidation: (output): AdapterError | undefined => {
     if ('errorMessage' in output) {
       return undefined
