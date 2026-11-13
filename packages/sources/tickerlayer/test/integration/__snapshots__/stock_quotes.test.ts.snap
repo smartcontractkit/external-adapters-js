@@ -1,5 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`websocket stock_quotes endpoint should return overnight quote regardless of the requested assetType 1`] = `
+{
+  "data": {
+    "ask_price": 1001,
+    "ask_volume": 0,
+    "bid_price": 1000,
+    "bid_volume": 0,
+    "mid_price": 1000.4,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1999999,
+  },
+}
+`;
+
 exports[`websocket stock_quotes endpoint should return success 1`] = `
 {
   "data": {

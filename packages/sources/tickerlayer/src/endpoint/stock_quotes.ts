@@ -11,11 +11,6 @@ export const stockQuotesInputParameters = new InputParameters({
     description: 'If true, report overnight session data',
     type: 'boolean',
   },
-  requireVolume: {
-    default: false,
-    description: 'If this and isOvernight are true, throw error if bid/ask volume is invalid',
-    type: 'boolean',
-  },
 })
 
 export type BaseEndpointTypes = {
@@ -25,9 +20,9 @@ export type BaseEndpointTypes = {
     Data: {
       mid_price: number
       bid_price: number
-      bid_volume: number | undefined
+      bid_volume: number
       ask_price: number
-      ask_volume: number | undefined
+      ask_volume: number
     }
   }
   Settings: typeof config.settings
@@ -39,4 +34,13 @@ export const endpoint = new AdapterEndpoint({
   transport: wsTransport,
   inputParameters: stockQuotesInputParameters,
   customInputValidation,
+  requestTransforms: [
+    (request) => {
+      // assetType is not used when isOvernight is true
+      // Force a value here so that any assetType resolve to the same cache
+      if (request.requestContext.data.isOvernight) {
+        request.requestContext.data.assetType = 'overnight'
+      }
+    },
+  ],
 })

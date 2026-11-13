@@ -513,3 +513,85 @@ describe('Eurex (md-microproducts) guard', () => {
     expect(d.askSize).toBe(7)
   })
 })
+
+// Deutsche Boerse sends bid/offer quote frames with a zero price (`Px:{} Sz:{}`, which decodes to
+// m=0n e=0 because proto3 omits zero values) right after a trade on md-tradegate; the real quote
+// follows ~70ms later. A zero price there means the venue cleared that side of the quote, so the
+// adapter must drop the frame instead of publishing bid=0 / a bogus mid.
+//
+// The hex frames below were captured byte-for-byte from the live stream
+// (tools/dbag-price-printer, 2026-10-26).
+describe('LWBA zero-priced quote frames', () => {
+  const TRADEGATE_ISIN = 'DE0006231004' // unique to avoid cache interference
+
+  // Trade at the offer (18:56:08.588) is followed ~10ms later by this frame:
+  //   Dat:{Bid:{Px:{} Sz:{}} Offer:{Px:{} Sz:{}} Tm:1793040968598000000}
+  const EMPTY_BOTH_SIDES_HEX =
+    '0a0c6d642d74726164656761746510eabaa08881011a8c010a27747970652e676f6f676c65617069732e636f6d2f646261672e6365662e4d61726b6574446174611261120d08e51010a48eefb288c9e8ef6a1a160a0458474154120c444530303036323331303034280722380a0a0a001200220208012a00120c0a001200220208012a0208011a0208025a0208017a0308cb01da0103455552980680a38688ada88af118'
+
+  // 19:34:36.825: bid is empty, offer is a real 50.76 x 1:
+  //   Dat:{Bid:{Px:{} Sz:{}} Offer:{Px:{m:5076 e:-2} Sz:{m:1}} Tm:1793043276825000000}
+  const EMPTY_BID_REAL_OFFER_HEX =
+    '0a0c6d642d74726164656761746510a9e2c98981011a9c010a27747970652e676f6f676c65617069732e636f6d2f646261672e6365662e4d61726b6574446174611271120d08e51010e3b5d8b2c8e9eaef6a1a160a0458474154120c444530303036323331303034280722480a0a0a001200220208012a00121c0a0e08d42710feffffffffffffffff0112020801220208012a0208011a0208025a0208017a0308cb01da01034555529806c0f0b9f0c3eb8af118'
+
+  const GOOD_QUOTE = { bid: 50.49, ask: 50.59, mid: 50.54, bidSize: 100, askSize: 200 }
+
+  const t = lwbaProtobufWsTransport as any
+
+  const goodQuoteBuffer = () =>
+    makeStreamBuffer(
+      {
+        Instrmt: { Sym: TRADEGATE_ISIN },
+        Dat: create(DataSchema, {
+          Bid: { Px: dec(5049n, -2), Sz: dec(100n, 0) },
+          Offer: { Px: dec(5059n, -2), Sz: dec(200n, 0) },
+          Tm: 1_793_040_968_000_000_000n,
+        } as any),
+      } as any,
+      MARKET2,
+    )
+
+  // A trade frame re-emits whatever quote is cached, so it shows what the cache holds.
+  const tradeBuffer = () =>
+    makeStreamBuffer(
+      {
+        Instrmt: { Sym: TRADEGATE_ISIN },
+        Dat: create(DataSchema, {
+          Px: dec(5059n, -2),
+          Sz: dec(2n, 0),
+          Tm: 1_793_040_968_100_000_000n,
+        } as any),
+      } as any,
+      MARKET2,
+    )
+
+  beforeEach(() => {
+    t.config.builders.subscribeMessage({ market: MARKET2, isin: TRADEGATE_ISIN })
+  })
+
+  test('baseline: a normal quote is published as-is', () => {
+    const out = t.config.handlers.message(goodQuoteBuffer())
+    expect(out).toHaveLength(1)
+    expect(out[0].response.data).toEqual(GOOD_QUOTE)
+  })
+
+  test('both sides zero -> frame is dropped and the cached quote is untouched', () => {
+    expect(t.config.handlers.message(goodQuoteBuffer())).toHaveLength(1)
+
+    const out = t.config.handlers.message(Buffer.from(EMPTY_BOTH_SIDES_HEX, 'hex'))
+
+    expect(out).toEqual([])
+    const after = t.config.handlers.message(tradeBuffer())
+    expect(after[0].response.data).toEqual(GOOD_QUOTE)
+  })
+
+  test('zero bid + real offer -> frame is dropped, no bogus mid, cache untouched', () => {
+    expect(t.config.handlers.message(goodQuoteBuffer())).toHaveLength(1)
+
+    const out = t.config.handlers.message(Buffer.from(EMPTY_BID_REAL_OFFER_HEX, 'hex'))
+
+    expect(out).toEqual([])
+    const after = t.config.handlers.message(tradeBuffer())
+    expect(after[0].response.data).toEqual(GOOD_QUOTE)
+  })
+})
