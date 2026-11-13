@@ -1,7 +1,9 @@
 # 0007. 24/7 session-start gating: report-declared sessions, a derived WEEKEND start, and a fail-closed default
 
 Status: proposed
+
 Date: 2026-11-13
+
 Risk acceptance: pending Product (Gabe Silva) — the zero-tolerance stance extended to 24/7 and
 the fail-closed default on indeterminate sessions, resolving risk items #1 and #2 of the
 [24/7 session-start gating TDD](../issuer-247-session-start-gating-tdd.md)
@@ -14,19 +16,19 @@ is priced around the clock, so there is no market-closed 503 and no stream selec
 session."** That remains correct for market-closed gating — but it leaves the endpoint with no
 protection against the pre-session "warm-up" failure mode that
 [ADR-0006](./0006-session-start-gating-no-tolerance-and-hard-coded-fallback.md) addressed for
-24/5: providers transmit invalid placeholder prices just before a session open, with fresh
-timestamps, and only guarantee validity for updates timestamped after the open. The 24/7 feed
-crosses every underlying equity session boundary — pre-market, regular, post-market, overnight,
-and the weekend — so the exposure exists at every boundary.
+24/5: providers may not have not yet produced a price following a session open, with fresh
+timestamps within the active session. The 24/7 feed crosses every underlying equity session
+boundary — pre-market, regular, post-market, overnight, and the weekend — so the exposure exists
+at every boundary.
 
 Introducing session-start gating on 24/7 (see the TDD) required four decisions with
 risk-bearing consequences:
 
-1. **Where the session comes from.** 24/5 gating derives sessions purely from the tradinghours
-   schedule and deliberately never reads per-report session info. With a single 24/7 stream and
-   no selection step, the alternative is to trust the report's own `marketStatus` field.
+1. **Where the session comes from.** 24/5 gating derives sessions from the tradinghours
+   schedule and does not use the report's session. With a single 24/7 stream and
+   no stream selection step (which exists for 24/5), 24/7 will use the report's `marketStatus` field.
 2. **Zero tolerance at the open, again.** ADR-0006 accepted ~40–50s rejection windows at every
-   24/5 session open with no `sessionStart − N` allowance. Extending that stance to 24/7
+   24/5 session open. Extending that stance to 24/7
    multiplies the boundaries (including thin overnight sessions and the Friday weekend start).
 3. **A WEEKEND session start must exist.** A 24/7 feed reports through the weekend, but the
    tradinghours `market-session` endpoint can never emit a WEEKEND transition — the upstream
@@ -70,7 +72,7 @@ risk-bearing consequences:
   selection to gate, and the report's own `marketStatus` is the tightest, authoritative
   declaration of which session produced it.
 - **A pre-open tolerance on 24/7:** rejected; per ADR-0006, warm-up placeholders are
-  transmitted milliseconds before the open, so any tolerance re-admits them.
+  transmitted milliseconds before the open, so any tolerance incorectly re-admits them.
 - **Synthesizing WEEKEND transitions inside the tradinghours adapter:** rejected for now; it
   puts policy in a shared source adapter where pure plumbing (the `endTime` passthrough)
   suffices, and keeps derivation and its tests in the only consumer. Revisit if a second
@@ -100,7 +102,7 @@ risk-bearing consequences:
   consumer is tokenized-equity.
 - The flattened fallback schedule becomes the single per-market source of truth for session
   times (now including the Friday weekend start); changing venue hours is one reviewed edit.
-- Rollout posture: staging dark (no-regression check) → staging enabled → NOPs with the flag
+- Rollout posture: staging dark (verify there is no-regression) → staging enabled → NOPs with the flag
   enabled.
 
 ## Risks accepted
