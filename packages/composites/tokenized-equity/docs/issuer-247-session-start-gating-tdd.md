@@ -13,7 +13,10 @@ session-start gating on the 24/5 path (see the
 [ADR-0006](./adr/0006-session-start-gating-no-tolerance-and-hard-coded-fallback.md)): providers
 transmit invalid placeholder prices before a session open, carrying fresh timestamps, and only
 guarantee validity for updates timestamped after the open. On 24/5 this produced spurious
-onchain moves at session opens that corrected within a minute. The 24/7 feed trades through
+onchain moves at session opens that corrected within a minute. The same check also covers the
+mirror-image case: the provider simply not having published yet after a session open, so the
+report being served still carries a `lastSeenTimestampNs` from the previous session. The 24/7
+feed trades through
 every underlying equity session boundary — pre-market, regular, post-market, overnight, and the
 weekend — so it is exposed to the same failure mode at every one of those boundaries, and today
 has no protection at any of them.
