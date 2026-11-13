@@ -62,6 +62,9 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     } catch {
       // The first request will retry the token mint and surface the auth error.
     }
+    // The framework rebuilds the censor list after transport initialization, so
+    // re-register the prefetched token once the adapter finishes starting.
+    setImmediate(() => this.authManager.ensureCachedTokenCensored())
   }
 
   async backgroundHandler(

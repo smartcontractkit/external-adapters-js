@@ -2,6 +2,7 @@ import type { Requester } from '@chainlink/external-adapter-framework/util/reque
 import { censor } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
+import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 import { AuthManager, AuthSettings } from '../../src/transport/auth'
 
 const settings: AuthSettings = {
@@ -104,6 +105,12 @@ describe('AuthManager', () => {
     const censoredA = censor({ headers: { authorization: 'Bearer token-b' } }, CensorList.getAll())
     expect(JSON.stringify(censoredA)).toContain('ACCESS_TOKEN REDACTED')
     expect(JSON.stringify(censoredA)).not.toContain('token-b')
+
+    CensorList.set(CensorList.getAll().filter((entry) => entry.key !== 'ACCESS_TOKEN'))
+    manager.ensureCachedTokenCensored()
+    const recensored = censor({ headers: { authorization: 'Bearer token-c' } }, CensorList.getAll())
+    expect(JSON.stringify(recensored)).toContain('ACCESS_TOKEN REDACTED')
+    expect(JSON.stringify(recensored)).not.toContain('token-c')
   })
 
   it('shares one token request between concurrent callers', async () => {
@@ -141,5 +148,25 @@ describe('AuthManager', () => {
     const manager = new AuthManager(requester as unknown as Requester, settings)
 
     await expect(manager.getToken()).rejects.toMatchObject({ statusCode: 502 })
+  })
+
+  it('wraps a token endpoint transport error as a 502 adapter error', async () => {
+    const requester = makeStub('requester', { request: jest.fn() })
+    requester.request.mockRejectedValue(
+      new AdapterDataProviderError(
+        { statusCode: 502, message: 'unauthorized', providerStatusCode: 401 },
+        {
+          providerDataRequestedUnixMs: 1,
+          providerDataReceivedUnixMs: 2,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      ),
+    )
+    const manager = new AuthManager(requester as unknown as Requester, settings)
+
+    await expect(manager.getToken()).rejects.toMatchObject({
+      statusCode: 502,
+      message: expect.stringContaining('access token'),
+    })
   })
 })

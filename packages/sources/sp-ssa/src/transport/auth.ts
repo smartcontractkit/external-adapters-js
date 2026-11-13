@@ -54,6 +54,7 @@ export class AuthManager {
       .catch((e) => {
         if (this.cached && Date.now() < this.cached.expiresAtMs) {
           this.refreshRetryAtMs = Date.now() + 30_000
+          this.ensureCachedTokenCensored()
           return this.cached.token
         }
         throw e
@@ -66,6 +67,12 @@ export class AuthManager {
 
   invalidate(): void {
     this.cached = undefined
+  }
+
+  ensureCachedTokenCensored(): void {
+    if (this.cached) {
+      AuthManager.ensureCensored(this.cached.token)
+    }
   }
 
   private static escapeRegExp(value: string): string {
