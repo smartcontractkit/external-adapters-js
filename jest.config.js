@@ -166,7 +166,12 @@ module.exports = {
   // transform: undefined,
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  transformIgnorePatterns: ['/node_modules/(?!(@polkadot|axios)/)', '\\.pnp\\.[^\\/]+$'],
+  // Jest's module loader can't `require()` ESM. Packages listed in the negative lookahead below ship ESM-only
+  // (or ESM-first) builds, so they are excluded from the ignore list and transformed to CommonJS by babel-jest.
+  transformIgnorePatterns: [
+    '/node_modules/(?!(@polkadot|axios|eventsource|eventsource-parser)/)',
+    '\\.pnp\\.[^\\/]+$',
+  ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
