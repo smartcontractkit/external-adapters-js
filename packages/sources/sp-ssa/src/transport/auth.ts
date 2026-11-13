@@ -35,33 +35,22 @@ const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\
 const isUsableAccessToken = (value: unknown): value is string =>
   typeof value === 'string' && value.length > 0 && value.trim() === value
 
-const toExpiresInSeconds = (value: unknown): number | undefined => {
-  if (typeof value === 'number') {
-    return Number.isFinite(value) && value > 0 ? value : undefined
-  }
-  if (typeof value !== 'string' || value.trim() === '') {
-    return undefined
-  }
-  const seconds = Number(value)
-  return Number.isFinite(seconds) && seconds > 0 ? seconds : undefined
-}
+const isPositiveNumber = (value: unknown): boolean =>
+  (typeof value === 'number' || typeof value === 'string') &&
+  Number.isFinite(Number(value)) &&
+  Number(value) > 0
 
-const readTokenBody = (data: unknown): { accessToken: string; expiresInSeconds: number } => {
+const parseTokenResponse = (data: unknown): { accessToken: string; expiresInSeconds: number } => {
   const body = data as TokenResponse | undefined
-  if (!isUsableAccessToken(body?.access_token)) {
+  const accessToken = body?.access_token
+  const expiresIn = body?.expires_in
+  if (!isUsableAccessToken(accessToken) || !isPositiveNumber(expiresIn)) {
     throw new AdapterError({
       statusCode: 502,
-      message: 'The token response did not include a usable access_token',
+      message: 'The token response did not include a usable access_token and expires_in',
     })
   }
-  const expiresInSeconds = toExpiresInSeconds(body?.expires_in)
-  if (expiresInSeconds === undefined) {
-    throw new AdapterError({
-      statusCode: 502,
-      message: 'The token response did not include a numeric expires_in',
-    })
-  }
-  return { accessToken: body.access_token, expiresInSeconds }
+  return { accessToken, expiresInSeconds: Number(expiresIn) }
 }
 
 export class AuthManager {
@@ -83,13 +72,7 @@ export class AuthManager {
     if (reusable) {
       return reusable
     }
-    if (this.pending) {
-      return this.pending
-    }
-    this.pending = this.mintToken().finally(() => {
-      this.pending = undefined
-    })
-    return this.pending
+    return this.pending ?? this.startMint()
   }
 
   invalidate(): void {
@@ -98,22 +81,28 @@ export class AuthManager {
   }
 
   ensureCachedTokenCensored(): void {
-    if (this.cached) {
-      AuthManager.rememberToken(this.cached.token)
+    const token = this.cached?.token
+    if (token) {
+      AuthManager.rememberToken(token)
     }
   }
 
+  private startMint(): Promise<string> {
+    const mint = this.mintToken().finally(() => {
+      this.pending = undefined
+    })
+    this.pending = mint
+    return mint
+  }
+
   private reusableToken(now: number): string | undefined {
-    if (!this.cached) {
+    const cached = this.cached
+    if (!cached) {
       return undefined
     }
-    const isFresh = now < this.cached.refreshAtMs
-    const isValidWhileBackingOff = now < this.refreshRetryAtMs && now < this.cached.expiresAtMs
-    if (!isFresh && !isValidWhileBackingOff) {
-      return undefined
-    }
-    AuthManager.rememberToken(this.cached.token)
-    return this.cached.token
+    const reusable =
+      now < cached.refreshAtMs || (now < this.refreshRetryAtMs && now < cached.expiresAtMs)
+    return reusable ? AuthManager.useToken(cached.token) : undefined
   }
 
   private async mintToken(): Promise<string> {
@@ -124,9 +113,13 @@ export class AuthManager {
         throw error
       }
       this.refreshRetryAtMs = Date.now() + REFRESH_RETRY_MS
-      AuthManager.rememberToken(this.cached.token)
-      return this.cached.token
+      return AuthManager.useToken(this.cached.token)
     }
+  }
+
+  private static useToken(token: string): string {
+    AuthManager.rememberToken(token)
+    return token
   }
 
   private static rememberToken(token: string): void {
@@ -159,7 +152,7 @@ export class AuthManager {
       })
     }
 
-    const { accessToken, expiresInSeconds } = readTokenBody(response.response.data)
+    const { accessToken, expiresInSeconds } = parseTokenResponse(response.response.data)
     AuthManager.rememberToken(accessToken)
 
     const expiresInMs = expiresInSeconds * 1000
