@@ -15,7 +15,9 @@ const templated = (setting: string, values: Record<string, string | number>) => 
 // Only Robinhood mainnet is configured, like stage and prod
 export const makeSettings = (overrides: Record<string, unknown> = {}) =>
   ({
-    DATA_ENGINE_ADAPTER_URL: 'http://data-engine',
+    SOURCE_ADAPTER_URL: templated('SOURCE_ADAPTER_URL', {
+      DATA_ENGINE: 'http://data-engine',
+    }),
     ETHEREUM_RPC_URL: 'eth-url',
     ETHEREUM_RPC_CHAIN_ID: 1,
     BASE_RPC_URL: 'base-url',

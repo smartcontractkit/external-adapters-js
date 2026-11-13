@@ -15,7 +15,7 @@ import { extensionTransport } from '../transport/extension'
 // bytes, the `multiplier` field has offset 32.
 // So this field would be read with input:
 // {
-//   "stateAccountAddress": "<token account address>",
+//   "stateAccountAddress": "<token mint account address>",
 //   "extensionDataOffset": 166,
 //   "extensionFields": [
 //     {
@@ -26,6 +26,11 @@ import { extensionTransport } from '../transport/extension'
 //     }
 //   ]
 // }
+//
+// When extensionFields is set, stateAccountAddress must be a mint owned by
+// the Token-2022 program (account type byte at extensionDataOffset - 1 is
+// AccountType.Mint); any other account is rejected with a 400. baseFields
+// can be read from any account.
 
 const baseFieldParameterType = {
   name: {
@@ -49,7 +54,8 @@ const baseFieldParameterType = {
 export const inputParameters = new InputParameters(
   {
     stateAccountAddress: {
-      description: 'The state account address for the program',
+      description:
+        'Address of the account to read. Must be a Token-2022 mint when extensionFields is set',
       type: 'string',
       required: true,
     },
@@ -65,7 +71,8 @@ export const inputParameters = new InputParameters(
       default: 166, // Default offset for Token-2022 accounts
     },
     extensionFields: {
-      description: 'Fields to get from the token extension section of the account data',
+      description:
+        'Fields to get from the token extension section of the account data. Requires the account to be a Token-2022 mint',
       type: {
         extensionType: {
           description: 'The number identifying the extension type',

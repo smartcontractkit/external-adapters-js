@@ -1,17 +1,13 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
-  DATA_ENGINE_ADAPTER_URL: {
-    description: 'URL of data engine ea',
+  SOURCE_ADAPTER_URL: {
+    description:
+      'The URL of the ${SOURCE} adapter, DATA_ENGINE_ADAPTER_URL and TRADING_HOURS_ADAPTER_URL are required',
     type: 'string',
     required: true,
     sensitive: false,
-  },
-  TRADING_HOURS_ADAPTER_URL: {
-    description: 'URL of tradinghours ea',
-    type: 'string',
-    required: true,
-    sensitive: false,
+    variablePlaceholder: 'SOURCE',
   },
   ETHEREUM_RPC_URL: {
     description: 'RPC URL of a Mainnet ETH node',
