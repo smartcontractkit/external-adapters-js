@@ -7,6 +7,7 @@ import {
   AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import type { BaseEndpointTypes } from '../../src/endpoint/por'
+import { inputParameters } from '../../src/endpoint/por'
 import type { AuthManager } from '../../src/transport/auth'
 import { mapAminaError } from '../../src/transport/errors'
 import { trimEndpoint } from '../../src/transport/paths'
@@ -76,7 +77,7 @@ afterAll(() => {
 
 const context = {
   endpointName: 'por',
-  inputParameters: { definition: {} },
+  inputParameters,
   adapterSettings: {
     MAX_COMMON_KEY_SIZE: 300,
     FEED_ID_JSON: false,

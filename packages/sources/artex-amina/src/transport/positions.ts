@@ -63,10 +63,10 @@ interface PageCheck {
 
 interface ScanState {
   pageNo: number
-  expectedTotalPages?: number
+  expectedTotalPages: number
   positions: AminaPosition[]
-  firstPageRequestedUnixMs?: number
-  lastPageReceivedUnixMs?: number
+  firstPageRequestedUnixMs: number
+  lastPageReceivedUnixMs: number
   done: boolean
 }
 
@@ -209,7 +209,6 @@ async function fetchPage(args: FetchPositionsArgs, pageNo: number): Promise<Page
 
 async function readPage(args: FetchPositionsArgs, state: ScanState): Promise<void> {
   const result = await fetchPage(args, state.pageNo)
-  state.firstPageRequestedUnixMs ??= result.requestedUnixMs
   state.lastPageReceivedUnixMs = result.receivedUnixMs
 
   const pageCheck = checkPage(result.page, state.pageNo, state.expectedTotalPages)
@@ -223,17 +222,25 @@ async function readPage(args: FetchPositionsArgs, state: ScanState): Promise<voi
 // HttpTransport.prepareRequests prepares requests up front and cannot chain
 // them; SubscriptionTransport is the framework seam for this custom flow.
 export async function fetchAllPositions(args: FetchPositionsArgs): Promise<PositionsResult> {
-  const state: ScanState = { pageNo: 0, positions: [], done: false }
+  const first = await fetchPage(args, 0)
+  const firstCheck = checkPage(first.page, 0)
+  const state: ScanState = {
+    pageNo: 1,
+    expectedTotalPages: firstCheck.totalPages,
+    positions: [...first.page.positions],
+    firstPageRequestedUnixMs: first.requestedUnixMs,
+    lastPageReceivedUnixMs: first.receivedUnixMs,
+    done: firstCheck.done,
+  }
   while (!state.done) {
-    ensure(state.pageNo < MAX_PAGES, `AMINA pagination exceeded ${MAX_PAGES} pages`)
     await readPage(args, state)
   }
 
-  const { positions, firstPageRequestedUnixMs, lastPageReceivedUnixMs } = state
-  if (firstPageRequestedUnixMs === undefined || lastPageReceivedUnixMs === undefined) {
-    throw invalid('AMINA positions response has no timestamps')
+  return {
+    positions: state.positions,
+    firstPageRequestedUnixMs: state.firstPageRequestedUnixMs,
+    lastPageReceivedUnixMs: state.lastPageReceivedUnixMs,
   }
-  return { positions, firstPageRequestedUnixMs, lastPageReceivedUnixMs }
 }
 
 export function selectQuantity(positions: AminaPosition[], isin: string): number {

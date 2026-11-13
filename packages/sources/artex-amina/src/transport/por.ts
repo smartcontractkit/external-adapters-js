@@ -113,6 +113,8 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const candidateRequestedUnixMs = response.timestamps.providerDataRequestedUnixMs ?? 0
     if (
       cached &&
+      cached.statusCode === 200 &&
+      !cached.errorMessage &&
       cached.timestamps?.providerDataRequestedUnixMs !== undefined &&
       cached.timestamps.providerDataRequestedUnixMs > candidateRequestedUnixMs
     ) {

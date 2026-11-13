@@ -26,19 +26,10 @@ import {
 
 const REFRESHED_ACCESS_TOKEN = 'refreshed-access-token'
 
-function clearSubscriptionSet(): void {
-  const set = porTransport.subscriptionSet as unknown as {
-    map: Map<string, unknown>
-    delete: (key: string) => void
-  }
-  for (const key of set.map.keys()) {
-    set.delete(key)
-  }
-}
-
 describe('execute', () => {
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
+  let originalRetry: typeof DEFAULT_RETRY
   let dateSpy: jest.SpyInstance
 
   beforeAll(async () => {
@@ -51,6 +42,7 @@ describe('execute', () => {
     process.env.BACKGROUND_EXECUTE_MS_HTTP = '10'
     // Keep integration tests fast. Retry policy is covered in test/unit/transport.test.ts
     // and RETRY=0 startup rejection in test/unit/config.test.ts.
+    originalRetry = { ...DEFAULT_RETRY }
     Object.assign(DEFAULT_RETRY, { maxAttempts: 1, baseDelayMs: 0, maxDelayMs: 0 })
     dateSpy = jest.spyOn(Date, 'now').mockReturnValue(new Date('2026-11-05T00:00:00Z').getTime())
 
@@ -64,7 +56,6 @@ describe('execute', () => {
     nock.cleanAll()
     testAdapter.mockCache?.cache.clear()
     porTransport.authManager.reset()
-    clearSubscriptionSet()
     mockAuth()
   })
 
@@ -74,7 +65,7 @@ describe('execute', () => {
     nock.restore()
     nock.cleanAll()
     dateSpy.mockRestore()
-    Object.assign(DEFAULT_RETRY, { maxAttempts: 3, baseDelayMs: 2_000, maxDelayMs: 40_000 })
+    Object.assign(DEFAULT_RETRY, originalRetry)
   })
 
   it('returns the selected position as aum', async () => {
@@ -320,7 +311,6 @@ describe('execute', () => {
   it.each([
     ['portfolioNo', { portfolioNo: 1, isin: ISIN }],
     ['isin', { portfolioNo: PORTFOLIO_NO, isin: 'not-an-isin' }],
-    ['isin', { portfolioNo: PORTFOLIO_NO, isin: 'US0378331006' }],
   ])('returns 400 for an invalid %s', async (field, data) => {
     nock.cleanAll()
 

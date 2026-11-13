@@ -34,33 +34,30 @@ const PORTFOLIO_NO_VALIDATOR = frameworkValidator.integer({
   max: 999_999_999,
 })
 
-// ISO 6166 check digit. `validator` is not a dependency of this adapter, so the
-// small standard checksum stays local; it replaces the format-only regex.
-function toIsinDigit(char: string): string {
-  const code = char.charCodeAt(0)
-  if (code >= 48 && code <= 57) {
-    return char
-  }
-  if (code >= 65 && code <= 90) {
-    return String(code - 55)
-  }
-  return ''
+// AMINA/OpenAPI Isin format: two letters, nine alphanumerics, one digit.
+function isDigit(char: string): boolean {
+  return char >= '0' && char <= '9'
+}
+
+function isUppercaseLetter(char: string): boolean {
+  return char >= 'A' && char <= 'Z'
+}
+
+function isUppercaseLetterOrDigit(char: string): boolean {
+  return isUppercaseLetter(char) || isDigit(char)
 }
 
 function isIsin(value: string): boolean {
   if (value.length !== 12) {
     return false
   }
-  const expanded = [...value.slice(0, 11)].map(toIsinDigit)
-  if (expanded.some((digit) => digit.length === 0)) {
-    return false
-  }
-  const digits = expanded.join('')
-  const sum = [...digits].reverse().reduce((total, digit, index) => {
-    const doubled = Number(digit) * (index % 2 === 0 ? 2 : 1)
-    return total + (doubled > 9 ? doubled - 9 : doubled)
-  }, 0)
-  return (10 - (sum % 10)) % 10 === Number(value[11])
+  const chars = [...value]
+  return (
+    isUppercaseLetter(chars[0]) &&
+    isUppercaseLetter(chars[1]) &&
+    chars.slice(2, 11).every(isUppercaseLetterOrDigit) &&
+    isDigit(chars[11])
+  )
 }
 
 export type BaseEndpointTypes = {

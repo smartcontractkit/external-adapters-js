@@ -39,15 +39,15 @@ function isNonEmptyString(value: unknown): value is string {
   return typeof value === 'string' && value.length > 0
 }
 
-function isAuthResponse(data: unknown): data is AminaAuthResponse {
-  return isRecord(data) && isNonEmptyString(data.accessToken) && isNonEmptyString(data.refreshToken)
-}
-
 function parseAuthResponse(data: unknown): AminaAuthResponse {
-  if (!isAuthResponse(data)) {
+  if (
+    !isRecord(data) ||
+    !isNonEmptyString(data.accessToken) ||
+    !isNonEmptyString(data.refreshToken)
+  ) {
     throw invalid('AMINA auth response must contain accessToken and refreshToken')
   }
-  return data
+  return { accessToken: data.accessToken, refreshToken: data.refreshToken }
 }
 
 // The framework has no token manager: HttpTransport only issues requests and

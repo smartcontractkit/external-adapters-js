@@ -14,8 +14,8 @@ This document was generated automatically. Please see [README Generator](../../s
   full login. Transient auth/positions failures use exponential backoff
   (3 attempts, 2 second base, 40 second cap).
 - `portfolioNo` must be an integer between 100000000 and 999999999 and `isin`
-  must be a valid ISO 6166 ISIN; otherwise the EA returns 400 before calling
-  the provider.
+  must match the AMINA ISIN format (two letters, nine alphanumerics, one
+  digit); otherwise the EA returns 400 before calling the provider.
 - Pagination starts at page 0 with size 2000 (the AMINA maximum), follows
   `last` and `totalPages`, and caps at 100 pages. It scans every page before
   selecting the ISIN.
