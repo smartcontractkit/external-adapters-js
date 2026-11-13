@@ -1,6 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-
 exports[`execute price endpoint rest should return success 1`] = `
 {
   "data": {
