@@ -51,4 +51,43 @@ describe('Market status endpoint', () => {
     })
     expect(response.json()).toMatchSnapshot()
   })
+
+  it('should pass each phase end through as endTime (tradinghours ADR-0001)', async () => {
+    mockSessionSuccess()
+    const response = await testAdapter.request({
+      endpoint: 'market-session',
+      market: 'nyse',
+      type: '24/5',
+      timezone: 'America/New_York',
+    })
+    const result = response.json().data.result
+    // Explicit assertions (not snapshot): endTime is the additive field callers use
+    // to derive closed-span starts, so its exact values are asserted here.
+    expect(result).toStrictEqual([
+      {
+        status: 4,
+        statusString: 'OVERNIGHT',
+        time: '2022-12-31T20:00:00-05:00',
+        endTime: '2022-01-01T04:00:00-05:00',
+      },
+      {
+        status: 1,
+        statusString: 'PRE_MARKET',
+        time: '2022-01-01T04:00:00-05:00',
+        endTime: '2022-01-01T09:30:00-05:00',
+      },
+      {
+        status: 2,
+        statusString: 'REGULAR',
+        time: '2022-01-01T09:30:00-05:00',
+        endTime: '2022-01-01T16:00:00-05:00',
+      },
+      {
+        status: 3,
+        statusString: 'POST_MARKET',
+        time: '2022-01-01T16:00:00-05:00',
+        endTime: '2022-01-01T20:00:00-05:00',
+      },
+    ])
+  })
 })
