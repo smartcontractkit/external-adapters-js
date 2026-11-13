@@ -89,8 +89,8 @@ describe('dxfeed config env surface', () => {
     // API_ENDPOINT is optional with the spec default; the REST transport is
     // unchanged by the migration.
     expect(config.settings.API_ENDPOINT).toBe(REST_DEFAULT)
-    // stock_quotes keepalive interval_seconds 30.
-    expect(config.settings.WS_HEARTBEAT_INTERVAL_MS).toBe(30000)
+    // Framework default: 10s, safely below the 60s dxLink server timeout.
+    expect(config.settings.WS_HEARTBEAT_INTERVAL_MS).toBe(10000)
   })
 
   it('rejects a WS_API_ENDPOINT with embedded credentials', async () => {

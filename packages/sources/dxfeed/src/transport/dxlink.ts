@@ -20,6 +20,14 @@ const logger = makeLogger('DxLinkTransport')
 const CONTROL_CHANNEL = 0
 const FEED_CHANNEL = 1
 
+// A TIMEOUT means the connection is unusable and should always be replaced.
+// Client-state errors get one reconnect per cooldown so a deterministic bad
+// frame cannot create a reconnect loop. Auth/protocol errors are config bugs;
+// reconnecting with the same settings cannot fix them.
+const TIMEOUT_ERROR = 'TIMEOUT'
+const RETRY_ONCE_ERRORS = new Set(['INVALID_MESSAGE', 'BAD_ACTION', 'UNKNOWN'])
+const ERROR_RECONNECT_COOLDOWN_MS = 5 * 60_000
+
 const EVENT_FIELDS = {
   Quote: [
     'eventType',
@@ -51,11 +59,8 @@ export type DxLinkEvent = {
 type DxLinkMessage = {
   type: string
   channel: number
-  // FEED_CONFIG
   eventFields?: Record<string, string[]>
-  // FEED_DATA (COMPACT): [eventType, flatValues, eventType, flatValues, ...]
   data?: unknown[]
-  // ERROR
   error?: string
   message?: string
 }
@@ -81,6 +86,8 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
   private fieldsByEventType = new Map<string, string[]>()
   // Latest provider time written per params, to drop events that arrive out of order
   private latestTimes = new Map<string, number>()
+  // Last reconnect attempt per provider error code, for the retry-once policy
+  private errorReconnectAt = new Map<string, number>()
 
   protected abstract parseEvent(event: DxLinkEvent): ProviderResult<DxLinkTransportTypes<T>>[]
 
@@ -168,17 +175,42 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
         return []
       case 'ERROR':
         logger.warn(`dxLink error: ${message.error} ${message.message}`)
-        // Provider ERROR frames are informational for the stream (no request fails), but
-        // operators need an alertable signal for UNAUTHORIZED, INVALID_MESSAGE, TIMEOUT, etc.
+        // Provider ERROR frames are informational for requests, but operators need
+        // an alertable signal for UNAUTHORIZED, INVALID_MESSAGE, TIMEOUT, etc.
         // Label with the dxLink error code, not the free-text message, to bound cardinality.
         metrics
           .get('wsConnectionErrors')
           .labels({ message: message.error ?? 'unknown' })
           .inc()
+        if (this.shouldReconnect(message.error)) {
+          logger.info(`dxLink error ${message.error}; reconnecting`)
+          this.wsConnection?.close()
+        }
         return []
       default:
         return []
     }
+  }
+
+  // A TIMEOUT always reconnects. Client-state errors (INVALID_MESSAGE,
+  // BAD_ACTION, UNKNOWN) get one reconnect per cooldown, so a repeatable bad
+  // frame does not create a reconnect loop. UNAUTHORIZED/UNSUPPORTED_PROTOCOL
+  // are configuration/protocol mismatches; reconnect with the same settings
+  // cannot fix them.
+  private shouldReconnect(code: string | undefined): boolean {
+    if (code === TIMEOUT_ERROR) {
+      return true
+    }
+    if (!code || !RETRY_ONCE_ERRORS.has(code)) {
+      return false
+    }
+    const now = Date.now()
+    const lastAttempt = this.errorReconnectAt.get(code) ?? -Infinity
+    if (now - lastAttempt < ERROR_RECONNECT_COOLDOWN_MS) {
+      return false
+    }
+    this.errorReconnectAt.set(code, now)
+    return true
   }
 
   // Out-of-order events (and Trade vs TradeETH, which update the same price) must not overwrite
@@ -187,6 +219,10 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
   // newer data, and cache expiry remains the framework's normal 504 path. Errors have no provider
   // time and always pass; the framework cache refuses to replace a valid, unexpired response with
   // an error.
+  //
+  // CompareResponseCache is not used here: it is installed by CompositeTransport and reads each
+  // cache key asynchronously, so two frames in the same tick can both observe the old value and
+  // race. This synchronous per-params guard orders them before the cache write.
   private isLatest({ params, response }: ProviderResult<DxLinkTransportTypes<T>>): boolean {
     const time =
       'timestamps' in response ? response.timestamps?.providerIndicatedTimeUnixMs : undefined
