@@ -448,7 +448,7 @@ describe('adapter configuration', () => {
   it('ships the rate-limit tier and request overrides', async () => {
     const { adapter } = await import('../../src')
     const tier = adapter.rateLimiting?.tiers?.default
-    expect(tier?.rateLimit1m).toBe(300)
+    expect(tier?.rateLimit1m).toBe(60)
     expect(tier?.note ?? '').toContain('RATE_LIMIT_CAPACITY_MINUTE')
     expect(adapter.config.settings.API_TIMEOUT).toBe(10_000)
     expect(adapter.config.settings.RETRY).toBe(0)

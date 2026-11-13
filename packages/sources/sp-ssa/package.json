@@ -38,6 +38,7 @@
     "@chainlink/external-adapter-framework": "2.20.0",
     "@date-fns/utc": "2.1.1",
     "date-fns": "4.1.0",
+    "escape-string-regexp": "2.0.0",
     "tslib": "2.4.1",
     "validator": "13.15.26"
   }

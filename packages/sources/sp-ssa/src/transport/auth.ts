@@ -7,6 +7,7 @@ import {
   AdapterError,
   AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
+import escapeStringRegexp from 'escape-string-regexp'
 
 export interface AuthSettings {
   TOKEN_ENDPOINT: string
@@ -44,10 +45,6 @@ const REFRESH_RETRY_MS = 30_000
 const REFRESH_MARGIN_MS = 5 * 60 * 1000
 const TOKEN_REQUEST_KEY = 'sp-ssa-token'
 const TOKEN_REQUEST_COST = 0
-
-// CensorList accepts only RegExp values, so a literal token has to be escaped
-// before it can be registered. This mirrors the framework's buildCensorList.
-const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 const isUsableAccessToken = (value: unknown): value is string =>
   typeof value === 'string' && value.length > 0 && value.trim() === value
@@ -140,7 +137,7 @@ export class AuthManager {
   }
 
   private static rememberToken(token: string): void {
-    const pattern = escapeRegExp(token)
+    const pattern = escapeStringRegexp(token)
     const alreadyCensored = CensorList.getAll().some(
       ({ key, value }) => key === TOKEN_CENSOR_KEY && value.source === pattern,
     )
@@ -154,7 +151,7 @@ export class AuthManager {
     const otherEntries = CensorList.getAll().filter(({ key }) => key !== TOKEN_CENSOR_KEY)
     const tokenEntries = AuthManager.recentTokens.map((recent) => ({
       key: TOKEN_CENSOR_KEY,
-      value: new RegExp(escapeRegExp(recent), 'g'),
+      value: new RegExp(escapeStringRegexp(recent), 'g'),
     }))
     CensorList.set([...otherEntries, ...tokenEntries])
   }

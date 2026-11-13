@@ -4141,6 +4141,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/validator": "npm:13.15.10"
     date-fns: "npm:4.1.0"
+    escape-string-regexp: "npm:2.0.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -14098,17 +14099,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"escape-string-regexp@npm:2.0.0, escape-string-regexp@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "escape-string-regexp@npm:2.0.0"
+  checksum: 10/9f8a2d5743677c16e85c810e3024d54f0c8dea6424fad3c79ef6666e81dd0846f7437f5e729dfcdac8981bc9e5294c39b4580814d114076b8d36318f46ae4395
+  languageName: node
+  linkType: hard
+
 "escape-string-regexp@npm:^1.0.5":
   version: 1.0.5
   resolution: "escape-string-regexp@npm:1.0.5"
   checksum: 10/6092fda75c63b110c706b6a9bfde8a612ad595b628f0bd2147eea1d3406723020810e591effc7db1da91d80a71a737a313567c5abb3813e8d9c71f4aa595b410
-  languageName: node
-  linkType: hard
-
-"escape-string-regexp@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "escape-string-regexp@npm:2.0.0"
-  checksum: 10/9f8a2d5743677c16e85c810e3024d54f0c8dea6424fad3c79ef6666e81dd0846f7437f5e729dfcdac8981bc9e5294c39b4580814d114076b8d36318f46ae4395
   languageName: node
   linkType: hard
 
