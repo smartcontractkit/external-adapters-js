@@ -13,6 +13,7 @@ import { buildSignedGetHeaders } from './signing'
 
 const PAGE_SIZE = 2000 // Manual max
 const MAX_PAGES = 100 // cap a bad totalPages
+const MAX_QUANTITY = Number.MAX_SAFE_INTEGER / 10_000 // largest exact 4-dp JS number
 const USER_AGENT = 'chainlink-artex-amina-adapter/1.0.0'
 
 export interface AminaPosition {
@@ -55,40 +56,69 @@ export interface FetchPositionsArgs {
   transportName: string
 }
 
+interface PageCheck {
+  totalPages: number
+  done: boolean
+}
+
+interface ScanState {
+  pageNo: number
+  expectedTotalPages?: number
+  positions: AminaPosition[]
+  firstPageRequestedUnixMs?: number
+  lastPageReceivedUnixMs?: number
+  done: boolean
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === 'string' && value.length > 0
+}
+
+function isNonNegativeInteger(value: unknown): value is number {
+  return typeof value === 'number' && Number.isInteger(value) && value >= 0
+}
+
+function isFourDecimalQuantity(value: unknown): value is number {
+  return (
+    typeof value === 'number' &&
+    Number.isFinite(value) &&
+    value >= 0 &&
+    Number(value.toFixed(4)) === value &&
+    value <= MAX_QUANTITY
+  )
+}
+
+function isPosition(value: unknown): value is AminaPosition {
+  return isRecord(value) && isNonEmptyString(value.isin) && isFourDecimalQuantity(value.quantity)
+}
+
+function isPositionsPage(value: unknown): value is AminaPositionsPage {
+  return (
+    isRecord(value) &&
+    Array.isArray(value.positions) &&
+    value.positions.every(isPosition) &&
+    isNonNegativeInteger(value.totalPages) &&
+    isNonNegativeInteger(value.number) &&
+    typeof value.last === 'boolean'
+  )
 }
 
 function invalid(message: string): AdapterError {
   return new AdapterError({ statusCode: 502, message })
 }
 
-function isPosition(value: unknown): value is AminaPosition {
-  return (
-    isRecord(value) &&
-    typeof value.isin === 'string' &&
-    value.isin.length > 0 &&
-    typeof value.quantity === 'number' &&
-    Number.isFinite(value.quantity) &&
-    value.quantity >= 0 &&
-    Number(value.quantity.toFixed(4)) === value.quantity &&
-    value.quantity <= Number.MAX_SAFE_INTEGER / 10_000
-  )
+function ensure(condition: boolean, message: string): asserts condition {
+  if (!condition) {
+    throw invalid(message)
+  }
 }
 
 export function parsePositionsPage(data: unknown): AminaPositionsPage {
-  if (
-    !isRecord(data) ||
-    !Array.isArray(data.positions) ||
-    !data.positions.every(isPosition) ||
-    typeof data.totalPages !== 'number' ||
-    !Number.isInteger(data.totalPages) ||
-    data.totalPages < 0 ||
-    typeof data.number !== 'number' ||
-    !Number.isInteger(data.number) ||
-    data.number < 0 ||
-    typeof data.last !== 'boolean'
-  ) {
+  if (!isPositionsPage(data)) {
     throw invalid('AMINA positions response is malformed')
   }
   return {
@@ -99,44 +129,36 @@ export function parsePositionsPage(data: unknown): AminaPositionsPage {
   }
 }
 
-interface PageCheck {
-  totalPages: number
-  done: boolean
-}
-
 function checkPage(
   page: AminaPositionsPage,
   pageNo: number,
   expectedTotalPages?: number,
 ): PageCheck {
-  if (page.number !== pageNo) {
-    throw invalid(`AMINA returned page ${page.number} for requested page ${pageNo}`)
-  }
+  ensure(page.number === pageNo, `AMINA returned page ${page.number} for requested page ${pageNo}`)
 
   const totalPages = expectedTotalPages ?? page.totalPages
-  if (expectedTotalPages === undefined && totalPages > MAX_PAGES) {
-    throw invalid(`AMINA totalPages ${totalPages} exceeds ${MAX_PAGES} pages`)
-  }
-  if (expectedTotalPages !== undefined && page.totalPages !== expectedTotalPages) {
-    throw invalid(`AMINA totalPages changed from ${expectedTotalPages} to ${page.totalPages}`)
-  }
+  ensure(
+    expectedTotalPages !== undefined || totalPages <= MAX_PAGES,
+    `AMINA totalPages ${totalPages} exceeds ${MAX_PAGES} pages`,
+  )
+  ensure(
+    expectedTotalPages === undefined || page.totalPages === expectedTotalPages,
+    `AMINA totalPages changed from ${expectedTotalPages} to ${page.totalPages}`,
+  )
+  ensure(
+    !(totalPages === 0 && page.positions.length > 0),
+    'AMINA returned positions with totalPages=0',
+  )
+  ensure(
+    !(page.last && totalPages > 0 && pageNo + 1 < totalPages),
+    `AMINA last=true before totalPages (page ${pageNo}, totalPages ${totalPages})`,
+  )
+  ensure(
+    page.last || pageNo + 1 < totalPages,
+    `AMINA paging ended before last=true (page ${pageNo}, totalPages ${totalPages})`,
+  )
 
-  if (totalPages === 0 && page.positions.length > 0) {
-    throw invalid('AMINA returned positions with totalPages=0')
-  }
-
-  if (page.last && totalPages > 0 && pageNo + 1 < totalPages) {
-    throw invalid(`AMINA last=true before totalPages (page ${pageNo}, totalPages ${totalPages})`)
-  }
-  if (page.last) {
-    return { totalPages, done: true }
-  }
-
-  if (pageNo + 1 >= totalPages) {
-    throw invalid(`AMINA paging ended before last=true (page ${pageNo}, totalPages ${totalPages})`)
-  }
-
-  return { totalPages, done: false }
+  return { totalPages, done: page.last }
 }
 
 async function fetchPage(args: FetchPositionsArgs, pageNo: number): Promise<PageResult> {
@@ -185,48 +207,41 @@ async function fetchPage(args: FetchPositionsArgs, pageNo: number): Promise<Page
   }
 }
 
+async function readPage(args: FetchPositionsArgs, state: ScanState): Promise<void> {
+  const result = await fetchPage(args, state.pageNo)
+  state.firstPageRequestedUnixMs ??= result.requestedUnixMs
+  state.lastPageReceivedUnixMs = result.receivedUnixMs
+
+  const pageCheck = checkPage(result.page, state.pageNo, state.expectedTotalPages)
+  state.expectedTotalPages = pageCheck.totalPages
+  state.positions.push(...result.page.positions)
+  state.done = pageCheck.done
+  state.pageNo += 1
+}
+
 // AMINA returns `last` per page, so page N+1 depends on page N.
 // HttpTransport.prepareRequests prepares requests up front and cannot chain
 // them; SubscriptionTransport is the framework seam for this custom flow.
 export async function fetchAllPositions(args: FetchPositionsArgs): Promise<PositionsResult> {
-  const positions: AminaPosition[] = []
-  let expectedTotalPages: number | undefined
-  let firstPageRequestedUnixMs: number | undefined
-  let lastPageReceivedUnixMs: number | undefined
-
-  for (let pageNo = 0; pageNo < MAX_PAGES; pageNo++) {
-    const result = await fetchPage(args, pageNo)
-    firstPageRequestedUnixMs ??= result.requestedUnixMs
-    lastPageReceivedUnixMs = result.receivedUnixMs
-
-    const pageCheck = checkPage(result.page, pageNo, expectedTotalPages)
-    expectedTotalPages = pageCheck.totalPages
-    positions.push(...result.page.positions)
-
-    if (pageCheck.done) {
-      if (firstPageRequestedUnixMs === undefined || lastPageReceivedUnixMs === undefined) {
-        throw invalid('AMINA positions response has no timestamps')
-      }
-      return { positions, firstPageRequestedUnixMs, lastPageReceivedUnixMs }
-    }
+  const state: ScanState = { pageNo: 0, positions: [], done: false }
+  while (!state.done) {
+    ensure(state.pageNo < MAX_PAGES, `AMINA pagination exceeded ${MAX_PAGES} pages`)
+    await readPage(args, state)
   }
 
-  throw invalid(`AMINA pagination exceeded ${MAX_PAGES} pages`)
+  const { positions, firstPageRequestedUnixMs, lastPageReceivedUnixMs } = state
+  if (firstPageRequestedUnixMs === undefined || lastPageReceivedUnixMs === undefined) {
+    throw invalid('AMINA positions response has no timestamps')
+  }
+  return { positions, firstPageRequestedUnixMs, lastPageReceivedUnixMs }
 }
 
 export function selectQuantity(positions: AminaPosition[], isin: string): number {
   const matches = positions.filter((position) => position.isin === isin)
-  if (matches.length === 0) {
-    throw new AdapterError({
-      statusCode: 502,
-      message: `No AMINA position found for ISIN ${isin}`,
-    })
-  }
-  if (matches.length > 1) {
-    throw new AdapterError({
-      statusCode: 502,
-      message: `Duplicate AMINA position found for ISIN ${isin} (${matches.length} matches)`,
-    })
-  }
+  ensure(matches.length > 0, `No AMINA position found for ISIN ${isin}`)
+  ensure(
+    matches.length === 1,
+    `Duplicate AMINA position found for ISIN ${isin} (${matches.length} matches)`,
+  )
   return matches[0].quantity
 }

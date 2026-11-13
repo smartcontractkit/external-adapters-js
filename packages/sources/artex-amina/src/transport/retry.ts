@@ -16,30 +16,33 @@ export const DEFAULT_RETRY: RetryOptions = {
   maxDelayMs: 40_000,
 }
 
+function isRetryableStatus(status: number | undefined): boolean {
+  return status === 429 || (status !== undefined && status >= 500 && status <= 599)
+}
+
 export function isRetryableError(error: unknown): boolean {
   if (error instanceof AdapterConnectionError) {
     return true
   }
-  if (!(error instanceof AdapterDataProviderError)) {
-    return false
-  }
-  const status = error.providerStatusCode
-  return status === 429 || (status !== undefined && status >= 500 && status <= 599)
+  return error instanceof AdapterDataProviderError && isRetryableStatus(error.providerStatusCode)
 }
 
 export function retryDelay(attempt: number, options: RetryOptions): number {
   return Math.min(options.baseDelayMs * 2 ** attempt, options.maxDelayMs)
 }
 
-export async function withRetry<T>(fn: () => Promise<T>, options: RetryOptions): Promise<T> {
-  for (let attempt = 0; ; attempt++) {
-    try {
-      return await fn()
-    } catch (error) {
-      if (attempt >= options.maxAttempts - 1 || !isRetryableError(error)) {
-        throw error
-      }
-      await sleep(retryDelay(attempt, options))
+export async function withRetry<T>(
+  fn: () => Promise<T>,
+  options: RetryOptions,
+  attempt = 0,
+): Promise<T> {
+  try {
+    return await fn()
+  } catch (error) {
+    if (attempt >= options.maxAttempts - 1 || !isRetryableError(error)) {
+      throw error
     }
+    await sleep(retryDelay(attempt, options))
+    return withRetry(fn, options, attempt + 1)
   }
 }

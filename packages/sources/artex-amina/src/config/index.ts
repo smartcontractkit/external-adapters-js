@@ -1,9 +1,15 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-const EIGHT_DIGITS = /^\d{8}$/
+function isDigit(char: string): boolean {
+  return char >= '0' && char <= '9'
+}
+
+function isEightDigitId(value: string): boolean {
+  return [...value].every(isDigit)
+}
 
 function validateUserId(value: unknown): string | undefined {
-  return typeof value === 'string' && EIGHT_DIGITS.test(value)
+  return typeof value === 'string' && value.length === 8 && isEightDigitId(value)
     ? undefined
     : 'Value must be an 8-digit AMINA user ID'
 }

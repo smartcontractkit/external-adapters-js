@@ -35,14 +35,12 @@ function invalid(message: string): AdapterError {
   return new AdapterError({ statusCode: 502, message })
 }
 
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === 'string' && value.length > 0
+}
+
 function isAuthResponse(data: unknown): data is AminaAuthResponse {
-  return (
-    isRecord(data) &&
-    typeof data.accessToken === 'string' &&
-    data.accessToken.length > 0 &&
-    typeof data.refreshToken === 'string' &&
-    data.refreshToken.length > 0
-  )
+  return isRecord(data) && isNonEmptyString(data.accessToken) && isNonEmptyString(data.refreshToken)
 }
 
 function parseAuthResponse(data: unknown): AminaAuthResponse {
