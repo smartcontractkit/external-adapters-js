@@ -1,6 +1,17 @@
-import { BaseEndpointTypes } from '../endpoint/stock-quotes'
-import { DxLinkEvent, DxLinkTransport } from './dxlink'
+import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { BaseEndpointTypes, MarketStatus24x5, StockSession } from '../endpoint/stock-quotes'
+import { DxLinkEvent, DxLinkTransport, DxLinkTransportTypes, eventTimeOf } from './dxlink'
 import { toNumber } from './utils'
+
+type ParsedResult = ProviderResult<DxLinkTransportTypes<BaseEndpointTypes>>
+type ParsedResponse = ParsedResult['response']
+
+const REGULAR_MARKET_STATUS: MarketStatus24x5 = 2
+const OVERNIGHT_MARKET_STATUS: MarketStatus24x5 = 4
+
+type PriceResult =
+  | { kind: 'valid'; bid: number; ask: number }
+  | { kind: 'invalid'; message: string }
 
 export class StockQuotesTransport extends DxLinkTransport<BaseEndpointTypes> {
   constructor() {
@@ -9,75 +20,87 @@ export class StockQuotesTransport extends DxLinkTransport<BaseEndpointTypes> {
 
   protected parseEvent(event: DxLinkEvent) {
     const base = event.eventSymbol
-    const { response, requireVolumeResponse } = buildResponses(event)
-    // Regular requests accept every quote; isOvernight accepts only O/O.
-    const isOvernightQuote = event.bidExchangeCode === 'O' && event.askExchangeCode === 'O'
-    const sessions = isOvernightQuote ? [false, true] : [false]
+    const overnight = event.bidExchangeCode === 'O' && event.askExchangeCode === 'O'
+    const session: StockSession = overnight ? 'overnight' : 'regular'
+    const marketStatus = overnight ? OVERNIGHT_MARKET_STATUS : REGULAR_MARKET_STATUS
+    const variants = overnight ? [false, true] : [false]
+    const emit = (normal: ParsedResponse, requireVolume: ParsedResponse): ParsedResult[] =>
+      variants.flatMap((isOvernight) => [
+        { params: { base, isOvernight, requireVolume: false }, response: normal },
+        { params: { base, isOvernight, requireVolume: true }, response: requireVolume },
+      ])
 
-    return sessions.flatMap((isOvernight) => [
-      { params: { base, isOvernight, requireVolume: false }, response },
-      { params: { base, isOvernight, requireVolume: true }, response: requireVolumeResponse },
-    ])
+    const time = eventTimeOf(event)
+    if (time === null) {
+      const error = {
+        statusCode: 502,
+        errorMessage: `Time: ${event.eventTime ?? event.time} for ${base} is invalid.`,
+      }
+      return emit(error, error)
+    }
+
+    const prices = parsePrices(event)
+    if (prices.kind === 'invalid') {
+      const error = { statusCode: 502, errorMessage: prices.message }
+      return emit(error, error)
+    }
+
+    const midPrice = (prices.bid + prices.ask) / 2
+    const bidVolume = volumeOrNull(event.bidSize)
+    const askVolume = volumeOrNull(event.askSize)
+    const response = {
+      result: null,
+      data: {
+        mid_price: midPrice,
+        midSource: 'computed' as const,
+        bid_price: prices.bid,
+        bid_volume: bidVolume,
+        ask_price: prices.ask,
+        ask_volume: askVolume,
+        session,
+        marketStatus,
+      },
+      timestamps: { providerIndicatedTimeUnixMs: time },
+    }
+    const requireVolumeResponse =
+      bidVolume === null || askVolume === null
+        ? {
+            statusCode: 502,
+            errorMessage: `Bid volume: ${event.bidSize} or Ask volume: ${event.askSize} for ${base} is invalid.`,
+          }
+        : response
+
+    return emit(response, requireVolumeResponse)
   }
 }
 
-const buildResponses = (event: DxLinkEvent) => {
-  const bidPrice = toNumber(event.bidPrice)
-  const askPrice = toNumber(event.askPrice)
-  // Equity quote needs positive bid/ask; reject, never repair.
-  if (bidPrice === null || askPrice === null || bidPrice <= 0 || askPrice <= 0) {
-    const error = {
-      statusCode: 502,
-      errorMessage: `Bid price: ${event.bidPrice} or Ask price: ${event.askPrice} for ${event.eventSymbol} is invalid.`,
+const parsePrices = (event: DxLinkEvent): PriceResult => {
+  const bid = toNumber(event.bidPrice)
+  const ask = toNumber(event.askPrice)
+  if (bid === null || ask === null || bid <= 0 || ask <= 0) {
+    return {
+      kind: 'invalid',
+      message: `Bid price: ${event.bidPrice} or Ask price: ${event.askPrice} for ${event.eventSymbol} is invalid.`,
     }
-    return { response: error, requireVolumeResponse: error }
   }
-  if (bidPrice > askPrice) {
-    const error = {
-      statusCode: 502,
-      errorMessage: `Bid price: ${event.bidPrice} is greater than Ask price: ${event.askPrice} for ${event.eventSymbol}.`,
+  if (bid > ask) {
+    return {
+      kind: 'invalid',
+      message: `Bid price: ${event.bidPrice} is greater than Ask price: ${event.askPrice} for ${event.eventSymbol}.`,
     }
-    return { response: error, requireVolumeResponse: error }
   }
-
-  const midPrice = (bidPrice + askPrice) / 2
-  if (!Number.isFinite(midPrice)) {
-    const error = {
-      statusCode: 502,
-      errorMessage: `Mid price for ${event.eventSymbol} is invalid.`,
+  if (!Number.isFinite((bid + ask) / 2)) {
+    return {
+      kind: 'invalid',
+      message: `Mid price for ${event.eventSymbol} is invalid.`,
     }
-    return { response: error, requireVolumeResponse: error }
   }
+  return { kind: 'valid', bid, ask }
+}
 
-  // Negative volume means missing, not zero.
-  const volumeOrNull = (value: unknown): number | null => {
-    const parsed = toNumber(value)
-    return parsed !== null && parsed >= 0 ? parsed : null
-  }
-  const bidVolume = volumeOrNull(event.bidSize)
-  const askVolume = volumeOrNull(event.askSize)
-
-  const response = {
-    result: null,
-    data: {
-      mid_price: midPrice,
-      midSource: 'computed' as const,
-      bid_price: bidPrice,
-      bid_volume: bidVolume,
-      ask_price: askPrice,
-      ask_volume: askVolume,
-    },
-    timestamps: { providerIndicatedTimeUnixMs: toNumber(event.time) ?? undefined },
-  }
-
-  if (bidVolume === null || askVolume === null) {
-    const error = {
-      statusCode: 502,
-      errorMessage: `Bid volume: ${event.bidSize} or Ask volume: ${event.askSize} for ${event.eventSymbol} is invalid.`,
-    }
-    return { response, requireVolumeResponse: error }
-  }
-  return { response, requireVolumeResponse: response }
+const volumeOrNull = (value: unknown): number | null => {
+  const parsed = toNumber(value)
+  return parsed !== null && parsed >= 0 ? parsed : null
 }
 
 export const transport = new StockQuotesTransport()

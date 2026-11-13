@@ -1,16 +1,12 @@
 /**
- * Config env-surface tests for OPDATA-9200.
- * WS_API_ENDPOINT / API_USERNAME / API_PASSWORD are optional at AdapterConfig
- * level so the REST transport starts standalone.
+ * Config env-surface tests. WS vars are optional at AdapterConfig level so the
+ * REST transport starts standalone.
  */
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 const VALID_WS_URL = 'wss://ws.example.test/dxlink'
 const REST_DEFAULT = 'https://tools.dxfeed.com/webservice/rest'
-
-// Every env var the WS surface needs, plus API_ENDPOINT so leaked values from
-// earlier tests cannot reach a fresh adapter's REST settings.
 const WS_ENV_VARS = ['WS_API_ENDPOINT', 'API_USERNAME', 'API_PASSWORD', 'API_ENDPOINT']
 
 const setValidEnv = (): void => {
@@ -22,51 +18,43 @@ const setValidEnv = (): void => {
 }
 
 const clearWsEnv = (): void => {
-  for (const name of WS_ENV_VARS) {
-    delete process.env[name]
-  }
+  WS_ENV_VARS.forEach((name) => delete process.env[name])
 }
 
-// Fresh src modules per test so env changes are re-read without resetModules().
-const clearSrcCache = (): void => {
-  for (const key of Object.keys(require.cache)) {
-    if (key.includes('/dxfeed/src/')) {
-      delete require.cache[key]
-    }
-  }
+type FreshConfig = {
+  initialize: () => void
+  validate: () => void
+  settings: Record<string, unknown>
 }
 
-const importFreshConfig = async (): Promise<any> => {
-  clearSrcCache()
-  return (await import('../../src/config')).config
+const importFreshConfig = async (): Promise<FreshConfig> => {
+  Object.keys(require.cache)
+    .filter((key) => key.includes('/dxfeed/src/'))
+    .forEach((key) => delete require.cache[key])
+  return (await import('../../src/config')).config as FreshConfig
 }
 
 describe('dxfeed config env surface', () => {
   let oldEnv: NodeJS.ProcessEnv
 
-  beforeAll(async () => {
+  beforeAll(() => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    // The config validator logs the demo warning; mirror the server's logger bootstrap.
     LoggerFactoryProvider.set()
   })
 
-  afterAll(async () => {
-    setEnvVariables(oldEnv)
+  afterAll(() => setEnvVariables(oldEnv))
+
+  it('starts REST standalone without WS env vars', async () => {
+    clearWsEnv()
+    const config = await importFreshConfig()
+    expect(() => {
+      config.initialize()
+      config.validate()
+    }).not.toThrow()
+    expect(config.settings.WS_API_ENDPOINT ?? null).toBeNull()
   })
 
-  describe('REST transport starts standalone (spec: WS env vars required=false at AdapterConfig level)', () => {
-    it('starts and validates with no WS_API_ENDPOINT, API_USERNAME or API_PASSWORD', async () => {
-      clearWsEnv()
-      const config = await importFreshConfig()
-      expect(() => {
-        config.initialize()
-        config.validate()
-      }).not.toThrow()
-      expect(config.settings.WS_API_ENDPOINT ?? null).toBeNull()
-    })
-  })
-
-  it('accepts a valid dxLink URL and applies the spec defaults', async () => {
+  it('accepts a dxLink URL and pins the 30s heartbeat', async () => {
     setValidEnv()
     const config = await importFreshConfig()
     expect(() => {
@@ -74,19 +62,20 @@ describe('dxfeed config env surface', () => {
       config.validate()
     }).not.toThrow()
     expect(config.settings.WS_API_ENDPOINT).toBe(VALID_WS_URL)
-    // API_ENDPOINT is optional with the framework default; REST is unchanged.
     expect(config.settings.API_ENDPOINT).toBe(REST_DEFAULT)
-    // Framework default: 10s, below the 60s dxLink timeout.
-    expect(config.settings.WS_HEARTBEAT_INTERVAL_MS).toBe(10000)
+    expect(config.settings.WS_HEARTBEAT_INTERVAL_MS).toBe(30000)
   })
 
-  it('rejects a WS_API_ENDPOINT with embedded credentials', async () => {
+  it.each([
+    ['wss://user:pass@ws.example.test/dxlink', 'must not contain credentials'],
+    ['wss://tools.dxfeed.com/chainlink/cometd', 'legacy cometd path'],
+  ])('rejects %s', async (url, message) => {
     setValidEnv()
-    process.env.WS_API_ENDPOINT = 'wss://user:pass@ws.example.test/dxlink'
+    process.env.WS_API_ENDPOINT = url
     const config = await importFreshConfig()
     expect(() => {
       config.initialize()
       config.validate()
-    }).toThrow(/must not contain credentials/)
+    }).toThrow(message)
   })
 })

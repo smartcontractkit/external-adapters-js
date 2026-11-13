@@ -1,5 +1,5 @@
 import { BaseEndpointTypes } from '../endpoint/price'
-import { DxLinkEvent, DxLinkEventType, DxLinkTransport } from './dxlink'
+import { DxLinkEvent, DxLinkEventType, DxLinkTransport, eventTimeOf } from './dxlink'
 import { toNumber } from './utils'
 
 // Session-agnostic by design: price has no session parameter, so the newest
@@ -39,7 +39,7 @@ export class PriceTransport extends DxLinkTransport<BaseEndpointTypes> {
         response: {
           result: price,
           data: { result: price },
-          timestamps: { providerIndicatedTimeUnixMs: toNumber(event.time) ?? undefined },
+          timestamps: { providerIndicatedTimeUnixMs: eventTimeOf(event) ?? undefined },
         },
       },
     ]

@@ -2,7 +2,7 @@
 '@chainlink/dxfeed-adapter': major
 ---
 
-Migrate the dxFeed WS transport from cometd to dxLink (OPDATA-9200). `WS_API_ENDPOINT` must be the dxLink URL supplied by Partnerships; credentials move to `API_USERNAME` / `API_PASSWORD` and are sent as the HTTP Basic auth header. A URL with embedded credentials is rejected. Equity quotes require a positive bid and ask: zero, negative, one-sided, and crossed quotes return 502 rather than a repaired mid. The mid remains in `data.mid_price` and is marked `midSource: "computed"`; `stock_quotes.result` stays `null`. `price` matches the incumbent subscription set: `:USLF24` tickers subscribe `Trade` + `TradeETH`, bare tickers subscribe `Trade` only. The REST transport is unchanged.
+Migrate the dxFeed WS transport from cometd to dxLink (OPDATA-9200). `WS_API_ENDPOINT` must be the dxLink URL supplied by Partnerships; credentials move to `API_USERNAME` / `API_PASSWORD` and are sent as the HTTP Basic auth header. A URL with embedded credentials or the legacy cometd path is rejected. Equity quotes follow the EA data standard: zero, negative, one-sided and crossed quotes return 502 rather than a repaired mid; sizes are optional and null when absent. `stock_quotes` reports the quote session and 24/5 market status alongside `data.mid_price`, and `midSource: "computed"` records that the mid came from two valid sides. `price` uses `NumericResultEndpoint` and matches the incumbent subscription set: `:USLF24` tickers subscribe `Trade` + `TradeETH`, bare tickers subscribe `Trade` only. The REST transport is unchanged.
 
 ### NOP upgrade
 

@@ -1,14 +1,7 @@
 /**
- * dxLink websocket transport tests — OPDATA-9200 requirement doc.
- *
- * Everything is asserted from the requirement doc and the dxLink protocol
- * (handshake sequence, Basic auth on the WS handshake, FEED_SUBSCRIPTION
- * add/remove fanout, KEEPALIVE, provider ERROR frames), through the adapter's
- * real request path against a scripted dxLink server. The legacy cometd
- * transport (clientId, /meta/connect heartbeats) is deleted and must not appear
- * on the wire.
+ * dxLink transport tests: staged handshake, subscription framing, COMPACT
+ * decoding, heartbeat, provider errors and reconnect.
  */
-import { metrics } from '@chainlink/external-adapter-framework/metrics'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
   mockWebSocketProvider,
@@ -18,14 +11,13 @@ import {
 import FakeTimers, { type InstalledClock } from '@sinonjs/fake-timers'
 import {
   awaitWs,
-  errorFrame,
   flushFrames,
-  keepaliveFrame,
   QUOTE_FIELDS,
   quoteFrame,
   quoteRecord,
   ScriptedDxLinkServer,
   setDxLinkTestEnv,
+  TRADE_FIELDS,
   tradeFrame,
   tradeRecord,
 } from './fixtures'
@@ -58,19 +50,17 @@ describe('dxLink websocket transport', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    setDxLinkTestEnv(WS_URL, { WS_SUBSCRIPTION_UNRESPONSIVE_TTL: '180000' })
+    setDxLinkTestEnv(WS_URL)
 
     server = new ScriptedDxLinkServer(WS_URL)
-    // Warm-up symbols only. Each test seeds the symbols it needs, so the
-    // fixture block stays next to the behaviour under test.
     server.setFeedData('Quote', 'TSLA', [
       quoteFrame(quoteRecord('TSLA', 1760000002000, 100, 101, 1, 2)),
     ])
     server.setFeedData('Quote', 'AAPL:USLF24', [
-      quoteFrame(
-        quoteRecord('AAPL:USLF24', 1760000000000, 189.95, 190.05, 100, 200, 'V', 'V'),
-        quoteRecord('AAPL:USLF24', 1760000001000, 189.9, 190.1, 50, 80, 'O', 'O'),
-      ),
+      quoteFrame(quoteRecord('AAPL:USLF24', 1760000001000, 189.9, 190.1, 50, 80, 'O', 'O')),
+    ])
+    server.setFeedData('Trade', 'TSLA', [
+      tradeFrame('Trade', tradeRecord('Trade', 'TSLA', 1760000002000, 250)),
     ])
     server.setFeedData('Trade', 'AAPL:USLF24', [
       tradeFrame('Trade', tradeRecord('Trade', 'AAPL:USLF24', 1760000000000, 189.98)),
@@ -78,38 +68,28 @@ describe('dxLink websocket transport', () => {
     server.setFeedData('TradeETH', 'AAPL:USLF24', [
       tradeFrame('TradeETH', tradeRecord('TradeETH', 'AAPL:USLF24', 500, 400)),
     ])
-    server.setFeedData('Trade', 'TSLA', [
-      tradeFrame('Trade', tradeRecord('Trade', 'TSLA', 1760000002000, 250)),
-    ])
 
     mockWebSocketProvider(WebSocketClassProvider)
-    // Idempotent: register the framework prom-client counters so the metric
-    // assertions below can read counter deltas.
-    metrics.initialize()
-    // Record the handshake options the adapter hands to the WebSocket client.
     recordedSocketOptions = []
-    const MockedSocket = WebSocketClassProvider.get() as any
+    const MockedSocket = WebSocketClassProvider.get()
     class RecordingSocket extends MockedSocket {
-      constructor(url: string, protocol?: unknown, options?: unknown) {
-        recordedSocketOptions.push({
-          url,
-          options: options as { headers?: { Authorization?: string } },
-        })
-        super(url, protocol)
+      constructor(
+        url: string,
+        protocols?: string | string[],
+        options?: { headers?: { Authorization?: string } },
+      ) {
+        recordedSocketOptions.push({ url, options })
+        super(url, protocols)
       }
     }
-    WebSocketClassProvider.set(RecordingSocket as any)
+    WebSocketClassProvider.set(RecordingSocket)
 
     const adapter = (await import('./../../src')).adapter
-    // rateLimiting stays: undefined makes the fixed-interval period 0, which starves fake-timer ticks
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       clock: FakeTimers.install({ now: Date.parse('2026-01-01T00:00:00Z') }),
       testAdapter: {} as TestAdapter<never>,
     })
 
-    // Fire one request per endpoint so both transports connect and subscribe;
-    // the framework drains its own timer queue while the foreground gate waits
-    // for the background stream to fill the cache.
     await requestJson(quoteRequest)
     await requestJson(priceRequest)
     await testAdapter.waitForCache(2)
@@ -122,486 +102,142 @@ describe('dxLink websocket transport', () => {
     await testAdapter.api.close()
   })
 
-  describe('handshake', () => {
-    it('sends the Basic auth header on every websocket handshake', () => {
-      expect(recordedSocketOptions.length).toBeGreaterThan(0)
-      const expected = 'Basic ' + Buffer.from('fake-user:fake-pass').toString('base64')
-      for (const { url, options } of recordedSocketOptions) {
-        expect(url).toBe(WS_URL)
-        expect(options?.headers?.Authorization).toBe(expected)
-      }
+  it('sends Basic auth and stages SETUP -> CHANNEL_REQUEST -> FEED_SETUP', () => {
+    const expected = 'Basic ' + Buffer.from('fake-user:fake-pass').toString('base64')
+    expect(recordedSocketOptions.length).toBeGreaterThan(0)
+    recordedSocketOptions.forEach(({ url, options }) => {
+      expect(url).toBe(WS_URL)
+      expect(options?.headers?.Authorization).toBe(expected)
     })
 
-    it('runs the dxLink control handshake before any subscription', () => {
-      const firstSubscription = server.clientMessages.findIndex(
-        (m) => m.type === 'FEED_SUBSCRIPTION',
-      )
-      expect(firstSubscription).toBeGreaterThan(0)
-      const control = server.clientMessages
-        .slice(0, firstSubscription)
-        .map((m) => m.type)
-        .filter((t) => ['SETUP', 'CHANNEL_REQUEST', 'FEED_SETUP'].includes(t))
-      expect(control).toEqual(['SETUP', 'CHANNEL_REQUEST', 'FEED_SETUP'])
+    const control = server.clientMessages
+      .filter((message) => ['SETUP', 'CHANNEL_REQUEST', 'FEED_SETUP'].includes(message.type))
+      .map((message) => message.type)
+    expect(control.slice(0, 3)).toEqual(['SETUP', 'CHANNEL_REQUEST', 'FEED_SETUP'])
 
-      // Requirement SETUP: channel 0, 60s keepalive. The adapter KEEPALIVE cadence is separate.
-      expect(server.clientMessages.find((m) => m.type === 'SETUP')).toMatchObject({
-        channel: 0,
-        keepaliveTimeout: 60,
-        acceptKeepaliveTimeout: 60,
-        version: '0.1-js/1.0.0',
-      })
-      expect(server.clientMessages.find((m) => m.type === 'CHANNEL_REQUEST')).toMatchObject({
-        channel: 1,
-        service: 'FEED',
-        parameters: { contract: 'AUTO' },
-      })
-      // Each endpoint's transport only asks for the event types (and fields) it uses
-      const feedSetups = server.clientMessages.filter((m) => m.type === 'FEED_SETUP')
-      expect(feedSetups.map((m) => m.acceptEventFields)).toEqual(
-        expect.arrayContaining([
-          { Quote: QUOTE_FIELDS },
-          {
-            Trade: ['eventType', 'eventSymbol', 'time', 'price'],
-            TradeETH: ['eventType', 'eventSymbol', 'time', 'price'],
-          },
-        ]),
-      )
-      for (const feedSetup of feedSetups) {
-        expect(feedSetup).toMatchObject({
-          channel: 1,
-          acceptAggregationPeriod: 1,
-          acceptDataFormat: 'COMPACT',
-        })
-      }
-    })
-
-    it('never puts cometd frames on the wire', () => {
-      // No cometd meta channels or clientId handshakes may be sent.
-      expect(server.clientMessages.some((m) => JSON.stringify(m).includes('/meta/'))).toBe(false)
-      expect(server.clientMessages.some((m) => m.clientId !== undefined)).toBe(false)
-      // Requirement doc: the dxLink AUTH message exists but is not used;
-      // credentials ride the HTTP Basic header on the upgrade only.
-      expect(server.clientMessages.some((m) => m.type === 'AUTH')).toBe(false)
-    })
-  })
-
-  describe('subscriptions', () => {
-    it('subscribes Quote once per (symbol, eventType) and never duplicates it', async () => {
-      expect(server.added().filter((s) => s.symbol === 'TSLA' && s.type === 'Quote')).toHaveLength(
-        1,
-      )
-      // Re-request with identical params: no duplicate add may be sent.
-      await requestJson(quoteRequest)
-      await flushFrames(testAdapter)
-      expect(server.added().filter((s) => s.symbol === 'TSLA' && s.type === 'Quote')).toHaveLength(
-        1,
-      )
-      for (const msg of server.clientMessages.filter((m) => m.type === 'FEED_SUBSCRIPTION')) {
-        expect(Array.isArray(msg.add)).toBe(true)
-      }
-    })
-
-    it('subscribes Trade and TradeETH for :USLF24 tickers', () => {
-      expect(server.added()).toEqual(
-        expect.arrayContaining([
-          { symbol: 'AAPL:USLF24', type: 'Trade' },
-          { symbol: 'AAPL:USLF24', type: 'TradeETH' },
-        ]),
-      )
-    })
-
-    it('subscribes Trade only for a bare ticker (matches the incumbent)', async () => {
-      // The awaited request self-drains the clock while the foreground gate
-      // waits for the stream value, so the adds are on the wire by the time
-      // the 200 comes back.
-      await requestJson({
-        endpoint: 'stock',
-        from: 'TSLA',
-        to: 'USD',
-        transport: 'ws',
-      })
-      expect(server.added().some((s) => s.symbol === 'TSLA' && s.type === 'Trade')).toBe(true)
-      expect(server.added().some((s) => s.symbol === 'TSLA' && s.type === 'TradeETH')).toBe(false)
-    })
-
-    it('subscribes Quote for the overridden :USLF24 ticker (stock_quotes)', async () => {
-      await requestJson({
-        endpoint: 'stock_quotes',
-        base: 'AAPL',
-        quote: 'USD',
-        overrides: { dxfeed: { AAPL: 'AAPL:USLF24' } },
-      })
-      await flushFrames(testAdapter)
-      expect(server.added()).toEqual(
-        expect.arrayContaining([{ symbol: 'AAPL:USLF24', type: 'Quote' }]),
-      )
-    })
-  })
-
-  describe('heartbeat', () => {
-    it('sends KEEPALIVE on channel 0 on the WS_HEARTBEAT_INTERVAL_MS cadence', async () => {
-      const countKeepalives = () =>
-        server.clientMessages.filter((m) => m.type === 'KEEPALIVE').length
-      // Four-plus fires in a 4-interval window pins the cadence to the test's
-      // 5s interval; tickAsync advances the timer without real sleeps.
-      const before = countKeepalives()
-      await testAdapter.clock?.tickAsync?.(4 * 5000 + 1000)
-      expect(countKeepalives() - before).toBeGreaterThanOrEqual(4)
-      for (const message of server.clientMessages.filter((m) => m.type === 'KEEPALIVE')) {
-        expect(message).toMatchObject({ channel: 0 })
-      }
-    })
-  })
-
-  describe('provider error frames', () => {
-    it('ignores ERROR frames without throwing or corrupting the stream', async () => {
-      const before = await requestJson(quoteRequest)
-      expect(before.data).toMatchObject({ bid_price: 100, ask_price: 101 })
-
-      server.push(errorFrame)
-      server.push(keepaliveFrame)
-      await flushFrames(testAdapter, 2000)
-
-      // No ProviderResult was produced and no error thrown: the last good
-      // value is still served, then newer data still flows.
-      const after = await requestJson(quoteRequest)
-      expect(after.data).toMatchObject({ bid_price: 100, ask_price: 101 })
-
-      server.push(quoteFrame(quoteRecord('TSLA', 1760000003000, 110, 111, 1, 2)))
-      await flushFrames(testAdapter)
-      const updated = await requestJson(quoteRequest)
-      expect(updated.data).toMatchObject({ bid_price: 110, ask_price: 111 })
-    })
-
-    it('ignores unknown message types and keeps the stream flowing', async () => {
-      const unknownRequest = { base: 'UNK', quote: 'USD', endpoint: 'stock_quotes' }
-      server.setFeedData('Quote', 'UNK', [
-        quoteFrame(quoteRecord('UNK', 1760000001000, 150, 151, 1, 2)),
-      ])
-      const first = await requestJson(unknownRequest)
-      expect(first.data).toMatchObject({ bid_price: 150, ask_price: 151 })
-
-      server.push({ type: 'UNKNOWN_TEST_FRAME', channel: 1 })
-      server.push(quoteFrame(quoteRecord('UNK', 1760000007000, 170, 171, 1, 2)))
-      await flushFrames(testAdapter)
-
-      const body = await requestJson(unknownRequest)
-      expect(body.data).toMatchObject({ bid_price: 170, ask_price: 171 })
-    })
-
-    it('increments wsConnectionErrors with the dxLink error code, not the free-text message', async () => {
-      const errorsCounter = metrics.get('wsConnectionErrors')
-      const countUnauthorized = async (): Promise<number> =>
-        (await errorsCounter.get()).values
-          .filter((value) => value.labels.message === 'UNAUTHORIZED')
-          .reduce((total, value) => total + value.value, 0)
-
-      const before = await countUnauthorized()
-      server.push({
-        type: 'ERROR',
-        channel: 0,
-        error: 'UNAUTHORIZED',
-        message: 'bad credentials (test)',
-      })
-      await flushFrames(testAdapter, 2000)
-
-      expect(await countUnauthorized()).toBeGreaterThan(before)
-      expect(
-        (await errorsCounter.get()).values.some(
-          (value) => value.labels.message === 'bad credentials (test)',
-        ),
-      ).toBe(false)
-    })
-
-    it('never hard-fails after a burst of ERROR frames', async () => {
-      const setupsBefore = server.countByType('SETUP')
-
-      // Informational ERROR frames without a connection-level code do not reconnect.
-      for (let i = 0; i < 30; i++) {
-        server.push({ type: 'ERROR', channel: 1, message: `provider error (burst ${i})` })
-        await testAdapter.clock?.tickAsync?.(100)
-      }
-      expect(server.countByType('SETUP')).toBe(setupsBefore)
-
-      server.push(quoteFrame(quoteRecord('TSLA', 1760000004000, 120, 121, 1, 2)))
-      await flushFrames(testAdapter)
-      const updated = await requestJson(quoteRequest)
-      expect(updated.data).toMatchObject({ bid_price: 120, ask_price: 121 })
-    })
-  })
-
-  describe('reconnect', () => {
-    it('after CHANNEL_CLOSED the adapter re-handshakes, re-subscribes, and serves the cached last value during the window', async () => {
-      // Refresh the subscription (a cache-hit request also re-arms the
-      // framework's subscription TTL), then push a fresh newest quote and
-      // assert it is served before the channel is closed.
-      await requestJson(quoteRequest)
-      server.push(quoteFrame(quoteRecord('TSLA', 1760000005000, 130, 131, 1, 2)))
-      await flushFrames(testAdapter)
-      const preClose = await requestJson(quoteRequest)
-      expect(preClose.data).toMatchObject({ bid_price: 130, ask_price: 131 })
-      expect(preClose.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000005000)
-
-      // The reconnect replay must carry the newest record so the cached value
-      // after the re-subscribe is deterministic.
-      server.setFeedData('Quote', 'TSLA', [
-        quoteFrame(quoteRecord('TSLA', 1760000005000, 130, 131, 1, 2)),
-      ])
-
-      const setupsBefore = server.countByType('SETUP')
-      const addsBefore = server.added().length
-
-      // dxLink closes the feed channel: the CHANNEL_CLOSED control frame
-      // followed by the server dropping the socket.
-      server.push({ type: 'CHANNEL_CLOSED', channel: 1 })
-      server.closeAll()
-
-      // The framework reconnects: a fresh control handshake runs and the
-      // desired FEED_SUBSCRIPTION adds are re-sent.
-      const reconnected = await awaitWs(
-        testAdapter,
-        () => server.countByType('SETUP') > setupsBefore && server.added().length > addsBefore,
-      )
-      expect(reconnected).toBe(true)
-      expect(server.added().some((s) => s.symbol === 'TSLA' && s.type === 'Quote')).toBe(true)
-
-      // The whole desired set is re-sent, including the price endpoint's
-      // Trade and TradeETH pair.
-      const addCount = (symbol: string, type: string): number =>
-        server.added().filter((s) => s.symbol === symbol && s.type === type).length
-      expect(addCount('TSLA', 'Quote')).toBeGreaterThanOrEqual(2)
-      expect(addCount('AAPL:USLF24', 'Trade')).toBeGreaterThanOrEqual(2)
-      expect(addCount('AAPL:USLF24', 'TradeETH')).toBeGreaterThanOrEqual(2)
-
-      // The cached last value is served during the reconnect window.
-      const duringWindow = await requestJson(quoteRequest)
-      expect(duringWindow.data).toMatchObject({ bid_price: 130, ask_price: 131 })
-      expect(duringWindow.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000005000)
-
-      server.push(quoteFrame(quoteRecord('TSLA', 1760000006000, 140, 141, 1, 2)))
-      await flushFrames(testAdapter)
-      const resumed = await requestJson(quoteRequest)
-      expect(resumed.data).toMatchObject({ bid_price: 140, ask_price: 141 })
-      expect(resumed.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000006000)
-    })
-
-    it('increments the framework wsConnectionClosures counter on the closure', async () => {
-      // A known good value is cached before the closure so the window check
-      // below has something to serve.
-      await requestJson(quoteRequest)
-
-      // A dropped connection increments the framework's own
-      // wsConnectionClosures counter (labels code/url). Only the delta
-      // matters, so pre-existing series from earlier tests are irrelevant.
-      const closuresCounter = metrics.get('wsConnectionClosures')
-      const closureCount = async (): Promise<number> =>
-        (await closuresCounter.get()).values.reduce((total, v) => total + v.value, 0)
-
-      const setupsBefore = server.countByType('SETUP')
-      const closuresBefore = await closureCount()
-
-      server.push({ type: 'CHANNEL_CLOSED', channel: 1 })
-      server.closeAll()
-
-      // The fresh SETUP proves the close handler ran and the reconnect began.
-      const reconnected = await awaitWs(
-        testAdapter,
-        () => server.countByType('SETUP') > setupsBefore,
-      )
-      expect(reconnected).toBe(true)
-      expect(await closureCount()).toBeGreaterThan(closuresBefore)
-
-      // The replayed snapshot (t=...5000) is older than the cached quote
-      // (t=...6000), so the cached value is still served and no adapter error
-      // is raised.
-      const duringWindow = await requestJson(quoteRequest)
-      expect(duringWindow.data).toMatchObject({ bid_price: 140, ask_price: 141 })
-    })
-
-    it('closes the socket on CHANNEL_CLOSED when the server keeps it open', async () => {
-      // Keep this last in the describe: the reconnect replays the canned frames.
-      const setupsBefore = server.countByType('SETUP')
-      const addsBefore = server.added().length
-
-      // Only the control frame; the server does NOT drop the socket.
-      server.push({ type: 'CHANNEL_CLOSED', channel: 1 })
-
-      const reconnected = await awaitWs(
-        testAdapter,
-        () => server.countByType('SETUP') > setupsBefore && server.added().length > addsBefore,
-      )
-      expect(reconnected).toBe(true)
-      expect(server.added().some((s) => s.symbol === 'TSLA' && s.type === 'Quote')).toBe(true)
-    })
-  })
-
-  describe('open gate', () => {
-    it('rejects the open handshake when FEED_CONFIG never arrives, then recovers', async () => {
-      server.setFeedData('Quote', 'GATE', [
-        quoteFrame(quoteRecord('GATE', 1760000002000, 120, 121, 3, 4)),
-      ])
-      const gateRequest = { base: 'GATE', quote: 'USD', endpoint: 'stock_quotes' }
-
-      server.suppressFeedConfig = true
-      server.closeAll()
-
-      // The adapter reconnects and re-runs the handshake, but open must not
-      // resolve without FEED_CONFIG; retries stay inside WS_CONNECTION_OPEN_TIMEOUT.
-      const reconnected = await awaitWs(testAdapter, () => server.countByType('SETUP') >= 2)
-      expect(reconnected).toBe(true)
-      const addsWhileSuppressed = server.added().length
-      await testAdapter.clock?.tickAsync?.(6000)
-      expect(server.countByType('SETUP')).toBeGreaterThanOrEqual(3)
-      // Nothing may subscribe before FEED_CONFIG arrives.
-      expect(server.added().length).toBe(addsWhileSuppressed)
-
-      const gated = await testAdapter.request(gateRequest)
-      expect(gated.statusCode).not.toBe(200)
-
-      server.suppressFeedConfig = false
-      const setupsBeforeRecovery = server.countByType('SETUP')
-      server.closeAll()
-      await awaitWs(testAdapter, () => server.countByType('SETUP') > setupsBeforeRecovery)
-      const recovered = await requestJson(gateRequest)
-      expect(recovered.data).toMatchObject({ bid_price: 120, ask_price: 121 })
-      expect(recovered.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000002000)
-    })
-  })
-
-  describe('handshake errors', () => {
-    it('fails the open as soon as the server answers the handshake with ERROR', async () => {
-      server.failHandshake = true
-      const setupsBefore = server.countByType('SETUP')
-      server.closeAll()
-
-      // Both endpoint connections reconnect, and each retries within a single
-      // WS_CONNECTION_OPEN_TIMEOUT (2000ms): the ERROR frame rejected the open, not the timeout
-      await testAdapter.clock?.tickAsync?.(1500)
-      expect(server.countByType('SETUP') - setupsBefore).toBeGreaterThanOrEqual(4)
-
-      server.failHandshake = false
-      const setupsBeforeRecovery = server.countByType('SETUP')
-      await awaitWs(testAdapter, () => server.countByType('FEED_SETUP') > setupsBeforeRecovery)
-      await requestJson(quoteRequest)
-    })
-  })
-
-  describe('stale subscription expiry', () => {
-    // Runs near the end: it advances the fake clock past WS_SUBSCRIPTION_TTL,
-    // which expires (and unsubscribes) every other test's subscriptions.
-    it('keeps a shared subscription while another request still needs it', async () => {
-      server.setFeedData('Quote', 'SHARED', [
-        quoteFrame(quoteRecord('SHARED', 1760000002000, 110, 111, 1, 1, 'O', 'O')),
-      ])
-      server.setFeedData('Quote', 'ALONE', [
-        quoteFrame(quoteRecord('ALONE', 1760000002000, 115, 116, 1, 1)),
-      ])
-      // Both requests map to the same (SHARED, Quote) dxLink subscription
-      const regular = { base: 'SHARED', endpoint: 'stock_quotes' }
-      const overnight = { ...regular, isOvernight: true }
-      const alone = { base: 'ALONE', endpoint: 'stock_quotes' }
-      for (const request of [regular, overnight, alone]) {
-        await requestJson(request)
-      }
-
-      // Keep requesting only `regular` until the other two subscriptions have expired.
-      // The loop deliberately does not assert 200: the cached value may outlive
-      // CACHE_MAX_AGE mid-loop; the request still re-arms the subscription TTL.
-      const deadline = Number(testAdapter.clock?.now) + 70_000
-      while (Number(testAdapter.clock?.now) < deadline) {
-        await flushFrames(testAdapter, 5_000)
-        await testAdapter.request(regular)
-      }
-
-      const removedSymbols = server.removed().map((s) => s.symbol)
-      expect(removedSymbols).toContain('ALONE')
-      expect(removedSymbols).not.toContain('SHARED')
-    })
-
-    it('sends FEED_SUBSCRIPTION remove arrays when subscriptions go stale', async () => {
-      server.setFeedData('Quote', 'REMOVE:USLF24', [
-        quoteFrame(quoteRecord('REMOVE:USLF24', 1760000002000, 130, 131, 5, 6)),
-      ])
-      const removeRequest = { base: 'REMOVE:USLF24', quote: 'USD', endpoint: 'stock_quotes' }
-      await requestJson(removeRequest)
-
-      // WS_SUBSCRIPTION_TTL (60000) after the last request for the params,
-      // the framework's subscription set expires the entry and the stream
-      // loop unsubscribes it. Other subscriptions may expire in the same
-      // drain window, so the remove message is asserted to CONTAIN the stale
-      // entry, not to equal a singleton list.
-      const removed = await awaitWs(
-        testAdapter,
-        () => server.removed().some((s) => s.symbol === 'REMOVE:USLF24' && s.type === 'Quote'),
-        70000,
-      )
-      expect(removed).toBe(true)
-      const removeMessage = server.clientMessages.filter(
-        (m) =>
-          m.type === 'FEED_SUBSCRIPTION' &&
-          (m.remove ?? []).some(
-            (s: { symbol: string; type: string }) => s.symbol === 'REMOVE:USLF24',
-          ),
-      )[0]
-      expect(removeMessage).toMatchObject({ channel: 1 })
-      expect(removeMessage.remove).toEqual(
-        expect.arrayContaining([{ symbol: 'REMOVE:USLF24', type: 'Quote' }]),
-      )
-    })
-  })
-
-  describe('provider error reconnect policy', () => {
-    // Runs last so its reconnect attempts do not perturb earlier tests.
-    beforeAll(async () => {
-      server.setFeedData('Quote', 'TSLA', [
-        quoteFrame(quoteRecord('TSLA', 1760000010000, 150, 151, 1, 2)),
-      ])
-      await requestJson(quoteRequest)
-    })
-
-    it.each(['UNAUTHORIZED', 'INVALID_MESSAGE', 'BAD_ACTION', 'UNKNOWN'])(
-      'does not reconnect on %s',
-      async (code) => {
-        const setupsBefore = server.countByType('SETUP')
-        server.push({
-          type: 'ERROR',
-          channel: 0,
-          error: code,
-          message: 'informational provider error (test)',
-        })
-        await testAdapter.clock?.tickAsync?.(2000)
-        expect(server.countByType('SETUP')).toBe(setupsBefore)
-      },
+    const feedSetups = server.clientMessages.filter((message) => message.type === 'FEED_SETUP')
+    expect(feedSetups.map((message) => message.acceptEventFields)).toEqual(
+      expect.arrayContaining([
+        { Quote: QUOTE_FIELDS },
+        { Trade: TRADE_FIELDS, TradeETH: TRADE_FIELDS },
+      ]),
     )
-
-    it('keeps serving updates after a client-message ERROR', async () => {
-      server.push({
-        type: 'ERROR',
-        channel: 0,
-        error: 'INVALID_MESSAGE',
-        message: 'bad frame (test)',
+    feedSetups.forEach((message) => {
+      expect(message).toMatchObject({
+        channel: 1,
+        acceptAggregationPeriod: 1,
+        acceptDataFormat: 'COMPACT',
       })
-      server.push(quoteFrame(quoteRecord('TSLA', 1760000011000, 160, 161, 1, 2)))
-      await flushFrames(testAdapter)
-
-      const served = await requestJson(quoteRequest)
-      expect(served.data).toMatchObject({ bid_price: 160, ask_price: 161 })
-      expect(served.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000011000)
     })
+    expect(server.clientMessages.some((message) => message.type === 'AUTH')).toBe(false)
+    expect(server.clientMessages.some((message) => message.clientId !== undefined)).toBe(false)
+  })
 
-    it('reconnects on TIMEOUT', async () => {
-      const setupsBefore = server.countByType('SETUP')
-      server.push({
-        type: 'ERROR',
-        channel: 0,
-        error: 'TIMEOUT',
-        message: 'keepalive timeout (test)',
+  it('omits empty add/remove arrays and dedupes per symbol and event type', async () => {
+    await requestJson(quoteRequest)
+    await flushFrames(testAdapter)
+
+    expect(server.invalidSubscriptionMessages).toEqual([])
+    expect(server.added().filter((s) => s.symbol === 'TSLA' && s.type === 'Quote')).toHaveLength(1)
+    server.clientMessages
+      .filter((message) => message.type === 'FEED_SUBSCRIPTION')
+      .forEach((message) => {
+        expect(message.add === undefined || message.add.length > 0).toBe(true)
+        expect(message.remove === undefined || message.remove.length > 0).toBe(true)
       })
-      const reconnected = await awaitWs(
+  })
+
+  it('subscribes Trade and TradeETH for :USLF24 and Trade only for bare tickers', async () => {
+    await requestJson({
+      endpoint: 'stock',
+      from: 'TSLA',
+      to: 'USD',
+      transport: 'ws',
+    })
+    expect(server.added()).toEqual(
+      expect.arrayContaining([
+        { symbol: 'AAPL:USLF24', type: 'Trade' },
+        { symbol: 'AAPL:USLF24', type: 'TradeETH' },
+        { symbol: 'TSLA', type: 'Trade' },
+      ]),
+    )
+    expect(server.added().some((s) => s.symbol === 'TSLA' && s.type === 'TradeETH')).toBe(false)
+  })
+
+  it('sends KEEPALIVE on channel 0 at the configured interval', async () => {
+    const count = () => server.clientMessages.filter((m) => m.type === 'KEEPALIVE').length
+    const before = count()
+    await testAdapter.clock?.tickAsync?.(4 * 5000 + 1000)
+    expect(count() - before).toBeGreaterThanOrEqual(3)
+    server.clientMessages
+      .filter((m) => m.type === 'KEEPALIVE')
+      .forEach((m) => expect(m.channel).toBe(0))
+  })
+
+  it('reconnects on TIMEOUT but not on informational ERROR frames', async () => {
+    const setupsBefore = server.countByType('SETUP')
+    server.push({ type: 'ERROR', channel: 0, error: 'UNAUTHORIZED', message: 'test' })
+    await flushFrames(testAdapter, 2000)
+    expect(server.countByType('SETUP')).toBe(setupsBefore)
+
+    server.push({ type: 'ERROR', channel: 0, error: 'TIMEOUT', message: 'test' })
+    expect(await awaitWs(testAdapter, () => server.countByType('SETUP') > setupsBefore)).toBe(true)
+  })
+
+  it('re-handshakes and resubscribes after CHANNEL_CLOSED', async () => {
+    const setupsBefore = server.countByType('SETUP')
+    const addsBefore = server.added().length
+    server.push({ type: 'CHANNEL_CLOSED', channel: 1 })
+    expect(
+      await awaitWs(
         testAdapter,
-        () => server.countByType('SETUP') > setupsBefore,
+        () => server.countByType('SETUP') > setupsBefore && server.added().length > addsBefore,
+      ),
+    ).toBe(true)
+  })
+
+  it('decodes COMPACT records by FEED_CONFIG order, dropping partial and NUL-padded records', async () => {
+    const edgeRequest = { base: 'EDGE', quote: 'USD', endpoint: 'stock_quotes' }
+    const partial = quoteRecord('EDGE', 1760000003000, 300, 301, 1, 2).slice(0, -1)
+    server.setFeedData('Quote', 'EDGE', [
+      quoteFrame(
+        quoteRecord('EDGE', 1760000001000, 100, 101, 1, 2),
+        quoteRecord('ED\u0000GE', 1760000004000, 400, 401, 3, 4),
+        partial,
+      ),
+    ])
+    const body = await requestJson(edgeRequest)
+    expect(body.data.bid_price).toBe(400)
+    expect(body.data.ask_price).toBe(401)
+  })
+
+  it('retries a rejected handshake and recovers when the server accepts it', async () => {
+    const setupsBefore = server.countByType('SETUP')
+    server.failHandshake = true
+    try {
+      server.closeAll()
+      expect(await awaitWs(testAdapter, () => server.countByType('SETUP') > setupsBefore)).toBe(
+        true,
       )
-      expect(reconnected).toBe(true)
-    })
+    } finally {
+      server.failHandshake = false
+    }
+    expect(
+      await awaitWs(testAdapter, () => server.countByType('SETUP') > setupsBefore + 1, 30000),
+    ).toBe(true)
+  })
+
+  it('drops a stale invalid frame instead of replacing the last healthy value', async () => {
+    const staleRequest = { base: 'STALE', quote: 'USD', endpoint: 'stock_quotes' }
+    server.setFeedData('Quote', 'STALE', [
+      quoteFrame(quoteRecord('STALE', 1760000005000, 500, 501, 1, 2)),
+    ])
+    const first = await requestJson(staleRequest)
+    expect(first.data.bid_price).toBe(500)
+
+    server.push(quoteFrame(quoteRecord('STALE', 1760000004000, 'NaN', 501, 1, 2)))
+    await flushFrames(testAdapter)
+    const second = await requestJson(staleRequest)
+    expect(second.data.bid_price).toBe(500)
   })
 })

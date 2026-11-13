@@ -1,4 +1,4 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { NumericResultEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
@@ -13,7 +13,7 @@ export type BaseEndpointTypes = {
   Response: SingleNumberResultResponse
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new NumericResultEndpoint({
   name: 'price',
   aliases: ['crypto', 'stock', 'forex', 'commodities'],
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()
