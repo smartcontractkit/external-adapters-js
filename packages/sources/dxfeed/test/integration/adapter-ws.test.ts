@@ -103,7 +103,7 @@ describe('dxLink websocket endpoints', () => {
     await testAdapter.api.close()
   })
 
-  it('returns the stock quote shape with session and market status', async () => {
+  it('returns the stock quote shape', async () => {
     const body = await ok({ base: 'REG', quote: 'USD', endpoint: 'stock_quotes' })
     expect(body.data).toMatchObject({
       mid_price: 190,
@@ -112,23 +112,19 @@ describe('dxLink websocket endpoints', () => {
       bid_volume: 50,
       ask_price: 190.1,
       ask_volume: 80,
-      session: 'regular',
-      marketStatus: 2,
     })
     expect(body.result).toBeNull()
     expect(body.timestamps.providerIndicatedTimeUnixMs).toBe(1760000001000)
   })
 
-  it('reports an O/O quote as the overnight session', async () => {
-    const body = await ok({ base: 'OVERNIGHT', quote: 'USD', endpoint: 'stock_quotes' })
-    expect(body.data).toMatchObject({ session: 'overnight', marketStatus: 4 })
-    expect(
-      (await ok({ base: 'OVERNIGHT', quote: 'USD', endpoint: 'stock_quotes', isOvernight: true }))
-        .data,
-    ).toMatchObject({
-      bid_price: 160,
-      ask_price: 161,
+  it('serves an O/O quote under isOvernight', async () => {
+    const body = await ok({
+      base: 'OVERNIGHT',
+      quote: 'USD',
+      endpoint: 'stock_quotes',
+      isOvernight: true,
     })
+    expect(body.data).toMatchObject({ bid_price: 160, ask_price: 161 })
   })
 
   it.each([

@@ -1,13 +1,10 @@
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes, MarketStatus24x5, StockSession } from '../endpoint/stock-quotes'
+import { BaseEndpointTypes } from '../endpoint/stock-quotes'
 import { DxLinkEvent, DxLinkTransport, DxLinkTransportTypes, eventTimeOf } from './dxlink'
 import { toNumber } from './utils'
 
 type ParsedResult = ProviderResult<DxLinkTransportTypes<BaseEndpointTypes>>
 type ParsedResponse = ParsedResult['response']
-
-const REGULAR_MARKET_STATUS: MarketStatus24x5 = 2
-const OVERNIGHT_MARKET_STATUS: MarketStatus24x5 = 4
 
 type PriceResult =
   | { kind: 'valid'; bid: number; ask: number }
@@ -21,8 +18,6 @@ export class StockQuotesTransport extends DxLinkTransport<BaseEndpointTypes> {
   protected parseEvent(event: DxLinkEvent) {
     const base = event.eventSymbol
     const overnight = event.bidExchangeCode === 'O' && event.askExchangeCode === 'O'
-    const session: StockSession = overnight ? 'overnight' : 'regular'
-    const marketStatus = overnight ? OVERNIGHT_MARKET_STATUS : REGULAR_MARKET_STATUS
     const variants = overnight ? [false, true] : [false]
     const emit = (normal: ParsedResponse, requireVolume: ParsedResponse): ParsedResult[] =>
       variants.flatMap((isOvernight) => [
@@ -57,8 +52,6 @@ export class StockQuotesTransport extends DxLinkTransport<BaseEndpointTypes> {
         bid_volume: bidVolume,
         ask_price: prices.ask,
         ask_volume: askVolume,
-        session,
-        marketStatus,
       },
       timestamps: { providerIndicatedTimeUnixMs: time },
     }

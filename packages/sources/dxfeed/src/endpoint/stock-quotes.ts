@@ -5,9 +5,6 @@ import overrides from '../config/overrides.json'
 import { transport } from '../transport/stock-quotes'
 import { inputParameters, validateWsEnvVars } from './utils'
 
-export type StockSession = 'regular' | 'overnight'
-export type MarketStatus24x5 = 2 | 4
-
 export const stockQuotesInputParameters = new InputParameters({
   ...inputParameters.definition,
   requireVolume: {
@@ -34,8 +31,6 @@ export type BaseEndpointTypes = {
       bid_volume: number | null
       ask_price: number
       ask_volume: number | null
-      session: StockSession
-      marketStatus: MarketStatus24x5
     }
   }
 }
