@@ -144,6 +144,7 @@ describe('dxLink COMPACT frame parsing', () => {
       bid_volume: 50,
       ask_price: 190.1,
       ask_volume: 80,
+      midSource: 'computed',
     })
     expect(body.data.mid_price).toBeCloseTo(190, 10)
     expect(body.result).toBeNull()

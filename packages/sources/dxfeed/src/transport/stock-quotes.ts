@@ -61,6 +61,7 @@ const buildResponses = (event: DxLinkEvent) => {
     result: null,
     data: {
       mid_price: midPrice,
+      midSource: 'computed' as const,
       bid_price: bidPrice,
       bid_volume: bidVolume,
       ask_price: askPrice,
