@@ -211,16 +211,23 @@ describe('dxLink websocket transport', () => {
     expect(body.data.ask_price).toBe(401)
   })
 
-  it('retries a rejected handshake and recovers when the server accepts it', async () => {
+  const HANDSHAKE_FAILURES = [
+    ['provider error', 'failHandshake'],
+    ['unauthorized', 'unauthorizedHandshake'],
+    ['close', 'closeDuringHandshake'],
+    ['non-COMPACT config', 'fullFeedConfig'],
+  ] as const
+
+  it.each(HANDSHAKE_FAILURES)('rejects a %s handshake and recovers', async (_name, flag) => {
     const setupsBefore = server.countByType('SETUP')
-    server.failHandshake = true
+    server[flag] = true
     try {
       server.closeAll()
       expect(await awaitWs(testAdapter, () => server.countByType('SETUP') > setupsBefore)).toBe(
         true,
       )
     } finally {
-      server.failHandshake = false
+      server[flag] = false
     }
     expect(
       await awaitWs(testAdapter, () => server.countByType('SETUP') > setupsBefore + 1, 30000),

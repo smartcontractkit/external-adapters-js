@@ -109,6 +109,9 @@ export class ScriptedDxLinkServer {
   suppressFeedConfig = false
   suppressChannelOpened = false
   failHandshake = false
+  unauthorizedHandshake = false
+  closeDuringHandshake = false
+  fullFeedConfig = false
   private readonly sockets: ServerSocket[] = []
   private readonly feedData = new Map<string, object[]>()
 
@@ -130,13 +133,21 @@ export class ScriptedDxLinkServer {
     this.clientMessages.push(message)
     switch (message.type) {
       case 'SETUP':
+        if (this.closeDuringHandshake) {
+          socket.close()
+          return
+        }
         this.send(socket, {
           type: 'SETUP',
           channel: 0,
           keepaliveTimeout: 60,
           acceptKeepaliveTimeout: 60,
         })
-        this.send(socket, { type: 'AUTH_STATE', channel: 0, state: 'AUTHORIZED' })
+        this.send(socket, {
+          type: 'AUTH_STATE',
+          channel: 0,
+          state: this.unauthorizedHandshake ? 'UNAUTHORIZED' : 'AUTHORIZED',
+        })
         return
       case 'CHANNEL_REQUEST':
         if (!this.suppressChannelOpened) {
@@ -154,6 +165,15 @@ export class ScriptedDxLinkServer {
   private handleFeedSetup(socket: ServerSocket, message: ClientMessage): void {
     if (this.failHandshake) {
       this.send(socket, { type: 'ERROR', channel: 0, error: 'UNAUTHORIZED', message: 'test' })
+      return
+    }
+    if (this.fullFeedConfig) {
+      this.send(socket, {
+        type: 'FEED_CONFIG',
+        channel: 1,
+        aggregationPeriod: 1,
+        dataFormat: 'FULL',
+      })
       return
     }
     if (!this.suppressFeedConfig) {
