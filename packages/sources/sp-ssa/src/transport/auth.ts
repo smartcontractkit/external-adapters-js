@@ -17,12 +17,13 @@ interface TokenResponse {
 
 interface CachedToken {
   token: string
-  expiresAtMs: number
+  refreshAtMs: number
 }
 
 export class AuthManager {
   private static readonly REFRESH_MARGIN_MS = 5 * 60 * 1000
   private static readonly TOKEN_REQUEST_KEY = 'sp-ssa-token'
+  private static readonly TOKEN_REQUEST_COST = 0
 
   private readonly requester: Requester
   private readonly settings: AuthSettings
@@ -36,7 +37,7 @@ export class AuthManager {
 
   async getToken(): Promise<string> {
     const now = Date.now()
-    if (this.cached && now < this.cached.expiresAtMs - AuthManager.REFRESH_MARGIN_MS) {
+    if (this.cached && now < this.cached.refreshAtMs) {
       return this.cached.token
     }
     if (this.pending) {
@@ -57,23 +58,28 @@ export class AuthManager {
   }
 
   private static registerCensoredToken(token: string): void {
-    const list = CensorList.getAll().filter((entry) => entry.key !== 'ACCESS_TOKEN')
-    list.push({ key: 'ACCESS_TOKEN', value: new RegExp(AuthManager.escapeRegExp(token), 'g') })
+    const boundary = `(?<![A-Za-z0-9._-])${AuthManager.escapeRegExp(token)}(?![A-Za-z0-9._-])`
+    const list = CensorList.getAll()
+    list.push({ key: 'ACCESS_TOKEN', value: new RegExp(boundary, 'g') })
     CensorList.set(list)
   }
 
   private async requestToken(): Promise<string> {
     let response
     try {
-      response = await this.requester.request<TokenResponse>(AuthManager.TOKEN_REQUEST_KEY, {
-        method: 'POST',
-        baseURL: this.settings.TOKEN_ENDPOINT,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `Basic ${this.settings.CLIENT_ID}`,
+      response = await this.requester.request<TokenResponse>(
+        AuthManager.TOKEN_REQUEST_KEY,
+        {
+          method: 'POST',
+          baseURL: this.settings.TOKEN_ENDPOINT,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Basic ${this.settings.CLIENT_ID}`,
+          },
+          data: 'grant_type=client_credentials&scope=rtg_ssa',
         },
-        data: 'grant_type=client_credentials&scope=rtg_ssa',
-      })
+        AuthManager.TOKEN_REQUEST_COST,
+      )
     } catch (e) {
       if (e instanceof AdapterDataProviderError) {
         throw new AdapterError({
@@ -86,12 +92,19 @@ export class AuthManager {
       throw e
     }
 
-    const body = response.response.data as TokenResponse | undefined
-    const accessToken = body?.access_token
-    if (typeof accessToken !== 'string' || accessToken.length === 0) {
+    if (response.response.status !== 200) {
       throw new AdapterError({
         statusCode: 502,
-        message: 'The token response did not include an access_token',
+        message: `The token endpoint returned status ${response.response.status}`,
+      })
+    }
+
+    const body = response.response.data as TokenResponse | undefined
+    const accessToken = body?.access_token
+    if (typeof accessToken !== 'string' || accessToken.length === 0 || /\s/.test(accessToken)) {
+      throw new AdapterError({
+        statusCode: 502,
+        message: 'The token response did not include a usable access_token',
       })
     }
 
@@ -110,9 +123,11 @@ export class AuthManager {
     }
 
     AuthManager.registerCensoredToken(accessToken)
+    const expiresInMs = expiresInSeconds * 1000
+    const refreshMarginMs = Math.min(AuthManager.REFRESH_MARGIN_MS, expiresInMs / 2)
     this.cached = {
       token: accessToken,
-      expiresAtMs: Date.now() + expiresInSeconds * 1000,
+      refreshAtMs: Date.now() + expiresInMs - refreshMarginMs,
     }
     return this.cached.token
   }

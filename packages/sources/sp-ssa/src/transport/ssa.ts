@@ -4,17 +4,14 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import {
   makeLogger,
-  ResponseTimestamps,
   sleep,
   TimestampedProviderResult,
 } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import {
-  AdapterDataProviderError,
-  AdapterError,
-} from '@chainlink/external-adapter-framework/validation/error'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/ssa'
 import { AuthManager } from './auth'
+import { errorMessage, errorTimestamps } from './errors'
 import { parseProviderRecords, parseScore, parseTimestamp, selectRecord } from './utils'
 
 const logger = makeLogger('SsaTransport')
@@ -29,10 +26,15 @@ export type SsaTransportTypes = BaseEndpointTypes & {
 }
 
 export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
+  private static readonly AUTH_FAILURE_COOLDOWN_MS = 60_000
+
   requester!: Requester
   settings!: SsaTransportTypes['Settings']
   endpointName!: string
   authManager!: AuthManager
+  private generation = 0
+  private authFailureUntil = 0
+  private readonly latestProviderTimeMs = new Map<string, number>()
 
   override async initialize(
     dependencies: TransportDependencies<SsaTransportTypes>,
@@ -54,10 +56,15 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     context: EndpointContext<SsaTransportTypes>,
     entries: RequestParams[],
   ): Promise<void> {
+    if (Date.now() < this.authFailureUntil) {
+      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
+      return
+    }
     if (entries.length === 0) {
       await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
       return
     }
+    const generation = ++this.generation
 
     try {
       const token = await this.authManager.getToken()
@@ -91,52 +98,68 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
       }
 
       const records = parseProviderRecords(providerResponse.response.data)
-      const results: TimestampedProviderResult<SsaTransportTypes>[] = entries.map((entry) => {
-        try {
-          const record = selectRecord(records, entry.security_id)
-          const result = parseScore(record.ssa)
-          const providerIndicatedTimeUnixMs = parseTimestamp(record.last_modified_date_time)
-          return {
-            params: entry,
-            response: {
-              result,
-              data: { result },
-              statusCode: 200,
-              timestamps: {
-                ...providerResponse.timestamps,
-                providerIndicatedTimeUnixMs,
-              },
-            },
-          }
-        } catch (e) {
-          return {
-            params: entry,
-            response: {
-              statusCode: 502,
-              errorMessage: `The data provider returned invalid data for security_id ${
-                entry.security_id
-              }: ${e instanceof Error ? e.message : 'unknown error'}`,
-              timestamps: {
-                ...providerResponse.timestamps,
-                providerIndicatedTimeUnixMs: undefined,
-              },
-            },
-          }
-        }
-      })
-      await this.writeResults(results)
-    } catch (e) {
-      if (e instanceof AdapterDataProviderError && e.providerStatusCode === 401) {
-        this.authManager.invalidate()
+      if (generation !== this.generation) {
+        return
       }
-      const errorMessage = this.errorMessage(e)
-      logger.error(errorMessage)
-      const timestamps = this.errorTimestamps(e)
+      const results = entries
+        .map((entry): TimestampedProviderResult<SsaTransportTypes> | undefined => {
+          try {
+            const record = selectRecord(records, entry.security_id)
+            const result = parseScore(record.ssa)
+            const providerIndicatedTimeUnixMs = parseTimestamp(record.last_modified_date_time)
+            const previousTime = this.latestProviderTimeMs.get(entry.security_id)
+            if (previousTime !== undefined && providerIndicatedTimeUnixMs < previousTime) {
+              return undefined
+            }
+            this.latestProviderTimeMs.set(entry.security_id, providerIndicatedTimeUnixMs)
+            return {
+              params: entry,
+              response: {
+                result,
+                data: { result },
+                timestamps: {
+                  ...providerResponse.timestamps,
+                  providerIndicatedTimeUnixMs,
+                },
+              },
+            }
+          } catch (e) {
+            return {
+              params: entry,
+              response: {
+                statusCode: 502,
+                errorMessage: `The data provider returned invalid data for security_id ${
+                  entry.security_id
+                }: ${e instanceof Error ? e.message : 'unknown error'}`,
+                timestamps: {
+                  ...providerResponse.timestamps,
+                  providerIndicatedTimeUnixMs: undefined,
+                },
+              },
+            }
+          }
+        })
+        .filter((result): result is TimestampedProviderResult<SsaTransportTypes> => !!result)
+      if (results.length > 0) {
+        await this.writeResults(results)
+      }
+    } catch (e) {
+      const adapterError = e as AdapterError
+      if (adapterError?.providerStatusCode === 401) {
+        this.authManager.invalidate()
+        this.authFailureUntil = Date.now() + SsaTransport.AUTH_FAILURE_COOLDOWN_MS
+      }
+      if (generation !== this.generation) {
+        return
+      }
+      const message = errorMessage(e)
+      logger.error(message)
+      const timestamps = errorTimestamps(e)
       const results: TimestampedProviderResult<SsaTransportTypes>[] = entries.map((entry) => ({
         params: entry,
         response: {
-          statusCode: (e as AdapterError)?.statusCode || 502,
-          errorMessage,
+          statusCode: adapterError?.statusCode || 502,
+          errorMessage: message,
           timestamps,
         },
       }))
@@ -160,27 +183,6 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
       )
     }
     await this.responseCache.write(this.name, results)
-  }
-
-  private errorMessage(error: unknown): string {
-    if (error instanceof AdapterDataProviderError) {
-      return `The data provider request failed with status ${error.providerStatusCode ?? 'unknown'}`
-    }
-    if (error instanceof AdapterError) {
-      return error.message
-    }
-    return error instanceof Error ? error.message : 'Unknown error occurred'
-  }
-
-  private errorTimestamps(error: unknown): ResponseTimestamps {
-    if (error instanceof AdapterDataProviderError) {
-      return error.timestamps
-    }
-    return {
-      providerDataRequestedUnixMs: 0,
-      providerDataReceivedUnixMs: 0,
-      providerIndicatedTimeUnixMs: undefined,
-    }
   }
 }
 

@@ -61,11 +61,14 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  it('returns the SSA score and provider timestamp', async () => {
-    const response = await request('SP-EURC')
-    expect(response.statusCode).toBe(200)
-    expect(response.json()).toMatchSnapshot()
-  })
+  it.each(['SP-EURC', 'sp-eurc'])(
+    'returns the SSA score and provider timestamp for %s',
+    async (securityId) => {
+      const response = await request(securityId)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    },
+  )
 
   it('returns 400 when security_id is missing', async () => {
     const response = await testAdapter.request({ endpoint: 'ssa' })
@@ -93,8 +96,11 @@ describe('execute', () => {
     expect(response.json().errorMessage).toContain('last_modified_date_time')
   })
 
-  it('returns 502 when the provider payload is malformed', async () => {
-    scoresBody = {}
+  it.each([
+    ['non-array', {}],
+    ['duplicate', [providerRecord(), providerRecord()]],
+  ])('returns 502 when the provider payload is malformed (%s)', async (_, body) => {
+    scoresBody = body
     const response = await request('SP-TUSD')
     expect(response.statusCode).toBe(502)
     expect(response.json().errorMessage).toContain('malformed payload')

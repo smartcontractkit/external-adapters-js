@@ -8,7 +8,7 @@ import { config } from '../../src/config'
 import { scoresFixture, tokenFixture } from './fixtures'
 
 type SettingsDefinition = SettingsDefinitionFromConfig<typeof config>
-type ReplyResult = [200 | 401 | 500, Record<string, unknown> | Record<string, unknown>[]]
+type ReplyResult = [200 | 201 | 401 | 500, Record<string, unknown> | Record<string, unknown>[]]
 
 describe('auth', () => {
   let spy: jest.SpyInstance
@@ -16,6 +16,7 @@ describe('auth', () => {
   let oldEnv: NodeJS.ProcessEnv
   let tokenHandler: () => ReplyResult = () => [200, tokenFixture]
   let dataHandler: () => ReplyResult | Promise<ReplyResult> = () => [200, scoresFixture()]
+  let nowMs = 0
 
   const request = (security_id: string) => testAdapter.request({ endpoint: 'ssa', security_id })
 
@@ -31,7 +32,8 @@ describe('auth', () => {
     process.env.REQUESTER_SLEEP_BEFORE_REQUEUEING_MS = '1'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
-    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+    nowMs = mockDate.getTime()
+    spy = jest.spyOn(Date, 'now').mockReturnValue(nowMs)
 
     const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
@@ -50,6 +52,8 @@ describe('auth', () => {
   })
 
   beforeEach(() => {
+    nowMs += 61_000
+    spy.mockReturnValue(nowMs)
     tokenHandler = () => [200, tokenFixture]
     dataHandler = () => [200, scoresFixture()]
   })
@@ -75,6 +79,13 @@ describe('auth', () => {
       'SP-TOKEN-401',
       () => {
         tokenHandler = () => [401, { errorCode: 'invalid_client' }]
+      },
+    ],
+    [
+      'HTTP 201',
+      'SP-TOKEN-201',
+      () => {
+        tokenHandler = () => [201, tokenFixture]
       },
     ],
   ])('returns 502 for a token endpoint %s', async (_, securityId, configure) => {

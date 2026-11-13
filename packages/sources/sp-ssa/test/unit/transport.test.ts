@@ -2,9 +2,10 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub, setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
+import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 import '../../src/endpoint/ssa'
 import { SsaTransport, SsaTransportTypes } from '../../src/transport/ssa'
-import { parseProviderRecords, parseScore, parseTimestamp } from '../../src/transport/utils'
+import { parseScore, parseTimestamp } from '../../src/transport/utils'
 
 const log = jest.fn()
 const mockLogger = {
@@ -28,7 +29,7 @@ const record = (overrides: Record<string, unknown> = {}) => ({
 })
 
 const tokenResponse = {
-  response: { data: { access_token: 'test-token', expires_in: 1800 } },
+  response: { data: { access_token: 'test-token', expires_in: 1800 }, status: 200 },
   timestamps: { providerDataRequestedUnixMs: 1, providerDataReceivedUnixMs: 2 },
 }
 
@@ -38,15 +39,6 @@ const dataResponse = (records: Record<string, unknown>[]) => ({
 })
 
 describe('provider record parsing', () => {
-  it('parses the documented provider score and timestamp', () => {
-    const records = parseProviderRecords([record()])
-    expect(records).toHaveLength(1)
-    expect(parseScore(records[0]?.ssa)).toBe(2)
-    expect(parseTimestamp(records[0]?.last_modified_date_time)).toBe(1737072000000)
-    expect(() => parseProviderRecords({})).toThrow('malformed payload')
-    expect(() => parseProviderRecords([record(), record()])).toThrow('malformed payload')
-  })
-
   it.each([['0'], ['6'], ['2.5'], ['abc'], [''], [' 2 '], [null], [2]])(
     'rejects an invalid provider score %p',
     (value) => {
@@ -156,6 +148,73 @@ describe('SsaTransport', () => {
     expect(written[0].response.statusCode).toBe(502)
     expect(written[0].response.errorMessage).toContain('SSA score')
   })
+
+  it('backs off after a persistent provider 401', async () => {
+    const authError = new AdapterDataProviderError(
+      { statusCode: 502, message: 'unauthorized', providerStatusCode: 401 },
+      {
+        providerDataRequestedUnixMs: 1,
+        providerDataReceivedUnixMs: 2,
+        providerIndicatedTimeUnixMs: undefined,
+      },
+    )
+    requester.request.mockResolvedValueOnce(tokenResponse).mockRejectedValueOnce(authError)
+
+    await transport.backgroundHandler(context, [{ security_id: 'SP-401' }])
+    const callsAfterFirst = requester.request.mock.calls.length
+    await transport.backgroundHandler(context, [{ security_id: 'SP-401' }])
+
+    expect(requester.request.mock.calls.length).toBe(callsAfterFirst)
+    expect(responseCache.write).toHaveBeenCalledTimes(1)
+  })
+
+  it('drops stale and overlapping results', async () => {
+    requester.request
+      .mockResolvedValueOnce(tokenResponse)
+      .mockResolvedValueOnce(
+        dataResponse([
+          record({ security_id: 'SP-STALE', last_modified_date_time: '2025-01-17T00:00Z' }),
+        ]),
+      )
+    await transport.backgroundHandler(context, [{ security_id: 'SP-STALE' }])
+    requester.request.mockResolvedValueOnce(
+      dataResponse([
+        record({ security_id: 'SP-STALE', last_modified_date_time: '2024-12-04T00:00Z' }),
+      ]),
+    )
+    await transport.backgroundHandler(context, [{ security_id: 'SP-STALE' }])
+    expect(responseCache.write).toHaveBeenCalledTimes(1)
+
+    let resolveFirstData: ((value: ReturnType<typeof dataResponse>) => void) | undefined
+    const firstData = new Promise<ReturnType<typeof dataResponse>>((resolve) => {
+      resolveFirstData = resolve
+    })
+    let dataCalls = 0
+    requester.request.mockImplementation((key: string) => {
+      if (key === 'sp-ssa-token') {
+        return Promise.resolve(tokenResponse)
+      }
+      dataCalls++
+      if (dataCalls === 1) {
+        return firstData
+      }
+      return Promise.resolve(
+        dataResponse([
+          record({ security_id: 'SP-RACE', last_modified_date_time: '2025-01-17T00:00Z' }),
+        ]),
+      )
+    })
+    const first = transport.backgroundHandler(context, [{ security_id: 'SP-RACE' }])
+    const second = transport.backgroundHandler(context, [{ security_id: 'SP-RACE' }])
+    await second
+    resolveFirstData?.(
+      dataResponse([
+        record({ security_id: 'SP-RACE', last_modified_date_time: '2024-12-04T00:00Z' }),
+      ]),
+    )
+    await first
+    expect(responseCache.write).toHaveBeenCalledTimes(2)
+  })
 })
 
 describe('adapter configuration', () => {
@@ -172,7 +231,7 @@ describe('adapter configuration', () => {
     setEnvVariables(oldEnv)
   })
 
-  it('ships a bounded default rate limit', async () => {
+  it('ships the bounded rate-limit tier and burst strategy', async () => {
     const { adapter } = await import('../../src')
     const tier = adapter.rateLimiting?.tiers?.default
     expect(tier?.rateLimit1m).toBe(10)

@@ -30,4 +30,9 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: ssaTransport,
   inputParameters,
+  requestTransforms: [
+    (req) => {
+      req.requestContext.data.security_id = req.requestContext.data.security_id.toUpperCase()
+    },
+  ],
 })

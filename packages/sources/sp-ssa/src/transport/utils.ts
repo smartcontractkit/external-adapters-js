@@ -77,12 +77,15 @@ export function parseProviderRecords(payload: unknown): ProviderRecord[] {
         message: 'The data provider returned a malformed payload',
       })
     }
-    seen.add(record.security_id)
-    records.push({
+    const providerRecord: ProviderRecord = {
       security_id: record.security_id,
       ssa: record.ssa,
       last_modified_date_time: record.last_modified_date_time,
-    })
+    }
+    parseScore(providerRecord.ssa)
+    parseTimestamp(providerRecord.last_modified_date_time)
+    seen.add(record.security_id)
+    records.push(providerRecord)
   }
   return records
 }

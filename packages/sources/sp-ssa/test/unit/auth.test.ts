@@ -1,4 +1,5 @@
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { censor } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { AuthManager, AuthSettings } from '../../src/transport/auth'
@@ -8,8 +9,8 @@ const settings: AuthSettings = {
   CLIENT_ID: 'client-id',
 }
 
-const tokenResponse = (token: string) => ({
-  response: { data: { access_token: token, expires_in: 1800 } },
+const tokenResponse = (token: string, expiresIn = 1800) => ({
+  response: { data: { access_token: token, expires_in: expiresIn }, status: 200 },
   timestamps: { providerDataRequestedUnixMs: 1, providerDataReceivedUnixMs: 2 },
 })
 
@@ -27,12 +28,13 @@ describe('AuthManager', () => {
   })
 
   it.each([
-    ['reuses a valid cached token', 1000, false, 1],
-    ['refreshes inside the refresh margin', 1_500_001, false, 2],
-    ['refreshes after invalidate', 1000, true, 2],
-  ])('%s', async (_, advanceMs, invalidate, expectedCalls) => {
+    ['reuses a valid cached token', 1000, false, 1, 1800],
+    ['refreshes inside the refresh margin', 1_500_001, false, 2, 1800],
+    ['refreshes after invalidate', 1000, true, 2, 1800],
+    ['reuses a short-lived token for half its lifetime', 61_000, false, 2, 120],
+  ])('%s', async (_, advanceMs, invalidate, expectedCalls, expiresIn) => {
     const requester = makeStub('requester', { request: jest.fn() })
-    requester.request.mockResolvedValue(tokenResponse('token-1'))
+    requester.request.mockResolvedValue(tokenResponse('token-1', expiresIn))
     const manager = new AuthManager(requester as unknown as Requester, settings)
 
     await manager.getToken()
@@ -43,16 +45,24 @@ describe('AuthManager', () => {
     await manager.getToken()
 
     expect(CensorList.getAll().some((entry) => entry.key === 'ACCESS_TOKEN')).toBe(true)
+    const censored = censor({ headers: { authorization: 'Bearer token-1' } }, CensorList.getAll())
+    expect(JSON.stringify(censored)).toContain('ACCESS_TOKEN REDACTED')
+    expect(JSON.stringify(censored)).not.toContain('token-1')
     expect(requester.request).toHaveBeenCalledTimes(expectedCalls)
-    expect(requester.request).toHaveBeenNthCalledWith(1, 'sp-ssa-token', {
-      method: 'POST',
-      baseURL: 'http://token.com/token',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'Basic client-id',
+    expect(requester.request).toHaveBeenNthCalledWith(
+      1,
+      'sp-ssa-token',
+      {
+        method: 'POST',
+        baseURL: 'http://token.com/token',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: 'Basic client-id',
+        },
+        data: 'grant_type=client_credentials&scope=rtg_ssa',
       },
-      data: 'grant_type=client_credentials&scope=rtg_ssa',
-    })
+      0,
+    )
   })
 
   it('shares one token request between concurrent callers', async () => {
@@ -75,13 +85,14 @@ describe('AuthManager', () => {
   it.each([
     [{ access_token: undefined, expires_in: 1800 }],
     [{ access_token: '', expires_in: 1800 }],
+    [{ access_token: '   ', expires_in: 1800 }],
     [{ access_token: 'token', expires_in: 'abc' }],
     [{ access_token: 'token', expires_in: 0 }],
     [{ access_token: 'token', expires_in: true }],
   ])('rejects an unusable token response %p', async (body) => {
     const requester = makeStub('requester', { request: jest.fn() })
     requester.request.mockResolvedValue({
-      response: { data: body },
+      response: { data: body, status: 200 },
       timestamps: { providerDataRequestedUnixMs: 1, providerDataReceivedUnixMs: 2 },
     })
     const manager = new AuthManager(requester as unknown as Requester, settings)
