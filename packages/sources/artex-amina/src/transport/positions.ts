@@ -11,10 +11,10 @@ import { positionsPath, trimEndpoint } from './paths'
 import { DEFAULT_RETRY, withRetry } from './retry'
 import { buildSignedGetHeaders } from './signing'
 
-const PAGE_SIZE = 2000 // Manual max
-const MAX_PAGES = 100 // cap a bad totalPages
+const PAGE_SIZE = 2000 // AMINA OpenAPI maximum
+const MAX_PAGES = 100 // adapter safety cap, not an AMINA limit
 const MAX_QUANTITY = Number.MAX_SAFE_INTEGER / 10_000 // largest exact 4-dp JS number
-const USER_AGENT = 'chainlink-artex-amina-adapter/1.0.0'
+const USER_AGENT = 'chainlink-artex-amina-adapter/1.0.0' // adapter identity; AMINA only requires the header
 
 export interface AminaPosition {
   isin: string

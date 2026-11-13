@@ -54,6 +54,7 @@ function parseAuthResponse(data: unknown): AminaAuthResponse {
 // prepareRequests is synchronous. AMINA's login/refresh/401 flow lives here.
 const TOKEN_CENSOR_KEY = 'AMINA_TOKEN'
 
+// CensorList stores RegExp values; escape the runtime token's metacharacters.
 function escapeRegExp(value: string): string {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 }

@@ -342,18 +342,16 @@ describe('execute', () => {
     expect(response.json().errorMessage).toBe('AMINA request failed (401): Unauthorized')
   })
 
-  it.each([
-    ['portfolioNo', { portfolioNo: 1, isin: ISIN }],
-    ['isin', { portfolioNo: PORTFOLIO_NO, isin: 'not-an-isin' }],
-  ])('returns 400 for an invalid %s', async (field, data) => {
+  it('returns 400 for an invalid portfolioNo', async () => {
     nock.cleanAll()
 
     const response = await testAdapter.request({
       endpoint: 'por',
-      ...data,
+      portfolioNo: 1,
+      isin: ISIN,
     })
 
     expect(response.statusCode).toBe(400)
-    expect(response.json().error?.message).toContain(field)
+    expect(response.json().error?.message).toContain('portfolioNo')
   })
 })

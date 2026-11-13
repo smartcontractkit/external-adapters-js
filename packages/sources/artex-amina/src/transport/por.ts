@@ -13,6 +13,8 @@ import { mapAminaError } from './errors'
 import { fetchAllPositions, selectQuantity } from './positions'
 
 const logger = makeLogger('PorTransport')
+// Retry a failed scan after 60s instead of looping on the provider; a
+// successful response uses the PoRAdapter cache TTL.
 const ERROR_CACHE_TTL_MS = 60_000
 
 type RequestParams = typeof inputParameters.validated

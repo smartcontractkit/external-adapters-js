@@ -1,3 +1,4 @@
+// Shared AMINA URL construction for auth and positions.
 const AMINA_API_PATH = '/api/b2c/v1'
 
 // The requirement names the hosts without the API prefix. Accept the OpenAPI

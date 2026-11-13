@@ -34,32 +34,6 @@ const PORTFOLIO_NO_VALIDATOR = frameworkValidator.integer({
   max: 999_999_999,
 })
 
-// AMINA/OpenAPI Isin format: two letters, nine alphanumerics, one digit.
-function isDigit(char: string): boolean {
-  return char >= '0' && char <= '9'
-}
-
-function isUppercaseLetter(char: string): boolean {
-  return char >= 'A' && char <= 'Z'
-}
-
-function isUppercaseLetterOrDigit(char: string): boolean {
-  return isUppercaseLetter(char) || isDigit(char)
-}
-
-function isIsin(value: string): boolean {
-  if (value.length !== 12) {
-    return false
-  }
-  const chars = [...value]
-  return (
-    isUppercaseLetter(chars[0]) &&
-    isUppercaseLetter(chars[1]) &&
-    chars.slice(2, 11).every(isUppercaseLetterOrDigit) &&
-    isDigit(chars[11])
-  )
-}
-
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: PoRProviderResponse & {
@@ -80,16 +54,12 @@ export const endpoint = new PoRProviderEndpoint({
   transport: porTransport,
   inputParameters,
   customInputValidation: (request): AdapterInputError | undefined => {
-    const { portfolioNo, isin } = request.requestContext.data
-    const failures = [
-      { field: 'portfolioNo', error: PORTFOLIO_NO_VALIDATOR.fn(portfolioNo) },
-      { field: 'isin', error: isIsin(isin) ? undefined : 'must be a valid ISO 6166 ISIN' },
-    ]
-    const failure = failures.find((check) => check.error)
-    return failure
+    const { portfolioNo } = request.requestContext.data
+    const error = PORTFOLIO_NO_VALIDATOR.fn(portfolioNo)
+    return error
       ? new AdapterInputError({
           statusCode: 400,
-          message: `${failure.field}: ${failure.error}`,
+          message: `portfolioNo: ${error}`,
         })
       : undefined
   },
