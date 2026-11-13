@@ -40,9 +40,7 @@ export const buildQuoteTransport = () =>
       heartbeat,
       message: (message) => {
         if (message.message && message.message.startsWith('pair not found: ')) {
-          const pair = message.message.split('pair not found: ')[1] || ''
-          const base = baseToUpperCase(pair.split('/')[0])
-          const quote = pair.split('/')[1]?.toUpperCase()
+          const { base, quote } = splitPair(message.message.split('pair not found: ')[1] || '')
           if (!base || !quote) {
             logger.warn(`Received invalid base or quote in error message: ${message.message}`)
             return
@@ -70,8 +68,7 @@ export const buildQuoteTransport = () =>
         if (!message.c || !message.k) {
           return
         }
-        const base = baseToUpperCase(message.c.split('/')[0])
-        const quote = message.c.split('/')[1]?.toUpperCase()
+        const { base, quote } = splitPair(message.c)
         if (!base || !quote) {
           logger.warn(`Received invalid base or quote in message: ${message.c}`)
           return
@@ -107,6 +104,12 @@ export const buildPair = (params: { base: string; quote: string }) =>
 
 // "Index:kr:kospi200" -> "Index:KR:KOSPI200"
 export const baseToUpperCase = (base?: string) => base?.replace(/:.*/, (s) => s.toUpperCase()) || ''
+
+// "Equity:us:aapl/usd" -> { base: "Equity:US:AAPL", quote: "USD" }
+const splitPair = (pair: string) => {
+  const [base, ...rest] = pair.split('/')
+  return { base: baseToUpperCase(base), quote: rest.join('/').toUpperCase() }
+}
 
 const handleValueFrames = (params: { base: string; quote: string }, message: WSResponse) => {
   const value = getPrice(message.v)
