@@ -61,7 +61,7 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  it.each(['SP-EURC', 'sp-eurc'])(
+  it.each(['sp-eurc', 'SP-EURC'])(
     'returns the SSA score and provider timestamp for %s',
     async (securityId) => {
       const response = await request(securityId)
@@ -121,5 +121,6 @@ describe('execute', () => {
     const response = await request(status === 201 ? 'SP-201' : 'SP-DAI')
     expect(response.statusCode).toBe(502)
     expect(response.json().errorMessage).toContain(expected)
+    expect(response.json().timestamps.providerDataRequestedUnixMs).toBeGreaterThan(0)
   })
 })

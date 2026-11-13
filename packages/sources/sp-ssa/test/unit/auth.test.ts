@@ -1,7 +1,7 @@
-import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { censor } from '@chainlink/external-adapter-framework/util'
-import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
+import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 import { AuthManager, AuthSettings } from '../../src/transport/auth'
 
@@ -150,7 +150,9 @@ describe('AuthManager', () => {
     })
     const manager = new AuthManager(requester as unknown as Requester, settings)
 
-    await expect(manager.getToken()).rejects.toMatchObject({ statusCode: 502 })
+    await expect(manager.getToken()).rejects.toMatchObject(
+      status === 201 ? { statusCode: 502, providerStatusCode: 201 } : { statusCode: 502 },
+    )
   })
 
   it('wraps a token endpoint transport error as a 502 adapter error', async () => {

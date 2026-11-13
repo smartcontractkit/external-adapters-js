@@ -2,9 +2,13 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub, setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterDataProviderError,
+  AdapterError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../../src/config'
 import '../../src/endpoint/ssa'
+import { isCredentialFailure, SsaAuthError } from '../../src/transport/request'
 import { SsaTransport, SsaTransportTypes } from '../../src/transport/ssa'
 import { parseScore, parseTimestamp } from '../../src/transport/utils'
 
@@ -48,12 +52,27 @@ const dataResponse = (records: Record<string, unknown>[]) => ({
 })
 
 describe('provider record parsing', () => {
-  it.each([['0'], ['6'], ['2.5'], ['abc'], [''], [' 2 '], [null], [2]])(
-    'rejects an invalid provider score %p',
-    (value) => {
+  it.each([
+    { value: '1', expected: 1 },
+    { value: '2', expected: 2 },
+    { value: '3', expected: 3 },
+    { value: '4', expected: 4 },
+    { value: '5', expected: 5 },
+    { value: '0' },
+    { value: '6' },
+    { value: '2.5' },
+    { value: 'abc' },
+    { value: '' },
+    { value: ' 2 ' },
+    { value: null },
+    { value: 2 },
+  ])('validates a provider score $value', ({ value, expected }) => {
+    if (expected === undefined) {
       expect(() => parseScore(value)).toThrow('SSA score')
-    },
-  )
+    } else {
+      expect(parseScore(value)).toBe(expected)
+    }
+  })
 
   it.each([
     ['not-a-date'],
@@ -223,6 +242,17 @@ describe('SsaTransport', () => {
       .mockResolvedValueOnce(freshToken)
       .mockRejectedValueOnce(authError)
     await persistent.backgroundHandler(context, [{ security_id: 'SP-401' }])
+    expect(responseCache.write).toHaveBeenLastCalledWith('default_single_transport', [
+      expect.objectContaining({
+        response: expect.objectContaining({
+          statusCode: 502,
+          timestamps: expect.objectContaining({
+            providerDataRequestedUnixMs: 1,
+            providerDataReceivedUnixMs: 2,
+          }),
+        }),
+      }),
+    ])
     const callsAfterFirst = requester.request.mock.calls.length
     await persistent.backgroundHandler(context, [{ security_id: 'SP-401' }])
     expect(callsAfterFirst).toBe(3)
@@ -240,6 +270,47 @@ describe('SsaTransport', () => {
         }),
       }),
     ])
+
+    const forbidden = new AdapterDataProviderError(
+      { statusCode: 502, message: 'forbidden', providerStatusCode: 403 },
+      {
+        providerDataRequestedUnixMs: 1,
+        providerDataReceivedUnixMs: 2,
+        providerIndicatedTimeUnixMs: undefined,
+      },
+    )
+    const forbiddenTransport = new SsaTransport()
+    requester.request.mockReset()
+    requester.request.mockResolvedValueOnce(tokenResponse)
+    await forbiddenTransport.initialize(
+      dependencies,
+      adapterSettings,
+      'ssa',
+      'default_single_transport',
+    )
+    requester.request.mockReset()
+    requester.request
+      .mockRejectedValueOnce(forbidden)
+      .mockResolvedValueOnce(freshToken)
+      .mockResolvedValueOnce(dataResponse([record({ security_id: 'SP-403' })]))
+    await forbiddenTransport.backgroundHandler(context, [{ security_id: 'SP-403' }])
+    expect(requester.request).toHaveBeenCalledTimes(3)
+    expect(responseCache.write).toHaveBeenLastCalledWith('default_single_transport', [
+      expect.objectContaining({
+        response: expect.objectContaining({ result: 2 }),
+      }),
+    ])
+
+    expect(
+      isCredentialFailure(
+        new SsaAuthError(new AdapterError({ statusCode: 502, providerStatusCode: 201 })),
+      ),
+    ).toBe(false)
+    expect(
+      isCredentialFailure(
+        new SsaAuthError(new AdapterError({ statusCode: 502, providerStatusCode: 401 })),
+      ),
+    ).toBe(true)
   })
 
   it('publishes a backdated provider response and drops an overlapping older handler', async () => {
@@ -257,6 +328,7 @@ describe('SsaTransport', () => {
     await transport.backgroundHandler(context, [{ security_id: 'SP-STALE' }])
     expect(responseCache.write).toHaveBeenCalledTimes(2)
 
+    responseCache.write.mockClear()
     let resolveFirstData: ((value: ReturnType<typeof dataResponse>) => void) | undefined
     const firstData = new Promise<ReturnType<typeof dataResponse>>((resolve) => {
       resolveFirstData = resolve
@@ -280,26 +352,14 @@ describe('SsaTransport', () => {
         ]),
       )
     })
-    const baseWrite = responseCache.write.getMockImplementation()
-    if (!baseWrite) {
-      throw new Error('missing cache write implementation')
-    }
-    let releaseWrite: (() => void) | undefined
-    const writeGate = new Promise<void>((resolve) => {
-      releaseWrite = resolve
-    })
-    let blocked = false
-    responseCache.write.mockImplementation(
-      async (name: string, results: { params: { security_id: string }; response: unknown }[]) => {
-        if (!blocked) {
-          blocked = true
-          await writeGate
-        }
-        await baseWrite(name, results)
-      },
-    )
 
     const first = transport.backgroundHandler(context, [{ security_id: 'SP-RACE' }])
+    await new Promise((resolve) => setImmediate(resolve))
+    const second = transport.backgroundHandler(context, [{ security_id: 'SP-RACE' }])
+    await second
+
+    // The older fetch resolves after the newer handler has advanced the
+    // generation, so its queued write must be dropped.
     resolveFirstData?.(
       dataResponse([
         record({
@@ -309,15 +369,11 @@ describe('SsaTransport', () => {
         }),
       ]),
     )
-    await new Promise((resolve) => setImmediate(resolve))
-    const second = transport.backgroundHandler(context, [{ security_id: 'SP-RACE' }])
-    releaseWrite?.()
-    await Promise.all([first, second])
+    await first
 
-    expect(responseCache.write).toHaveBeenCalledTimes(4)
+    expect(responseCache.write).toHaveBeenCalledTimes(1)
     const final = cacheStore.get('cache-key-SP-RACE') as { result?: number } | undefined
     expect(final?.result).toBe(5)
-    responseCache.write.mockImplementation(baseWrite)
   })
 })
 

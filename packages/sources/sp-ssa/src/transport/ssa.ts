@@ -10,7 +10,7 @@ import {
 } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { AuthManager } from './auth'
 import {
@@ -151,10 +151,17 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
       requestKey,
     )
     if (providerResponse.response.status !== 200) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `The data provider returned status ${providerResponse.response.status}`,
-      })
+      throw new AdapterDataProviderError(
+        {
+          statusCode: 502,
+          message: `The data provider returned status ${providerResponse.response.status}`,
+          providerStatusCode: providerResponse.response.status,
+        },
+        {
+          ...providerResponse.timestamps,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      )
     }
 
     const records = parseProviderRecords(providerResponse.response.data)

@@ -17,6 +17,8 @@ import {
 import { AuthManager } from './auth'
 
 export class SsaAuthError extends AdapterError {
+  timestamps?: ResponseTimestamps
+
   constructor(error: unknown) {
     super({
       statusCode: 502,
@@ -26,6 +28,9 @@ export class SsaAuthError extends AdapterError {
       cause: error,
       providerStatusCode: error instanceof AdapterError ? error.providerStatusCode : undefined,
     })
+    if (error instanceof AdapterDataProviderError || error instanceof AdapterConnectionError) {
+      this.timestamps = error.timestamps
+    }
   }
 }
 
@@ -120,6 +125,9 @@ export function errorMessage(error: unknown): string {
 
 export function errorTimestamps(error: unknown): ResponseTimestamps {
   if (error instanceof AdapterDataProviderError || error instanceof AdapterConnectionError) {
+    return error.timestamps
+  }
+  if (error instanceof SsaAuthError && error.timestamps) {
     return error.timestamps
   }
   return emptyTimestamps()
