@@ -222,6 +222,31 @@ describe('dxLink COMPACT frame parsing', () => {
     expect(body.data).toMatchObject({ bid_price: 50, ask_price: 51 })
   })
 
+  it('drops a record without a symbol and keeps the next valid one', async () => {
+    server.setFeedData('Quote', 'EMPTY_SYM:USLF24', [
+      quoteFrame(quoteRecord('', 1760000002000, 10, 11, 1, 1)),
+      quoteFrame(quoteRecord('EMPTY_SYM:USLF24', 1760000003000, 20, 21, 1, 1)),
+    ])
+    const body = await overriddenQuoteBody('EMPTY_SYM')
+    expect(body.data).toMatchObject({ bid_price: 20, ask_price: 21 })
+  })
+
+  it('drops a malformed FEED_DATA frame and keeps the next valid one', async () => {
+    server.setFeedData('Quote', 'MALFORMED:USLF24', [
+      { type: 'FEED_DATA', channel: 1, data: 'not-an-array' },
+      quoteFrame(quoteRecord('MALFORMED:USLF24', 1760000002000, 10, 11, 1, 1)),
+    ])
+    const body = await overriddenQuoteBody('MALFORMED')
+    expect(body.data).toMatchObject({ bid_price: 10, ask_price: 11 })
+  })
+
+  it('serves a quote with an invalid provider time without a timestamp', async () => {
+    seedQuote('NO_TIME', quoteRecord('NO_TIME', 'NaN' as unknown as number, 10, 11, 1, 1))
+    const body = await quoteBody('NO_TIME')
+    expect(body.data).toMatchObject({ bid_price: 10, ask_price: 11 })
+    expect(body.timestamps?.providerIndicatedTimeUnixMs).toBeUndefined()
+  })
+
   it('filters ERROR, KEEPALIVE and FEED_CONFIG frames', async () => {
     server.setFeedData('Quote', 'FLTR:USLF24', [
       errorFrame,
@@ -284,6 +309,18 @@ describe('dxLink COMPACT frame parsing', () => {
     expect(body.data.mid_price).toBeCloseTo(10.5, 10)
   })
 
+  it('treats negative volume as missing, not zero', async () => {
+    seedQuote('NEG_VOL', quoteRecord('NEG_VOL', 1760000002000, 10, 11, -1, 2))
+    const body = await quoteBody('NEG_VOL')
+    expect(body.data).toMatchObject({
+      bid_price: 10,
+      ask_price: 11,
+      bid_volume: null,
+      ask_volume: 2,
+    })
+    await expectError(quotesRequest('NEG_VOL', { requireVolume: true }))
+  })
+
   it('serves the newest when TradeETH is newer than Trade', async () => {
     seedTrade('Trade', 'ETHNEW:USLF24', 1760000000000, 189.98)
     seedTrade('TradeETH', 'ETHNEW:USLF24', 1760000005000, 191.5)
@@ -298,6 +335,19 @@ describe('dxLink COMPACT frame parsing', () => {
     const body = await priceBody('TRDNEW')
     expect(body.data.result).toBe(195.25)
     expect(body.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000009000)
+  })
+
+  it('drops an older frame that arrives after a newer one', async () => {
+    seedTrade('Trade', 'OLD:USLF24', 1760000005000, 200)
+    const first = await priceBody('OLD')
+    expect(first.result).toBe(200)
+
+    server.push(tradeFrame('Trade', tradeRecord('Trade', 'OLD:USLF24', 1760000001000, 100)))
+    await flushFrames(testAdapter)
+
+    const after = await priceBody('OLD')
+    expect(after.result).toBe(200)
+    expect(after.timestamps?.providerIndicatedTimeUnixMs).toBe(1760000005000)
   })
 
   it('decodes every event type in a frame that carries more than one', async () => {

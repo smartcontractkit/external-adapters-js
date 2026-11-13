@@ -15,7 +15,6 @@ import type { config } from '../config'
 
 const logger = makeLogger('DxLinkTransport')
 
-// Channel 0 is control; channel 1 is the FEED service.
 const CONTROL_CHANNEL = 0
 const FEED_CHANNEL = 1
 
@@ -39,7 +38,6 @@ const EVENT_FIELDS = {
 
 export type DxLinkEventType = keyof typeof EVENT_FIELDS
 
-/** A decoded COMPACT record, keyed by FEED_CONFIG field order. */
 export type DxLinkEvent = {
   eventType: DxLinkEventType
   eventSymbol: string
@@ -65,16 +63,10 @@ export type DxLinkTransportTypes<T extends BaseTransportTypes> = T & {
   Provider: { WsMessage: DxLinkMessage }
 }
 
-/**
- * WebSocketTransport for dxLink. It subscribes each `base` to the event types
- * selected by the subclass and passes decoded events to `parseEvent`.
- */
 export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebSocketTransport<
   DxLinkTransportTypes<T>
 > {
-  // Field order of COMPACT records, as announced by the server in FEED_CONFIG
   private fieldsByEventType = new Map<string, string[]>()
-  // Latest provider time written per params, to drop events that arrive out of order
   private latestTimes = new Map<string, number>()
 
   protected abstract parseEvent(event: DxLinkEvent): ProviderResult<DxLinkTransportTypes<T>>[]
@@ -218,7 +210,6 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
     ]
   }
 
-  /** Event types to subscribe for one symbol; subclasses can narrow this per symbol. */
   protected eventTypesForSymbol(_symbol: string): DxLinkEventType[] {
     return this.eventTypes
   }
@@ -237,7 +228,11 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
     }
   }
 
-  private decodeFeedData(data: unknown[] = []): DxLinkEvent[] {
+  private decodeFeedData(data: unknown = []): DxLinkEvent[] {
+    if (!Array.isArray(data)) {
+      logger.warn('Dropping FEED_DATA: data is not an array')
+      return []
+    }
     return splitArrayIntoChunks(data, 2).flatMap(([eventType, values]) => {
       const fields = this.fieldsByEventType.get(eventType as string)
       if (!fields || !Array.isArray(values)) {
@@ -247,6 +242,14 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
       return splitArrayIntoChunks(values, fields.length)
         .filter((record) => record.length === fields.length)
         .map((record) => Object.fromEntries(fields.map((f, i) => [f, stripNul(record[i])])))
+        .filter((record) => {
+          const symbol = record.eventSymbol
+          if (typeof symbol === 'string' && symbol.trim().length > 0) {
+            return true
+          }
+          logger.warn(`Dropping ${String(eventType)} record without a symbol`)
+          return false
+        })
     }) as DxLinkEvent[]
   }
 }

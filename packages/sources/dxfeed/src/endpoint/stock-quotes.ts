@@ -23,7 +23,6 @@ export type BaseEndpointTypes = {
   Parameters: typeof stockQuotesInputParameters.definition
   Settings: typeof config.settings
   Response: {
-    // stock_quotes has no scalar result; the mid is data.mid_price.
     Result: null
     Data: {
       mid_price: number
