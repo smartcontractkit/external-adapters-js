@@ -25,7 +25,7 @@ process.env.CACHE_POLLING_SLEEP_MS = '500'
 export const QUOTE_FIELDS = [
   'eventType',
   'eventSymbol',
-  'eventTime',
+  'time',
   'bidPrice',
   'askPrice',
   'bidSize',
@@ -34,7 +34,7 @@ export const QUOTE_FIELDS = [
   'askExchangeCode',
 ]
 
-export const TRADE_FIELDS = ['eventType', 'eventSymbol', 'eventTime', 'price']
+export const TRADE_FIELDS = ['eventType', 'eventSymbol', 'time', 'price']
 
 export const setDxLinkTestEnv = (url: string, overrides: Record<string, string> = {}): void => {
   Object.assign(process.env, {
@@ -60,7 +60,7 @@ export const feedConfigFrame = (eventFields: Record<string, string[]>): object =
 
 export const quoteRecord = (
   eventSymbol: string,
-  eventTime: number,
+  time: number,
   bidPrice: number | string | null,
   askPrice: number | string | null,
   bidSize: number | string | null,
@@ -70,7 +70,7 @@ export const quoteRecord = (
 ): unknown[] => [
   'Quote',
   eventSymbol,
-  eventTime,
+  time,
   bidPrice,
   askPrice,
   bidSize,
@@ -88,9 +88,9 @@ export const quoteFrame = (...records: unknown[][]): object => ({
 export const tradeRecord = (
   eventType: 'Trade' | 'TradeETH',
   eventSymbol: string,
-  eventTime: number,
+  time: number,
   price: number | string,
-): unknown[] => [eventType, eventSymbol, eventTime, price]
+): unknown[] => [eventType, eventSymbol, time, price]
 
 export const tradeFrame = (eventType: 'Trade' | 'TradeETH', ...records: unknown[][]): object => ({
   type: 'FEED_DATA',

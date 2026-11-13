@@ -29,7 +29,7 @@ export class StockQuotesTransport extends DxLinkTransport<BaseEndpointTypes> {
     if (time === null) {
       const error = {
         statusCode: 502,
-        errorMessage: `Time: ${event.eventTime ?? event.time} for ${base} is invalid.`,
+        errorMessage: `Time: ${event.time ?? event.eventTime} for ${base} is invalid.`,
       }
       return emit(error, error)
     }

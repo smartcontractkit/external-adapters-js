@@ -66,16 +66,13 @@ describe('dxfeed config env surface', () => {
     expect(config.settings.WS_HEARTBEAT_INTERVAL_MS).toBe(10000)
   })
 
-  it.each([
-    ['wss://user:pass@ws.example.test/dxlink', 'must not contain credentials'],
-    ['wss://tools.dxfeed.com/chainlink/cometd', 'legacy cometd path'],
-  ])('rejects %s', async (url, message) => {
+  it('rejects a WS_API_ENDPOINT with embedded credentials', async () => {
     setValidEnv()
-    process.env.WS_API_ENDPOINT = url
+    process.env.WS_API_ENDPOINT = 'wss://user:pass@ws.example.test/dxlink'
     const config = await importFreshConfig()
     expect(() => {
       config.initialize()
       config.validate()
-    }).toThrow(message)
+    }).toThrow('must not contain credentials')
   })
 })

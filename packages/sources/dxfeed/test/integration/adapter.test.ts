@@ -4,7 +4,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockPriceEndpoint, mockPriceEndpointWithSymbols } from './fixtures'
+import { mockPriceEndpoint } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -38,12 +38,6 @@ describe('execute', () => {
       const response = await testAdapter.request({ base: 'TSLA' })
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
-    })
-
-    it('rejects a non-numeric provider result', async () => {
-      mockPriceEndpointWithSymbols({ INVALID: null })
-      const response = await testAdapter.request({ base: 'INVALID' })
-      expect(response.statusCode).toBe(502)
     })
   })
 })

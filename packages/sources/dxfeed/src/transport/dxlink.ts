@@ -36,13 +36,11 @@ const CHANNEL_REQUEST_MESSAGE = {
   parameters: { contract: 'AUTO' },
 }
 
-const KEEPALIVE_MESSAGE = { type: 'KEEPALIVE', channel: CONTROL_CHANNEL }
-
 const EVENT_FIELDS = {
   Quote: [
     'eventType',
     'eventSymbol',
-    'eventTime',
+    'time',
     'bidPrice',
     'askPrice',
     'bidSize',
@@ -50,8 +48,8 @@ const EVENT_FIELDS = {
     'bidExchangeCode',
     'askExchangeCode',
   ],
-  Trade: ['eventType', 'eventSymbol', 'eventTime', 'price'],
-  TradeETH: ['eventType', 'eventSymbol', 'eventTime', 'price'],
+  Trade: ['eventType', 'eventSymbol', 'time', 'price'],
+  TradeETH: ['eventType', 'eventSymbol', 'time', 'price'],
 }
 
 export type DxLinkEventType = keyof typeof EVENT_FIELDS
@@ -116,7 +114,7 @@ const compactFields = (
 }
 
 export const eventTimeOf = (event: DxLinkEvent): number | null =>
-  toNumber(event.eventTime) ?? toNumber(event.time)
+  toNumber(event.time) ?? toNumber(event.eventTime)
 
 export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebSocketTransport<
   DxLinkTransportTypes<T>
@@ -140,7 +138,9 @@ export abstract class DxLinkTransport<T extends BaseTransportTypes> extends WebS
         open: (connection, context) =>
           this.handshake(connection, context.adapterSettings.WS_CONNECTION_OPEN_TIMEOUT),
         message: (message) => this.handleMessage(message),
-        heartbeat: (connection) => connection.send(JSON.stringify(KEEPALIVE_MESSAGE)),
+        heartbeat: (connection) => {
+          connection.send(JSON.stringify({ type: 'KEEPALIVE', channel: CONTROL_CHANNEL }))
+        },
       },
       builders: {
         customSubscriptionMessages: (_context, subscriptions) =>

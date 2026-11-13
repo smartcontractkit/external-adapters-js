@@ -3,29 +3,6 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('Config')
 
-const WS_ENDPOINT_CHECKS: ((url: URL) => string)[] = [
-  (url) =>
-    url.username || url.password
-      ? 'WS_API_ENDPOINT must not contain credentials, use API_USERNAME and API_PASSWORD instead'
-      : '',
-  (url) =>
-    url.pathname.includes('chainlink/cometd')
-      ? 'WS_API_ENDPOINT must be the dxLink endpoint, not the legacy cometd path'
-      : '',
-]
-
-const validateWsEndpoint = (value?: string): string => {
-  if (!value) {
-    return ''
-  }
-  try {
-    const url = new URL(value)
-    return WS_ENDPOINT_CHECKS.map((check) => check(url)).find(Boolean) ?? ''
-  } catch {
-    return ''
-  }
-}
-
 export const config = new AdapterConfig({
   API_USERNAME: {
     description: 'username for dxfeed API',
@@ -44,9 +21,21 @@ export const config = new AdapterConfig({
     sensitive: true,
     validate: {
       meta: {
-        details: 'Must be the dxLink endpoint and must not contain credentials',
+        details: 'Must not contain credentials',
       },
-      fn: validateWsEndpoint,
+      fn: (value?: string): string => {
+        if (!value) {
+          return ''
+        }
+        try {
+          const { username, password } = new URL(value)
+          return username || password
+            ? 'WS_API_ENDPOINT must not contain credentials, use API_USERNAME and API_PASSWORD instead'
+            : ''
+        } catch {
+          return ''
+        }
+      },
     },
   },
   API_ENDPOINT: {

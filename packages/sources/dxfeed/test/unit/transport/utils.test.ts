@@ -26,11 +26,9 @@ describe('transport numeric helpers', () => {
     valid.forEach((value) => expect(toNumber(value)).toBe(value))
   })
 
-  it('prefers eventTime and tolerates the legacy time field', () => {
-    expect(eventTimeOf({ eventType: 'Quote', eventSymbol: 'AAPL', eventTime: 10, time: 5 })).toBe(
-      10,
-    )
-    expect(eventTimeOf({ eventType: 'Quote', eventSymbol: 'AAPL', time: 5 })).toBe(5)
-    expect(eventTimeOf({ eventType: 'Quote', eventSymbol: 'AAPL', eventTime: NaN })).toBeNull()
+  it('prefers the live-verified time field and tolerates eventTime', () => {
+    expect(eventTimeOf({ eventType: 'Quote', eventSymbol: 'AAPL', time: 5, eventTime: 10 })).toBe(5)
+    expect(eventTimeOf({ eventType: 'Quote', eventSymbol: 'AAPL', eventTime: 10 })).toBe(10)
+    expect(eventTimeOf({ eventType: 'Quote', eventSymbol: 'AAPL', time: NaN })).toBeNull()
   })
 })
