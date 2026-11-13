@@ -107,9 +107,8 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     } catch (error) {
       if (generation === this.generation) {
         await this.writeErrorResults(error, entries, generation)
+        await this.sleepUntilNextTick(context)
       }
-    } finally {
-      await this.sleepUntilNextTick(context)
     }
   }
 

@@ -37,10 +37,11 @@ export interface ProviderResponse {
   }
 }
 
-const isUnauthorized = (error: unknown): boolean =>
-  error instanceof AdapterDataProviderError && error.providerStatusCode === 401
-
 const AUTH_FAILURE_STATUS_CODES = new Set([401, 403])
+
+const isUnauthorized = (error: unknown): boolean =>
+  error instanceof AdapterDataProviderError &&
+  AUTH_FAILURE_STATUS_CODES.has(error.providerStatusCode ?? 0)
 
 export const isCredentialFailure = (error: unknown): boolean =>
   error instanceof SsaAuthError &&

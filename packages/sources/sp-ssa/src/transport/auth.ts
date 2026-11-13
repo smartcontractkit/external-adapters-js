@@ -150,6 +150,7 @@ export class AuthManager {
       throw new AdapterError({
         statusCode: 502,
         message: `The token endpoint returned status ${response.response.status}`,
+        providerStatusCode: response.response.status,
       })
     }
 
