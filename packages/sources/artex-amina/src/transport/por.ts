@@ -38,14 +38,18 @@ class PorTransport extends SubscriptionTransport<BaseEndpointTypes> {
     context: EndpointContext<BaseEndpointTypes>,
     entries: RequestParams[],
   ): Promise<void> {
+    let didWork = false
     for (const param of entries) {
       const key = this.responseCache.getCacheKey(this.name, param)
       const cached = await this.responseCache.get(key)
       if (!cached) {
         await this.handleRequest(param)
+        didWork = true
       }
     }
-    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
+    if (!didWork) {
+      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
+    }
   }
 
   async handleRequest(param: RequestParams): Promise<void> {
