@@ -8,7 +8,9 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import type { config } from '../config'
+import { resolveStreamMaxAgeSeconds } from '../config'
 import type { inputDefinition, output, Smoother } from '../endpoint/common'
+import type { StreamMaxAgeSeconds } from '../lib/streams'
 
 export type CommonEndpointTypes = {
   // Allow each endpoint to have different descriptions for the same input param
@@ -38,6 +40,9 @@ export abstract class SmoothedPriceTransport<
 
   requester!: Requester
   config!: T['Settings']
+  streamMaxAgeSeconds!: StreamMaxAgeSeconds
+  sessionStartGatingEnabled!: boolean
+  allowMarketSessionOverride!: boolean
 
   async initialize(
     dependencies: TransportDependencies<T>,
@@ -48,6 +53,9 @@ export abstract class SmoothedPriceTransport<
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.requester = dependencies.requester
     this.config = adapterSettings
+    this.streamMaxAgeSeconds = resolveStreamMaxAgeSeconds(adapterSettings)
+    this.sessionStartGatingEnabled = adapterSettings.SESSION_START_GATING_ENABLED
+    this.allowMarketSessionOverride = adapterSettings.ALLOW_MARKET_SESSION_OVERRIDE
     this.getDataEngineUrl()
   }
 
