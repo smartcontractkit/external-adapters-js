@@ -95,6 +95,22 @@ export const settingsDefinition = {
     default: false,
     sensitive: false,
   },
+
+  ISSUER_247_SESSION_START_GATING_ENABLED: {
+    description:
+      '24/7 session-start gating (issuer-price-247): reject a report whose lastSeenTimestampNs predates the start of the session indicated by the report marketStatus (WEEKEND reports gate against the current closed-span start). Schedule from tradinghours, falling back to the hard-coded per-market schedule. Default false (ships dark).',
+    type: 'boolean',
+    default: false,
+    sensitive: false,
+  },
+
+  ISSUER_247_SESSION_GATING_FAIL_ON_INDETERMINATE_SESSION: {
+    description:
+      'When 24/7 session-start gating is on: true fails closed (503 "Session start unknown") when the report marketStatus is UNKNOWN/unmapped or the session start cannot be resolved; false serves the report with a warning log. Inert when ISSUER_247_SESSION_START_GATING_ENABLED is off. Default true.',
+    type: 'boolean',
+    default: true,
+    sensitive: false,
+  },
 } as const
 
 export const config = new AdapterConfig(settingsDefinition)

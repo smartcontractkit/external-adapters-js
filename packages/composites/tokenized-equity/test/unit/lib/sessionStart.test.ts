@@ -4,6 +4,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { getSessionSchedule } from '../../../src/lib/session/session'
 import {
   getSessionTransitions,
+  processData,
   SessionTransition,
 } from '../../../src/lib/session/tradingHoursSession'
 
@@ -30,6 +31,83 @@ const BOUNDARIES = ['04:00', '09:30', '16:00', '20:00']
 describe('getSessionTransitions', () => {
   beforeAll(() => {
     LoggerFactoryProvider.set()
+  })
+
+  it('passes the upstream phase end through as endTimeMs (tradinghours ADR-0001)', async () => {
+    const requester = requesterWith(() =>
+      Promise.resolve(
+        scheduleResponse([
+          {
+            status: 2,
+            statusString: 'REGULAR',
+            time: '2024-01-08T14:30:00.000Z',
+            endTime: '2024-01-08T21:00:00.000Z',
+          },
+        ]),
+      ),
+    )
+
+    const result = await getSessionTransitions(URL, requester, ...ARGS)
+
+    expect(result).toEqual([
+      {
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: new Date('2024-01-08T14:30:00.000Z').getTime(),
+        endTimeMs: new Date('2024-01-08T21:00:00.000Z').getTime(),
+      },
+    ])
+  })
+
+  it('leaves endTimeMs unset for a pre-endTime tradinghours (absent field)', async () => {
+    const requester = requesterWith(() =>
+      Promise.resolve(
+        scheduleResponse([
+          { status: 2, statusString: 'REGULAR', time: '2024-01-08T14:30:00.000Z' },
+        ]),
+      ),
+    )
+
+    const result = await getSessionTransitions(URL, requester, ...ARGS)
+
+    expect(result[0].endTimeMs).toBeUndefined()
+  })
+
+  it('smoother filtering (processData) is unchanged when transitions carry endTimeMs', async () => {
+    // The smoother must not react to the new field: same drops as before (REGULAR and
+    // Sunday overnight dropped; thin-liquidity boundaries kept).
+    const transitions: SessionTransition[] = [
+      {
+        status: TwentyfourFiveMarketStatus.OVERNIGHT,
+        timeMs: new Date('2024-01-07T20:00:00.000Z').getTime(),
+        endTimeMs: 1,
+      }, // Sunday — dropped
+      {
+        status: TwentyfourFiveMarketStatus.PRE_MARKET,
+        timeMs: new Date('2024-01-08T04:00:00.000Z').getTime(),
+        endTimeMs: 1,
+      },
+      {
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: new Date('2024-01-08T09:30:00.000Z').getTime(),
+        endTimeMs: 1,
+      }, // dropped
+      {
+        status: TwentyfourFiveMarketStatus.POST_MARKET,
+        timeMs: new Date('2024-01-08T16:00:00.000Z').getTime(),
+        endTimeMs: 1,
+      },
+      {
+        status: TwentyfourFiveMarketStatus.OVERNIGHT,
+        timeMs: new Date('2024-01-08T20:00:00.000Z').getTime(),
+        endTimeMs: 1,
+      }, // Monday — kept
+    ]
+
+    expect(processData(transitions, 'UTC')).toEqual([
+      new Date('2024-01-08T04:00:00.000Z').getTime(),
+      new Date('2024-01-08T16:00:00.000Z').getTime(),
+      new Date('2024-01-08T20:00:00.000Z').getTime(),
+    ])
   })
 
   it('returns all transitions unfiltered, including REGULAR and Sunday overnight', async () => {

@@ -58,6 +58,13 @@ export const inputParameters = new InputParameters(
         },
       },
     },
+    marketSessionOverride: {
+      required: false,
+      type: 'string',
+      description:
+        'Staging/test hook for the 24/7 session-start gating check: instead of resolving the current session start from the wall clock, the check gates against the NEXT start of the named session, deterministically forcing the pre-session rejection. Affects only the session-start gating check. Only the four real session statuses are accepted (UNKNOWN and WEEKEND can never match a tradinghours transition). Requests carrying this parameter are rejected with 400 unless ALLOW_MARKET_SESSION_OVERRIDE=true and ISSUER_247_SESSION_START_GATING_ENABLED=true.',
+      options: ['PRE_MARKET', 'REGULAR', 'POST_MARKET', 'OVERNIGHT'],
+    },
   },
   [
     {
@@ -93,6 +100,9 @@ export type BaseEndpointTypes = {
       rawMultipliedPrice?: string
       rawMultipliedPriceDecimals?: number
       dataEngine: DataEngineV11Data
+      // Present when 24/7 session-start gating ran: which schedule tier supplied the
+      // session start (absent when gating is off or served fail-open)
+      gatingSessionSource?: 'TRADINGHOURS' | 'FALLBACK'
       multiplier?: {
         issuer: string
         network?: string
@@ -113,6 +123,10 @@ export const endpoint = new AdapterEndpoint({
       issuers[data.multiplier.issuer].validate(settings, data.multiplier)
     }
     settings.SOURCE_ADAPTER_URL.get('DATA_ENGINE')
+    if (settings.ISSUER_247_SESSION_START_GATING_ENABLED) {
+      // Gating needs the tradinghours EA for its tier-1 schedule
+      settings.SOURCE_ADAPTER_URL.get('TRADING_HOURS')
+    }
     return undefined
   },
 })

@@ -27,24 +27,32 @@ describe('getFallbackSessionTransitions', () => {
 
     expect(transitions).toBeDefined()
     // Monday 2024-01-08: REGULAR opens 09:30 ET = 14:30 UTC (EST)
-    expect(transitions).toContainEqual({
-      status: TwentyfourFiveMarketStatus.REGULAR,
-      timeMs: at('2024-01-08T14:30:00.000Z'),
-    })
+    expect(transitions).toContainEqual(
+      expect.objectContaining({
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: at('2024-01-08T14:30:00.000Z'),
+      }),
+    )
     // Monday PRE_MARKET 04:00 ET = 09:00 UTC; POST_MARKET 16:00 ET = 21:00 UTC
-    expect(transitions).toContainEqual({
-      status: TwentyfourFiveMarketStatus.PRE_MARKET,
-      timeMs: at('2024-01-08T09:00:00.000Z'),
-    })
-    expect(transitions).toContainEqual({
-      status: TwentyfourFiveMarketStatus.POST_MARKET,
-      timeMs: at('2024-01-08T21:00:00.000Z'),
-    })
+    expect(transitions).toContainEqual(
+      expect.objectContaining({
+        status: TwentyfourFiveMarketStatus.PRE_MARKET,
+        timeMs: at('2024-01-08T09:00:00.000Z'),
+      }),
+    )
+    expect(transitions).toContainEqual(
+      expect.objectContaining({
+        status: TwentyfourFiveMarketStatus.POST_MARKET,
+        timeMs: at('2024-01-08T21:00:00.000Z'),
+      }),
+    )
     // Monday OVERNIGHT 20:00 ET = Tuesday 01:00 UTC
-    expect(transitions).toContainEqual({
-      status: TwentyfourFiveMarketStatus.OVERNIGHT,
-      timeMs: at('2024-01-09T01:00:00.000Z'),
-    })
+    expect(transitions).toContainEqual(
+      expect.objectContaining({
+        status: TwentyfourFiveMarketStatus.OVERNIGHT,
+        timeMs: at('2024-01-09T01:00:00.000Z'),
+      }),
+    )
   })
 
   it('includes the Sunday 20:00 ET overnight open (which the smoother fallback skips)', () => {
@@ -56,10 +64,12 @@ describe('getFallbackSessionTransitions', () => {
     )
 
     // Sunday 2024-01-07 20:00 ET = Monday 01:00 UTC
-    expect(transitions).toContainEqual({
-      status: TwentyfourFiveMarketStatus.OVERNIGHT,
-      timeMs: at('2024-01-08T01:00:00.000Z'),
-    })
+    expect(transitions).toContainEqual(
+      expect.objectContaining({
+        status: TwentyfourFiveMarketStatus.OVERNIGHT,
+        timeMs: at('2024-01-08T01:00:00.000Z'),
+      }),
+    )
   })
 
   it('has no Friday 20:00 overnight open (Friday 20:00 ET → weekend)', () => {
@@ -69,20 +79,26 @@ describe('getFallbackSessionTransitions', () => {
     expect(result).toBeDefined()
     const transitions = result as SessionTransition[]
 
-    expect(transitions).not.toContainEqual({
-      status: TwentyfourFiveMarketStatus.OVERNIGHT,
-      timeMs: at('2024-01-13T01:00:00.000Z'),
-    })
+    expect(transitions).not.toContainEqual(
+      expect.objectContaining({
+        status: TwentyfourFiveMarketStatus.OVERNIGHT,
+        timeMs: at('2024-01-13T01:00:00.000Z'),
+      }),
+    )
     // …while the Sunday 20:00 ET overnight open (Mon 01:00 UTC) is present, and Friday
     // still has its daytime sessions.
-    expect(transitions).toContainEqual({
-      status: TwentyfourFiveMarketStatus.OVERNIGHT,
-      timeMs: at('2024-01-15T01:00:00.000Z'),
-    })
-    expect(transitions).toContainEqual({
-      status: TwentyfourFiveMarketStatus.POST_MARKET,
-      timeMs: at('2024-01-12T21:00:00.000Z'),
-    })
+    expect(transitions).toContainEqual(
+      expect.objectContaining({
+        status: TwentyfourFiveMarketStatus.OVERNIGHT,
+        timeMs: at('2024-01-15T01:00:00.000Z'),
+      }),
+    )
+    expect(transitions).toContainEqual(
+      expect.objectContaining({
+        status: TwentyfourFiveMarketStatus.POST_MARKET,
+        timeMs: at('2024-01-12T21:00:00.000Z'),
+      }),
+    )
   })
 
   it('resolves the Thursday 20:00 overnight open on Saturday 00:00–04:00 ET', () => {
@@ -99,10 +115,12 @@ describe('getFallbackSessionTransitions', () => {
     ]) {
       const result = getFallbackSessionTransitions('nyse', '24/5', at(queryIso))
       expect(result).toBeDefined()
-      expect(result as SessionTransition[]).toContainEqual({
-        status: TwentyfourFiveMarketStatus.OVERNIGHT,
-        timeMs: at('2024-01-12T01:00:00.000Z'), // Thursday 20:00 ET
-      })
+      expect(result as SessionTransition[]).toContainEqual(
+        expect.objectContaining({
+          status: TwentyfourFiveMarketStatus.OVERNIGHT,
+          timeMs: at('2024-01-12T01:00:00.000Z'), // Thursday 20:00 ET
+        }),
+      )
     }
   })
 
@@ -113,10 +131,12 @@ describe('getFallbackSessionTransitions', () => {
     expect(result).toBeDefined()
     const transitions = result as SessionTransition[]
 
-    expect(transitions).toContainEqual({
-      status: TwentyfourFiveMarketStatus.REGULAR,
-      timeMs: at('2024-07-08T13:30:00.000Z'), // Monday 2024-07-08
-    })
+    expect(transitions).toContainEqual(
+      expect.objectContaining({
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: at('2024-07-08T13:30:00.000Z'), // Monday 2024-07-08
+      }),
+    )
   })
 
   it('returns undefined for market/type pairs without a hard-coded entry', () => {
@@ -143,14 +163,18 @@ describe('getFallbackSessionTransitions - nyse/regular', () => {
 
     expect(transitions).toBeDefined()
     // Monday 2024-01-08 and Tuesday 2024-01-09 REGULAR opens: 09:30 ET = 14:30 UTC
-    expect(transitions).toContainEqual({
-      status: TwentyfourFiveMarketStatus.REGULAR,
-      timeMs: at('2024-01-08T14:30:00.000Z'),
-    })
-    expect(transitions).toContainEqual({
-      status: TwentyfourFiveMarketStatus.REGULAR,
-      timeMs: at('2024-01-09T14:30:00.000Z'),
-    })
+    expect(transitions).toContainEqual(
+      expect.objectContaining({
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: at('2024-01-08T14:30:00.000Z'),
+      }),
+    )
+    expect(transitions).toContainEqual(
+      expect.objectContaining({
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: at('2024-01-09T14:30:00.000Z'),
+      }),
+    )
   })
 
   it('contains only REGULAR transitions — no pre/post-market or overnight sessions', () => {
@@ -172,14 +196,18 @@ describe('getFallbackSessionTransitions - nyse/regular', () => {
     const transitions = result as SessionTransition[]
 
     // Thursday and Friday REGULAR opens are present…
-    expect(transitions).toContainEqual({
-      status: TwentyfourFiveMarketStatus.REGULAR,
-      timeMs: at('2024-01-11T14:30:00.000Z'),
-    })
-    expect(transitions).toContainEqual({
-      status: TwentyfourFiveMarketStatus.REGULAR,
-      timeMs: at('2024-01-12T14:30:00.000Z'),
-    })
+    expect(transitions).toContainEqual(
+      expect.objectContaining({
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: at('2024-01-11T14:30:00.000Z'),
+      }),
+    )
+    expect(transitions).toContainEqual(
+      expect.objectContaining({
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: at('2024-01-12T14:30:00.000Z'),
+      }),
+    )
     // …and there are no transitions at all on Saturday 13th or Sunday 14th ET
     // (Sat 00:00 ET = Sat 05:00 UTC, Sun 23:59 ET = Mon 04:59 UTC).
     const satStartUtc = at('2024-01-13T05:00:00.000Z')
@@ -192,10 +220,12 @@ describe('getFallbackSessionTransitions - nyse/regular', () => {
     const result = getFallbackSessionTransitions('nyse', 'regular', at('2024-07-09T12:00:00.000Z'))
     expect(result).toBeDefined()
 
-    expect(result as SessionTransition[]).toContainEqual({
-      status: TwentyfourFiveMarketStatus.REGULAR,
-      timeMs: at('2024-07-08T13:30:00.000Z'), // Monday 2024-07-08
-    })
+    expect(result as SessionTransition[]).toContainEqual(
+      expect.objectContaining({
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: at('2024-07-08T13:30:00.000Z'), // Monday 2024-07-08
+      }),
+    )
   })
 
   it('is case-insensitive on the market type segment', () => {
@@ -216,35 +246,32 @@ describe('getGatingTimezone', () => {
   })
 })
 
-// DF-28446: the flattened per-market schedule (24/7 session-start gating TDD §4).
-// The fallback becomes a single per-market `nyse` entry holding the union of session
-// opens — including an explicit WEEKEND open at Friday 20:00 ET — with end times on
-// every entry, shaped congruently with the tradinghours response (ADR-0001). Callers
-// differentiate by their eligible-status set, so 24/5 and regular callers see the
+// The flattened per-market schedule (24/7 session-start gating TDD §4).
+// The fallback is a single per-market `nyse` entry holding the session opens with
+// end times on every entry — shaped congruently with the tradinghours response
+// (ADR-0001): like the upstream model, the weekend/holiday closed span is an
+// absence of phases; its start is the end of the last phase before the gap.
+// Callers differentiate by marketType view, so 24/5 and regular callers see the
 // same transitions as before the flatten.
-describe('flattened per-market schedule (24/7 gating, DF-28446)', () => {
+describe('flattened per-market schedule (24/7 gating)', () => {
   const NOW_SATURDAY = at('2024-01-06T15:00:00.000Z') // Sat 10:00 ET
 
-  it('contains an explicit WEEKEND open (Fri 20:00 ET) with an end (Sun 20:00 ET)', () => {
-    const transitions = getFallbackSessionTransitions('nyse', '24/5', NOW_SATURDAY) ?? []
-    const weekend = transitions.find((x) => x.status === TwentyfourFiveMarketStatus.WEEKEND)
-    expect(weekend).toBeDefined()
-    expect(weekend?.timeMs).toBe(at('2024-01-06T01:00:00.000Z')) // Fri 20:00 ET
-    expect(weekend?.endTimeMs).toBe(at('2024-01-08T01:00:00.000Z')) // Sun 20:00 ET
-  })
-
-  it('carries endTimeMs on every entry, congruent with the tradinghours response', () => {
-    const transitions = getFallbackSessionTransitions('nyse', '24/5', NOW_SATURDAY) ?? []
-    expect(transitions.length).toBeGreaterThan(0)
-    expect(transitions.every((x) => typeof x.endTimeMs === 'number')).toBe(true)
-    // Each entry's end is the next session's start: e.g. Friday post-market
-    // (16:00–20:00 ET) ends where the weekend open begins.
+  it('has no WEEKEND entry — the closed span is an absence of phases, its start the Friday post-market end', () => {
+    const transitions = getFallbackSessionTransitions('nyse', '24/7', NOW_SATURDAY) ?? []
+    expect(transitions.some((x) => x.status === TwentyfourFiveMarketStatus.WEEKEND)).toBe(false)
+    // Friday 2024-01-05 post-market: 16:00–20:00 ET = 21:00 → Sat 01:00 UTC.
     const fridayPost = transitions.find(
       (x) =>
         x.status === TwentyfourFiveMarketStatus.POST_MARKET &&
         x.timeMs === at('2024-01-05T21:00:00.000Z'),
     )
     expect(fridayPost?.endTimeMs).toBe(at('2024-01-06T01:00:00.000Z')) // Fri 20:00 ET
+  })
+
+  it('carries endTimeMs on every entry, congruent with the tradinghours response', () => {
+    const transitions = getFallbackSessionTransitions('nyse', '24/7', NOW_SATURDAY) ?? []
+    expect(transitions.length).toBeGreaterThan(0)
+    expect(transitions.every((x) => typeof x.endTimeMs === 'number')).toBe(true)
   })
 
   it('covers 24/5 statuses unchanged (regression: same transitions as before the flatten)', () => {
@@ -264,5 +291,40 @@ describe('flattened per-market schedule (24/7 gating, DF-28446)', () => {
     const regular = transitions.filter((x) => x.status === TwentyfourFiveMarketStatus.REGULAR)
     expect(regular.length).toBeGreaterThan(0)
     expect(regular.every((x) => new Date(x.timeMs).getUTCHours() === 14)).toBe(true)
+  })
+
+  it('resolves the Friday post-market end (the closed-span start) correctly across DST', () => {
+    // July: EDT = UTC-4, so Friday 20:00 ET = Saturday 00:00 UTC (not 01:00).
+    // Query from Saturday → window covers Thu–Sun.
+    const transitions =
+      getFallbackSessionTransitions('nyse', '24/7', at('2024-07-13T12:00:00.000Z')) ?? []
+    const fridayPost = transitions.find(
+      (x) =>
+        x.status === TwentyfourFiveMarketStatus.POST_MARKET &&
+        x.timeMs === at('2024-07-12T20:00:00.000Z'), // Fri 16:00 EDT
+    )
+    expect(fridayPost?.endTimeMs).toBe(at('2024-07-13T00:00:00.000Z')) // Fri 20:00 EDT
+  })
+
+  it('keeps the Friday post-market phase (with its end) in window through the whole weekend', () => {
+    // The -2..+1 day window must reach Friday's post-market from every weekend hour
+    // a 24/7 report can arrive: Saturday early hours through Sunday evening (after
+    // which the Sunday overnight open takes over). Friday 2024-01-05 16:00 ET =
+    // 21:00 UTC.
+    for (const queryIso of [
+      '2024-01-06T05:00:00.000Z', // Sat 00:00 ET
+      '2024-01-06T15:00:00.000Z', // Sat 10:00 ET
+      '2024-01-07T15:00:00.000Z', // Sun 10:00 ET
+      '2024-01-08T00:59:00.000Z', // Sun 19:59 ET — just before the Sunday overnight open
+    ]) {
+      const transitions = getFallbackSessionTransitions('nyse', '24/7', at(queryIso)) ?? []
+      expect(transitions).toContainEqual(
+        expect.objectContaining({
+          status: TwentyfourFiveMarketStatus.POST_MARKET,
+          timeMs: at('2024-01-05T21:00:00.000Z'),
+          endTimeMs: at('2024-01-06T01:00:00.000Z'), // Fri 20:00 ET — the closed-span start
+        }),
+      )
+    }
   })
 })

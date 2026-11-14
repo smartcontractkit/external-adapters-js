@@ -10,6 +10,13 @@ import {
 } from '../../../src/lib/session/issuer247Gating'
 import { SessionTransition } from '../../../src/lib/session/tradingHoursSession'
 
+// The gate logs through the framework's makeLogger. PlaceholderLogger resolves the
+// factory lazily on first log call, so installing a spy factory in beforeAll
+// captures the gate's warnings without module mocks — letting the fail-open test
+// assert the escape hatch is never silent (TDD §5).
+const warnSpy = jest.fn()
+const silent = jest.fn()
+
 // Tests for the 24/7 (issuer-price-247) session-start gate — TDD:
 // docs/issuer-247-session-start-gating-tdd.md, ADR-0007. The report's own
 // marketStatus declares its session; the gate rejects (503, zero tolerance) a
@@ -126,7 +133,20 @@ describe('closedSpanStartMs', () => {
 
 describe('gateIssuer247Report', () => {
   beforeAll(() => {
-    LoggerFactoryProvider.set()
+    LoggerFactoryProvider.set({
+      child: () => ({
+        warn: warnSpy,
+        error: silent,
+        info: silent,
+        debug: silent,
+        fatal: silent,
+        trace: silent,
+      }),
+    })
+  })
+
+  beforeEach(() => {
+    warnSpy.mockClear()
   })
 
   // Convenience wrapper around gateIssuer247Report: fills in the shared fixtures
@@ -229,7 +249,7 @@ describe('gateIssuer247Report', () => {
 
   describe('fallback schedule (tradinghours unusable)', () => {
     it('uses fallbackTransitions when the tradinghours schedule is absent, with source FALLBACK', () => {
-      const fallbackTransitions = getFallbackSessionTransitions('nyse', '24/5', NOW_SATURDAY)
+      const fallbackTransitions = getFallbackSessionTransitions('nyse', '24/7', NOW_SATURDAY)
       expect(fallbackTransitions).toBeDefined()
 
       expect(
@@ -273,6 +293,57 @@ describe('gateIssuer247Report', () => {
           failOnIndeterminate: false,
         }),
       ).toEqual({ gatingSessionSource: undefined })
+      // The escape hatch is never silent (TDD §5): fail-open serves must log a warning.
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Session start unknown'))
+    })
+  })
+
+  describe('marketSessionOverride test hook', () => {
+    // Mirrors the 24/5 hook: the gate resolves the NEXT start of the named session
+    // (tradinghours transitions only — the fallback is never consulted), so any live
+    // report deterministically predates it and exercises the genuine PRE_SESSION
+    // rejection path in staging.
+    it('forces the genuine PRE_SESSION rejection against the next session start, with the override marker', () => {
+      // Friday evening: the next REGULAR start (Monday 09:30 ET) is strictly after
+      // now, so the live Friday report deterministically predates it.
+      let error: AdapterError | undefined
+      try {
+        gate(TwentyfourFiveMarketStatus.REGULAR, '2024-01-05T22:00:00.000Z', NOW_FRIDAY_EVENING, {
+          marketSessionOverride: TwentyfourFiveMarketStatus.REGULAR,
+        })
+      } catch (e) {
+        error = e as AdapterError
+      }
+      expect(error?.statusCode).toBe(503)
+      expect(error?.message).toContain('Market data predates session start')
+      expect(error?.message).toContain('[marketSessionOverride=REGULAR]')
+    })
+
+    it('never consults the fallback schedule: no future tradinghours transition → Session start unknown', () => {
+      let error: AdapterError | undefined
+      try {
+        gate(
+          TwentyfourFiveMarketStatus.REGULAR,
+          '2024-01-08T15:00:00.000Z',
+          new Date('2024-01-08T15:00:00.000Z').getTime(),
+          {
+            // NORMAL_WEEK's last REGULAR start is Monday 14:30 UTC — now is after it
+            marketSessionOverride: TwentyfourFiveMarketStatus.REGULAR,
+            fallbackTransitions: getFallbackSessionTransitions('nyse', '24/7', NOW_SATURDAY),
+          },
+        )
+      } catch (e) {
+        error = e as AdapterError
+      }
+      expect(error?.statusCode).toBe(503)
+      expect(error?.message).toContain('Session start unknown')
+    })
+
+    it('without the override, an identical request passes (the hook is the only difference)', () => {
+      const nowMs = new Date('2024-01-08T15:00:00.000Z').getTime()
+      expect(gate(TwentyfourFiveMarketStatus.REGULAR, '2024-01-08T15:00:00.000Z', nowMs)).toEqual({
+        gatingSessionSource: 'TRADINGHOURS',
+      })
     })
   })
 
