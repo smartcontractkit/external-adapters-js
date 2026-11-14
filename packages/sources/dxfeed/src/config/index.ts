@@ -15,9 +15,27 @@ export const config = new AdapterConfig({
     sensitive: true,
   },
   WS_API_ENDPOINT: {
-    description: 'The websocket url for dxfeed including username and password',
+    description: 'The dxLink websocket url for dxfeed.',
     type: 'string',
     sensitive: true,
+    validate: {
+      meta: {
+        details: 'Must not contain credentials',
+      },
+      fn: (value?: string): string => {
+        if (!value) {
+          return ''
+        }
+        try {
+          const { username, password } = new URL(value)
+          return username || password
+            ? 'WS_API_ENDPOINT must not contain credentials, use API_USERNAME and API_PASSWORD instead'
+            : ''
+        } catch {
+          return ''
+        }
+      },
+    },
   },
   API_ENDPOINT: {
     description: 'The API url for dxfeed',
