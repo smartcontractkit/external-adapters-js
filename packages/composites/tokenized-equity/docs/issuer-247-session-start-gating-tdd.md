@@ -164,17 +164,19 @@ for the closed-span model.
 ### Flattened hard-coded fallback schedule
 
 `FALLBACK_SESSION_SCHEDULE` is restructured from per-`market/type` keys (`nyse/24/5`,
-`nyse/regular`) to a **single per-market entry** (`nyse`) holding the union of session opens —
-PRE_MARKET 04:00, REGULAR 09:30, POST_MARKET 16:00, OVERNIGHT 20:00 (Sun–Thu), WEEKEND Friday
-20:00 — plus per-phase end times, shaped congruently with the tradinghours response. Session
-times are extracted into named constants so no time literal is duplicated.
+`nyse/regular`) to a **single per-market entry** (`nyse`) holding the four session opens —
+PRE_MARKET 04:00, REGULAR 09:30, POST_MARKET 16:00, OVERNIGHT 20:00 (Sun–Thu) — plus per-phase
+end times, shaped congruently with the tradinghours response. Like the upstream model, the
+weekend/holiday closed span is an absence of phases (its start is Friday's post-market end,
+20:00 ET), so both schedule sources resolve the WEEKEND start through the **same derivation**
+(`closedSpanStartMs`) — there is deliberately no explicit WEEKEND entry. Session times are
+extracted into named constants so no time literal is duplicated.
 
-This is safe for existing callers because gating already filters transitions by the caller's
-eligible-status set (`currentSessionStartMs(statuses, transitions, now)`): a `regular`-type
-caller asks for `[REGULAR]` and never matches the other entries. 24/5, regular, and 24/7 callers
-share one schedule, differentiated only by the statuses each queries for — the fallback path
-uses the same arguments as the tradinghours path, with no duplicated hardcoded configuration.
-24/5 gating decisions are unchanged by construction (same transitions, same filter).
+Each `marketType` sees a filtered **view** of the one schedule: `regular` callers get only
+REGULAR opens (the pre-flatten narrowing is preserved exactly), while `24/5` and `24/7` callers
+share the full four-session view. 24/5 gating decisions are unchanged by construction (same
+transitions, same filter), the fallback path uses the same arguments as the tradinghours path,
+and no hardcoded configuration is duplicated.
 
 A market without an entry still gets **no fallback**: with gating enabled and tradinghours
 unusable, the request 503s — loud rather than silently wrong (unchanged from ADR-0006).

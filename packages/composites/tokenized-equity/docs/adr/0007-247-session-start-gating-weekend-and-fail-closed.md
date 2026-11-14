@@ -62,9 +62,10 @@ risk-bearing consequences:
   holiday early-closes). To make it derivable, the tradinghours `market-session` transport
   gains an additive `endTime` pass-through (the upstream API already returns phase ends; the
   parser discards them today; tokenized-equity is the endpoint's only consumer). The hard-coded
-  fallback schedule is flattened to a single per-market `nyse` entry holding all five session
-  opens plus end times — shaped congruently with the tradinghours response, times as named
-  constants — shared by 24/5, regular, and 24/7 callers, with 24/5 gating decisions unchanged.
+  fallback schedule is flattened to a single per-market `nyse` entry holding the four session
+  opens plus end times — shaped congruently with the tradinghours response (closed spans are
+  an absence of phases, exactly as upstream), times as named constants — shared by 24/5,
+  regular, and 24/7 callers through per-type views, with 24/5 gating decisions unchanged.
 - **Fail closed on indeterminate sessions, behind a flag.**
   `ISSUER_247_SESSION_GATING_FAIL_ON_INDETERMINATE_SESSION` defaults to **true**: UNKNOWN or
   unresolvable sessions 503 with `Session start unknown`. Setting it `false` serves the report
