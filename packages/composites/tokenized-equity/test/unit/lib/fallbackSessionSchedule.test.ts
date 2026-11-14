@@ -215,3 +215,54 @@ describe('getGatingTimezone', () => {
     expect(getGatingTimezone('lse', '24/5')).toBeUndefined()
   })
 })
+
+// DF-28446: the flattened per-market schedule (24/7 session-start gating TDD §4).
+// The fallback becomes a single per-market `nyse` entry holding the union of session
+// opens — including an explicit WEEKEND open at Friday 20:00 ET — with end times on
+// every entry, shaped congruently with the tradinghours response (ADR-0001). Callers
+// differentiate by their eligible-status set, so 24/5 and regular callers see the
+// same transitions as before the flatten.
+describe('flattened per-market schedule (24/7 gating, DF-28446)', () => {
+  const NOW_SATURDAY = at('2024-01-06T15:00:00.000Z') // Sat 10:00 ET
+
+  it('contains an explicit WEEKEND open (Fri 20:00 ET) with an end (Sun 20:00 ET)', () => {
+    const transitions = getFallbackSessionTransitions('nyse', '24/5', NOW_SATURDAY) ?? []
+    const weekend = transitions.find((x) => x.status === TwentyfourFiveMarketStatus.WEEKEND)
+    expect(weekend).toBeDefined()
+    expect(weekend?.timeMs).toBe(at('2024-01-06T01:00:00.000Z')) // Fri 20:00 ET
+    expect(weekend?.endTimeMs).toBe(at('2024-01-08T01:00:00.000Z')) // Sun 20:00 ET
+  })
+
+  it('carries endTimeMs on every entry, congruent with the tradinghours response', () => {
+    const transitions = getFallbackSessionTransitions('nyse', '24/5', NOW_SATURDAY) ?? []
+    expect(transitions.length).toBeGreaterThan(0)
+    expect(transitions.every((x) => typeof x.endTimeMs === 'number')).toBe(true)
+    // Each entry's end is the next session's start: e.g. Friday post-market
+    // (16:00–20:00 ET) ends where the weekend open begins.
+    const fridayPost = transitions.find(
+      (x) =>
+        x.status === TwentyfourFiveMarketStatus.POST_MARKET &&
+        x.timeMs === at('2024-01-05T21:00:00.000Z'),
+    )
+    expect(fridayPost?.endTimeMs).toBe(at('2024-01-06T01:00:00.000Z')) // Fri 20:00 ET
+  })
+
+  it('covers 24/5 statuses unchanged (regression: same transitions as before the flatten)', () => {
+    const transitions = getFallbackSessionTransitions('nyse', '24/5', NOW_SATURDAY) ?? []
+    const statuses = transitions.map((x) => x.status)
+    expect(statuses).toContain(TwentyfourFiveMarketStatus.REGULAR)
+    expect(statuses).toContain(TwentyfourFiveMarketStatus.PRE_MARKET)
+    expect(statuses).toContain(TwentyfourFiveMarketStatus.POST_MARKET)
+    expect(statuses).toContain(TwentyfourFiveMarketStatus.OVERNIGHT)
+  })
+
+  it('a nyse/regular caller is unaffected by the extra entries (eligible-status filtering)', () => {
+    // 'nyse/regular' callers query [REGULAR] only; the merged per-market schedule
+    // must still resolve the 09:30 ET regular opens for them (09:30 ET = 14:30 UTC,
+    // January EST).
+    const transitions = getFallbackSessionTransitions('nyse', 'regular', NOW_SATURDAY) ?? []
+    const regular = transitions.filter((x) => x.status === TwentyfourFiveMarketStatus.REGULAR)
+    expect(regular.length).toBeGreaterThan(0)
+    expect(regular.every((x) => new Date(x.timeMs).getUTCHours() === 14)).toBe(true)
+  })
+})
