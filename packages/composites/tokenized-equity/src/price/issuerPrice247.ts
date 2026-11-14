@@ -37,8 +37,8 @@ type PriceParams = {
 // Session-start gating (TDD: docs/issuer-247-session-start-gating-tdd.md): the 24/7
 // feeds are NYSE-tokenized equities, so the gate always resolves against the nyse
 // schedule — tradinghours is queried with type '24/5' (its only nyse fin_id), while
-// the fallback uses the '24/7' view, which additionally carries the explicit
-// WEEKEND open that closed-session reports gate against.
+// the fallback uses the '24/7' view, which carries phase end times from which
+// closedSpanStartMs derives the closed-span (weekend/holiday) start.
 const GATE_MARKET = 'nyse'
 const GATE_TRADINGHOURS_TYPE = '24/5'
 const GATE_FALLBACK_TYPE = '24/7'
@@ -73,6 +73,13 @@ const gateReport = async (
   }
   const nowMs = Date.now()
   const timezone = getGatingTimezone(GATE_MARKET, GATE_FALLBACK_TYPE)
+  if (timezone === undefined) {
+    // Unreachable today (nyse/24/7 has a fallback entry); fail fast with a clear
+    // message rather than passing a silent undefined into the tradinghours fetch.
+    throw new Error(
+      `No gating timezone configured for market=${GATE_MARKET} type=${GATE_FALLBACK_TYPE}`,
+    )
+  }
   const tradingHoursUrl = settings.SOURCE_ADAPTER_URL.get('TRADING_HOURS')
 
   let transitions: SessionTransition[] | undefined
@@ -80,7 +87,7 @@ const gateReport = async (
     transitions = await getSessionTransitions(
       tradingHoursUrl,
       requester,
-      timezone as string,
+      timezone,
       GATE_MARKET,
       GATE_TRADINGHOURS_TYPE,
     )
@@ -138,7 +145,10 @@ export const calculatePrice = async ({
   const issuer = issuers[multiplier.issuer]
   const provider = providers.get(issuer.chain(settings, multiplier))
 
-  // Request the price in the multiplier's decimals so both share a scale
+  // Request the price in the multiplier's decimals so both share a scale.
+  // Note: the multiplier RPC runs before gating, so a report the gate rejects
+  // still pays for the multiplier fetch. Warm-up windows are short and rare, so
+  // the wasted call is accepted rather than restructuring the Promise.all.
   const [price, value] = await Promise.all([
     getDataEngineResult({ ...stream, decimals: MULTIPLIER_DECIMALS }),
     issuer.getMultiplier(multiplier, provider),

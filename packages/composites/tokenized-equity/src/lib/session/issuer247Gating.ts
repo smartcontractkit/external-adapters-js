@@ -44,6 +44,10 @@ export const gatingStatusesFor247 = (
 // a normal weekend; Wednesday's for a Thanksgiving closure). undefined when no
 // transition is at or before now, or when the schedule lacks phase ends (a
 // pre-endTime tradinghours deployment) — callers treat that as indeterminate.
+// Also undefined when now falls INSIDE a phase (the last transition's end is in
+// the future): a WEEKEND report then is calendar drift (TDD §12 risk #6), not a
+// closed span — gating it against the phase's end would reject fresh reports with
+// a misleading PRE_SESSION reason, so the case is indeterminate instead.
 export const closedSpanStartMs = (
   transitions: SessionTransition[],
   nowMs: number,
@@ -54,7 +58,10 @@ export const closedSpanStartMs = (
       (max, t) => (max === undefined || t.timeMs > max.timeMs ? t : max),
       undefined,
     )
-  return last?.endTimeMs
+  if (last?.endTimeMs === undefined || last.endTimeMs > nowMs) {
+    return undefined
+  }
+  return last.endTimeMs
 }
 
 // WEEKEND reports gate against the start of the current closed span, derived the
