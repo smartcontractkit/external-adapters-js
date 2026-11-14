@@ -12,6 +12,9 @@ type Response = {
       status: MarketStatusResultResponse['Result']
       statusString: string
       time: string
+      // Additive passthrough of the upstream phase end (tradinghours ADR-0001);
+      // absent when talking to a pre-endTime tradinghours deployment.
+      endTime?: string
     }[]
   }
   statusCode: number
@@ -21,10 +24,12 @@ type Response = {
 // phase), used for session-start gating. getSessionTransitions keeps every status
 // (including REGULAR) and Sunday overnight transitions: gating needs the start of
 // whichever session is active, while smoothing deliberately skips some transitions
-// (see processData).
+// (see processData). endTimeMs (when present) is the phase end — 24/7 gating derives
+// the start of closed spans (weekends/holidays) from it (tradinghours ADR-0001).
 export type SessionTransition = {
   status: TwentyfourFiveMarketStatus
   timeMs: number
+  endTimeMs?: number
 }
 
 export const getSessionTransitions = async (
@@ -77,6 +82,9 @@ const fetchSessionSchedule = async (
     return data.data.result.map((d) => ({
       status: d.status as TwentyfourFiveMarketStatus,
       timeMs: new TZDate(d.time, sessionBoundariesTimeZone).getTime(),
+      ...(d.endTime !== undefined
+        ? { endTimeMs: new TZDate(d.endTime, sessionBoundariesTimeZone).getTime() }
+        : {}),
     }))
   } catch (e) {
     if (e instanceof AdapterError) {

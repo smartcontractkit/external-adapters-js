@@ -5,6 +5,7 @@ import { getDeutscheBoersePrice } from '@chainlink/data-engine-adapter'
 import { BaseEndpointTypes } from '@chainlink/data-engine-adapter/src/endpoint/deutscheBoerseV11'
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { currentSessionStartMs, nextSessionStartMs, reportTimeMs } from './session/sessionStart'
 import { SessionTransition } from './session/tradingHoursSession'
 
 type DataEngineResponse = BaseEndpointTypes['Response']['Data']
@@ -42,20 +43,6 @@ export type SessionStartGating = {
   marketSessionOverride?: TwentyfourFiveMarketStatus
 }
 
-// Earliest transition strictly after `now` whose status opens `status` — the next
-// start of the named session. Used only by the marketSessionOverride test hook.
-const nextSessionStartMs = (
-  status: TwentyfourFiveMarketStatus,
-  transitions: SessionTransition[],
-  nowMs: number,
-): number | undefined =>
-  transitions
-    .filter((t) => t.status === status && t.timeMs > nowMs)
-    .reduce<number | undefined>(
-      (min, t) => (min === undefined || t.timeMs < min ? t.timeMs : min),
-      undefined,
-    )
-
 // Marker appended to gating error messages and PRE_SESSION descriptions so a
 // rejection forced by marketSessionOverride is unmistakable in staging logs.
 const overrideMarker = (sessionStartGating: SessionStartGating): string =>
@@ -87,35 +74,6 @@ const contextMarker = (context?: RequestContext): string => {
     context.sessionMarketType && `marketType=${context.sessionMarketType}`,
   ].filter(Boolean)
   return parts.length ? ` [${parts.join(' ')}]` : ''
-}
-
-// Latest transition at or before `now` whose status opens one of `statuses` — i.e. the
-// start time of the currently active session for a stream eligible in `statuses`.
-const currentSessionStartMs = (
-  statuses: TwentyfourFiveMarketStatus[],
-  transitions: SessionTransition[],
-  nowMs: number,
-): number | undefined =>
-  transitions
-    .filter((t) => statuses.includes(t.status) && t.timeMs <= nowMs)
-    .reduce<number | undefined>(
-      (max, t) => (max === undefined || t.timeMs > max ? t.timeMs : max),
-      undefined,
-    )
-
-const reportTimeMs = (lastSeenTimestampNs: string): number => {
-  // BigInt('') is 0n (no throw), so validate the integer format explicitly; a malformed
-  // provider timestamp is an upstream-data problem — reject with 503 like the other data
-  // rejections, not an unguarded SyntaxError surfacing as a 502.
-  if (!/^\d+$/.test(lastSeenTimestampNs)) {
-    throw new AdapterError({
-      statusCode: 503,
-      message: `Malformed lastSeenTimestampNs from data engine: ${JSON.stringify(
-        lastSeenTimestampNs,
-      )}`,
-    })
-  }
-  return Number(BigInt(lastSeenTimestampNs) / 10n ** 6n)
 }
 
 export const getPrice = async (
