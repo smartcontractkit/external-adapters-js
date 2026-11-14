@@ -22,8 +22,8 @@ const silent = jest.fn()
 // marketStatus declares its session; the gate rejects (503, zero tolerance) a
 // report whose lastSeenTimestampNs predates that session's start. WEEKEND/closed
 // reports gate against the start of the current closed span: the endTime of the
-// last trading phase before the gap (tradinghours ADR-0001), or the explicit
-// WEEKEND open in the flattened fallback schedule.
+// last trading phase before the gap (tradinghours ADR-0001), derived the same way
+// from the flattened fallback schedule (which likewise has no WEEKEND entry).
 //
 // All times below are UTC unless noted; the ET equivalents are in comments.
 
@@ -128,6 +128,15 @@ describe('closedSpanStartMs', () => {
       t(TwentyfourFiveMarketStatus.POST_MARKET, '2024-01-05T21:00:00.000Z'),
     ]
     expect(closedSpanStartMs(withoutEnds, NOW_SATURDAY)).toBeUndefined()
+  })
+
+  it('is undefined when now falls inside an active phase (WEEKEND report is calendar drift, TDD §12 risk #6)', () => {
+    // Monday 10:00 ET, but the report says WEEKEND: the last transition ≤ now is
+    // Monday's regular open, whose end (16:00 ET) is in the future. There is no
+    // closed span to gate against — gating against the phase end would reject
+    // fresh reports with a misleading PRE_SESSION reason, so this is indeterminate.
+    const nowMondayRegular = new Date('2024-01-08T15:00:00.000Z').getTime() // Mon 10:00 ET
+    expect(closedSpanStartMs(NORMAL_WEEK, nowMondayRegular)).toBeUndefined()
   })
 })
 
@@ -280,6 +289,25 @@ describe('gateIssuer247Report', () => {
           transitions: [t(TwentyfourFiveMarketStatus.POST_MARKET, '2024-01-05T21:00:00.000Z')],
           fallbackTransitions: undefined,
         })
+      } catch (e) {
+        error = e as AdapterError
+      }
+      expect(error?.statusCode).toBe(503)
+      expect(error?.message).toContain('Session start unknown')
+    })
+
+    it('treats a WEEKEND report during an active trading phase (calendar drift) as indeterminate, not PRE_SESSION', () => {
+      // Monday 10:00 ET with a WEEKEND report (TDD §12 risk #6): no closed span is
+      // open, so the gate must not reject with a misleading PRE_SESSION against the
+      // phase's end — it routes through failOnIndeterminate instead.
+      let error: AdapterError | undefined
+      try {
+        gate(
+          TwentyfourFiveMarketStatus.WEEKEND,
+          '2024-01-08T15:00:00.000Z',
+          new Date('2024-01-08T15:00:00.000Z').getTime(), // Mon 10:00 ET
+          { fallbackTransitions: undefined },
+        )
       } catch (e) {
         error = e as AdapterError
       }
