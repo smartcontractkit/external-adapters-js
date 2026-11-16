@@ -196,7 +196,11 @@ describe('parseMarketSession', () => {
         ]),
       )
 
-      expect(result.some((r) => r.status === TwentyfourFiveMarketStatus.WEEKEND)).toBe(false)
+      expect(
+        result.some(
+          (r) => (r.status as TwentyfourFiveMarketStatus) === TwentyfourFiveMarketStatus.WEEKEND,
+        ),
+      ).toBe(false)
     })
   })
 })

@@ -150,6 +150,7 @@ describe('gateIssuer247Report', () => {
         debug: silent,
         fatal: silent,
         trace: silent,
+        msgPrefix: '',
       }),
     })
   })
