@@ -101,7 +101,7 @@ export type BaseEndpointTypes = {
       rawMultipliedPriceDecimals?: number
       dataEngine: DataEngineV11Data
       // Present when 24/7 session-start gating ran: which schedule tier supplied the
-      // session start (absent when gating is off or served fail-open)
+      // session start (absent when gating is off)
       gatingSessionSource?: 'TRADINGHOURS' | 'FALLBACK'
       multiplier?: {
         issuer: string

@@ -1,5 +1,4 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
-import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
 import { getFallbackSessionTransitions } from '../../../src/lib/session/fallbackSessionSchedule'
@@ -9,13 +8,6 @@ import {
   gatingStatusesFor247,
 } from '../../../src/lib/session/issuer247Gating'
 import { SessionTransition } from '../../../src/lib/session/tradingHoursSession'
-
-// The gate logs through the framework's makeLogger. PlaceholderLogger resolves the
-// factory lazily on first log call, so installing a spy factory in beforeAll
-// captures the gate's warnings without module mocks — letting the fail-open test
-// assert the escape hatch is never silent (TDD §5).
-const warnSpy = jest.fn()
-const silent = jest.fn()
 
 // Tests for the 24/7 (issuer-price-247) session-start gate — TDD:
 // docs/issuer-247-session-start-gating-tdd.md, ADR-0007. The report's own
@@ -141,26 +133,8 @@ describe('closedSpanStartMs', () => {
 })
 
 describe('gateIssuer247Report', () => {
-  beforeAll(() => {
-    LoggerFactoryProvider.set({
-      child: () => ({
-        warn: warnSpy,
-        error: silent,
-        info: silent,
-        debug: silent,
-        fatal: silent,
-        trace: silent,
-        msgPrefix: '',
-      }),
-    })
-  })
-
-  beforeEach(() => {
-    warnSpy.mockClear()
-  })
-
   // Convenience wrapper around gateIssuer247Report: fills in the shared fixtures
-  // (NORMAL_WEEK tradinghours transitions, failOnIndeterminate on, ISO string → ns)
+  // (NORMAL_WEEK tradinghours transitions, ISO string → ns)
   // so each test reads as just (marketStatus, lastSeen, now) plus any overrides.
   const gate = (
     marketStatus: TwentyfourFiveMarketStatus,
@@ -173,7 +147,6 @@ describe('gateIssuer247Report', () => {
       lastSeenTimestampNs: ns(lastSeen),
       nowMs,
       transitions: NORMAL_WEEK,
-      failOnIndeterminate: true,
       ...overrides,
     })
 
@@ -271,8 +244,8 @@ describe('gateIssuer247Report', () => {
     })
   })
 
-  describe('indeterminate sessions and the fail-on-indeterminate flag', () => {
-    it('fails closed (503 Session start unknown) on UNKNOWN marketStatus when the flag is on', () => {
+  describe('indeterminate sessions fail closed (ADR-0007 — no fail-open toggle)', () => {
+    it('fails closed (503 Session start unknown) on UNKNOWN marketStatus', () => {
       let error: AdapterError | undefined
       try {
         gate(TwentyfourFiveMarketStatus.UNKNOWN, '2024-01-06T14:00:00.000Z', NOW_SATURDAY)
@@ -300,7 +273,7 @@ describe('gateIssuer247Report', () => {
     it('treats a WEEKEND report during an active trading phase (calendar drift) as indeterminate, not PRE_SESSION', () => {
       // Monday 10:00 ET with a WEEKEND report (TDD §12 risk #6): no closed span is
       // open, so the gate must not reject with a misleading PRE_SESSION against the
-      // phase's end — it routes through failOnIndeterminate instead.
+      // phase's end — it fails closed instead.
       let error: AdapterError | undefined
       try {
         gate(
@@ -314,16 +287,6 @@ describe('gateIssuer247Report', () => {
       }
       expect(error?.statusCode).toBe(503)
       expect(error?.message).toContain('Session start unknown')
-    })
-
-    it('serves the report (with a warning) when failOnIndeterminate is false', () => {
-      expect(
-        gate(TwentyfourFiveMarketStatus.UNKNOWN, '2024-01-06T14:00:00.000Z', NOW_SATURDAY, {
-          failOnIndeterminate: false,
-        }),
-      ).toEqual({ gatingSessionSource: undefined })
-      // The escape hatch is never silent (TDD §5): fail-open serves must log a warning.
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Session start unknown'))
     })
   })
 
@@ -385,7 +348,6 @@ describe('gateIssuer247Report', () => {
           lastSeenTimestampNs: 'not-a-number',
           nowMs: NOW_FRIDAY_EVENING,
           transitions: NORMAL_WEEK,
-          failOnIndeterminate: true,
         })
       } catch (e) {
         error = e as AdapterError

@@ -103,7 +103,6 @@ const gateReport = async (
     nowMs,
     transitions,
     fallbackTransitions: getFallbackSessionTransitions(GATE_MARKET, GATE_FALLBACK_TYPE, nowMs),
-    failOnIndeterminate: settings.ISSUER_247_SESSION_GATING_FAIL_ON_INDETERMINATE_SESSION,
     ...(marketSessionOverride !== undefined
       ? {
           marketSessionOverride:

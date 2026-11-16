@@ -103,14 +103,6 @@ export const settingsDefinition = {
     default: false,
     sensitive: false,
   },
-
-  ISSUER_247_SESSION_GATING_FAIL_ON_INDETERMINATE_SESSION: {
-    description:
-      'When 24/7 session-start gating is on: true fails closed (503 "Session start unknown") when the report marketStatus is UNKNOWN/unmapped or the session start cannot be resolved; false serves the report with a warning log. Inert when ISSUER_247_SESSION_START_GATING_ENABLED is off. Default true.',
-    type: 'boolean',
-    default: true,
-    sensitive: false,
-  },
 } as const
 
 export const config = new AdapterConfig(settingsDefinition)

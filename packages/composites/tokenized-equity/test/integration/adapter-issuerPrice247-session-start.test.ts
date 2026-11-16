@@ -5,9 +5,8 @@ import {
 import nock from 'nock'
 
 // Integration tests for 24/7 session-start gating on issuer-price-247 (TDD:
-// docs/issuer-247-session-start-gating-tdd.md) with the flag ON and the
-// fail-on-indeterminate-session flag at its default (true). The flag-off
-// no-regression case is covered by adapter-issuerPrice247.test.ts (flags unset).
+// docs/issuer-247-session-start-gating-tdd.md) with the flag ON. The flag-off
+// no-regression case is covered by adapter-issuerPrice247.test.ts (flag unset).
 //
 // Fixed "now": Saturday 2024-01-06 10:00 ET (15:00 UTC). The weekend closed span
 // opened at Friday 20:00 ET (2024-01-06T01:00Z) — the end of Friday's post-market
@@ -181,7 +180,7 @@ describe('issuer-price-247 session-start gating (flag on)', () => {
     expect(JSON.stringify(response.json())).toContain('PRE_SESSION(REGULAR')
   })
 
-  it('fails closed with 503 Session start unknown on UNKNOWN marketStatus (fail-on-indeterminate default)', async () => {
+  it('fails closed with 503 Session start unknown on UNKNOWN marketStatus (ADR-0007)', async () => {
     reportMarketStatus = 0
     const response = await request()
     expect(response.statusCode).toBe(503)
