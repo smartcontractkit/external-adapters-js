@@ -232,4 +232,21 @@ describe('websocket', () => {
       expect(lastSubscribe).not.toContain('Equity:US:FAKE/USD')
     })
   })
+
+  describe('stock_quotes endpoint - empty base or quote', () => {
+    it.each([
+      ['empty quote', { base: 'Equity:US:AAPL', quote: '' }],
+      ['blank quote', { base: 'Equity:US:AAPL', quote: '  ' }],
+      ['empty base', { base: '', quote: 'USD' }],
+      ['blank base', { base: '  ', quote: 'USD' }],
+      [
+        'empty quote and an overridden base',
+        { base: 'DJI', quote: '', overrides: { nobi: { DJI: 'Equity:US:AAPL' } } },
+      ],
+    ])('should return 400 without subscribing for %s', async (_, data) => {
+      const response = await testAdapter.request({ ...data, endpoint: 'stock_quotes' })
+      expect(response.statusCode).toBe(400)
+      expect(response.json().error.message).toBe('base or quote cannot be empty')
+    })
+  })
 })

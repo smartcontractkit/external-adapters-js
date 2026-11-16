@@ -165,6 +165,23 @@ describe('stock_quotes transport message handler', () => {
       const result = handleMessage(quoteFrame({ c: 'ETF:US:SPY/USD', s: 'AAPL/USD' }))
       expect(result[0].params).toEqual({ base: 'ETF:US:SPY', quote: 'USD', requireVolume: false })
     })
+
+    it('splits c on the first slash only and keeps the rest as the quote', () => {
+      const result = handleMessage(quoteFrame({ c: 'Equity:us:aapl/usd/t' }))
+      expect(result.map((r: { params: unknown }) => r.params)).toEqual([
+        { base: 'Equity:US:AAPL', quote: 'USD/T', requireVolume: false },
+        { base: 'Equity:US:AAPL', quote: 'USD/T', requireVolume: true },
+      ])
+    })
+
+    it('does not need the pair not found prefix to parse c', () => {
+      const result = handleMessage(valueFrame({ c: 'Index:kr:kospi200/krw' }))
+      expect(result[1].params).toEqual({
+        base: 'Index:KR:KOSPI200',
+        quote: 'KRW',
+        requireVolume: false,
+      })
+    })
   })
 
   describe('pair not found messages', () => {
@@ -192,6 +209,16 @@ describe('stock_quotes transport message handler', () => {
         requireVolume: true,
       })
       expect(Array.from(invalidPairs)).toEqual(['Equity:US:FAKE/USD'])
+    })
+
+    it('splits the pair on the first slash only and keeps the rest as the quote', () => {
+      const result = handleMessage({ message: 'pair not found: Equity:us:fake/usd/t' })
+
+      expect(result).toEqual([
+        { params: { base: 'Equity:US:FAKE', quote: 'USD/T', requireVolume: true }, response },
+        { params: { base: 'Equity:US:FAKE', quote: 'USD/T', requireVolume: false }, response },
+      ])
+      expect(Array.from(invalidPairs)).toEqual(['Equity:US:FAKE/USD/T'])
     })
 
     it('takes precedence over quote fields in the same message', () => {

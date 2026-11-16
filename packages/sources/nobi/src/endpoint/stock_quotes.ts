@@ -79,6 +79,12 @@ export const endpoint = new AdapterEndpoint({
           message: 'The requested pair does not exist, is inactive, or is suspended.',
         })
       }
+      if (!req.requestContext.data.base.trim() || !req.requestContext.data.quote.trim()) {
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: 'base or quote cannot be empty',
+        })
+      }
       req.requestContext.data.base = baseToUpperCase(req.requestContext.data.base)
       req.requestContext.data.quote = req.requestContext.data.quote.toUpperCase()
     },
