@@ -38,7 +38,16 @@ risk-bearing consequences:
    tradinghours `market-session` endpoint can never emit a WEEKEND transition — the upstream
    API represents the weekend as an absence of phases. The weekend start has to be derived, and
    it must not be treated as Friday's post-market _open_.
-4. **Indeterminate sessions on a previously ungated endpoint.** When the report's
+
+   Note — despite the name, `WEEKEND` (`TwentyfourFiveMarketStatus.WEEKEND = 5`) does not mean
+   "Saturday/Sunday" to tradinghours. In the tradinghours 24/5 `market-status` mapping, WEEKEND
+   is the catch-all for **every market closure**: it is emitted inside the configured weekend
+   window (`isWeekendNow`), and for any `Closed` status whose reason is not a recognized
+   intra-day session — which covers holidays, early-closes, and exceptional closures such as
+   national emergencies. A 24/7 gate that handles WEEKEND therefore handles all closure kinds,
+   not just literal weekends.
+
+4. **When a session cannot be determined..** When the report's
    `marketStatus` is UNKNOWN/unmapped, or no schedule tier can resolve the session start,
    gating must choose: 503 (fail closed — a behavior change for an endpoint that has never
    gated, turning previously-good responses into 503s during tradinghours outages) or serve
@@ -66,10 +75,10 @@ risk-bearing consequences:
   opens plus end times — shaped congruently with the tradinghours response (closed spans are
   an absence of phases, exactly as upstream), times as named constants — shared by 24/5,
   regular, and 24/7 callers through per-type views, with 24/5 gating decisions unchanged.
-- **Fail closed on indeterminate sessions, behind a flag.**
-  `ISSUER_247_SESSION_GATING_FAIL_ON_INDETERMINATE_SESSION` defaults to **true**: UNKNOWN or
-  unresolvable sessions 503 with `Session start unknown`. Setting it `false` serves the report
-  with a warning log — a no-deploy escape hatch if Product's risk posture changes.
+- **Fail closed on indeterminate sessions.** UNKNOWN or unresolvable sessions 503 with
+  `Session start unknown`. There is no fail-open toggle: the decision to fail closed is final,
+  so the `ISSUER_247_SESSION_GATING_FAIL_ON_INDETERMINATE_SESSION` setting is removed rather
+  than kept as an escape hatch.
 
 ## Considered Options
 
@@ -86,9 +95,8 @@ risk-bearing consequences:
   is wrong on holiday early-closes, and the two schedule tiers would disagree in coverage.
 - **Post-market start + fixed 4h duration:** rejected; a magic constant that lies on half-day
   Fridays and any schedule change.
-- **Fail open on indeterminate sessions:** rejected as the default; it silently disables the
-  gate exactly when schedule uncertainty is highest. Retained as the non-default flag position
-  given 24/7's previously ungated behavior.
+- **Fail open on indeterminate sessions:** rejected; it silently disables the gate exactly when
+  schedule uncertainty is highest. No opt-out flag is provided.
 - **A separate `nyse/24/7` fallback key:** rejected; it duplicates the same times and can
   drift. The flattened per-market schedule is filtered by each caller's eligible statuses, so
   one entry serves all callers.
@@ -99,10 +107,10 @@ risk-bearing consequences:
   the Friday 20:00 weekend start and the Sunday 20:00 overnight open — until the first valid
   provider update. Runbooks and alert tuning treat these as the mitigation working, not an
   outage.
-- With the flag enabled and fail-closed on, tradinghours outages can produce 503s on an
+- With fail-closed on, tradinghours outages can produce 503s on an
   endpoint that previously never rejected — visible via the established
   `TradingHoursEA request failed` log line and `gatingSessionSource: 'FALLBACK'` response
-  field, and reversible without a deploy via the fail-on-indeterminate flag.
+  field.
 - The tradinghours `market-session` response gains a field; the change is additive and its only
   consumer is tokenized-equity.
 - The flattened fallback schedule becomes the single per-market source of truth for session
@@ -118,9 +126,8 @@ risk-bearing consequences:
   (correctness over availability), extending ADR-0006's stance; confirm the semantics with the
   data-engine team and revisit only if windows prove unbounded. Owner: Product.
 - **Fail-closed is a behavior change for a previously ungated endpoint.** 503s during schedule
-  outages where 200s were served before. Mitigated by tradinghours monitoring, the flattened
-  fallback covering `nyse`, and the `ISSUER_247_SESSION_GATING_FAIL_ON_INDETERMINATE_SESSION`
-  escape hatch. Owner: Product.
+  outages where 200s were served before. Mitigated by tradinghours monitoring and the flattened
+  fallback covering `nyse`. Owner: Product.
 - **Hard-coded schedule drift**, now including the Friday weekend start (TDD §12 #3). Low
   likelihood: the fallback only runs during tradinghours outages, venue hours change rarely and
   loudly, and changes are reviewed code edits. Owner: engineering (data-feeds).
