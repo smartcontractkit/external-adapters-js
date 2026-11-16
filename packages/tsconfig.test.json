@@ -213,6 +213,9 @@
       "path": "./sources/ftse-sftp/tsconfig.test.json"
     },
     {
+      "path": "./sources/fxmacrodata/tsconfig.test.json"
+    },
+    {
       "path": "./sources/generic-api/tsconfig.test.json"
     },
     {
