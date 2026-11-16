@@ -16,6 +16,9 @@ export class PriceTransport extends SmoothedPriceTransport<BaseEndpointTypes> {
       url: this.getDataEngineUrl(),
       tradingHoursUrl: this.getTradingHoursUrl(),
       requester: this.requester,
+      streamMaxAgeSeconds: this.streamMaxAgeSeconds,
+      sessionStartGatingEnabled: this.sessionStartGatingEnabled,
+      allowMarketSessionOverride: this.allowMarketSessionOverride,
     })
 
     return Object.fromEntries(

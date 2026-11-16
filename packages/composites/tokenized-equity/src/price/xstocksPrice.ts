@@ -2,6 +2,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
 import { Smoother } from '../endpoint/common'
 import { issuers } from '../issuers'
+import { StreamMaxAgeSeconds } from '../lib/streams'
 import { smoothedStreamPrice } from './smoothedPrice'
 
 const MULTIPLIER_DECIMALS = 18n
@@ -13,6 +14,10 @@ export const calculatePrice = async (param: {
   extendedStreamId?: string
   overnightStreamId?: string
   overnightStreamMaxAgeInSeconds?: number
+  streamMaxAgeSeconds?: StreamMaxAgeSeconds
+  sessionStartGatingEnabled?: boolean
+  allowMarketSessionOverride?: boolean
+  marketSessionOverride?: string
   url: string
   tradingHoursUrl: string
   requester: Requester

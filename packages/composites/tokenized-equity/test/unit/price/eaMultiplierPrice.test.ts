@@ -92,6 +92,7 @@ describe('calculatePrice', () => {
       secondsFromTransition: 0,
     },
     sessionSource: 'FALLBACK' as const,
+    gatingSessionSource: 'FALLBACK' as const,
   })
 
   const validMultiplierData = {

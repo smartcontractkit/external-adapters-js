@@ -1,5 +1,23 @@
 # @chainlink/tokenized-equity-adapter
 
+## 1.7.0
+
+### Minor Changes
+
+- [#5584](https://github.com/smartcontractkit/external-adapters-js/pull/5584) [`0ac2d01`](https://github.com/smartcontractkit/external-adapters-js/commit/0ac2d01e03b4c83e11022cc605416e54ee0154d7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add ea-multiplier endpoint
+
+### Patch Changes
+
+- [#5579](https://github.com/smartcontractkit/external-adapters-js/pull/5579) [`869ef1d`](https://github.com/smartcontractkit/external-adapters-js/commit/869ef1db6c9de17854f503ba7e717cc6c93beb11) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Internal refactor: price calculation modules moved from src/transport to src/price; the issuer-price-247 transport renamed to issuerPrice247Transport. Nobehavior change.
+
+- [#5564](https://github.com/smartcontractkit/external-adapters-js/pull/5564) [`40ac475`](https://github.com/smartcontractkit/external-adapters-js/commit/40ac47559cd616421eefd46d005fe92e067afb40) Thanks [@kyleburton-cl](https://github.com/kyleburton-cl)! - Add consumer-side stream freshness (staleness) gating. New optional env config family `DS_VALID_MAX_AGE_SECONDS` (+ `_REGULAR`/`_EXTENDED`/`_OVERNIGHT` overrides); when set, reports older than the threshold are rejected with 503 instead of being published. Disabled by default.
+
+  Also adds pre-open warm-up (session-start) gating behind `SESSION_START_GATING_ENABLED` (default false): when enabled, a report whose `lastSeenTimestampNs` predates the start of the current session (per the tradinghours market-session schedule) is rejected with 503; fails closed when the session start cannot be determined.
+
+- [#5581](https://github.com/smartcontractkit/external-adapters-js/pull/5581) [`3599f9a`](https://github.com/smartcontractkit/external-adapters-js/commit/3599f9a759b98bb6b098792495ddc51214e33b7f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Code refactor
+
+- [#5573](https://github.com/smartcontractkit/external-adapters-js/pull/5573) [`1ccae9a`](https://github.com/smartcontractkit/external-adapters-js/commit/1ccae9a688dbf95d0228a0f4a0289b1b0053bcaf) Thanks [@cl-efornaciari](https://github.com/cl-efornaciari)! - Add ADRs and a glossary documenting the `issuer-price-247` decisions and accepted risks
+
 ## 1.6.0
 
 ### Minor Changes

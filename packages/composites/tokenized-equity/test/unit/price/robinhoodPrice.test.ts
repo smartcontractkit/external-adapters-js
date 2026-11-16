@@ -83,6 +83,7 @@ describe('calculatePrice', () => {
           secondsFromTransition: 0,
         },
         sessionSource: 'FALLBACK' as const,
+        gatingSessionSource: 'FALLBACK' as const,
       },
       {
         result: 1n,
@@ -97,6 +98,7 @@ describe('calculatePrice', () => {
           secondsFromTransition: 0,
         },
         sessionSource: 'FALLBACK' as const,
+        gatingSessionSource: 'FALLBACK' as const,
       },
     ]
 
@@ -140,6 +142,7 @@ describe('calculatePrice', () => {
           secondsFromTransition: 0,
         },
         sessionSource: 'FALLBACK' as const,
+        gatingSessionSource: 'FALLBACK' as const,
       },
       {
         result: 1n,
@@ -154,6 +157,7 @@ describe('calculatePrice', () => {
           secondsFromTransition: 0,
         },
         sessionSource: 'FALLBACK' as const,
+        gatingSessionSource: 'FALLBACK' as const,
       },
     ])
     mockRead.mockResolvedValue({

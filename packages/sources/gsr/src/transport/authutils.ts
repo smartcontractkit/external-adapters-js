@@ -31,6 +31,40 @@ const currentTimeNanoSeconds = (): number => new Date(Date.now()).getTime() * 1_
 const generateSignature = (privateKey: string, payload: string) =>
   crypto.createHmac('sha256', privateKey).update(payload).digest('hex')
 
+/**
+ * Axios errors carry the request config, which for token requests holds the
+ * API key, user ID, timestamp, and signature. The framework logs any error
+ * that escapes a transport, so reduce the failure to the HTTP status or the
+ * network message before rethrowing. The original error is deliberately not
+ * attached, so there is no path back to the request body.
+ */
+const tokenRequestError = (operation: string, error: unknown): Error => {
+  if (!axios.isAxiosError(error)) {
+    return error instanceof Error ? error : new Error(String(error))
+  }
+
+  const status = error.response?.status
+  if (status === undefined) {
+    return new Error(`${operation} failed: ${error.message}`)
+  }
+
+  // GSR's own error text (for example "Signature mismatch") comes from the
+  // response, which never echoes the request, so it is safe to keep.
+  const providerError = (error.response?.data as { error?: unknown } | undefined)?.error
+  const detail =
+    typeof providerError === 'string' && providerError ? `: ${providerError.slice(0, 200)}` : ''
+  return new Error(`${operation} failed: HTTP ${status}${detail}`)
+}
+
+/** Runs a token request, replacing any failure with an error that cannot carry the request body. */
+const tokenRequest = async <T>(operation: string, send: () => Promise<T>): Promise<T> => {
+  try {
+    return await send()
+  } catch (e) {
+    throw tokenRequestError(operation, e)
+  }
+}
+
 // restApiEndpoint is used for token auth
 export const getToken = async (
   restApiEndpoint: string,
@@ -42,12 +76,14 @@ export const getToken = async (
 
   const ts = currentTimeNanoSeconds()
   const signature = generateSignature(privateKey, `userId=${userId}&apiKey=${publicKey}&ts=${ts}`)
-  const response = await axios.post<AccessTokenResponse>(`${restApiEndpoint}/token`, {
-    apiKey: publicKey,
-    userId,
-    ts,
-    signature,
-  })
+  const response = await tokenRequest('Access token request', () =>
+    axios.post<AccessTokenResponse>(`${restApiEndpoint}/token`, {
+      apiKey: publicKey,
+      userId,
+      ts,
+      signature,
+    }),
+  )
 
   if (!response.data.success) {
     logger.error(`Unable to get access token: ${response.data.error}`)
@@ -105,12 +141,14 @@ export const renewToken = async (
     privateKey,
     `userId=${userId}&token=${existingToken}&ts=${ts}`,
   )
-  const response = await axios.put<AccessTokenResponse>(`${restApiEndpoint}/token`, {
-    token: existingToken,
-    userId,
-    ts,
-    signature,
-  })
+  const response = await tokenRequest('Access token renewal', () =>
+    axios.put<AccessTokenResponse>(`${restApiEndpoint}/token`, {
+      token: existingToken,
+      userId,
+      ts,
+      signature,
+    }),
+  )
 
   if (!response.data.success) {
     logger.warn(`Unable to renew access token: ${response.data.error}`)
