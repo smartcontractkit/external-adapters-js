@@ -240,7 +240,8 @@ one entry is the single source of per-market truth (`nyse/24/5` → `America/New
 
 Note this changes the `timezone` sent on the tradinghours request for feeds that carry market
 identity: previously the request's `sessionBoundariesTimeZone`, now the map entry's timezone.
-Tradinghours uses that value to compute its `[now-1d, now+1d]` query window, so for a feed
+Tradinghours uses that value to compute its `[now-5d, now+1d]` query window (widened from
+`[now-1d, now+1d]` for 24/7 closed-span derivation — ADR-0007), so for a feed
 whose `sessionBoundariesTimeZone` differed from the map entry the window could shift by up to a
 day. Immaterial today — the only market served is `nyse/24/5`, where both are
 `America/New_York` — and deliberate: gating deliberately does not trust the per-feed smoother

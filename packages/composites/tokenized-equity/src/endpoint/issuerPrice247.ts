@@ -1,5 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { issuerNames, issuers, MULTIPLIER_DECIMALS } from '../issuers'
 import { DataEngineV11Data, priceFields, targetEndpointNames } from '../lib/dataEngine'
@@ -123,6 +124,22 @@ export const endpoint = new AdapterEndpoint({
       issuers[data.multiplier.issuer].validate(settings, data.multiplier)
     }
     settings.SOURCE_ADAPTER_URL.get('DATA_ENGINE')
+    // The override is a staging/test hook; reject it explicitly unless it has been
+    // opted into via config, and again when the check it hooks into is off, instead
+    // of silently ignoring it (mirrors the 24/5 validation). Validated here, before
+    // any upstream call, rather than in the gate.
+    if (data.marketSessionOverride && !settings.ALLOW_MARKET_SESSION_OVERRIDE) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Parameter marketSessionOverride requires ALLOW_MARKET_SESSION_OVERRIDE=true`,
+      })
+    }
+    if (data.marketSessionOverride && !settings.ISSUER_247_SESSION_START_GATING_ENABLED) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Parameter marketSessionOverride requires ISSUER_247_SESSION_START_GATING_ENABLED=true`,
+      })
+    }
     if (settings.ISSUER_247_SESSION_START_GATING_ENABLED) {
       // Gating needs the tradinghours EA for its tier-1 schedule
       settings.SOURCE_ADAPTER_URL.get('TRADING_HOURS')

@@ -1,7 +1,6 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 import { AssetRequest, IssuerName, issuers, MULTIPLIER_DECIMALS } from '../issuers'
 import { Settings } from '../issuers/issuer'
@@ -18,7 +17,7 @@ import {
   getGatingTimezone,
 } from '../lib/session/fallbackSessionSchedule'
 import { gateIssuer247Report } from '../lib/session/issuer247Gating'
-import { getSessionTransitions, SessionTransition } from '../lib/session/tradingHoursSession'
+import { getSessionTransitionsCached, SessionTransition } from '../lib/session/tradingHoursSession'
 
 const logger = makeLogger('IssuerPrice247')
 
@@ -43,31 +42,19 @@ const GATE_MARKET = 'nyse'
 const GATE_TRADINGHOURS_TYPE = '24/5'
 const GATE_FALLBACK_TYPE = '24/7'
 
-// When gating is enabled: fetch the tradinghours schedule (falling back to the
-// hard-coded per-market schedule) and reject the report when its
+// When gating is enabled: fetch the tradinghours schedule (through the shared
+// stale-while-revalidate cache, falling back to the hard-coded per-market schedule
+// when no schedule has ever been fetched) and reject the report when its
 // lastSeenTimestampNs predates the start of the session its marketStatus declares.
 // Returns the gatingSessionSource for the response; undefined when gating is off.
+// The marketSessionOverride 400s live in the endpoint's customInputValidation, so
+// they are rejected before any upstream call.
 const gateReport = async (
   settings: Settings,
   requester: Requester,
   marketSessionOverride: string | undefined,
   data: DataEngineV11Data,
 ): Promise<{ gatingSessionSource?: 'TRADINGHOURS' | 'FALLBACK' }> => {
-  // The override is a staging/test hook; reject it explicitly unless it has been
-  // opted into via config, and again when the check it hooks into is off, instead
-  // of silently ignoring it (mirrors the 24/5 validation in smoothedPrice).
-  if (marketSessionOverride && !settings.ALLOW_MARKET_SESSION_OVERRIDE) {
-    throw new AdapterInputError({
-      statusCode: 400,
-      message: `Parameter marketSessionOverride requires ALLOW_MARKET_SESSION_OVERRIDE=true`,
-    })
-  }
-  if (marketSessionOverride && !settings.ISSUER_247_SESSION_START_GATING_ENABLED) {
-    throw new AdapterInputError({
-      statusCode: 400,
-      message: `Parameter marketSessionOverride requires ISSUER_247_SESSION_START_GATING_ENABLED=true`,
-    })
-  }
   if (!settings.ISSUER_247_SESSION_START_GATING_ENABLED) {
     return {}
   }
@@ -84,13 +71,20 @@ const gateReport = async (
 
   let transitions: SessionTransition[] | undefined
   try {
-    transitions = await getSessionTransitions(
+    const cached = await getSessionTransitionsCached(
       tradingHoursUrl,
       requester,
       timezone,
       GATE_MARKET,
       GATE_TRADINGHOURS_TYPE,
+      settings.TRADINGHOURS_SESSION_CACHE_TTL_MS,
     )
+    if (cached.stale) {
+      logger.debug(
+        `Gating on a cached tradinghours schedule past its TTL (refreshedAtMs=${cached.refreshedAtMs}, ttlMs=${cached.ttlMs}); background refresh in flight`,
+      )
+    }
+    transitions = cached.value
   } catch (e) {
     logger.error(
       `TradingHoursEA request failed; 24/7 session-start gating uses the hard-coded fallback schedule: ${e}`,
@@ -144,20 +138,17 @@ export const calculatePrice = async ({
   const issuer = issuers[multiplier.issuer]
   const provider = providers.get(issuer.chain(settings, multiplier))
 
-  // Request the price in the multiplier's decimals so both share a scale.
-  // Note: the multiplier RPC runs before gating, so a report the gate rejects
-  // still pays for the multiplier fetch. Warm-up windows are short and rare, so
-  // the wasted call is accepted rather than restructuring the Promise.all.
-  const [price, value] = await Promise.all([
-    getDataEngineResult({ ...stream, decimals: MULTIPLIER_DECIMALS }),
-    issuer.getMultiplier(multiplier, provider),
-  ])
+  // Request the price in the multiplier's decimals so both share a scale. The gate
+  // runs before the multiplier RPC (it only needs price.data), so a report the gate
+  // rejects does not pay for the multiplier fetch.
+  const price = await getDataEngineResult({ ...stream, decimals: MULTIPLIER_DECIMALS })
   const gating = await gateReport(
     settings,
     param.requester,
     param.marketSessionOverride,
     price.data,
   )
+  const value = await issuer.getMultiplier(multiplier, provider)
 
   const rawMultipliedPrice = BigInt(price.result) * value
   const rawMultipliedPriceDecimals = 2 * MULTIPLIER_DECIMALS

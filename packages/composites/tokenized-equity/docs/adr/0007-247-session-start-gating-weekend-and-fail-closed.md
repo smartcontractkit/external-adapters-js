@@ -70,11 +70,23 @@ risk-bearing consequences:
   POST_MARKET phase before the weekend gap (Friday 20:00 ET in a normal week, correct on
   holiday early-closes). To make it derivable, the tradinghours `market-session` transport
   gains an additive `endTime` pass-through (the upstream API already returns phase ends; the
-  parser discards them today; tokenized-equity is the endpoint's only consumer). The hard-coded
-  fallback schedule is flattened to a single per-market `nyse` entry holding the four session
-  opens plus end times — shaped congruently with the tradinghours response (closed spans are
-  an absence of phases, exactly as upstream), times as named constants — shared by 24/5,
-  regular, and 24/7 callers through per-type views, with 24/5 gating decisions unchanged.
+  parser discards them today; tokenized-equity is the endpoint's only consumer), and its
+  hours-multiday query window widens (next decision). The hard-coded fallback schedule is
+  flattened to a single per-market `nyse` entry holding the four session opens plus end times — shaped congruently with the tradinghours response
+  (closed spans are an absence of phases, exactly as upstream), times as named constants —
+  shared by 24/5, regular, and 24/7 callers through per-type views, with 24/5 gating
+  decisions unchanged.
+- **The tradinghours `market-session` hours-multiday query window widens from
+  `[now-1d, now+1d]` to `[now-5d, now+1d]`** (amending the tradinghours adapter's
+  `market-session` behavior; recorded here per ADR immutability rather than by editing
+  tradinghours ADR-0001). Closed-span derivation needs the last phase BEFORE the gap, which a
+  1-day lookback cannot see from the far side of a Sunday — let alone a multi-day holiday
+  closure (Good Friday, Monday holidays): without the widening, tier 1 silently defers to the
+  holiday-blind fallback every Sunday and misderives the span start on holiday weekends. -5
+  days covers the longest realistic NYSE closure (4-day holiday weekend) with margin. Extra
+  historical phases in the response are additive and harmless: `closedSpanStartMs` and
+  `currentSessionStartMs` only consult the latest transition at or before now, and the
+  smoother's `processData` only reacts to the nearest boundary.
 - **Fail closed on indeterminate sessions.** UNKNOWN or unresolvable sessions 503 with
   `Session start unknown`. There is no fail-open toggle: the decision to fail closed is final,
   so the `ISSUER_247_SESSION_GATING_FAIL_ON_INDETERMINATE_SESSION` setting is removed rather
@@ -111,6 +123,10 @@ risk-bearing consequences:
   endpoint that previously never rejected — visible via the established
   `TradingHoursEA request failed` log line and `gatingSessionSource: 'FALLBACK'` response
   field.
+- The tradinghours schedule fetch goes through a shared in-process stale-while-revalidate
+  cache (`TRADINGHOURS_SESSION_CACHE_TTL_MS`, default 60s), so gating adds no per-request
+  tradinghours hop; a stale schedule is served while a deduped background refresh runs, and
+  only the first-ever fetch blocks (and fails over to the fallback schedule on error).
 - The tradinghours `market-session` response gains a field; the change is additive and its only
   consumer is tokenized-equity.
 - The flattened fallback schedule becomes the single per-market source of truth for session
@@ -122,9 +138,20 @@ risk-bearing consequences:
 
 - **Rejection windows at every 24/7 boundary, of unconfirmed length for thin sessions.** If
   `lastSeenTimestampNs` proves to be last-trade-based rather than publish-based, overnight and
-  weekend boundaries could be gated longer than publish latency. Accepted deliberately
-  (correctness over availability), extending ADR-0006's stance; confirm the semantics with the
-  data-engine team and revisit only if windows prove unbounded. Owner: Product.
+  weekend boundaries could be gated much longer than publish latency (e.g. a last trade at
+  Friday 19:59:58 would 503 every WEEKEND report until Monday). Accepted deliberately
+  (correctness over availability), extending ADR-0006's stance — but confirming the semantics
+  with the data-engine team is a **prerequisite for enabling the flag anywhere with real
+  consumers**, not a post-rollout follow-up. Owner: Product.
+- **Holiday-blind fallback across multi-day closures.** The fallback schedule knows no
+  holidays: if tradinghours is unreachable AND no cached schedule has ever been fetched, a
+  closure longer than a normal weekend (Good Friday, Monday holiday) makes the fallback derive
+  a later closed-span start than the real one, so legitimately stale pre-closure reports are
+  rejected as `PRE_SESSION` (or resolve as `Session start unknown`) until tradinghours
+  recovers. Accepted: it requires a tradinghours outage coinciding with a multi-day closure,
+  the 60s schedule cache makes sustained tier-1 unavailability unlikely, and the failure is
+  fail-closed and loud (FALLBACK source + error logs) rather than silently wrong. Owner:
+  engineering (data-feeds).
 - **Fail-closed is a behavior change for a previously ungated endpoint.** 503s during schedule
   outages where 200s were served before. Mitigated by tradinghours monitoring and the flattened
   fallback covering `nyse`. Owner: Product.

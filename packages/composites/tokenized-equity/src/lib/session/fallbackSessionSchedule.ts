@@ -118,12 +118,15 @@ export const getGatingTimezone = (market: string, marketType: string): string | 
   getFallbackEntry(market, marketType)?.timezone
 
 // Labeled session-open transitions (with ends) for the days surrounding nowMs, or
-// undefined when the market has no hard-coded entry. Day offsets -2..+1 cover at
-// least tradinghours' rolling [now-1d, now+1d] window: at Saturday 00:00–04:00 ET
-// the current overnight session opened Thursday 20:00, which -1..+1 (Fri/Sat/Sun)
-// cannot see — Friday has no overnight open and Saturday has none at all — so the
-// narrower window failed closed while tradinghours still resolved the session. The
-// same reach keeps Friday's WEEKEND open visible through the whole weekend.
+// undefined when the market has no hard-coded entry. Day offsets -2..+1 keep the
+// fallback usable through the weekend even though tradinghours now queries a wider
+// [now-5d, now+1d] window: at Saturday 00:00–04:00 ET the current overnight session
+// opened Thursday 20:00, which -1..+1 (Fri/Sat/Sun) cannot see — Friday has no
+// overnight open and Saturday has none at all — so the narrower window failed closed
+// while tradinghours still resolved the session. The same reach keeps Friday's
+// WEEKEND open visible through the whole weekend. The fallback is holiday-blind by
+// design: across a multi-day closure it derives a LATER closed-span start than the
+// real one (ADR-0007, accepted residual risk).
 export const getFallbackSessionTransitions = (
   market: string,
   marketType: string,

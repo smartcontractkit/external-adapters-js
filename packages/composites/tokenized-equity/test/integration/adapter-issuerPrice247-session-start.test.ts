@@ -4,6 +4,8 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
 
+import { clearSessionTransitionCache } from '../../src/lib/session/transitionCache'
+
 // Integration tests for 24/7 session-start gating on issuer-price-247 (TDD:
 // docs/issuer-247-session-start-gating-tdd.md) with the flag ON. The flag-off
 // no-regression case is covered by adapter-issuerPrice247.test.ts (flag unset).
@@ -144,6 +146,9 @@ describe('issuer-price-247 session-start gating (flag on)', () => {
     reportMarketStatus = 5
     reportLastSeen = ns('2024-01-06T14:00:00.000Z') // Sat 09:00 ET
     tradinghoursFails = false
+    // The schedule cache is process-global and shared across requests; clear it so
+    // each test starts from a cold cache (an initial, blocking tradinghours fetch).
+    clearSessionTransitionCache()
   })
 
   const request = (overrides: Record<string, unknown> = {}) =>
@@ -192,6 +197,18 @@ describe('issuer-price-247 session-start gating (flag on)', () => {
     const response = await request()
     expect(response.statusCode).toBe(200)
     expect(response.json().data.gatingSessionSource).toBe('FALLBACK')
+  })
+
+  it('serves the cached schedule (source TRADINGHOURS) when tradinghours goes down with a warm cache', async () => {
+    // First request populates the schedule cache; a tradinghours outage afterwards
+    // is absorbed by the cache instead of walking to the fallback per request.
+    const first = await request()
+    expect(first.json().data.gatingSessionSource).toBe('TRADINGHOURS')
+
+    tradinghoursFails = true
+    const second = await request()
+    expect(second.statusCode).toBe(200)
+    expect(second.json().data.gatingSessionSource).toBe('TRADINGHOURS')
   })
 
   it('still rejects pre-close leftovers on the fallback schedule when tradinghours is down', async () => {

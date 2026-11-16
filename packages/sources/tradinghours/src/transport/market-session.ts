@@ -33,6 +33,14 @@ export type HttpEndpointTypes = BaseEndpointTypes & {
 
 const logger = makeLogger('TradingHoursMarketSessionEndpoint')
 
+// How many days back the hours-multiday query reaches. 24/7 session-start gating
+// (tokenized-equity ADR-0007) derives the start of a closed span (weekend/holiday)
+// from the end of the last phase BEFORE the gap, so that phase must be inside the
+// window even from the far side of a multi-day closure: -1 put Friday's phases out
+// of reach on Sunday, and Thursday's out of reach across a Good-Friday weekend.
+// -5 covers the longest realistic NYSE closure (4-day holiday weekend) with margin.
+const LOOKBACK_DAYS = 5
+
 export const transport = new HttpTransport<HttpEndpointTypes>({
   prepareRequests: (params, config) =>
     params
@@ -55,7 +63,7 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
             },
             params: {
               fin_id: getFinId(param.market as Market, param.type),
-              start: formatDate(now, -1),
+              start: formatDate(now, -LOOKBACK_DAYS),
               end: formatDate(now, 1),
               param,
             },

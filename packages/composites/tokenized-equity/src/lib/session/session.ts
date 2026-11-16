@@ -3,7 +3,12 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { TZDate } from '@date-fns/tz'
 import { getSessionsFallback } from './fallbackSession'
 import { getFallbackSessionTransitions, getGatingTimezone } from './fallbackSessionSchedule'
-import { SessionTransition, getSessionTransitions, processData } from './tradingHoursSession'
+import {
+  SessionTransition,
+  getSessionTransitions,
+  getSessionTransitionsCached,
+  processData,
+} from './tradingHoursSession'
 
 const logger = makeLogger('Session')
 
@@ -43,6 +48,10 @@ export const getSessionSchedule = async (
   sessionBoundariesTimeZone?: string,
   sessionMarket?: string,
   sessionMarketType?: string,
+  // When set, the tradinghours fetch goes through the shared stale-while-revalidate
+  // cache (transitionCache.ts) with this TTL instead of hitting tradinghours per
+  // request.
+  scheduleCacheTtlMs?: number,
 ): Promise<{
   transitions?: SessionTransition[]
   fallbackTransitions?: SessionTransition[]
@@ -74,13 +83,31 @@ export const getSessionSchedule = async (
   const smootherTz = sessionBoundariesTimeZone
 
   try {
-    const transitions = await getSessionTransitions(
-      tradingHoursUrl,
-      requester,
-      fetchTimezone,
-      sessionMarket,
-      sessionMarketType,
-    )
+    let transitions: SessionTransition[]
+    if (scheduleCacheTtlMs !== undefined) {
+      const cached = await getSessionTransitionsCached(
+        tradingHoursUrl,
+        requester,
+        fetchTimezone,
+        sessionMarket,
+        sessionMarketType,
+        scheduleCacheTtlMs,
+      )
+      if (cached.stale) {
+        logger.debug(
+          `Serving cached tradinghours schedule past its TTL (refreshedAtMs=${cached.refreshedAtMs}, ttlMs=${cached.ttlMs}); background refresh in flight`,
+        )
+      }
+      transitions = cached.value
+    } else {
+      transitions = await getSessionTransitions(
+        tradingHoursUrl,
+        requester,
+        fetchTimezone,
+        sessionMarket,
+        sessionMarketType,
+      )
+    }
     return {
       transitions,
       fallbackTransitions,

@@ -6,6 +6,8 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { TZDate } from '@date-fns/tz'
 
+import { CachedValue, getCachedValue } from './transitionCache'
+
 type Response = {
   data: {
     result: {
@@ -45,6 +47,31 @@ export const getSessionTransitions = async (
     sessionBoundariesTimeZone,
     sessionMarket,
     sessionMarketType,
+  )
+
+// Cached variant (transitionCache.ts): serves the last good schedule and refreshes
+// in the background once the TTL elapses, so neither gating path pays a tradinghours
+// hop per price request. Only the first fetch for a key blocks. The returned entry
+// carries the staleness signal for callers that want to react to an old schedule.
+export const getSessionTransitionsCached = async (
+  tradingHoursUrl: string,
+  requester: Requester,
+  sessionBoundariesTimeZone: string,
+  sessionMarket: string,
+  sessionMarketType: string,
+  ttlMs: number,
+): Promise<CachedValue<SessionTransition[]>> =>
+  getCachedValue(
+    [tradingHoursUrl, sessionBoundariesTimeZone, sessionMarket, sessionMarketType].join('|'),
+    ttlMs,
+    () =>
+      fetchSessionSchedule(
+        tradingHoursUrl,
+        requester,
+        sessionBoundariesTimeZone,
+        sessionMarket,
+        sessionMarketType,
+      ),
   )
 
 const fetchSessionSchedule = async (

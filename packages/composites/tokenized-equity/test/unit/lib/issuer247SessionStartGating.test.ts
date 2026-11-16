@@ -130,6 +130,69 @@ describe('closedSpanStartMs', () => {
     const nowMondayRegular = new Date('2024-01-08T15:00:00.000Z').getTime() // Mon 10:00 ET
     expect(closedSpanStartMs(NORMAL_WEEK, nowMondayRegular)).toBeUndefined()
   })
+
+  // The tradinghours hours-multiday window is [now-5d, now+1d] precisely so these
+  // cases keep resolving from tier 1: the last phase before the gap must be in
+  // window even from the far side of a Sunday or a multi-day holiday closure.
+  describe('wide tradinghours window ([now-5d, now+1d]) coverage', () => {
+    it('resolves the Friday 20:00 ET closed-span start on SUNDAY (Friday phases still in window)', () => {
+      // With the old [now-1d, now+1d] window, Friday's phases were out of reach on
+      // Sunday and every weekend request resolved via the FALLBACK tier even when
+      // tradinghours was healthy.
+      const nowSunday = new Date('2024-01-07T19:00:00.000Z').getTime() // Sun 14:00 ET
+      expect(closedSpanStartMs(NORMAL_WEEK, nowSunday)).toBe(
+        new Date(FRIDAY_POST_END_UTC).getTime(),
+      )
+    })
+
+    it('resolves the Thursday 20:00 ET closed-span start across a Good-Friday weekend', () => {
+      // Good Friday 2024-03-29: the last trading phase is Thursday's post-market
+      // (end Thu 20:00 ET). From Saturday/Sunday the holiday-blind fallback would
+      // derive Friday 20:00 instead — a day late — so tier 1 must see Thursday.
+      const goodFridayWeek: SessionTransition[] = [
+        t(
+          TwentyfourFiveMarketStatus.POST_MARKET,
+          '2024-03-28T20:00:00.000Z',
+          '2024-03-29T00:00:00.000Z',
+        ), // Thu 16:00–20:00 ET
+        // Good Friday: no phases. Saturday/Sunday: none.
+        t(
+          TwentyfourFiveMarketStatus.OVERNIGHT,
+          '2024-04-01T00:00:00.000Z',
+          '2024-04-01T08:00:00.000Z',
+        ), // Sun 20:00 ET
+      ]
+      const thursdayCloseUtc = new Date('2024-03-29T00:00:00.000Z').getTime() // Thu 20:00 ET
+
+      for (const now of [
+        '2024-03-29T15:00:00.000Z', // Good Friday 11:00 ET
+        '2024-03-30T15:00:00.000Z', // Saturday 11:00 ET
+        '2024-03-31T19:00:00.000Z', // Sunday 15:00 ET
+      ]) {
+        expect(closedSpanStartMs(goodFridayWeek, new Date(now).getTime())).toBe(thursdayCloseUtc)
+      }
+    })
+
+    it('resolves the Friday 20:00 ET closed-span start through a Monday holiday', () => {
+      // Friday post-market ends 20:00 ET, Monday is a holiday (no phases), next
+      // phase is Tuesday pre-market. On Monday the old 1-day lookback saw no phase
+      // at all before now → tier 1 undefined → holiday-blind fallback invented
+      // Sunday/Monday phases and derived a wrong (later) span start.
+      const mondayHolidayWeek: SessionTransition[] = [
+        t(TwentyfourFiveMarketStatus.POST_MARKET, '2024-01-05T21:00:00.000Z', FRIDAY_POST_END_UTC), // Fri 16:00–20:00 ET
+        // Monday 2024-01-08 (holiday): no phases
+        t(
+          TwentyfourFiveMarketStatus.PRE_MARKET,
+          '2024-01-09T09:00:00.000Z',
+          '2024-01-09T14:30:00.000Z',
+        ), // Tue 04:00 ET
+      ]
+      const nowMondayHoliday = new Date('2024-01-08T17:00:00.000Z').getTime() // Mon noon ET
+      expect(closedSpanStartMs(mondayHolidayWeek, nowMondayHoliday)).toBe(
+        new Date(FRIDAY_POST_END_UTC).getTime(),
+      )
+    })
+  })
 })
 
 describe('gateIssuer247Report', () => {

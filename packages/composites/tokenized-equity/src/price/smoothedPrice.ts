@@ -19,6 +19,7 @@ export const smoothedStreamPrice = async (param: {
   streamMaxAgeSeconds?: StreamMaxAgeSeconds
   sessionStartGatingEnabled?: boolean
   allowMarketSessionOverride?: boolean
+  sessionScheduleCacheTtlMs?: number
   marketSessionOverride?: string
   url: string
   tradingHoursUrl: string
@@ -71,6 +72,7 @@ export const smoothedStreamPrice = async (param: {
           param.sessionBoundariesTimeZone,
           param.sessionMarket,
           param.sessionMarketType,
+          param.sessionScheduleCacheTtlMs,
         )
       : { transitions: undefined, fallbackTransitions: undefined, secondsFromTransition: undefined }
 

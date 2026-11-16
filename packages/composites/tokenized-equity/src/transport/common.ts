@@ -43,6 +43,7 @@ export abstract class SmoothedPriceTransport<
   streamMaxAgeSeconds!: StreamMaxAgeSeconds
   sessionStartGatingEnabled!: boolean
   allowMarketSessionOverride!: boolean
+  sessionScheduleCacheTtlMs!: number
 
   async initialize(
     dependencies: TransportDependencies<T>,
@@ -56,6 +57,7 @@ export abstract class SmoothedPriceTransport<
     this.streamMaxAgeSeconds = resolveStreamMaxAgeSeconds(adapterSettings)
     this.sessionStartGatingEnabled = adapterSettings.SESSION_START_GATING_ENABLED
     this.allowMarketSessionOverride = adapterSettings.ALLOW_MARKET_SESSION_OVERRIDE
+    this.sessionScheduleCacheTtlMs = adapterSettings.TRADINGHOURS_SESSION_CACHE_TTL_MS
     this.getDataEngineUrl()
   }
 
