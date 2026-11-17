@@ -63,9 +63,13 @@ describe('ssa provider timeout', () => {
 
     expect(response.statusCode).toBe(502)
     expect(response.json().result).toBeUndefined()
-    expect(response.json().errorMessage).toMatch(/timeout/i)
-    expect(response.json().timestamps.providerDataRequestedUnixMs).toBeGreaterThan(0)
-    expect(response.json().timestamps.providerDataReceivedUnixMs).toBeGreaterThan(0)
-    expect(elapsed).toBeLessThan(2000)
+    expect(response.json().errorMessage).toMatch(/timeout of 100ms exceeded/i)
+    const { providerDataRequestedUnixMs, providerDataReceivedUnixMs } = response.json().timestamps
+    expect(providerDataRequestedUnixMs).toBeGreaterThan(0)
+    expect(providerDataReceivedUnixMs).toBeGreaterThan(0)
+    // The handler must return before the provider's 500 ms reply; a request
+    // without the configured timeout would take at least that long.
+    expect(providerDataReceivedUnixMs - providerDataRequestedUnixMs).toBeLessThan(500)
+    expect(elapsed).toBeLessThan(500)
   })
 })

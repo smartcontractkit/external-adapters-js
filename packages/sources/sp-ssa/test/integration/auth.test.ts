@@ -39,6 +39,16 @@ describe('ssa auth', () => {
       .reply(200, body as unknown as nock.Body)
       .persist()
 
+  const waitFor = async (condition: () => boolean, attempts = 100): Promise<void> => {
+    for (let attempt = 0; attempt < attempts; attempt++) {
+      if (condition()) {
+        return
+      }
+      await new Promise((resolve) => setTimeout(resolve, 20))
+    }
+    expect(condition()).toBe(true)
+  }
+
   beforeAll(async () => {
     oldEnv = { ...process.env }
     process.env.API_ENDPOINT = 'http://api.com'
@@ -63,7 +73,6 @@ describe('ssa auth', () => {
     nock.cleanAll()
     mockToken()
     ssaTransport.authManager.invalidate()
-    ;(ssaTransport as unknown as { authFailureUntil: number }).authFailureUntil = 0
   })
 
   afterAll(async () => {
@@ -94,7 +103,7 @@ describe('ssa auth', () => {
     expect(contract.isDone()).toBe(true)
   })
 
-  it('stops provider calls and writes a cooldown error after a persistent auth failure', async () => {
+  it('retries a persistent 401 on the next background tick', async () => {
     let dataCalls = 0
     nock('http://api.com')
       .get(dataPath)
@@ -107,17 +116,16 @@ describe('ssa auth', () => {
     const failed = await request('SP-AUTH')
 
     expect(failed.statusCode).toBe(502)
-    expect(dataCalls).toBe(2)
+    expect(failed.json().errorMessage).toMatch(/401/)
+    const callsAfterFirst = dataCalls
+    expect(callsAfterFirst).toBeGreaterThanOrEqual(2)
 
-    let cooldownMessage = ''
-    for (let attempt = 0; attempt < 100 && !cooldownMessage.includes('cooldown'); attempt++) {
-      const response = await request('SP-AUTH')
-      expect(response.statusCode).toBe(502)
-      cooldownMessage = response.json().errorMessage
-      await new Promise((resolve) => setTimeout(resolve, 20))
-    }
+    await waitFor(() => dataCalls >= callsAfterFirst + 2)
+    const retried = await request('SP-AUTH')
 
-    expect(cooldownMessage).toContain('cooldown')
-    expect(dataCalls).toBe(2)
+    expect(retried.statusCode).toBe(502)
+    expect(retried.json().errorMessage).toMatch(/401/)
+    expect(retried.json().errorMessage).not.toContain('cooldown')
+    expect(dataCalls).toBeGreaterThanOrEqual(callsAfterFirst + 2)
   })
 })

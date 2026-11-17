@@ -1,12 +1,14 @@
 import { SettingsDefinitionFromConfig } from '@chainlink/external-adapter-framework/config'
 import { RateLimiter } from '@chainlink/external-adapter-framework/rate-limiting'
 import {
+  MockCache,
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { AdapterRateLimitError } from '@chainlink/external-adapter-framework/validation/error'
 import nock from 'nock'
 import { config } from '../../src/config'
+import { ssaTransport } from '../../src/transport/ssa'
 import { scoresFixture, tokenResponseBody } from '../fixtures'
 
 type SettingsDefinition = SettingsDefinitionFromConfig<typeof config>
@@ -23,7 +25,7 @@ const restoreEnv = (oldEnv: NodeJS.ProcessEnv) => {
 }
 
 describe('ssa cache write policy', () => {
-  let testAdapter: TestAdapter<SettingsDefinition>
+  let testAdapter: TestAdapter<SettingsDefinition> & { mockCache: MockCache }
   let oldEnv: NodeJS.ProcessEnv
   let limited = false
   let rateLimitRejections = 0
@@ -145,6 +147,49 @@ describe('ssa cache write policy', () => {
 
     expect(response.statusCode).toBe(200)
     expect(response.json().result).toBe(3)
+  })
+
+  it('keeps the last good value when the token endpoint connection fails', async () => {
+    const writeSpy = jest.spyOn(testAdapter.mockCache, 'setMany')
+    mockScores()
+    const first = await request('SP-USDG')
+    expect(first.statusCode).toBe(200)
+    expect(first.json().result).toBe(2)
+
+    const cacheKey = ssaTransport.responseCache.getCacheKey(ssaTransport.name, {
+      security_id: 'SP-USDG',
+    })
+    ssaTransport.authManager.invalidate()
+    nock.cleanAll()
+    mockScores()
+    let tokenCalls = 0
+    const failingToken = nock('http://token.com')
+      .post('/token', 'grant_type=client_credentials&scope=rtg_ssa')
+      .replyWithError('socket hang up')
+      .persist()
+    failingToken.on('request', () => {
+      tokenCalls++
+    })
+
+    const tokenErrorWrite = () =>
+      writeSpy.mock.calls
+        .flatMap(([entries]) => entries)
+        .filter(({ key }) => key === cacheKey)
+        .some(
+          ({ value }) =>
+            (value as { statusCode?: number }).statusCode === 502 &&
+            ((value as { errorMessage?: string }).errorMessage ?? '').includes('access token'),
+        )
+
+    await waitFor(() => tokenCalls > 0)
+    await waitFor(tokenErrorWrite)
+
+    const response = await request('SP-USDG')
+
+    expect(response.statusCode).toBe(200)
+    expect(response.json().result).toBe(2)
+    const cached = await testAdapter.mockCache.get(cacheKey)
+    expect(cached).toMatchObject({ statusCode: 200, result: 2 })
   })
 
   it('keeps the last good value when the framework rate limiter rejects the data request', async () => {

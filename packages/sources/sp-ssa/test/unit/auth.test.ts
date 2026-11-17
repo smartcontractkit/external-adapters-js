@@ -215,22 +215,38 @@ describe('AuthManager', () => {
     })
   })
 
-  it('shares one token request between concurrent callers', async () => {
-    let resolveToken!: (value: unknown) => void
-    request.mockImplementation(
-      () =>
-        new Promise((resolve) => {
-          resolveToken = resolve
-        }),
+  it('shares the framework token request between concurrent callers', async () => {
+    let resolveMint!: (value: unknown) => void
+    let mints = 0
+    const inFlight = new Map<string, Promise<unknown>>()
+    const coalescingRequest = jest.fn((key: string) => {
+      const existing = inFlight.get(key)
+      if (existing) {
+        return existing
+      }
+      mints++
+      const mint = new Promise((resolve) => {
+        resolveMint = resolve
+      })
+      inFlight.set(key, mint)
+      return mint
+    })
+    const auth = new AuthManager(
+      { request: coalescingRequest } as unknown as Requester,
+      tokenSettings,
     )
-    const auth = manager()
 
     const first = auth.getToken()
     const second = auth.getToken()
-    resolveToken(tokenReply('token-1'))
+    resolveMint(tokenReply('token-1'))
 
     await expect(Promise.all([first, second])).resolves.toEqual(['token-1', 'token-1'])
-    expect(request).toHaveBeenCalledTimes(1)
+    expect(mints).toBe(1)
+    expect(coalescingRequest).toHaveBeenCalledTimes(2)
+    expect(coalescingRequest.mock.calls.map(([key]) => key)).toEqual([
+      'sp-ssa-token',
+      'sp-ssa-token',
+    ])
   })
 })
 

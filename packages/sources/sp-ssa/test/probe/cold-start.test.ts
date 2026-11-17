@@ -20,6 +20,9 @@ const restoreEnv = (oldEnv: NodeJS.ProcessEnv) => {
   setEnvVariables(oldEnv)
 }
 
+// Framework cache-poll wiring: the first request polls the cache while the
+// background handler fetches, and the 504 after the poll window is produced by
+// the framework, not by adapter selection.
 describe('cold start', () => {
   let testAdapter: TestAdapter<SettingsDefinition>
   let oldEnv: NodeJS.ProcessEnv
