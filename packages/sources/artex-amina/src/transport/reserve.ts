@@ -181,7 +181,13 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async _handleRequest(): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
-    const deadline = Date.now() + this.settings.BACKGROUND_EXECUTE_TIMEOUT - BUDGET_MARGIN_MS
+    // The framework measures the whole backgroundHandler promise, including the
+    // sleep after a non-empty pass, so the request budget reserves that sleep.
+    const deadline =
+      Date.now() +
+      this.settings.BACKGROUND_EXECUTE_TIMEOUT -
+      this.settings.BACKGROUND_EXECUTE_MS -
+      BUDGET_MARGIN_MS
     const token = await this.auth.getAccessToken()
     const providerDataRequestedUnixMs = Date.now()
     const positions = await this.fetchPositions(token, deadline)
