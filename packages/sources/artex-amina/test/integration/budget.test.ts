@@ -13,9 +13,10 @@ describe('retry budget', () => {
   beforeAll(async () => {
     await harness.start({
       env: {
-        // The budget leaves 2 s for work (3000 ms minus the 1000 ms margin), and
-        // a request reserves API_TIMEOUT before it starts, so the retry after
-        // the 2 s backoff can no longer fit and is not attempted.
+        // The budget leaves 1.6 s for work (3000 ms minus the 400 ms post-pass
+        // sleep and the 1000 ms margin), and a request reserves API_TIMEOUT
+        // before it starts, so the retry after the 2 s backoff can no longer
+        // fit and is not attempted.
         API_TIMEOUT: '1000',
         BACKGROUND_EXECUTE_TIMEOUT: '3000',
         BACKGROUND_EXECUTE_MS: '400',
