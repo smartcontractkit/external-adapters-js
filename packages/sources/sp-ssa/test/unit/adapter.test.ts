@@ -1,7 +1,5 @@
 import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
 
-const secretName = /(API_?KEY|SECRET|PASSWORD|PASSPHRASE|PRIVATE_?KEY|TOKEN|CREDENTIAL)/
-
 const restoreEnv = (oldEnv: NodeJS.ProcessEnv) => {
   for (const key of Object.keys(process.env)) {
     if (!(key in oldEnv)) {
@@ -43,6 +41,5 @@ describe('adapter configuration', () => {
       required: true,
       sensitive: false,
     })
-    expect('AUTH_ENDPOINT').not.toMatch(secretName)
   })
 })

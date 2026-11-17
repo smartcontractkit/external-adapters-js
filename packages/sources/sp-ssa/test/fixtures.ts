@@ -113,6 +113,3 @@ export const scoresWith = (
   scoresFixture().map((record) =>
     record.security_id === securityId ? { ...record, ...overrides } : record,
   )
-
-export const scoresWithout = (securityId: string): Record<string, unknown>[] =>
-  scoresFixture().filter((record) => record.security_id !== securityId)

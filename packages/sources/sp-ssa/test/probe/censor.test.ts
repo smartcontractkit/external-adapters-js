@@ -15,7 +15,7 @@ describe('request logging', () => {
     CensorList.set([])
   })
 
-  it('redacts the minted bearer token and keeps the rest of the request readable', async () => {
+  it('registers the minted bearer token in the censor list and redacts a request config', async () => {
     const request = jest.fn().mockResolvedValue({
       response: { data: tokenResponseBody, status: 200 },
       timestamps: { providerDataRequestedUnixMs: 1, providerDataReceivedUnixMs: 2 },

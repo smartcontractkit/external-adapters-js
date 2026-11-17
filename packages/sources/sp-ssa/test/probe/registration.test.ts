@@ -70,7 +70,7 @@ describe('subscription registered during an in-flight batch', () => {
   })
 
   it('serves a subscription registered during a batch on the next tick', async () => {
-    const setSpy = jest.spyOn(testAdapter.mockCache, 'set')
+    const writeSpy = jest.spyOn(testAdapter.mockCache, 'setMany')
     let batchStarted = false
     const slowBatch = nock('http://api.com').get(dataPath).delay(300).reply(200, scoresFixture())
     slowBatch.on('request', () => {
@@ -89,11 +89,15 @@ describe('subscription registered during an in-flight batch', () => {
 
     const cacheKey = (security_id: string) =>
       ssaTransport.responseCache.getCacheKey(ssaTransport.name, { security_id })
-    const writtenKeys = setSpy.mock.calls.map(([key]) => key)
-    const firstWrite = writtenKeys.indexOf(cacheKey('SP-EURC'))
-    const secondWrite = writtenKeys.indexOf(cacheKey('SP-USDC'))
+    const firstKey = cacheKey('SP-EURC')
+    const secondKey = cacheKey('SP-USDC')
+    const batches = writeSpy.mock.calls.map(([entries]) => entries.map(({ key }) => key))
+    const firstBatch = batches.findIndex((keys) => keys.includes(firstKey))
+    const secondBatch = batches.findIndex((keys) => keys.includes(secondKey))
 
-    expect(firstWrite).toBeGreaterThanOrEqual(0)
-    expect(secondWrite).toBeGreaterThan(firstWrite)
+    expect(firstBatch).toBeGreaterThanOrEqual(0)
+    expect(batches[firstBatch]).toEqual([firstKey])
+    expect(secondBatch).toBeGreaterThan(firstBatch)
+    expect(batches[secondBatch]).toEqual(expect.arrayContaining([firstKey, secondKey]))
   })
 })

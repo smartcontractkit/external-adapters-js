@@ -137,6 +137,37 @@ describe('ssa endpoint', () => {
     expect(usdcWrite?.[0]).toBe(eurcWrite?.[0])
   })
 
+  it('serves case variants of one id from the canonical cache entry', async () => {
+    nock('http://api.com').get(dataPath).reply(200, scoresFixture()).persist()
+    const cacheKey = (security_id: string) =>
+      ssaTransport.responseCache.getCacheKey(ssaTransport.name, { security_id })
+
+    expect(cacheKey('SP-USDE')).toBe(cacheKey('SP-USDe'))
+
+    const first = await request('SP-USDe')
+    expect(first.statusCode).toBe(200)
+    expect(first.json()).toMatchObject({
+      result: 5,
+      data: { result: 5 },
+      timestamps: { providerIndicatedTimeUnixMs: 1768348800000 },
+    })
+
+    const second = await request('SP-USDE')
+    expect(second.statusCode).toBe(200)
+    expect(second.json()).toMatchObject({ result: 5, data: { result: 5 } })
+
+    // Let the background tick that now holds the SP-USDE variant write the
+    // canonical entry before the third request reads it.
+    await new Promise((resolve) => setTimeout(resolve, 200))
+    const cached = await testAdapter.mockCache.get(cacheKey('SP-USDe'))
+    expect(cached).toMatchObject({ statusCode: 200, result: 5, data: { result: 5 } })
+    expect((cached as { errorMessage?: string }).errorMessage).toBeUndefined()
+
+    const third = await request('SP-USDe')
+    expect(third.statusCode).toBe(200)
+    expect(third.json()).toMatchObject({ result: 5, data: { result: 5 } })
+  })
+
   it('returns 400 for a request without a security_id', async () => {
     const response = await testAdapter.request({ endpoint: 'ssa' })
     expect(response.statusCode).toBe(400)

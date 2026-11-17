@@ -119,6 +119,13 @@ describe('parseProviderRecords', () => {
         { security_id: 'SP-DUP', ssa: '2', last_modified_date_time: '2025-12-19T00:00:00Z' },
       ],
     ],
+    [
+      'two ids differ only by case',
+      [
+        { security_id: 'SP-USDe', ssa: '2', last_modified_date_time: '2025-12-19T00:00:00Z' },
+        { security_id: 'SP-USDE', ssa: '2', last_modified_date_time: '2025-12-19T00:00:00Z' },
+      ],
+    ],
   ])('rejects a malformed payload when %s', (_, payload) => {
     const error = thrownError(() => parseProviderRecords(payload))
     expect(error.message).toContain('malformed payload')
@@ -149,12 +156,13 @@ describe('selectRecord', () => {
     expect(error.message).toContain('SP-UNKNOWN')
   })
 
-  it('selects the recorded mixed-case id exactly', () => {
+  it('selects the same record for case variants of the configured id', () => {
     const records = recordedRecords()
-    const record = selectRecord(records, 'SP-USDe')
-    expect(record.security_id).toBe('SP-USDe')
-    expect(parseScore(record.ssa)).toBe(5)
-    expect(() => selectRecord(records, 'SP-USDE')).toThrow()
+    for (const securityId of ['SP-USDe', 'SP-USDE', 'sp-usde']) {
+      const record = selectRecord(records, securityId)
+      expect(record.security_id).toBe('SP-USDe')
+      expect(parseScore(record.ssa)).toBe(5)
+    }
   })
 
   it('does not read an unrelated element with a bad score', () => {
