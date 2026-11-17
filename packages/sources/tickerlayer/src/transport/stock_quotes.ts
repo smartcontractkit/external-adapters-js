@@ -57,9 +57,7 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
             ]
           }
           if (message.type === 'system') {
-            if (message.event !== 'pong') {
-              logger.debug({ msg: 'Ignoring system message', ignoredMessage: message })
-            }
+            logger.debug({ msg: 'Ignoring system message', ignoredMessage: message })
             return
           }
           const isOvernight = message.session == 'overnight'
