@@ -7,6 +7,7 @@ import {
   AdapterError,
   AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
+import { validator } from '@chainlink/external-adapter-framework/validation/utils'
 import escapeStringRegexp from 'escape-string-regexp'
 
 export interface AuthSettings {
@@ -43,22 +44,21 @@ const TOKEN_CENSOR_KEY = 'ACCESS_TOKEN'
 const MAX_CENSORED_TOKENS = 4
 const REFRESH_RETRY_MS = 30_000
 const REFRESH_MARGIN_MS = 5 * 60 * 1000
+// The provider documents a 30-minute token lifetime. A reply with a longer
+// expires_in does not extend how long the adapter may keep using the token.
+const TOKEN_LIFETIME_CAP_MS = 30 * 60 * 1000
 const TOKEN_REQUEST_KEY = 'sp-ssa-token'
 const TOKEN_REQUEST_COST = 0
 
 const isUsableAccessToken = (value: unknown): value is string =>
   typeof value === 'string' && value.length > 0 && value.trim() === value
 
-const isPositiveNumber = (value: unknown): boolean =>
-  (typeof value === 'number' || typeof value === 'string') &&
-  Number.isFinite(Number(value)) &&
-  Number(value) > 0
-
 const parseTokenResponse = (data: unknown): { accessToken: string; expiresInSeconds: number } => {
   const body = data as TokenResponse | undefined
   const accessToken = body?.access_token
   const expiresIn = body?.expires_in
-  if (!isUsableAccessToken(accessToken) || !isPositiveNumber(expiresIn)) {
+  const expiresInError = validator.integer({ min: 1 }).fn(expiresIn as string | number | undefined)
+  if (!isUsableAccessToken(accessToken) || expiresInError) {
     throw new AdapterError({
       statusCode: 502,
       message: 'The token response did not include a usable access_token and expires_in',
@@ -186,13 +186,14 @@ export class AuthManager {
     const { accessToken, expiresInSeconds } = parsed
     AuthManager.rememberToken(accessToken)
 
-    const expiresInMs = expiresInSeconds * 1000
-    const refreshMarginMs = Math.min(REFRESH_MARGIN_MS, expiresInMs / 2)
+    const now = Date.now()
+    const lifetimeMs = Math.min(expiresInSeconds * 1000, TOKEN_LIFETIME_CAP_MS)
+    const refreshMarginMs = Math.min(REFRESH_MARGIN_MS, lifetimeMs / 2)
     this.refreshRetryAtMs = 0
     this.cached = {
       token: accessToken,
-      refreshAtMs: Date.now() + expiresInMs - refreshMarginMs,
-      expiresAtMs: Date.now() + expiresInMs,
+      refreshAtMs: now + lifetimeMs - refreshMarginMs,
+      expiresAtMs: now + lifetimeMs,
     }
     return this.cached.token
   }

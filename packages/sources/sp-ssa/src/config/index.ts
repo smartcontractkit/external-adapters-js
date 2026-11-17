@@ -8,7 +8,7 @@ export const config = new AdapterConfig(
       required: true,
       sensitive: false,
     },
-    TOKEN_ENDPOINT: {
+    AUTH_ENDPOINT: {
       description: 'The S&P OAuth token URL for the environment',
       type: 'string',
       required: true,

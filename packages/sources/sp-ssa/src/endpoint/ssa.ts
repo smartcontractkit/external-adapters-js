@@ -19,9 +19,4 @@ export const endpoint = new NumericResultEndpoint({
     }
     return undefined
   },
-  requestTransforms: [
-    (req) => {
-      req.requestContext.data.security_id = req.requestContext.data.security_id.toUpperCase()
-    },
-  ],
 })

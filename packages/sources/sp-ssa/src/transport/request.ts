@@ -1,9 +1,4 @@
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import {
-  ResponseGenerics,
-  ResponseTimestamps,
-  TimestampedProviderResult,
-} from '@chainlink/external-adapter-framework/util'
+import { ResponseTimestamps } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import {
   AdapterConnectionError,
@@ -11,10 +6,6 @@ import {
   AdapterError,
   AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
-import {
-  InputParametersDefinition,
-  TypeFromDefinition,
-} from '@chainlink/external-adapter-framework/validation/input-params'
 import { AuthManager } from './auth'
 
 export class SsaAuthError extends AdapterError {
@@ -99,7 +90,7 @@ const mintToken = async (authManager: AuthManager): Promise<string> => {
 
 export async function fetchScoresWithReauth(
   requester: Requester,
-  settings: { API_ENDPOINT: string; API_KEY: string },
+  settings: { API_ENDPOINT: string; API_KEY: string; ORIGIN?: string },
   authManager: AuthManager,
   requestKey: string,
 ): Promise<ProviderResponse> {
@@ -149,37 +140,3 @@ export function errorTimestamps(error: unknown): ResponseTimestamps {
 
 export const errorStatusCode = (error: unknown): number =>
   error instanceof AdapterError ? error.statusCode : 502
-
-export async function writeCooldownErrors<
-  T extends { Parameters: InputParametersDefinition; Response: ResponseGenerics },
->(
-  responseCache: ResponseCache<T>,
-  transportName: string,
-  entries: TypeFromDefinition<T['Parameters']>[],
-): Promise<boolean> {
-  const results = await Promise.all(
-    entries.map(async (entry): Promise<TimestampedProviderResult<T> | undefined> => {
-      const key = responseCache.getCacheKey(transportName, entry)
-      const cached = await responseCache.get(key)
-      if (cached) {
-        return undefined
-      }
-      return {
-        params: entry,
-        response: {
-          statusCode: 502,
-          errorMessage: 'The data provider is in an authentication cooldown',
-          timestamps: emptyTimestamps(),
-        },
-      }
-    }),
-  )
-  const uncached = results.filter(
-    (result): result is TimestampedProviderResult<T> => result !== undefined,
-  )
-  if (uncached.length === 0) {
-    return false
-  }
-  await responseCache.write(transportName, uncached)
-  return true
-}

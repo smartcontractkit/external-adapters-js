@@ -3,7 +3,6 @@ import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/c
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import {
-  AdapterRequest,
   makeLogger,
   SingleNumberResultResponse,
   sleep,
@@ -27,7 +26,6 @@ import {
   isCredentialFailure,
   ProviderResponse,
   SsaProviderDataError,
-  writeCooldownErrors,
 } from './request'
 import { parseProviderRecords, parseScore, parseTimestamp, selectRecord } from './utils'
 
@@ -70,10 +68,7 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
   settings!: SsaTransportTypes['Settings']
   endpointName!: string
   authManager!: AuthManager
-  private generation = 0
   private authFailureUntil = 0
-  private writeQueue: Promise<void> = Promise.resolve()
-  private wakeEmptySetSleep?: () => void
 
   override async initialize(
     dependencies: TransportDependencies<SsaTransportTypes>,
@@ -86,22 +81,10 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     this.settings = adapterSettings
     this.endpointName = endpointName
     this.authManager = new AuthManager(this.requester, {
-      TOKEN_ENDPOINT: adapterSettings.TOKEN_ENDPOINT,
+      TOKEN_ENDPOINT: adapterSettings.AUTH_ENDPOINT,
       CLIENT_ID: adapterSettings.CLIENT_ID,
       ORIGIN: adapterSettings.ORIGIN,
     })
-    config.buildCensorList()
-    void this.prefetchToken()
-  }
-
-  override async registerRequest(
-    req: AdapterRequest<RequestParams>,
-    settings: SsaTransportTypes['Settings'],
-  ): Promise<void> {
-    await super.registerRequest(req, settings)
-    // Wake the empty-set sleep so a newly configured stream is fetched without
-    // waiting a full background interval.
-    this.wakeEmptySetSleep?.()
   }
 
   async backgroundHandler(
@@ -109,24 +92,26 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     entries: RequestParams[],
   ): Promise<void> {
     if (entries.length === 0) {
-      return this.sleepUntilNextTick(context, true)
+      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
+      return
     }
     if (Date.now() < this.authFailureUntil) {
-      await writeCooldownErrors(this.responseCache, this.name, entries)
-      return this.sleepUntilNextTick(context)
+      await this.writeErrorResults(
+        new AdapterError({
+          statusCode: 502,
+          message: 'The data provider rejected the credentials; retrying after a cooldown',
+        }),
+        entries,
+      )
+      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
+      return
     }
 
-    const generation = ++this.generation
     try {
       const results = await this.fetchResults(entries)
-      if (generation === this.generation) {
-        await this.enqueueWrite(results, generation)
-      }
+      await this.writeResults(results)
     } catch (error) {
-      if (generation === this.generation) {
-        await this.writeErrorResults(error, entries, generation)
-        await this.sleepUntilNextTick(context)
-      }
+      await this.writeErrorResults(error, entries)
     }
   }
 
@@ -134,38 +119,11 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 
-  private async prefetchToken(): Promise<void> {
-    try {
-      await this.authManager.getToken()
-    } catch {
-      // The first request retries the token mint and surfaces the auth error.
-    }
-    // The framework rebuilds the censor list after transport initialization, so
-    // re-register the prefetched token once the adapter finishes starting.
-    setImmediate(() => this.authManager.ensureCachedTokenCensored())
-  }
-
-  private sleepUntilNextTick(
-    context: EndpointContext<SsaTransportTypes>,
-    wakeOnSubscription = false,
-  ): Promise<void> {
-    if (!wakeOnSubscription) {
-      return sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
-    }
-    return new Promise((resolve) => {
-      const done = () => {
-        clearTimeout(timer)
-        this.wakeEmptySetSleep = undefined
-        resolve()
-      }
-      const timer = setTimeout(done, context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
-      this.wakeEmptySetSleep = done
-    })
-  }
-
   private async fetchResults(
     entries: RequestParams[],
   ): Promise<TimestampedProviderResult<SsaTransportTypes>[]> {
+    // The request key is built from the whole subscription set, so the
+    // Requester coalesces one provider call for every entry in this batch.
     const sortedEntries = [...entries].sort((a, b) => a.security_id.localeCompare(b.security_id))
     const requestKey = calculateHttpRequestKey<SsaTransportTypes>({
       context: {
@@ -252,11 +210,7 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     }
   }
 
-  private async writeErrorResults(
-    error: unknown,
-    entries: RequestParams[],
-    generation: number,
-  ): Promise<void> {
+  private async writeErrorResults(error: unknown, entries: RequestParams[]): Promise<void> {
     if (isCredentialFailure(error)) {
       this.authFailureUntil = Date.now() + SsaTransport.AUTH_FAILURE_COOLDOWN_MS
     }
@@ -272,31 +226,18 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
         timestamps,
       },
     }))
-    const replaceCachedSuccess = !(
+    const keepCachedSuccess =
       error instanceof AdapterConnectionError || error instanceof AdapterRateLimitError
-    )
-    await this.enqueueWrite(results, generation, replaceCachedSuccess)
-  }
-
-  private enqueueWrite(
-    results: TimestampedProviderResult<SsaTransportTypes>[],
-    generation: number,
-    replaceCachedSuccess = true,
-  ): Promise<void> {
-    const write = this.writeQueue.then(async () => {
-      if (generation !== this.generation) {
-        return
-      }
-      await this.writeResults(results, replaceCachedSuccess)
-    })
-    this.writeQueue = write.catch(() => undefined)
-    return write
+    await this.writeResults(results, !keepCachedSuccess)
   }
 
   private async writeResults(
     results: TimestampedProviderResult<SsaTransportTypes>[],
-    replaceCachedSuccess: boolean,
+    replaceCachedSuccess = true,
   ): Promise<void> {
+    // The local cache will not replace a live success with an error. Delete
+    // the success first so a provider error is published as an error, as the
+    // stream requires, instead of leaving the stale value in place.
     const errorResults = results.filter((result) => result.response.errorMessage)
     if (replaceCachedSuccess && errorResults.length > 0) {
       await Promise.all(
