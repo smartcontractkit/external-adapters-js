@@ -30,12 +30,15 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'stock_quotes',
-  aliases: ['quotes'],
+  aliases: ['quotes', 'forex'],
   transport: wsTransport,
   inputParameters: stockQuotesInputParameters,
   customInputValidation,
   requestTransforms: [
     (request) => {
+      if (request.requestContext.requestEndpointName === 'forex') {
+        request.requestContext.data.assetType = 'commodities'
+      }
       // assetType is not used when isOvernight is true
       // Force a value here so that any assetType resolve to the same cache
       if (request.requestContext.data.isOvernight) {

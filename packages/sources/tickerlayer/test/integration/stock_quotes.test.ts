@@ -72,5 +72,19 @@ describe('websocket', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should use the commodities channel for the forex alias', async () => {
+      const dataForex = {
+        base: 'XAUUSD',
+        endpoint: 'forex',
+        transport: 'ws',
+      }
+      await testAdapter.request(dataForex)
+      await testAdapter.waitForCache(3)
+
+      const response = await testAdapter.request(dataForex)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })
