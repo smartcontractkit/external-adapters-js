@@ -94,13 +94,6 @@ export class AuthManager {
     this.refreshRetryAtMs = 0
   }
 
-  ensureCachedTokenCensored(): void {
-    const token = this.cached?.token
-    if (token) {
-      AuthManager.rememberToken(token)
-    }
-  }
-
   private startMint(): Promise<string> {
     const mint = this.mintToken().finally(() => {
       this.pending = undefined

@@ -1,7 +1,7 @@
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { validator } from '@chainlink/external-adapter-framework/validation/utils'
 import { utc } from '@date-fns/utc'
-import { isMatch, isValid, parse } from 'date-fns'
+import { isMatch, parse } from 'date-fns'
 import isIn from 'validator/lib/isIn'
 
 const SCORE_VALUES = ['1', '2', '3', '4', '5']
@@ -39,11 +39,6 @@ export function parseTimestamp(value: unknown): number {
   }
 
   const parsed = parse(value, format.pattern, new Date(), { in: utc })
-  if (!isValid(parsed)) {
-    throw providerDataError(
-      'The provider last_modified_date_time is not a valid calendar timestamp',
-    )
-  }
 
   const timestampMs = parsed.getTime()
   const timestampError = validator.responseTimestamp().fn(timestampMs)
@@ -86,7 +81,9 @@ export function parseProviderRecords(payload: unknown): ProviderRecord[] {
 export function selectRecord(records: ProviderRecord[], securityId: string): ProviderRecord {
   const record = records.find((item) => item.security_id === securityId)
   if (!record) {
-    throw providerDataError('The data provider did not return a record')
+    throw providerDataError(
+      `The data provider did not return a record for security_id ${securityId}`,
+    )
   }
   return record
 }

@@ -164,13 +164,10 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     try {
       return parseProviderRecords(providerResponse.response.data)
     } catch (error) {
-      if (error instanceof AdapterError) {
-        throw new SsaProviderDataError(error.message, {
-          ...providerResponse.timestamps,
-          providerIndicatedTimeUnixMs: undefined,
-        })
-      }
-      throw error
+      throw new SsaProviderDataError(errorMessage(error), {
+        ...providerResponse.timestamps,
+        providerIndicatedTimeUnixMs: undefined,
+      })
     }
   }
 
