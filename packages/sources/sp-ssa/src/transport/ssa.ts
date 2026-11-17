@@ -122,8 +122,8 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
   private async fetchResults(
     entries: RequestParams[],
   ): Promise<TimestampedProviderResult<SsaTransportTypes>[]> {
-    // The request key is built from the whole subscription set, so the
-    // Requester coalesces one provider call for every entry in this batch.
+    // The provider returns every score in one reply, so one call serves the
+    // whole subscription set.
     const sortedEntries = [...entries].sort((a, b) => a.security_id.localeCompare(b.security_id))
     const requestKey = calculateHttpRequestKey<SsaTransportTypes>({
       context: {
@@ -232,9 +232,9 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     results: TimestampedProviderResult<SsaTransportTypes>[],
     replaceCachedSuccess = true,
   ): Promise<void> {
-    // The local cache will not replace a live success with an error. Delete
-    // the success first so a provider error is published as an error, as the
-    // stream requires, instead of leaving the stale value in place.
+    // A provider error must replace the published score. Clear the previous
+    // entry before writing the error so the stream does not keep serving the
+    // old value.
     const errorResults = results.filter((result) => result.response.errorMessage)
     if (replaceCachedSuccess && errorResults.length > 0) {
       await Promise.all(

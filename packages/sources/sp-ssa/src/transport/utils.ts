@@ -71,7 +71,7 @@ export function parseProviderRecords(payload: unknown): ProviderRecord[] {
   }
 
   const records = payload.map(toProviderRecord)
-  const uniqueIds = new Set(records.map(({ security_id }) => security_id))
+  const uniqueIds = new Set(records.map(({ security_id }) => security_id.toLowerCase()))
   if (uniqueIds.size !== records.length) {
     throw providerDataError('The data provider returned a malformed payload')
   }
@@ -79,7 +79,8 @@ export function parseProviderRecords(payload: unknown): ProviderRecord[] {
 }
 
 export function selectRecord(records: ProviderRecord[], securityId: string): ProviderRecord {
-  const record = records.find((item) => item.security_id === securityId)
+  const configuredId = securityId.toLowerCase()
+  const record = records.find((item) => item.security_id.toLowerCase() === configuredId)
   if (!record) {
     throw providerDataError(
       `The data provider did not return a record for security_id ${securityId}`,
