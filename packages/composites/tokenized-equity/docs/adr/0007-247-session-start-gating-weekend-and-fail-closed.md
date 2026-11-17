@@ -136,13 +136,20 @@ risk-bearing consequences:
 
 ## Risks accepted
 
-- **Rejection windows at every 24/7 boundary, of unconfirmed length for thin sessions.** If
-  `lastSeenTimestampNs` proves to be last-trade-based rather than publish-based, overnight and
-  weekend boundaries could be gated much longer than publish latency (e.g. a last trade at
-  Friday 19:59:58 would 503 every WEEKEND report until Monday). Accepted deliberately
-  (correctness over availability), extending ADR-0006's stance — but confirming the semantics
-  with the data-engine team is a **prerequisite for enabling the flag anywhere with real
-  consumers**, not a post-rollout follow-up. Owner: Product.
+- **Rejection windows at every 24/7 boundary, of unconfirmed length for thin sessions.**
+  `lastSeenTimestampNs` is last-trade-based, but the data-engine is expected to keep producing
+  fresh-stamped reports through closed spans from an alternative price provider — so a healthy
+  WEEKEND report stamps after the Friday 20:00 ET closed-span start and passes the gate, while
+  a report still stamped pre-close is genuinely a stale primary-session leftover and is
+  rejected by design (correctness over availability, extending ADR-0006's stance). The open
+  question for the data-engine team is therefore not the timestamp semantics but the
+  operational behavior: that fresh-stamped reports do flow through weekends/holidays, and the
+  expected latency of the first post-close report — that latency is the rejection window at
+  the Friday 20:00 boundary under zero tolerance (same shape as every other session open).
+  If fresh weekend reports turn out NOT to flow, every 24/7 feed would 503 all weekend by
+  design — a product-level availability decision that would require rethinking the WEEKEND
+  rule (e.g. max-age gating instead). Confirming this is a **prerequisite for enabling the
+  flag anywhere with real consumers**, not a post-rollout follow-up. Owner: Product.
 - **Holiday-blind fallback across multi-day closures.** The fallback schedule knows no
   holidays: if tradinghours is unreachable AND no cached schedule has ever been fetched, a
   closure longer than a normal weekend (Good Friday, Monday holiday) makes the fallback derive
