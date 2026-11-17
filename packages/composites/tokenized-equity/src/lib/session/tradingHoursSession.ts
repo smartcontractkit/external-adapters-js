@@ -116,13 +116,30 @@ const fetchSessionSchedule = async (
         } ${response?.response?.statusText}`,
       })
     }
-    return data.data.result.map((d) => ({
-      status: d.status as TwentyfourFiveMarketStatus,
-      timeMs: new TZDate(d.time, sessionBoundariesTimeZone).getTime(),
-      ...(d.endTime !== undefined
-        ? { endTimeMs: new TZDate(d.endTime, sessionBoundariesTimeZone).getTime() }
-        : {}),
-    }))
+    return data.data.result.map((d) => {
+      const timeMs = new TZDate(d.time, sessionBoundariesTimeZone).getTime()
+      const endTimeMs =
+        d.endTime !== undefined
+          ? new TZDate(d.endTime, sessionBoundariesTimeZone).getTime()
+          : undefined
+      // A malformed phase time parses to NaN and would silently corrupt gating
+      // (NaN comparisons are always false). Reject the whole schedule — the
+      // caller treats it like any other tradinghours failure and walks to the
+      // hard-coded fallback.
+      if (Number.isNaN(timeMs) || (endTimeMs !== undefined && Number.isNaN(endTimeMs))) {
+        throw new AdapterError({
+          statusCode: 502,
+          message: `TradingHours EA returned a malformed market-session schedule entry (unparseable time): ${JSON.stringify(
+            d,
+          )}`,
+        })
+      }
+      return {
+        status: d.status as TwentyfourFiveMarketStatus,
+        timeMs,
+        ...(endTimeMs !== undefined ? { endTimeMs } : {}),
+      }
+    })
   } catch (e) {
     if (e instanceof AdapterError) {
       e.message = `TradingHoursEA request failed: ${e.message} ${

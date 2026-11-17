@@ -112,6 +112,25 @@ const getFallbackEntry = (market: string, marketType: string): FallbackSchedule 
     ? FALLBACK_SESSION_SCHEDULE[market.toLowerCase()]
     : undefined
 
+// Why a fallback lookup misses, for the alert-facing log line in
+// getSessionSchedule: the marketType names no known session view (an invalid
+// market session name), or the market has no hard-coded entry. Both fail gating
+// closed; the reason distinguishes a config mistake (bad type) from a coverage
+// gap (new market, no schedule entry). undefined when the lookup succeeds.
+export type FallbackScheduleMissReason =
+  | 'INVALID_MARKET_SESSION_NAME'
+  | 'NO_FALLBACK_SCHEDULE_ENTRY'
+
+export const fallbackScheduleMissReason = (
+  market: string,
+  marketType: string,
+): FallbackScheduleMissReason | undefined =>
+  !TYPE_STATUS_VIEWS[marketType.toLowerCase()]
+    ? 'INVALID_MARKET_SESSION_NAME'
+    : FALLBACK_SESSION_SCHEDULE[market.toLowerCase()]
+    ? undefined
+    : 'NO_FALLBACK_SCHEDULE_ENTRY'
+
 // The timezone gating should use for a market (tradinghours fetch + fallback
 // evaluation), independent of the request's sessionBoundariesTimeZone.
 export const getGatingTimezone = (market: string, marketType: string): string | undefined =>

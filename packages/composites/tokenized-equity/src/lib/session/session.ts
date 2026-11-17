@@ -2,7 +2,11 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { TZDate } from '@date-fns/tz'
 import { getSessionsFallback } from './fallbackSession'
-import { getFallbackSessionTransitions, getGatingTimezone } from './fallbackSessionSchedule'
+import {
+  fallbackScheduleMissReason,
+  getFallbackSessionTransitions,
+  getGatingTimezone,
+} from './fallbackSessionSchedule'
 import {
   SessionTransition,
   getSessionTransitions,
@@ -63,6 +67,23 @@ export const getSessionSchedule = async (
     sessionMarket && sessionMarketType
       ? getFallbackSessionTransitions(sessionMarket, sessionMarketType, nowMs)
       : undefined
+
+  // Loud rather than silently wrong: with market identity present but no fallback
+  // entry, gating can never resolve a session start from ANY tier and will fail
+  // closed with "Session start unknown". Say why here — the 503 alone cannot
+  // distinguish a bad market session name from a market with no fallback entry.
+  // One stable token ("Market schedule undetermined") so a single log query finds
+  // every cause.
+  if (sessionMarket && sessionMarketType && fallbackTransitions === undefined) {
+    const miss = fallbackScheduleMissReason(sessionMarket, sessionMarketType)
+    logger.error(
+      `Market schedule undetermined: ${
+        miss === 'INVALID_MARKET_SESSION_NAME'
+          ? 'invalid market session name'
+          : 'no fallback schedule entry for market'
+      } — session-start gating has no schedule tier and will fail closed [market=${sessionMarket} marketType=${sessionMarketType}]`,
+    )
+  }
 
   // The fetch needs market identity and a timezone. The timezone is gating's schedule
   // entry first (so gating works without the smoother's params), else the smoother's

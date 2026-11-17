@@ -19,7 +19,7 @@ type ResponseBody = {
       phase_memo: string | null
       status: string // Closed
       start: string // 2022-02-21T05:25:00+09:00
-      end: string // 2022-02-21T05:29:00+09:00
+      end?: string // 2022-02-21T05:29:00+09:00 — upstream omits it on some phases
     }[]
   }
 }
@@ -106,6 +106,14 @@ export const parseMarketSession = (data: ResponseBody) =>
         status = TwentyfourFiveMarketStatus.REGULAR
       } else if (type.includes(POST)) {
         status = TwentyfourFiveMarketStatus.POST_MARKET
+      }
+      if (status !== TwentyfourFiveMarketStatus.UNKNOWN && (s.end === undefined || s.end === '')) {
+        // Consumers (tokenized-equity) derive closed-span (WEEKEND/holiday) starts
+        // from phase ends; without one they cannot resolve the span start from this
+        // schedule and fall back to their hard-coded schedule — loud, not silent.
+        logger.error(
+          `market-session phase is missing its end time; closed-span starts are not derivable from this schedule (phase_type=${s.phase_type} phase_name=${s.phase_name} start=${s.start})`,
+        )
       }
       return {
         status,

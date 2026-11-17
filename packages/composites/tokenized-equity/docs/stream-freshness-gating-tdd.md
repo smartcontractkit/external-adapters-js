@@ -371,9 +371,17 @@ Both checks ship dark, so enabling them changes nothing until env vars are set. 
                                          # past transition exists for any session) — never alert then;
                                          # investigate if seen during a trading day
   # fallback activation (tradinghours outage)
-  |= "TradingHoursEA request failed"     # rows 6–7: running on fallback schedule
+  |= "TradingHoursEA request failed"     # rows 6–7: running on fallback schedule; also fires when
+                                         # tradinghours returns a malformed schedule (unparseable
+                                         # phase time) — the whole schedule is rejected
   |= "no transition opening the selected session" # row 7 without a fetch error: fetched schedule
                                                   # incomplete, gate on the fallback
+  # no schedule tier at all (gating cannot resolve a start from anywhere — fail closed)
+  |= "Market schedule undetermined"      # reason in the line discriminates:
+                                         #   "invalid market session name" — bad sessionMarketType
+                                         #     (config mistake in the feed/RDD entry)
+                                         #   "no fallback schedule entry" — market has no
+                                         #     hard-coded entry (coverage gap)
   ```
 
   Example panel: `sum by (reason) (count_over_time({…} |= "<prefix>" [$__range]))` per pattern
@@ -422,6 +430,11 @@ Both checks ship dark, so enabling them changes nothing until env vars are set. 
   above); expected behavior at session opens (brief PRE_SESSION rejections possible until the
   first valid provider update, ~40–50s); instant rollback = unset the env vars and restart —
   both checks are inert when unset.
+- **`Session start unknown` during a trading day:** check for a `Market schedule undetermined`
+  error line first — its reason says whether the feed carries an invalid market session name
+  (fix the feed/RDD config) or the market has no fallback schedule entry (add one; until then
+  the feed fails closed). Its absence means tradinghours is down AND the fallback could not
+  place the session.
 - **NOP-facing note:** what a 503 from this EA means for NOPs running it — during provider
   degradation the EA intentionally rejects rather than serves stale/pre-session data, so the
   feed holds its last onchain value; a sustained 503 with `Market data is stale` /

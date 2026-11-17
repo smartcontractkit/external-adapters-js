@@ -34,7 +34,10 @@ export type BaseEndpointTypes = {
         status: MarketStatusResultResponse['Result']
         statusString: string
         time: string
-        endTime: string
+        // Optional: upstream omits `end` on some phases; the parser logs an error
+        // when a recognized phase lacks it (consumers fall back to their hard-coded
+        // schedule for closed-span starts).
+        endTime?: string
       }[]
     }
   }

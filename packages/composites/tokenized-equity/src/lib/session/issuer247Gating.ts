@@ -1,8 +1,11 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
 import { currentSessionStartMs, nextSessionStartMs, reportTimeMs } from './sessionStart'
 import { SessionTransition } from './tradingHoursSession'
+
+const logger = makeLogger('Issuer247Gating')
 
 // Session-start gating for the 24/7 issuer-price-247 endpoint (TDD:
 // docs/issuer-247-session-start-gating-tdd.md, ADR-0007). Unlike 24/5 — where the
@@ -131,6 +134,16 @@ export const gateIssuer247Report = ({
       startMs = resolveStart(fallbackTransitions)
       source = startMs !== undefined ? 'FALLBACK' : undefined
     }
+  }
+
+  if (source === 'FALLBACK' && transitions !== undefined && marketSessionOverride === undefined) {
+    // The fetch succeeded but the schedule has no transition opening the report's
+    // session — no error line is logged on that path, so say so distinctly here;
+    // otherwise the gate's fallback activation is invisible in telemetry. (Same
+    // signal as the 24/5 warn in streams.ts.)
+    logger.warn(
+      `Session-start gating: fetched tradinghours schedule has no transition opening the report's session; using the hard-coded fallback schedule (marketStatus=${status})`,
+    )
   }
 
   if (startMs === undefined) {

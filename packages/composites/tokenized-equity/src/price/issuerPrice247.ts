@@ -91,20 +91,28 @@ const gateReport = async (
     )
   }
 
+  const overrideStatus =
+    marketSessionOverride !== undefined
+      ? TwentyfourFiveMarketStatus[marketSessionOverride as keyof typeof TwentyfourFiveMarketStatus]
+      : undefined
+  if (marketSessionOverride !== undefined && overrideStatus === undefined) {
+    // The endpoint's options list normally rejects unknown names with a 400; if
+    // that ever drifts, the override silently no-ops (undefined → non-override
+    // path). Loud instead: a staging tester must see that the hook did nothing.
+    logger.warn(
+      `marketSessionOverride=${JSON.stringify(
+        marketSessionOverride,
+      )} is not a TwentyfourFiveMarketStatus name; ignoring it (request gates against the wall clock)`,
+    )
+  }
+
   return gateIssuer247Report({
     marketStatus: data.marketStatus,
     lastSeenTimestampNs: data.lastSeenTimestampNs,
     nowMs,
     transitions,
     fallbackTransitions: getFallbackSessionTransitions(GATE_MARKET, GATE_FALLBACK_TYPE, nowMs),
-    ...(marketSessionOverride !== undefined
-      ? {
-          marketSessionOverride:
-            TwentyfourFiveMarketStatus[
-              marketSessionOverride as keyof typeof TwentyfourFiveMarketStatus
-            ],
-        }
-      : {}),
+    ...(overrideStatus !== undefined ? { marketSessionOverride: overrideStatus } : {}),
   })
 }
 

@@ -1,6 +1,29 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 
+// The parser logs (missing phase end) via the framework logger; the mock factory
+// must be self-contained (hoisted above imports); the transport imports makeLogger
+// from the util/logger subpath, so that is the module to mock. Every module under
+// test shares the one logger instance.
+jest.mock('@chainlink/external-adapter-framework/util/logger', () => {
+  const logger = {
+    error: jest.fn(),
+    warn: jest.fn(),
+    info: jest.fn(),
+    debug: jest.fn(),
+    trace: jest.fn(),
+    fatal: jest.fn(),
+  }
+  return {
+    ...jest.requireActual('@chainlink/external-adapter-framework/util/logger'),
+    makeLogger: jest.fn(() => logger),
+  }
+})
+
+import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { parseMarketSession } from '../../src/transport/market-session'
+
+// The single logger instance every module under test gets from the mocked factory.
+const mockLogger = (makeLogger as unknown as jest.Mock)()
 
 // Unit tests for the market-session parser, focused on the additive `endTime`
 // passthrough (tradinghours ADR-0001): callers derive the start of a closed span
@@ -99,6 +122,46 @@ describe('parseMarketSession', () => {
 
       expect(result[0].endTime).toBe('2022-01-01T19:00:00-05:00')
       expect(result[1].time).toBe('2022-01-02T20:00:00-05:00')
+    })
+
+    it('logs an error and emits endTime: undefined when a recognized phase has no end', () => {
+      mockLogger.error.mockClear()
+      const p = phase(
+        'Post-Trading Session',
+        '',
+        '2022-01-01T16:00:00-05:00',
+        '2022-01-01T20:00:00-05:00',
+      )
+      const result = parseMarketSession(body([{ ...p, end: undefined }]))
+
+      // The transition still carries its start (session-open gating is unaffected);
+      // only the closed-span derivation loses this schedule and falls back.
+      expect(result).toStrictEqual([
+        {
+          status: TwentyfourFiveMarketStatus.POST_MARKET,
+          statusString: 'POST_MARKET',
+          time: '2022-01-01T16:00:00-05:00',
+          endTime: undefined,
+        },
+      ])
+      expect(mockLogger.error).toHaveBeenCalledTimes(1)
+      expect(mockLogger.error).toHaveBeenCalledWith(
+        expect.stringContaining('market-session phase is missing its end time'),
+      )
+    })
+
+    it('does not log for phases that map to UNKNOWN (filtered out anyway)', () => {
+      mockLogger.error.mockClear()
+      const p = phase(
+        'Some Other Phase',
+        '',
+        '2022-01-01T16:00:00-05:00',
+        '2022-01-01T20:00:00-05:00',
+      )
+      const result = parseMarketSession(body([{ ...p, end: undefined }]))
+
+      expect(result).toStrictEqual([])
+      expect(mockLogger.error).not.toHaveBeenCalled()
     })
   })
 

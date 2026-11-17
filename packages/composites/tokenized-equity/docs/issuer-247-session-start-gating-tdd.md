@@ -261,8 +261,21 @@ The check ships dark, so enabling it changes nothing until the env var is set. O
   ```
   |= "Market data predates session start"  # pre-session leftover (gating working)
   |= "Session start unknown"               # indeterminate session with fail-closed on
-  |= "TradingHoursEA request failed"       # running on the fallback schedule
+  |= "TradingHoursEA request failed"       # running on the fallback schedule; also fires on a
+                                           # malformed schedule (unparseable phase time) — the
+                                           # whole schedule is rejected
+  |= "no transition opening the report's session" # fetched schedule unusable for the report's
+                                                  # declared session, gate on the fallback
+  |= "Market schedule undetermined"        # no schedule tier at all (invalid market session
+                                           # name / no fallback entry) — fail closed; the
+                                           # reason in the line discriminates the cause
   ```
+
+  A missing phase `end` in the upstream tradinghours response is logged by the tradinghours
+  adapter itself (`market-session phase is missing its end time`); closed-span (WEEKEND)
+  starts then come from the hard-coded fallback schedule — visible here via
+  `gatingSessionSource: 'FALLBACK'` and, when the fetch otherwise succeeded, the
+  `no transition opening the report's session` warn.
 
   Responses carry `gatingSessionSource: 'TRADINGHOURS' | 'FALLBACK'`, as on 24/5.
   Indeterminate sessions always 503 `Session start unknown` (ADR-0007 — no fail-open toggle).
@@ -299,6 +312,12 @@ The check ships dark, so enabling it changes nothing until the env var is set. O
 - **Our on-call:** distinguishing intended 503s from outages (reason patterns above); expected
   brief PRE_SESSION windows at every session open including the Friday weekend start; instant
   rollback = unset `ISSUER_247_SESSION_START_GATING_ENABLED` and restart.
+- **`Session start unknown` on 24/7 is always schedule- or report-side** (24/7 has no
+  market-closed 503, so unlike 24/5 there is no "expected when closed" case): an
+  UNKNOWN/unmapped report `marketStatus` (data-engine side), or no schedule tier could resolve
+  the start — check for `Market schedule undetermined` (config mistake vs. fallback coverage
+  gap, per the reason in the line) and `TradingHoursEA request failed` /
+  `no transition opening the report's session` (tradinghours outage vs. unusable schedule).
 - **NOP-facing note:** what a 503 from this endpoint means — during provider warm-up at a
   session boundary the EA intentionally rejects rather than serves a pre-session report, so the
   feed holds its last onchain value. NOPs receive this rollout with the flag **on** (§6), so
@@ -323,7 +342,10 @@ The check ships dark, so enabling it changes nothing until the env var is set. O
 2. **Staging, flag on.** Enable `ISSUER_247_SESSION_START_GATING_ENABLED`. Soak
    through at least a Thursday→Monday window so the Friday weekend start and the Sunday
    overnight open are both exercised; use the `marketSessionOverride` hook (§8) for
-   deterministic rejection-path verification.
+   deterministic rejection-path verification. Note the hook gates against the tradinghours
+   schedule only: if tradinghours is unreachable during the exercise, override requests 503
+   `Session start unknown` by design (fallback never consulted) — retry once tradinghours is
+   healthy rather than treating it as a hook failure.
 3. **NOP rollout, flag on.** Roll out to NOPs with the flag enabled. The §5 NOP-facing note
    travels with the release notes.
 
@@ -370,9 +392,12 @@ rejection totals (a vanity metric here).
 **API / request interface: unchanged for production traffic.** The response schema gains the
 `gatingSessionSource` field (as on 24/5); the optional `marketSessionOverride` test hook
 (already defined for 24/5, gated behind `ALLOW_MARKET_SESSION_OVERRIDE`) is honored on this
-endpoint for staging verification. The only user-visible difference is _new 503 rejections with
-the established messages_, and only when the new env config is enabled. The 200 path is
-byte-identical with everything off.
+endpoint for staging verification. The override resolves from the **tradinghours schedule
+only** — the hard-coded fallback is deliberately never consulted (same rule as 24/5) — so
+with the hook set and tradinghours unreachable, no future transition exists and the request
+503s `Session start unknown`; that is expected, not a regression. The only user-visible
+difference is _new 503 rejections with the established messages_, and only when the new env
+config is enabled. The 200 path is byte-identical with everything off.
 
 **tradinghours `market-session` response: additive.** Each transition gains `endTime`
 (alongside the existing `status` / `statusString` / `time`). Tokenized-equity is the only
