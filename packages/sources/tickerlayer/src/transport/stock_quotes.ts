@@ -6,7 +6,7 @@ import { toNumber } from './util'
 
 export interface WSResponse {
   type: string
-  channel: string
+  channel?: string
   asset: string
   symbol: string
   bid: number | string
@@ -16,6 +16,8 @@ export interface WSResponse {
   bid_size: number | string
   ask_size: number | string
   ts: number
+  message?: string
+  event?: string
 }
 
 export type WsTransportTypes = BaseEndpointTypes & {
@@ -34,9 +36,30 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
       url: (context) =>
         `${context.adapterSettings.WS_API_ENDPOINT}?apiKey=${context.adapterSettings.API_KEY}`,
       handlers: {
+        heartbeat(connection) {
+          connection.send(JSON.stringify({ action: 'ping' }))
+        },
         message(message) {
+          const assetTypeFromChannel = message.channel?.split('.')[0]
+          if (message.type === 'error' && message.symbol && assetTypeFromChannel) {
+            return [
+              {
+                params: {
+                  base: message.symbol,
+                  assetType: assetTypeFromChannel,
+                  isOvernight: assetTypeFromChannel === 'overnight',
+                },
+                response: {
+                  errorMessage: `${message.symbol}: ${message.message}`,
+                  statusCode: 502,
+                },
+              },
+            ]
+          }
           if (message.type === 'system') {
-            logger.debug({ msg: 'Ignoring system message', ignoredMessage: message })
+            if (message.event !== 'pong') {
+              logger.debug({ msg: 'Ignoring system message', ignoredMessage: message })
+            }
             return
           }
           const isOvernight = message.session == 'overnight'

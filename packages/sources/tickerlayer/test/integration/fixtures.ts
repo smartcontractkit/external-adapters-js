@@ -43,6 +43,21 @@ export const mockStockQuotesWebsocketServer = (URL: string): MockWebsocketServer
           }),
         )
       }
+      if (channels?.includes('commodities.quotes')) {
+        return socket.send(
+          JSON.stringify({
+            type: 'quote',
+            channel: 'commodities.quotes',
+            asset: 'commodities',
+            symbol: 'XAUUSD',
+            bid: '4000',
+            ask: '4001',
+            bid_size: '5',
+            ask_size: '6',
+            ts: 1999999,
+          }),
+        )
+      }
       return socket.send(
         JSON.stringify({
           type: 'quote',

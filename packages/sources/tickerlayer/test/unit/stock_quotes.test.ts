@@ -417,6 +417,68 @@ describe('StockQuotesWebSocketTransport', () => {
     log.mockClear()
   })
 
+  it('should write error response for regular error message', async () => {
+    const symbol = 'US:INVALID'
+    const params = makeParams(symbol, etfQuotesAsset)
+
+    const t0 = Date.now()
+    await setUpSubscription(symbol, etfQuotesAsset)
+    const t1 = Date.now()
+
+    socket.send(
+      JSON.stringify({
+        type: 'error',
+        channel: etfQuotesChannel,
+        symbol,
+        message: 'symbol not found',
+      }),
+    )
+
+    const response = {
+      errorMessage: `${symbol}: symbol not found`,
+      statusCode: 502,
+      timestamps: {
+        providerDataStreamEstablishedUnixMs: t0,
+        providerDataReceivedUnixMs: t1,
+        providerIndicatedTimeUnixMs: undefined,
+      },
+    }
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [{ params, response }])
+    expect(responseCache.write).toHaveBeenCalledTimes(1)
+  })
+
+  it('should write error response for overnight error message', async () => {
+    const symbol = 'US:INVALID'
+    const params = makeParams(symbol, 'overnight', true)
+
+    const t0 = Date.now()
+    await setUpSubscription(symbol, 'overnight', true)
+    const t1 = Date.now()
+
+    socket.send(
+      JSON.stringify({
+        type: 'error',
+        channel: overnightQuotesChannel,
+        symbol,
+        message: 'symbol not found',
+      }),
+    )
+
+    const response = {
+      errorMessage: `${symbol}: symbol not found`,
+      statusCode: 502,
+      timestamps: {
+        providerDataStreamEstablishedUnixMs: t0,
+        providerDataReceivedUnixMs: t1,
+        providerIndicatedTimeUnixMs: undefined,
+      },
+    }
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [{ params, response }])
+    expect(responseCache.write).toHaveBeenCalledTimes(1)
+  })
+
   it('should ignore non-overnight messages with zero ask volume', async () => {
     const symbol = 'US:AAPL'
 
