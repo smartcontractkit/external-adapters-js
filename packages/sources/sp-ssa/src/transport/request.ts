@@ -10,6 +10,7 @@ import { AuthManager } from './auth'
 
 export class SsaAuthError extends AdapterError {
   timestamps?: ResponseTimestamps
+  keepCachedSuccess: boolean
 
   constructor(error: unknown) {
     super({
@@ -21,6 +22,7 @@ export class SsaAuthError extends AdapterError {
       providerStatusCode: error instanceof AdapterError ? error.providerStatusCode : undefined,
     })
     this.timestamps = (error as { timestamps?: ResponseTimestamps })?.timestamps
+    this.keepCachedSuccess = (error as { keepCachedSuccess?: boolean })?.keepCachedSuccess ?? false
   }
 }
 
@@ -46,11 +48,6 @@ const AUTH_FAILURE_STATUS_CODES = new Set([401, 403])
 const isUnauthorized = (error: unknown): boolean =>
   error instanceof AdapterDataProviderError &&
   AUTH_FAILURE_STATUS_CODES.has(error.providerStatusCode ?? 0)
-
-export const isCredentialFailure = (error: unknown): boolean =>
-  error instanceof SsaAuthError &&
-  (error.providerStatusCode === undefined ||
-    AUTH_FAILURE_STATUS_CODES.has(error.providerStatusCode))
 
 const emptyTimestamps = (): ResponseTimestamps => ({
   providerDataRequestedUnixMs: 0,

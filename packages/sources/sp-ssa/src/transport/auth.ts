@@ -29,14 +29,17 @@ interface CachedToken {
 
 class TokenRequestError extends AdapterError {
   timestamps: ResponseTimestamps
+  keepCachedSuccess: boolean
 
   constructor(
     message: string,
     providerStatusCode: number | undefined,
     timestamps: ResponseTimestamps,
+    keepCachedSuccess = false,
   ) {
     super({ statusCode: 502, message, providerStatusCode })
     this.timestamps = timestamps
+    this.keepCachedSuccess = keepCachedSuccess
   }
 }
 
@@ -73,7 +76,6 @@ export class AuthManager {
   private readonly requester: Requester
   private readonly settings: AuthSettings
   private cached?: CachedToken
-  private pending?: Promise<string>
   private refreshRetryAtMs = 0
 
   constructor(requester: Requester, settings: AuthSettings) {
@@ -82,24 +84,12 @@ export class AuthManager {
   }
 
   async getToken(): Promise<string> {
-    const reusable = this.reusableToken(Date.now())
-    if (reusable) {
-      return reusable
-    }
-    return this.pending ?? this.startMint()
+    return this.reusableToken(Date.now()) ?? this.mintToken()
   }
 
   invalidate(): void {
     this.cached = undefined
     this.refreshRetryAtMs = 0
-  }
-
-  private startMint(): Promise<string> {
-    const mint = this.mintToken().finally(() => {
-      this.pending = undefined
-    })
-    this.pending = mint
-    return mint
   }
 
   private reusableToken(now: number): string | undefined {
@@ -216,6 +206,7 @@ export class AuthManager {
           `Unable to obtain an access token: ${error.message}`,
           error.providerStatusCode,
           error.timestamps,
+          error instanceof AdapterConnectionError,
         )
       }
       throw error

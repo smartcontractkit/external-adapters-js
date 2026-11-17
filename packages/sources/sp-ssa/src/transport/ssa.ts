@@ -13,7 +13,6 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import {
   AdapterConnectionError,
   AdapterDataProviderError,
-  AdapterError,
   AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
@@ -23,8 +22,8 @@ import {
   errorStatusCode,
   errorTimestamps,
   fetchScoresWithReauth,
-  isCredentialFailure,
   ProviderResponse,
+  SsaAuthError,
   SsaProviderDataError,
 } from './request'
 import { parseProviderRecords, parseScore, parseTimestamp, selectRecord } from './utils'
@@ -62,13 +61,10 @@ export type SsaTransportTypes = BaseEndpointTypes & {
 }
 
 export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
-  private static readonly AUTH_FAILURE_COOLDOWN_MS = 60_000
-
   requester!: Requester
   settings!: SsaTransportTypes['Settings']
   endpointName!: string
   authManager!: AuthManager
-  private authFailureUntil = 0
 
   override async initialize(
     dependencies: TransportDependencies<SsaTransportTypes>,
@@ -92,17 +88,6 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
     entries: RequestParams[],
   ): Promise<void> {
     if (entries.length === 0) {
-      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
-      return
-    }
-    if (Date.now() < this.authFailureUntil) {
-      await this.writeErrorResults(
-        new AdapterError({
-          statusCode: 502,
-          message: 'The data provider rejected the credentials; retrying after a cooldown',
-        }),
-        entries,
-      )
       await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
       return
     }
@@ -208,9 +193,6 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
   }
 
   private async writeErrorResults(error: unknown, entries: RequestParams[]): Promise<void> {
-    if (isCredentialFailure(error)) {
-      this.authFailureUntil = Date.now() + SsaTransport.AUTH_FAILURE_COOLDOWN_MS
-    }
     const message = errorMessage(error)
     logger.error(message)
     const timestamps = errorTimestamps(error)
@@ -224,7 +206,9 @@ export class SsaTransport extends SubscriptionTransport<SsaTransportTypes> {
       },
     }))
     const keepCachedSuccess =
-      error instanceof AdapterConnectionError || error instanceof AdapterRateLimitError
+      error instanceof AdapterConnectionError ||
+      error instanceof AdapterRateLimitError ||
+      (error instanceof SsaAuthError && error.keepCachedSuccess)
     await this.writeResults(results, !keepCachedSuccess)
   }
 
