@@ -180,7 +180,7 @@ describe('reserve endpoint', () => {
     const { response, body } = await harness.request()
 
     expect(response.statusCode).toBe(502)
-    expect(body.errorMessage).toContain('expected 21 positions but received 20')
+    expect(body.errorMessage).toContain('expected 21 positions, received 20')
     expect(body.result).toBeUndefined()
     expect(body.data).toBeUndefined()
     expect(fake.positionsRequests.map((request) => request.page)).toEqual([0, 1])
@@ -262,7 +262,7 @@ describe('reserve endpoint', () => {
         { positions: [position({ isin: 'CH0000000001' })], ...pageMetadata(0, 2, 21) },
         { positions: [position()], ...pageMetadata(1, 3, 41), last: false },
       ],
-      message: 'totalPages changed',
+      message: 'page metadata changed after page 0',
     },
   ])('rejects unusable pagination when $inconsistency', async ({ pages, message }) => {
     pages.forEach((pageBody, index) => {
@@ -344,24 +344,28 @@ describe('reserve endpoint', () => {
     expect(request.headers['x-correlation-id']).toMatch(UUID_PATTERN)
   })
 
-  it('renews the access token once and retries a positions request answered with 401', async () => {
-    fake.page(
-      0,
-      { statusCode: 401, body: { title: 'Unauthorized', status: 401 } },
-      { statusCode: 200, body: page({ positions: [position({ quantity: 12.5 })] }) },
-    )
+  it.each([
+    {
+      change: 'totalElements changes after page 0',
+      secondPage: { positions: [position()], ...pageMetadata(1, 2, 40) },
+    },
+    {
+      change: 'size changes after page 0',
+      secondPage: { positions: [position()], ...pageMetadata(1, 2, 42, { size: 21 }) },
+    },
+  ])('rejects page metadata that changes after page 0 when $change', async ({ secondPage }) => {
+    fake.page(0, {
+      statusCode: 200,
+      body: page({ positions: nonMatchingPositions(20), ...pageMetadata(0, 2, 21) }),
+    })
+    fake.page(1, { statusCode: 200, body: page(secondPage) })
 
     const { response, body } = await harness.request()
 
-    expect(response.statusCode).toBe(200)
-    expect(body.result).toBe(12.5)
-    expect(fake.positionsRequests.map((request) => request.page)).toEqual([0, 0])
-    expect(fake.refreshRequests).toHaveLength(1)
-    expect(fake.positionsRequests[1].headers.authorization).toBe(
-      `Bearer ${authBody('2').accessToken}`,
-    )
-    expect(fake.positionsRequests[1].headers.authorization).not.toBe(
-      fake.positionsRequests[0].headers.authorization,
-    )
+    expect(response.statusCode).toBe(502)
+    expect(body.errorMessage).toContain('page metadata changed after page 0')
+    expect(body.result).toBeUndefined()
+    expect(body.data).toBeUndefined()
+    expect(fake.positionsRequests.map((request) => request.page)).toEqual([0, 1])
   })
 })

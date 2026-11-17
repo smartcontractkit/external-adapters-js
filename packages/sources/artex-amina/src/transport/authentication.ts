@@ -1,5 +1,5 @@
 import { createHmac, randomUUID } from 'crypto'
-import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import {
   AdapterConnectionError,
@@ -8,9 +8,7 @@ import {
 
 const logger = makeLogger('AminaAuthentication')
 
-// AMINA issues an access token valid for one hour and a refresh token valid for
-// 24 hours. The auth response carries no expiry, so the adapter keeps these
-// documented lifetimes and renews slightly ahead of expiry.
+// AMINA tokens: access 1 hour, refresh 24 hours; renew ahead of the expiry.
 const ACCESS_TOKEN_TTL_MS = 60 * 60 * 1000
 const REFRESH_TOKEN_TTL_MS = 24 * 60 * 60 * 1000
 const TOKEN_EXPIRY_MARGIN_MS = 60 * 1000
@@ -58,8 +56,7 @@ export const signRequest = ({
   }
 }
 
-// Keep the provider status and body in the reported error: operations need to
-// tell a rejected signature from a rejected credential or an expired token.
+// Keep the provider status and body so operations can tell failures apart.
 export const toProviderError = (step: string, error: unknown): AdapterError => {
   if (error instanceof AdapterConnectionError) {
     return new AdapterConnectionError(
@@ -92,20 +89,6 @@ export const toProviderError = (step: string, error: unknown): AdapterError => {
   })
 }
 
-// Connection failures never reached the provider, so no nonce was consumed and
-// a retry with fresh request IDs is safe. Provider 408/429/5xx are transient;
-// 400/401, parse errors, and local queue overflow are not.
-export const isTransient = (error: unknown): boolean => {
-  if (error instanceof AdapterConnectionError) {
-    return true
-  }
-  if (!(error instanceof AdapterError)) {
-    return false
-  }
-  const status = error.providerStatusCode
-  return status === 408 || status === 429 || (status !== undefined && status >= 500)
-}
-
 const parseAuthResponse = (data: AuthResponseSchema): AuthResponseSchema => {
   if (typeof data?.accessToken !== 'string' || typeof data?.refreshToken !== 'string') {
     throw new AdapterError({
@@ -116,9 +99,6 @@ const parseAuthResponse = (data: AuthResponseSchema): AuthResponseSchema => {
   return data
 }
 
-const MAX_AUTH_ATTEMPTS = 2
-const AUTH_RETRY_DELAY_MS = 1_000
-
 const requestAuth = async (
   requester: Requester,
   key: string,
@@ -126,32 +106,23 @@ const requestAuth = async (
   baseURL: string,
   body: Record<string, string>,
 ): Promise<AuthResponseSchema> => {
-  let attempt = 1
-  for (;;) {
-    try {
-      const { response } = await requester.request<AuthResponseSchema>(key, {
-        baseURL,
-        url: '/api/b2c/v1/auth',
-        method: 'POST',
-        headers: {
-          ...requestIds(),
-          'Content-Type': 'application/json',
-        },
-        data: body,
-      })
-      return parseAuthResponse(response.data)
-    } catch (error) {
-      const providerError = toProviderError(step, error)
-      if (!isTransient(providerError) || attempt === MAX_AUTH_ATTEMPTS) {
-        throw providerError
-      }
-      logger.info(
-        `AMINA ${step} failed transiently; retrying in ${AUTH_RETRY_DELAY_MS} ms (attempt ${attempt} of ${MAX_AUTH_ATTEMPTS})`,
-      )
-      await sleep(AUTH_RETRY_DELAY_MS)
-      attempt += 1
-    }
+  let data: AuthResponseSchema
+  try {
+    const { response } = await requester.request<AuthResponseSchema>(key, {
+      baseURL,
+      url: '/api/b2c/v1/auth',
+      method: 'POST',
+      headers: {
+        ...requestIds(),
+        'Content-Type': 'application/json',
+      },
+      data: body,
+    })
+    data = response.data
+  } catch (error) {
+    throw toProviderError(step, error)
   }
+  return parseAuthResponse(data)
 }
 
 export const login = (
@@ -177,9 +148,8 @@ export class AminaAuth {
 
   constructor(private requester: Requester, private settings: AminaAuthSettings) {}
 
-  // Reuse the access token for every positions page and retry of a run. Refresh
-  // when it is near expiry, and log in again once the refresh token is near
-  // expiry or the refresh is rejected.
+  // Reuse the access token for every page of a run; refresh near expiry and log
+  // in again once the refresh token is near expiry or the refresh is rejected.
   async getAccessToken(): Promise<string> {
     if (this.accessToken && Date.now() < this.accessTokenExpiresAtMs) {
       return this.accessToken
@@ -201,9 +171,6 @@ export class AminaAuth {
     return this.requestLogin()
   }
 
-  // A positions GET answered 401: discard the access token and obtain a new one
-  // through the refresh token, or through a fresh login when refresh is not
-  // possible.
   async renewAfterUnauthorized(): Promise<string> {
     this.accessToken = undefined
     this.accessTokenExpiresAtMs = 0

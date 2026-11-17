@@ -1,22 +1,22 @@
-import { page, position } from '../fixtures/amina'
+import { page, pageMetadata, position } from '../fixtures/amina'
 import { ReserveHarness } from '../fixtures/harness'
 
-// The budget stops the retry after the first backoff, which is 2 s.
-jest.setTimeout(60_000)
+// The slow page and the budget check complete well inside the default timeout.
+jest.setTimeout(30_000)
 
-const providerError = (status: number) => ({ title: `Provider ${status}`, status })
+const nonMatchingPositions = (count: number): Record<string, unknown>[] =>
+  Array.from({ length: count }, (_, index) => position({ isin: 'CH0000000001', quantity: index }))
 
-describe('retry budget', () => {
+describe('background budget', () => {
   const harness = new ReserveHarness()
   const { fake } = harness
 
   beforeAll(async () => {
     await harness.start({
       env: {
-        // The budget leaves 1.6 s for work (3000 ms minus the 400 ms post-pass
-        // sleep and the 1000 ms margin), and a request reserves API_TIMEOUT
-        // before it starts, so the retry after the 2 s backoff can no longer
-        // fit and is not attempted.
+        // The deadline is 1600 ms: 3000 ms minus the 400 ms post-pass sleep and
+        // the 1000 ms margin. A page that takes 800 ms leaves less than
+        // API_TIMEOUT before that deadline, so the next page is not requested.
         API_TIMEOUT: '1000',
         BACKGROUND_EXECUTE_TIMEOUT: '3000',
         BACKGROUND_EXECUTE_MS: '400',
@@ -28,16 +28,18 @@ describe('retry budget', () => {
     await harness.stop()
   })
 
-  it('stops before the second attempt when the retry budget is exhausted', async () => {
+  it('stops before page 1 when page 0 uses the budget', async () => {
     await harness.prepare()
-    // Two more replies are registered so an attempt that ignores the budget
-    // would be answered and visible in the request log.
-    fake.page(
-      0,
-      { statusCode: 500, body: providerError(500) },
-      { statusCode: 500, body: providerError(500) },
-      { statusCode: 200, body: page({ positions: [position()] }) },
-    )
+    fake.page(0, {
+      statusCode: 200,
+      delayMs: 800,
+      body: page({ positions: nonMatchingPositions(20), ...pageMetadata(0, 2, 21) }),
+    })
+    // Page 1 is answered if it is requested, so asking for it would be visible.
+    fake.page(1, {
+      statusCode: 200,
+      body: page({ positions: [position()], ...pageMetadata(1, 2, 21) }),
+    })
 
     const { response, body } = await harness.requestAndWaitForResult()
 
@@ -45,35 +47,6 @@ describe('retry budget', () => {
     expect(body.errorMessage).toContain('background execution budget is exhausted')
     expect(body.result).toBeUndefined()
     expect(body.data).toBeUndefined()
-    expect(fake.positionsRequests).toHaveLength(1)
-  })
-
-  it('reserves the post-pass sleep when a longer budget would fit the retry', async () => {
-    const settings = harness.testAdapter.adapter.config.settings
-    const originalTimeout = settings.BACKGROUND_EXECUTE_TIMEOUT
-    // With 4000 ms the budget is 2600 ms (4000 - 400 sleep - 1000 margin), so
-    // the attempt after the 2 s backoff still cannot start. Without the
-    // reserved sleep (a flipped sign) the budget would be 3400 ms and the
-    // second attempt would be sent.
-    settings.BACKGROUND_EXECUTE_TIMEOUT = 4000
-    try {
-      await harness.prepare()
-      fake.page(
-        0,
-        { statusCode: 500, body: providerError(500) },
-        { statusCode: 500, body: providerError(500) },
-        { statusCode: 200, body: page({ positions: [position()] }) },
-      )
-
-      const { response, body } = await harness.requestAndWaitForResult()
-
-      expect(response.statusCode).toBe(502)
-      expect(body.errorMessage).toContain('background execution budget is exhausted')
-      expect(body.result).toBeUndefined()
-      expect(body.data).toBeUndefined()
-      expect(fake.positionsRequests).toHaveLength(1)
-    } finally {
-      settings.BACKGROUND_EXECUTE_TIMEOUT = originalTimeout
-    }
+    expect(fake.positionsRequests.map((request) => request.page)).toEqual([0])
   })
 })

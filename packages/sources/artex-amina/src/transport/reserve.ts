@@ -5,16 +5,13 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/reserve'
-import { AminaAuth, isTransient, requestIds, signRequest, toProviderError } from './authentication'
+import { AminaAuth, requestIds, signRequest, toProviderError } from './authentication'
 
 const logger = makeLogger('ArtexAminaReserveTransport')
 
 const PAGE_SIZE = 20
 const QUANTITY_DECIMALS = 4
 const USER_AGENT = 'chainlink-artex-amina-adapter'
-// AMINA retry guidance: exponential backoff, capped at 40 seconds.
-const MAX_ATTEMPTS = 3
-const MAX_BACKOFF_MS = 40_000
 const BUDGET_MARGIN_MS = 1_000
 
 type RequestParams = typeof inputParameters.validated
@@ -28,6 +25,7 @@ interface PositionsResponseSchema {
   positions: PositionSchema[]
   totalPages: number
   totalElements: number
+  size: number
   last: boolean
 }
 
@@ -40,45 +38,40 @@ const unusable = (message: string): AdapterError =>
     message: `AMINA positions response is unusable: ${message}`,
   })
 
-// Report a partial or self-contradictory page instead of publishing a wrong reserve.
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  Object.prototype.toString.call(value) === '[object Object]'
+const isInteger = (value: unknown): value is number => Number.isInteger(value)
+const isFiniteNumber = (value: unknown): value is number => Number.isFinite(value)
+const isBoolean = (value: unknown): value is boolean => value === true || value === false
+
 export const parsePositionsPage = (
   data: unknown,
   expectedPage: number,
 ): PositionsResponseSchema => {
-  if (typeof data !== 'object' || data === null || Array.isArray(data)) {
-    throw unusable('the body is not an object')
-  }
+  if (!isRecord(data)) throw unusable('the body is not an object')
 
-  const body = data as Record<string, unknown>
-  const totalPages = body.totalPages
-  const totalElements = body.totalElements
-  const size = body.size
-  const first = body.first
+  const totalPages = data.totalPages
+  const totalElements = data.totalElements
+  const size = data.size
+  const first = data.first
+  const last = data.last
 
-  if (typeof totalPages !== 'number' || !Number.isInteger(totalPages) || totalPages < 0) {
+  if (!isInteger(totalPages) || totalPages < 0) {
     throw unusable('totalPages is not a non-negative integer')
   }
-  if (typeof totalElements !== 'number' || !Number.isInteger(totalElements) || totalElements < 0) {
+  if (!isInteger(totalElements) || totalElements < 0) {
     throw unusable('totalElements is not a non-negative integer')
   }
-  if (typeof size !== 'number' || !Number.isInteger(size) || size < 1) {
-    throw unusable('size is not a positive integer')
+  if (!isInteger(size) || size < 1) throw unusable('size is not a positive integer')
+  if (!isBoolean(first)) throw unusable('first is not a boolean')
+  if (data.number !== expectedPage) {
+    throw unusable(`page ${String(data.number)} is not ${expectedPage}`)
   }
-  if (typeof first !== 'boolean') {
-    throw unusable('first is not a boolean')
+  if (!Array.isArray(data.positions)) throw unusable('positions is not an array')
+  if (data.positions.length > size) {
+    throw unusable(`positions has ${data.positions.length} entries but size is ${size}`)
   }
-  if (body.number !== expectedPage) {
-    throw unusable(
-      `page number ${String(body.number)} does not match the requested page ${expectedPage}`,
-    )
-  }
-  if (!Array.isArray(body.positions)) {
-    throw unusable('positions is not an array')
-  }
-  if (body.positions.length > size) {
-    throw unusable(`positions has ${body.positions.length} entries but size is ${size}`)
-  }
-  if (totalPages === 0 && body.positions.length !== 0) {
+  if (totalPages === 0 && data.positions.length !== 0) {
     throw unusable('totalPages is 0 but positions is not empty')
   }
   const expectedTotalPages = Math.ceil(totalElements / size)
@@ -87,36 +80,27 @@ export const parsePositionsPage = (
       `totalPages is ${totalPages} but totalElements ${totalElements} and size ${size} give ${expectedTotalPages}`,
     )
   }
-  if (first !== (expectedPage === 0)) {
-    throw unusable(`first is ${first} on page ${expectedPage}`)
-  }
-  if (typeof body.last !== 'boolean') {
-    throw unusable('last is not a boolean')
-  }
+  if (first !== (expectedPage === 0)) throw unusable(`first is ${first} on page ${expectedPage}`)
+  if (!isBoolean(last)) throw unusable('last is not a boolean')
   const isLastPage = totalPages === 0 ? true : expectedPage + 1 === totalPages
-  if (body.last !== isLastPage) {
-    throw unusable(
-      `last is ${body.last} but page ${expectedPage} of ${totalPages} is ${
-        isLastPage ? '' : 'not '
-      }last`,
-    )
+  if (last !== isLastPage) {
+    throw unusable(`last ${last} contradicts page ${expectedPage} of ${totalPages}`)
   }
 
-  const positions = body.positions.map((position, index) => {
-    if (typeof position !== 'object' || position === null) {
-      throw unusable(`positions[${index}] is not an object`)
-    }
-    const { isin, quantity } = position as Record<string, unknown>
+  const positions = data.positions.map((position, index) => {
+    if (!isRecord(position)) throw unusable(`positions[${index}] is not an object`)
+    const isin = position.isin
+    const quantity = position.quantity
     if (typeof isin !== 'string') {
       throw unusable(`positions[${index}].isin is not a string`)
     }
-    if (typeof quantity !== 'number' || !Number.isFinite(quantity)) {
+    if (!isFiniteNumber(quantity)) {
       throw unusable(`positions[${index}].quantity is not a finite number`)
     }
     return { isin, quantity }
   })
 
-  return { positions, totalPages, totalElements, last: body.last }
+  return { positions, totalPages, totalElements, size, last }
 }
 
 const isUnauthorized = (error: unknown): boolean =>
@@ -182,8 +166,7 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async _handleRequest(): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
-    // The framework measures the whole backgroundHandler promise, including the
-    // sleep after a non-empty pass, so the request budget reserves that sleep.
+    // The measured background execute includes the post-pass sleep, so reserve it.
     const deadline =
       Date.now() +
       this.settings.BACKGROUND_EXECUTE_TIMEOUT -
@@ -234,7 +217,6 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  // parsePositionsPage rejects a last flag that does not match totalPages.
   async fetchPositions(token: string, deadline: number): Promise<PositionSchema[]> {
     this.assertBudget(deadline)
     const first = await this.requestPageWithRenewal(0, token, deadline)
@@ -250,17 +232,19 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
       const next = await this.requestPageWithRenewal(page, currentToken, deadline)
       currentToken = next.token
       const nextPage = parsePositionsPage(next.data, page)
-      if (nextPage.totalPages !== firstPage.totalPages) {
-        throw unusable(`totalPages changed from ${firstPage.totalPages} to ${nextPage.totalPages}`)
+      if (
+        nextPage.totalPages !== firstPage.totalPages ||
+        nextPage.totalElements !== firstPage.totalElements ||
+        nextPage.size !== firstPage.size
+      ) {
+        throw unusable('page metadata changed after page 0')
       }
       positions.push(...nextPage.positions)
       last = nextPage.last
     }
 
     if (positions.length !== firstPage.totalElements) {
-      throw unusable(
-        `expected ${firstPage.totalElements} positions but received ${positions.length}`,
-      )
+      throw unusable(`expected ${firstPage.totalElements} positions, received ${positions.length}`)
     }
 
     return positions
@@ -282,7 +266,7 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
     deadline: number,
   ): Promise<{ data: unknown; token: string }> {
     try {
-      return { data: await this.requestPageWithRetry(page, token, deadline), token }
+      return { data: await this.requestPage(page, token), token }
     } catch (error) {
       if (!isUnauthorized(error)) {
         throw error
@@ -290,33 +274,6 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
       const renewed = await this.auth.renewAfterUnauthorized()
       this.assertBudget(deadline)
       return { data: await this.requestPage(page, renewed), token: renewed }
-    }
-  }
-
-  // Every attempt builds fresh request IDs and a fresh signature.
-  private async requestPageWithRetry(
-    page: number,
-    token: string,
-    deadline: number,
-  ): Promise<unknown> {
-    let attempt = 1
-    for (;;) {
-      this.assertBudget(deadline)
-      try {
-        return await this.requestPage(page, token)
-      } catch (error) {
-        if (!isTransient(error) || attempt === MAX_ATTEMPTS) {
-          throw error
-        }
-        this.assertBudget(deadline)
-        const status = error instanceof AdapterError ? error.providerStatusCode : undefined
-        const backoffMs = Math.min(2 ** attempt * 1000, MAX_BACKOFF_MS)
-        logger.info(
-          `AMINA positions request failed with provider status ${status}; retrying in ${backoffMs} ms (attempt ${attempt} of ${MAX_ATTEMPTS})`,
-        )
-        await sleep(backoffMs)
-        attempt += 1
-      }
     }
   }
 

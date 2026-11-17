@@ -186,7 +186,7 @@ describe('parsePositionsPage', () => {
     {
       name: 'the page number is not the requested page',
       body: page({ number: 1 }),
-      message: 'does not match the requested page',
+      message: 'page 1 is not 0',
     },
     {
       name: 'positions is not an array',
