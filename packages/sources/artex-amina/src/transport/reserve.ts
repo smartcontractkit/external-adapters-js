@@ -3,12 +3,9 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import {
-  AdapterConnectionError,
-  AdapterError,
-} from '@chainlink/external-adapter-framework/validation/error'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/reserve'
-import { AminaAuth, requestIds, signRequest, toProviderError } from './authentication'
+import { AminaAuth, isTransient, requestIds, signRequest, toProviderError } from './authentication'
 
 const logger = makeLogger('ArtexAminaReserveTransport')
 
@@ -18,6 +15,7 @@ const USER_AGENT = 'chainlink-artex-amina-adapter'
 // AMINA retry guidance: exponential backoff, capped at 40 seconds.
 const MAX_ATTEMPTS = 3
 const MAX_BACKOFF_MS = 40_000
+const BUDGET_MARGIN_MS = 1_000
 
 type RequestParams = typeof inputParameters.validated
 
@@ -52,27 +50,55 @@ export const parsePositionsPage = (
 
   const body = data as Record<string, unknown>
   const totalPages = body.totalPages
-  if (typeof totalPages !== 'number' || !Number.isInteger(totalPages) || totalPages < 1) {
-    throw unusable('totalPages is not a positive integer')
+  const totalElements = body.totalElements
+  const size = body.size
+  const first = body.first
+
+  if (typeof totalPages !== 'number' || !Number.isInteger(totalPages) || totalPages < 0) {
+    throw unusable('totalPages is not a non-negative integer')
   }
-  if (typeof body.last !== 'boolean') {
-    throw unusable('last is not a boolean')
+  if (typeof totalElements !== 'number' || !Number.isInteger(totalElements) || totalElements < 0) {
+    throw unusable('totalElements is not a non-negative integer')
+  }
+  if (typeof size !== 'number' || !Number.isInteger(size) || size < 1) {
+    throw unusable('size is not a positive integer')
+  }
+  if (typeof first !== 'boolean') {
+    throw unusable('first is not a boolean')
   }
   if (body.number !== expectedPage) {
     throw unusable(
       `page number ${String(body.number)} does not match the requested page ${expectedPage}`,
     )
   }
-  const isLastPage = expectedPage + 1 === totalPages
+  if (!Array.isArray(body.positions)) {
+    throw unusable('positions is not an array')
+  }
+  if (body.positions.length > size) {
+    throw unusable(`positions has ${body.positions.length} entries but size is ${size}`)
+  }
+  if (totalPages === 0 && body.positions.length !== 0) {
+    throw unusable('totalPages is 0 but positions is not empty')
+  }
+  const expectedTotalPages = Math.ceil(totalElements / size)
+  if (totalPages !== expectedTotalPages) {
+    throw unusable(
+      `totalPages is ${totalPages} but totalElements ${totalElements} and size ${size} give ${expectedTotalPages}`,
+    )
+  }
+  if (first !== (expectedPage === 0)) {
+    throw unusable(`first is ${first} on page ${expectedPage}`)
+  }
+  if (typeof body.last !== 'boolean') {
+    throw unusable('last is not a boolean')
+  }
+  const isLastPage = totalPages === 0 ? true : expectedPage + 1 === totalPages
   if (body.last !== isLastPage) {
     throw unusable(
       `last is ${body.last} but page ${expectedPage} of ${totalPages} is ${
         isLastPage ? '' : 'not '
       }last`,
     )
-  }
-  if (!Array.isArray(body.positions)) {
-    throw unusable('positions is not an array')
   }
 
   const positions = body.positions.map((position, index) => {
@@ -94,17 +120,6 @@ export const parsePositionsPage = (
 
 const isUnauthorized = (error: unknown): boolean =>
   error instanceof AdapterError && error.providerStatusCode === 401
-
-// The framework retry is disabled, so retry only failures the provider may accept later.
-const isTransient = (error: unknown): boolean => {
-  // A connection error has no provider status; the framework fills in a
-  // synthetic 502, which is not a provider transient failure.
-  if (!(error instanceof AdapterError) || error instanceof AdapterConnectionError) {
-    return false
-  }
-  const status = error.providerStatusCode
-  return status === 408 || status === 429 || (status !== undefined && status >= 500)
-}
 
 export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
@@ -166,9 +181,10 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async _handleRequest(): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
+    const deadline = Date.now() + this.settings.BACKGROUND_EXECUTE_TIMEOUT - BUDGET_MARGIN_MS
     const token = await this.auth.getAccessToken()
     const providerDataRequestedUnixMs = Date.now()
-    const positions = await this.fetchPositions(token)
+    const positions = await this.fetchPositions(token, deadline)
     const isin = this.settings.AMINA_ISIN
     const matches = positions.filter((position) => position.isin === isin)
     const match = matches[0]
@@ -212,8 +228,9 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   // parsePositionsPage rejects a last flag that does not match totalPages.
-  async fetchPositions(token: string): Promise<PositionSchema[]> {
-    const first = await this.requestPageWithRenewal(0, token)
+  async fetchPositions(token: string, deadline: number): Promise<PositionSchema[]> {
+    this.assertBudget(deadline)
+    const first = await this.requestPageWithRenewal(0, token, deadline)
     let currentToken = first.token
     const firstPage = parsePositionsPage(first.data, 0)
     const positions = [...firstPage.positions]
@@ -222,7 +239,8 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
     let last = firstPage.last
     while (!last) {
       page += 1
-      const next = await this.requestPageWithRenewal(page, currentToken)
+      this.assertBudget(deadline)
+      const next = await this.requestPageWithRenewal(page, currentToken, deadline)
       currentToken = next.token
       const nextPage = parsePositionsPage(next.data, page)
       if (nextPage.totalPages !== firstPage.totalPages) {
@@ -235,31 +253,49 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
     return positions
   }
 
+  private assertBudget(deadline: number): void {
+    if (Date.now() + this.settings.API_TIMEOUT > deadline) {
+      throw new AdapterError({
+        statusCode: 502,
+        message:
+          'AMINA background execution budget is exhausted before the positions request completed',
+      })
+    }
+  }
+
   private async requestPageWithRenewal(
     page: number,
     token: string,
+    deadline: number,
   ): Promise<{ data: unknown; token: string }> {
     try {
-      return { data: await this.requestPageWithRetry(page, token), token }
+      return { data: await this.requestPageWithRetry(page, token, deadline), token }
     } catch (error) {
       if (!isUnauthorized(error)) {
         throw error
       }
       const renewed = await this.auth.renewAfterUnauthorized()
+      this.assertBudget(deadline)
       return { data: await this.requestPage(page, renewed), token: renewed }
     }
   }
 
   // Every attempt builds fresh request IDs and a fresh signature.
-  private async requestPageWithRetry(page: number, token: string): Promise<unknown> {
+  private async requestPageWithRetry(
+    page: number,
+    token: string,
+    deadline: number,
+  ): Promise<unknown> {
     let attempt = 1
     for (;;) {
+      this.assertBudget(deadline)
       try {
         return await this.requestPage(page, token)
       } catch (error) {
         if (!isTransient(error) || attempt === MAX_ATTEMPTS) {
           throw error
         }
+        this.assertBudget(deadline)
         const status = error instanceof AdapterError ? error.providerStatusCode : undefined
         const backoffMs = Math.min(2 ** attempt * 1000, MAX_BACKOFF_MS)
         logger.info(

@@ -24,6 +24,9 @@ LoggerFactoryProvider.set({
   }),
 })
 
+// The auth retry waits a real second between its two attempts.
+jest.setTimeout(15_000)
+
 type RequesterStub = { request: jest.Mock }
 const makeRequester = (): RequesterStub => ({ request: jest.fn() })
 const asRequester = (stub: RequesterStub): Requester => stub as unknown as Requester
@@ -222,7 +225,6 @@ describe('AminaAuth', () => {
   })
 
   it('logs in again when the refresh is rejected', async () => {
-    respondWith({ login: [authBody('1'), authBody('3')] })
     requester.request
       .mockImplementationOnce(() => Promise.resolve(authReply(authBody('1'))))
       .mockRejectedValueOnce(
@@ -267,5 +269,43 @@ describe('AminaAuth', () => {
       'amina-auth-login',
       'amina-auth-login',
     ])
+  })
+
+  it('retries a transient login or refresh once with fresh request ids', async () => {
+    const transient = new AdapterError({
+      statusCode: 502,
+      providerStatusCode: 500,
+      message: 'Request failed with status code 500',
+    })
+    requester.request
+      .mockRejectedValueOnce(transient)
+      .mockImplementationOnce(() => Promise.resolve(authReply(authBody('1'))))
+      .mockRejectedValueOnce(transient)
+      .mockImplementationOnce(() => Promise.resolve(authReply(authBody('2'))))
+
+    const auth = new AminaAuth(asRequester(requester), settings)
+    expect(await auth.getAccessToken()).toBe(authBody('1').accessToken)
+
+    now += 59 * 60 * 1000 + 1
+    expect(await auth.getAccessToken()).toBe(authBody('2').accessToken)
+
+    const calls = requester.request.mock.calls
+    expect(calls.map((call) => call[0])).toEqual([
+      'amina-auth-login',
+      'amina-auth-login',
+      'amina-auth-refresh',
+      'amina-auth-refresh',
+    ])
+    for (const [first, second] of [
+      [0, 1],
+      [2, 3],
+    ]) {
+      expect(calls[first][1].headers['X-Request-Id']).not.toBe(
+        calls[second][1].headers['X-Request-Id'],
+      )
+      expect(calls[first][1].headers['X-Correlation-Id']).not.toBe(
+        calls[second][1].headers['X-Correlation-Id'],
+      )
+    }
   })
 })

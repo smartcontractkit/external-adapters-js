@@ -33,7 +33,7 @@ const DEFAULT_ENV: Record<string, string> = {
   // Both intervals are shortened so the real background loop turns over inside
   // a test. The empty interval is what an idle pass sleeps; the non-empty one is
   // what a pass that handled a subscription sleeps.
-  BACKGROUND_EXECUTE_MS: '150',
+  BACKGROUND_EXECUTE_MS: '300',
   BACKGROUND_EXECUTE_MS_HTTP: '150',
 }
 
@@ -89,6 +89,8 @@ export class ReserveHarness {
       dependencies,
     )
 
+    this.fake.install()
+
     reserveTransport.backgroundHandler = async (context, entries) => {
       this.passStarts += 1
       if (entries.length === 0) {
@@ -101,22 +103,19 @@ export class ReserveHarness {
   }
 
   async prepare(configure?: (fake: AminaFake) => void): Promise<void> {
-    this.clearCachedState()
+    this.clearSubscription()
 
     const passesBefore = this.passStarts
     await this.waitForIdlePass()
     if (this.passStarts !== passesBefore + 1) {
-      throw new Error('a background pass started while the provider replies were installed')
+      throw new Error('a background pass started while the scenario was prepared')
     }
 
-    nock.cleanAll()
+    // The idle pass observed above is sleeping, and passes never overlap, so no
+    // writer can refill the cache or take a queued reply from here on.
+    this.clearCache()
     this.fake.reset()
     configure?.(this.fake)
-    this.fake.install()
-
-    if (this.passStarts !== passesBefore + 1) {
-      throw new Error('a background pass started while the provider replies were installed')
-    }
   }
 
   async request(): Promise<{ response: ReserveResponse; body: ReserveResponseBody }> {
@@ -149,12 +148,15 @@ export class ReserveHarness {
     nock.enableNetConnect()
   }
 
-  private clearCachedState(): void {
-    this.testAdapter.mockCache?.cache.clear()
+  private clearSubscription(): void {
     const transport = this.testAdapter.adapter.endpoints[0].transportRoutes.get(
       'default_single_transport',
     ) as { subscriptionSet?: { map: Map<string, unknown> } } | undefined
     transport?.subscriptionSet?.map.clear()
+  }
+
+  private clearCache(): void {
+    this.testAdapter.mockCache?.cache.clear()
   }
 
   private waitForIdlePass(): Promise<void> {

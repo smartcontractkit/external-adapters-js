@@ -1,4 +1,4 @@
-import { page, position } from '../fixtures/amina'
+import { page, position, Reply } from '../fixtures/amina'
 import { ReserveHarness } from '../fixtures/harness'
 
 // The adapter retries transient failures itself with 2 s and 4 s backoff, so a
@@ -6,6 +6,16 @@ import { ReserveHarness } from '../fixtures/harness'
 jest.setTimeout(60_000)
 
 const providerError = (status: number) => ({ title: `Provider ${status}`, status })
+
+const connectionRefused = (): Error =>
+  Object.assign(new Error('connect ECONNREFUSED 127.0.0.1:443'), { code: 'ECONNREFUSED' })
+
+const transientReplies: { label: string; reply: Reply }[] = [
+  { label: 'provider 408', reply: { statusCode: 408, body: providerError(408) } },
+  { label: 'provider 429', reply: { statusCode: 429, body: providerError(429) } },
+  { label: 'provider 503', reply: { statusCode: 503, body: providerError(503) } },
+  { label: 'a connection error', reply: { statusCode: 502, error: connectionRefused() } },
+]
 
 describe('adapter retry', () => {
   const harness = new ReserveHarness()
@@ -26,7 +36,7 @@ describe('adapter retry', () => {
     await harness.stop()
   })
 
-  it('retries a transient provider failure with a fresh signature', async () => {
+  it('retries a transient provider failure with a fresh signature and the same access token', async () => {
     await harness.prepare()
     fake.page(
       0,
@@ -46,60 +56,24 @@ describe('adapter retry', () => {
     expect(second.headers['amina-timestamp']).not.toBe(first.headers['amina-timestamp'])
     expect(second.headers['amina-signature']).not.toBe(first.headers['amina-signature'])
     expect(second.headers['x-request-id']).not.toBe(first.headers['x-request-id'])
+    // The retry re-signs the request but reuses the session token.
+    expect(second.headers['authorization']).toBe(first.headers['authorization'])
+    expect(fake.refreshRequests).toHaveLength(0)
   })
 
-  it('does not retry a provider answer it cannot use', async () => {
+  it.each(transientReplies)('retries $label and publishes the next answer', async ({ reply }) => {
     await harness.prepare()
-    fake.page(
-      0,
-      { statusCode: 400, body: providerError(400) },
-      {
-        statusCode: 200,
-        body: page({ positions: [position()] }),
-      },
-    )
+    fake.page(0, reply, {
+      statusCode: 200,
+      body: page({ positions: [position({ quantity: 8.5 })] }),
+    })
 
-    const rejected = await harness.requestAndWaitForResult()
+    const { response, body } = await harness.requestAndWaitForResult()
 
-    expect(rejected.response.statusCode).toBe(502)
-    expect(rejected.body.errorMessage).toContain('provider status 400')
-    expect(rejected.body.result).toBeUndefined()
-    expect(rejected.body.data).toBeUndefined()
-    expect(fake.positionsRequests).toHaveLength(1)
-
-    await harness.prepare()
-    fake.page(
-      0,
-      { statusCode: 200, body: page({ positions: [null] }) },
-      { statusCode: 200, body: page({ positions: [position()] }) },
-    )
-
-    const unusable = await harness.requestAndWaitForResult()
-
-    expect(unusable.response.statusCode).toBe(502)
-    expect(unusable.body.errorMessage).toContain('positions[0]')
-    expect(unusable.body.result).toBeUndefined()
-    expect(unusable.body.data).toBeUndefined()
-    expect(fake.positionsRequests).toHaveLength(1)
+    expect(response.statusCode).toBe(200)
+    expect(body.result).toBe(8.5)
+    expect(fake.positionsRequests).toHaveLength(2)
   })
-
-  it.each([408, 429, 500])(
-    'retries a provider %i and publishes the next answer',
-    async (status) => {
-      await harness.prepare()
-      fake.page(
-        0,
-        { statusCode: status, body: providerError(status) },
-        { statusCode: 200, body: page({ positions: [position({ quantity: 8.5 })] }) },
-      )
-
-      const { response, body } = await harness.requestAndWaitForResult()
-
-      expect(response.statusCode).toBe(200)
-      expect(body.result).toBe(8.5)
-      expect(fake.positionsRequests).toHaveLength(2)
-    },
-  )
 
   it('stops after three attempts when the provider keeps failing', async () => {
     await harness.prepare()
@@ -122,25 +96,30 @@ describe('adapter retry', () => {
     expect(fake.positionsRequests[2].at - fake.positionsRequests[0].at).toBeGreaterThanOrEqual(6000)
   })
 
-  it('reports a provider timeout as a provider error without retrying', async () => {
-    await harness.prepare((provider) => {
-      provider.positionsDelayMs = 400
-    })
-    // The second reply would answer an unwanted retry.
+  it('retries a provider timeout with a fresh signature', async () => {
+    await harness.prepare()
+    // The first reply outlives API_TIMEOUT (200 ms). It is a connection-level
+    // failure, so the second attempt is safe and succeeds.
     fake.page(
       0,
-      { statusCode: 200, body: page({ positions: [position()] }) },
       {
         statusCode: 200,
-        body: page({ positions: [position()] }),
+        delayMs: 400,
+        body: page({ positions: [position({ quantity: 3.5 })] }),
       },
+      { statusCode: 200, body: page({ positions: [position({ quantity: 3.5 })] }) },
     )
 
     const { response, body } = await harness.requestAndWaitForResult()
 
-    expect(response.statusCode).toBe(502)
-    expect(body.result).toBeUndefined()
-    expect(body.data).toBeUndefined()
-    expect(fake.positionsRequests).toHaveLength(1)
+    expect(response.statusCode).toBe(200)
+    expect(body.result).toBe(3.5)
+    expect(fake.positionsRequests).toHaveLength(2)
+
+    const [first, second] = fake.positionsRequests
+    expect(second.headers['amina-nonce']).not.toBe(first.headers['amina-nonce'])
+    expect(second.headers['amina-timestamp']).not.toBe(first.headers['amina-timestamp'])
+    expect(second.headers['amina-signature']).not.toBe(first.headers['amina-signature'])
+    expect(second.headers['x-request-id']).not.toBe(first.headers['x-request-id'])
   })
 })

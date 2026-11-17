@@ -1,9 +1,9 @@
-import * as nock from 'nock'
 import { ReserveHarness, UUID_PATTERN } from '../fixtures/harness'
 import {
   authBody,
   ISIN,
   page,
+  pageMetadata,
   position,
   recordedBadSignatureBody,
   recordedPositionsPage0,
@@ -24,10 +24,6 @@ describe('reserve endpoint', () => {
 
   beforeEach(async () => {
     await harness.prepare()
-  })
-
-  afterEach(() => {
-    nock.cleanAll()
   })
 
   it('publishes the recorded position quantity as the reserve result', async () => {
@@ -83,21 +79,21 @@ describe('reserve endpoint', () => {
     },
     {
       matchingPositions: 1,
-      pages: [{ positions: [position()], totalPages: 1, last: true }],
+      pages: [{ positions: [position()] }],
       statusCode: 200,
       result: 100,
     },
     {
       matchingPositions: 2,
-      pages: [{ positions: [position(), position({ quantity: 5 })], totalPages: 1, last: true }],
+      pages: [{ positions: [position(), position({ quantity: 5 })], totalElements: 2 }],
       statusCode: 502,
       result: undefined,
     },
     {
       matchingPositions: 2,
       pages: [
-        { positions: [position({ quantity: 1 })], totalPages: 2, last: false },
-        { positions: [position({ quantity: 2 })], totalPages: 2, last: true },
+        { positions: [position({ quantity: 1 })], ...pageMetadata(0, 2, 21) },
+        { positions: [position({ quantity: 2 })], ...pageMetadata(1, 2, 21) },
       ],
       statusCode: 502,
       result: undefined,
@@ -106,7 +102,7 @@ describe('reserve endpoint', () => {
     'responds $statusCode when the portfolio holds $matchingPositions matching position(s)',
     async ({ matchingPositions, pages, statusCode, result }) => {
       pages.forEach((pageBody, index) => {
-        fake.page(index, { statusCode: 200, body: page({ ...pageBody, number: index }) })
+        fake.page(index, { statusCode: 200, body: page({ number: index, ...pageBody }) })
       })
 
       const { response, body } = await harness.request()
@@ -136,18 +132,14 @@ describe('reserve endpoint', () => {
       statusCode: 200,
       body: page({
         positions: [position({ isin: 'CH0000000001' })],
-        totalPages: 2,
-        last: false,
+        ...pageMetadata(0, 2, 21),
       }),
     })
     fake.page(1, {
       statusCode: 200,
       body: page({
         positions: [position({ quantity: 42.5 })],
-        totalPages: 2,
-        last: true,
-        first: false,
-        number: 1,
+        ...pageMetadata(1, 2, 21),
       }),
     })
 
@@ -166,7 +158,11 @@ describe('reserve endpoint', () => {
   it('rejects page 0 when it claims to be last before the declared last page', async () => {
     fake.page(0, {
       statusCode: 200,
-      body: page({ positions: [position({ quantity: 7 })], totalPages: 3, last: true }),
+      body: page({
+        positions: [position({ quantity: 7 })],
+        ...pageMetadata(0, 3, 41),
+        last: true,
+      }),
     })
 
     const { response, body } = await harness.request()
@@ -181,7 +177,11 @@ describe('reserve endpoint', () => {
   it('rejects page 0 when it denies being last on the declared last page', async () => {
     fake.page(0, {
       statusCode: 200,
-      body: page({ positions: [position({ quantity: 33.25 })], totalPages: 1, last: false }),
+      body: page({
+        positions: [position({ quantity: 33.25 })],
+        ...pageMetadata(0, 1, 1),
+        last: false,
+      }),
     })
 
     const { response, body } = await harness.request()
@@ -198,13 +198,16 @@ describe('reserve endpoint', () => {
       statusCode: 200,
       body: page({
         positions: [position({ isin: 'CH0000000001' })],
-        totalPages: 3,
-        last: false,
+        ...pageMetadata(0, 3, 41),
       }),
     })
     fake.page(1, {
       statusCode: 200,
-      body: page({ positions: [position()], totalPages: 3, last: true, number: 1 }),
+      body: page({
+        positions: [position()],
+        ...pageMetadata(1, 3, 41),
+        last: true,
+      }),
     })
 
     const { response, body } = await harness.request()
@@ -218,26 +221,21 @@ describe('reserve endpoint', () => {
 
   it.each([
     {
-      inconsistency: 'totalPages is zero and last is true',
-      pages: [{ positions: [position()], totalPages: 0, last: true }],
-      message: 'totalPages',
-    },
-    {
-      inconsistency: 'totalPages is zero and last is false',
-      pages: [{ positions: [position()], totalPages: 0, last: false }],
-      message: 'totalPages',
+      inconsistency: 'totalPages is zero with last false and no positions',
+      pages: [{ positions: [], ...pageMetadata(0, 0, 0), last: false }],
+      message: 'last',
     },
     {
       inconsistency: 'totalPages changes between pages',
       pages: [
-        { positions: [position({ isin: 'CH0000000001' })], totalPages: 2, last: false },
-        { positions: [position()], totalPages: 3, last: false },
+        { positions: [position({ isin: 'CH0000000001' })], ...pageMetadata(0, 2, 21) },
+        { positions: [position()], ...pageMetadata(1, 3, 41), last: false },
       ],
       message: 'totalPages changed',
     },
   ])('rejects unusable pagination when $inconsistency', async ({ pages, message }) => {
     pages.forEach((pageBody, index) => {
-      fake.page(index, { statusCode: 200, body: page({ ...pageBody, number: index }) })
+      fake.page(index, { statusCode: 200, body: page({ number: index, ...pageBody }) })
     })
 
     const { response, body } = await harness.request()
@@ -246,6 +244,21 @@ describe('reserve endpoint', () => {
     expect(body.errorMessage).toContain(message)
     expect(body.result).toBeUndefined()
     expect(body.data).toBeUndefined()
+  })
+
+  it('treats an empty portfolio as a valid no-match', async () => {
+    fake.page(0, {
+      statusCode: 200,
+      body: page({ positions: [], ...pageMetadata(0, 0, 0) }),
+    })
+
+    const { response, body } = await harness.request()
+
+    expect(response.statusCode).toBe(502)
+    expect(body.errorMessage).toContain(`no position for ISIN ${ISIN}`)
+    expect(body.result).toBeUndefined()
+    expect(body.data).toBeUndefined()
+    expect(fake.positionsRequests.map((request) => request.page)).toEqual([0])
   })
 
   it('keeps the parser unusable-data error through the positions request', async () => {

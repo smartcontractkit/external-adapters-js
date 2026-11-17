@@ -4,7 +4,7 @@ import { makeStub } from '@chainlink/external-adapter-framework/util/testing-uti
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes } from '../../src/endpoint/reserve'
 import { parsePositionsPage, ReserveTransport } from '../../src/transport/reserve'
-import { AMINA_HOST, authBody, ISIN, page, position } from '../fixtures/amina'
+import { AMINA_HOST, authBody, ISIN, page, pageMetadata, position } from '../fixtures/amina'
 
 const noop = () => undefined
 LoggerFactoryProvider.set({
@@ -39,6 +39,9 @@ describe('ReserveTransport', () => {
     AMINA_ISIN: ISIN,
     BACKGROUND_EXECUTE_MS: 1000,
     WARMUP_SUBSCRIPTION_TTL: 10_000,
+    // The production defaults, so the retry budget never trips here.
+    API_TIMEOUT: 60_000,
+    BACKGROUND_EXECUTE_TIMEOUT: 180_000,
   } as unknown as BaseEndpointTypes['Settings'])
 
   const requester = { request: jest.fn() }
@@ -138,27 +141,47 @@ describe('parsePositionsPage', () => {
     {
       name: 'totalPages is a string',
       body: page({ totalPages: '1' }),
-      message: 'totalPages is not a positive integer',
-    },
-    {
-      name: 'totalPages is zero',
-      body: page({ totalPages: 0 }),
-      message: 'totalPages is not a positive integer',
+      message: 'totalPages is not a non-negative integer',
     },
     {
       name: 'totalPages is negative',
       body: page({ totalPages: -1 }),
-      message: 'totalPages is not a positive integer',
+      message: 'totalPages is not a non-negative integer',
     },
     {
       name: 'totalPages is fractional',
       body: page({ totalPages: 1.5 }),
-      message: 'totalPages is not a positive integer',
+      message: 'totalPages is not a non-negative integer',
     },
     {
-      name: 'last is not a boolean',
-      body: page({ last: 'true' }),
-      message: 'last is not a boolean',
+      name: 'totalElements is a string',
+      body: page({ totalElements: '1' }),
+      message: 'totalElements is not a non-negative integer',
+    },
+    {
+      name: 'totalElements is negative',
+      body: page({ totalElements: -1 }),
+      message: 'totalElements is not a non-negative integer',
+    },
+    {
+      name: 'totalElements is fractional',
+      body: page({ totalElements: 1.5 }),
+      message: 'totalElements is not a non-negative integer',
+    },
+    {
+      name: 'size is zero',
+      body: page({ size: 0 }),
+      message: 'size is not a positive integer',
+    },
+    {
+      name: 'size is a string',
+      body: page({ size: '20' }),
+      message: 'size is not a positive integer',
+    },
+    {
+      name: 'first is not a boolean',
+      body: page({ first: 'true' }),
+      message: 'first is not a boolean',
     },
     {
       name: 'the page number is not the requested page',
@@ -169,6 +192,11 @@ describe('parsePositionsPage', () => {
       name: 'positions is not an array',
       body: page({ positions: 'none' }),
       message: 'positions is not an array',
+    },
+    {
+      name: 'last is not a boolean',
+      body: page({ last: 'true' }),
+      message: 'last is not a boolean',
     },
     {
       name: 'a position has no string isin',
@@ -187,6 +215,49 @@ describe('parsePositionsPage', () => {
     expect(error.statusCode).toBe(502)
     expect(error.message).toContain(message)
   })
+
+  it.each([
+    {
+      name: 'totalPages contradicts totalElements and size',
+      body: page({ totalPages: 1_000_000_000 }),
+      pageNumber: 0,
+      message: 'totalPages is 1000000000 but totalElements 1 and size 20 give 1',
+    },
+    {
+      name: 'first is true on page 1',
+      body: page({ ...pageMetadata(1, 2, 21), first: true }),
+      pageNumber: 1,
+      message: 'first is true on page 1',
+    },
+    {
+      name: 'a page holds more positions than its size',
+      body: page({
+        positions: Array.from({ length: 21 }, (_, index) => position({ quantity: index })),
+        totalPages: 1,
+        totalElements: 21,
+        size: 20,
+        first: true,
+        last: true,
+      }),
+      pageNumber: 0,
+      message: 'positions has 21 entries but size is 20',
+    },
+    {
+      name: 'totalPages is zero but positions is not empty',
+      body: page({ positions: [position()], ...pageMetadata(0, 0, 0) }),
+      pageNumber: 0,
+      message: 'totalPages is 0 but positions is not empty',
+    },
+  ])(
+    'rejects page metadata that contradicts the declared totals when $name',
+    ({ body, pageNumber, message }) => {
+      const error = captureError(() => parsePositionsPage(body, pageNumber))
+
+      expect(error).toBeInstanceOf(AdapterError)
+      expect(error.statusCode).toBe(502)
+      expect(error.message).toContain(message)
+    },
+  )
 
   it('rejects a page whose position element is not an object', () => {
     const error = captureError(() => parsePositionsPage(page({ positions: [null] }), 0))

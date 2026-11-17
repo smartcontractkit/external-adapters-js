@@ -1,5 +1,5 @@
 import { createHmac, randomUUID } from 'crypto'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import {
   AdapterConnectionError,
@@ -92,6 +92,20 @@ export const toProviderError = (step: string, error: unknown): AdapterError => {
   })
 }
 
+// Connection failures never reached the provider, so no nonce was consumed and
+// a retry with fresh request IDs is safe. Provider 408/429/5xx are transient;
+// 400/401, parse errors, and local queue overflow are not.
+export const isTransient = (error: unknown): boolean => {
+  if (error instanceof AdapterConnectionError) {
+    return true
+  }
+  if (!(error instanceof AdapterError)) {
+    return false
+  }
+  const status = error.providerStatusCode
+  return status === 408 || status === 429 || (status !== undefined && status >= 500)
+}
+
 const parseAuthResponse = (data: AuthResponseSchema): AuthResponseSchema => {
   if (typeof data?.accessToken !== 'string' || typeof data?.refreshToken !== 'string') {
     throw new AdapterError({
@@ -102,6 +116,9 @@ const parseAuthResponse = (data: AuthResponseSchema): AuthResponseSchema => {
   return data
 }
 
+const MAX_AUTH_ATTEMPTS = 2
+const AUTH_RETRY_DELAY_MS = 1_000
+
 const requestAuth = async (
   requester: Requester,
   key: string,
@@ -109,23 +126,32 @@ const requestAuth = async (
   baseURL: string,
   body: Record<string, string>,
 ): Promise<AuthResponseSchema> => {
-  let data: AuthResponseSchema
-  try {
-    const { response } = await requester.request<AuthResponseSchema>(key, {
-      baseURL,
-      url: '/api/b2c/v1/auth',
-      method: 'POST',
-      headers: {
-        ...requestIds(),
-        'Content-Type': 'application/json',
-      },
-      data: body,
-    })
-    data = response.data
-  } catch (error) {
-    throw toProviderError(step, error)
+  let attempt = 1
+  for (;;) {
+    try {
+      const { response } = await requester.request<AuthResponseSchema>(key, {
+        baseURL,
+        url: '/api/b2c/v1/auth',
+        method: 'POST',
+        headers: {
+          ...requestIds(),
+          'Content-Type': 'application/json',
+        },
+        data: body,
+      })
+      return parseAuthResponse(response.data)
+    } catch (error) {
+      const providerError = toProviderError(step, error)
+      if (!isTransient(providerError) || attempt === MAX_AUTH_ATTEMPTS) {
+        throw providerError
+      }
+      logger.info(
+        `AMINA ${step} failed transiently; retrying in ${AUTH_RETRY_DELAY_MS} ms (attempt ${attempt} of ${MAX_AUTH_ATTEMPTS})`,
+      )
+      await sleep(AUTH_RETRY_DELAY_MS)
+      attempt += 1
+    }
   }
-  return parseAuthResponse(data)
 }
 
 export const login = (
