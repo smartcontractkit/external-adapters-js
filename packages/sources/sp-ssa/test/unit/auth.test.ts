@@ -8,7 +8,7 @@ import {
   AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import { AuthManager, AuthSettings } from '../../src/transport/auth'
-import { fetchScoresWithReauth } from '../../src/transport/request'
+import { fetchScoresWithReauth, SsaAuthError } from '../../src/transport/request'
 import { scoresFixture, tokenResponseBody } from '../fixtures'
 
 const tokenSettings: AuthSettings = {
@@ -283,6 +283,49 @@ describe('fetchScoresWithReauth', () => {
     ).rejects.toMatchObject({
       statusCode: 502,
       providerStatusCode: status,
+    })
+  })
+
+  it('surfaces a non-auth error after the fresh-token retry as a provider error', async () => {
+    const secondTimestamps = {
+      providerDataRequestedUnixMs: 51,
+      providerDataReceivedUnixMs: 52,
+      providerIndicatedTimeUnixMs: undefined,
+    }
+    const providerFailure = new AdapterDataProviderError(
+      {
+        statusCode: 502,
+        message: 'provider failed',
+        providerStatusCode: 500,
+      },
+      secondTimestamps,
+    )
+    const request = jest.fn()
+    request
+      .mockResolvedValueOnce(tokenReply('token-1'))
+      .mockRejectedValueOnce(unauthorized(401))
+      .mockResolvedValueOnce(tokenReply('token-2'))
+      .mockRejectedValueOnce(providerFailure)
+
+    const outcome = fetchScoresWithReauth(
+      { request } as unknown as Requester,
+      scoresSettings,
+      new AuthManager({ request } as unknown as Requester, tokenSettings),
+      'sp-ssa-data',
+    )
+
+    const error = await outcome.catch((rejection: unknown) => rejection)
+
+    expect(error).toBeInstanceOf(AdapterDataProviderError)
+    expect(error).not.toBeInstanceOf(SsaAuthError)
+    expect(error).toMatchObject({
+      statusCode: 502,
+      providerStatusCode: 500,
+      timestamps: secondTimestamps,
+    })
+    expect(request).toHaveBeenCalledTimes(4)
+    expect(request.mock.calls[3][1]).toMatchObject({
+      headers: expect.objectContaining({ Authorization: 'Bearer token-2' }),
     })
   })
 

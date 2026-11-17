@@ -76,6 +76,14 @@ describe('parseTimestamp', () => {
     expect(error.message).toContain('last_modified_date_time')
   })
 
+  it.each([
+    ['a number', 123],
+    ['null', null],
+  ])('rejects a timestamp that is %s', (_, value) => {
+    const error = thrownError(() => parseTimestamp(value))
+    expect(error.message).toContain('last_modified_date_time')
+  })
+
   it('rejects a timestamp before the accepted range', () => {
     const error = thrownError(() => parseTimestamp('1900-01-01T00:00Z'))
     expect(error.message).toContain('last_modified_date_time')
@@ -138,6 +146,7 @@ describe('selectRecord', () => {
   it('rejects a configured id that is absent from the provider array', () => {
     const error = thrownError(() => selectRecord(recordedRecords(), 'SP-UNKNOWN'))
     expect(error.message).toContain('did not return a record')
+    expect(error.message).toContain('SP-UNKNOWN')
   })
 
   it('selects the recorded mixed-case id exactly', () => {
