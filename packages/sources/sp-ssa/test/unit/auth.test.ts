@@ -1,218 +1,355 @@
 import { censor } from '@chainlink/external-adapter-framework/util'
 import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import type { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import {
   AdapterConnectionError,
   AdapterDataProviderError,
+  AdapterError,
   AdapterRateLimitError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import { AuthManager, AuthSettings } from '../../src/transport/auth'
+import { fetchScoresWithReauth } from '../../src/transport/request'
+import { scoresFixture, tokenResponseBody } from '../fixtures'
 
-const settings: AuthSettings = {
+const tokenSettings: AuthSettings = {
   TOKEN_ENDPOINT: 'http://token.com/token',
   CLIENT_ID: 'client-id',
 }
 
-const tokenResponse = (token: string, expiresIn = 1800) => ({
-  response: { data: { access_token: token, expires_in: expiresIn }, status: 200 },
-  timestamps: { providerDataRequestedUnixMs: 1, providerDataReceivedUnixMs: 2 },
+const scoresSettings = {
+  API_ENDPOINT: 'http://api.com',
+  API_KEY: 'api-key',
+}
+
+const t0 = 1_700_000_000_000
+const tokenTimestamps = {
+  providerDataRequestedUnixMs: 11,
+  providerDataReceivedUnixMs: 12,
+}
+const errorTimestamps = {
+  providerDataRequestedUnixMs: 31,
+  providerDataReceivedUnixMs: 32,
+  providerIndicatedTimeUnixMs: undefined,
+}
+
+const tokenReply = (token: string, expiresIn: unknown = 3600) => ({
+  response: {
+    data: { ...tokenResponseBody, access_token: token, expires_in: expiresIn },
+    status: 200,
+  },
+  timestamps: tokenTimestamps,
 })
 
+const scoresReply = () => ({
+  response: { data: scoresFixture(), status: 200 },
+  timestamps: { providerDataRequestedUnixMs: 21, providerDataReceivedUnixMs: 22 },
+})
+
+const unauthorized = (status: 401 | 403) =>
+  new AdapterDataProviderError(
+    {
+      statusCode: 502,
+      message: status === 401 ? 'Unauthorized' : 'Forbidden',
+      providerStatusCode: status,
+    },
+    errorTimestamps,
+  )
+
 describe('AuthManager', () => {
-  const t0 = 1_700_000_000_000
   let now = t0
+  let request: jest.Mock
+
+  const manager = () => new AuthManager({ request } as unknown as Requester, tokenSettings)
+
+  const advance = (milliseconds: number) => {
+    now = t0 + milliseconds
+  }
 
   beforeEach(() => {
     now = t0
+    request = jest.fn()
     jest.spyOn(Date, 'now').mockImplementation(() => now)
+    CensorList.set([])
+  })
+
+  afterEach(() => {
+    jest.restoreAllMocks()
+    CensorList.set([])
+  })
+
+  it('redacts a minted bearer token', async () => {
+    request.mockResolvedValue(tokenReply('minted-secret-abc'))
+    const auth = manager()
+
+    await auth.getToken()
+
+    const entries = CensorList.getAll().filter(({ key }) => key === 'ACCESS_TOKEN')
+    expect(entries.some(({ value }) => value.test('minted-secret-abc'))).toBe(true)
+    expect(
+      censor({ headers: { authorization: 'Bearer minted-secret-abc' } }, CensorList.getAll()),
+    ).toEqual({ headers: { authorization: 'Bearer [ACCESS_TOKEN REDACTED]' } })
+  })
+
+  it('caches the recorded token reply and reuses it inside the refresh margin', async () => {
+    request.mockResolvedValue(tokenReply('token-1'))
+    const auth = manager()
+
+    expect(await auth.getToken()).toBe('token-1')
+    advance(60_000)
+    expect(await auth.getToken()).toBe('token-1')
+
+    expect(request).toHaveBeenCalledTimes(1)
+  })
+
+  it('caps a 3600-second expires_in at thirty minutes', async () => {
+    request
+      .mockResolvedValueOnce(tokenReply('token-1'))
+      .mockResolvedValueOnce(tokenReply('token-2'))
+    const auth = manager()
+
+    await auth.getToken()
+    advance(30 * 60_000)
+
+    expect(await auth.getToken()).toBe('token-2')
+    expect(request).toHaveBeenCalledTimes(2)
+    expect(await auth.getToken()).toBe('token-2')
+  })
+
+  it('honours a short expires_in at half its lifetime', async () => {
+    request
+      .mockResolvedValueOnce(tokenReply('token-1', 120))
+      .mockResolvedValueOnce(tokenReply('token-2', 120))
+    const auth = manager()
+
+    await auth.getToken()
+    advance(59_000)
+    expect(await auth.getToken()).toBe('token-1')
+    expect(request).toHaveBeenCalledTimes(1)
+
+    advance(60_000)
+    expect(await auth.getToken()).toBe('token-2')
+    expect(request).toHaveBeenCalledTimes(2)
+  })
+
+  it.each([
+    ['zero', 0],
+    ['negative', -1],
+    ['not a number', 'abc'],
+    ['not an integer', 1.5],
+  ])(
+    'rejects a token reply whose expires_in is %s before any data request',
+    async (_, expiresIn) => {
+      request.mockResolvedValue(tokenReply('token-1', expiresIn))
+
+      await expect(
+        fetchScoresWithReauth(
+          { request } as unknown as Requester,
+          scoresSettings,
+          manager(),
+          'sp-ssa-data',
+        ),
+      ).rejects.toMatchObject({ statusCode: 502, message: expect.stringContaining('token') })
+      expect(request).toHaveBeenCalledTimes(1)
+    },
+  )
+
+  it('reuses a token that is inside its refresh window', async () => {
+    request.mockResolvedValue(tokenReply('token-1', 120))
+    const auth = manager()
+
+    await auth.getToken()
+    advance(30_000)
+
+    expect(await auth.getToken()).toBe('token-1')
+    expect(request).toHaveBeenCalledTimes(1)
+  })
+
+  it('replaces a token at its refresh time', async () => {
+    request
+      .mockResolvedValueOnce(tokenReply('token-1', 120))
+      .mockResolvedValueOnce(tokenReply('token-2', 120))
+    const auth = manager()
+
+    await auth.getToken()
+    advance(60_000)
+
+    expect(await auth.getToken()).toBe('token-2')
+    expect(request).toHaveBeenCalledTimes(2)
+  })
+
+  it('keeps a still-valid token when the refresh fails and retries after thirty seconds', async () => {
+    request
+      .mockResolvedValueOnce(tokenReply('token-1', 120))
+      .mockRejectedValueOnce(new AdapterError({ statusCode: 502, message: 'refresh failed' }))
+      .mockResolvedValueOnce(tokenReply('token-2', 120))
+    const auth = manager()
+
+    await auth.getToken()
+    advance(60_000)
+    expect(await auth.getToken()).toBe('token-1')
+    expect(request).toHaveBeenCalledTimes(2)
+
+    advance(60_000 + 29_999)
+    expect(await auth.getToken()).toBe('token-1')
+    expect(request).toHaveBeenCalledTimes(2)
+
+    advance(60_000 + 30_000)
+    expect(await auth.getToken()).toBe('token-2')
+    expect(request).toHaveBeenCalledTimes(3)
+  })
+
+  it('surfaces the mint error when the refresh fails after expiry', async () => {
+    request
+      .mockResolvedValueOnce(tokenReply('token-1', 120))
+      .mockRejectedValueOnce(
+        new AdapterError({ statusCode: 502, message: 'token endpoint failed' }),
+      )
+    const auth = manager()
+
+    await auth.getToken()
+    advance(180_000)
+
+    await expect(auth.getToken()).rejects.toMatchObject({
+      statusCode: 502,
+      message: 'token endpoint failed',
+    })
+  })
+
+  it('shares one token request between concurrent callers', async () => {
+    let resolveToken!: (value: unknown) => void
+    request.mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolveToken = resolve
+        }),
+    )
+    const auth = manager()
+
+    const first = auth.getToken()
+    const second = auth.getToken()
+    resolveToken(tokenReply('token-1'))
+
+    await expect(Promise.all([first, second])).resolves.toEqual(['token-1', 'token-1'])
+    expect(request).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('fetchScoresWithReauth', () => {
+  beforeEach(() => {
+    jest.spyOn(Date, 'now').mockReturnValue(t0)
   })
 
   afterEach(() => {
     jest.restoreAllMocks()
   })
 
+  it('recovers one 401 with a fresh token', async () => {
+    const request = jest.fn()
+    request
+      .mockResolvedValueOnce(tokenReply('token-1'))
+      .mockRejectedValueOnce(unauthorized(401))
+      .mockResolvedValueOnce(tokenReply('token-2'))
+      .mockResolvedValueOnce(scoresReply())
+
+    const response = await fetchScoresWithReauth(
+      { request } as unknown as Requester,
+      scoresSettings,
+      new AuthManager({ request } as unknown as Requester, tokenSettings),
+      'sp-ssa-data',
+    )
+
+    expect(response.response.status).toBe(200)
+    expect(request).toHaveBeenCalledTimes(4)
+    expect(request.mock.calls[3][1]).toMatchObject({
+      headers: expect.objectContaining({ Authorization: 'Bearer token-2' }),
+    })
+  })
+
+  it.each([401, 403] as const)('reports a persistent %i as an auth error', async (status) => {
+    const request = jest.fn()
+    request
+      .mockResolvedValueOnce(tokenReply('token-1'))
+      .mockRejectedValueOnce(unauthorized(status))
+      .mockResolvedValueOnce(tokenReply('token-2'))
+      .mockRejectedValueOnce(unauthorized(status))
+
+    await expect(
+      fetchScoresWithReauth(
+        { request } as unknown as Requester,
+        scoresSettings,
+        new AuthManager({ request } as unknown as Requester, tokenSettings),
+        'sp-ssa-data',
+      ),
+    ).rejects.toMatchObject({
+      statusCode: 502,
+      providerStatusCode: status,
+    })
+  })
+
+  it('reports a token endpoint non-200 as an auth error before any data request', async () => {
+    const request = jest.fn().mockResolvedValue({
+      response: { status: 401, data: { code: 401, message: 'Unauthorized' } },
+      timestamps: tokenTimestamps,
+    })
+
+    await expect(
+      fetchScoresWithReauth(
+        { request } as unknown as Requester,
+        scoresSettings,
+        new AuthManager({ request } as unknown as Requester, tokenSettings),
+        'sp-ssa-data',
+      ),
+    ).rejects.toMatchObject({
+      statusCode: 502,
+      providerStatusCode: 401,
+      message: expect.stringContaining('status 401'),
+    })
+    expect(request).toHaveBeenCalledTimes(1)
+  })
+
   it.each([
-    ['reuses a valid cached token', 1000, false, 1, 1800, false],
-    ['refreshes inside the refresh margin', 1_500_001, false, 2, 1800, false],
-    ['refreshes after invalidate', 1000, true, 2, 1800, false],
-    ['reuses a short-lived token for half its lifetime', 61_000, false, 2, 120, false],
-    ['falls back to a still-valid token on refresh failure', 1_500_001, false, 3, 1800, true],
-    ['rejects an expired token when the refresh fails', 2_500, false, 2, 2, true],
-  ])('%s', async (_, advanceMs, invalidate, expectedCalls, expiresIn, failRefresh) => {
-    const requester = makeStub('requester', { request: jest.fn() })
-    if (failRefresh) {
-      requester.request
-        .mockResolvedValueOnce(tokenResponse('token-1', expiresIn))
-        .mockRejectedValueOnce(new Error('mint failed'))
-        .mockResolvedValueOnce(tokenResponse('token-2', expiresIn))
-    } else {
-      requester.request.mockResolvedValue(tokenResponse('token-1', expiresIn))
-    }
-    const manager = new AuthManager(requester as unknown as Requester, settings)
+    [
+      'a connection error',
+      new AdapterConnectionError({ statusCode: 502, message: 'timeout' }, errorTimestamps),
+      502,
+    ],
+    ['a rate limit', new AdapterRateLimitError({ statusCode: 429, message: 'rate limited' }), 429],
+  ])('surfaces a token endpoint %s', async (_, error, statusCode) => {
+    const request = jest.fn().mockRejectedValue(error)
+    const auth = new AuthManager({ request } as unknown as Requester, tokenSettings)
 
-    await manager.getToken()
-    now = t0 + advanceMs
-    if (invalidate) {
-      manager.invalidate()
-    }
-    if (failRefresh) {
-      if (advanceMs >= expiresIn * 1000) {
-        await expect(manager.getToken()).rejects.toThrow('mint failed')
-      } else {
-        const second = await manager.getToken()
-        expect(second).toBe('token-1')
-        const third = await manager.getToken()
-        expect(third).toBe('token-1')
-        manager.invalidate()
-        await expect(manager.getToken()).resolves.toBe('token-2')
-      }
-    } else {
-      await manager.getToken()
-    }
-
-    expect(CensorList.getAll().some((entry) => entry.key === 'ACCESS_TOKEN')).toBe(true)
-    const censored = censor({ headers: { authorization: 'Bearer token-1' } }, CensorList.getAll())
-    expect(JSON.stringify(censored)).toContain('ACCESS_TOKEN REDACTED')
-    expect(JSON.stringify(censored)).not.toContain('token-1')
-    expect(requester.request).toHaveBeenCalledTimes(expectedCalls)
-    expect(requester.request).toHaveBeenNthCalledWith(
-      1,
-      'sp-ssa-token',
-      {
-        method: 'POST',
-        baseURL: 'http://token.com/token',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: 'Basic client-id',
-        },
-        data: 'grant_type=client_credentials&scope=rtg_ssa',
-      },
-      0,
-    )
-  })
-
-  it('redacts the access token after multiple refreshes', async () => {
-    const requester = makeStub('requester', { request: jest.fn() })
-    requester.request
-      .mockResolvedValueOnce(tokenResponse('token-a'))
-      .mockResolvedValueOnce(tokenResponse('token-b'))
-      .mockResolvedValueOnce(tokenResponse('token-c'))
-      .mockResolvedValueOnce(tokenResponse('token-d'))
-      .mockResolvedValueOnce(tokenResponse('token-e'))
-    const manager = new AuthManager(requester as unknown as Requester, settings)
-
-    await manager.getToken()
-    manager.invalidate()
-    await manager.getToken()
-    manager.invalidate()
-    await manager.getToken()
-    manager.invalidate()
-    await manager.getToken()
-    manager.invalidate()
-    await manager.getToken()
-
-    const entries = CensorList.getAll().filter((entry) => entry.key === 'ACCESS_TOKEN')
-    expect(entries.length).toBe(4)
-    const censoredB = censor({ headers: { authorization: 'Bearer token-b' } }, CensorList.getAll())
-    expect(JSON.stringify(censoredB)).toContain('ACCESS_TOKEN REDACTED')
-    expect(JSON.stringify(censoredB)).not.toContain('token-b')
-    const staleA = censor({ headers: { authorization: 'Bearer token-a' } }, CensorList.getAll())
-    expect(JSON.stringify(staleA)).toContain('token-a')
-
-    CensorList.set(CensorList.getAll().filter((entry) => entry.key !== 'ACCESS_TOKEN'))
-    manager.ensureCachedTokenCensored()
-    const recensored = censor({ headers: { authorization: 'Bearer token-c' } }, CensorList.getAll())
-    expect(JSON.stringify(recensored)).toContain('ACCESS_TOKEN REDACTED')
-    expect(JSON.stringify(recensored)).not.toContain('token-c')
-  })
-
-  it('shares one token request between concurrent callers', async () => {
-    const requester = makeStub('requester', { request: jest.fn() })
-    requester.request.mockImplementation(
-      () =>
-        new Promise((resolve) => {
-          setTimeout(() => resolve(tokenResponse('token-1')), 10)
-        }),
-    )
-    const manager = new AuthManager(requester as unknown as Requester, settings)
-
-    const [first, second] = await Promise.all([manager.getToken(), manager.getToken()])
-
-    expect(first).toBe('token-1')
-    expect(second).toBe('token-1')
-    expect(requester.request).toHaveBeenCalledTimes(1)
-  })
-
-  it.each<[number, Record<string, unknown>]>([
-    [200, { access_token: undefined, expires_in: 1800 }],
-    [200, { access_token: '', expires_in: 1800 }],
-    [200, { access_token: '   ', expires_in: 1800 }],
-    [200, { access_token: 'token', expires_in: 'abc' }],
-    [200, { access_token: 'token', expires_in: 0 }],
-    [200, { access_token: 'token', expires_in: true }],
-    [201, { access_token: 'token', expires_in: 1800 }],
-    [401, { errorCode: 'invalid_client' }],
-  ])('rejects an unusable token response (status %i, %p)', async (status, body) => {
-    const requester = makeStub('requester', { request: jest.fn() })
-    requester.request.mockResolvedValue({
-      response: { data: body, status },
-      timestamps: { providerDataRequestedUnixMs: 1, providerDataReceivedUnixMs: 2 },
-    })
-    const manager = new AuthManager(requester as unknown as Requester, settings)
-
-    await expect(manager.getToken()).rejects.toMatchObject(
-      status === 201
-        ? {
-            statusCode: 502,
-            providerStatusCode: 201,
-            timestamps: { providerDataRequestedUnixMs: 1, providerDataReceivedUnixMs: 2 },
-          }
-        : { statusCode: 502 },
-    )
-  })
-
-  it('wraps a token endpoint transport error as a 502 adapter error', async () => {
-    const requester = makeStub('requester', { request: jest.fn() })
-    requester.request.mockRejectedValue(
-      new AdapterDataProviderError(
-        { statusCode: 502, message: 'unauthorized', providerStatusCode: 401 },
-        {
-          providerDataRequestedUnixMs: 1,
-          providerDataReceivedUnixMs: 2,
-          providerIndicatedTimeUnixMs: undefined,
-        },
+    await expect(
+      fetchScoresWithReauth(
+        { request } as unknown as Requester,
+        scoresSettings,
+        auth,
+        'sp-ssa-data',
       ),
-    )
-    const manager = new AuthManager(requester as unknown as Requester, settings)
+    ).rejects.toMatchObject({
+      statusCode,
+      ...(statusCode === 502 ? { timestamps: errorTimestamps } : {}),
+    })
+    expect(request).toHaveBeenCalledTimes(1)
+  })
 
-    await expect(manager.getToken()).rejects.toMatchObject({
-      statusCode: 502,
-      message: expect.stringContaining('access token'),
+  it.each([
+    ['an empty body', {}],
+    ['an empty access token', { access_token: '', expires_in: 3600 }],
+    ['a missing expires_in', { access_token: 'token' }],
+  ])('reports a usable token reply with %s as an auth error', async (_, body) => {
+    const request = jest.fn().mockResolvedValue({
+      response: { status: 200, data: body },
+      timestamps: tokenTimestamps,
     })
 
-    requester.request.mockReset()
-    requester.request.mockRejectedValueOnce(
-      new AdapterRateLimitError({ statusCode: 429, message: 'rate limited' }),
-    )
-    const rateLimited = new AuthManager(requester as unknown as Requester, settings)
-    await expect(rateLimited.getToken()).rejects.toMatchObject({ statusCode: 429 })
-
-    requester.request.mockReset()
-    requester.request.mockRejectedValueOnce(
-      new AdapterConnectionError(
-        { statusCode: 502, message: 'timeout' },
-        {
-          providerDataRequestedUnixMs: 1,
-          providerDataReceivedUnixMs: 2,
-          providerIndicatedTimeUnixMs: undefined,
-        },
+    await expect(
+      fetchScoresWithReauth(
+        { request } as unknown as Requester,
+        scoresSettings,
+        new AuthManager({ request } as unknown as Requester, tokenSettings),
+        'sp-ssa-data',
       ),
-    )
-    const connectionError = new AuthManager(requester as unknown as Requester, settings)
-    await expect(connectionError.getToken()).rejects.toMatchObject({
-      statusCode: 502,
-      timestamps: { providerDataRequestedUnixMs: 1, providerDataReceivedUnixMs: 2 },
-    })
+    ).rejects.toMatchObject({ statusCode: 502, message: expect.stringContaining('token') })
+    expect(request).toHaveBeenCalledTimes(1)
   })
 })

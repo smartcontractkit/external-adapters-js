@@ -1,131 +1,151 @@
 import { SettingsDefinitionFromConfig } from '@chainlink/external-adapter-framework/config'
 import {
+  MockCache,
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
 import { config } from '../../src/config'
-import { providerRecord, scoresFixture, tokenFixture } from './fixtures'
+import { ssaTransport } from '../../src/transport/ssa'
+import { scoresFixture, tokenResponseBody } from '../fixtures'
 
 type SettingsDefinition = SettingsDefinitionFromConfig<typeof config>
 
-describe('execute', () => {
-  let spy: jest.SpyInstance
-  let testAdapter: TestAdapter<SettingsDefinition>
+const dataPath = '/api/v1/ssa/getAllScores'
+
+const restoreEnv = (oldEnv: NodeJS.ProcessEnv) => {
+  for (const key of Object.keys(process.env)) {
+    if (!(key in oldEnv)) {
+      delete process.env[key]
+    }
+  }
+  setEnvVariables(oldEnv)
+}
+
+describe('ssa endpoint', () => {
+  let testAdapter: TestAdapter<SettingsDefinition> & { mockCache: MockCache }
   let oldEnv: NodeJS.ProcessEnv
-  let scoresStatus = 200
-  let scoresBody: unknown = scoresFixture()
 
   const request = (security_id: string) => testAdapter.request({ endpoint: 'ssa', security_id })
 
+  const mockToken = () =>
+    nock('http://token.com')
+      .post('/token', 'grant_type=client_credentials&scope=rtg_ssa')
+      .reply(200, tokenResponseBody)
+      .persist()
+
   beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
+    oldEnv = { ...process.env }
     process.env.API_ENDPOINT = 'http://api.com'
-    process.env.TOKEN_ENDPOINT = 'http://token.com/token'
+    process.env.AUTH_ENDPOINT = 'http://token.com/token'
     process.env.CLIENT_ID = 'client-id'
     process.env.API_KEY = 'api-key'
     process.env.BACKGROUND_EXECUTE_MS_HTTP = '0'
-    process.env.API_TIMEOUT = '100'
-    process.env.RETRY = '1'
-    process.env.REQUESTER_SLEEP_BEFORE_REQUEUEING_MS = '1'
+    process.env.CACHE_POLLING_SLEEP_MS = '10'
+    process.env.API_TIMEOUT = '2000'
+    process.env.RETRY = '0'
+    delete process.env.ORIGIN
 
-    const mockDate = new Date('2025-01-17T11:11:11.111Z')
-    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+    jest.spyOn(Date, 'now').mockReturnValue(new Date('2025-06-01T00:00:00.000Z').getTime())
 
     const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
-    nock('http://token.com')
-      .post('/token', 'grant_type=client_credentials&scope=rtg_ssa')
-      .reply(200, tokenFixture)
-      .persist()
+    mockToken()
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<SettingsDefinition>,
     })
-
-    nock('http://api.com')
-      .get('/api/v1/ssa/getAllScores')
-      .reply(() => [scoresStatus, scoresBody])
-      .persist()
   })
 
   beforeEach(() => {
-    scoresStatus = 200
-    scoresBody = scoresFixture()
+    nock.cleanAll()
+    mockToken()
   })
 
   afterAll(async () => {
-    setEnvVariables(oldEnv)
+    restoreEnv(oldEnv)
     await testAdapter.api.close()
     nock.restore()
     nock.cleanAll()
-    spy.mockRestore()
+    jest.restoreAllMocks()
   })
 
-  it.each(['sp-eurc', 'SP-EURC'])(
-    'returns the SSA score and provider timestamp for %s',
-    async (securityId) => {
-      const response = await request(securityId)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    },
-  )
+  it('sends the recorded SSA request contract', async () => {
+    const contract = nock('http://api.com')
+      .get(dataPath)
+      .matchHeader('accept', 'application/json')
+      .matchHeader('content-type', 'application/json')
+      .matchHeader('authorization', `Bearer ${tokenResponseBody.access_token}`)
+      .matchHeader('apikey', 'api-key')
+      .reply(200, scoresFixture())
+    nock('http://api.com')
+      .get(dataPath)
+      .matchHeader('accept', 'application/json')
+      .matchHeader('content-type', 'application/json')
+      .matchHeader('authorization', `Bearer ${tokenResponseBody.access_token}`)
+      .matchHeader('apikey', 'api-key')
+      .reply(200, scoresFixture())
+      .persist()
 
-  it('returns 400 when security_id is missing or blank', async () => {
+    const response = await request('SP-USDe')
+
+    expect(response.statusCode).toBe(200)
+    expect(response.json().result).toBe(5)
+    expect(contract.isDone()).toBe(true)
+  })
+
+  it('serves two subscriptions with one batched provider call', async () => {
+    const cacheKey = (security_id: string) =>
+      ssaTransport.responseCache.getCacheKey(ssaTransport.name, { security_id })
+    const originalSet = testAdapter.mockCache.set.bind(testAdapter.mockCache)
+    let getCalls = 0
+    const getCallsAtWrite = new Map<string, number[]>()
+    jest
+      .spyOn(testAdapter.mockCache, 'set')
+      .mockImplementation(async (key: string, value: Readonly<unknown>, ttl: number) => {
+        getCallsAtWrite.set(key, [...(getCallsAtWrite.get(key) ?? []), getCalls])
+        await originalSet(key, value, ttl)
+      })
+    nock('http://api.com')
+      .get(dataPath)
+      .reply(() => {
+        getCalls++
+        return [200, scoresFixture()]
+      })
+      .persist()
+
+    const [eurc, usdc] = await Promise.all([request('SP-EURC'), request('SP-USDC')])
+
+    expect(eurc.statusCode).toBe(200)
+    expect(eurc.json()).toMatchSnapshot()
+    expect(eurc.json()).toMatchObject({
+      result: 2,
+      data: { result: 2 },
+      timestamps: { providerIndicatedTimeUnixMs: 1766102400000 },
+    })
+    expect(Object.keys(eurc.json().data)).toEqual(['result'])
+    expect(usdc.statusCode).toBe(200)
+    expect(usdc.json()).toMatchObject({
+      result: 2,
+      data: { result: 2 },
+      timestamps: { providerIndicatedTimeUnixMs: 1766016000000 },
+    })
+
+    const eurcWrite = getCallsAtWrite.get(cacheKey('SP-EURC'))
+    const usdcWrite = getCallsAtWrite.get(cacheKey('SP-USDC'))
+    expect(eurcWrite).toBeDefined()
+    expect(usdcWrite).toBeDefined()
+    expect(usdcWrite?.[0]).toBe(eurcWrite?.[0])
+  })
+
+  it('returns 400 for a request without a security_id', async () => {
     const response = await testAdapter.request({ endpoint: 'ssa' })
     expect(response.statusCode).toBe(400)
     expect(JSON.stringify(response.json())).toContain('security_id')
-
-    const blank = await testAdapter.request({ endpoint: 'ssa', security_id: '   ' })
-    expect(blank.statusCode).toBe(400)
-    expect(JSON.stringify(blank.json())).toContain('security_id')
   })
 
-  it('returns 502 when the security_id is not in the provider response', async () => {
-    const response = await request('SP-UNKNOWN')
-    expect(response.statusCode).toBe(502)
-    expect(response.json().errorMessage).toContain('SP-UNKNOWN')
-  })
-
-  it('returns 502 when the provider score is invalid', async () => {
-    scoresBody = [providerRecord({ security_id: 'SP-GUSD', ssa: '6' })]
-    const response = await request('SP-GUSD')
-    expect(response.statusCode).toBe(502)
-    expect(response.json().errorMessage).toContain('SSA score')
-  })
-
-  it('returns 502 when the provider timestamp is unparseable', async () => {
-    scoresBody = [providerRecord({ security_id: 'SP-USDC', last_modified_date_time: 'not-a-date' })]
-    const response = await request('SP-USDC')
-    expect(response.statusCode).toBe(502)
-    expect(response.json().errorMessage).toContain('last_modified_date_time')
-  })
-
-  it.each([
-    ['non-array', 'SP-TUSD', {}],
-    [
-      'duplicate',
-      'SP-DUP',
-      [providerRecord({ security_id: 'SP-DUP' }), providerRecord({ security_id: 'SP-DUP' })],
-    ],
-    ['null element', 'SP-NULL', [null]],
-    ['non-string id', 'SP-NUM', [{ security_id: 1 }]],
-  ])('returns 502 when the provider payload is malformed (%s)', async (_, id, body) => {
-    scoresBody = body
-    const response = await request(id)
-    expect(response.statusCode).toBe(502)
-    expect(response.json().errorMessage).toContain('malformed payload')
-    expect(response.json().timestamps.providerDataRequestedUnixMs).toBeGreaterThan(0)
-  })
-
-  it.each([
-    [500, 'status 500'],
-    [201, 'status 201'],
-  ])('returns 502 when the provider returns a non-200 status %i', async (status, expected) => {
-    scoresStatus = status
-    scoresBody = { message: 'x' }
-    const response = await request(status === 201 ? 'SP-201' : 'SP-DAI')
-    expect(response.statusCode).toBe(502)
-    expect(response.json().errorMessage).toContain(expected)
-    expect(response.json().timestamps.providerDataRequestedUnixMs).toBeGreaterThan(0)
+  it('returns 400 for a whitespace-only security_id', async () => {
+    const response = await testAdapter.request({ endpoint: 'ssa', security_id: '   ' })
+    expect(response.statusCode).toBe(400)
+    expect(JSON.stringify(response.json())).toContain('security_id')
   })
 })

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute returns the SSA score and provider timestamp for SP-EURC 1`] = `
+exports[`ssa endpoint serves two subscriptions with one batched provider call 1`] = `
 {
   "data": {
     "result": 2,
@@ -8,24 +8,9 @@ exports[`execute returns the SSA score and provider timestamp for SP-EURC 1`] = 
   "result": 2,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1737112271111,
-    "providerDataRequestedUnixMs": 1737112271111,
-    "providerIndicatedTimeUnixMs": 1737072000000,
-  },
-}
-`;
-
-exports[`execute returns the SSA score and provider timestamp for sp-eurc 1`] = `
-{
-  "data": {
-    "result": 2,
-  },
-  "result": 2,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1737112271111,
-    "providerDataRequestedUnixMs": 1737112271111,
-    "providerIndicatedTimeUnixMs": 1737072000000,
+    "providerDataReceivedUnixMs": 1748736000000,
+    "providerDataRequestedUnixMs": 1748736000000,
+    "providerIndicatedTimeUnixMs": 1766102400000,
   },
 }
 `;
