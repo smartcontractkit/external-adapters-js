@@ -27,6 +27,7 @@ interface PositionSchema {
 interface PositionsResponseSchema {
   positions: PositionSchema[]
   totalPages: number
+  totalElements: number
   last: boolean
 }
 
@@ -115,7 +116,7 @@ export const parsePositionsPage = (
     return { isin, quantity }
   })
 
-  return { positions, totalPages, last: body.last }
+  return { positions, totalPages, totalElements, last: body.last }
 }
 
 const isUnauthorized = (error: unknown): boolean =>
@@ -254,6 +255,12 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
       }
       positions.push(...nextPage.positions)
       last = nextPage.last
+    }
+
+    if (positions.length !== firstPage.totalElements) {
+      throw unusable(
+        `expected ${firstPage.totalElements} positions but received ${positions.length}`,
+      )
     }
 
     return positions

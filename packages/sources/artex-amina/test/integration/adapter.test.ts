@@ -10,6 +10,9 @@ import {
   POSITIONS_PATH,
 } from '../fixtures/amina'
 
+const nonMatchingPositions = (count: number): Record<string, unknown>[] =>
+  Array.from({ length: count }, (_, index) => position({ isin: 'CH0000000001', quantity: index }))
+
 describe('reserve endpoint', () => {
   const harness = new ReserveHarness()
   const { fake } = harness
@@ -92,7 +95,10 @@ describe('reserve endpoint', () => {
     {
       matchingPositions: 2,
       pages: [
-        { positions: [position({ quantity: 1 })], ...pageMetadata(0, 2, 21) },
+        {
+          positions: [position({ quantity: 1 }), ...nonMatchingPositions(19)],
+          ...pageMetadata(0, 2, 21),
+        },
         { positions: [position({ quantity: 2 })], ...pageMetadata(1, 2, 21) },
       ],
       statusCode: 502,
@@ -131,7 +137,7 @@ describe('reserve endpoint', () => {
     fake.page(0, {
       statusCode: 200,
       body: page({
-        positions: [position({ isin: 'CH0000000001' })],
+        positions: nonMatchingPositions(20),
         ...pageMetadata(0, 2, 21),
       }),
     })
@@ -153,6 +159,31 @@ describe('reserve endpoint', () => {
     expect(fake.positionsRequests[0].headers.authorization).toBe(
       fake.positionsRequests[1].headers.authorization,
     )
+  })
+
+  it('rejects pages that deliver fewer rows than totalElements', async () => {
+    fake.page(0, {
+      statusCode: 200,
+      body: page({
+        positions: nonMatchingPositions(19),
+        ...pageMetadata(0, 2, 21),
+      }),
+    })
+    fake.page(1, {
+      statusCode: 200,
+      body: page({
+        positions: [position()],
+        ...pageMetadata(1, 2, 21),
+      }),
+    })
+
+    const { response, body } = await harness.request()
+
+    expect(response.statusCode).toBe(502)
+    expect(body.errorMessage).toContain('expected 21 positions but received 20')
+    expect(body.result).toBeUndefined()
+    expect(body.data).toBeUndefined()
+    expect(fake.positionsRequests.map((request) => request.page)).toEqual([0, 1])
   })
 
   it('rejects page 0 when it claims to be last before the declared last page', async () => {
