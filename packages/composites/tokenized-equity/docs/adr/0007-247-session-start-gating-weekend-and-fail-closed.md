@@ -127,6 +127,11 @@ risk-bearing consequences:
   cache (`TRADINGHOURS_SESSION_CACHE_TTL_MS`, default 60s), so gating adds no per-request
   tradinghours hop; a stale schedule is served while a deduped background refresh runs, and
   only the first-ever fetch blocks (and fails over to the fallback schedule on error).
+  Stale serving is bounded by a max age (1h, well under the ~1-day forward reach of the
+  fetched window): past it the entry is discarded and the fetch blocks again, so a
+  sustained outage surfaces exactly like a fetch failure — `TradingHoursEA request
+failed` error log + `gatingSessionSource: 'FALLBACK'` — keeping the outage fail-closed
+  and loud instead of silently gating on session starts that are days too old.
 - The tradinghours `market-session` response gains a field; the change is additive and its only
   consumer is tokenized-equity.
 - The flattened fallback schedule becomes the single per-market source of truth for session
@@ -151,7 +156,8 @@ risk-bearing consequences:
   rule (e.g. max-age gating instead). Confirming this is a **prerequisite for enabling the
   flag anywhere with real consumers**, not a post-rollout follow-up. Owner: Product.
 - **Holiday-blind fallback across multi-day closures.** The fallback schedule knows no
-  holidays: if tradinghours is unreachable AND no cached schedule has ever been fetched, a
+  holidays: if tradinghours is unreachable AND no usable cached schedule remains (none
+  ever fetched, or the last good one aged past the cache's 1h max age), a
   closure longer than a normal weekend (Good Friday, Monday holiday) makes the fallback derive
   a later closed-span start than the real one, so legitimately stale pre-closure reports are
   rejected as `PRE_SESSION` (or resolve as `Session start unknown`) until tradinghours

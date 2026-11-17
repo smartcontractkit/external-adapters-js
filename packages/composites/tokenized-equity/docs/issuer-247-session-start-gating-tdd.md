@@ -312,6 +312,12 @@ The check ships dark, so enabling it changes nothing until the env var is set. O
 
 ### Phasing
 
+0. **tradinghours first.** Deploy the tradinghours release carrying the `endTime`
+   passthrough and the 5-day lookback **before** any tokenized-equity deployment with
+   `ISSUER_247_SESSION_START_GATING_ENABLED`. 24/7 gating depends on `endTime` to
+   derive closed-span starts: against a pre-endTime tradinghours, Sundays and
+   multi-day closures resolve no closed-span start, and WEEKEND reports fail closed
+   with 503 `Session start unknown` (ADR-0007).
 1. **Staging, flag off.** Deploy with `ISSUER_247_SESSION_START_GATING_ENABLED` unset/false.
    Zero behavior change — this is the explicit no-regression check (decision matrix row 1).
 2. **Staging, flag on.** Enable `ISSUER_247_SESSION_START_GATING_ENABLED`. Soak

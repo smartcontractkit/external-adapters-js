@@ -49,10 +49,19 @@ export const getSessionTransitions = async (
     sessionMarketType,
   )
 
+// Max age for a cached schedule (transitionCache.ts). The fetched window only
+// reaches ~1 day forward (tradinghours returns [now-5d, now+1d]), so a schedule
+// older than this has no new session opens to gate against and must not be served:
+// the caller falls through to the hard-coded fallback (source FALLBACK) instead.
+// 1h sits well under the ~1-day forward reach while tolerating short outages.
+export const SCHEDULE_CACHE_MAX_AGE_MS = 60 * 60 * 1000
+
 // Cached variant (transitionCache.ts): serves the last good schedule and refreshes
 // in the background once the TTL elapses, so neither gating path pays a tradinghours
-// hop per price request. Only the first fetch for a key blocks. The returned entry
-// carries the staleness signal for callers that want to react to an old schedule.
+// hop per price request. Only the first fetch for a key blocks — plus any fetch
+// after the entry passes SCHEDULE_CACHE_MAX_AGE_MS, which blocks (and throws) like
+// the first. The returned entry carries the staleness signal for callers that want
+// to react to an old schedule.
 export const getSessionTransitionsCached = async (
   tradingHoursUrl: string,
   requester: Requester,
@@ -64,6 +73,7 @@ export const getSessionTransitionsCached = async (
   getCachedValue(
     [tradingHoursUrl, sessionBoundariesTimeZone, sessionMarket, sessionMarketType].join('|'),
     ttlMs,
+    SCHEDULE_CACHE_MAX_AGE_MS,
     () =>
       fetchSessionSchedule(
         tradingHoursUrl,

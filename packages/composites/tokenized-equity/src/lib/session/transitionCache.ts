@@ -13,6 +13,15 @@ const logger = makeLogger('SessionTransitionCache')
 // signal (refreshedAtMs, ttlMs, stale) so the caller can make its own decision
 // about acting on an old schedule. Only the INITIAL fetch blocks: with no cached
 // value there is nothing to serve, so the caller awaits the fetch (and its failure).
+//
+// Stale serving is bounded by maxAgeMs: a cached schedule only reaches ~1 day past
+// its fetch time, so serving it indefinitely during a sustained tradinghours outage
+// would silently weaken session-start gating (the gate would compare against session
+// starts that are far too old) while reporting source TRADINGHOURS. Once an entry
+// is older than maxAgeMs it is discarded and the fetch blocks again, so a fetch
+// failure surfaces to the caller exactly like an initial-fetch failure — the caller
+// logs its 'TradingHoursEA request failed' line and falls through to the hard-coded
+// fallback schedule (source FALLBACK), keeping the outage fail-closed and loud.
 
 export type CachedValue<T> = {
   value: T
@@ -36,21 +45,31 @@ const inFlightRefreshes = new Map<string, Promise<void>>()
 export const getCachedValue = async <T>(
   key: string,
   ttlMs: number,
+  maxAgeMs: number,
   fetcher: () => Promise<T>,
   nowMs: number = Date.now(),
 ): Promise<CachedValue<T>> => {
   const entry = entries.get(key) as Entry<T> | undefined
-  if (entry === undefined) {
+  if (entry !== undefined && nowMs - entry.refreshedAtMs >= maxAgeMs) {
+    // Too old to serve (see header): drop it so the path below behaves like an
+    // initial fetch — blocking, and throwing to the caller on failure.
+    logger.warn(
+      `Cached tradinghours schedule is older than maxAgeMs=${maxAgeMs} (refreshedAtMs=${entry.refreshedAtMs}); discarding it and refetching in the foreground`,
+    )
+    entries.delete(key)
+  }
+  if (entries.get(key) === undefined) {
     const value = await fetcher()
     entries.set(key, { value, refreshedAtMs: nowMs })
     return { value, refreshedAtMs: nowMs, ttlMs, stale: false }
   }
 
-  const stale = nowMs - entry.refreshedAtMs >= ttlMs
+  const current = entries.get(key) as Entry<T>
+  const stale = nowMs - current.refreshedAtMs >= ttlMs
   if (stale) {
     refreshInBackground(key, fetcher)
   }
-  return { value: entry.value, refreshedAtMs: entry.refreshedAtMs, ttlMs, stale }
+  return { value: current.value, refreshedAtMs: current.refreshedAtMs, ttlMs, stale }
 }
 
 // Fire-and-forget refresh, deduped per key: concurrent stale hits share one

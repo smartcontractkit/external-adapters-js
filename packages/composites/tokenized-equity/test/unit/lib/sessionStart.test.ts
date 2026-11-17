@@ -141,6 +141,77 @@ describe('getSessionTransitions', () => {
       'tradinghours down',
     )
   })
+
+  it('processData handles the widened 5-day lookback window (older phases present)', () => {
+    // The tradinghours market-session query now reaches back 5 days, so every
+    // market-session consumer — 24/5 smoothing included — receives ~4 more days of
+    // phases. A full trading day is PRE 04:00 / REGULAR 09:30 / POST 16:00 /
+    // OVERNIGHT 20:00; the window below spans Thu 2024-01-04 .. Tue 2024-01-09
+    // (Mon 2024-01-08 is "today"), plus the Sunday 20:00 overnight.
+    const day = (
+      d: string, // YYYY-MM-DD
+    ): SessionTransition[] => [
+      {
+        status: TwentyfourFiveMarketStatus.PRE_MARKET,
+        timeMs: new Date(`${d}T04:00:00.000Z`).getTime(),
+      },
+      {
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: new Date(`${d}T09:30:00.000Z`).getTime(),
+      },
+      {
+        status: TwentyfourFiveMarketStatus.POST_MARKET,
+        timeMs: new Date(`${d}T16:00:00.000Z`).getTime(),
+      },
+      {
+        status: TwentyfourFiveMarketStatus.OVERNIGHT,
+        timeMs: new Date(`${d}T20:00:00.000Z`).getTime(),
+      },
+    ]
+    const transitions: SessionTransition[] = [
+      ...day('2024-01-04'),
+      ...day('2024-01-05'),
+      // Weekend: only the Sunday overnight exists in a real schedule.
+      {
+        status: TwentyfourFiveMarketStatus.OVERNIGHT,
+        timeMs: new Date('2024-01-07T20:00:00.000Z').getTime(),
+      },
+      ...day('2024-01-08'),
+      ...day('2024-01-09'),
+    ]
+
+    // REGULAR is dropped everywhere and the Sunday overnight is still dropped with
+    // older days present; everything else passes through in order.
+    expect(processData(transitions, 'UTC')).toEqual([
+      new Date('2024-01-04T04:00:00.000Z').getTime(),
+      new Date('2024-01-04T16:00:00.000Z').getTime(),
+      new Date('2024-01-04T20:00:00.000Z').getTime(),
+      new Date('2024-01-05T04:00:00.000Z').getTime(),
+      new Date('2024-01-05T16:00:00.000Z').getTime(),
+      new Date('2024-01-05T20:00:00.000Z').getTime(),
+      new Date('2024-01-08T04:00:00.000Z').getTime(),
+      new Date('2024-01-08T16:00:00.000Z').getTime(),
+      new Date('2024-01-08T20:00:00.000Z').getTime(),
+      new Date('2024-01-09T04:00:00.000Z').getTime(),
+      new Date('2024-01-09T16:00:00.000Z').getTime(),
+      new Date('2024-01-09T20:00:00.000Z').getTime(),
+    ])
+
+    // The smoother's signal is secondsFromNearest over this list: the extra older
+    // boundaries are always farther from "now" than the current day's, so the 24/5
+    // smoothing result is unchanged by the wider window. Spot-check Monday pre-open
+    // (nearest = Monday 04:00 PRE_MARKET, not anything from last week) and Monday
+    // evening (nearest = Monday 20:00 OVERNIGHT).
+    const times = processData(transitions, 'UTC')
+    const nearest = (nowMs: number) =>
+      times.reduce((a, b) => (Math.abs(nowMs - b) < Math.abs(nowMs - a) ? b : a))
+    expect(nearest(new Date('2024-01-08T03:00:00.000Z').getTime())).toBe(
+      new Date('2024-01-08T04:00:00.000Z').getTime(),
+    )
+    expect(nearest(new Date('2024-01-08T21:00:00.000Z').getTime())).toBe(
+      new Date('2024-01-08T20:00:00.000Z').getTime(),
+    )
+  })
 })
 
 describe('getSessionSchedule', () => {
