@@ -34,7 +34,7 @@ const phase = (
   phase_type: string,
   phase_name: string,
   start: string,
-  end: string,
+  end?: string,
   status = 'Closed',
 ) => ({
   phase_type,
