@@ -5,7 +5,7 @@ describe('response cache', () => {
   const harness = new ReserveHarness()
 
   beforeAll(async () => {
-    await harness.start({ env: { RETRY: '0' } })
+    await harness.start()
   })
 
   afterAll(async () => {

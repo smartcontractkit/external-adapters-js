@@ -25,9 +25,9 @@ export type CapturedPositionsRequest = {
   at: number
 }
 
-// Body of recording/02-positions-page-0.body.json: the wire reply of the
-// provider for the configured portfolio. Position and page fields are kept so
-// every fixture below is a recorded reply with a single field overridden.
+// A positions page as AMINA returns it for the configured portfolio: one
+// position of 100 shares, `totalPages: 1` and `last: true`. Every fixture below
+// is this body with a single field overridden.
 export const recordedPositionsPage0 = {
   positions: [
     {
@@ -59,17 +59,17 @@ export const recordedPositionsPage0 = {
   last: true,
 }
 
-// Body of recording/05-bad-signature.body.json (RFC 7807 shape, status 400 per
-// owner decision D-1).
+// AMINA answers a request whose HMAC does not match with HTTP 400 and this
+// RFC 7807 body: `title` names the signature mismatch and `status` repeats 400.
 export const recordedBadSignatureBody = {
   title: 'HMAC signature mismatch.',
   instance: 'cda9c2c2-4334',
   status: 400,
 }
 
-// Recording/01-login.body.json and 04-refresh.body.json carry these two fields.
-// The recorded values are scrubbed, so every reply mints distinguishable
-// tokens instead.
+// The AMINA auth endpoint answers both login and refresh with these two fields.
+// The provider values are credentials, so every fixture reply mints
+// distinguishable tokens instead.
 export const authBody = (suffix = '1'): { accessToken: string; refreshToken: string } => ({
   accessToken: `access-token-${suffix}`,
   refreshToken: `refresh-token-${suffix}`,

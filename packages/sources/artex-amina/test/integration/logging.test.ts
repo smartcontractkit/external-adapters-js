@@ -23,7 +23,7 @@ describe('error logging', () => {
 
   beforeAll(async () => {
     await harness.start({
-      env: { RETRY: '0', BACKGROUND_EXECUTE_MS: '1000' },
+      env: { BACKGROUND_EXECUTE_MS: '1000' },
       loggerFactory: captureLoggerFactory,
     })
   })

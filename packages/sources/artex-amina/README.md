@@ -21,9 +21,7 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Data Provider Rate Limits
 
-|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                                       Note                                        |
-| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :-------------------------------------------------------------------------------: |
-| default |                             |              6              |                           | AMINA documents no rate limit for read-only calls; keep the read-only poll light. |
+There are no rate limits for this adapter.
 
 ---
 

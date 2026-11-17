@@ -15,7 +15,7 @@ describe('reserve endpoint', () => {
   const { fake } = harness
 
   beforeAll(async () => {
-    await harness.start({ env: { RETRY: '0' } })
+    await harness.start()
   })
 
   afterAll(async () => {
@@ -163,7 +163,7 @@ describe('reserve endpoint', () => {
     )
   })
 
-  it('stops when last is true even when totalPages reports more pages', async () => {
+  it('rejects page 0 when it claims to be last before the declared last page', async () => {
     fake.page(0, {
       statusCode: 200,
       body: page({ positions: [position({ quantity: 7 })], totalPages: 3, last: true }),
@@ -171,44 +171,71 @@ describe('reserve endpoint', () => {
 
     const { response, body } = await harness.request()
 
-    expect(response.statusCode).toBe(200)
-    expect(body.result).toBe(7)
-    expect(fake.positionsRequests).toHaveLength(1)
-    expect(fake.positionsRequests[0].page).toBe(0)
+    expect(response.statusCode).toBe(502)
+    expect(body.errorMessage).toContain('last')
+    expect(body.result).toBeUndefined()
+    expect(body.data).toBeUndefined()
+    expect(fake.positionsRequests.map((request) => request.page)).toEqual([0])
   })
 
-  it('stops at totalPages when a page reports last as false', async () => {
+  it('rejects page 0 when it denies being last on the declared last page', async () => {
     fake.page(0, {
       statusCode: 200,
       body: page({ positions: [position({ quantity: 33.25 })], totalPages: 1, last: false }),
     })
-    // Page 1 is answered if it is requested, so asking for it would be visible
-    // both in the request log and in a duplicate-ISIN error.
+
+    const { response, body } = await harness.request()
+
+    expect(response.statusCode).toBe(502)
+    expect(body.errorMessage).toContain('last')
+    expect(body.result).toBeUndefined()
+    expect(body.data).toBeUndefined()
+    expect(fake.positionsRequests.map((request) => request.page)).toEqual([0])
+  })
+
+  it('rejects a middle page that claims to be last', async () => {
+    fake.page(0, {
+      statusCode: 200,
+      body: page({
+        positions: [position({ isin: 'CH0000000001' })],
+        totalPages: 3,
+        last: false,
+      }),
+    })
     fake.page(1, {
       statusCode: 200,
-      body: page({ positions: [position({ quantity: 99 })], totalPages: 1, last: true, number: 1 }),
+      body: page({ positions: [position()], totalPages: 3, last: true, number: 1 }),
     })
 
     const { response, body } = await harness.request()
 
-    expect(response.statusCode).toBe(200)
-    expect(body.result).toBe(33.25)
-    expect(fake.positionsRequests.map((request) => request.page)).toEqual([0])
+    expect(response.statusCode).toBe(502)
+    expect(body.errorMessage).toContain('last')
+    expect(body.result).toBeUndefined()
+    expect(body.data).toBeUndefined()
+    expect(fake.positionsRequests.map((request) => request.page)).toEqual([0, 1])
   })
 
   it.each([
     {
-      inconsistency: 'totalPages is zero while last is false',
+      inconsistency: 'totalPages is zero and last is true',
+      pages: [{ positions: [position()], totalPages: 0, last: true }],
+      message: 'totalPages',
+    },
+    {
+      inconsistency: 'totalPages is zero and last is false',
       pages: [{ positions: [position()], totalPages: 0, last: false }],
+      message: 'totalPages',
     },
     {
       inconsistency: 'totalPages changes between pages',
       pages: [
         { positions: [position({ isin: 'CH0000000001' })], totalPages: 2, last: false },
-        { positions: [position()], totalPages: 3, last: true },
+        { positions: [position()], totalPages: 3, last: false },
       ],
+      message: 'totalPages changed',
     },
-  ])('rejects unusable pagination when $inconsistency', async ({ pages }) => {
+  ])('rejects unusable pagination when $inconsistency', async ({ pages, message }) => {
     pages.forEach((pageBody, index) => {
       fake.page(index, { statusCode: 200, body: page({ ...pageBody, number: index }) })
     })
@@ -216,7 +243,7 @@ describe('reserve endpoint', () => {
     const { response, body } = await harness.request()
 
     expect(response.statusCode).toBe(502)
-    expect(body.errorMessage).toContain('totalPages')
+    expect(body.errorMessage).toContain(message)
     expect(body.result).toBeUndefined()
     expect(body.data).toBeUndefined()
   })

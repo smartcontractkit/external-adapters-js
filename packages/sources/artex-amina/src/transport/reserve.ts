@@ -3,7 +3,10 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterConnectionError,
+  AdapterError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/reserve'
 import { AminaAuth, requestIds, signRequest, toProviderError } from './authentication'
 
@@ -12,6 +15,9 @@ const logger = makeLogger('ArtexAminaReserveTransport')
 const PAGE_SIZE = 20
 const QUANTITY_DECIMALS = 4
 const USER_AGENT = 'chainlink-artex-amina-adapter'
+// AMINA retry guidance: exponential backoff, capped at 40 seconds.
+const MAX_ATTEMPTS = 3
+const MAX_BACKOFF_MS = 40_000
 
 type RequestParams = typeof inputParameters.validated
 
@@ -35,8 +41,7 @@ const unusable = (message: string): AdapterError =>
     message: `AMINA positions response is unusable: ${message}`,
   })
 
-// Report a partial or malformed page as unusable data instead of aggregating it
-// into a wrong reserve.
+// Report a partial or self-contradictory page instead of publishing a wrong reserve.
 export const parsePositionsPage = (
   data: unknown,
   expectedPage: number,
@@ -47,8 +52,8 @@ export const parsePositionsPage = (
 
   const body = data as Record<string, unknown>
   const totalPages = body.totalPages
-  if (typeof totalPages !== 'number' || !Number.isInteger(totalPages) || totalPages < 0) {
-    throw unusable('totalPages is not a non-negative integer')
+  if (typeof totalPages !== 'number' || !Number.isInteger(totalPages) || totalPages < 1) {
+    throw unusable('totalPages is not a positive integer')
   }
   if (typeof body.last !== 'boolean') {
     throw unusable('last is not a boolean')
@@ -56,6 +61,14 @@ export const parsePositionsPage = (
   if (body.number !== expectedPage) {
     throw unusable(
       `page number ${String(body.number)} does not match the requested page ${expectedPage}`,
+    )
+  }
+  const isLastPage = expectedPage + 1 === totalPages
+  if (body.last !== isLastPage) {
+    throw unusable(
+      `last is ${body.last} but page ${expectedPage} of ${totalPages} is ${
+        isLastPage ? '' : 'not '
+      }last`,
     )
   }
   if (!Array.isArray(body.positions)) {
@@ -81,6 +94,17 @@ export const parsePositionsPage = (
 
 const isUnauthorized = (error: unknown): boolean =>
   error instanceof AdapterError && error.providerStatusCode === 401
+
+// The framework retry is disabled, so retry only failures the provider may accept later.
+const isTransient = (error: unknown): boolean => {
+  // A connection error has no provider status; the framework fills in a
+  // synthetic 502, which is not a provider transient failure.
+  if (!(error instanceof AdapterError) || error instanceof AdapterConnectionError) {
+    return false
+  }
+  const status = error.providerStatusCode
+  return status === 408 || status === 429 || (status !== undefined && status >= 500)
+}
 
 export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
@@ -111,6 +135,10 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
     context: EndpointContext<BaseEndpointTypes>,
     entries: RequestParams[],
   ): Promise<void> {
+    if (entries.length === 0) {
+      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
+      return
+    }
     await Promise.all(entries.map((param) => this.handleRequest(param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
@@ -183,30 +211,25 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  // Follow totalPages while last is false. A page that reports a different total
-  // is unusable data: the snapshot changed while it was being read.
+  // parsePositionsPage rejects a last flag that does not match totalPages.
   async fetchPositions(token: string): Promise<PositionSchema[]> {
     const first = await this.requestPageWithRenewal(0, token)
     let currentToken = first.token
-    const positions = [...first.page.positions]
-
-    if (!first.page.last && first.page.totalPages === 0) {
-      throw unusable('totalPages is 0 but last is false')
-    }
+    const firstPage = parsePositionsPage(first.data, 0)
+    const positions = [...firstPage.positions]
 
     let page = 0
-    let last = first.page.last
-    while (!last && page + 1 < first.page.totalPages) {
+    let last = firstPage.last
+    while (!last) {
       page += 1
       const next = await this.requestPageWithRenewal(page, currentToken)
       currentToken = next.token
-      if (next.page.totalPages !== first.page.totalPages) {
-        throw unusable(
-          `totalPages changed from ${first.page.totalPages} to ${next.page.totalPages}`,
-        )
+      const nextPage = parsePositionsPage(next.data, page)
+      if (nextPage.totalPages !== firstPage.totalPages) {
+        throw unusable(`totalPages changed from ${firstPage.totalPages} to ${nextPage.totalPages}`)
       }
-      positions.push(...next.page.positions)
-      last = next.page.last
+      positions.push(...nextPage.positions)
+      last = nextPage.last
     }
 
     return positions
@@ -215,19 +238,40 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
   private async requestPageWithRenewal(
     page: number,
     token: string,
-  ): Promise<{ page: PositionsResponseSchema; token: string }> {
+  ): Promise<{ data: unknown; token: string }> {
     try {
-      return { page: await this.requestPage(page, token), token }
+      return { data: await this.requestPageWithRetry(page, token), token }
     } catch (error) {
       if (!isUnauthorized(error)) {
         throw error
       }
       const renewed = await this.auth.renewAfterUnauthorized()
-      return { page: await this.requestPage(page, renewed), token: renewed }
+      return { data: await this.requestPage(page, renewed), token: renewed }
     }
   }
 
-  private async requestPage(page: number, token: string): Promise<PositionsResponseSchema> {
+  // Every attempt builds fresh request IDs and a fresh signature.
+  private async requestPageWithRetry(page: number, token: string): Promise<unknown> {
+    let attempt = 1
+    for (;;) {
+      try {
+        return await this.requestPage(page, token)
+      } catch (error) {
+        if (!isTransient(error) || attempt === MAX_ATTEMPTS) {
+          throw error
+        }
+        const status = error instanceof AdapterError ? error.providerStatusCode : undefined
+        const backoffMs = Math.min(2 ** attempt * 1000, MAX_BACKOFF_MS)
+        logger.info(
+          `AMINA positions request failed with provider status ${status}; retrying in ${backoffMs} ms (attempt ${attempt} of ${MAX_ATTEMPTS})`,
+        )
+        await sleep(backoffMs)
+        attempt += 1
+      }
+    }
+  }
+
+  private async requestPage(page: number, token: string): Promise<unknown> {
     const uri = positionsUri(this.settings.AMINA_PORTFOLIO)
     try {
       const { response } = await this.requester.request<unknown>(
@@ -249,7 +293,7 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
           },
         },
       )
-      return parsePositionsPage(response.data, page)
+      return response.data
     } catch (error) {
       throw toProviderError('positions request', error)
     }

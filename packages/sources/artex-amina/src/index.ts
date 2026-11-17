@@ -8,14 +8,6 @@ export const adapter = new PoRAdapter({
   name: 'ARTEX_AMINA',
   config,
   endpoints: [reserve],
-  rateLimiting: {
-    tiers: {
-      default: {
-        rateLimit1m: 6,
-        note: 'AMINA documents no rate limit for read-only calls; keep the read-only poll light.',
-      },
-    },
-  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

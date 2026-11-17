@@ -1,7 +1,10 @@
 import { createHmac, randomUUID } from 'crypto'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterConnectionError,
+  AdapterError,
+} from '@chainlink/external-adapter-framework/validation/error'
 
 const logger = makeLogger('AminaAuthentication')
 
@@ -58,6 +61,16 @@ export const signRequest = ({
 // Keep the provider status and body in the reported error: operations need to
 // tell a rejected signature from a rejected credential or an expired token.
 export const toProviderError = (step: string, error: unknown): AdapterError => {
+  if (error instanceof AdapterConnectionError) {
+    return new AdapterConnectionError(
+      {
+        statusCode: 502,
+        message: `AMINA ${step} failed: ${error.message}`,
+        cause: error,
+      },
+      error.timestamps,
+    )
+  }
   if (error instanceof AdapterError) {
     if (!error.providerStatusCode) {
       return error

@@ -92,12 +92,31 @@ describe('ReserveTransport', () => {
     expect(response.data).toEqual({ result: 0, ripcord: false })
   })
 
-  it('waits the configured background interval before the next pass', async () => {
+  it('waits the empty-pass interval when there is nothing to read', async () => {
     jest.useFakeTimers()
     let settled = false
 
     const pass = transport
-      .backgroundHandler({ adapterSettings: { BACKGROUND_EXECUTE_MS: 1000 } } as never, [])
+      .backgroundHandler({ adapterSettings: { BACKGROUND_EXECUTE_MS_HTTP: 250 } } as never, [])
+      .then(() => {
+        settled = true
+      })
+
+    await jest.advanceTimersByTimeAsync(249)
+    expect(settled).toBe(false)
+
+    await jest.advanceTimersByTimeAsync(1)
+    await pass
+    expect(settled).toBe(true)
+  })
+
+  it('waits the entry-pass interval after handling a subscription', async () => {
+    respondWithPage(page({ positions: [position({ quantity: 5 })] }))
+    jest.useFakeTimers()
+    let settled = false
+
+    const pass = transport
+      .backgroundHandler({ adapterSettings: { BACKGROUND_EXECUTE_MS: 1000 } } as never, [{}])
       .then(() => {
         settled = true
       })
@@ -108,6 +127,7 @@ describe('ReserveTransport', () => {
     await jest.advanceTimersByTimeAsync(1)
     await pass
     expect(settled).toBe(true)
+    expect(responseCache.write).toHaveBeenCalledTimes(1)
   })
 })
 
@@ -118,17 +138,22 @@ describe('parsePositionsPage', () => {
     {
       name: 'totalPages is a string',
       body: page({ totalPages: '1' }),
-      message: 'totalPages is not a non-negative integer',
+      message: 'totalPages is not a positive integer',
+    },
+    {
+      name: 'totalPages is zero',
+      body: page({ totalPages: 0 }),
+      message: 'totalPages is not a positive integer',
     },
     {
       name: 'totalPages is negative',
       body: page({ totalPages: -1 }),
-      message: 'totalPages is not a non-negative integer',
+      message: 'totalPages is not a positive integer',
     },
     {
       name: 'totalPages is fractional',
       body: page({ totalPages: 1.5 }),
-      message: 'totalPages is not a non-negative integer',
+      message: 'totalPages is not a positive integer',
     },
     {
       name: 'last is not a boolean',

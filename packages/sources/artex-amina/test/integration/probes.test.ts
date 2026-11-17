@@ -22,10 +22,10 @@ describe('production configuration', () => {
     expect(adapter.initialized).toBe(true)
     expect(adapter.defaultEndpoint).toBe('reserve')
     expect(adapter.config.settings.API_TIMEOUT).toBe(60_000)
-    expect(adapter.rateLimiting?.tiers?.default).toEqual({
-      rateLimit1m: 6,
-      note: expect.any(String),
-    })
+    // The transport retries with a fresh signature, so the framework retry that
+    // would replay a signed request stays disabled.
+    expect(adapter.config.settings.RETRY).toBe(0)
+    expect(adapter.rateLimiting).toBeUndefined()
   })
 
   it('derives the positions URL from the configured host', async () => {
