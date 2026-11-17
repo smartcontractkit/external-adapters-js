@@ -146,9 +146,10 @@ export class AminaAuth {
       return this.accessToken
     }
 
-    if (this.refreshToken && Date.now() < this.refreshTokenExpiresAtMs) {
+    const refreshToken = this.refreshToken
+    if (refreshToken && Date.now() < this.refreshTokenExpiresAtMs) {
       try {
-        return await this.requestRefresh()
+        return await this.requestRefresh(refreshToken)
       } catch (error) {
         logger.info(
           `AMINA token refresh failed, logging in again: ${
@@ -181,15 +182,11 @@ export class AminaAuth {
     return accessToken
   }
 
-  private async requestRefresh(): Promise<string> {
-    if (!this.refreshToken) {
-      return this.requestLogin()
-    }
-
+  private async requestRefresh(token: string): Promise<string> {
     const { accessToken, refreshToken } = await refreshAccessToken(
       this.requester,
       this.settings.API_ENDPOINT,
-      this.refreshToken,
+      token,
     )
     this.store(accessToken, refreshToken)
     return accessToken
