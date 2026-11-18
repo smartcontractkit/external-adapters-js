@@ -86,5 +86,19 @@ describe('websocket', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should use the futures channel for the cme_futures alias', async () => {
+      const dataCmeFutures = {
+        base: 'CME:ES.C1',
+        endpoint: 'cme_futures',
+        transport: 'ws',
+      }
+      await testAdapter.request(dataCmeFutures)
+      await testAdapter.waitForCache(4)
+
+      const response = await testAdapter.request(dataCmeFutures)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })
