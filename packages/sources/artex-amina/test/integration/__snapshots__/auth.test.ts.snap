@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`authentication and request signing does not retry a non-401 error on the page repeated after a renewal 1`] = `
+{
+  "errorMessage": "Request failed with status code 500",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
 exports[`authentication and request signing does not retry a non-401 page error 1`] = `
 {
   "errorMessage": "Request failed with status code 400",

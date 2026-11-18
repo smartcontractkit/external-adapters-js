@@ -410,4 +410,52 @@ describe('authentication and request signing', () => {
     expect(pages).toBe(1)
     expect(refreshes).toBe(0)
   })
+
+  it('does not retry a non-401 error on the page repeated after a renewal', async () => {
+    const pages: CapturedRequest[] = []
+    let logins = 0
+    let refreshes = 0
+
+    scope()
+      .post(AUTH_PATH, loginBody)
+      .reply(function (): nock.ReplyFnResult {
+        logins += 1
+        return [200, loginReply]
+      })
+      .post(AUTH_PATH, refreshBody)
+      .reply(function (): nock.ReplyFnResult {
+        refreshes += 1
+        return [200, refreshReply]
+      })
+      .get(POSITIONS_PATH)
+      .query({ page: '0', size: '20' })
+      .reply(function (this: nock.ReplyFnContext, uri: string): nock.ReplyFnResult {
+        pages.push({ uri, headers: { ...this.req.headers } })
+        return [401, {}]
+      })
+      .get(POSITIONS_PATH)
+      .query({ page: '0', size: '20' })
+      .reply(function (this: nock.ReplyFnContext, uri: string): nock.ReplyFnResult {
+        pages.push({ uri, headers: { ...this.req.headers } })
+        return [500, { message: 'provider down' }]
+      })
+      .get(POSITIONS_PATH)
+      .query({ page: '0', size: '20' })
+      .reply(200, positionsPageZero)
+
+    await withAdapter({}, async (testAdapter) => {
+      const response = await testAdapter.request({})
+      expect(response.statusCode).toBe(502)
+      expect(response.json().errorMessage).toBe('Request failed with status code 500')
+      expect(response.json()).not.toHaveProperty('result')
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    expect(logins).toBe(1)
+    expect(refreshes).toBe(1)
+    expect(pages).toHaveLength(2)
+    expect(pages[1].headers['authorization']).toBe(`Bearer ${refreshReply.accessToken}`)
+    expect(pages[1].headers['amina-nonce']).not.toBe(pages[0].headers['amina-nonce'])
+    expect(pages[1].headers['amina-signature']).toBe(expectedSignature(pages[1].headers))
+  })
 })
