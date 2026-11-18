@@ -1,43 +1,49 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  PoRProviderEndpoint,
+  PoRProviderResponse,
+} from '@chainlink/external-adapter-framework/adapter/por'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import overrides from '../config/overrides.json'
-import { customSubscriptionTransport } from '../transport/reserves'
+import { reservesTransport } from '../transport/reserves'
 
 export const inputParameters = new InputParameters(
   {
-    base: {
-      aliases: ['from', 'coin', 'symbol', 'market'],
+    portfolio: {
       required: true,
       type: 'string',
-      description: 'The symbol of symbols of the currency to query',
+      description: 'The AMINA portfolio number that holds the position',
     },
-    quote: {
-      aliases: ['to', 'convert'],
+    isin: {
       required: true,
       type: 'string',
-      description: 'The symbol of the currency to convert to',
+      description: 'The ISIN of the position to publish',
     },
   },
   [
     {
-      base: 'BTC',
-      quote: 'USD',
+      portfolio: '910000001',
+      isin: 'XS0000000001',
     },
   ],
 )
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: PoRProviderResponse & {
+    Data: {
+      aum: number
+      validFromTimestamp: number
+      observationsTimestamp: number
+      expiresAt: number
+      ripcordAsInt: number
+    }
+  }
   Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new PoRProviderEndpoint({
   name: 'reserves',
   aliases: [],
-  transport: customSubscriptionTransport,
+  transport: reservesTransport,
   inputParameters,
-  overrides: overrides['artex-amina'],
 })
