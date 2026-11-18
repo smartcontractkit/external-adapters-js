@@ -84,7 +84,9 @@ export class ReservesTransport extends SubscriptionTransport<BaseEndpointTypes> 
       response = await this._handleRequest(param)
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
-      logger.error(e, errorMessage)
+      // The provider error object carries the request, and the request carries
+      // the bearer token and the signature: log the message only.
+      logger.error(errorMessage)
       response = {
         statusCode: (e as AdapterError)?.statusCode || 502,
         errorMessage,
@@ -235,12 +237,17 @@ export class ReservesTransport extends SubscriptionTransport<BaseEndpointTypes> 
     const path = positionsPath(portfolio)
     const params = { page, size: PAGE_SIZE }
     const accessToken = await session.getAccessToken()
-    const { response } = await this.requester.request<PositionsPage>(this.httpRequestKey(params), {
-      baseURL: this.settings.API_ENDPOINT,
-      url: path,
-      headers: getSignedHeaders(this.settings, path, accessToken),
-      params,
-    })
+    // The request key carries the portfolio: two portfolios of the same page
+    // are different provider requests and must not be coalesced.
+    const { response } = await this.requester.request<PositionsPage>(
+      this.httpRequestKey({ portfolio, ...params }),
+      {
+        baseURL: this.settings.API_ENDPOINT,
+        url: path,
+        headers: getSignedHeaders(this.settings, path, accessToken),
+        params,
+      },
+    )
     return { body: response.data, date: response.headers.date }
   }
 }
