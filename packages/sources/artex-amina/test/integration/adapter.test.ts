@@ -406,7 +406,7 @@ describe('reserve endpoint', () => {
     })
   })
 
-  it('takes the report timestamps from the first page GET and the last page reply', async () => {
+  it('takes both report timestamps from the first page GET', async () => {
     let now = FIXED_NOW
     dateSpy.mockImplementation(() => now)
 
@@ -434,7 +434,7 @@ describe('reserve endpoint', () => {
 
       expect(response.json().timestamps).toEqual({
         providerDataRequestedUnixMs: FIXED_NOW,
-        providerDataReceivedUnixMs: FIXED_NOW + 600,
+        providerDataReceivedUnixMs: FIXED_NOW,
       })
       expect(response.json().timestamps).not.toHaveProperty('providerIndicatedTimeUnixMs')
       expect(response.json()).toMatchSnapshot()

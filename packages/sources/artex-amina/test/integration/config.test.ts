@@ -1,8 +1,11 @@
+import type { LoggerFactory } from '@chainlink/external-adapter-framework/util'
+
 import nock from 'nock'
 
 import {
   API_HOST_CUSTOM,
   API_HOST_PRODUCTION,
+  API_HOST_SANDBOX,
   AUTH_PATH,
   PORTFOLIO,
   POSITIONS_PATH,
@@ -13,7 +16,15 @@ import {
   positionsPageZero,
   userId,
 } from './fixtures'
-import { BASE_ENV, FIXED_NOW, importConfig, restoreEnv, setEnv, withAdapter } from './helpers'
+import {
+  BASE_ENV,
+  CapturedRequest,
+  FIXED_NOW,
+  importConfig,
+  restoreEnv,
+  setEnv,
+  withAdapter,
+} from './helpers'
 
 jest.setTimeout(30000)
 
@@ -28,6 +39,43 @@ const requiredSettings = [
 
 const loginBody = (body: { username?: string; password?: string }): boolean =>
   body.username === userId && body.password === password
+
+type LogMethod = (...args: unknown[]) => unknown
+type RecordedLog = { level: string; args: unknown[] }
+
+const LOG_LEVELS = ['fatal', 'error', 'warn', 'info', 'debug', 'trace'] as const
+
+// Wraps the framework's production logger factory so that the test records each
+// log line the adapter actually emits and still passes the call to the
+// production logger. The adapter loggers are created on their first call, so
+// the wrapper installed before the first request is the factory they use.
+function recordLogCalls(base: LoggerFactory, records: RecordedLog[]): LoggerFactory {
+  const enabled = (logger: unknown, level: string): boolean => {
+    const check = (logger as { isLevelEnabled?: (value: string) => boolean }).isLevelEnabled
+    return typeof check === 'function' && check.call(logger, level)
+  }
+
+  const wrap = (logger: unknown): Record<string, unknown> => {
+    const target = logger as Record<string, unknown>
+    const wrapped: Record<string, unknown> = {
+      child: (params: { layer: string; color?: string }) =>
+        wrap((target.child as (p: unknown) => unknown)(params)),
+    }
+    for (const level of LOG_LEVELS) {
+      wrapped[level] = (...args: unknown[]) => {
+        if (enabled(target, level)) {
+          records.push({ level, args })
+        }
+        return (target[level] as LogMethod)(...args)
+      }
+    }
+    return wrapped
+  }
+
+  return {
+    child: (params) => wrap(base.child(params)) as unknown as ReturnType<LoggerFactory['child']>,
+  }
+}
 
 describe('configuration and adapter wiring', () => {
   let dateSpy: jest.SpyInstance
@@ -124,25 +172,46 @@ describe('configuration and adapter wiring', () => {
     })
   })
 
-  it('censors the password and the HMAC secret from trace logs', async () => {
-    await withAdapter({}, async () => {
-      const { default: CensorList } = await import(
-        '@chainlink/external-adapter-framework/util/censor/censor-list'
-      )
-      const entries = CensorList.getAll()
-      const values = new Map(entries.map((entry) => [entry.key, entry.value]))
+  it('writes no access token, signature, nonce or timestamp to the log when the positions GET fails', async () => {
+    const pages: CapturedRequest[] = []
+    nock(API_HOST_SANDBOX, { encodedQueryParams: true })
+      .post(AUTH_PATH, loginBody)
+      .reply(200, loginReply)
+      .get(POSITIONS_PATH)
+      .query({ page: '0', size: '20' })
+      .reply(function (this: nock.ReplyFnContext, uri: string): nock.ReplyFnResult {
+        pages.push({ uri, headers: { ...this.req.headers } })
+        return [500, { message: 'provider down' }]
+      })
 
-      expect(values.has('AMINA_PASSWORD')).toBe(true)
-      expect(values.has('AMINA_HMAC_SECRET')).toBe(true)
-      expect(values.has('AMINA_USER_ID')).toBe(false)
+    const records: RecordedLog[] = []
+    await withAdapter({ LOG_LEVEL: 'info' }, async (testAdapter) => {
+      const { LoggerFactoryProvider } = await import('@chainlink/external-adapter-framework/util')
+      LoggerFactoryProvider.set(recordLogCalls(LoggerFactoryProvider.get(), records))
 
-      const trace = JSON.stringify({ username: userId, password, secret: hmacSecret })
-      expect(
-        trace.replace(values.get('AMINA_PASSWORD') as RegExp, '[PASSWORD REDACTED]'),
-      ).not.toContain(password)
-      expect(
-        trace.replace(values.get('AMINA_HMAC_SECRET') as RegExp, '[SECRET REDACTED]'),
-      ).not.toContain(hmacSecret)
+      const response = await testAdapter.request({})
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).not.toHaveProperty('result')
+
+      const output = JSON.stringify(records)
+
+      // The production log keeps the alert about the failed request.
+      expect(output).toContain('Request failed with status code 500')
+
+      // It holds no bearer token and no request signing material.
+      expect(output).not.toContain(loginReply.accessToken)
+      expect(output).not.toContain('Amina-Signature')
+      expect(output).not.toContain('Amina-Nonce')
+      expect(output).not.toContain('Amina-Timestamp')
+
+      expect(pages).toHaveLength(1)
+      const headers = pages[0].headers
+      expect(headers['authorization']).toBe(`Bearer ${loginReply.accessToken}`)
+      expect(output).not.toContain(headers['amina-signature'])
+      expect(output).not.toContain(headers['amina-nonce'])
+      expect(output).not.toContain(headers['amina-timestamp'])
+
+      expect(response.json()).toMatchSnapshot()
     })
   })
 

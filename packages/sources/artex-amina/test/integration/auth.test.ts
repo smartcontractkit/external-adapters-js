@@ -33,7 +33,7 @@ const loginBody = (body: { username?: string; password?: string }): boolean =>
   body.username === userId && body.password === password
 
 const refreshBody = (body: { refreshToken?: string }): boolean =>
-  typeof body.refreshToken === 'string'
+  body.refreshToken === loginReply.refreshToken
 
 const expectedSignature = (headers: Record<string, string>): string => {
   const message = [

@@ -18,15 +18,14 @@ export const password = 'test-password'
 export const hmacSecret = 'test-hmac-secret'
 export const agreementNumber = '123456-1'
 
-export const userIdForHmac = userId
-
-// 01-login.body.json
+// The login reply: the provider returns an access token and a refresh token.
 export const loginReply = {
   accessToken: 'recorded-access-token',
   refreshToken: 'recorded-refresh-token',
 }
 
-// 04-refresh.body.json
+// The refresh reply: the provider returns a renewed access token and refresh
+// token.
 export const refreshReply = {
   accessToken: 'recorded-access-token-renewed',
   refreshToken: 'recorded-refresh-token-renewed',
@@ -39,7 +38,8 @@ export const secondLoginReply = {
   refreshToken: 'recorded-refresh-token-second-login',
 }
 
-// 02-positions-page-0.body.json
+// A positions page: one position of the configured ISIN whose quantity is the
+// share count the adapter publishes.
 export const positionsPageZero = {
   positions: [
     {
@@ -71,7 +71,7 @@ export const positionsPageZero = {
   last: true,
 }
 
-// 03-positions-page-1.body.json
+// The next positions page: no positions and last true.
 export const positionsPageOne = {
   positions: [],
   totalPages: 1,
@@ -181,7 +181,7 @@ export const positionsPageZeroQuantityNull = {
   positions: [{ ...positionsPageZero.positions[0], quantity: null }],
 }
 
-// 05-bad-signature.body.json
+// The provider's error body for a request whose HMAC signature does not match.
 export const hmacSignatureMismatchBody = {
   title: 'HMAC signature mismatch.',
   instance: 'cda9c2c2-4334',
