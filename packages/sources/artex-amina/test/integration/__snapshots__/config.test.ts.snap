@@ -40,3 +40,14 @@ exports[`configuration and adapter wiring starts production configuration with t
   },
 }
 `;
+
+exports[`configuration and adapter wiring writes no access token, signature, nonce or timestamp to the log when the positions GET fails 1`] = `
+{
+  "errorMessage": "Request failed with status code 500",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;

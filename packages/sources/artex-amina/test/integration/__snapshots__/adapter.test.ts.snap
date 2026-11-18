@@ -290,7 +290,7 @@ exports[`reserve endpoint surfaces a provider connection failure as a 502 1`] = 
 }
 `;
 
-exports[`reserve endpoint takes the report timestamps from the first page GET and the last page reply 1`] = `
+exports[`reserve endpoint takes both report timestamps from the first page GET 1`] = `
 {
   "data": {
     "result": 100,
@@ -299,7 +299,7 @@ exports[`reserve endpoint takes the report timestamps from the first page GET an
   "result": 100,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 978347471711,
+    "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
   },
 }

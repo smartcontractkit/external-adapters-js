@@ -67,9 +67,19 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
       response = await this._handleRequest()
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
-      logger.error(e, errorMessage)
+      // A provider error carries the failed request, including the bearer token
+      // and the signing headers, in its cause. Log only the message and the
+      // status codes so no credential reaches the log.
+      const adapterError = e instanceof AdapterError ? e : undefined
+      logger.error(
+        {
+          statusCode: adapterError?.statusCode,
+          providerStatusCode: adapterError?.providerStatusCode,
+        },
+        errorMessage,
+      )
       response = {
-        statusCode: (e as AdapterError)?.statusCode || 502,
+        statusCode: adapterError?.statusCode || 502,
         errorMessage,
         timestamps: {
           providerDataRequestedUnixMs: 0,
@@ -85,7 +95,6 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const path = `/api/b2c/v1/securities/portfolios/${this.settings.AMINA_PORTFOLIO}/positions`
     const positions: Position[] = []
     let firstPageRequestedUnixMs: number | undefined
-    let lastPageReceivedUnixMs: number | undefined
 
     for (let page = 0; ; page += 1) {
       const { response, timestamps } = await this.fetchPage(page, path)
@@ -101,7 +110,6 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
         })
       }
       firstPageRequestedUnixMs ??= timestamps.providerDataRequestedUnixMs
-      lastPageReceivedUnixMs = timestamps.providerDataReceivedUnixMs
       positions.push(...pageData.positions)
 
       if (pageData.last) {
@@ -153,8 +161,11 @@ export class ReserveTransport extends SubscriptionTransport<BaseEndpointTypes> {
       result: validation.result,
       statusCode: 200,
       timestamps: {
+        // AMINA gives no observation time. The requirement maps both report
+        // timestamps (validFromTimestamp and observationsTimestamp) to the time
+        // the source GET was made, so both are the first page request.
         providerDataRequestedUnixMs: firstPageRequestedUnixMs as number,
-        providerDataReceivedUnixMs: lastPageReceivedUnixMs as number,
+        providerDataReceivedUnixMs: firstPageRequestedUnixMs as number,
         providerIndicatedTimeUnixMs: undefined,
       },
     }
