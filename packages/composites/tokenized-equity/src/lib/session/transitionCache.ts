@@ -62,11 +62,22 @@ const lastForegroundFailureAtMs = new Map<string, number>()
 // How long a foreground fetch failure suppresses further fetches for the key.
 export const DEFAULT_FAILED_FETCH_RETRY_BACKOFF_MS = 5_000
 let failedFetchRetryBackoffMs = DEFAULT_FAILED_FETCH_RETRY_BACKOFF_MS
+let backoffConfiguredWith: number | undefined
 
 // Adapter-init hook: override the failure backoff from settings
 // (TRADINGHOURS_SESSION_CACHE_FAILURE_BACKOFF_MS). Module-level because the cache
-// itself is module-global; set once per process from transport initialize.
+// itself is module-global. Every transport calls this from initialize with the
+// same adapterSettings value; a repeat call with the SAME value is a no-op, but a
+// call with a DIFFERENT value means the transports were wired with inconsistent
+// settings — fail fast instead of silently letting the last transport to
+// initialize win.
 export const setFailedFetchRetryBackoffMs = (ms: number): void => {
+  if (backoffConfiguredWith !== undefined && backoffConfiguredWith !== ms) {
+    throw new Error(
+      `TradingHours session cache failure backoff already configured with ${backoffConfiguredWith}ms; refusing to reconfigure with ${ms}ms`,
+    )
+  }
+  backoffConfiguredWith = ms
   failedFetchRetryBackoffMs = ms
 }
 
@@ -119,7 +130,7 @@ export const getCachedValue = async <T>(
   const current = entries.get(key) as Entry<T>
   const stale = nowMs - current.refreshedAtMs >= ttlMs
   if (stale) {
-    refreshInBackground(key, fetcher)
+    refreshInBackground(key, fetcher, nowMs)
   }
   return { value: current.value, refreshedAtMs: current.refreshedAtMs, ttlMs, stale }
 }
@@ -127,18 +138,17 @@ export const getCachedValue = async <T>(
 // Fire-and-forget refresh, deduped per key: concurrent stale hits share one
 // in-flight fetch. A failed refresh keeps the previous value (callers keep getting
 // it, marked stale) and logs once per failure rather than per served request.
-// refreshedAtMs deliberately stamps with the wall clock here (Date.now()) rather
-// than a caller-injected time: the refresh runs detached from any request, so no
-// request's nowMs applies. Under jest fake timers Date.now() is faked too, so
-// tests that fake time still see consistent stamps.
-const refreshInBackground = <T>(key: string, fetcher: () => Promise<T>): void => {
+// refreshedAtMs stamps with the caller's nowMs (the clock that judged the entry
+// stale): the refresh was triggered by that read, and a single clock keeps the
+// staleness math consistent across the foreground and background paths.
+const refreshInBackground = <T>(key: string, fetcher: () => Promise<T>, nowMs: number): void => {
   if (inFlightRefreshes.has(key)) {
     return
   }
   const refresh = (async () => {
     try {
       const value = await fetcher()
-      entries.set(key, { value, refreshedAtMs: Date.now() })
+      entries.set(key, { value, refreshedAtMs: nowMs })
     } catch (e) {
       logger.warn(
         `Background refresh of the tradinghours session schedule failed; serving the stale schedule: ${e}`,
@@ -157,4 +167,5 @@ export const clearSessionTransitionCache = (): void => {
   inFlightFetches.clear()
   lastForegroundFailureAtMs.clear()
   failedFetchRetryBackoffMs = DEFAULT_FAILED_FETCH_RETRY_BACKOFF_MS
+  backoffConfiguredWith = undefined
 }

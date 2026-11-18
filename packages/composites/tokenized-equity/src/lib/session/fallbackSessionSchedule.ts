@@ -92,13 +92,15 @@ const FALLBACK_SESSION_SCHEDULE: Record<string, FallbackSchedule> = {
 // sessions. 24/5 and 24/7 share the full four-session view (the 24/7 closed-span
 // start is derived from phase ends, not a WEEKEND entry). A market/type outside
 // this map cannot be gated at all — callers fail closed (unchanged).
+// Exported for the view-equality test pinning the 24/5 ≡ 24/7 assumption that
+// issuer-price-247 gating relies on (GATE_TRADINGHOURS_TYPE vs GATE_FALLBACK_TYPE).
 const FULL_SESSION_VIEW = [
   TwentyfourFiveMarketStatus.PRE_MARKET,
   TwentyfourFiveMarketStatus.REGULAR,
   TwentyfourFiveMarketStatus.POST_MARKET,
   TwentyfourFiveMarketStatus.OVERNIGHT,
 ]
-const TYPE_STATUS_VIEWS: Record<string, TwentyfourFiveMarketStatus[]> = {
+export const TYPE_STATUS_VIEWS: Record<string, TwentyfourFiveMarketStatus[]> = {
   regular: [TwentyfourFiveMarketStatus.REGULAR],
   '24/5': FULL_SESSION_VIEW,
   '24/7': FULL_SESSION_VIEW,

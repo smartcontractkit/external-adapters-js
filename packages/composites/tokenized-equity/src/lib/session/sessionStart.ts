@@ -1,7 +1,10 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
 import { SessionTransition } from './tradingHoursSession'
+
+const logger = makeLogger('SessionStart')
 
 // Shared session-start helpers used by both the 24/5 stream gate (lib/streams.ts)
 // and the 24/7 report gate (lib/session/issuer247Gating.ts). The gating rule is the
@@ -37,6 +40,28 @@ export const nextSessionStartMs = (
       (min, t) => (min === undefined || t.timeMs < min ? t.timeMs : min),
       undefined,
     )
+
+// String → enum for the marketSessionOverride test hook (24/5 and 24/7
+// session-start gating). The endpoint's options list normally rejects unknown
+// names with a 400; if that ever drifts, a missed lookup would silently no-op
+// the hook (undefined → non-override path) — loud instead, so a staging tester
+// sees that the override did nothing.
+export const parseMarketSessionOverride = (
+  override: string | undefined,
+): TwentyfourFiveMarketStatus | undefined => {
+  if (!override) {
+    return undefined
+  }
+  const status = TwentyfourFiveMarketStatus[override as keyof typeof TwentyfourFiveMarketStatus]
+  if (status === undefined) {
+    logger.warn(
+      `marketSessionOverride=${JSON.stringify(
+        override,
+      )} is not a TwentyfourFiveMarketStatus name; ignoring it (request gates against the wall clock)`,
+    )
+  }
+  return status
+}
 
 // BigInt('') is 0n (no throw), so validate the integer format explicitly; a
 // malformed provider timestamp is an upstream-data problem — reject with 503 like

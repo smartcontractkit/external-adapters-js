@@ -122,6 +122,29 @@ describe('getSessionSchedule schedule-underdetermination logs', () => {
 
     expect(mockLogger.error).not.toHaveBeenCalled()
   })
+
+  it('throttles repeat logs for the same market|marketType to one per minute', async () => {
+    const requester = okRequester([])
+    const call = () =>
+      getSessionSchedule(
+        'https://tradinghours.example.com',
+        requester,
+        [],
+        undefined,
+        'lse',
+        'regular', // valid session name, no fallback entry — distinct key from the tests above
+      )
+
+    await call()
+    await call()
+    expect(mockLogger.error).toHaveBeenCalledTimes(1)
+
+    // Past the throttle window the condition is logged again (still loud).
+    jest.setSystemTime(NOW_MONDAY + 60_000)
+    await call()
+    expect(mockLogger.error).toHaveBeenCalledTimes(2)
+    jest.setSystemTime(NOW_MONDAY)
+  })
 })
 
 describe('tradinghours malformed schedule handling', () => {

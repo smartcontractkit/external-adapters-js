@@ -2,6 +2,7 @@ import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framewor
 import {
   getFallbackSessionTransitions,
   getGatingTimezone,
+  TYPE_STATUS_VIEWS,
 } from '../../../src/lib/session/fallbackSessionSchedule'
 import { SessionTransition } from '../../../src/lib/session/tradingHoursSession'
 
@@ -243,6 +244,17 @@ describe('getGatingTimezone', () => {
 
   it('returns undefined for market/type pairs without a hard-coded entry', () => {
     expect(getGatingTimezone('lse', '24/5')).toBeUndefined()
+  })
+})
+
+describe('TYPE_STATUS_VIEWS', () => {
+  // issuer-price-247 gating queries tradinghours with type '24/5' but the fallback
+  // with type '24/7' (GATE_TRADINGHOURS_TYPE vs GATE_FALLBACK_TYPE in
+  // price/issuerPrice247.ts) — safe only while the two views are identical. Pin
+  // that so a future view divergence fails loudly instead of silently gating the
+  // two schedule tiers against different session sets.
+  it('keeps the 24/5 and 24/7 views identical', () => {
+    expect(TYPE_STATUS_VIEWS['24/5']).toEqual(TYPE_STATUS_VIEWS['24/7'])
   })
 })
 

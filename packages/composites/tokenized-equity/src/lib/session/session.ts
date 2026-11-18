@@ -16,6 +16,13 @@ import {
 
 const logger = makeLogger('Session')
 
+// Throttle for the "Market schedule undetermined" error line: the condition is
+// sticky (a bad market session name or a missing fallback entry does not fix
+// itself), so without a throttle every gated price request would re-log it.
+// Keyed per market|marketType; one line per key per window.
+const UNDETERMINED_LOG_THROTTLE_MS = 60_000
+const lastUndeterminedLogAtMs = new Map<string, number>()
+
 // Seconds relative to the nearest session boundary (-ve before, +ve after), plus the
 // schedule source the smoother should attribute it to.
 export type SecondsFromTransition = {
@@ -73,16 +80,21 @@ export const getSessionSchedule = async (
   // closed with "Session start unknown". Say why here — the 503 alone cannot
   // distinguish a bad market session name from a market with no fallback entry.
   // One stable token ("Market schedule undetermined") so a single log query finds
-  // every cause.
+  // every cause. Throttled per market|marketType (the condition is sticky).
   if (sessionMarket && sessionMarketType && fallbackTransitions === undefined) {
-    const miss = fallbackScheduleMissReason(sessionMarket, sessionMarketType)
-    logger.error(
-      `Market schedule undetermined: ${
-        miss === 'INVALID_MARKET_SESSION_NAME'
-          ? 'invalid market session name'
-          : 'no fallback schedule entry for market'
-      } — session-start gating has no schedule tier and will fail closed [market=${sessionMarket} marketType=${sessionMarketType}]`,
-    )
+    const throttleKey = `${sessionMarket}|${sessionMarketType}`
+    const lastLoggedAtMs = lastUndeterminedLogAtMs.get(throttleKey)
+    if (lastLoggedAtMs === undefined || nowMs - lastLoggedAtMs >= UNDETERMINED_LOG_THROTTLE_MS) {
+      lastUndeterminedLogAtMs.set(throttleKey, nowMs)
+      const miss = fallbackScheduleMissReason(sessionMarket, sessionMarketType)
+      logger.error(
+        `Market schedule undetermined: ${
+          miss === 'INVALID_MARKET_SESSION_NAME'
+            ? 'invalid market session name'
+            : 'no fallback schedule entry for market'
+        } — session-start gating has no schedule tier and will fail closed [market=${sessionMarket} marketType=${sessionMarketType}]`,
+      )
+    }
   }
 
   // The fetch needs market identity and a timezone. The timezone is gating's schedule

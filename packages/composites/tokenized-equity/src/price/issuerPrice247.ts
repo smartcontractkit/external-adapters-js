@@ -1,4 +1,3 @@
-import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 
@@ -17,6 +16,7 @@ import {
   getGatingTimezone,
 } from '../lib/session/fallbackSessionSchedule'
 import { gateIssuer247Report } from '../lib/session/issuer247Gating'
+import { parseMarketSessionOverride } from '../lib/session/sessionStart'
 import { getSessionTransitionsCached, SessionTransition } from '../lib/session/tradingHoursSession'
 
 const logger = makeLogger('IssuerPrice247')
@@ -37,7 +37,10 @@ type PriceParams = {
 // feeds are NYSE-tokenized equities, so the gate always resolves against the nyse
 // schedule — tradinghours is queried with type '24/5' (its only nyse fin_id), while
 // the fallback uses the '24/7' view, which carries phase end times from which
-// closedSpanStartMs derives the closed-span (weekend/holiday) start.
+// closedSpanStartMs derives the closed-span (weekend/holiday) start. The asymmetry
+// is safe because the '24/5' and '24/7' fallback views are identical — pinned by a
+// view-equality test in fallbackSessionSchedule.test.ts so a future divergence
+// fails loudly.
 const GATE_MARKET = 'nyse'
 const GATE_TRADINGHOURS_TYPE = '24/5'
 const GATE_FALLBACK_TYPE = '24/7'
@@ -91,20 +94,7 @@ const gateReport = async (
     )
   }
 
-  const overrideStatus =
-    marketSessionOverride !== undefined
-      ? TwentyfourFiveMarketStatus[marketSessionOverride as keyof typeof TwentyfourFiveMarketStatus]
-      : undefined
-  if (marketSessionOverride !== undefined && overrideStatus === undefined) {
-    // The endpoint's options list normally rejects unknown names with a 400; if
-    // that ever drifts, the override silently no-ops (undefined → non-override
-    // path). Loud instead: a staging tester must see that the hook did nothing.
-    logger.warn(
-      `marketSessionOverride=${JSON.stringify(
-        marketSessionOverride,
-      )} is not a TwentyfourFiveMarketStatus name; ignoring it (request gates against the wall clock)`,
-    )
-  }
+  const overrideStatus = parseMarketSessionOverride(marketSessionOverride)
 
   return gateIssuer247Report({
     marketStatus: data.marketStatus,
@@ -146,9 +136,14 @@ export const calculatePrice = async ({
   const issuer = issuers[multiplier.issuer]
   const provider = providers.get(issuer.chain(settings, multiplier))
 
-  // Request the price in the multiplier's decimals so both share a scale. The gate
-  // runs before the multiplier RPC (it only needs price.data), so a report the gate
-  // rejects does not pay for the multiplier fetch.
+  // Request the price in the multiplier's decimals so both share a scale. The
+  // multiplier RPC does not depend on the price fetch, so it overlaps it: with
+  // gating OFF the two run in parallel (the pre-gating behavior — no added
+  // latency on the default path); with gating ON the multiplier RPC is started
+  // only after the gate passes, so a report the gate rejects does not pay for
+  // the multiplier fetch.
+  const gatingEnabled = settings.ISSUER_247_SESSION_START_GATING_ENABLED
+  const multiplierPromise = gatingEnabled ? undefined : issuer.getMultiplier(multiplier, provider)
   const price = await getDataEngineResult({ ...stream, decimals: MULTIPLIER_DECIMALS })
   const gating = await gateReport(
     settings,
@@ -156,7 +151,10 @@ export const calculatePrice = async ({
     param.marketSessionOverride,
     price.data,
   )
-  const value = await issuer.getMultiplier(multiplier, provider)
+  const value =
+    multiplierPromise !== undefined
+      ? await multiplierPromise
+      : await issuer.getMultiplier(multiplier, provider)
 
   const rawMultipliedPrice = BigInt(price.result) * value
   const rawMultipliedPriceDecimals = 2 * MULTIPLIER_DECIMALS
