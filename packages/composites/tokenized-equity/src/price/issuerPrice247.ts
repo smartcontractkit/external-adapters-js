@@ -178,9 +178,13 @@ export const calculatePrice = async ({
   // eagerly (gating off — it overlaps the price fetch) or started lazily after
   // the gate passes (gating on). The .catch defers any rejection into the
   // awaited result below, so an eagerly started fetch cannot surface as an
-  // unhandled rejection if the price path throws first.
+  // unhandled rejection if the price path throws first. Non-Error rejections are
+  // normalized to Error here: the instanceof check below would otherwise miss them
+  // and let a non-bigint value reach the multiplication as a confusing TypeError.
   const startMultiplierFetch = (): Promise<bigint | Error> =>
-    issuer.getMultiplier(multiplier, provider).catch((e) => e as Error)
+    issuer
+      .getMultiplier(multiplier, provider)
+      .catch((e) => (e instanceof Error ? e : new Error(String(e))))
   const multiplierPromise = gatingEnabled ? undefined : startMultiplierFetch()
   const price = await getDataEngineResult({ ...stream, decimals: MULTIPLIER_DECIMALS })
   const gating = await gateReport(

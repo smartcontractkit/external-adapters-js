@@ -52,7 +52,7 @@ const failingRequester = () =>
 // Calls to logger.error carrying the "Market schedule undetermined" token (other
 // error lines — e.g. 'TradingHoursEA request failed' — are not this alert).
 const undeterminedCalls = () =>
-  mockLogger.error.mock.calls.filter((args) =>
+  (mockLogger.error.mock.calls as unknown[][]).filter((args) =>
     String(args[0]).includes('Market schedule undetermined'),
   )
 

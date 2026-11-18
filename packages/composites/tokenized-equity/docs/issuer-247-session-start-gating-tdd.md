@@ -343,7 +343,16 @@ without an end time`); closed-span (WEEKEND)
    multi-day closures resolve no closed-span start, and WEEKEND reports fail closed
    with 503 `Session start unknown` (ADR-0007).
 1. **Staging, flag off.** Deploy with `ISSUER_247_SESSION_START_GATING_ENABLED` unset/false.
-   Zero behavior change — this is the explicit no-regression check (decision matrix row 1).
+   No 24/7 behavior change — this is the explicit no-regression check (decision matrix row 1).
+   Note this step is **not** a whole-adapter no-op: the 24/5 gating path is live and changes
+   on this deploy — its tradinghours schedule fetch now goes through the shared
+   stale-while-revalidate cache (a stale schedule is served for up to
+   `SCHEDULE_CACHE_MAX_AGE_MS` (1h) while a background refresh runs, instead of every failed
+   request walking straight to the hard-coded fallback), and the tradinghours hours-multiday
+   query window widens to `[now-5d, now+1d]` for all consumers. Both are intended and
+   strictly more forgiving, but the flag-off soak must be read as "24/7 gating dark, 24/5
+   gating + tradinghours query changed" — watch the 24/5 fallback-activation rate and
+   tradinghours latency/volume rather than assuming byte-identical behavior.
 2. **Staging, flag on.** Enable `ISSUER_247_SESSION_START_GATING_ENABLED`. Soak
    through at least a Thursday→Monday window so the Friday weekend start and the Sunday
    overnight open are both exercised; use the `marketSessionOverride` hook (§8) for
@@ -364,7 +373,9 @@ additive and needs no rollback (existing consumers ignore it).
 
 None identified. The behavior change is additive and env-gated; the tradinghours change is an
 additive response field; the fallback-schedule flatten is an internal refactor with 24/5
-decisions unchanged.
+decisions unchanged. The two 24/5-path changes above (shared schedule cache, widened
+tradinghours window) are the only non-flag-gated behavior changes; both are revertible in a
+normal deploy and neither alters a 24/5 gating decision, only where the schedule comes from.
 
 ### Release blockers
 

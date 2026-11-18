@@ -71,6 +71,9 @@ let backoffConfiguredWith: number | undefined
 // call with a DIFFERENT value means the transports were wired with inconsistent
 // settings — fail fast instead of silently letting the last transport to
 // initialize win.
+// Test isolation note: this state (like every other module-global here) is only
+// reset by clearSessionTransitionCache(); tests that override the backoff must call
+// it in beforeEach or the override leaks into later tests in the same file.
 export const setFailedFetchRetryBackoffMs = (ms: number): void => {
   if (backoffConfiguredWith !== undefined && backoffConfiguredWith !== ms) {
     throw new Error(
@@ -117,10 +120,16 @@ export const getCachedValue = async <T>(
       })()
       inFlightFetches.set(key, inFlight)
     }
+    // Freshness is stamped at fetch COMPLETION, not at read: stamping the read
+    // clock would start the entry's TTL/maxAge before the value existed, shortening
+    // its effective freshness by the fetch duration. Elapsed real time is added to
+    // the caller's clock so an injected clock (tests) stays consistent.
+    const startedAtMs = Date.now()
     try {
       const value = await inFlight
-      entries.set(key, { value, refreshedAtMs: nowMs })
-      return { value, refreshedAtMs: nowMs, ttlMs, stale: false }
+      const refreshedAtMs = nowMs + (Date.now() - startedAtMs)
+      entries.set(key, { value, refreshedAtMs })
+      return { value, refreshedAtMs, ttlMs, stale: false }
     } catch (e) {
       lastForegroundFailureAtMs.set(key, nowMs)
       throw e
@@ -138,17 +147,18 @@ export const getCachedValue = async <T>(
 // Fire-and-forget refresh, deduped per key: concurrent stale hits share one
 // in-flight fetch. A failed refresh keeps the previous value (callers keep getting
 // it, marked stale) and logs once per failure rather than per served request.
-// refreshedAtMs stamps with the caller's nowMs (the clock that judged the entry
-// stale): the refresh was triggered by that read, and a single clock keeps the
-// staleness math consistent across the foreground and background paths.
+// refreshedAtMs stamps at fetch COMPLETION (elapsed real time added to the caller's
+// clock that judged the entry stale): stamping the read clock would credit the
+// entry with freshness it had already lost while the refresh was in flight.
 const refreshInBackground = <T>(key: string, fetcher: () => Promise<T>, nowMs: number): void => {
   if (inFlightRefreshes.has(key)) {
     return
   }
   const refresh = (async () => {
+    const startedAtMs = Date.now()
     try {
       const value = await fetcher()
-      entries.set(key, { value, refreshedAtMs: nowMs })
+      entries.set(key, { value, refreshedAtMs: nowMs + (Date.now() - startedAtMs) })
     } catch (e) {
       logger.warn(
         `Background refresh of the tradinghours session schedule failed; serving the stale schedule: ${e}`,
