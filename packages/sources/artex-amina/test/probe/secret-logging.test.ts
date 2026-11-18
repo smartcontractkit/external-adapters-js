@@ -1,4 +1,3 @@
-import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import {
   TestAdapter,
   setEnvVariables,
@@ -58,7 +57,6 @@ describe('trace-level secret logging', () => {
   let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
-    LoggerFactoryProvider.set(loggerFactory)
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.LOG_LEVEL = 'trace'
     process.env.API_ENDPOINT = API_HOST
@@ -70,9 +68,13 @@ describe('trace-level secret logging', () => {
 
     nock.disableNetConnect()
     const adapter = (await import('../../src')).adapter
-    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
-      testAdapter: {} as TestAdapter<never>,
-    })
+    testAdapter = await TestAdapter.startWithMockedCache(
+      adapter,
+      {
+        testAdapter: {} as TestAdapter<never>,
+      },
+      { loggerFactory },
+    )
   })
 
   afterAll(async () => {
