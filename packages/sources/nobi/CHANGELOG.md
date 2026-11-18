@@ -1,5 +1,23 @@
 # @chainlink/nobi-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- [#5604](https://github.com/smartcontractkit/external-adapters-js/pull/5604) [`2b7ff01`](https://github.com/smartcontractkit/external-adapters-js/commit/2b7ff01facbc23577cc74328690ba3820808052f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix symbol splitting bug
+
+## 1.2.0
+
+### Minor Changes
+
+- [#5540](https://github.com/smartcontractkit/external-adapters-js/pull/5540) [`0c538b4`](https://github.com/smartcontractkit/external-adapters-js/commit/0c538b4146720579f2f2665ad113e42cb76f138f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add new stock_quotes endpoint
+
+  Bump dependency version
+
+### Patch Changes
+
+- [#5540](https://github.com/smartcontractkit/external-adapters-js/pull/5540) [`0c538b4`](https://github.com/smartcontractkit/external-adapters-js/commit/0c538b4146720579f2f2665ad113e42cb76f138f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Refactor stock_quotes endpoint
+
 ## 1.1.0
 
 ### Minor Changes
