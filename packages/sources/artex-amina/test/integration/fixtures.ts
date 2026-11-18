@@ -18,8 +18,13 @@ export const mockPositions = (
   status = 200,
   date = DATE_HEADER,
   host = API_HOST,
-): nock.Scope =>
-  nock(host, { encodedQueryParams: true })
+  delayMs = 0,
+): nock.Scope => {
+  const interceptor = nock(host, { encodedQueryParams: true })
     .get(positionsPath(portfolio))
     .query({ page, size: 20 })
-    .reply(status, body, ['Date', date, ...JSON_HEADERS])
+  if (delayMs > 0) {
+    interceptor.delay(delayMs)
+  }
+  return interceptor.reply(status, body, ['Date', date, ...JSON_HEADERS])
+}

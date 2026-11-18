@@ -10,6 +10,9 @@ import {
   AGREEMENT_NUMBER,
   API_HOST,
   AUTH_FAILURE_BODY,
+  CONCURRENT_PAGE_100,
+  CONCURRENT_PAGE_55,
+  DATE_HEADER,
   DUPLICATE_FIRST_PAGE,
   DUPLICATE_PAGE,
   DUPLICATE_SECOND_PAGE,
@@ -147,6 +150,40 @@ describe('execute', () => {
 
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should keep concurrent requests for distinct portfolios separate', async () => {
+      const portfolioA = '930000001'
+      const portfolioB = '930000002'
+      const pageRequests: CapturedRequest[] = []
+
+      mockAuth()
+      mockAuth()
+      mockPositions(portfolioA, 0, CONCURRENT_PAGE_100, 200, DATE_HEADER, API_HOST, 150).on(
+        'request',
+        captureInto(pageRequests),
+      )
+      mockPositions(portfolioB, 0, CONCURRENT_PAGE_55, 200, DATE_HEADER, API_HOST, 150).on(
+        'request',
+        captureInto(pageRequests),
+      )
+
+      const [responseA, responseB] = await Promise.all([
+        testAdapter.request(request(portfolioA)),
+        testAdapter.request(request(portfolioB)),
+      ])
+
+      expect(responseA.statusCode).toBe(200)
+      expect(responseB.statusCode).toBe(200)
+      expect(responseA.json().result).toBe(100)
+      expect(responseB.json().result).toBe(55)
+      expect(pageRequests).toHaveLength(2)
+      expect(pageRequests.map((page) => page.path).sort()).toEqual(
+        [
+          `${positionsPath(portfolioA)}?page=0&size=20`,
+          `${positionsPath(portfolioB)}?page=0&size=20`,
+        ].sort(),
+      )
     })
   })
 

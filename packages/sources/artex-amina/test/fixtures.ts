@@ -1,6 +1,5 @@
-// Synthetic provider replies. The run has `provider_data: private`, so these
-// values have the field names, nesting and value types of the recorded replies
-// but no recorded value.
+// Synthetic AMINA auth and positions replies: the field names, nesting and
+// value types of the provider responses, with values that are not from AMINA.
 export const API_HOST = 'https://amina.invalid'
 
 export const DATE_HEADER = 'Tue, 10 Mar 2026 00:00:00 GMT'
@@ -96,6 +95,16 @@ export const STRING_QUANTITY_POSITION = {
 export const SCALED_POSITION = {
   ...BASE_POSITION,
   quantity: 250.5,
+}
+
+export const CONCURRENT_POSITION_100 = {
+  ...BASE_POSITION,
+  quantity: 100,
+}
+
+export const CONCURRENT_POSITION_55 = {
+  ...BASE_POSITION,
+  quantity: 55,
 }
 
 export const ONE_MATCH_PAGE = {
@@ -220,6 +229,26 @@ export const STRING_QUANTITY_PAGE = {
 
 export const SCALED_PAGE = {
   positions: [SCALED_POSITION],
+  totalPages: 1,
+  totalElements: 1,
+  size: 20,
+  number: 0,
+  first: true,
+  last: true,
+}
+
+export const CONCURRENT_PAGE_100 = {
+  positions: [CONCURRENT_POSITION_100],
+  totalPages: 1,
+  totalElements: 1,
+  size: 20,
+  number: 0,
+  first: true,
+  last: true,
+}
+
+export const CONCURRENT_PAGE_55 = {
+  positions: [CONCURRENT_POSITION_55],
   totalPages: 1,
   totalElements: 1,
   size: 20,
