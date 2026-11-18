@@ -127,6 +127,9 @@ risk-bearing consequences:
   cache (`TRADINGHOURS_SESSION_CACHE_TTL_MS`, default 60s), so gating adds no per-request
   tradinghours hop; a stale schedule is served while a deduped background refresh runs, and
   only the first-ever fetch blocks (and fails over to the fallback schedule on error).
+  Blocking fetches are deduped per cache key, and a failed blocking fetch suppresses
+  retries for `TRADINGHOURS_SESSION_CACHE_FAILURE_BACKOFF_MS` (default 5s) so a
+  sustained outage does not add the fetch timeout to every gated price request.
   Stale serving is bounded by a max age (1h, well under the ~1-day forward reach of the
   fetched window): past it the entry is discarded and the fetch blocks again, so a
   sustained outage surfaces exactly like a fetch failure — `TradingHoursEA request

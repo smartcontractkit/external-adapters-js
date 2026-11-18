@@ -2,7 +2,9 @@ import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/uti
 
 import {
   clearSessionTransitionCache,
+  DEFAULT_FAILED_FETCH_RETRY_BACKOFF_MS,
   getCachedValue,
+  setFailedFetchRetryBackoffMs,
 } from '../../../src/lib/session/transitionCache'
 
 LoggerFactoryProvider.set()
@@ -39,6 +41,77 @@ describe('transitionCache', () => {
     await expect(getCachedValue('k', 60_000, 3_600_000, fetcher, 1_000)).rejects.toThrow(
       'tradinghours down',
     )
+  })
+
+  it('dedupes concurrent initial fetches into one upstream call', async () => {
+    let resolveFetch: (v: typeof VALUE) => void = () => undefined
+    const fetcher = jest
+      .fn()
+      .mockImplementation(() => new Promise((resolve) => (resolveFetch = resolve as never)))
+
+    const first = getCachedValue('k', 60_000, 3_600_000, fetcher, 1_000)
+    const second = getCachedValue('k', 60_000, 3_600_000, fetcher, 1_000)
+    resolveFetch(VALUE)
+
+    expect(await first).toEqual({ value: VALUE, refreshedAtMs: 1_000, ttlMs: 60_000, stale: false })
+    expect((await second).value).toBe(VALUE)
+    expect(fetcher).toHaveBeenCalledTimes(1)
+  })
+
+  it('suppresses refetches for a few seconds after a foreground fetch failure', async () => {
+    const fetcher = jest
+      .fn()
+      .mockRejectedValueOnce(new Error('tradinghours down'))
+      .mockResolvedValueOnce(VALUE)
+
+    await expect(getCachedValue('k', 60_000, 3_600_000, fetcher, 1_000)).rejects.toThrow(
+      'tradinghours down',
+    )
+
+    // Within the backoff window: no new fetch, the caller fails fast and falls back.
+    await expect(
+      getCachedValue(
+        'k',
+        60_000,
+        3_600_000,
+        fetcher,
+        1_000 + DEFAULT_FAILED_FETCH_RETRY_BACKOFF_MS - 1,
+      ),
+    ).rejects.toThrow('retry backoff')
+    expect(fetcher).toHaveBeenCalledTimes(1)
+
+    // Past the backoff window the next call fetches again.
+    const entry = await getCachedValue(
+      'k',
+      60_000,
+      3_600_000,
+      fetcher,
+      1_000 + DEFAULT_FAILED_FETCH_RETRY_BACKOFF_MS,
+    )
+    expect(fetcher).toHaveBeenCalledTimes(2)
+    expect(entry.value).toBe(VALUE)
+  })
+
+  it('honors a failure backoff overridden via setFailedFetchRetryBackoffMs', async () => {
+    setFailedFetchRetryBackoffMs(30_000)
+    const fetcher = jest
+      .fn()
+      .mockRejectedValueOnce(new Error('tradinghours down'))
+      .mockResolvedValueOnce(VALUE)
+
+    await expect(getCachedValue('k', 60_000, 3_600_000, fetcher, 1_000)).rejects.toThrow(
+      'tradinghours down',
+    )
+
+    // Still inside the overridden window (past the 5s default): no refetch.
+    await expect(getCachedValue('k', 60_000, 3_600_000, fetcher, 1_000 + 29_999)).rejects.toThrow(
+      'retry backoff',
+    )
+    expect(fetcher).toHaveBeenCalledTimes(1)
+
+    const entry = await getCachedValue('k', 60_000, 3_600_000, fetcher, 1_000 + 30_000)
+    expect(fetcher).toHaveBeenCalledTimes(2)
+    expect(entry.value).toBe(VALUE)
   })
 
   it('serves the cached value within the TTL without refetching', async () => {
@@ -147,9 +220,16 @@ describe('transitionCache', () => {
     ).rejects.toThrow('tradinghours down')
 
     // The too-old entry is gone: a later call still blocks on the fetch rather
-    // than resurrecting the discarded schedule.
+    // than resurrecting the discarded schedule. (Past the failure backoff, so it
+    // actually refetches.)
     fetcher.mockResolvedValueOnce(REFRESHED)
-    const next = await getCachedValue('k', 60_000, 3_600_000, fetcher, 1_000 + 3_600_001)
+    const next = await getCachedValue(
+      'k',
+      60_000,
+      3_600_000,
+      fetcher,
+      1_000 + 3_600_000 + DEFAULT_FAILED_FETCH_RETRY_BACKOFF_MS,
+    )
     expect(next.value).toBe(REFRESHED)
   })
 })

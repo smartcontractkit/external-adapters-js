@@ -118,10 +118,12 @@ const fetchSessionSchedule = async (
     }
     return data.data.result.map((d) => {
       const timeMs = new TZDate(d.time, sessionBoundariesTimeZone).getTime()
-      const endTimeMs =
-        d.endTime !== undefined
-          ? new TZDate(d.endTime, sessionBoundariesTimeZone).getTime()
-          : undefined
+      // A missing OR empty endTime means "no end": tradinghours omits the field
+      // when upstream has no phase end, and an empty string would parse to NaN
+      // and wrongly reject the whole schedule as malformed.
+      const endTimeMs = d.endTime
+        ? new TZDate(d.endTime, sessionBoundariesTimeZone).getTime()
+        : undefined
       // A malformed phase time parses to NaN and would silently corrupt gating
       // (NaN comparisons are always false). Reject the whole schedule — the
       // caller treats it like any other tradinghours failure and walks to the

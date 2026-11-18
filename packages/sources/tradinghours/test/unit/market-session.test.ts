@@ -124,8 +124,8 @@ describe('parseMarketSession', () => {
       expect(result[1].time).toBe('2022-01-02T20:00:00-05:00')
     })
 
-    it('logs an error and emits endTime: undefined when a recognized phase has no end', () => {
-      mockLogger.error.mockClear()
+    it('warns once per schedule and omits endTime when a recognized phase has no end', () => {
+      mockLogger.warn.mockClear()
       const p = phase(
         'Post-Trading Session',
         '',
@@ -141,17 +141,48 @@ describe('parseMarketSession', () => {
           status: TwentyfourFiveMarketStatus.POST_MARKET,
           statusString: 'POST_MARKET',
           time: '2022-01-01T16:00:00-05:00',
-          endTime: undefined,
         },
       ])
-      expect(mockLogger.error).toHaveBeenCalledTimes(1)
-      expect(mockLogger.error).toHaveBeenCalledWith(
-        expect.stringContaining('market-session phase is missing its end time'),
+      expect(mockLogger.warn).toHaveBeenCalledTimes(1)
+      expect(mockLogger.warn).toHaveBeenCalledWith(
+        expect.stringContaining('phase(s) without an end time'),
       )
     })
 
+    it('treats an empty-string end the same as a missing one (omits endTime, warns once)', () => {
+      // Upstream can send '' rather than omitting the field; passing '' through
+      // would parse to NaN downstream and reject the whole schedule.
+      mockLogger.warn.mockClear()
+      const result = parseMarketSession(
+        body([
+          phase('Pre-Trading Session', '', '2022-01-01T04:00:00-05:00', ''),
+          phase(
+            'Post-Trading Session',
+            '',
+            '2022-01-01T16:00:00-05:00',
+            '2022-01-01T20:00:00-05:00',
+          ),
+        ]),
+      )
+
+      expect(result).toStrictEqual([
+        {
+          status: TwentyfourFiveMarketStatus.PRE_MARKET,
+          statusString: 'PRE_MARKET',
+          time: '2022-01-01T04:00:00-05:00',
+        },
+        {
+          status: TwentyfourFiveMarketStatus.POST_MARKET,
+          statusString: 'POST_MARKET',
+          time: '2022-01-01T16:00:00-05:00',
+          endTime: '2022-01-01T20:00:00-05:00',
+        },
+      ])
+      expect(mockLogger.warn).toHaveBeenCalledTimes(1)
+    })
+
     it('does not log for phases that map to UNKNOWN (filtered out anyway)', () => {
-      mockLogger.error.mockClear()
+      mockLogger.warn.mockClear()
       const p = phase(
         'Some Other Phase',
         '',
@@ -161,7 +192,7 @@ describe('parseMarketSession', () => {
       const result = parseMarketSession(body([{ ...p, end: undefined }]))
 
       expect(result).toStrictEqual([])
-      expect(mockLogger.error).not.toHaveBeenCalled()
+      expect(mockLogger.warn).not.toHaveBeenCalled()
     })
   })
 

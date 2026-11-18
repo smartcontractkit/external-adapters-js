@@ -272,7 +272,8 @@ The check ships dark, so enabling it changes nothing until the env var is set. O
   ```
 
   A missing phase `end` in the upstream tradinghours response is logged by the tradinghours
-  adapter itself (`market-session phase is missing its end time`); closed-span (WEEKEND)
+  adapter itself (one warning per parsed schedule, `market-session schedule has N phase(s)
+without an end time`); closed-span (WEEKEND)
   starts then come from the hard-coded fallback schedule — visible here via
   `gatingSessionSource: 'FALLBACK'` and, when the fetch otherwise succeeded, the
   `no transition opening the report's session` warn.

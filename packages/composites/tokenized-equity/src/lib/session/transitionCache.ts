@@ -13,6 +13,11 @@ const logger = makeLogger('SessionTransitionCache')
 // signal (refreshedAtMs, ttlMs, stale) so the caller can make its own decision
 // about acting on an old schedule. Only the INITIAL fetch blocks: with no cached
 // value there is nothing to serve, so the caller awaits the fetch (and its failure).
+// Initial fetches are deduped per key (concurrent callers share one in-flight
+// request) and a failure suppresses retries for the configured backoff
+// (TRADINGHOURS_SESSION_CACHE_FAILURE_BACKOFF_MS, default 5s), so a tradinghours
+// outage cannot stampede the upstream or add the fetch timeout to every gated
+// price request.
 //
 // Stale serving is bounded by maxAgeMs: a cached schedule only reaches ~1 day past
 // its fetch time, so serving it indefinitely during a sustained tradinghours outage
@@ -46,6 +51,24 @@ type Entry<T> = {
 // process and only grows when a market is added to the hard-coded schedule.
 const entries = new Map<string, Entry<unknown>>()
 const inFlightRefreshes = new Map<string, Promise<void>>()
+// Foreground (blocking) fetches, deduped per key like background refreshes: when
+// nothing is cached, every gated request would otherwise fire its own fetch and
+// wait for it to fail. A failed foreground fetch is also remembered for
+// FAILED_FETCH_RETRY_BACKOFF_MS so a sustained outage does not add the fetch
+// timeout to every gated price request once the cached entry ages out.
+const inFlightFetches = new Map<string, Promise<unknown>>()
+const lastForegroundFailureAtMs = new Map<string, number>()
+
+// How long a foreground fetch failure suppresses further fetches for the key.
+export const DEFAULT_FAILED_FETCH_RETRY_BACKOFF_MS = 5_000
+let failedFetchRetryBackoffMs = DEFAULT_FAILED_FETCH_RETRY_BACKOFF_MS
+
+// Adapter-init hook: override the failure backoff from settings
+// (TRADINGHOURS_SESSION_CACHE_FAILURE_BACKOFF_MS). Module-level because the cache
+// itself is module-global; set once per process from transport initialize.
+export const setFailedFetchRetryBackoffMs = (ms: number): void => {
+  failedFetchRetryBackoffMs = ms
+}
 
 export const getCachedValue = async <T>(
   key: string,
@@ -64,9 +87,33 @@ export const getCachedValue = async <T>(
     entries.delete(key)
   }
   if (entries.get(key) === undefined) {
-    const value = await fetcher()
-    entries.set(key, { value, refreshedAtMs: nowMs })
-    return { value, refreshedAtMs: nowMs, ttlMs, stale: false }
+    const failedAtMs = lastForegroundFailureAtMs.get(key)
+    if (failedAtMs !== undefined && nowMs - failedAtMs < failedFetchRetryBackoffMs) {
+      throw new Error(
+        `Not refetching the tradinghours session schedule yet: the previous fetch failed ${
+          nowMs - failedAtMs
+        }ms ago (retry backoff ${failedFetchRetryBackoffMs}ms)`,
+      )
+    }
+    let inFlight = inFlightFetches.get(key) as Promise<T> | undefined
+    if (inFlight === undefined) {
+      inFlight = (async () => {
+        try {
+          return await fetcher()
+        } finally {
+          inFlightFetches.delete(key)
+        }
+      })()
+      inFlightFetches.set(key, inFlight)
+    }
+    try {
+      const value = await inFlight
+      entries.set(key, { value, refreshedAtMs: nowMs })
+      return { value, refreshedAtMs: nowMs, ttlMs, stale: false }
+    } catch (e) {
+      lastForegroundFailureAtMs.set(key, nowMs)
+      throw e
+    }
   }
 
   const current = entries.get(key) as Entry<T>
@@ -103,8 +150,11 @@ const refreshInBackground = <T>(key: string, fetcher: () => Promise<T>): void =>
   inFlightRefreshes.set(key, refresh)
 }
 
-// Test hook: clear all cached values and in-flight refreshes.
+// Test hook: clear all cached values, in-flight fetches/refreshes, and failure backoff.
 export const clearSessionTransitionCache = (): void => {
   entries.clear()
   inFlightRefreshes.clear()
+  inFlightFetches.clear()
+  lastForegroundFailureAtMs.clear()
+  failedFetchRetryBackoffMs = DEFAULT_FAILED_FETCH_RETRY_BACKOFF_MS
 }

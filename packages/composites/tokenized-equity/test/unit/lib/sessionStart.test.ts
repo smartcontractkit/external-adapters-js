@@ -72,6 +72,27 @@ describe('getSessionTransitions', () => {
     expect(result[0].endTimeMs).toBeUndefined()
   })
 
+  it('treats an empty endTime as "no end" rather than malformed (keeps the schedule)', async () => {
+    // An empty string parses to NaN; rejecting on it would discard every start
+    // time in the schedule and send 24/5 and 24/7 gating to the fallback.
+    const requester = requesterWith(() =>
+      Promise.resolve(
+        scheduleResponse([
+          { status: 2, statusString: 'REGULAR', time: '2024-01-08T14:30:00.000Z', endTime: '' },
+        ]),
+      ),
+    )
+
+    const result = await getSessionTransitions(URL, requester, ...ARGS)
+
+    expect(result).toEqual([
+      {
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: new Date('2024-01-08T14:30:00.000Z').getTime(),
+      },
+    ])
+  })
+
   it('smoother filtering (processData) is unchanged when transitions carry endTimeMs', async () => {
     // The smoother must not react to the new field: same drops as before (REGULAR and
     // Sunday overnight dropped; thin-liquidity boundaries kept).
