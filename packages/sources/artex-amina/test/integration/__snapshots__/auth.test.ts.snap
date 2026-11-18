@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`authentication and request signing does not retry a non-401 page error 1`] = `
+{
+  "errorMessage": "Request failed with status code 400",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`authentication and request signing logs in again when the refresh is rejected 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`authentication and request signing logs in once and signs every page with the recorded header set 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`authentication and request signing rejects a second 401 on the repeated page without another renewal 1`] = `
+{
+  "errorMessage": "The data provider rejected the renewed access token",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`authentication and request signing rejects an auth reply without both tokens 1`] = `
+{
+  "errorMessage": "The data provider returned an unusable authentication response",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`authentication and request signing renews a 401 from a later page without refetching the earlier page 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`authentication and request signing renews the token on a 401 and repeats the same page 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`authentication and request signing surfaces a rejected login as a 502 with the framework message and no page GET 1`] = `
+{
+  "errorMessage": "Request failed with status code 401",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;

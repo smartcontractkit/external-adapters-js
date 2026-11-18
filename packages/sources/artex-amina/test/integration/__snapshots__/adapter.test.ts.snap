@@ -1,0 +1,306 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reserve endpoint accepts a request with an empty body 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`reserve endpoint accepts a request with an unknown field 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`reserve endpoint accepts a request with the endpoint name 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`reserve endpoint keeps the last good report when a later fetch fails 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`reserve endpoint publishes a negative quantity as given 1`] = `
+{
+  "data": {
+    "result": -12.5,
+    "ripcord": false,
+  },
+  "result": -12.5,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`reserve endpoint publishes a quantity with more decimals unmodified 1`] = `
+{
+  "data": {
+    "result": 100.123456789,
+    "ripcord": false,
+  },
+  "result": 100.123456789,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`reserve endpoint publishes a zero quantity as given 1`] = `
+{
+  "data": {
+    "result": 0,
+    "ripcord": false,
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`reserve endpoint publishes the position quantity and not another numeric field of the reply 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`reserve endpoint publishes the recorded quantity as result and data.result 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`reserve endpoint reads every page until last true and filters the configured ISIN across pages 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`reserve endpoint rejects a quantity that is a string 1`] = `
+{
+  "errorMessage": "The data provider returned an unusable quantity for ISIN US0378331005",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`reserve endpoint rejects a quantity that is null 1`] = `
+{
+  "errorMessage": "The data provider returned an unusable quantity for ISIN US0378331005",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`reserve endpoint rejects a reply that claims more pages than totalPages 1`] = `
+{
+  "errorMessage": "The data provider returned more pages than totalPages",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`reserve endpoint rejects a reply with no position for the configured ISIN 1`] = `
+{
+  "errorMessage": "The data provider returned no position for ISIN CH0012032048",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`reserve endpoint rejects an unusable positions page when last is not a boolean 1`] = `
+{
+  "errorMessage": "The data provider returned an unusable positions page",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`reserve endpoint rejects an unusable positions page when positions is absent 1`] = `
+{
+  "errorMessage": "The data provider returned an unusable positions page",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`reserve endpoint rejects an unusable positions page when totalPages is not an integer 1`] = `
+{
+  "errorMessage": "The data provider returned an unusable positions page",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`reserve endpoint rejects more than one position with the configured ISIN across pages 1`] = `
+{
+  "errorMessage": "The data provider returned more than one position for ISIN US0378331005",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`reserve endpoint rejects more than one position with the configured ISIN in one page 1`] = `
+{
+  "errorMessage": "The data provider returned more than one position for ISIN US0378331005",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`reserve endpoint selects the configured ISIN among the reply positions 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`reserve endpoint stops at the page that has last true and does not request the next page 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`reserve endpoint surfaces a provider connection failure as a 502 1`] = `
+{
+  "errorMessage": "connect ECONNREFUSED",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`reserve endpoint takes the report timestamps from the first page GET and the last page reply 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471711,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

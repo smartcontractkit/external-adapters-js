@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`configuration and adapter wiring derives both provider URLs from API_ENDPOINT 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`configuration and adapter wiring returns a framework 404 for an unknown endpoint 1`] = `
+{
+  "error": {
+    "message": "Adapter does not have a "not-an-endpoint" endpoint.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 404,
+}
+`;
+
+exports[`configuration and adapter wiring starts production configuration with the six settings and the production host 1`] = `
+{
+  "data": {
+    "result": 100,
+    "ripcord": false,
+  },
+  "result": 100,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

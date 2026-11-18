@@ -1,43 +1,24 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  PoRProviderEndpoint,
+  PoRProviderResponse,
+} from '@chainlink/external-adapter-framework/adapter/por'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import overrides from '../config/overrides.json'
-import { customSubscriptionTransport } from '../transport/reserve'
+import { reserveTransport } from '../transport/reserve'
 
-export const inputParameters = new InputParameters(
-  {
-    base: {
-      aliases: ['from', 'coin', 'symbol', 'market'],
-      required: true,
-      type: 'string',
-      description: 'The symbol of symbols of the currency to query',
-    },
-    quote: {
-      aliases: ['to', 'convert'],
-      required: true,
-      type: 'string',
-      description: 'The symbol of the currency to convert to',
-    },
-  },
-  [
-    {
-      base: 'BTC',
-      quote: 'USD',
-    },
-  ],
-)
+// The source is read once for every request and the ISIN to publish is an
+// operator setting, so the endpoint takes no input parameters.
+export const inputParameters = new InputParameters({})
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: PoRProviderResponse
   Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new PoRProviderEndpoint({
   name: 'reserve',
   aliases: [],
-  transport: customSubscriptionTransport,
+  transport: reserveTransport,
   inputParameters,
-  overrides: overrides['artex-amina'],
 })
