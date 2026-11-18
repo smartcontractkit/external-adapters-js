@@ -1,3 +1,4 @@
+import '@chainlink/external-adapter-framework'
 import { PoRAdapter } from '@chainlink/external-adapter-framework/adapter/por'
 import { adapter } from '../../src'
 import * as transportModule from '../../src/transport/reserves'
