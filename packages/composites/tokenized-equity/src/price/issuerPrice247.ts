@@ -143,7 +143,12 @@ export const calculatePrice = async ({
   // only after the gate passes, so a report the gate rejects does not pay for
   // the multiplier fetch.
   const gatingEnabled = settings.ISSUER_247_SESSION_START_GATING_ENABLED
-  const multiplierPromise = gatingEnabled ? undefined : issuer.getMultiplier(multiplier, provider)
+  // wrap issuer.getMultiplier in the startMultiplierFetch closure so we can
+  // eagerly kick it off vs only when needed for when the 247 session start
+  // gating is of and when it is on so it is performed async.
+  const startMultiplierFetch = (): Promise<bigint | Error> =>
+    issuer.getMultiplier(multiplier, provider).catch((e) => e as Error)
+  const multiplierPromise = gatingEnabled ? undefined : startMultiplierFetch()
   const price = await getDataEngineResult({ ...stream, decimals: MULTIPLIER_DECIMALS })
   const gating = await gateReport(
     settings,
@@ -151,10 +156,11 @@ export const calculatePrice = async ({
     param.marketSessionOverride,
     price.data,
   )
-  const value =
-    multiplierPromise !== undefined
-      ? await multiplierPromise
-      : await issuer.getMultiplier(multiplier, provider)
+  const multiplierResult = await (multiplierPromise ?? startMultiplierFetch())
+  if (multiplierResult instanceof Error) {
+    throw multiplierResult
+  }
+  const value = multiplierResult
 
   const rawMultipliedPrice = BigInt(price.result) * value
   const rawMultipliedPriceDecimals = 2 * MULTIPLIER_DECIMALS
