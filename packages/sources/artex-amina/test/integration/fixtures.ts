@@ -1,21 +1,25 @@
 import nock from 'nock'
+import { API_HOST, DATE_HEADER, LOGIN_BODY } from '../fixtures'
 
-export const mockPostResponseSuccess = (): nock.Scope =>
-  nock('https://dataproviderapi.com', {
-    encodedQueryParams: true,
-  })
-    .post('/cryptocurrency/price', {
-      symbol: 'ETH',
-      convert: 'USD',
-    })
-    .reply(200, () => ({ ETH: { price: 10000 } }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
-    .persist()
+const JSON_HEADERS = ['Content-Type', 'application/json']
+
+export const authPath = '/api/b2c/v1/auth'
+
+export const positionsPath = (portfolio: string): string =>
+  `/api/b2c/v1/securities/portfolios/${portfolio}/positions`
+
+export const mockAuth = (host = API_HOST, body: object = LOGIN_BODY, status = 200): nock.Scope =>
+  nock(host, { encodedQueryParams: true }).post(authPath).reply(status, body, JSON_HEADERS)
+
+export const mockPositions = (
+  portfolio: string,
+  page: number,
+  body: object,
+  status = 200,
+  date = DATE_HEADER,
+  host = API_HOST,
+): nock.Scope =>
+  nock(host, { encodedQueryParams: true })
+    .get(positionsPath(portfolio))
+    .query({ page, size: 20 })
+    .reply(status, body, ['Date', date, ...JSON_HEADERS])

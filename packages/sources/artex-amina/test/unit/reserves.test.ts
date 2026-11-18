@@ -1,272 +1,300 @@
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes, inputParameters } from '../../src/endpoint/reserves'
 import { ReservesTransport } from '../../src/transport/reserves'
+import {
+  AGREEMENT_NUMBER,
+  API_HOST,
+  BAD_LAST_PAGE,
+  BAD_TOTAL_PAGES_PAGE,
+  DATE_HEADER,
+  FIRST_OF_TWO_PAGE,
+  HMAC_SECRET,
+  LAST_FALSE_AT_END_PAGE,
+  LAST_FALSE_ON_LAST_PAGE,
+  LOGIN_BODY,
+  MATCHING_ISIN,
+  MISSING_LAST_PAGE,
+  MISSING_POSITIONS_PAGE,
+  MISSING_TOTAL_PAGES_PAGE,
+  NEGATIVE_PAGE,
+  NON_ARRAY_POSITIONS_PAGE,
+  NULL_QUANTITY_PAGE,
+  ONE_MATCH_PAGE,
+  PASSWORD,
+  SECOND_OF_TWO_PAGE,
+  STRING_QUANTITY_PAGE,
+  USER_ID,
+  ZERO_PAGE,
+} from '../fixtures'
+
+const NOW = 1773100800000
+const PORTFOLIO = '999888777'
 
 const log = jest.fn()
-const debugLog = jest.fn()
 const logger = {
   fatal: log,
   error: log,
   warn: log,
   info: log,
-  debug: debugLog,
-  trace: debugLog,
-  msgPrefix: 'mock-logger',
+  debug: log,
+  trace: log,
+  msgPrefix: 'test',
 }
-
 const loggerFactory = { child: () => logger }
-
 LoggerFactoryProvider.set(loggerFactory)
 
-describe('ReservesTransport', () => {
-  const transportName = 'default_single_transport'
-  const endpointName = 'reserves'
-  const API_ENDPOINT = 'http://api.example.com'
-  const API_KEY = 'test-api-key'
-  const BACKGROUND_EXECUTE_MS = 10_000
+type RequestParams = typeof inputParameters.validated
 
-  const adapterSettings = makeStub('adapterSettings', {
-    API_ENDPOINT,
-    API_KEY,
-    WARMUP_SUBSCRIPTION_TTL: 10_000,
-    BACKGROUND_EXECUTE_MS,
-    MAX_COMMON_KEY_SIZE: 300,
-  } as unknown as BaseEndpointTypes['Settings'])
+type PageReply = {
+  body: object
+  date?: string
+}
 
-  const context = makeStub('context', {
-    adapterSettings,
-  } as EndpointContext<BaseEndpointTypes>)
+type LoadedTransport = {
+  transport: ReservesTransport
+  requester: { request: jest.Mock }
+  responseCache: { write: jest.Mock }
+}
 
-  const requester = makeStub('requester', {
-    request: jest.fn(),
-  })
+type Outcome = {
+  statusCode?: number
+  errorMessage?: string
+  result?: unknown
+  data?: unknown
+  timestamps?: unknown
+}
 
-  const responseCache = {
-    write: jest.fn(),
+const adapterSettings = {
+  API_ENDPOINT: API_HOST,
+  AMINA_USER_ID: USER_ID,
+  AMINA_PASSWORD: PASSWORD,
+  AMINA_HMAC_SECRET: HMAC_SECRET,
+  AMINA_AGREEMENT_NUMBER: AGREEMENT_NUMBER,
+  BACKGROUND_EXECUTE_MS: 100_000,
+  WARMUP_SUBSCRIPTION_TTL: 100_000,
+  API_TIMEOUT: 60_000,
+  RETRY: 0,
+  MAX_COMMON_KEY_SIZE: 300,
+} as unknown as BaseEndpointTypes['Settings']
+
+const params = {
+  portfolio: PORTFOLIO,
+  isin: MATCHING_ISIN,
+} as unknown as RequestParams
+
+const loadTransport = async (pages: PageReply[], now = NOW): Promise<LoadedTransport> => {
+  jest.spyOn(Date, 'now').mockReturnValue(now)
+
+  const queuedPages = [...pages]
+  const requester = {
+    request: jest.fn(async (_key: string, requestConfig: { url?: string }) => {
+      const url = requestConfig.url ?? ''
+      if (url.includes('/auth')) {
+        return {
+          response: { data: LOGIN_BODY, status: 200, headers: {} },
+          timestamps: {
+            providerDataRequestedUnixMs: now,
+            providerDataReceivedUnixMs: now,
+          },
+        }
+      }
+
+      const page = queuedPages.shift()
+      if (!page) {
+        throw new Error('the adapter requested an unexpected positions page')
+      }
+      return {
+        response: {
+          data: page.body,
+          status: 200,
+          headers: { date: page.date ?? DATE_HEADER },
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: now,
+          providerDataReceivedUnixMs: now,
+        },
+      }
+    }),
   }
 
-  const dependencies = makeStub('dependencies', {
+  const responseCache = { write: jest.fn() }
+  const dependencies = {
     requester,
     responseCache,
     subscriptionSetFactory: {
-      buildSet: jest.fn(),
+      buildSet: jest.fn(() => ({ add: jest.fn(), getAll: jest.fn() })),
     },
-  } as unknown as TransportDependencies<BaseEndpointTypes>)
+  } as unknown as TransportDependencies<BaseEndpointTypes>
 
-  let transport: ReservesTransport
+  const transport = new ReservesTransport()
+  await transport.initialize(dependencies, adapterSettings, 'reserves', 'default_single_transport')
+  return { transport, requester, responseCache }
+}
 
-  type RequestConfig = {
-    baseURL: string
-    url: string
-    method: 'POST'
-    headers: Record<string, string>
-    data: {
-      symbol: string
-      convert: string
-    }
+const responseOf = async ({ transport, responseCache }: LoadedTransport): Promise<Outcome> => {
+  await transport.handleRequest(params)
+  const lastCall = responseCache.write.mock.calls[responseCache.write.mock.calls.length - 1]
+  const entries = lastCall?.[1] as { response: Outcome }[] | undefined
+  if (!entries?.[0]) {
+    throw new Error('the transport did not write a response to the cache')
   }
+  return entries[0].response
+}
 
-  const requestConfigForParams = ({
-    base,
-    quote,
-  }: {
-    base: string
-    quote: string
-  }): RequestConfig => ({
-    method: 'POST',
-    baseURL: adapterSettings.API_ENDPOINT,
-    url: '/cryptocurrency/price',
-    headers: {
-      X_API_KEY: adapterSettings.API_KEY,
-    },
-    data: {
-      symbol: base.toUpperCase(),
-      convert: quote.toUpperCase(),
-    },
-  })
+const messageOf = (outcome: Outcome): string => String(outcome.errorMessage)
 
-  const requestKeyForConfig = (requestConfig: RequestConfig) => {
-    const requestKey = calculateHttpRequestKey<BaseEndpointTypes>({
-      context: {
-        adapterSettings,
-        inputParameters,
-        endpointName,
-      },
-      data: requestConfig.data,
-      transportName,
-    })
-    return requestKey
-  }
+const expectUnusable = (outcome: Outcome): void => {
+  expect(outcome.statusCode).toBe(502)
+  expect(outcome.result).toBeUndefined()
+  expect(outcome.data).toBeUndefined()
+  expect(messageOf(outcome)).toBeTruthy()
+}
 
-  const mockPriceResponse = (symbol: string, price: number | Promise<number>) => {
-    requester.request.mockImplementationOnce(async () => {
-      return {
-        response: {
-          data: {
-            [symbol.toUpperCase()]: {
-              price: await price,
-            },
-          },
-        },
-      }
-    })
-  }
-
-  beforeEach(async () => {
-    jest.resetAllMocks()
-    jest.useFakeTimers()
-
-    transport = new ReservesTransport()
-
-    await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
-  })
-
+describe('ReservesTransport', () => {
   afterEach(() => {
-    expect(log).not.toBeCalled()
+    jest.restoreAllMocks()
   })
 
-  describe('backgroundHandler', () => {
-    it('should sleep after handleRequest', async () => {
-      const t0 = Date.now()
-      let t1 = 0
-      transport.backgroundHandler(context, []).then(() => {
-        t1 = Date.now()
-      })
-      await jest.runAllTimersAsync()
-      expect(t1 - t0).toBe(BACKGROUND_EXECUTE_MS)
+  it('publishes the position quantity and the v9 fields, not another numeric field', async () => {
+    const loaded = await loadTransport([{ body: ONE_MATCH_PAGE }])
+
+    const response = await responseOf(loaded)
+
+    expect(response).toEqual({
+      statusCode: 200,
+      result: 123.4567,
+      data: {
+        result: 123.4567,
+        aum: 123.4567,
+        validFromTimestamp: 1773100800,
+        observationsTimestamp: 1773100800,
+        expiresAt: 1775865600,
+        ripcord: false,
+        ripcordAsInt: 0,
+      },
+      timestamps: {
+        providerDataRequestedUnixMs: NOW,
+        providerDataReceivedUnixMs: NOW,
+      },
     })
   })
 
-  describe('handleRequest', () => {
-    it('should cache response', async () => {
-      const from = 'ETH'
-      const to = 'USD'
-      const price = 2100
+  it('publishes the first page date in Unix seconds and the envelope in Unix milliseconds', async () => {
+    const clockBeforeGet = 1773099999000
+    const loaded = await loadTransport([{ body: ONE_MATCH_PAGE }], clockBeforeGet)
 
-      const params = makeStub('params', {
-        base: from,
-        quote: to,
-      })
+    const response = await responseOf(loaded)
 
-      mockPriceResponse(from, price)
+    expect(response.statusCode).toBe(200)
+    expect(response.data).toMatchObject({
+      validFromTimestamp: 1773100800,
+      observationsTimestamp: 1773100800,
+      expiresAt: 1775865600,
+    })
+    expect(response.timestamps).toMatchObject({
+      providerDataRequestedUnixMs: clockBeforeGet,
+      providerDataReceivedUnixMs: clockBeforeGet,
+    })
+  })
 
-      await transport.handleRequest(params)
-
-      const expectedResult = price
-
-      const expectedResponse = {
+  describe('the pagination decision', () => {
+    const cases: {
+      name: string
+      pages: PageReply[]
+      statusCode: number
+      pageRequests: number
+    }[] = [
+      {
+        name: 'stops on a last page that is the only page',
+        pages: [{ body: ONE_MATCH_PAGE }],
         statusCode: 200,
-        result: expectedResult,
-        data: {
-          result: expectedResult,
-        },
-        timestamps: {
-          providerDataRequestedUnixMs: Date.now(),
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
+        pageRequests: 1,
+      },
+      {
+        name: 'reads the next page when last is false and the page number is below totalPages',
+        pages: [{ body: FIRST_OF_TWO_PAGE }, { body: SECOND_OF_TWO_PAGE }],
+        statusCode: 200,
+        pageRequests: 2,
+      },
+      {
+        name: 'rejects last false on the declared last page',
+        pages: [{ body: LAST_FALSE_AT_END_PAGE }],
+        statusCode: 502,
+        pageRequests: 1,
+      },
+      {
+        name: 'rejects last false on a page after the declared last page',
+        pages: [{ body: FIRST_OF_TWO_PAGE }, { body: LAST_FALSE_ON_LAST_PAGE }],
+        statusCode: 502,
+        pageRequests: 2,
+      },
+    ]
+
+    it.each(cases)('$name', async ({ pages, statusCode, pageRequests }) => {
+      const loaded = await loadTransport(pages)
+
+      const response = await responseOf(loaded)
+
+      expect(response.statusCode).toBe(statusCode)
+      if (statusCode === 200) {
+        expect(response.result).toBe(123.4567)
+      } else {
+        expect(response.result).toBeUndefined()
+        expect(response.data).toBeUndefined()
       }
-
-      expect(responseCache.write).toBeCalledWith(transportName, [
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
-      expect(responseCache.write).toBeCalledTimes(1)
+      expect(loaded.requester.request).toHaveBeenCalledTimes(1 + pageRequests)
     })
   })
 
-  describe('_handleRequest', () => {
-    it('should return price response', async () => {
-      const from = 'ETH'
-      const to = 'USD'
-      const price = 2100
+  it('accepts a zero quantity as a valid reserve', async () => {
+    const loaded = await loadTransport([{ body: ZERO_PAGE }])
 
-      const params = makeStub('params', {
-        base: from,
-        quote: to,
-      })
+    const response = await responseOf(loaded)
 
-      mockPriceResponse(from, price)
-      const response = await transport._handleRequest(params)
+    expect(response.statusCode).toBe(200)
+    expect(response.result).toBe(0)
+    expect(response.data).toMatchObject({ result: 0, aum: 0, ripcord: false })
+  })
 
-      const expectedResult = price
+  it('rejects a negative quantity as unusable data', async () => {
+    const loaded = await loadTransport([{ body: NEGATIVE_PAGE }])
 
-      expect(response).toEqual({
-        statusCode: 200,
-        result: expectedResult,
-        data: {
-          result: expectedResult,
-        },
-        timestamps: {
-          providerDataRequestedUnixMs: Date.now(),
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      })
+    const response = await responseOf(loaded)
 
-      const expectedRequestConfig = requestConfigForParams(params)
-      const expectedRequestKey = requestKeyForConfig(expectedRequestConfig)
+    expect(loaded.requester.request).toHaveBeenCalledTimes(2)
+    expectUnusable(response)
+  })
 
-      expect(requester.request).toHaveBeenCalledWith(expectedRequestKey, expectedRequestConfig)
-      expect(requester.request).toHaveBeenCalledTimes(1)
+  describe('a quantity that is not a number', () => {
+    it.each([
+      { name: 'null', page: NULL_QUANTITY_PAGE },
+      { name: 'a numeric string', page: STRING_QUANTITY_PAGE },
+    ])('rejects $name as unusable data', async ({ page }) => {
+      const loaded = await loadTransport([{ body: page }])
+
+      const response = await responseOf(loaded)
+
+      expect(loaded.requester.request).toHaveBeenCalledTimes(2)
+      expectUnusable(response)
     })
+  })
 
-    it('should throw if response does not include price', async () => {
-      const from = 'ETH'
-      const to = 'USD'
-      const price = undefined as unknown as number
+  describe('an unusable positions page', () => {
+    it.each([
+      { name: 'positions absent', page: MISSING_POSITIONS_PAGE },
+      { name: 'positions not an array', page: NON_ARRAY_POSITIONS_PAGE },
+      { name: 'last absent', page: MISSING_LAST_PAGE },
+      { name: 'last not a boolean', page: BAD_LAST_PAGE },
+      { name: 'totalPages absent', page: MISSING_TOTAL_PAGES_PAGE },
+      { name: 'totalPages not an integer', page: BAD_TOTAL_PAGES_PAGE },
+    ])('rejects $name with a 502', async ({ page }) => {
+      const loaded = await loadTransport([{ body: page }])
 
-      const params = makeStub('params', {
-        base: from,
-        quote: to,
-      })
+      const response = await responseOf(loaded)
 
-      mockPriceResponse(from, price)
-      expect(() => transport._handleRequest(params)).rejects.toThrow(
-        `The data provider didn't return any value for ${params.base}/${params.quote}`,
-      )
-    })
-
-    it('should record received timestamp separate from requested timestamp', async () => {
-      const from = 'ETH'
-      const to = 'USD'
-      const price = 2100
-
-      const params = makeStub('params', {
-        base: from,
-        quote: to,
-      })
-
-      const [pricePromise, resolvePrice] = deferredPromise<number>()
-      mockPriceResponse(from, pricePromise)
-
-      const requestTimestamp = Date.now()
-      const responsePromise = transport._handleRequest(params)
-      jest.advanceTimersByTime(1234)
-      const responseTimestamp = Date.now()
-      expect(responseTimestamp).toBeGreaterThan(requestTimestamp)
-
-      resolvePrice(price)
-
-      const expectedResult = price
-      expect(await responsePromise).toEqual({
-        statusCode: 200,
-        result: expectedResult,
-        data: {
-          result: expectedResult,
-        },
-        timestamps: {
-          providerDataRequestedUnixMs: requestTimestamp,
-          providerDataReceivedUnixMs: responseTimestamp,
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      })
+      expect(loaded.requester.request).toHaveBeenCalledTimes(2)
+      expectUnusable(response)
     })
   })
 })
