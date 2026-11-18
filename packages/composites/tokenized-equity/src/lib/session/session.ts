@@ -75,18 +75,30 @@ export const getSessionSchedule = async (
       ? getFallbackSessionTransitions(sessionMarket, sessionMarketType, nowMs)
       : undefined
 
-  // Loud rather than silently wrong: with market identity present but no fallback
-  // entry, gating can never resolve a session start from ANY tier and will fail
-  // closed with "Session start unknown". Say why here — the 503 alone cannot
-  // distinguish a bad market session name from a market with no fallback entry.
+  // Loud rather than silently wrong — but only when gating genuinely has no
+  // schedule tier. With market identity present but no fallback entry, whether
+  // gating fails closed ("Session start unknown") depends on WHY the fallback
+  // missed:
+  // - invalid market session name: tradinghours cannot resolve the type either,
+  //   so tier 1 is unusable too — fail-closed is certain; log up front.
+  // - no fallback schedule entry: tier 1 may still resolve the start, so logging
+  //   here would cry "will fail closed" during healthy operation. Log only when
+  //   the fetch also fails (catch below) or cannot run at all (no timezone).
   // One stable token ("Market schedule undetermined") so a single log query finds
-  // every cause. Throttled per market|marketType (the condition is sticky).
-  if (sessionMarket && sessionMarketType && fallbackTransitions === undefined) {
+  // every cause; the reason suffix discriminates them — the 503 alone cannot.
+  // Throttled per market|marketType (the condition is sticky).
+  const miss =
+    sessionMarket && sessionMarketType && fallbackTransitions === undefined
+      ? fallbackScheduleMissReason(sessionMarket, sessionMarketType)
+      : undefined
+  const logUndetermined = (): void => {
+    if (!sessionMarket || !sessionMarketType || !miss) {
+      return
+    }
     const throttleKey = `${sessionMarket}|${sessionMarketType}`
     const lastLoggedAtMs = lastUndeterminedLogAtMs.get(throttleKey)
     if (lastLoggedAtMs === undefined || nowMs - lastLoggedAtMs >= UNDETERMINED_LOG_THROTTLE_MS) {
       lastUndeterminedLogAtMs.set(throttleKey, nowMs)
-      const miss = fallbackScheduleMissReason(sessionMarket, sessionMarketType)
       logger.error(
         `Market schedule undetermined: ${
           miss === 'INVALID_MARKET_SESSION_NAME'
@@ -95,6 +107,9 @@ export const getSessionSchedule = async (
         } — session-start gating has no schedule tier and will fail closed [market=${sessionMarket} marketType=${sessionMarketType}]`,
       )
     }
+  }
+  if (miss === 'INVALID_MARKET_SESSION_NAME') {
+    logUndetermined()
   }
 
   // The fetch needs market identity and a timezone. The timezone is gating's schedule
@@ -105,6 +120,8 @@ export const getSessionSchedule = async (
       ? getGatingTimezone(sessionMarket, sessionMarketType) ?? sessionBoundariesTimeZone
       : undefined
   if (!sessionMarket || !sessionMarketType || !fetchTimezone) {
+    // No fetch possible and no fallback: gating fails closed — say why.
+    logUndetermined()
     return { fallbackTransitions }
   }
 
@@ -155,6 +172,8 @@ export const getSessionSchedule = async (
     logger.error(
       `TradingHoursEA request failed; session-start gating uses the hard-coded fallback schedule, smoother falls back to sessionBoundaries: ${e}`,
     )
+    // The fetch failed AND there is no fallback entry: gating fails closed — say why.
+    logUndetermined()
     return {
       fallbackTransitions,
       secondsFromTransition: smootherTz

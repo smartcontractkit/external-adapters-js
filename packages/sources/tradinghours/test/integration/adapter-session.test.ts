@@ -67,7 +67,7 @@ describe('Market status endpoint', () => {
       {
         status: 4,
         statusString: 'OVERNIGHT',
-        time: '2022-12-31T20:00:00-05:00',
+        time: '2021-12-31T20:00:00-05:00',
         endTime: '2022-01-01T04:00:00-05:00',
       },
       {

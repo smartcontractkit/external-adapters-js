@@ -44,6 +44,18 @@ const okRequester = (result: unknown[]) =>
     }),
   } as unknown as Requester)
 
+const failingRequester = () =>
+  ({
+    request: jest.fn().mockRejectedValue(new Error('tradinghours down')),
+  } as unknown as Requester)
+
+// Calls to logger.error carrying the "Market schedule undetermined" token (other
+// error lines — e.g. 'TradingHoursEA request failed' — are not this alert).
+const undeterminedCalls = () =>
+  mockLogger.error.mock.calls.filter((args) =>
+    String(args[0]).includes('Market schedule undetermined'),
+  )
+
 describe('getSessionSchedule schedule-underdetermination logs', () => {
   beforeAll(() => {
     jest.useFakeTimers()
@@ -81,20 +93,38 @@ describe('getSessionSchedule schedule-underdetermination logs', () => {
     )
   })
 
-  it('logs "no fallback schedule entry" for a market with no hard-coded entry', async () => {
-    const requester = okRequester([])
-
+  it('logs nothing for a market with no fallback entry while tradinghours is healthy (tier 1 still gates)', async () => {
+    // The error claims fail-closed; with a working tradinghours that is not true,
+    // so it must not fire during healthy operation. (sessionBoundariesTimeZone is
+    // what lets the fetch run at all for a market with no schedule entry.)
     const result = await getSessionSchedule(
       'https://tradinghours.example.com',
-      requester,
+      okRequester([]),
       [],
-      undefined,
+      'America/New_York',
       'lse', // valid session name, no fallback entry
       '24/5',
     )
 
     expect(result.fallbackTransitions).toBeUndefined()
-    expect(mockLogger.error).toHaveBeenCalledTimes(1)
+    expect(result.transitions).toEqual([])
+    expect(undeterminedCalls()).toHaveLength(0)
+  })
+
+  it('logs "no fallback schedule entry" for a market with no hard-coded entry when tradinghours also fails', async () => {
+    const requester = failingRequester()
+
+    const result = await getSessionSchedule(
+      'https://tradinghours.example.com',
+      requester,
+      [],
+      'America/New_York',
+      'lse', // valid session name, no fallback entry
+      '24/5',
+    )
+
+    expect(result.fallbackTransitions).toBeUndefined()
+    expect(undeterminedCalls()).toHaveLength(1)
     expect(mockLogger.error).toHaveBeenCalledWith(
       expect.stringContaining('Market schedule undetermined: no fallback schedule entry'),
     )
@@ -124,7 +154,7 @@ describe('getSessionSchedule schedule-underdetermination logs', () => {
   })
 
   it('throttles repeat logs for the same market|marketType to one per minute', async () => {
-    const requester = okRequester([])
+    const requester = failingRequester()
     const call = () =>
       getSessionSchedule(
         'https://tradinghours.example.com',
@@ -137,12 +167,12 @@ describe('getSessionSchedule schedule-underdetermination logs', () => {
 
     await call()
     await call()
-    expect(mockLogger.error).toHaveBeenCalledTimes(1)
+    expect(undeterminedCalls()).toHaveLength(1)
 
     // Past the throttle window the condition is logged again (still loud).
     jest.setSystemTime(NOW_MONDAY + 60_000)
     await call()
-    expect(mockLogger.error).toHaveBeenCalledTimes(2)
+    expect(undeterminedCalls()).toHaveLength(2)
     jest.setSystemTime(NOW_MONDAY)
   })
 })

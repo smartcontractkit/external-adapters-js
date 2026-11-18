@@ -114,7 +114,9 @@ export const mockSessionSuccess = (): nock.Scope =>
               phase_name: 'Overnight',
               phase_memo: null,
               status: 'Closed',
-              start: '2022-12-31T20:00:00-05:00',
+              // The overnight phase running into the mock date (Sat 2022-01-01):
+              // opens Friday 20:00 ET, ends Saturday 04:00 ET.
+              start: '2021-12-31T20:00:00-05:00',
               end: '2022-01-01T04:00:00-05:00',
             },
             {

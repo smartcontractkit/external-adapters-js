@@ -121,7 +121,7 @@ describe('calculatePrice', () => {
 
       const result = await calculatePrice({ ...param, multiplier })
       expect(result.result).toBe('32404712086')
-      expect('rawMultipliedPrice' in result ? result.rawMultipliedPrice : undefined).toBe(
+      expect(result.rawMultipliedPrice).toBe(
         (323984292398371634149n * 1000193924414112587n).toString(),
       )
     })

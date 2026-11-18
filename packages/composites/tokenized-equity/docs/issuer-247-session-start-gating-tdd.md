@@ -267,8 +267,12 @@ The check ships dark, so enabling it changes nothing until the env var is set. O
   |= "no transition opening the report's session" # fetched schedule unusable for the report's
                                                   # declared session, gate on the fallback
   |= "Market schedule undetermined"        # no schedule tier at all (invalid market session
-                                           # name / no fallback entry) — fail closed; the
-                                           # reason in the line discriminates the cause
+                                           # name / no fallback entry alongside a failed or
+                                           # impossible fetch) — fail closed; the reason in the
+                                           # line discriminates the cause. Emitted by the shared
+                                           # 24/5 schedule resolver; the 24/7 gate always has the
+                                           # nyse fallback entry, so this line should not
+                                           # accompany an issuer-price-247 503
   ```
 
   A missing phase `end` in the upstream tradinghours response is logged by the tradinghours

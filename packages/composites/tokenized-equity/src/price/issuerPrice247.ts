@@ -110,12 +110,43 @@ const gateReport = async (
  * The 24/7 stream price, times the issuer's on-chain multiplier when one is
  * requested. The multiplied price is truncated to the output decimals only once.
  */
+// Explicit union so the multiplied-only fields (rawMultipliedPrice, multiplier)
+// are present iff a multiplier was requested — the non-multiplied variant types
+// them `never` instead of leaving them as optional-but-maybe-present.
+type GatingTelemetry = {
+  gatingSessionSource?: 'TRADINGHOURS' | 'FALLBACK'
+}
+export type Issuer247Price = GatingTelemetry & {
+  result: string
+  decimals: number
+  rawPrice: string
+  rawPriceDecimals: number
+  rawMultipliedPrice?: never
+  rawMultipliedPriceDecimals?: never
+  dataEngine: DataEngineV11Data
+  multiplier?: never
+}
+export type Issuer247MultipliedPrice = GatingTelemetry & {
+  result: string
+  decimals: number
+  rawPrice: string
+  rawPriceDecimals: number
+  rawMultipliedPrice: string
+  rawMultipliedPriceDecimals: number
+  dataEngine: DataEngineV11Data
+  multiplier: {
+    issuer: string
+    network?: string
+    value: string
+    decimals: number
+  }
+}
 export const calculatePrice = async ({
   settings,
   providers,
   multiplier,
   ...param
-}: PriceParams) => {
+}: PriceParams): Promise<Issuer247Price | Issuer247MultipliedPrice> => {
   // Validated in endpoint's customInputValidation
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const stream = { ...param, url: settings.SOURCE_ADAPTER_URL.get('DATA_ENGINE')! }
@@ -143,9 +174,11 @@ export const calculatePrice = async ({
   // only after the gate passes, so a report the gate rejects does not pay for
   // the multiplier fetch.
   const gatingEnabled = settings.ISSUER_247_SESSION_START_GATING_ENABLED
-  // wrap issuer.getMultiplier in the startMultiplierFetch closure so we can
-  // eagerly kick it off vs only when needed for when the 247 session start
-  // gating is of and when it is on so it is performed async.
+  // startMultiplierFetch wraps issuer.getMultiplier so the RPC can be kicked off
+  // eagerly (gating off — it overlaps the price fetch) or started lazily after
+  // the gate passes (gating on). The .catch defers any rejection into the
+  // awaited result below, so an eagerly started fetch cannot surface as an
+  // unhandled rejection if the price path throws first.
   const startMultiplierFetch = (): Promise<bigint | Error> =>
     issuer.getMultiplier(multiplier, provider).catch((e) => e as Error)
   const multiplierPromise = gatingEnabled ? undefined : startMultiplierFetch()
