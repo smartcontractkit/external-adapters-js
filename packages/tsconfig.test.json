@@ -84,6 +84,9 @@
       "path": "./sources/apex/tsconfig.test.json"
     },
     {
+      "path": "./sources/artex-amina/tsconfig.test.json"
+    },
+    {
       "path": "./sources/asseto-finance/tsconfig.test.json"
     },
     {
