@@ -17,6 +17,10 @@ const logger = makeLogger('Issuer247Gating')
 // the last trading phase before the gap (tradinghours ADR-0001). Both schedule
 // sources are shaped identically — raw session phases with ends, closures as an
 // absence of phases — so one derivation rule covers tradinghours and fallback alike.
+// Open-status reports (REGULAR/PRE/POST/OVERNIGHT) are gated only while the market is
+// currently open (isMarketOpenAt): a closure day makes the tier resolve no start, so the
+// gate falls through to the fallback (or fails closed when no tier resolves one) rather
+// than anchoring to a session start from up to 5 days back (TDD §12 #6).
 
 // The statuses whose transitions open the session a 24/7 report belongs to, per the
 // report's marketStatus. PRE/POST_MARKET share the continuous extended session that
@@ -67,6 +71,26 @@ export const closedSpanStartMs = (
 // WEEKEND reports gate against the start of the current closed span, derived the
 // same way from both schedule sources (tradinghours and the fallback are shaped
 // identically: raw session phases with ends — closures are an absence of phases).
+
+// True when the schedule places `now` inside a currently-open phase: the latest
+// transition at or before now has not yet ended. A latest phase without an
+// endTimeMs (a pre-endTime tradinghours deployment) is treated as open, keeping
+// the pre-guard behavior. Used to stop an open-status report from being gated
+// against a session start from a day tradinghours marks closed (holiday/weekend):
+// the widened [now-5d, now+1d] query window can otherwise surface a phase from up
+// to 5 days back and silently admit a stale report whose declared session is not
+// actually open. A false result makes the tier resolve no start, so the caller
+// falls through to the fallback (or fails closed if no tier resolves one)
+// (ADR-0007, TDD §12 #6).
+const isMarketOpenAt = (transitions: SessionTransition[], nowMs: number): boolean => {
+  const last = transitions
+    .filter((t) => t.timeMs <= nowMs)
+    .reduce<SessionTransition | undefined>(
+      (max, t) => (max === undefined || t.timeMs > max.timeMs ? t : max),
+      undefined,
+    )
+  return last !== undefined && (last.endTimeMs === undefined || nowMs < last.endTimeMs)
+}
 
 export type GateIssuer247ReportArgs = {
   marketStatus: TwentyfourFiveMarketStatus
@@ -120,12 +144,25 @@ export const gateIssuer247Report = ({
       if (!ts) {
         return undefined
       }
+      // WEEKEND is the mirror case: it gates against the start of the current closed
+      // span, so the market being closed is exactly when it applies. closedSpanStartMs
+      // already treats "now inside a phase" (calendar drift) as indeterminate.
+      if (marketStatus === TwentyfourFiveMarketStatus.WEEKEND) {
+        return closedSpanStartMs(ts, nowMs)
+      }
       const statuses = gatingStatusesFor247(marketStatus)
-      return marketStatus === TwentyfourFiveMarketStatus.WEEKEND
-        ? closedSpanStartMs(ts, nowMs)
-        : statuses
-        ? currentSessionStartMs(statuses, ts, nowMs)
-        : undefined
+      if (!statuses) {
+        return undefined
+      }
+      // An open-status report is only gated while the market is currently open. On a
+      // day tradinghours marks closed, no phase is open, so the widened window's
+      // session start would be days old; resolve no start from this tier (the caller
+      // falls through to the fallback, or fails closed if none resolves one) instead
+      // of gating a stale report against it (TDD §12 #6).
+      if (!isMarketOpenAt(ts, nowMs)) {
+        return undefined
+      }
+      return currentSessionStartMs(statuses, ts, nowMs)
     }
 
     startMs = resolveStart(transitions)

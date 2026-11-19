@@ -16,10 +16,17 @@ import {
   getGatingTimezone,
 } from '../lib/session/fallbackSessionSchedule'
 import { gateIssuer247Report } from '../lib/session/issuer247Gating'
+import { createLogThrottle, LOG_THROTTLE_WINDOW_MS } from '../lib/session/logThrottle'
 import { parseMarketSessionOverride } from '../lib/session/sessionStart'
 import { getSessionTransitionsCached, SessionTransition } from '../lib/session/tradingHoursSession'
 
 const logger = makeLogger('IssuerPrice247')
+
+// Throttles the "TradingHoursEA request failed" error line: a tradinghours outage
+// persists across many gated requests, and the cache's failure backoff only
+// suppresses the upstream fetch, not this caller's log — without a throttle every
+// gated request re-logs it.
+const throttleLog = createLogThrottle(LOG_THROTTLE_WINDOW_MS)
 
 type PriceParams = {
   settings: Settings
@@ -89,8 +96,13 @@ const gateReport = async (
     }
     transitions = cached.value
   } catch (e) {
-    logger.error(
-      `TradingHoursEA request failed; 24/7 session-start gating uses the hard-coded fallback schedule: ${e}`,
+    throttleLog(
+      `fetch-failed|${GATE_MARKET}|${GATE_TRADINGHOURS_TYPE}`,
+      () =>
+        logger.error(
+          `TradingHoursEA request failed; 24/7 session-start gating uses the hard-coded fallback schedule: ${e}`,
+        ),
+      nowMs,
     )
   }
 

@@ -56,6 +56,13 @@ const undeterminedCalls = () =>
     String(args[0]).includes('Market schedule undetermined'),
   )
 
+// Calls to logger.error carrying the tradinghours-failure line (throttled
+// separately from the undetermined alert).
+const failureCalls = () =>
+  (mockLogger.error.mock.calls as unknown[][]).filter((args) =>
+    String(args[0]).includes('TradingHoursEA request failed'),
+  )
+
 describe('getSessionSchedule schedule-underdetermination logs', () => {
   beforeAll(() => {
     jest.useFakeTimers()
@@ -173,6 +180,28 @@ describe('getSessionSchedule schedule-underdetermination logs', () => {
     jest.setSystemTime(NOW_MONDAY + 60_000)
     await call()
     expect(undeterminedCalls()).toHaveLength(2)
+    jest.setSystemTime(NOW_MONDAY)
+  })
+
+  it('throttles the tradinghours-failure log line to one per minute per market|marketType', async () => {
+    const requester = failingRequester()
+    const call = () =>
+      getSessionSchedule(
+        'https://tradinghours.example.com',
+        requester,
+        [],
+        undefined,
+        'nyse',
+        '24/5', // has a fallback entry, so the fetch runs and fails
+      )
+
+    await call()
+    await call()
+    expect(failureCalls()).toHaveLength(1)
+
+    jest.setSystemTime(NOW_MONDAY + 60_000)
+    await call()
+    expect(failureCalls()).toHaveLength(2)
     jest.setSystemTime(NOW_MONDAY)
   })
 })

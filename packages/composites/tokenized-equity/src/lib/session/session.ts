@@ -7,21 +7,21 @@ import {
   getFallbackSessionTransitions,
   getGatingTimezone,
 } from './fallbackSessionSchedule'
+import { createLogThrottle, LOG_THROTTLE_WINDOW_MS } from './logThrottle'
 import {
-  SessionTransition,
   getSessionTransitions,
   getSessionTransitionsCached,
   processData,
+  SessionTransition,
 } from './tradingHoursSession'
 
 const logger = makeLogger('Session')
 
-// Throttle for the "Market schedule undetermined" error line: the condition is
-// sticky (a bad market session name or a missing fallback entry does not fix
-// itself), so without a throttle every gated price request would re-log it.
-// Keyed per market|marketType; one line per key per window.
-const UNDETERMINED_LOG_THROTTLE_MS = 60_000
-const lastUndeterminedLogAtMs = new Map<string, number>()
+// Throttles the sticky schedule error lines ("Market schedule undetermined" and
+// "TradingHoursEA request failed"): both persist across many gated price requests
+// during an outage, so without a throttle every request re-logs them. Keyed per
+// condition+market|marketType; one line per key per window.
+const throttleLog = createLogThrottle(LOG_THROTTLE_WINDOW_MS)
 
 // Seconds relative to the nearest session boundary (-ve before, +ve after), plus the
 // schedule source the smoother should attribute it to.
@@ -95,18 +95,18 @@ export const getSessionSchedule = async (
     if (!sessionMarket || !sessionMarketType || !miss) {
       return
     }
-    const throttleKey = `${sessionMarket}|${sessionMarketType}`
-    const lastLoggedAtMs = lastUndeterminedLogAtMs.get(throttleKey)
-    if (lastLoggedAtMs === undefined || nowMs - lastLoggedAtMs >= UNDETERMINED_LOG_THROTTLE_MS) {
-      lastUndeterminedLogAtMs.set(throttleKey, nowMs)
-      logger.error(
-        `Market schedule undetermined: ${
-          miss === 'INVALID_MARKET_SESSION_NAME'
-            ? 'invalid market session name'
-            : 'no fallback schedule entry for market'
-        } — session-start gating has no schedule tier and will fail closed [market=${sessionMarket} marketType=${sessionMarketType}]`,
-      )
-    }
+    throttleLog(
+      `undetermined|${sessionMarket}|${sessionMarketType}`,
+      () =>
+        logger.error(
+          `Market schedule undetermined: ${
+            miss === 'INVALID_MARKET_SESSION_NAME'
+              ? 'invalid market session name'
+              : 'no fallback schedule entry for market'
+          } — session-start gating has no schedule tier and will fail closed [market=${sessionMarket} marketType=${sessionMarketType}]`,
+        ),
+      nowMs,
+    )
   }
   if (miss === 'INVALID_MARKET_SESSION_NAME') {
     logUndetermined()
@@ -169,8 +169,13 @@ export const getSessionSchedule = async (
         : undefined,
     }
   } catch (e) {
-    logger.error(
-      `TradingHoursEA request failed; session-start gating uses the hard-coded fallback schedule, smoother falls back to sessionBoundaries: ${e}`,
+    throttleLog(
+      `fetch-failed|${sessionMarket}|${sessionMarketType}`,
+      () =>
+        logger.error(
+          `TradingHoursEA request failed; session-start gating uses the hard-coded fallback schedule, smoother falls back to sessionBoundaries: ${e}`,
+        ),
+      nowMs,
     )
     // The fetch failed AND there is no fallback entry: gating fails closed — say why.
     logUndetermined()

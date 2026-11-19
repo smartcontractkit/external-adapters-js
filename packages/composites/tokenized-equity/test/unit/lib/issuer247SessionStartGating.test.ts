@@ -1,4 +1,5 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
 import { getFallbackSessionTransitions } from '../../../src/lib/session/fallbackSessionSchedule'
@@ -8,6 +9,10 @@ import {
   gatingStatusesFor247,
 } from '../../../src/lib/session/issuer247Gating'
 import { SessionTransition } from '../../../src/lib/session/tradingHoursSession'
+
+// The gate logs (fallback-activation warn, malformed-schedule error); initialize the
+// logger factory so those calls do not throw from the placeholder logger.
+LoggerFactoryProvider.set()
 
 // Tests for the 24/7 (issuer-price-247) session-start gate — TDD:
 // docs/issuer-247-session-start-gating-tdd.md, ADR-0007. The report's own
@@ -265,6 +270,81 @@ describe('gateIssuer247Report', () => {
       )
       expect(
         gate(TwentyfourFiveMarketStatus.POST_MARKET, '2024-01-08T09:00:00.000Z', mondayPreMarket),
+      ).toEqual({ gatingSessionSource: 'TRADINGHOURS' })
+    })
+  })
+
+  describe('open-status reports are gated only while the market is open', () => {
+    // A day the schedule marks closed (holiday): Friday phases only, then Tuesday.
+    // The widened [now-5d, now+1d] window surfaces Friday's phases on Monday, so
+    // without the guard a REGULAR report would be gated against Friday's open.
+    const holidayWeek: SessionTransition[] = [
+      t(TwentyfourFiveMarketStatus.REGULAR, '2024-01-05T14:30:00.000Z', '2024-01-05T21:00:00.000Z'), // Fri 09:30–16:00 ET
+      t(TwentyfourFiveMarketStatus.POST_MARKET, '2024-01-05T21:00:00.000Z', FRIDAY_POST_END_UTC), // Fri 16:00–20:00 ET
+      // Monday 2024-01-08 (holiday): no phases. Next phase is Tuesday pre-market.
+      t(
+        TwentyfourFiveMarketStatus.PRE_MARKET,
+        '2024-01-09T09:00:00.000Z',
+        '2024-01-09T14:30:00.000Z',
+      ), // Tue 04:00 ET
+    ]
+    const NOW_MONDAY_HOLIDAY = new Date('2024-01-08T17:00:00.000Z').getTime() // Mon noon ET
+
+    it('resolves no start from a schedule that marks the day closed (no fallback → fails closed)', () => {
+      // Stamped Friday 10:00 ET — after Friday's REGULAR open, so without the guard
+      // it would pass against a session start three days old.
+      let error: AdapterError | undefined
+      try {
+        gate(TwentyfourFiveMarketStatus.REGULAR, '2024-01-05T15:00:00.000Z', NOW_MONDAY_HOLIDAY, {
+          transitions: holidayWeek,
+          fallbackTransitions: undefined,
+        })
+      } catch (e) {
+        error = e as AdapterError
+      }
+      expect(error?.statusCode).toBe(503)
+      expect(error?.message).toContain('Session start unknown')
+    })
+
+    it('falls through to the holiday-blind fallback when tradinghours marks the day closed', () => {
+      // The fallback has no holiday awareness, so it invents Monday's open; the
+      // Friday leftover is rejected against it (PRE_SESSION, not "Session start
+      // unknown"), which pins that the guard defers rather than swallowing the tier.
+      const fallbackTransitions = getFallbackSessionTransitions('nyse', '24/7', NOW_MONDAY_HOLIDAY)
+      expectPreSession(
+        () =>
+          gate(TwentyfourFiveMarketStatus.REGULAR, '2024-01-05T15:00:00.000Z', NOW_MONDAY_HOLIDAY, {
+            transitions: holidayWeek,
+            fallbackTransitions,
+          }),
+        'REGULAR',
+      )
+    })
+
+    it('still gates a POST_MARKET report against the 04:00 open while the extended session is active', () => {
+      // Friday 18:00 ET: the extended session (PRE 04:00 → POST 20:00) is open, so
+      // the 04:00 PRE_MARKET open still resolves. The guard must key on the session
+      // block, not on the PRE_MARKET phase's own 09:30 end.
+      expect(
+        gate(
+          TwentyfourFiveMarketStatus.POST_MARKET,
+          '2024-01-05T15:00:00.000Z',
+          NOW_FRIDAY_EVENING,
+        ),
+      ).toEqual({ gatingSessionSource: 'TRADINGHOURS' })
+    })
+
+    it('treats a schedule without phase ends as open (pre-endTime tradinghours, unchanged)', () => {
+      const withoutEnds: SessionTransition[] = [
+        t(TwentyfourFiveMarketStatus.REGULAR, '2024-01-05T14:30:00.000Z'), // Fri 09:30 ET, no end
+      ]
+      expect(
+        gate(
+          TwentyfourFiveMarketStatus.REGULAR,
+          '2024-01-05T15:00:00.000Z',
+          new Date('2024-01-05T16:00:00.000Z').getTime(), // Fri 11:00 ET
+          { transitions: withoutEnds, fallbackTransitions: undefined },
+        ),
       ).toEqual({ gatingSessionSource: 'TRADINGHOURS' })
     })
   })

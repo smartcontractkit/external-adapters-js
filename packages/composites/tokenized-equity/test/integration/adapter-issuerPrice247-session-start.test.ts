@@ -175,14 +175,17 @@ describe('issuer-price-247 session-start gating (flag on)', () => {
     expect(JSON.stringify(response.json())).toContain('PRE_SESSION(WEEKEND')
   })
 
-  it('rejects 503 PRE_SESSION a REGULAR report timestamped before the regular open', async () => {
-    // Friday 09:00 ET: the regular session opened 09:30 ET; a report stamped 09:29
-    // ET is a pre-open leftover even though it is seconds old.
+  it('fails closed (Session start unknown) for a REGULAR report on a day the schedule marks closed', async () => {
+    // The suite's fixed now is Saturday 10:00 ET — the market is closed (Friday's
+    // post-market, the last phase, ended Friday 20:00 ET). A REGULAR report here is
+    // calendar drift, not a pre-open leftover, so the gate must not anchor to
+    // Friday's 09:30 open: it fails closed instead (TDD §12 #6). The genuine
+    // pre-open rejection is covered by the unit tests.
     reportMarketStatus = 2 // REGULAR
     reportLastSeen = ns('2024-01-05T14:29:00.000Z') // Fri 09:29 ET
     const response = await request()
     expect(response.statusCode).toBe(503)
-    expect(JSON.stringify(response.json())).toContain('PRE_SESSION(REGULAR')
+    expect(JSON.stringify(response.json())).toContain('Session start unknown')
   })
 
   it('fails closed with 503 Session start unknown on UNKNOWN marketStatus (ADR-0007)', async () => {
