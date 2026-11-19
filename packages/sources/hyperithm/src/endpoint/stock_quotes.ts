@@ -35,20 +35,22 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: wsTransport,
   inputParameters,
-  customInputValidation: (request): undefined => {
-    const symbol = request.requestContext.data.base
-    if (invalidSymbols.has(symbol)) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Symbol '${symbol}' is invalid.`,
-      })
-    }
-    if (!symbolRegex.test(symbol)) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Symbol must match ${symbolRegex}. Found '${symbol}'.`,
-      })
-    }
-    return
-  },
+  requestTransforms: [
+    (request) => {
+      // customInputValidation runs before overrides
+      const symbol = request.requestContext.data.base
+      if (invalidSymbols.has(symbol)) {
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: `Symbol '${symbol}' is invalid.`,
+        })
+      }
+      if (!symbolRegex.test(symbol)) {
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: `Symbol must match ${symbolRegex}. Found '${symbol}'.`,
+        })
+      }
+    },
+  ],
 })
