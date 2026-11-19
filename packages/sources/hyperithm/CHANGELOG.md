@@ -1,5 +1,11 @@
 # @chainlink/hyperithm-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#5615](https://github.com/smartcontractkit/external-adapters-js/pull/5615) [`799fbee`](https://github.com/smartcontractkit/external-adapters-js/commit/799fbee50f7a5aeee480af6193885b14bc9c7b94) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix override bug
+
 ## 1.0.1
 
 ### Patch Changes
