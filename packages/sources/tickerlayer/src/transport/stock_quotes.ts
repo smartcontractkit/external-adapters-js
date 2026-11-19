@@ -75,10 +75,8 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
           const isOvernight = message.session == 'overnight'
           const bid_price = toNumber(message.bid)
           const ask_price = toNumber(message.ask)
-          const bid_volume =
-            isOvernight || message.asset === 'futures' ? 0 : toNumber(message.bid_size) || undefined
-          const ask_volume =
-            isOvernight || message.asset === 'futures' ? 0 : toNumber(message.ask_size) || undefined
+          const bid_volume = getVolume(message.asset, message.bid_size, isOvernight)
+          const ask_volume = getVolume(message.asset, message.ask_size, isOvernight)
           const providerIndicatedTimeUnixMs = toNumber(message.ts)
           if (
             message.type !== quotesMessageType ||
@@ -176,5 +174,8 @@ const channel = (params: TypeFromDefinition<BaseEndpointTypes['Parameters']>) =>
 
 const subscriptionKey = (params: TypeFromDefinition<BaseEndpointTypes['Parameters']>) =>
   `${channel(params)}:${params.base}`
+
+const getVolume = (asset: string, size: number | string, isOvernight: boolean) =>
+  isOvernight || asset === 'futures' ? 0 : toNumber(size) || undefined
 
 export const wsTransport = new StockQuotesWebSocketTransport()
