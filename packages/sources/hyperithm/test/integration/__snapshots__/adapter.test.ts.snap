@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`websocket stock_quotes endpoint should return error for invalid symbol 1`] = `
+{
+  "error": {
+    "message": "Symbol must match /^[A-Z0-9]+\\/[A-Z0-9]+$/. Found 'invalid/symbol'.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`websocket stock_quotes endpoint should return success 1`] = `
 {
   "data": {
