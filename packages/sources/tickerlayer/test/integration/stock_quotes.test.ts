@@ -73,9 +73,9 @@ describe('websocket', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should use the commodities channel for the forex alias', async () => {
+    it('should use the forex channel for the forex alias', async () => {
       const dataForex = {
-        base: 'XAUUSD',
+        base: 'EURUSD',
         endpoint: 'forex',
         transport: 'ws',
       }
@@ -83,6 +83,35 @@ describe('websocket', () => {
       await testAdapter.waitForCache(3)
 
       const response = await testAdapter.request(dataForex)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should use the commodities channel when the forex alias requests commodity assetType', async () => {
+      const dataForexCommodity = {
+        base: 'XAUUSD',
+        endpoint: 'forex',
+        transport: 'ws',
+        assetType: 'commodities',
+      }
+      await testAdapter.request(dataForexCommodity)
+      await testAdapter.waitForCache(4)
+
+      const response = await testAdapter.request(dataForexCommodity)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should use the commodities channel for the commodities alias', async () => {
+      const dataCommodities = {
+        base: 'XAGUSD',
+        endpoint: 'commodities',
+        transport: 'ws',
+      }
+      await testAdapter.request(dataCommodities)
+      await testAdapter.waitForCache(5)
+
+      const response = await testAdapter.request(dataCommodities)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })

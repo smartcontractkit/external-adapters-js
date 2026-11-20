@@ -30,13 +30,21 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'stock_quotes',
-  aliases: ['quotes', 'forex'],
+  aliases: ['quotes', 'forex', 'commodities'],
   transport: wsTransport,
   inputParameters: stockQuotesInputParameters,
   customInputValidation,
   requestTransforms: [
     (request) => {
-      if (request.requestContext.requestEndpointName === 'forex') {
+      // endpoint forex + assetType commodities => commodities
+      // otherwise forex
+      if (
+        request.requestContext.requestEndpointName === 'forex' &&
+        request.requestContext.data.assetType !== 'commodities'
+      ) {
+        request.requestContext.data.assetType = 'forex'
+      }
+      if (request.requestContext.requestEndpointName === 'commodities') {
         request.requestContext.data.assetType = 'commodities'
       }
       // assetType is not used when isOvernight is true
