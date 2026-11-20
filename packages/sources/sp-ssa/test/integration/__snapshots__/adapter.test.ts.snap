@@ -27,8 +27,8 @@ exports[`execute returns a 502 for the recorded bad-token 401 1`] = `
   "errorMessage": "Request failed with status code 401",
   "statusCode": 502,
   "timestamps": {
-    "providerDataReceivedUnixMs": 0,
-    "providerDataRequestedUnixMs": 0,
+    "providerDataReceivedUnixMs": 978361871111,
+    "providerDataRequestedUnixMs": 978361871111,
   },
 }
 `;
@@ -38,8 +38,8 @@ exports[`execute returns a 502 for the recorded missing-apikey 401 1`] = `
   "errorMessage": "Request failed with status code 401",
   "statusCode": 502,
   "timestamps": {
-    "providerDataReceivedUnixMs": 0,
-    "providerDataRequestedUnixMs": 0,
+    "providerDataReceivedUnixMs": 978365471111,
+    "providerDataRequestedUnixMs": 978365471111,
   },
 }
 `;
@@ -49,8 +49,8 @@ exports[`execute returns a 502 when the reply has no record for the security_id 
   "errorMessage": "The SSA reply has no record for security_id SP-EUR",
   "statusCode": 502,
   "timestamps": {
-    "providerDataReceivedUnixMs": 0,
-    "providerDataRequestedUnixMs": 0,
+    "providerDataReceivedUnixMs": 978351071111,
+    "providerDataRequestedUnixMs": 978351071111,
   },
 }
 `;
@@ -60,8 +60,8 @@ exports[`execute returns a 502 when the reply is an empty list 1`] = `
   "errorMessage": "The SSA reply has no record for security_id SP-EMPTY",
   "statusCode": 502,
   "timestamps": {
-    "providerDataReceivedUnixMs": 0,
-    "providerDataRequestedUnixMs": 0,
+    "providerDataReceivedUnixMs": 978354671111,
+    "providerDataRequestedUnixMs": 978354671111,
   },
 }
 `;
@@ -71,8 +71,8 @@ exports[`execute returns a 502 when the reply is not a JSON array 1`] = `
   "errorMessage": "The SSA reply is not a JSON array",
   "statusCode": 502,
   "timestamps": {
-    "providerDataReceivedUnixMs": 0,
-    "providerDataRequestedUnixMs": 0,
+    "providerDataReceivedUnixMs": 978358271111,
+    "providerDataRequestedUnixMs": 978358271111,
   },
 }
 `;

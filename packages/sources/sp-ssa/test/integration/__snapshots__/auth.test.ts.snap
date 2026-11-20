@@ -5,8 +5,8 @@ exports[`auth returns a 502 when the login answers a non-200 1`] = `
   "errorMessage": "Request failed with status code 401",
   "statusCode": 502,
   "timestamps": {
-    "providerDataReceivedUnixMs": 0,
-    "providerDataRequestedUnixMs": 0,
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
   },
 }
 `;
