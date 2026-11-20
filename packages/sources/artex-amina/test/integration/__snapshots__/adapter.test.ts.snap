@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute duplicate ISIN returns 502 when the ISIN appears across pages 1`] = `
+{
+  "errorMessage": "More than one position matches ISIN DE0000000004 in portfolio 900000004",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute duplicate ISIN returns 502 when the ISIN appears on one page 1`] = `
+{
+  "errorMessage": "More than one position matches ISIN DE0000000004 in portfolio 900000004",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute input validation returns 400 when isin is missing 1`] = `
+{
+  "error": {
+    "message": "[Param: isin] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute input validation returns 400 when portfolio is missing 1`] = `
+{
+  "error": {
+    "message": "[Param: portfolio] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute logs in again when a 401 refresh is rejected and replays the page 1`] = `
+{
+  "data": {
+    "aum": 7654.3219,
+    "navDate": 0,
+    "navPerShare": 0,
+    "result": 7654.3219,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+  },
+  "result": 7654.3219,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute no matching position returns 502 for an empty positions array 1`] = `
+{
+  "errorMessage": "No position found for ISIN DE0000000003 in portfolio 900000003",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute no matching position returns 502 for only another ISIN 1`] = `
+{
+  "errorMessage": "No position found for ISIN DE0000000003 in portfolio 900000003",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute provider error status returns 502 when a positions GET gives 400 1`] = `
+{
+  "errorMessage": "Bad request",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute provider error status returns 502 when a positions GET gives 403 1`] = `
+{
+  "errorMessage": "Not authorized",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute returns 502 when a positions element is not a position object 1`] = `
+{
+  "errorMessage": "Cannot read properties of null (reading 'isin')",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute returns 502 when a provider 500 is not retried inside the request 1`] = `
+{
+  "errorMessage": "Provider failure",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute returns 502 when the login fails without a refresh or a second login 1`] = `
+{
+  "errorMessage": "Unauthorized",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute returns 502 when the quantity is negative 1`] = `
+{
+  "errorMessage": "The provider returned an unusable quantity for ISIN DE0000000005: -1",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute success publishes the matched position as result, data.result and data.aum 1`] = `
+{
+  "data": {
+    "aum": 7654.3219,
+    "navDate": 0,
+    "navPerShare": 0,
+    "result": 7654.3219,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+  },
+  "result": 7654.3219,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
