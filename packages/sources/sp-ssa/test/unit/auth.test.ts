@@ -1,3 +1,5 @@
+import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
+import { censor } from '@chainlink/external-adapter-framework/util/logger'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { AuthManager, AuthResponseSchema, AuthSettings } from '../../src/transport/auth'
@@ -127,5 +129,26 @@ describe('AuthManager', () => {
     await expect(promise).rejects.toBeInstanceOf(AdapterError)
     await expect(promise).rejects.toMatchObject({ statusCode: 502 })
     expect(requesterRequest).toHaveBeenCalledTimes(1)
+  })
+
+  it('registers the issued token in the censor list and redacts it', async () => {
+    CensorList.set([])
+    const issuedToken = 'issued-token-6a1f'
+    requesterRequest.mockResolvedValue(requesterResult(authResponse({ access_token: issuedToken })))
+
+    const token = await authManager.getBearerToken()
+
+    const entry = CensorList.getAll().find((item) => item.key === 'SPGI_ACCESS_TOKEN')
+    expect(entry?.value.test(token)).toBe(true)
+
+    const censored = censor(
+      { authorization: `Bearer ${token}`, message: `token=${token}` },
+      CensorList.getAll(),
+    )
+    expect(censored).toEqual({
+      authorization: 'Bearer [SPGI_ACCESS_TOKEN REDACTED]',
+      message: 'token=[SPGI_ACCESS_TOKEN REDACTED]',
+    })
+    expect(JSON.stringify(censored)).not.toContain(token)
   })
 })

@@ -29,6 +29,7 @@ const clockAt = (tokenLifetimes: number): number => BASE_NOW + tokenLifetimes * 
 describe('execute', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
+  let sourceAdapter: typeof import('./../../src')['adapter']
   let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
@@ -48,7 +49,8 @@ describe('execute', () => {
       nock.activate()
     }
 
-    const adapter = (await import('./../../src')).adapter
+    const { adapter } = await import('./../../src')
+    sourceAdapter = adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
@@ -82,6 +84,17 @@ describe('execute', () => {
     nock.restore()
     nock.enableNetConnect()
     spy.mockRestore()
+  })
+
+  it('exposes the ssa endpoint as the default endpoint with no aliases and a required security_id', () => {
+    const endpoint = sourceAdapter.endpoints[0]
+
+    expect(sourceAdapter.defaultEndpoint).toBe('ssa')
+    expect(sourceAdapter.endpoints.map((item) => item.name)).toEqual(['ssa'])
+    expect(endpoint.aliases ?? []).toEqual([])
+    expect(
+      endpoint.inputParameters.params.find((param) => param.name === 'security_id')?.definition,
+    ).toMatchObject({ required: true, type: 'string' })
   })
 
   it('returns the brief response for SP-EURC', async () => {

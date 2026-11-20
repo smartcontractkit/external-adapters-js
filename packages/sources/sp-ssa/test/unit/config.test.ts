@@ -54,4 +54,14 @@ describe('adapter config', () => {
     expect(config.options?.envDefaultOverrides?.RATE_LIMIT_CAPACITY_MINUTE).toBe(300)
     expect(adapter.rateLimiting?.tiers.default.rateLimit1m).toBe(300)
   })
+
+  it('keeps RETRY at 0, not the framework default 1', () => {
+    config.initialize()
+
+    // A provider 401 is the provider's answer, so the next background
+    // execution (paced by the rate limiter) is the retry, not an inline retry
+    // inside the request that would hold the answer past the cache poll.
+    expect(config.settings.RETRY).toBe(0)
+    expect(config.options?.envDefaultOverrides?.RETRY).toBe(0)
+  })
 })

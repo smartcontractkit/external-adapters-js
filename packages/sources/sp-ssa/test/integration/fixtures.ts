@@ -8,12 +8,12 @@ import {
 
 export const AUTH_ORIGIN = 'http://auth.test'
 export const AUTH_ENDPOINT = `${AUTH_ORIGIN}/gettoken/token`
-export const API_ORIGIN = 'http://api.test'
+const API_ORIGIN = 'http://api.test'
 export const API_ENDPOINT = API_ORIGIN
-export const SCORES_PATH = '/api/v1/ssa/getAllScores'
+const SCORES_PATH = '/api/v1/ssa/getAllScores'
 export const CLIENT_ID = 'test-client-id'
 export const API_KEY = 'test-apikey'
-export const ACCESS_TOKEN = LOGIN_RESPONSE.access_token
+const ACCESS_TOKEN = LOGIN_RESPONSE.access_token
 
 const JSON_HEADERS = ['Content-Type', 'application/json']
 
@@ -54,10 +54,7 @@ export const mockScoresSuccessPersisted = (
     .reply(200, body, JSON_HEADERS)
     .persist()
 
-export const mockScoresErrorPersisted = (
-  status: number,
-  body: Record<string, any> | any[],
-): nock.Scope =>
+const mockScoresErrorPersisted = (status: number, body: Record<string, any> | any[]): nock.Scope =>
   nock(API_ORIGIN)
     .get(SCORES_PATH)
     .matchHeader('authorization', `Bearer ${ACCESS_TOKEN}`)
