@@ -6,10 +6,26 @@ const CLIENT_ID_VALUE = 'probe-client-id-8f3c1a'
 const API_KEY_VALUE = 'probe-apikey-4b7d2e'
 const ACCESS_TOKEN_VALUE = 'probe-access-token-9c5e0d'
 
-const AUTH_ORIGIN = 'http://auth.test'
-const AUTH_ENDPOINT = `${AUTH_ORIGIN}/gettoken/token`
-const API_ORIGIN = 'http://api.test'
 const SCORES_PATH = '/api/v1/ssa/getAllScores'
+
+// Each scenario has its own origin pair. A background loop from an earlier
+// adapter can still be in flight when the next scenario registers its
+// interceptors; with distinct origins the stale loop can only reach its own
+// (already cleaned) hosts and cannot consume the next scenario's one-time
+// replies.
+interface ScenarioOrigins {
+  auth: string
+  api: string
+}
+
+const DEFAULT_ORIGINS: ScenarioOrigins = {
+  auth: 'http://auth-default.test',
+  api: 'http://api-default.test',
+}
+const TRACE_ORIGINS: ScenarioOrigins = {
+  auth: 'http://auth-trace.test',
+  api: 'http://api-trace.test',
+}
 
 const ENV_KEYS = [
   'API_ENDPOINT',
@@ -31,11 +47,14 @@ interface ScenarioResult {
 
 // Runs a fresh module graph so the framework logger is built at the requested
 // level. The issued token is distinctive, so any leak is unambiguous.
-const runScenario = async (logLevel?: string): Promise<ScenarioResult> => {
+const runScenario = async (
+  logLevel: string | undefined,
+  origins: ScenarioOrigins,
+): Promise<ScenarioResult> => {
   jest.resetModules()
 
-  process.env.API_ENDPOINT = API_ORIGIN
-  process.env.AUTH_API_ENDPOINT = AUTH_ENDPOINT
+  process.env.API_ENDPOINT = origins.api
+  process.env.AUTH_API_ENDPOINT = `${origins.auth}/gettoken/token`
   process.env.SPGI_CLIENT_ID = CLIENT_ID_VALUE
   process.env.SPGI_APIKEY = API_KEY_VALUE
   delete process.env.CENSOR_SENSITIVE_LOGS
@@ -64,8 +83,8 @@ const runScenario = async (logLevel?: string): Promise<ScenarioResult> => {
       testAdapter: {} as TestAdapterType<never>,
     })
 
-    const login = nock(AUTH_ORIGIN).post('/gettoken/token').reply(200, LOGIN_WITH_TOKEN)
-    const scores = nock(API_ORIGIN).get(SCORES_PATH).reply(401, BAD_TOKEN_RESPONSE)
+    const login = nock(origins.auth).post('/gettoken/token').reply(200, LOGIN_WITH_TOKEN)
+    const scores = nock(origins.api).get(SCORES_PATH).reply(401, BAD_TOKEN_RESPONSE)
 
     const response = await testAdapter.request({ endpoint: 'ssa', security_id: 'SP-EURC' })
 
@@ -79,12 +98,17 @@ const runScenario = async (logLevel?: string): Promise<ScenarioResult> => {
       bodyText: response.body,
     }
   } finally {
-    stdout.mockRestore()
-    stderr.mockRestore()
-    if (testAdapter) {
-      await testAdapter.api.close()
+    try {
+      // Close the adapter (and stop its background loop) while the capture is
+      // still installed, and before the next scenario can start.
+      if (testAdapter) {
+        await testAdapter.api.close()
+      }
+    } finally {
+      nock.cleanAll()
+      stdout.mockRestore()
+      stderr.mockRestore()
     }
-    nock.cleanAll()
   }
 }
 
@@ -107,13 +131,15 @@ describe('probe: secret logging', () => {
     nock.cleanAll()
   })
 
-  it.each([
-    ['default', undefined],
-    ['trace', 'trace'],
-  ])(
+  const scenarios: [string, string | undefined, ScenarioOrigins][] = [
+    ['default', undefined, DEFAULT_ORIGINS],
+    ['trace', 'trace', TRACE_ORIGINS],
+  ]
+
+  it.each(scenarios)(
     'does not log the issued token, client id or apikey at the %s level',
-    async (_label, logLevel) => {
-      const result = await runScenario(logLevel as string | undefined)
+    async (_label, logLevel, origins) => {
+      const result = await runScenario(logLevel, origins)
 
       // The scenario is not vacuous: the failure is logged and, at trace, the
       // framework Requester line is present. The message text is framework-owned
