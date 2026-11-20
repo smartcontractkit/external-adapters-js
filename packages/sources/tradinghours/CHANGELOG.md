@@ -1,5 +1,15 @@
 # @chainlink/tradinghours-adapter
 
+## 0.9.0
+
+### Minor Changes
+
+- [#5607](https://github.com/smartcontractkit/external-adapters-js/pull/5607) [`b751f0c`](https://github.com/smartcontractkit/external-adapters-js/commit/b751f0c577f5e750346779caf92b5faa377a2b1e) Thanks [@kyleburton-cl](https://github.com/kyleburton-cl)! - Add `endTime` to each `market-session` transition (additive passthrough of the upstream phase `end`), so callers can derive the start of closed spans (weekends/holidays), and widen the hours-multiday query window from `[now-1d, now+1d]` to `[now-5d, now+1d]` so the last phase before a multi-day closure stays in reach. See `docs/adr/0001-market-session-exposes-phase-end-times.md`.
+
+### Patch Changes
+
+- [#5607](https://github.com/smartcontractkit/external-adapters-js/pull/5607) [`b751f0c`](https://github.com/smartcontractkit/external-adapters-js/commit/b751f0c577f5e750346779caf92b5faa377a2b1e) Thanks [@kyleburton-cl](https://github.com/kyleburton-cl)! - `market-session`: `endTime` is now typed optional to match upstream (which may omit `end` on some phases) and is only emitted when the upstream phase end is non-empty — an empty-string end previously passed through and parsed to NaN downstream, rejecting the whole schedule. A schedule with recognized phases missing their end logs one warning per parse (listing the phases) instead of one error per phase, in case upstream omits an `end`. Consumers that derive closed-span (WEEKEND/holiday) starts from phase ends treat phases without an end as having no end and fall back to their hard-coded schedule.
+
 ## 0.8.1
 
 ### Patch Changes
