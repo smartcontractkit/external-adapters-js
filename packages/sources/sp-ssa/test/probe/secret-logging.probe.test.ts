@@ -116,8 +116,10 @@ describe('probe: secret logging', () => {
       const result = await runScenario(logLevel as string | undefined)
 
       // The scenario is not vacuous: the failure is logged and, at trace, the
-      // framework Requester line is present.
-      expect(result.logs).toContain('Request failed with status code 401')
+      // framework Requester line is present. The message text is framework-owned
+      // (the HttpTransport logs "Provider request failed with status 401" and
+      // the Requester logs the 401 reply), so only the 401 failure is asserted.
+      expect(result.logs).toMatch(/Provider request failed with status 401|"statusCode":401/)
       if (logLevel === 'trace') {
         expect(result.logs).toContain('"layer":"Requester"')
       }

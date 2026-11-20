@@ -3,10 +3,11 @@ import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/uti
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
+import { AxiosError } from 'axios'
 import { config } from '../../src/config'
 import { inputParameters } from '../../src/endpoint/ssa'
 import { SsaHttpTransport } from '../../src/transport/ssa'
-import { LOGIN_RESPONSE, SSA_SCORES_RESPONSE } from '../fixtures/provider'
+import { BAD_TOKEN_RESPONSE, LOGIN_RESPONSE, SSA_SCORES_RESPONSE } from '../fixtures/provider'
 
 const log = jest.fn()
 const debugLog = jest.fn()
@@ -89,6 +90,41 @@ const record = (
   },
 ]
 
+// The framework Requester throws AdapterDataProviderError with the provider's
+// AxiosError as its cause; the framework HttpTransport maps that cause to a 502.
+const providerFailure = (): AdapterDataProviderError => {
+  const cause = new AxiosError(
+    'Request failed with status code 401',
+    AxiosError.ERR_BAD_REQUEST,
+    undefined,
+    undefined,
+    {
+      status: 401,
+      statusText: 'Unauthorized',
+      headers: {},
+      config: {} as never,
+      data: BAD_TOKEN_RESPONSE,
+    },
+  )
+
+  return new AdapterDataProviderError(
+    {
+      statusCode: 502,
+      name: 'Data Provider error',
+      providerStatusCode: 401,
+      message: 'Request failed with status code 401',
+      cause,
+      errorResponse: BAD_TOKEN_RESPONSE,
+      url: SCORES_URL,
+    },
+    {
+      providerDataRequestedUnixMs: NOW,
+      providerDataReceivedUnixMs: NOW,
+      providerIndicatedTimeUnixMs: undefined,
+    },
+  )
+}
+
 const setProvider = (reply: unknown, rejectScores = false): void => {
   requesterRequest.mockImplementation(
     async (_key: string, request: { baseURL?: string; url?: string }) => {
@@ -98,19 +134,7 @@ const setProvider = (reply: unknown, rejectScores = false): void => {
       }
       if (url === SCORES_URL) {
         if (rejectScores) {
-          throw new AdapterDataProviderError(
-            {
-              statusCode: 502,
-              name: 'Data Provider error',
-              providerStatusCode: 401,
-              message: 'Request failed with status code 401',
-            },
-            {
-              providerDataRequestedUnixMs: NOW,
-              providerDataReceivedUnixMs: NOW,
-              providerIndicatedTimeUnixMs: undefined,
-            },
-          )
+          throw providerFailure()
         }
         return { response: { status: 200, data: reply }, timestamps: REQUESTER_TIMESTAMPS }
       }
