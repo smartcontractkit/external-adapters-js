@@ -1,0 +1,300 @@
+import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
+
+// The parser logs (missing phase end) via the framework logger; the mock factory
+// must be self-contained (hoisted above imports); the transport imports makeLogger
+// from the util/logger subpath, so that is the module to mock. Every module under
+// test shares the one logger instance.
+jest.mock('@chainlink/external-adapter-framework/util/logger', () => {
+  const logger = {
+    error: jest.fn(),
+    warn: jest.fn(),
+    info: jest.fn(),
+    debug: jest.fn(),
+    trace: jest.fn(),
+    fatal: jest.fn(),
+  }
+  return {
+    ...jest.requireActual('@chainlink/external-adapter-framework/util/logger'),
+    makeLogger: jest.fn(() => logger),
+  }
+})
+
+import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
+import { parseMarketSession } from '../../src/transport/market-session'
+
+// The single logger instance every module under test gets from the mocked factory.
+const mockLogger = (makeLogger as unknown as jest.Mock)()
+
+// Unit tests for the market-session parser, focused on the additive `endTime`
+// passthrough (tradinghours ADR-0001): callers derive the start of a closed span
+// (weekend/holiday) from the `end` of the last trading phase before the gap, so
+// every emitted transition must carry the upstream phase `end` unchanged.
+
+const phase = (
+  phase_type: string,
+  phase_name: string,
+  start: string,
+  end?: string,
+  status = 'Closed',
+) => ({
+  phase_type,
+  phase_name,
+  phase_memo: null,
+  status,
+  start,
+  end,
+})
+
+const body = (schedule: ReturnType<typeof phase>[]) => ({
+  data: { start: '2022-01-01', end: '2022-01-03', schedule },
+})
+
+describe('parseMarketSession', () => {
+  describe('endTime passthrough', () => {
+    it('carries the upstream phase end as endTime on every mapped transition', () => {
+      const result = parseMarketSession(
+        body([
+          phase('Other', 'Overnight', '2021-12-31T20:00:00-05:00', '2022-01-01T04:00:00-05:00'),
+          phase(
+            'Pre-Trading Session',
+            '',
+            '2022-01-01T04:00:00-05:00',
+            '2022-01-01T09:30:00-05:00',
+          ),
+          phase(
+            'Primary Trading Session',
+            '',
+            '2022-01-01T09:30:00-05:00',
+            '2022-01-01T16:00:00-05:00',
+            'Open',
+          ),
+          phase(
+            'Post-Trading Session',
+            '',
+            '2022-01-01T16:00:00-05:00',
+            '2022-01-01T20:00:00-05:00',
+          ),
+        ]),
+      )
+
+      expect(result).toStrictEqual([
+        {
+          status: TwentyfourFiveMarketStatus.OVERNIGHT,
+          statusString: 'OVERNIGHT',
+          time: '2021-12-31T20:00:00-05:00',
+          endTime: '2022-01-01T04:00:00-05:00',
+        },
+        {
+          status: TwentyfourFiveMarketStatus.PRE_MARKET,
+          statusString: 'PRE_MARKET',
+          time: '2022-01-01T04:00:00-05:00',
+          endTime: '2022-01-01T09:30:00-05:00',
+        },
+        {
+          status: TwentyfourFiveMarketStatus.REGULAR,
+          statusString: 'REGULAR',
+          time: '2022-01-01T09:30:00-05:00',
+          endTime: '2022-01-01T16:00:00-05:00',
+        },
+        {
+          status: TwentyfourFiveMarketStatus.POST_MARKET,
+          statusString: 'POST_MARKET',
+          time: '2022-01-01T16:00:00-05:00',
+          endTime: '2022-01-01T20:00:00-05:00',
+        },
+      ])
+    })
+
+    it('passes endTime through unchanged even when it does not match the next phase start', () => {
+      // endTime is upstream's data, passed through without interpretation; it is
+      // load-bearing at the boundary before a closed span, where no next phase exists.
+      const result = parseMarketSession(
+        body([
+          phase(
+            'Post-Trading Session',
+            '',
+            '2022-01-01T16:00:00-05:00',
+            '2022-01-01T19:00:00-05:00', // early close: next phase does not start at 19:00
+          ),
+          phase('Other', 'Overnight', '2022-01-02T20:00:00-05:00', '2022-01-03T04:00:00-05:00'),
+        ]),
+      )
+
+      expect(result[0].endTime).toBe('2022-01-01T19:00:00-05:00')
+      expect(result[1].time).toBe('2022-01-02T20:00:00-05:00')
+    })
+
+    it('warns once per schedule and omits endTime when a recognized phase has no end', () => {
+      mockLogger.warn.mockClear()
+      const p = phase(
+        'Post-Trading Session',
+        '',
+        '2022-01-01T16:00:00-05:00',
+        '2022-01-01T20:00:00-05:00',
+      )
+      const result = parseMarketSession(body([{ ...p, end: undefined }]))
+
+      // The transition still carries its start (session-open gating is unaffected);
+      // only the closed-span derivation loses this schedule and falls back.
+      expect(result).toStrictEqual([
+        {
+          status: TwentyfourFiveMarketStatus.POST_MARKET,
+          statusString: 'POST_MARKET',
+          time: '2022-01-01T16:00:00-05:00',
+        },
+      ])
+      expect(mockLogger.warn).toHaveBeenCalledTimes(1)
+      expect(mockLogger.warn).toHaveBeenCalledWith(
+        expect.stringContaining('phase(s) without an end time'),
+      )
+    })
+
+    it('treats an empty-string end the same as a missing one (omits endTime, warns once)', () => {
+      // Upstream can send '' rather than omitting the field; passing '' through
+      // would parse to NaN downstream and reject the whole schedule.
+      mockLogger.warn.mockClear()
+      const result = parseMarketSession(
+        body([
+          phase('Pre-Trading Session', '', '2022-01-01T04:00:00-05:00', ''),
+          phase(
+            'Post-Trading Session',
+            '',
+            '2022-01-01T16:00:00-05:00',
+            '2022-01-01T20:00:00-05:00',
+          ),
+        ]),
+      )
+
+      expect(result).toStrictEqual([
+        {
+          status: TwentyfourFiveMarketStatus.PRE_MARKET,
+          statusString: 'PRE_MARKET',
+          time: '2022-01-01T04:00:00-05:00',
+        },
+        {
+          status: TwentyfourFiveMarketStatus.POST_MARKET,
+          statusString: 'POST_MARKET',
+          time: '2022-01-01T16:00:00-05:00',
+          endTime: '2022-01-01T20:00:00-05:00',
+        },
+      ])
+      expect(mockLogger.warn).toHaveBeenCalledTimes(1)
+    })
+
+    it('does not log for phases that map to UNKNOWN (filtered out anyway)', () => {
+      mockLogger.warn.mockClear()
+      const p = phase(
+        'Some Other Phase',
+        '',
+        '2022-01-01T16:00:00-05:00',
+        '2022-01-01T20:00:00-05:00',
+      )
+      const result = parseMarketSession(body([{ ...p, end: undefined }]))
+
+      expect(result).toStrictEqual([])
+      expect(mockLogger.warn).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('closed-span derivation input (weekend/holiday)', () => {
+    it('exposes the last post-market end before a multi-day gap (the closed-span start)', () => {
+      // Thanksgiving-style week: Wednesday post-market ends 20:00, no phases at all
+      // until Friday pre-market. A caller derives the closed-span start as the endTime
+      // of the last transition before the gap.
+      const result = parseMarketSession(
+        body([
+          phase(
+            'Post-Trading Session',
+            '',
+            '2022-11-23T16:00:00-05:00',
+            '2022-11-23T20:00:00-05:00',
+          ),
+          // Thursday (holiday): no phases
+          phase(
+            'Pre-Trading Session',
+            '',
+            '2022-11-25T04:00:00-05:00',
+            '2022-11-25T09:30:00-05:00',
+          ),
+        ]),
+      )
+
+      const lastBeforeGap = result[result.length - 2]
+      expect(lastBeforeGap.status).toBe(TwentyfourFiveMarketStatus.POST_MARKET)
+      expect(lastBeforeGap.endTime).toBe('2022-11-23T20:00:00-05:00')
+    })
+  })
+
+  describe('existing behavior preserved', () => {
+    it('classifies statuses exactly as before (Other+Overnight, Pre, Primary, Post)', () => {
+      const result = parseMarketSession(
+        body([
+          phase('Other', 'Overnight', '2021-12-31T20:00:00-05:00', '2022-01-01T04:00:00-05:00'),
+          phase(
+            'Pre-Trading Session',
+            '',
+            '2022-01-01T04:00:00-05:00',
+            '2022-01-01T09:30:00-05:00',
+          ),
+          phase(
+            'Primary Trading Session',
+            '',
+            '2022-01-01T09:30:00-05:00',
+            '2022-01-01T16:00:00-05:00',
+            'Open',
+          ),
+          phase(
+            'Post-Trading Session',
+            '',
+            '2022-01-01T16:00:00-05:00',
+            '2022-01-01T20:00:00-05:00',
+          ),
+        ]),
+      )
+
+      expect(result.map((r) => r.status)).toStrictEqual([
+        TwentyfourFiveMarketStatus.OVERNIGHT,
+        TwentyfourFiveMarketStatus.PRE_MARKET,
+        TwentyfourFiveMarketStatus.REGULAR,
+        TwentyfourFiveMarketStatus.POST_MARKET,
+      ])
+    })
+
+    it('still filters out UNKNOWN phases (unrecognized type/name), end time or not', () => {
+      const result = parseMarketSession(
+        body([
+          phase('Other', 'Pre-Close', '2022-01-01T15:55:00-05:00', '2022-01-01T16:00:00-05:00'),
+          phase(
+            'Primary Trading Session',
+            '',
+            '2022-01-01T09:30:00-05:00',
+            '2022-01-01T16:00:00-05:00',
+            'Open',
+          ),
+        ]),
+      )
+
+      expect(result).toHaveLength(1)
+      expect(result[0].status).toBe(TwentyfourFiveMarketStatus.REGULAR)
+    })
+
+    it('never emits a WEEKEND transition — closures remain an absence of phases', () => {
+      const result = parseMarketSession(
+        body([
+          phase(
+            'Post-Trading Session',
+            '',
+            '2022-01-01T16:00:00-05:00',
+            '2022-01-01T20:00:00-05:00',
+          ),
+        ]),
+      )
+
+      expect(
+        result.some(
+          (r) => (r.status as TwentyfourFiveMarketStatus) === TwentyfourFiveMarketStatus.WEEKEND,
+        ),
+      ).toBe(false)
+    })
+  })
+})

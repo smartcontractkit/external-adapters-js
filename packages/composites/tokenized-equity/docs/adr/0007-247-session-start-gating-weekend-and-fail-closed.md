@@ -1,0 +1,190 @@
+# 0007. 24/7 session-start gating: report-declared sessions, a derived WEEKEND start, and a fail-closed default
+
+Status: accepted
+
+Date: 2026-11-13
+
+Cross-references:
+[tradinghours ADR-0001](../../../../sources/tradinghours/docs/adr/0001-market-session-exposes-phase-end-times.md)
+(the `endTime` passthrough and closed-span model this decision relies on)
+
+Risk acceptance: accepted by Product (Gabe Silva) — the zero-tolerance stance extended to 24/7 and
+the fail-closed default on indeterminate sessions, resolving risk items #1 and #2 of the
+[24/7 session-start gating TDD](../issuer-247-session-start-gating-tdd.md)
+
+## Context
+
+[ADR-0001](./0001-issuer-price-247-is-a-new-issuer-agnostic-endpoint.md) introduced the 24/7
+`issuer-price-247` endpoint with the deliberate stance: **"No Market Status gate. A 24/7 Price
+is priced around the clock, so there is no market-closed 503 and no stream selection by
+session."** That remains correct for market-closed gating — but it leaves the endpoint with no
+protection against the pre-session "warm-up" failure mode that
+[ADR-0006](./0006-session-start-gating-no-tolerance-and-hard-coded-fallback.md) addressed for
+24/5: providers may not yet have produced a price following a session open, having stale
+timestamps from before the active session. The 24/7 feed crosses every underlying equity session
+boundary — pre-market, regular, post-market, overnight, and the weekend — so the exposure exists
+at every boundary.
+
+Introducing session-start gating on 24/7 (see the TDD) required four decisions with
+risk-bearing consequences:
+
+1. **Where the session comes from.** 24/5 gating derives sessions from the tradinghours
+   schedule and does not use the report's session. With a single 24/7 stream and
+   no stream selection step (which exists for 24/5), 24/7 will use the report's `marketStatus` field.
+2. **Zero tolerance at the open, again.** ADR-0006 accepted ~40–50s rejection windows at every
+   24/5 session open. Extending that stance to 24/7
+   multiplies the boundaries (including thin overnight sessions and the Friday weekend start).
+3. **A WEEKEND session start must exist.** A 24/7 feed reports through the weekend, but the
+   tradinghours `market-session` endpoint can never emit a WEEKEND transition — the upstream
+   API represents the weekend as an absence of phases. The weekend start has to be derived, and
+   it must not be treated as Friday's post-market _open_.
+
+   Note — despite the name, `WEEKEND` (`TwentyfourFiveMarketStatus.WEEKEND = 5`) does not mean
+   "Saturday/Sunday" to tradinghours. In the tradinghours 24/5 `market-status` mapping, WEEKEND
+   is the catch-all for **every market closure**: it is emitted inside the configured weekend
+   window (`isWeekendNow`), and for any `Closed` status whose reason is not a recognized
+   intra-day session — which covers holidays, early-closes, and exceptional closures such as
+   national emergencies. A 24/7 gate that handles WEEKEND therefore handles all closure kinds,
+   not just literal weekends.
+
+4. **When a session cannot be determined..** When the report's
+   `marketStatus` is UNKNOWN/unmapped, or no schedule tier can resolve the session start,
+   gating must choose: 503 (fail closed — a behavior change for an endpoint that has never
+   gated, turning previously-good responses into 503s during tradinghours outages) or serve
+   (fail open — silently disabling the gate when information is scarcest).
+
+## Decision
+
+- **The report's `marketStatus` declares its session.** The gate maps the report's
+  `marketStatus` to a session start (REGULAR → regular open; PRE/POST*MARKET → pre-market open;
+  OVERNIGHT → overnight open; WEEKEND → weekend start) and rejects with 503 `PRE_SESSION` when
+  `lastSeenTimestampNs` predates that start. Session start times come from tradinghours,
+  falling back to the hard-coded schedule, as on 24/5. There is no market-closed 503: the feed
+  keeps serving around the clock. This amends ADR-0001's "No Market Status gate" for 24/7 to
+  exclude \_session-start* gating from that stance; the no-market-closed-gate stance is
+  unchanged.
+- **Zero tolerance, extended from ADR-0006.** No `sessionStart − N` allowance on 24/7; every
+  session boundary is a rejection window of the provider's first-post-open observation latency.
+  ADR-0006's risk acceptance is extended to cover the 24/7 endpoint.
+- **The WEEKEND session start is derived in tokenized-equity** as the `endTime` of the last
+  POST_MARKET phase before the weekend gap (Friday 20:00 ET in a normal week, correct on
+  holiday early-closes). To make it derivable, the tradinghours `market-session` transport
+  gains an additive `endTime` pass-through (the upstream API already returns phase ends; the
+  parser discards them today; tokenized-equity is the endpoint's only consumer), and its
+  hours-multiday query window widens (next decision). The hard-coded fallback schedule is
+  flattened to a single per-market `nyse` entry holding the four session opens plus end times — shaped congruently with the tradinghours response
+  (closed spans are an absence of phases, exactly as upstream), times as named constants —
+  shared by 24/5, regular, and 24/7 callers through per-type views, with 24/5 gating
+  decisions unchanged.
+- **An open-status report is gated only while the market is currently open.** A
+  REGULAR/PRE_MARKET/POST_MARKET/OVERNIGHT report whose declared session has already ended at
+  `now` (for example, a holiday on which the data-engine's calendar still says REGULAR) resolves
+  no session start from the tradinghours schedule; the gate then follows the normal two-tier
+  fallback and fails closed with `Session start unknown` only when no tier resolves a start. A
+  phase without an end is treated as not open, so a missing end cannot bypass the guard; this is
+  a defensive default (upstream is not observed to omit `end` on the gate's phases, and rollout
+  deploys tradinghours with `endTime` first).
+  Without this, the widened `[now-5d, now+1d]` window could anchor gating to a session open
+  several days old and silently admit a stale report. WEEKEND reports are unaffected: they are
+  gated against the derived closed-span start, which is precisely when the market is closed.
+- **The tradinghours `market-session` hours-multiday query window widens from
+  `[now-1d, now+1d]` to `[now-5d, now+1d]`** (amending the tradinghours adapter's
+  `market-session` behavior; recorded here per ADR immutability rather than by editing
+  tradinghours ADR-0001). Closed-span derivation needs the last phase BEFORE the gap, which a
+  1-day lookback cannot see from the far side of a Sunday — let alone a multi-day holiday
+  closure (Good Friday, Monday holidays): without the widening, tier 1 silently defers to the
+  holiday-blind fallback every Sunday and misderives the span start on holiday weekends. -5
+  days covers the longest realistic NYSE closure (4-day holiday weekend) with margin. Extra
+  historical phases in the response are additive and harmless: `closedSpanStartMs` and
+  `currentSessionStartMs` only consult the latest transition at or before now, and the
+  smoother's `processData` only reacts to the nearest boundary.
+- **Fail closed on indeterminate sessions.** UNKNOWN or unresolvable sessions 503 with
+  `Session start unknown`. There is no fail-open toggle: the decision to fail closed is final,
+  so the `ISSUER_247_SESSION_GATING_FAIL_ON_INDETERMINATE_SESSION` setting is removed rather
+  than kept as an escape hatch.
+
+## Considered Options
+
+- **Schedule-derived sessions (the 24/5 approach):** rejected; with one 24/7 stream there is no
+  selection to gate, and the report's own `marketStatus` is the tightest, authoritative
+  declaration of which session produced it.
+- **A pre-open tolerance on 24/7:** rejected; per ADR-0006, warm-up placeholders are
+  transmitted milliseconds before the open, so any tolerance incorrectly re-admits them.
+- **Synthesizing WEEKEND transitions inside the tradinghours adapter:** rejected for now; it
+  puts policy in a shared source adapter where pure plumbing (the `endTime` pass-through)
+  suffices, and keeps derivation and its tests in the only consumer. Revisit if a second
+  consumer ever needs weekend transitions.
+- **Fallback-only weekend starts (no tradinghours change):** rejected; a hard-coded Friday 20:00
+  is wrong on holiday early-closes, and the two schedule tiers would disagree in coverage.
+- **Post-market start + fixed 4h duration:** rejected; a magic constant that lies on half-day
+  Fridays and any schedule change.
+- **Fail open on indeterminate sessions:** rejected; it silently disables the gate exactly when
+  schedule uncertainty is highest. No opt-out flag is provided.
+- **A separate `nyse/24/7` fallback key:** rejected; it duplicates the same times and can
+  drift. The flattened per-market schedule is filtered by each caller's eligible statuses, so
+  one entry serves all callers.
+
+## Consequences
+
+- Brief `PRE_SESSION` rejections are **expected** at every 24/7 session boundary — including
+  the Friday 20:00 weekend start and the Sunday 20:00 overnight open — until the first valid
+  provider update. Runbooks and alert tuning treat these as the mitigation working, not an
+  outage.
+- With fail-closed on, tradinghours outages can produce 503s on an
+  endpoint that previously never rejected — visible via the established
+  `TradingHoursEA request failed` log line and `gatingSessionSource: 'FALLBACK'` response
+  field.
+- The tradinghours schedule fetch goes through a shared in-process stale-while-revalidate
+  cache (`TRADINGHOURS_SESSION_CACHE_TTL_MS`, default 60s), so gating adds no per-request
+  tradinghours hop; a stale schedule is served while a deduped background refresh runs, and
+  only the first-ever fetch blocks (and fails over to the fallback schedule on error).
+  Blocking fetches are deduped per cache key, and a failed blocking fetch suppresses
+  retries for `TRADINGHOURS_SESSION_CACHE_FAILURE_BACKOFF_MS` (default 5s) so a
+  sustained outage does not add the fetch timeout to every gated price request.
+  Stale serving is bounded by a max age (1h, well under the ~1-day forward reach of the
+  fetched window): past it the entry is discarded and the fetch blocks again, so a
+  sustained outage surfaces exactly like a fetch failure — `TradingHoursEA request
+failed` error log + `gatingSessionSource: 'FALLBACK'` — keeping the outage fail-closed
+  and loud instead of silently gating on session starts that are days too old.
+- The tradinghours `market-session` response gains a field; the change is additive and its only
+  consumer is tokenized-equity.
+- The flattened fallback schedule becomes the single per-market source of truth for session
+  times (now including the Friday weekend start); changing venue hours is one reviewed edit.
+- Rollout posture: staging dark (verify there is no-regression) → staging enabled → NOPs with the flag
+  enabled.
+
+## Risks accepted
+
+- **Rejection windows at every 24/7 boundary, of unconfirmed length for thin sessions.**
+  `lastSeenTimestampNs` is last-trade-based, but the data-engine is expected to keep producing
+  fresh-stamped reports through closed spans from an alternative price provider — so a healthy
+  WEEKEND report stamps after the Friday 20:00 ET closed-span start and passes the gate, while
+  a report still stamped pre-close is genuinely a stale primary-session leftover and is
+  rejected by design (correctness over availability, extending ADR-0006's stance). The open
+  question for the data-engine team is therefore not the timestamp semantics but the
+  operational behavior: that fresh-stamped reports do flow through weekends/holidays, and the
+  expected latency of the first post-close report — that latency is the rejection window at
+  the Friday 20:00 boundary under zero tolerance (same shape as every other session open).
+  If fresh weekend reports turn out NOT to flow, every 24/7 feed would 503 all weekend by
+  design — a product-level availability decision that would require rethinking the WEEKEND
+  rule (e.g. max-age gating instead). Confirming this is a **prerequisite for enabling the
+  flag anywhere with real consumers**, not a post-rollout follow-up. Owner: Product.
+- **Holiday-blind fallback across multi-day closures.** The fallback schedule knows no
+  holidays: if tradinghours is unreachable AND no usable cached schedule remains (none
+  ever fetched, or the last good one aged past the cache's 1h max age), a
+  closure longer than a normal weekend (Good Friday, Monday holiday) makes the fallback derive
+  a later closed-span start than the real one, so legitimately stale pre-closure reports are
+  rejected as `PRE_SESSION` (or resolve as `Session start unknown`) until tradinghours
+  recovers. Accepted: it requires a tradinghours outage coinciding with a multi-day closure,
+  the 60s schedule cache makes sustained tier-1 unavailability unlikely, and the failure is
+  fail-closed and loud (FALLBACK source + error logs) rather than silently wrong. Owner:
+  engineering (data-feeds).
+- **Fail-closed is a behavior change for a previously ungated endpoint.** 503s during schedule
+  outages where 200s were served before. Mitigated by tradinghours monitoring and the flattened
+  fallback covering `nyse`. Owner: Product.
+- **Hard-coded schedule drift**, now including the Friday weekend start (TDD §12 #3). Low
+  likelihood: the fallback only runs during tradinghours outages, venue hours change rarely and
+  loudly, and changes are reviewed code edits. Owner: engineering (data-feeds).
+- **24/5 regression via the fallback flatten.** Mitigated by the existing 24/5 session-start
+  test suites passing unchanged (TDD §10); the flatten is a data-layout refactor, not a logic
+  change. Owner: engineering (data-feeds).

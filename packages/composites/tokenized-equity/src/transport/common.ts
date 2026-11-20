@@ -10,6 +10,7 @@ import { TypeFromDefinition } from '@chainlink/external-adapter-framework/valida
 import type { config } from '../config'
 import { resolveStreamMaxAgeSeconds } from '../config'
 import type { inputDefinition, output, Smoother } from '../endpoint/common'
+import { setFailedFetchRetryBackoffMs } from '../lib/session/transitionCache'
 import type { StreamMaxAgeSeconds } from '../lib/streams'
 
 export type CommonEndpointTypes = {
@@ -43,6 +44,7 @@ export abstract class SmoothedPriceTransport<
   streamMaxAgeSeconds!: StreamMaxAgeSeconds
   sessionStartGatingEnabled!: boolean
   allowMarketSessionOverride!: boolean
+  sessionScheduleCacheTtlMs!: number
 
   async initialize(
     dependencies: TransportDependencies<T>,
@@ -56,6 +58,8 @@ export abstract class SmoothedPriceTransport<
     this.streamMaxAgeSeconds = resolveStreamMaxAgeSeconds(adapterSettings)
     this.sessionStartGatingEnabled = adapterSettings.SESSION_START_GATING_ENABLED
     this.allowMarketSessionOverride = adapterSettings.ALLOW_MARKET_SESSION_OVERRIDE
+    this.sessionScheduleCacheTtlMs = adapterSettings.TRADINGHOURS_SESSION_CACHE_TTL_MS
+    setFailedFetchRetryBackoffMs(adapterSettings.TRADINGHOURS_SESSION_CACHE_FAILURE_BACKOFF_MS)
     this.getDataEngineUrl()
   }
 
