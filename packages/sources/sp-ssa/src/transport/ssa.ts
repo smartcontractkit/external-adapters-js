@@ -31,7 +31,7 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-class SsaHttpTransport extends SubscriptionTransport<HttpTransportTypes> {
+export class SsaHttpTransport extends SubscriptionTransport<HttpTransportTypes> {
   requester!: Requester
   settings!: HttpTransportTypes['Settings']
   endpointName!: string
@@ -188,4 +188,3 @@ class SsaHttpTransport extends SubscriptionTransport<HttpTransportTypes> {
 }
 
 export const httpTransport = new SsaHttpTransport()
-export { SsaHttpTransport }
