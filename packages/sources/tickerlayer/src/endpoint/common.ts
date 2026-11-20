@@ -7,7 +7,7 @@ export const inputParameters = new InputParameters(
     ...stockEndpointInputParametersDefinition,
     assetType: {
       description:
-        'The asset type is used to determine what channel to subscribe to. The Tickerlayer API supports "stocks", "fores", "crypto", "indices", "etfs", and "commodities".',
+        'The asset type is used to determine what channel to subscribe to. The Tickerlayer API supports "stocks", "forex", "crypto", "indices", "etfs", and "commodities".',
       type: 'string',
       default: 'stocks',
       // We don't restrict to specific options in order to support future

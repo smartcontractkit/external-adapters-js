@@ -37,3 +37,60 @@ exports[`websocket stock_quotes endpoint should return success 1`] = `
   },
 }
 `;
+
+exports[`websocket stock_quotes endpoint should use the commodities channel for the commodities alias 1`] = `
+{
+  "data": {
+    "ask_price": 4001,
+    "ask_volume": 6,
+    "bid_price": 4000,
+    "bid_volume": 5,
+    "mid_price": 4000.5,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 5058,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1999999,
+  },
+}
+`;
+
+exports[`websocket stock_quotes endpoint should use the commodities channel when the forex alias requests commodity assetType 1`] = `
+{
+  "data": {
+    "ask_price": 4001,
+    "ask_volume": 6,
+    "bid_price": 4000,
+    "bid_volume": 5,
+    "mid_price": 4000.5,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1999999,
+  },
+}
+`;
+
+exports[`websocket stock_quotes endpoint should use the forex channel for the forex alias 1`] = `
+{
+  "data": {
+    "ask_price": 2002,
+    "ask_volume": 8,
+    "bid_price": 2000,
+    "bid_volume": 7,
+    "mid_price": 2001,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 3038,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1999999,
+  },
+}
+`;
