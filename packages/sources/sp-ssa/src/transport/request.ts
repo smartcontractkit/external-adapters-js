@@ -1,0 +1,139 @@
+import { ResponseTimestamps } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import {
+  AdapterConnectionError,
+  AdapterDataProviderError,
+  AdapterError,
+  AdapterRateLimitError,
+} from '@chainlink/external-adapter-framework/validation/error'
+import { AuthManager } from './auth'
+
+export class SsaAuthError extends AdapterError {
+  timestamps?: ResponseTimestamps
+  keepCachedSuccess: boolean
+
+  constructor(error: unknown) {
+    super({
+      statusCode: 502,
+      name: 'SsaAuthError',
+      message:
+        error instanceof Error ? error.message : 'Unable to authenticate with the data provider',
+      cause: error,
+      providerStatusCode: error instanceof AdapterError ? error.providerStatusCode : undefined,
+    })
+    this.timestamps = (error as { timestamps?: ResponseTimestamps })?.timestamps
+    this.keepCachedSuccess = (error as { keepCachedSuccess?: boolean })?.keepCachedSuccess ?? false
+  }
+}
+
+export class SsaProviderDataError extends AdapterError {
+  timestamps: ResponseTimestamps
+
+  constructor(message: string, timestamps: ResponseTimestamps) {
+    super({ statusCode: 502, message })
+    this.timestamps = timestamps
+  }
+}
+
+export interface ProviderResponse {
+  response: { status: number; data: unknown }
+  timestamps: {
+    providerDataRequestedUnixMs: number
+    providerDataReceivedUnixMs: number
+  }
+}
+
+const AUTH_FAILURE_STATUS_CODES = new Set([401, 403])
+
+const isUnauthorized = (error: unknown): boolean =>
+  error instanceof AdapterDataProviderError &&
+  AUTH_FAILURE_STATUS_CODES.has(error.providerStatusCode ?? 0)
+
+const emptyTimestamps = (): ResponseTimestamps => ({
+  providerDataRequestedUnixMs: 0,
+  providerDataReceivedUnixMs: 0,
+  providerIndicatedTimeUnixMs: undefined,
+})
+
+const requestScores = (
+  requester: Requester,
+  settings: { API_ENDPOINT: string; API_KEY: string; ORIGIN?: string },
+  token: string,
+  requestKey: string,
+): Promise<ProviderResponse> =>
+  requester.request<unknown>(requestKey, {
+    method: 'GET',
+    baseURL: settings.API_ENDPOINT,
+    url: '/api/v1/ssa/getAllScores',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+      apikey: settings.API_KEY,
+      ...(settings.ORIGIN ? { Origin: settings.ORIGIN } : {}),
+    },
+  })
+
+const mintToken = async (authManager: AuthManager): Promise<string> => {
+  try {
+    return await authManager.getToken()
+  } catch (error) {
+    if (error instanceof AdapterRateLimitError) {
+      throw error
+    }
+    throw new SsaAuthError(error)
+  }
+}
+
+export async function fetchScoresWithReauth(
+  requester: Requester,
+  settings: { API_ENDPOINT: string; API_KEY: string; ORIGIN?: string },
+  authManager: AuthManager,
+  requestKey: string,
+): Promise<ProviderResponse> {
+  const firstToken = await mintToken(authManager)
+  try {
+    return await requestScores(requester, settings, firstToken, requestKey)
+  } catch (error) {
+    if (!isUnauthorized(error)) {
+      throw error
+    }
+  }
+
+  authManager.invalidate()
+  const freshToken = await mintToken(authManager)
+  try {
+    return await requestScores(requester, settings, freshToken, requestKey)
+  } catch (error) {
+    if (isUnauthorized(error)) {
+      throw new SsaAuthError(error)
+    }
+    throw error
+  }
+}
+
+export function errorMessage(error: unknown): string {
+  if (error instanceof AdapterDataProviderError) {
+    return `The data provider request failed with status ${error.providerStatusCode ?? 'unknown'}`
+  }
+  if (error instanceof AdapterError) {
+    return error.message
+  }
+  return error instanceof Error ? error.message : 'Unknown error occurred'
+}
+
+export function errorTimestamps(error: unknown): ResponseTimestamps {
+  if (error instanceof AdapterDataProviderError || error instanceof AdapterConnectionError) {
+    return error.timestamps
+  }
+  if (error instanceof SsaAuthError && error.timestamps) {
+    return error.timestamps
+  }
+  if (error instanceof SsaProviderDataError) {
+    return error.timestamps
+  }
+  return emptyTimestamps()
+}
+
+export const errorStatusCode = (error: unknown): number =>
+  error instanceof AdapterError ? error.statusCode : 502

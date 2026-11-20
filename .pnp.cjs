@@ -479,6 +479,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/solana-functions"\
     },\
     {\
+      "name": "@chainlink/sp-ssa-adapter",\
+      "reference": "workspace:packages/sources/sp-ssa"\
+    },\
+    {\
       "name": "@chainlink/spiro-adapter",\
       "reference": "workspace:packages/sources/spiro"\
     },\
@@ -696,6 +700,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/six-adapter", ["workspace:packages/sources/six"]],\
     ["@chainlink/solactive-adapter", ["workspace:packages/sources/solactive"]],\
     ["@chainlink/solana-functions-adapter", ["workspace:packages/sources/solana-functions"]],\
+    ["@chainlink/sp-ssa-adapter", ["workspace:packages/sources/sp-ssa"]],\
     ["@chainlink/spiro-adapter", ["workspace:packages/sources/spiro"]],\
     ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
     ["@chainlink/starknet-gas-price-adapter", ["workspace:packages/sources/starknet-gas-price"]],\
@@ -6479,6 +6484,26 @@ const RAW_RUNTIME_STATE =
           ["bn.js", "npm:5.2.5"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/sp-ssa-adapter", [\
+      ["workspace:packages/sources/sp-ssa", {\
+        "packageLocation": "./packages/sources/sp-ssa/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
+          ["@chainlink/sp-ssa-adapter", "workspace:packages/sources/sp-ssa"],\
+          ["@date-fns/utc", "npm:2.1.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/validator", "npm:13.15.10"],\
+          ["date-fns", "npm:4.1.0"],\
+          ["escape-string-regexp", "npm:2.0.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
+          ["validator", "npm:13.15.26"]\
         ],\
         "linkType": "SOFT"\
       }]\

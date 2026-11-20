@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ssa endpoint serves two subscriptions with one batched provider call 1`] = `
+{
+  "data": {
+    "result": 2,
+  },
+  "result": 2,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1748736000000,
+    "providerDataRequestedUnixMs": 1748736000000,
+    "providerIndicatedTimeUnixMs": 1766102400000,
+  },
+}
+`;
