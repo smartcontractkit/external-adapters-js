@@ -1,0 +1,9 @@
+{
+  "requests": [
+    {
+      "endpoint": "reserve",
+      "portfolio": "900000001",
+      "isin": "DE0000000001"
+    }
+  ]
+}
