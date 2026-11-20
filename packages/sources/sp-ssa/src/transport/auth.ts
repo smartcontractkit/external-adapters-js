@@ -46,13 +46,6 @@ export class AuthManager {
       }
     }
 
-    if (!this.latestToken?.token) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: 'Unable to authenticate with the S&P token endpoint',
-      })
-    }
-
     return this.latestToken.token
   }
 
