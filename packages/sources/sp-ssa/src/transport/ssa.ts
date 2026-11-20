@@ -1,22 +1,14 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import {
   HttpTransport,
   HttpTransportConfig,
   TransportDependencies,
 } from '@chainlink/external-adapter-framework/transports'
-import {
-  makeLogger,
-  sleep,
-  TimestampedProviderResult,
-} from '@chainlink/external-adapter-framework/util'
-import {
-  AdapterDataProviderError,
-  AdapterError,
-} from '@chainlink/external-adapter-framework/validation/error'
+import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { inputParameters } from '../endpoint/ssa'
 import { AuthManager } from './auth'
-import { HttpTransportTypes, parseResponse, SsaScoreRecord, withTimestamps } from './ssa-scores'
+import { HttpTransportTypes, parseResponse } from './ssa-scores'
 
 const logger = makeLogger('SsaTransport')
 
@@ -25,7 +17,6 @@ type RequestParams = typeof inputParameters.validated
 export class SsaHttpTransport extends HttpTransport<HttpTransportTypes> {
   private authManager!: AuthManager
   private bearerToken = ''
-  private readonly transportConfig: HttpTransportConfig<HttpTransportTypes>
 
   constructor() {
     const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
@@ -46,7 +37,6 @@ export class SsaHttpTransport extends HttpTransport<HttpTransportTypes> {
       parseResponse,
     }
     super(transportConfig)
-    this.transportConfig = transportConfig
   }
 
   override async initialize(
@@ -63,89 +53,45 @@ export class SsaHttpTransport extends HttpTransport<HttpTransportTypes> {
     })
   }
 
+  // The token is shared by every entry of the batch and `prepareRequests` is
+  // synchronous, so the token is refreshed here before the framework's request
+  // path runs. An empty batch only sleeps in the framework handler.
   override async backgroundHandler(
     context: EndpointContext<HttpTransportTypes>,
     entries: RequestParams[],
   ): Promise<void> {
-    if (!entries.length) {
-      return super.backgroundHandler(context, entries)
-    }
-
-    try {
-      this.bearerToken = await this.authManager.getBearerToken()
-    } catch (e) {
-      await this.responseCache.write(this.name, this.providerErrors(entries, e))
-      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
-      return
-    }
-
-    await this.fetchScores(context, entries)
-    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
-  }
-
-  // One GET answers every entry of the batch. A provider failure is written per
-  // entry as a 502 so the caller gets it before its cache poll ends; a throw
-  // here would leave the entries without a provider response.
-  private async fetchScores(
-    context: EndpointContext<HttpTransportTypes>,
-    entries: RequestParams[],
-  ): Promise<void> {
-    const prepared = this.transportConfig.prepareRequests(entries, context.adapterSettings)
-    const requests = Array.isArray(prepared) ? prepared : [prepared]
-
-    for (const request of requests) {
-      const requestKey = calculateHttpRequestKey<HttpTransportTypes>({
-        context: {
-          ...context,
-          endpointName: request.endpointNameOverride ?? context.endpointName,
-        },
-        data: request.params,
-        transportName: this.name,
-      })
-
-      let results: TimestampedProviderResult<HttpTransportTypes>[]
+    if (entries.length) {
       try {
-        const { response, timestamps } = await this.requester.request<SsaScoreRecord[]>(
-          requestKey,
-          request.request,
-        )
-        results = this.transportConfig
-          .parseResponse(request.params, response, context.adapterSettings)
-          .map((result) => withTimestamps(result, timestamps))
+        this.bearerToken = await this.authManager.getBearerToken()
       } catch (e) {
-        results = this.providerErrors(entries, e)
+        const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+        logger.error(errorMessage)
+        const statusCode = e instanceof AdapterError ? e.statusCode : 502
+
+        // A login failure has no provider call, so the entries get the zero
+        // times; the sleep paces the next login attempt when the token
+        // endpoint keeps failing.
+        await this.responseCache.write(
+          this.name,
+          entries.map((params) => ({
+            params,
+            response: {
+              statusCode,
+              errorMessage,
+              timestamps: {
+                providerDataRequestedUnixMs: 0,
+                providerDataReceivedUnixMs: 0,
+                providerIndicatedTimeUnixMs: undefined,
+              },
+            },
+          })),
+        )
+        await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
+        return
       }
-
-      await this.responseCache.write(this.name, results)
     }
-  }
 
-  private providerErrors(
-    entries: RequestParams[],
-    e: unknown,
-  ): TimestampedProviderResult<HttpTransportTypes>[] {
-    const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
-    logger.error(errorMessage)
-    const statusCode = e instanceof AdapterError ? e.statusCode : 502
-    // A provider failure carries the times of the failed call, as the
-    // framework's own error path does; a login failure has no provider call.
-    const timestamps =
-      e instanceof AdapterDataProviderError
-        ? e.timestamps
-        : {
-            providerDataRequestedUnixMs: 0,
-            providerDataReceivedUnixMs: 0,
-            providerIndicatedTimeUnixMs: undefined,
-          }
-
-    return entries.map((params) => ({
-      params,
-      response: {
-        statusCode,
-        errorMessage,
-        timestamps,
-      },
-    }))
+    await super.backgroundHandler(context, entries)
   }
 }
 

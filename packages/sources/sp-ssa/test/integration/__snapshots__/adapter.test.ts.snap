@@ -24,7 +24,7 @@ exports[`execute returns a 400 when security_id is not a string 1`] = `
 
 exports[`execute returns a 502 for the recorded bad-token 401 1`] = `
 {
-  "errorMessage": "Request failed with status code 401",
+  "errorMessage": "Provider request failed with status 401: {"code":401,"requestId":"e5e75e91-b115-4fe4-a5e2-7f4bc7e75da8#213173","message":"Unauthorized"}",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978361871111,
@@ -35,7 +35,7 @@ exports[`execute returns a 502 for the recorded bad-token 401 1`] = `
 
 exports[`execute returns a 502 for the recorded missing-apikey 401 1`] = `
 {
-  "errorMessage": "Request failed with status code 401",
+  "errorMessage": "Provider request failed with status 401: {"code":401,"requestId":"e5e75e91-b115-4fe4-a5e2-7f4bc7e75da8#213174","message":"No API key found in request"}",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978365471111,

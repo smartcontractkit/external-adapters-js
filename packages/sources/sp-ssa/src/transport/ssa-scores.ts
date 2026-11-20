@@ -1,9 +1,5 @@
 import { HttpTransportConfig } from '@chainlink/external-adapter-framework/transports'
-import {
-  ProviderResult,
-  TimestampedProviderResult,
-  validateResultNumber,
-} from '@chainlink/external-adapter-framework/util'
+import { ProviderResult, validateResultNumber } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/ssa'
 
 type RequestParams = typeof inputParameters.validated
@@ -22,11 +18,6 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-interface RequesterTimestamps {
-  providerDataRequestedUnixMs: number
-  providerDataReceivedUnixMs: number
-}
-
 const providerError = (
   params: RequestParams,
   errorMessage: string,
@@ -37,36 +28,6 @@ const providerError = (
     errorMessage,
   },
 })
-
-// The transport applies the framework timestamps to every ProviderResult: the
-// request times of the call and, for a success, the record's provider time.
-export const withTimestamps = (
-  result: ProviderResult<HttpTransportTypes>,
-  timestamps: RequesterTimestamps,
-): TimestampedProviderResult<HttpTransportTypes> => {
-  if ('errorMessage' in result.response) {
-    return {
-      params: result.params,
-      response: {
-        ...result.response,
-        timestamps: {
-          ...timestamps,
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      },
-    }
-  }
-  return {
-    params: result.params,
-    response: {
-      ...result.response,
-      timestamps: {
-        ...timestamps,
-        providerIndicatedTimeUnixMs: result.response.timestamps?.providerIndicatedTimeUnixMs,
-      },
-    },
-  }
-}
 
 // The scores GET is one JSON array for every security_id; each input entry gets
 // the record whose security_id matches, or a 502 ProviderResult. The errors are
