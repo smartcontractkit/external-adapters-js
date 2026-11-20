@@ -95,6 +95,30 @@ export const settingsDefinition = {
     default: false,
     sensitive: false,
   },
+
+  TRADINGHOURS_SESSION_CACHE_TTL_MS: {
+    description:
+      'TTL of the in-process stale-while-revalidate cache for the tradinghours market-session schedule (shared by 24/5 and 24/7 session-start gating). A stale schedule is served while a background refresh runs; only the first fetch blocks. Default 60000 (60s).',
+    type: 'number',
+    default: 60_000,
+    sensitive: false,
+  },
+
+  TRADINGHOURS_SESSION_CACHE_FAILURE_BACKOFF_MS: {
+    description:
+      'How long a failed foreground fetch of the tradinghours market-session schedule suppresses further fetches (per cache key). During an outage this keeps every gated price request from paying the tradinghours fetch timeout once the cached entry ages out. Default 5000 (5s).',
+    type: 'number',
+    default: 5_000,
+    sensitive: false,
+  },
+
+  ISSUER_247_SESSION_START_GATING_ENABLED: {
+    description:
+      '24/7 session-start gating (issuer-price-247): reject a report whose lastSeenTimestampNs predates the start of the session indicated by the report marketStatus (WEEKEND reports gate against the current closed-span start). Schedule from tradinghours, falling back to the hard-coded per-market schedule. Default false (ships dark).',
+    type: 'boolean',
+    default: false,
+    sensitive: false,
+  },
 } as const
 
 export const config = new AdapterConfig(settingsDefinition)

@@ -28,6 +28,7 @@ export class RobinhoodTransport extends SmoothedPriceTransport<BaseEndpointTypes
       streamMaxAgeSeconds: this.streamMaxAgeSeconds,
       sessionStartGatingEnabled: this.sessionStartGatingEnabled,
       allowMarketSessionOverride: this.allowMarketSessionOverride,
+      sessionScheduleCacheTtlMs: this.sessionScheduleCacheTtlMs,
     })
 
     return Object.fromEntries(

@@ -2,10 +2,26 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { TZDate } from '@date-fns/tz'
 import { getSessionsFallback } from './fallbackSession'
-import { getFallbackSessionTransitions, getGatingTimezone } from './fallbackSessionSchedule'
-import { SessionTransition, getSessionTransitions, processData } from './tradingHoursSession'
+import {
+  fallbackScheduleMissReason,
+  getFallbackSessionTransitions,
+  getGatingTimezone,
+} from './fallbackSessionSchedule'
+import { createLogThrottle, LOG_THROTTLE_WINDOW_MS } from './logThrottle'
+import {
+  getSessionTransitions,
+  getSessionTransitionsCached,
+  processData,
+  SessionTransition,
+} from './tradingHoursSession'
 
 const logger = makeLogger('Session')
+
+// Throttles the sticky schedule error lines ("Market schedule undetermined" and
+// "TradingHoursEA request failed"): both persist across many gated price requests
+// during an outage, so without a throttle every request re-logs them. Keyed per
+// condition+market|marketType; one line per key per window.
+const throttleLog = createLogThrottle(LOG_THROTTLE_WINDOW_MS)
 
 // Seconds relative to the nearest session boundary (-ve before, +ve after), plus the
 // schedule source the smoother should attribute it to.
@@ -43,6 +59,10 @@ export const getSessionSchedule = async (
   sessionBoundariesTimeZone?: string,
   sessionMarket?: string,
   sessionMarketType?: string,
+  // When set, the tradinghours fetch goes through the shared stale-while-revalidate
+  // cache (transitionCache.ts) with this TTL instead of hitting tradinghours per
+  // request.
+  scheduleCacheTtlMs?: number,
 ): Promise<{
   transitions?: SessionTransition[]
   fallbackTransitions?: SessionTransition[]
@@ -55,6 +75,43 @@ export const getSessionSchedule = async (
       ? getFallbackSessionTransitions(sessionMarket, sessionMarketType, nowMs)
       : undefined
 
+  // Loud rather than silently wrong — but only when gating genuinely has no
+  // schedule tier. With market identity present but no fallback entry, whether
+  // gating fails closed ("Session start unknown") depends on WHY the fallback
+  // missed:
+  // - invalid market session name: tradinghours cannot resolve the type either,
+  //   so tier 1 is unusable too — fail-closed is certain; log up front.
+  // - no fallback schedule entry: tier 1 may still resolve the start, so logging
+  //   here would cry "will fail closed" during healthy operation. Log only when
+  //   the fetch also fails (catch below) or cannot run at all (no timezone).
+  // One stable token ("Market schedule undetermined") so a single log query finds
+  // every cause; the reason suffix discriminates them — the 503 alone cannot.
+  // Throttled per market|marketType (the condition is sticky).
+  const miss =
+    sessionMarket && sessionMarketType && fallbackTransitions === undefined
+      ? fallbackScheduleMissReason(sessionMarket, sessionMarketType)
+      : undefined
+  const logUndetermined = (): void => {
+    if (!sessionMarket || !sessionMarketType || !miss) {
+      return
+    }
+    throttleLog(
+      `undetermined|${sessionMarket}|${sessionMarketType}`,
+      () =>
+        logger.error(
+          `Market schedule undetermined: ${
+            miss === 'INVALID_MARKET_SESSION_NAME'
+              ? 'invalid market session name'
+              : 'no fallback schedule entry for market'
+          } — session-start gating has no schedule tier and will fail closed [market=${sessionMarket} marketType=${sessionMarketType}]`,
+        ),
+      nowMs,
+    )
+  }
+  if (miss === 'INVALID_MARKET_SESSION_NAME') {
+    logUndetermined()
+  }
+
   // The fetch needs market identity and a timezone. The timezone is gating's schedule
   // entry first (so gating works without the smoother's params), else the smoother's
   // sessionBoundariesTimeZone (existing smoother behavior for other markets).
@@ -63,6 +120,8 @@ export const getSessionSchedule = async (
       ? getGatingTimezone(sessionMarket, sessionMarketType) ?? sessionBoundariesTimeZone
       : undefined
   if (!sessionMarket || !sessionMarketType || !fetchTimezone) {
+    // No fetch possible and no fallback: gating fails closed — say why.
+    logUndetermined()
     return { fallbackTransitions }
   }
 
@@ -74,13 +133,31 @@ export const getSessionSchedule = async (
   const smootherTz = sessionBoundariesTimeZone
 
   try {
-    const transitions = await getSessionTransitions(
-      tradingHoursUrl,
-      requester,
-      fetchTimezone,
-      sessionMarket,
-      sessionMarketType,
-    )
+    let transitions: SessionTransition[]
+    if (scheduleCacheTtlMs !== undefined) {
+      const cached = await getSessionTransitionsCached(
+        tradingHoursUrl,
+        requester,
+        fetchTimezone,
+        sessionMarket,
+        sessionMarketType,
+        scheduleCacheTtlMs,
+      )
+      if (cached.stale) {
+        logger.debug(
+          `Serving cached tradinghours schedule past its TTL (refreshedAtMs=${cached.refreshedAtMs}, ttlMs=${cached.ttlMs}); background refresh in flight`,
+        )
+      }
+      transitions = cached.value
+    } else {
+      transitions = await getSessionTransitions(
+        tradingHoursUrl,
+        requester,
+        fetchTimezone,
+        sessionMarket,
+        sessionMarketType,
+      )
+    }
     return {
       transitions,
       fallbackTransitions,
@@ -92,9 +169,16 @@ export const getSessionSchedule = async (
         : undefined,
     }
   } catch (e) {
-    logger.error(
-      `TradingHoursEA request failed; session-start gating uses the hard-coded fallback schedule, smoother falls back to sessionBoundaries: ${e}`,
+    throttleLog(
+      `fetch-failed|${sessionMarket}|${sessionMarketType}`,
+      () =>
+        logger.error(
+          `TradingHoursEA request failed; session-start gating uses the hard-coded fallback schedule, smoother falls back to sessionBoundaries: ${e}`,
+        ),
+      nowMs,
     )
+    // The fetch failed AND there is no fallback entry: gating fails closed — say why.
+    logUndetermined()
     return {
       fallbackTransitions,
       secondsFromTransition: smootherTz

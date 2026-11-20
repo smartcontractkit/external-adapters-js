@@ -4,6 +4,8 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
 
+import { clearSessionTransitionCache } from '../../src/lib/session/transitionCache'
+
 // End-to-end pre-open warm-up (session-start) gating of the price endpoint, enabled
 // via SESSION_START_GATING_ENABLED. Gating identifies the market from the request's
 // sessionMarket/sessionMarketType and falls back to the hard-coded labeled schedule
@@ -145,6 +147,10 @@ describe('price endpoint session-start gating', () => {
 
   beforeEach(() => {
     nock.cleanAll()
+    // The schedule cache is process-global and shared across requests (and warm
+    // background-execute subscriptions); clear it so each test's tradinghours mock
+    // is what the gate actually sees.
+    clearSessionTransitionCache()
   })
 
   it('returns 200 when the report was produced after the current session start', async () => {

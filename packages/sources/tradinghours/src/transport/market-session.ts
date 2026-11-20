@@ -19,7 +19,7 @@ type ResponseBody = {
       phase_memo: string | null
       status: string // Closed
       start: string // 2022-02-21T05:25:00+09:00
-      end: string // 2022-02-21T05:29:00+09:00
+      end?: string // 2022-02-21T05:29:00+09:00 — upstream omits it on some phases
     }[]
   }
 }
@@ -32,6 +32,14 @@ export type HttpEndpointTypes = BaseEndpointTypes & {
 }
 
 const logger = makeLogger('TradingHoursMarketSessionEndpoint')
+
+// How many days back the hours-multiday query reaches. 24/7 session-start gating
+// (tokenized-equity ADR-0007) derives the start of a closed span (weekend/holiday)
+// from the end of the last phase BEFORE the gap, so that phase must be inside the
+// window even from the far side of a multi-day closure: -1 put Friday's phases out
+// of reach on Sunday, and Thursday's out of reach across a Good-Friday weekend.
+// -5 covers the longest realistic NYSE closure (4-day holiday weekend) with margin.
+const LOOKBACK_DAYS = 5
 
 export const transport = new HttpTransport<HttpEndpointTypes>({
   prepareRequests: (params, config) =>
@@ -55,7 +63,7 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
             },
             params: {
               fin_id: getFinId(param.market as Market, param.type),
-              start: formatDate(now, -1),
+              start: formatDate(now, -LOOKBACK_DAYS),
               end: formatDate(now, 1),
               param,
             },
@@ -83,29 +91,60 @@ const PRE = 'PRETRADINGSESSION'
 const POST = 'POSTTRADINGSESSION'
 const OVERNIGHT = 'OVERNIGHT'
 
-const parseMarketSession = (data: ResponseBody) =>
-  data.data.schedule
-    .map((s) => {
-      const type = s.phase_type.toUpperCase().replace(/[\s-]+/g, '') // All hyphens and spaces
-      const name = s.phase_name.toUpperCase().replace(/[\s-]+/g, '') // All hyphens and spaces
+export const parseMarketSession = (data: ResponseBody) => {
+  const transitions = data.data.schedule.map((s) => {
+    const type = s.phase_type.toUpperCase().replace(/[\s-]+/g, '') // All hyphens and spaces
+    const name = s.phase_name.toUpperCase().replace(/[\s-]+/g, '') // All hyphens and spaces
 
-      let status = TwentyfourFiveMarketStatus.UNKNOWN
-      if (type.includes(OTHER) && name.includes(OVERNIGHT)) {
-        status = TwentyfourFiveMarketStatus.OVERNIGHT
-      } else if (type.includes(PRE)) {
-        status = TwentyfourFiveMarketStatus.PRE_MARKET
-      } else if (type.includes(REGULAR)) {
-        status = TwentyfourFiveMarketStatus.REGULAR
-      } else if (type.includes(POST)) {
-        status = TwentyfourFiveMarketStatus.POST_MARKET
-      }
-      return {
+    let status = TwentyfourFiveMarketStatus.UNKNOWN
+    if (type.includes(OTHER) && name.includes(OVERNIGHT)) {
+      status = TwentyfourFiveMarketStatus.OVERNIGHT
+    } else if (type.includes(PRE)) {
+      status = TwentyfourFiveMarketStatus.PRE_MARKET
+    } else if (type.includes(REGULAR)) {
+      status = TwentyfourFiveMarketStatus.REGULAR
+    } else if (type.includes(POST)) {
+      status = TwentyfourFiveMarketStatus.POST_MARKET
+    }
+    return {
+      phase: s,
+      mapped: {
         status,
         statusString: TwentyfourFiveMarketStatus[status],
         time: s.start,
-      }
-    })
+        // Emit endTime only when it is non-empty: an empty string parses to NaN
+        // downstream (tokenized-equity) and would reject the whole schedule,
+        // discarding every session start — 24/5 and 24/7 gating included.
+        ...(s.end ? { endTime: s.end } : {}),
+      },
+    }
+  })
+
+  const missingEnd = transitions.filter(
+    (t) => t.mapped.status !== TwentyfourFiveMarketStatus.UNKNOWN && !t.phase.end,
+  )
+  if (missingEnd.length > 0) {
+    // Consumers (tokenized-equity) derive closed-span (WEEKEND/holiday) starts
+    // from phase ends; without one they cannot resolve the span start from this
+    // schedule and fall back to their hard-coded schedule. Upstream omits end on
+    // some phases as a matter of course, so this is a warning (not an error) and
+    // logged once per schedule rather than per phase per parse.
+    logger.warn(
+      `market-session schedule has ${
+        missingEnd.length
+      } phase(s) without an end time; closed-span starts are not derivable from them (${missingEnd
+        .map(
+          (t) =>
+            `phase_type=${t.phase.phase_type} phase_name=${t.phase.phase_name} start=${t.phase.start}`,
+        )
+        .join('; ')})`,
+    )
+  }
+
+  return transitions
+    .map((t) => t.mapped)
     .filter((r) => r.status !== TwentyfourFiveMarketStatus.UNKNOWN)
+}
 
 const formatDate = (date: TZDate, delta: number) => {
   const newDate = new TZDate(date.getTime(), date.timeZone)

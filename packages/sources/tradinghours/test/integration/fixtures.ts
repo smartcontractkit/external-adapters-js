@@ -93,9 +93,12 @@ export const mockSessionSuccess = (): nock.Scope =>
   })
     .get('/v3/markets/hours-multiday')
     .query((query) => {
+      // Mock date 2022-01-01 (America/New_York); the endpoint queries a
+      // [now-5d, now+1d] window (LOOKBACK_DAYS) so closed-span derivation can see
+      // the last phase before multi-day closures.
       return (
         query.fin_id === 'US.CHNLNK.NYSE' &&
-        query.start === '2021-12-31' &&
+        query.start === '2021-12-27' &&
         query.end === '2022-01-02'
       )
     })
@@ -103,7 +106,7 @@ export const mockSessionSuccess = (): nock.Scope =>
       200,
       {
         data: {
-          start: '2021-12-31',
+          start: '2021-12-27',
           end: '2022-01-02',
           schedule: [
             {
@@ -111,7 +114,9 @@ export const mockSessionSuccess = (): nock.Scope =>
               phase_name: 'Overnight',
               phase_memo: null,
               status: 'Closed',
-              start: '2022-12-31T20:00:00-05:00',
+              // The overnight phase running into the mock date (Sat 2022-01-01):
+              // opens Friday 20:00 ET, ends Saturday 04:00 ET.
+              start: '2021-12-31T20:00:00-05:00',
               end: '2022-01-01T04:00:00-05:00',
             },
             {

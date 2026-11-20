@@ -6,6 +6,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/issuerPrice247'
 import { ChainProviders } from '../lib/chains'
+import { setFailedFetchRetryBackoffMs } from '../lib/session/transitionCache'
 import { calculatePrice } from '../price/issuerPrice247'
 
 const logger = makeLogger('IssuerPrice247Transport')
@@ -26,6 +27,7 @@ export class IssuerPrice247Transport extends SubscriptionTransport<BaseEndpointT
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.requester = dependencies.requester
     this.settings = adapterSettings
+    setFailedFetchRetryBackoffMs(adapterSettings.TRADINGHOURS_SESSION_CACHE_FAILURE_BACKOFF_MS)
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
