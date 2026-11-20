@@ -19,7 +19,12 @@ describe('websocket', () => {
   let oldEnv: NodeJS.ProcessEnv
 
   const dataStockQuotes = {
-    base: '700/HKD',
+    base: '700-HKD',
+    overrides: {
+      hyperithm: {
+        '700-HKD': '700/HKD',
+      },
+    },
     endpoint: 'stock_quotes',
     transport: 'ws',
   }
@@ -54,6 +59,16 @@ describe('websocket', () => {
   describe('stock_quotes endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(dataStockQuotes)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return error for invalid symbol', async () => {
+      const response = await testAdapter.request({
+        base: 'invalid/symbol',
+        endpoint: 'stock_quotes',
+        transport: 'ws',
+      })
+      expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
     })
   })
