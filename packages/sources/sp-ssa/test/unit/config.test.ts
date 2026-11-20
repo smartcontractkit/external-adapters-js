@@ -45,7 +45,12 @@ describe('adapter config', () => {
     expect(apiKey).toMatchObject({ required: true, sensitive: true, default: undefined })
   })
 
-  it('paces provider requests at 300 each minute', () => {
+  it('caps provider requests at 300 each minute and declares the default tier', () => {
+    config.initialize()
+
+    // The capacity setting is the value the framework rate limiter enforces;
+    // the tier below is the default declaration the README generator prints.
+    expect(config.settings.RATE_LIMIT_CAPACITY_MINUTE).toBe(300)
     expect(config.options?.envDefaultOverrides?.RATE_LIMIT_CAPACITY_MINUTE).toBe(300)
     expect(adapter.rateLimiting?.tiers.default.rateLimit1m).toBe(300)
   })

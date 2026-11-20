@@ -25,9 +25,6 @@ export const mockLoginSuccess = (): nock.Scope =>
 
 export const mockLoginSuccessPersisted = (): nock.Scope => mockLoginSuccess().persist()
 
-export const mockLoginResponse = (status: number, body: Record<string, any> | any[]): nock.Scope =>
-  nock(AUTH_ORIGIN).post('/gettoken/token').reply(status, body, JSON_HEADERS)
-
 export const mockLoginResponsePersisted = (
   status: number,
   body: Record<string, any> | any[],
@@ -57,13 +54,6 @@ export const mockScoresSuccessPersisted = (
     .reply(200, body, JSON_HEADERS)
     .persist()
 
-export const mockScoresError = (status: number, body: Record<string, any> | any[]): nock.Scope =>
-  nock(API_ORIGIN)
-    .get(SCORES_PATH)
-    .matchHeader('authorization', `Bearer ${ACCESS_TOKEN}`)
-    .matchHeader('apikey', API_KEY)
-    .reply(status, body, JSON_HEADERS)
-
 export const mockScoresErrorPersisted = (
   status: number,
   body: Record<string, any> | any[],
@@ -75,13 +65,8 @@ export const mockScoresErrorPersisted = (
     .reply(status, body, JSON_HEADERS)
     .persist()
 
-export const mockBadTokenError = (): nock.Scope => mockScoresError(401, BAD_TOKEN_RESPONSE)
-
 export const mockBadTokenErrorPersisted = (): nock.Scope =>
   mockScoresErrorPersisted(401, BAD_TOKEN_RESPONSE)
-
-export const mockMissingApiKeyError = (): nock.Scope =>
-  mockScoresError(401, MISSING_APIKEY_RESPONSE)
 
 export const mockMissingApiKeyErrorPersisted = (): nock.Scope =>
   mockScoresErrorPersisted(401, MISSING_APIKEY_RESPONSE)
