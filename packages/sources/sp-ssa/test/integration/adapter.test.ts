@@ -13,10 +13,18 @@ import {
   mockScoresSuccessPersisted,
 } from './fixtures'
 
-const ENV_KEYS = ['API_ENDPOINT', 'AUTH_API_ENDPOINT', 'SPGI_CLIENT_ID', 'SPGI_APIKEY']
+const ENV_KEYS = [
+  'API_ENDPOINT',
+  'AUTH_API_ENDPOINT',
+  'SPGI_CLIENT_ID',
+  'SPGI_APIKEY',
+  'EA_PORT',
+  'METRICS_ENABLED',
+]
 
 const BASE_NOW = new Date('2001-01-01T11:11:11.111Z').getTime()
 const TOKEN_LIFETIME_MS = 3_600_000
+const clockAt = (tokenLifetimes: number): number => BASE_NOW + tokenLifetimes * TOKEN_LIFETIME_MS
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -29,8 +37,16 @@ describe('execute', () => {
     process.env.AUTH_API_ENDPOINT = AUTH_ENDPOINT
     process.env.SPGI_CLIENT_ID = CLIENT_ID
     process.env.SPGI_APIKEY = API_KEY
+    // The repository's test script sets these; the file sets them itself so it
+    // starts the same way when it is run alone.
+    process.env.EA_PORT = '0'
+    process.env.METRICS_ENABLED = 'false'
 
     spy = jest.spyOn(Date, 'now').mockReturnValue(BASE_NOW)
+
+    if (!nock.isActive()) {
+      nock.activate()
+    }
 
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
@@ -43,13 +59,13 @@ describe('execute', () => {
     nock.cleanAll()
   })
 
-  // Each provider-failure case gets its own login reply and moves the clock
-  // past the previous token, so the case exercises its own login even when
-  // the test is run alone.
-  let clockMs = BASE_NOW
-  const freshLogin = (): nock.Scope => {
-    clockMs += TOKEN_LIFETIME_MS
-    spy.mockReturnValue(clockMs)
+  // Each provider-failure case sets the clock one token lifetime past the
+  // previous case and mocks its own login reply. The clock moves past the
+  // token the previous case cached, so the case logs in for itself in file
+  // order, and a case that runs alone starts from an empty token cache. The
+  // timestamps in the snapshots are the clock values below.
+  const freshLogin = (nowMs: number): nock.Scope => {
+    spy.mockReturnValue(nowMs)
     return mockLoginSuccessPersisted()
   }
 
@@ -62,8 +78,9 @@ describe('execute', () => {
       }
     })
     await testAdapter.api.close()
-    nock.restore()
     nock.cleanAll()
+    nock.restore()
+    nock.enableNetConnect()
     spy.mockRestore()
   })
 
@@ -80,7 +97,7 @@ describe('execute', () => {
   })
 
   it('returns a 502 when the reply has no record for the security_id', async () => {
-    const login = freshLogin()
+    const login = freshLogin(clockAt(1))
     mockScoresSuccessPersisted()
 
     const response = await testAdapter.request({ endpoint: 'ssa', security_id: 'SP-EUR' })
@@ -91,7 +108,7 @@ describe('execute', () => {
   })
 
   it('returns a 502 when the reply is an empty list', async () => {
-    const login = freshLogin()
+    const login = freshLogin(clockAt(2))
     mockScoresSuccessPersisted([])
 
     const response = await testAdapter.request({ endpoint: 'ssa', security_id: 'SP-EMPTY' })
@@ -102,7 +119,7 @@ describe('execute', () => {
   })
 
   it('returns a 502 when the reply is not a JSON array', async () => {
-    const login = freshLogin()
+    const login = freshLogin(clockAt(3))
     mockScoresSuccessPersisted({})
 
     const response = await testAdapter.request({ endpoint: 'ssa', security_id: 'SP-OBJECT' })
@@ -113,7 +130,7 @@ describe('execute', () => {
   })
 
   it('returns a 502 for the recorded bad-token 401', async () => {
-    const login = freshLogin()
+    const login = freshLogin(clockAt(4))
     mockBadTokenErrorPersisted()
 
     const response = await testAdapter.request({ endpoint: 'ssa', security_id: 'SP-BADTOKEN' })
@@ -124,10 +141,24 @@ describe('execute', () => {
   })
 
   it('returns a 502 for the recorded missing-apikey 401', async () => {
-    const login = freshLogin()
+    const login = freshLogin(clockAt(5))
     mockMissingApiKeyErrorPersisted()
 
     const response = await testAdapter.request({ endpoint: 'ssa', security_id: 'SP-NOAPIKEY' })
+
+    expect(login.isDone()).toBe(true)
+    expect(response.statusCode).toBe(502)
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  // The reply is an array of record objects (contract:114-130), so an element
+  // that is not an object is a malformed payload (B-15) and is a 502 (B-18),
+  // not the framework polling timeout.
+  it('returns a 502 when the reply array has a null element', async () => {
+    const login = freshLogin(clockAt(6))
+    mockScoresSuccessPersisted([null])
+
+    const response = await testAdapter.request({ endpoint: 'ssa', security_id: 'SP-EURC' })
 
     expect(login.isDone()).toBe(true)
     expect(response.statusCode).toBe(502)

@@ -271,6 +271,21 @@ describe('SsaHttpTransport', () => {
     },
   )
 
+  // The contract's reply is an array of record objects, so an element that is
+  // not an object is a malformed payload and not a "no record" reply: a null
+  // element must not throw before the match, and a valid record after it does
+  // not make the payload well formed.
+  it.each([
+    ['a null element', [null]],
+    ['a null element before the matching record', [null, ...record('2', 'SP-BOUNDARY')]],
+    ['a number element', [42]],
+    ['a string element', ['x']],
+  ])('returns a provider error for a reply with %s', async (_label, reply) => {
+    const response = await run('SP-BOUNDARY', reply)
+
+    expectProviderError(response)
+  })
+
   it.each([['not-a-date'], [1766102400]])(
     'returns a provider error for an unparseable last_modified_date_time',
     async (lastModified) => {
