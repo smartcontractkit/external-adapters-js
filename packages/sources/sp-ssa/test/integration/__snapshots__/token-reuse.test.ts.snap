@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`token reuse logs in once and reuses the token for the next provider call 1`] = `
+{
+  "data": {
+    "exchangeRate": 2,
+    "observationsTimestamp": 1766102400,
+    "result": 2,
+    "validFromTimestamp": 1766102400,
+  },
+  "result": 2,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1766102400000,
+  },
+}
+`;
+
+exports[`token reuse logs in once and reuses the token for the next provider call 2`] = `
+{
+  "data": {
+    "exchangeRate": 5,
+    "observationsTimestamp": 1794355200,
+    "result": 5,
+    "validFromTimestamp": 1794355200,
+  },
+  "result": 5,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1794355200000,
+  },
+}
+`;

@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute returns a 400 when security_id is missing 1`] = `
+{
+  "error": {
+    "message": "[Param: security_id] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute returns a 400 when security_id is not a string 1`] = `
+{
+  "error": {
+    "message": "[Param: security_id] input type is not the expected one (string)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute returns a 502 for the recorded bad-token 401 1`] = `
+{
+  "errorMessage": "Provider request failed with status 401: {"code":401,"requestId":"e5e75e91-b115-4fe4-a5e2-7f4bc7e75da8#213173","message":"Unauthorized"}",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978361871111,
+    "providerDataRequestedUnixMs": 978361871111,
+  },
+}
+`;
+
+exports[`execute returns a 502 for the recorded missing-apikey 401 1`] = `
+{
+  "errorMessage": "Provider request failed with status 401: {"code":401,"requestId":"e5e75e91-b115-4fe4-a5e2-7f4bc7e75da8#213174","message":"No API key found in request"}",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978365471111,
+    "providerDataRequestedUnixMs": 978365471111,
+  },
+}
+`;
+
+exports[`execute returns a 502 when the reply array has a null element 1`] = `
+{
+  "errorMessage": "The SSA reply contains an element that is not a record",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978369071111,
+    "providerDataRequestedUnixMs": 978369071111,
+  },
+}
+`;
+
+exports[`execute returns a 502 when the reply has no record for the security_id 1`] = `
+{
+  "errorMessage": "The SSA reply has no record for security_id SP-EUR",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978351071111,
+    "providerDataRequestedUnixMs": 978351071111,
+  },
+}
+`;
+
+exports[`execute returns a 502 when the reply is an empty list 1`] = `
+{
+  "errorMessage": "The SSA reply has no record for security_id SP-EMPTY",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978354671111,
+    "providerDataRequestedUnixMs": 978354671111,
+  },
+}
+`;
+
+exports[`execute returns a 502 when the reply is not a JSON array 1`] = `
+{
+  "errorMessage": "The SSA reply is not a JSON array",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978358271111,
+    "providerDataRequestedUnixMs": 978358271111,
+  },
+}
+`;
+
+exports[`execute returns the brief response for SP-EURC 1`] = `
+{
+  "data": {
+    "exchangeRate": 2,
+    "observationsTimestamp": 1766102400,
+    "result": 2,
+    "validFromTimestamp": 1766102400,
+  },
+  "result": 2,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1766102400000,
+  },
+}
+`;
