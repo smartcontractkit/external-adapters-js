@@ -30,10 +30,10 @@ export const config = new AdapterConfig(
   },
   {
     // The S&P API accepts 300 requests each minute for one apikey.
-    // A provider failure must reach the caller as the 502 the requirement asks
-    // for: the framework retry holds the request for up to two seconds before it
-    // gives up, which is longer than the adapter polls its cache. The next
-    // background execution is the retry.
+    // A provider failure must reach the caller as a 502, not as the framework's
+    // 504: the framework retry holds the failure one to two seconds before it
+    // gives up, longer than the adapter polls its cache. The next background
+    // execution is the retry.
     envDefaultOverrides: {
       RATE_LIMIT_CAPACITY_MINUTE: 300,
       RETRY: 0,
