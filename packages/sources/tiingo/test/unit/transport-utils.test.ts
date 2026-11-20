@@ -1,26 +1,4 @@
-import * as configModule from '../../src/config'
-import { wsMessageContent, wsSelectUrl } from '../../src/transport/utils'
-
-jest.mock('../../src/config', () => ({
-  config: {
-    settings: {
-      WS_URL_PRIMARY_ATTEMPTS: 1,
-      WS_URL_SECONDARY_ATTEMPTS: 1,
-    },
-  },
-}))
-
-jest.mock('@chainlink/external-adapter-framework/util', () => ({
-  ...jest.requireActual('@chainlink/external-adapter-framework/util'),
-  makeLogger: jest.fn(() => ({
-    trace: jest.fn(),
-    debug: jest.fn(),
-    info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
-    fatal: jest.fn(),
-  })),
-}))
+import { wsMessageContent } from '../../src/transport/utils'
 
 describe('transport-utils', () => {
   describe('wsMessageContent', () => {
@@ -31,67 +9,6 @@ describe('transport-utils', () => {
     it('with skipSlash skips slash', () => {
       const response = wsMessageContent('subscribe', 'test-api-key', 1234, 'BaSe', 'quoTE', true)
       expect(response.eventData.tickers[0]).toEqual('basequote')
-    })
-  })
-
-  describe('wsSelectUrl', () => {
-    const primary = 'primary'
-    const secondary = 'secondary'
-    const urlPath = 'path'
-    const params = (n: number) => ({ streamHandlerInvocationsWithNoConnection: n })
-
-    describe('1:1 ratio (WS_URL_PRIMARY_ATTEMPTS=1, WS_URL_SECONDARY_ATTEMPTS=1)', () => {
-      it('alternates primary and secondary', () => {
-        expect(wsSelectUrl(primary, secondary, urlPath, params(1))).toEqual(`${primary}/${urlPath}`)
-        expect(wsSelectUrl(primary, secondary, urlPath, params(2))).toEqual(
-          `${secondary}/${urlPath}`,
-        )
-        expect(wsSelectUrl(primary, secondary, urlPath, params(3))).toEqual(`${primary}/${urlPath}`)
-        expect(wsSelectUrl(primary, secondary, urlPath, params(4))).toEqual(
-          `${secondary}/${urlPath}`,
-        )
-        expect(wsSelectUrl(primary, secondary, urlPath, params(5))).toEqual(`${primary}/${urlPath}`)
-        expect(wsSelectUrl(primary, secondary, urlPath, params(6))).toEqual(
-          `${secondary}/${urlPath}`,
-        )
-      })
-    })
-
-    describe('5:1 ratio (WS_URL_PRIMARY_ATTEMPTS=5, WS_URL_SECONDARY_ATTEMPTS=1) -- default', () => {
-      beforeEach(() => {
-        ;(configModule.config.settings as Record<string, unknown>).WS_URL_PRIMARY_ATTEMPTS = 5
-        ;(configModule.config.settings as Record<string, unknown>).WS_URL_SECONDARY_ATTEMPTS = 1
-      })
-
-      afterEach(() => {
-        ;(configModule.config.settings as Record<string, unknown>).WS_URL_PRIMARY_ATTEMPTS = 1
-        ;(configModule.config.settings as Record<string, unknown>).WS_URL_SECONDARY_ATTEMPTS = 1
-      })
-
-      it('uses primary for first 5 attempts then secondary once per cycle', () => {
-        // cycle length = 6 (5 primary + 1 secondary)
-        expect(wsSelectUrl(primary, secondary, urlPath, params(1))).toEqual(`${primary}/${urlPath}`)
-        expect(wsSelectUrl(primary, secondary, urlPath, params(2))).toEqual(`${primary}/${urlPath}`)
-        expect(wsSelectUrl(primary, secondary, urlPath, params(3))).toEqual(`${primary}/${urlPath}`)
-        expect(wsSelectUrl(primary, secondary, urlPath, params(4))).toEqual(`${primary}/${urlPath}`)
-        expect(wsSelectUrl(primary, secondary, urlPath, params(5))).toEqual(`${primary}/${urlPath}`)
-        expect(wsSelectUrl(primary, secondary, urlPath, params(6))).toEqual(
-          `${secondary}/${urlPath}`,
-        )
-        // second cycle restarts with primary
-        expect(wsSelectUrl(primary, secondary, urlPath, params(7))).toEqual(`${primary}/${urlPath}`)
-        expect(wsSelectUrl(primary, secondary, urlPath, params(8))).toEqual(`${primary}/${urlPath}`)
-        expect(wsSelectUrl(primary, secondary, urlPath, params(9))).toEqual(`${primary}/${urlPath}`)
-        expect(wsSelectUrl(primary, secondary, urlPath, params(10))).toEqual(
-          `${primary}/${urlPath}`,
-        )
-        expect(wsSelectUrl(primary, secondary, urlPath, params(11))).toEqual(
-          `${primary}/${urlPath}`,
-        )
-        expect(wsSelectUrl(primary, secondary, urlPath, params(12))).toEqual(
-          `${secondary}/${urlPath}`,
-        )
-      })
     })
   })
 })
