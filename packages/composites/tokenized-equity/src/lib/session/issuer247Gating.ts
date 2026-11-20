@@ -74,14 +74,19 @@ export const closedSpanStartMs = (
 
 // True when the schedule places `now` inside a currently-open phase: the latest
 // transition at or before now has not yet ended. A latest phase without an
-// endTimeMs (a pre-endTime tradinghours deployment) is treated as open, keeping
-// the pre-guard behavior. Used to stop an open-status report from being gated
+// endTimeMs (a pre-endTime tradinghours deployment, or a phase upstream left
+// without an end) is treated as NOT open, so a missing end cannot bypass the
+// guard: the tier resolves no start and the caller falls through to the fallback
+// (or fails closed if no tier resolves one). Upstream is not expected to omit
+// `end` on the phases the gate uses — a direct hours-multiday query for the gate's
+// fin_id returned an end on every phase, and the parser's missing-end warning has
+// not fired in staging — and rollout deploys tradinghours with endTime before
+// gating is enabled, so this is a defensive default, not a case the current
+// deployment relies on. Used to stop an open-status report from being gated
 // against a session start from a day tradinghours marks closed (holiday/weekend):
 // the widened [now-5d, now+1d] query window can otherwise surface a phase from up
 // to 5 days back and silently admit a stale report whose declared session is not
-// actually open. A false result makes the tier resolve no start, so the caller
-// falls through to the fallback (or fails closed if no tier resolves one)
-// (ADR-0007, TDD §12 #6).
+// actually open (ADR-0007, TDD §12 #6).
 const isMarketOpenAt = (transitions: SessionTransition[], nowMs: number): boolean => {
   const last = transitions
     .filter((t) => t.timeMs <= nowMs)
@@ -89,7 +94,7 @@ const isMarketOpenAt = (transitions: SessionTransition[], nowMs: number): boolea
       (max, t) => (max === undefined || t.timeMs > max.timeMs ? t : max),
       undefined,
     )
-  return last !== undefined && (last.endTimeMs === undefined || nowMs < last.endTimeMs)
+  return last !== undefined && last.endTimeMs !== undefined && nowMs < last.endTimeMs
 }
 
 export type GateIssuer247ReportArgs = {

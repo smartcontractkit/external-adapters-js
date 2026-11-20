@@ -129,8 +129,13 @@ grouping (extended stream = PRE_MARKET/POST_MARKET).
 
 An open-status report is gated only while the market is **currently open**: the resolved session
 start must come from a phase that has not yet ended at `now` (the latest phase at or before `now`
-still has its end in the future; a schedule without phase ends is treated as open, preserving
-behavior against a pre-endTime tradinghours). On a day tradinghours marks closed — a holiday or
+still has its end in the future). A phase without an end is treated as **not** open — a missing
+end must not bypass the guard — so the tier resolves no start and the gate falls through to the
+fallback (or fails closed when no tier resolves one). Upstream is not expected to omit `end` on
+the phases the gate uses (a direct hours-multiday query returned an end on every phase, and the
+parser's missing-end warning has not fired in staging), and rollout step 0 deploys tradinghours
+with `endTime` before gating is enabled, so this is a defensive default. On a day tradinghours
+marks closed — a holiday or
 the weekend — no phase is open, so a report that still claims `REGULAR`/`PRE_MARKET`/`POST_MARKET`/
 `OVERNIGHT` (calendar drift, §12 #6) resolves no session start from that schedule, rather than
 being gated against a session open from up to five days back. The gate then falls through to the

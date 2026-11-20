@@ -80,7 +80,10 @@ risk-bearing consequences:
   REGULAR/PRE_MARKET/POST_MARKET/OVERNIGHT report whose declared session has already ended at
   `now` (for example, a holiday on which the data-engine's calendar still says REGULAR) resolves
   no session start from the tradinghours schedule; the gate then follows the normal two-tier
-  fallback and fails closed with `Session start unknown` only when no tier resolves a start.
+  fallback and fails closed with `Session start unknown` only when no tier resolves a start. A
+  phase without an end is treated as not open, so a missing end cannot bypass the guard; this is
+  a defensive default (upstream is not observed to omit `end` on the gate's phases, and rollout
+  deploys tradinghours with `endTime` first).
   Without this, the widened `[now-5d, now+1d]` window could anchor gating to a session open
   several days old and silently admit a stale report. WEEKEND reports are unaffected: they are
   gated against the derived closed-span start, which is precisely when the market is closed.

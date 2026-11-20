@@ -334,18 +334,55 @@ describe('gateIssuer247Report', () => {
       ).toEqual({ gatingSessionSource: 'TRADINGHOURS' })
     })
 
-    it('treats a schedule without phase ends as open (pre-endTime tradinghours, unchanged)', () => {
+    it('treats a latest phase without an end as NOT open (fails closed without a fallback)', () => {
+      // A phase upstream left without an end must not read as "still open": that
+      // would bypass the guard. With no fallback tier, the gate fails closed.
       const withoutEnds: SessionTransition[] = [
         t(TwentyfourFiveMarketStatus.REGULAR, '2024-01-05T14:30:00.000Z'), // Fri 09:30 ET, no end
       ]
-      expect(
+      let error: AdapterError | undefined
+      try {
         gate(
           TwentyfourFiveMarketStatus.REGULAR,
           '2024-01-05T15:00:00.000Z',
           new Date('2024-01-05T16:00:00.000Z').getTime(), // Fri 11:00 ET
           { transitions: withoutEnds, fallbackTransitions: undefined },
-        ),
-      ).toEqual({ gatingSessionSource: 'TRADINGHOURS' })
+        )
+      } catch (e) {
+        error = e as AdapterError
+      }
+      expect(error?.statusCode).toBe(503)
+      expect(error?.message).toContain('Session start unknown')
+    })
+
+    it('does not anchor a stale report to a no-end latest phase before a holiday', () => {
+      // The concrete review case: Friday's POST_MARKET phase comes back without an
+      // end, Monday is a holiday. The old escape hatch read Friday's POST as still
+      // open, so a Friday REGULAR leftover was gated against Friday 09:30 and
+      // admitted. A missing end now resolves no start; the holiday-blind fallback
+      // invents Monday's open and rejects the leftover (never admits it).
+      const holidayWeekNoPostEnd: SessionTransition[] = [
+        t(
+          TwentyfourFiveMarketStatus.REGULAR,
+          '2024-01-05T14:30:00.000Z',
+          '2024-01-05T21:00:00.000Z',
+        ), // Fri 09:30–16:00 ET
+        t(TwentyfourFiveMarketStatus.POST_MARKET, '2024-01-05T21:00:00.000Z'), // Fri 16:00 ET, no end
+        t(
+          TwentyfourFiveMarketStatus.PRE_MARKET,
+          '2024-01-09T09:00:00.000Z',
+          '2024-01-09T14:30:00.000Z',
+        ), // Tue 04:00 ET
+      ]
+      const fallbackTransitions = getFallbackSessionTransitions('nyse', '24/7', NOW_MONDAY_HOLIDAY)
+      expectPreSession(
+        () =>
+          gate(TwentyfourFiveMarketStatus.REGULAR, '2024-01-05T15:00:00.000Z', NOW_MONDAY_HOLIDAY, {
+            transitions: holidayWeekNoPostEnd,
+            fallbackTransitions,
+          }),
+        'REGULAR',
+      )
     })
   })
 
