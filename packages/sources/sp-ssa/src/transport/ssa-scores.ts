@@ -1,5 +1,6 @@
 import { HttpTransportConfig } from '@chainlink/external-adapter-framework/transports'
 import { ProviderResult, validateResultNumber } from '@chainlink/external-adapter-framework/util'
+import { validator } from '@chainlink/external-adapter-framework/validation/utils'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/ssa'
 
 type RequestParams = typeof inputParameters.validated
@@ -68,7 +69,8 @@ export const parseResponse: HttpTransportConfig<HttpTransportTypes>['parseRespon
     }
     const result = validated.result
 
-    if (!Number.isInteger(result) || result < 1 || result > 5) {
+    const rangeError = validator.integer({ min: 1, max: 5 }).fn(result)
+    if (rangeError) {
       return providerError(
         param,
         `The SSA score ${result} for security_id ${securityId} is outside the integer range 1-5`,
