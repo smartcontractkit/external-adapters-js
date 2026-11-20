@@ -1,18 +1,16 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
+// The token endpoint gives the token and the lifetime of the token in seconds.
 export interface AuthResponseSchema {
-  token_type: string
-  expires: number
   access_token: string
+  expires_in: number
 }
 
 export interface AuthSettings {
-  API_ENDPOINT: string
-  CLIENT_ID: string
-  CLIENT_SECRET: string
-  GRANT_TYPE: string
-  BACKGROUND_EXECUTE_MS: number
+  AUTH_API_ENDPOINT: string
+  SPGI_CLIENT_ID: string
+  BACKGROUND_EXECUTE_MS_HTTP: number
 }
 
 interface TokenDuration {
@@ -20,43 +18,38 @@ interface TokenDuration {
   expiryTimestampMs: number
 }
 
+// S&P issues a token for 30 minutes at most, even when the reply gives a longer lifetime.
+const MAX_TOKEN_LIFETIME_S = 1800
+
 export class AuthManager {
   private latestToken: TokenDuration | undefined
   private requester: Requester
   private settings: AuthSettings
-  private static instance: AuthManager
 
   constructor(requester: Requester, settings: AuthSettings) {
     this.requester = requester
     this.settings = settings
   }
 
-  static getInstance(requester: Requester, settings: AuthSettings): AuthManager {
-    if (!this.instance) {
-      this.instance = new AuthManager(requester, settings)
-    }
-
-    return this.instance
-  }
-
   async getBearerToken(): Promise<string> {
     const now = Date.now()
-    const buffer = 2 * this.settings.BACKGROUND_EXECUTE_MS
+    const buffer = 2 * this.settings.BACKGROUND_EXECUTE_MS_HTTP
 
     // if latestToken is missing or expired/expiring within buffer, grab a new token
     if (!this.latestToken || now > this.latestToken.expiryTimestampMs - buffer) {
       const startTimeMs = Date.now()
       const response = await this.requestAuth()
+      const lifetimeS = Math.min(response.expires_in, MAX_TOKEN_LIFETIME_S)
       this.latestToken = {
         token: response.access_token,
-        expiryTimestampMs: startTimeMs + response.expires * 1000,
+        expiryTimestampMs: startTimeMs + lifetimeS * 1000,
       }
     }
 
     if (!this.latestToken?.token) {
       throw new AdapterError({
         statusCode: 502,
-        message: 'Unable to getToken',
+        message: 'Unable to authenticate with the S&P token endpoint',
       })
     }
 
@@ -64,31 +57,26 @@ export class AuthManager {
   }
 
   private async requestAuth(): Promise<AuthResponseSchema> {
-    const baseURL = `${this.settings.API_ENDPOINT}/oauth/token`
-    const formData = new FormData()
-    formData.append('client_id', this.settings.CLIENT_ID)
-    formData.append('client_secret', this.settings.CLIENT_SECRET)
-    formData.append('grant_type', this.settings.GRANT_TYPE)
-
+    const baseURL = this.settings.AUTH_API_ENDPOINT
     const requestConfig = {
       method: 'POST',
       baseURL,
       headers: {
-        'Content-Type': 'multipart/form-data',
+        Authorization: `Basic ${this.settings.SPGI_CLIENT_ID}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      data: formData,
+      data: new URLSearchParams({
+        grant_type: 'client_credentials',
+        scope: 'rtg_ssa',
+      }).toString(),
     }
 
     const response = await this.requester.request<AuthResponseSchema>(baseURL, requestConfig)
-    if (
-      response.response?.status !== 200 ||
-      !response.response.data.access_token ||
-      !response.response.data.expires
-    ) {
+    if (!response.response?.data?.access_token || !response.response?.data?.expires_in) {
       throw new AdapterError({
         statusCode: 502,
-        message: 'Unable to auth',
-        providerStatusCode: response.response.status,
+        message: 'Unable to authenticate with the S&P token endpoint',
+        providerStatusCode: response.response?.status,
       })
     }
 

@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`auth returns a 502 when the login answers a non-200 1`] = `
+{
+  "errorMessage": "Request failed with status code 401",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`auth returns a 502 when the login reply has no access_token 1`] = `
+{
+  "errorMessage": "Unable to authenticate with the S&P token endpoint",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`auth returns a 502 when the login reply has no expires_in 1`] = `
+{
+  "errorMessage": "Unable to authenticate with the S&P token endpoint",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;

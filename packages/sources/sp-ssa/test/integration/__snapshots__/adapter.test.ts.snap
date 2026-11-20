@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute returns a 400 when security_id is missing 1`] = `
+{
+  "error": {
+    "message": "[Param: security_id] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute returns a 400 when security_id is not a string 1`] = `
+{
+  "error": {
+    "message": "[Param: security_id] input type is not the expected one (string)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute returns a 502 for the recorded bad-token 401 1`] = `
+{
+  "errorMessage": "Request failed with status code 401",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute returns a 502 for the recorded missing-apikey 401 1`] = `
+{
+  "errorMessage": "Request failed with status code 401",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute returns a 502 when the reply has no record for the security_id 1`] = `
+{
+  "errorMessage": "The SSA reply has no record for security_id SP-EUR",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute returns a 502 when the reply is an empty list 1`] = `
+{
+  "errorMessage": "The SSA reply has no record for security_id SP-EMPTY",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute returns a 502 when the reply is not a JSON array 1`] = `
+{
+  "errorMessage": "The SSA reply is not a JSON array",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute returns the brief response for SP-EURC 1`] = `
+{
+  "data": {
+    "exchangeRate": 2,
+    "observationsTimestamp": 1766102400,
+    "result": 2,
+    "validFromTimestamp": 1766102400,
+  },
+  "result": 2,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1766102400000,
+  },
+}
+`;

@@ -1,43 +1,40 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { NumericResultEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/ssa'
 
 export const inputParameters = new InputParameters(
   {
-    base: {
-      aliases: ['from', 'coin', 'symbol', 'market'],
+    security_id: {
       required: true,
       type: 'string',
-      description: 'The symbol of symbols of the currency to query',
-    },
-    quote: {
-      aliases: ['to', 'convert'],
-      required: true,
-      type: 'string',
-      description: 'The symbol of the currency to convert to',
+      description: 'The S&P security id whose SSA score is published, for example SP-EURC',
     },
   },
   [
     {
-      base: 'BTC',
-      quote: 'USD',
+      security_id: 'SP-EURC',
     },
   ],
 )
 
+export type SsaResultResponse = SingleNumberResultResponse & {
+  Data: {
+    exchangeRate: number
+    validFromTimestamp: number
+    observationsTimestamp: number
+  }
+}
+
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: SsaResultResponse
   Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new NumericResultEndpoint({
   name: 'ssa',
-  aliases: [],
   transport: httpTransport,
   inputParameters,
-  overrides: overrides['sp-ssa'],
 })

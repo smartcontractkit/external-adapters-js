@@ -11,7 +11,8 @@ export const adapter = new Adapter({
   rateLimiting: {
     tiers: {
       default: {
-        rateLimit1m: 6,
+        rateLimit1m: 300,
+        note: 'The S&P API accepts 300 requests each minute for one apikey',
       },
     },
   },

@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`probe: cold start cache polling returns the first success after the background cache poll 1`] = `
+{
+  "data": {
+    "exchangeRate": 2,
+    "observationsTimestamp": 1766102400,
+    "result": 2,
+    "validFromTimestamp": 1766102400,
+  },
+  "result": 2,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1766102400000,
+  },
+}
+`;
