@@ -30,21 +30,29 @@ const providerError = (
 })
 
 // The scores GET is one JSON array for every security_id; each input entry gets
-// the record whose security_id matches, or a 502 ProviderResult. The errors are
-// returned and not thrown because the framework drops a thrown parseResponse
-// error instead of writing it to the response cache.
+// the record whose security_id matches, or a 502 ProviderResult. A reply that
+// cannot be read is an error response for each entry, never a result.
 export const parseResponse: HttpTransportConfig<HttpTransportTypes>['parseResponse'] = (
   params,
   response,
 ) => {
   const records = response.data
 
+  if (!Array.isArray(records)) {
+    return params.map((param) => providerError(param, 'The SSA reply is not a JSON array'))
+  }
+
+  // The provider's reply is one array of record objects, so a null, a number or
+  // a string element makes the whole reply malformed and no entry can be
+  // selected from it.
+  if (records.some((item) => item === null || typeof item !== 'object')) {
+    return params.map((param) =>
+      providerError(param, 'The SSA reply contains an element that is not a record'),
+    )
+  }
+
   return params.map((param) => {
     const { security_id: securityId } = param
-
-    if (!Array.isArray(records)) {
-      return providerError(param, 'The SSA reply is not a JSON array')
-    }
 
     const record = records.find((item) => item.security_id === securityId)
     if (!record) {

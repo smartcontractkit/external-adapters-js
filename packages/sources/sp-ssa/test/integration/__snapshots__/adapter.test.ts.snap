@@ -44,6 +44,17 @@ exports[`execute returns a 502 for the recorded missing-apikey 401 1`] = `
 }
 `;
 
+exports[`execute returns a 502 when the reply array has a null element 1`] = `
+{
+  "errorMessage": "The SSA reply contains an element that is not a record",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978369071111,
+    "providerDataRequestedUnixMs": 978369071111,
+  },
+}
+`;
+
 exports[`execute returns a 502 when the reply has no record for the security_id 1`] = `
 {
   "errorMessage": "The SSA reply has no record for security_id SP-EUR",

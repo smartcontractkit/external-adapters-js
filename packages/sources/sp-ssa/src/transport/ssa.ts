@@ -53,9 +53,8 @@ export class SsaHttpTransport extends HttpTransport<HttpTransportTypes> {
     })
   }
 
-  // The token is shared by every entry of the batch and `prepareRequests` is
-  // synchronous, so the token is refreshed here before the framework's request
-  // path runs. An empty batch only sleeps in the framework handler.
+  // The token is shared by every entry of the batch, so it is refreshed once
+  // before the scores GET. An empty batch makes no provider call.
   override async backgroundHandler(
     context: EndpointContext<HttpTransportTypes>,
     entries: RequestParams[],
@@ -64,20 +63,21 @@ export class SsaHttpTransport extends HttpTransport<HttpTransportTypes> {
       try {
         this.bearerToken = await this.authManager.getBearerToken()
       } catch (e) {
-        const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
-        logger.error(errorMessage)
-        const statusCode = e instanceof AdapterError ? e.statusCode : 502
+        // The login path rejects with an AdapterError that carries the status
+        // code and the message to publish, so this catch reuses them.
+        const error = e as AdapterError
+        logger.error(error.message)
 
         // A login failure has no provider call, so the entries get the zero
-        // times; the sleep paces the next login attempt when the token
+        // times; the wait paces the next login attempt when the token
         // endpoint keeps failing.
         await this.responseCache.write(
           this.name,
           entries.map((params) => ({
             params,
             response: {
-              statusCode,
-              errorMessage,
+              statusCode: error.statusCode,
+              errorMessage: error.message,
               timestamps: {
                 providerDataRequestedUnixMs: 0,
                 providerDataReceivedUnixMs: 0,

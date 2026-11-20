@@ -22,8 +22,8 @@ interface TokenDuration {
 // S&P issues a token for 30 minutes at most, even when the reply gives a longer lifetime.
 const MAX_TOKEN_LIFETIME_S = 1800
 
-// The framework logger redacts every entry of the censor list, so the issued
-// token is registered there and the Requester trace line is redacted as well.
+// An issued token must not appear in a log, so it is added to the redaction
+// list as soon as the login reply is read.
 const ACCESS_TOKEN_CENSOR_KEY = 'SPGI_ACCESS_TOKEN'
 const REGEX_SPECIAL_CHARACTERS = /[-[\]{}()*+?.,\\^$|#\s]/g
 
