@@ -1,3 +1,4 @@
+import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
@@ -20,6 +21,11 @@ interface TokenDuration {
 
 // S&P issues a token for 30 minutes at most, even when the reply gives a longer lifetime.
 const MAX_TOKEN_LIFETIME_S = 1800
+
+// The framework logger redacts every entry of the censor list, so the issued
+// token is registered there and the Requester trace line is redacted as well.
+const ACCESS_TOKEN_CENSOR_KEY = 'SPGI_ACCESS_TOKEN'
+const REGEX_SPECIAL_CHARACTERS = /[-[\]{}()*+?.,\\^$|#\s]/g
 
 export class AuthManager {
   private latestToken: TokenDuration | undefined
@@ -44,9 +50,19 @@ export class AuthManager {
         token: response.access_token,
         expiryTimestampMs: startTimeMs + lifetimeS * 1000,
       }
+      this.registerIssuedToken(response.access_token)
     }
 
     return this.latestToken.token
+  }
+
+  private registerIssuedToken(token: string): void {
+    const entry = {
+      key: ACCESS_TOKEN_CENSOR_KEY,
+      value: new RegExp(token.replace(REGEX_SPECIAL_CHARACTERS, '\\$&'), 'gi'),
+    }
+    const otherEntries = CensorList.getAll().filter((item) => item.key !== entry.key)
+    CensorList.set([...otherEntries, entry])
   }
 
   private async requestAuth(): Promise<AuthResponseSchema> {
@@ -65,7 +81,15 @@ export class AuthManager {
     }
 
     const response = await this.requester.request<AuthResponseSchema>(baseURL, requestConfig)
-    if (!response.response?.data?.access_token || !response.response?.data?.expires_in) {
+    const data = response.response?.data
+    const accessToken = data?.access_token
+    const expiresIn = data?.expires_in
+
+    // The lifetime must be a usable number of seconds: a non-number, zero or a
+    // negative value would make the expiry unusable and keep the token forever.
+    const hasToken = typeof accessToken === 'string' && accessToken.length > 0
+    const hasLifetime = typeof expiresIn === 'number' && Number.isFinite(expiresIn) && expiresIn > 0
+    if (!hasToken || !hasLifetime) {
       throw new AdapterError({
         statusCode: 502,
         message: 'Unable to authenticate with the S&P token endpoint',
@@ -73,6 +97,6 @@ export class AuthManager {
       })
     }
 
-    return response.response.data
+    return { access_token: accessToken, expires_in: expiresIn }
   }
 }

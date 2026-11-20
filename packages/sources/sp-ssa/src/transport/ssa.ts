@@ -1,15 +1,21 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import {
-  AdapterResponse,
+  HttpTransport,
+  HttpTransportConfig,
+  TransportDependencies,
+} from '@chainlink/external-adapter-framework/transports'
+import {
   makeLogger,
+  ProviderResult,
   sleep,
+  TimestampedProviderResult,
   validateResultNumber,
 } from '@chainlink/external-adapter-framework/util'
-import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterDataProviderError,
+  AdapterError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/ssa'
 import { AuthManager } from './auth'
 
@@ -31,75 +37,66 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export class SsaHttpTransport extends SubscriptionTransport<HttpTransportTypes> {
-  requester!: Requester
-  settings!: HttpTransportTypes['Settings']
-  endpointName!: string
-  authManager!: AuthManager
+const providerError = (
+  params: RequestParams,
+  errorMessage: string,
+): ProviderResult<HttpTransportTypes> => ({
+  params,
+  response: {
+    statusCode: 502,
+    errorMessage,
+  },
+})
 
-  override async initialize(
-    dependencies: TransportDependencies<HttpTransportTypes>,
-    adapterSettings: HttpTransportTypes['Settings'],
-    endpointName: string,
-    transportName: string,
-  ): Promise<void> {
-    super.initialize(dependencies, adapterSettings, endpointName, transportName)
-    this.requester = dependencies.requester
-    this.settings = adapterSettings
-    this.endpointName = endpointName
-    this.authManager = new AuthManager(this.requester, {
-      AUTH_API_ENDPOINT: this.settings.AUTH_API_ENDPOINT,
-      SPGI_CLIENT_ID: this.settings.SPGI_CLIENT_ID,
-      BACKGROUND_EXECUTE_MS_HTTP: this.settings.BACKGROUND_EXECUTE_MS_HTTP,
-    })
-  }
+interface RequesterTimestamps {
+  providerDataRequestedUnixMs: number
+  providerDataReceivedUnixMs: number
+}
 
-  async backgroundHandler(context: EndpointContext<HttpTransportTypes>, entries: RequestParams[]) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
-    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
-  }
-
-  async handleRequest(param: RequestParams) {
-    let response: AdapterResponse<HttpTransportTypes['Response']>
-    try {
-      response = await this._handleRequest(param)
-    } catch (e) {
-      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
-      logger.error(e, errorMessage)
-      response = {
-        statusCode: (e as AdapterError)?.statusCode || 502,
-        errorMessage,
+const withTimestamps = (
+  result: ProviderResult<HttpTransportTypes>,
+  timestamps: RequesterTimestamps,
+): TimestampedProviderResult<HttpTransportTypes> => {
+  if ('errorMessage' in result.response) {
+    return {
+      params: result.params,
+      response: {
+        ...result.response,
         timestamps: {
-          providerDataRequestedUnixMs: 0,
-          providerDataReceivedUnixMs: 0,
+          ...timestamps,
           providerIndicatedTimeUnixMs: undefined,
         },
-      }
+      },
     }
-    await this.responseCache.write(this.name, [{ params: param, response }])
   }
+  return {
+    params: result.params,
+    response: {
+      ...result.response,
+      timestamps: {
+        ...timestamps,
+        providerIndicatedTimeUnixMs: result.response.timestamps?.providerIndicatedTimeUnixMs,
+      },
+    },
+  }
+}
 
-  async _handleRequest(
-    param: RequestParams,
-  ): Promise<AdapterResponse<HttpTransportTypes['Response']>> {
+const parseResponse: HttpTransportConfig<HttpTransportTypes>['parseResponse'] = (
+  params,
+  response,
+) => {
+  const records = response.data
+
+  return params.map((param) => {
     const { security_id: securityId } = param
 
-    const token = await this.authManager.getBearerToken()
-    const { records, timestamps } = await this.getScores(token)
-
     if (!Array.isArray(records)) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: 'The SSA reply is not a JSON array',
-      })
+      return providerError(param, 'The SSA reply is not a JSON array')
     }
 
     const record = records.find((item) => item.security_id === securityId)
     if (!record) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `The SSA reply has no record for security_id ${securityId}`,
-      })
+      return providerError(param, `The SSA reply has no record for security_id ${securityId}`)
     }
 
     const validated = validateResultNumber(
@@ -107,83 +104,175 @@ export class SsaHttpTransport extends SubscriptionTransport<HttpTransportTypes> 
       `The SSA score for security_id ${securityId} is not a number`,
     )
     if ('errorMessage' in validated) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: validated.errorMessage,
-      })
+      return providerError(param, validated.errorMessage)
     }
     const result = validated.result
 
     if (!Number.isInteger(result) || result < 1 || result > 5) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `The SSA score ${result} for security_id ${securityId} is outside the integer range 1-5`,
-      })
+      return providerError(
+        param,
+        `The SSA score ${result} for security_id ${securityId} is outside the integer range 1-5`,
+      )
     }
 
     if (typeof record.last_modified_date_time !== 'string') {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `The last_modified_date_time ${record.last_modified_date_time} for security_id ${securityId} is not a timestamp`,
-      })
+      return providerError(
+        param,
+        `The last_modified_date_time ${record.last_modified_date_time} for security_id ${securityId} is not a timestamp`,
+      )
     }
     const providerIndicatedTimeUnixMs = new Date(record.last_modified_date_time).getTime()
     if (!Number.isFinite(providerIndicatedTimeUnixMs)) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `The last_modified_date_time ${record.last_modified_date_time} for security_id ${securityId} is not a timestamp`,
-      })
+      return providerError(
+        param,
+        `The last_modified_date_time ${record.last_modified_date_time} for security_id ${securityId} is not a timestamp`,
+      )
     }
     const recordTimeUnixS = Math.floor(providerIndicatedTimeUnixMs / 1000)
 
     return {
-      statusCode: 200,
-      result,
-      data: {
+      params: param,
+      response: {
+        statusCode: 200,
         result,
-        exchangeRate: result,
-        validFromTimestamp: recordTimeUnixS,
-        observationsTimestamp: recordTimeUnixS,
-      },
-      timestamps: {
-        providerDataRequestedUnixMs: timestamps.providerDataRequestedUnixMs,
-        providerDataReceivedUnixMs: timestamps.providerDataReceivedUnixMs,
-        providerIndicatedTimeUnixMs,
+        data: {
+          result,
+          exchangeRate: result,
+          validFromTimestamp: recordTimeUnixS,
+          observationsTimestamp: recordTimeUnixS,
+        },
+        timestamps: {
+          providerIndicatedTimeUnixMs,
+        },
       },
     }
+  })
+}
+
+export class SsaHttpTransport extends HttpTransport<HttpTransportTypes> {
+  private authManager!: AuthManager
+  private bearerToken = ''
+  private readonly transportConfig: HttpTransportConfig<HttpTransportTypes>
+
+  constructor() {
+    const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
+      prepareRequests: (params, settings) => ({
+        params,
+        request: {
+          method: 'GET',
+          baseURL: settings.API_ENDPOINT,
+          url: '/api/v1/ssa/getAllScores',
+          headers: {
+            Authorization: `Bearer ${this.bearerToken}`,
+            apikey: settings.SPGI_APIKEY,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      }),
+      parseResponse,
+    }
+    super(transportConfig)
+    this.transportConfig = transportConfig
   }
 
-  async getScores(token: string) {
-    const requestConfig = {
-      method: 'GET',
-      baseURL: this.settings.API_ENDPOINT,
-      url: '/api/v1/ssa/getAllScores',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        apikey: this.settings.SPGI_APIKEY,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    }
-
-    // The scores list is the same for every security_id, so the request key
-    // carries no input and concurrent requests share one provider request.
-    const requestKey = calculateHttpRequestKey<HttpTransportTypes>({
-      context: {
-        adapterSettings: this.settings,
-        inputParameters,
-        endpointName: this.endpointName,
-      },
-      data: {},
-      transportName: this.name,
+  override async initialize(
+    dependencies: TransportDependencies<HttpTransportTypes>,
+    adapterSettings: HttpTransportTypes['Settings'],
+    endpointName: string,
+    transportName: string,
+  ): Promise<void> {
+    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.authManager = new AuthManager(this.requester, {
+      AUTH_API_ENDPOINT: adapterSettings.AUTH_API_ENDPOINT,
+      SPGI_CLIENT_ID: adapterSettings.SPGI_CLIENT_ID,
+      BACKGROUND_EXECUTE_MS_HTTP: adapterSettings.BACKGROUND_EXECUTE_MS_HTTP,
     })
-
-    const response = await this.requester.request<SsaScoreRecord[]>(requestKey, requestConfig)
-    return { records: response.response.data, timestamps: response.timestamps }
   }
 
-  getSubscriptionTtlFromConfig(adapterSettings: HttpTransportTypes['Settings']): number {
-    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
+  override async backgroundHandler(
+    context: EndpointContext<HttpTransportTypes>,
+    entries: RequestParams[],
+  ): Promise<void> {
+    if (!entries.length) {
+      return super.backgroundHandler(context, entries)
+    }
+
+    try {
+      this.bearerToken = await this.authManager.getBearerToken()
+    } catch (e) {
+      await this.responseCache.write(this.name, this.providerErrors(entries, e))
+      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
+      return
+    }
+
+    await this.fetchScores(context, entries)
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
+  }
+
+  // One GET answers every entry of the batch. A provider failure is written per
+  // entry as a 502 so the caller gets it before its cache poll ends; a throw
+  // here would leave the entries without a provider response.
+  private async fetchScores(
+    context: EndpointContext<HttpTransportTypes>,
+    entries: RequestParams[],
+  ): Promise<void> {
+    const prepared = this.transportConfig.prepareRequests(entries, context.adapterSettings)
+    const requests = Array.isArray(prepared) ? prepared : [prepared]
+
+    for (const request of requests) {
+      const requestKey = calculateHttpRequestKey<HttpTransportTypes>({
+        context: {
+          ...context,
+          endpointName: request.endpointNameOverride ?? context.endpointName,
+        },
+        data: request.params,
+        transportName: this.name,
+      })
+
+      let results: TimestampedProviderResult<HttpTransportTypes>[]
+      try {
+        const { response, timestamps } = await this.requester.request<SsaScoreRecord[]>(
+          requestKey,
+          request.request,
+        )
+        results = this.transportConfig
+          .parseResponse(request.params, response, context.adapterSettings)
+          .map((result) => withTimestamps(result, timestamps))
+      } catch (e) {
+        results = this.providerErrors(entries, e)
+      }
+
+      await this.responseCache.write(this.name, results)
+    }
+  }
+
+  private providerErrors(
+    entries: RequestParams[],
+    e: unknown,
+  ): TimestampedProviderResult<HttpTransportTypes>[] {
+    const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+    logger.error(errorMessage)
+    const statusCode = e instanceof AdapterError ? e.statusCode : 502
+    // A provider failure carries the times of the failed call, as the
+    // framework's own error path does; a login failure has no provider call.
+    const timestamps =
+      e instanceof AdapterDataProviderError
+        ? e.timestamps
+        : {
+            providerDataRequestedUnixMs: 0,
+            providerDataReceivedUnixMs: 0,
+            providerIndicatedTimeUnixMs: undefined,
+          }
+
+    return entries.map((params) => ({
+      params,
+      response: {
+        statusCode,
+        errorMessage,
+        timestamps,
+      },
+    }))
   }
 }
 
