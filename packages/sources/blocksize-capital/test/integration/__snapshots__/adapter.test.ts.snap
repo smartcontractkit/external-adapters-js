@@ -2,12 +2,13 @@
 
 exports[`websocket lwba endpoint should return error (LWBA invariant violation) 1`] = `
 {
-  "error": {
-    "message": "Invariant violation. Mid price must be between bid and ask prices. Got: (bid: 123.123, mid: 123.125, ask: 123.124)",
-    "name": "AdapterLWBAError",
+  "errorMessage": "Invariant violation. Mid price must be between bid and ask prices. Got: (bid: 123.123, mid: 123.125, ask: 123.124)",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 3042,
+    "providerDataStreamEstablishedUnixMs": 2020,
+    "providerIndicatedTimeUnixMs": 1693425803029,
   },
-  "status": "errored",
-  "statusCode": 500,
 }
 `;
 

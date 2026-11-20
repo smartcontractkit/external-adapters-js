@@ -20,8 +20,11 @@ export type BaseEndpointTypes = {
   Response: LwbaResponseDataFields
 }
 
-export const endpoint = new LwbaEndpoint({
+export const endpointParameters = {
   name: 'crypto-lwba',
   transport: wsTransport,
   inputParameters,
-})
+  aliases: [],
+}
+
+export const endpoint = new LwbaEndpoint(endpointParameters)
