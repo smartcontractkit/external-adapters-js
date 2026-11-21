@@ -1,13 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import {
-  AdapterError,
-  AdapterInputError,
-} from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
 import { transport } from '../transport/stock-quotes'
-import { inputParameters } from './utils'
+import { inputParameters, validateWsEnvVars } from './utils'
 
 export const stockQuotesInputParameters = new InputParameters({
   ...inputParameters.definition,
@@ -30,10 +26,11 @@ export type BaseEndpointTypes = {
     Result: null
     Data: {
       mid_price: number
+      midSource: 'computed'
       bid_price: number
-      bid_volume: number
+      bid_volume: number | null
       ask_price: number
-      ask_volume: number
+      ask_volume: number | null
     }
   }
 }
@@ -44,13 +41,5 @@ export const endpoint = new AdapterEndpoint({
   transport,
   inputParameters: stockQuotesInputParameters,
   overrides: overrides.dxfeed,
-  customInputValidation: (_, settings): AdapterError | undefined => {
-    if (!settings.WS_API_ENDPOINT) {
-      return new AdapterInputError({
-        statusCode: 400,
-        message: 'WS_API_ENDPOINT is not set',
-      })
-    }
-    return
-  },
+  customInputValidation: (_, settings) => validateWsEnvVars(settings),
 })

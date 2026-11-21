@@ -1,45 +1,33 @@
 import { BaseEndpointTypes } from '../endpoint/price'
-import { buildWsTransport } from './ws'
+import { DxLinkEvent, DxLinkEventType, DxLinkTransport, eventTimeOf } from './dxlink'
+import { toNumber } from './utils'
 
-// ["eventSymbol","eventTime","time","timeNanoPart","sequence","exchangeCode","price",
-//  "change","size","dayId","dayVolume","dayTurnover","tickDirection","extendedTradingHours"]
-const eventSymbolIndex = 0
-const timeIndex = 2
-const priceIndex = 6
+// Session-agnostic by design: price has no session parameter, so the newest
+// provider time wins across Trade and TradeETH. After a restart a regular
+// Trade can be served to an extended/overnight stream until the newer TradeETH
+// replay arrives; the reconnect snapshot burst closes that window. This is
+// incumbent behaviour, not a regression.
+export class PriceTransport extends DxLinkTransport<BaseEndpointTypes> {
+  constructor() {
+    // Negotiate both field sets; eventTypesForSymbol gates the subscriptions.
+    super(['Trade', 'TradeETH'])
+  }
 
-const updatedTime: Record<string, number> = {}
+  protected eventTypesForSymbol(symbol: string): DxLinkEventType[] {
+    // Match the incumbent: :USLF24 gets Trade + TradeETH; bare tickers get Trade.
+    return symbol.toUpperCase().includes(':USLF24') ? ['Trade', 'TradeETH'] : ['Trade']
+  }
 
-export const transport = buildWsTransport<BaseEndpointTypes>(
-  (params): Record<string, string[]>[] => {
-    const ticker = params.base.toUpperCase()
-
-    return ticker.includes(':USLF24')
-      ? [{ Trade: [ticker] }, { TradeETH: [ticker] }]
-      : [{ Trade: [ticker] }]
-  },
-  (message) => {
-    const protocol = Array.isArray(message[0].data[0]) ? message[0].data[0][0] : message[0].data[0]
-    if (!['Trade', 'TradeETH'].includes(protocol)) {
-      return []
-    }
-
-    const base = message[0].data[1][eventSymbolIndex].toString()
-    const price = Number(message[0].data[1][priceIndex])
-    const time = Number(message[0].data[1][timeIndex])
-
-    // Ignore old messages
-    if (updatedTime[base] && updatedTime[base] > time) {
-      return []
-    }
-    updatedTime[base] = time
-
-    if (Number.isNaN(price)) {
+  protected parseEvent(event: DxLinkEvent) {
+    const base = event.eventSymbol
+    const price = toNumber(event.price)
+    if (price === null) {
       return [
         {
           params: { base },
           response: {
             statusCode: 502,
-            errorMessage: `Price: ${price} for ${base} is invalid.`,
+            errorMessage: `Price: ${event.price} for ${base} is invalid.`,
           },
         },
       ]
@@ -50,14 +38,12 @@ export const transport = buildWsTransport<BaseEndpointTypes>(
         params: { base },
         response: {
           result: price,
-          data: {
-            result: price,
-          },
-          timestamps: {
-            providerIndicatedTimeUnixMs: time,
-          },
+          data: { result: price },
+          timestamps: { providerIndicatedTimeUnixMs: eventTimeOf(event) ?? undefined },
         },
       },
     ]
-  },
-)
+  }
+}
+
+export const transport = new PriceTransport()
