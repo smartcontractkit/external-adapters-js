@@ -135,6 +135,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/apex"\
     },\
     {\
+      "name": "@chainlink/artex-amina-adapter",\
+      "reference": "workspace:packages/sources/artex-amina"\
+    },\
+    {\
       "name": "@chainlink/asseto-finance-adapter",\
       "reference": "workspace:packages/sources/asseto-finance"\
     },\
@@ -589,6 +593,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/anchorage-adapter", ["workspace:packages/sources/anchorage"]],\
     ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],\
     ["@chainlink/apex-adapter", ["workspace:packages/sources/apex"]],\
+    ["@chainlink/artex-amina-adapter", ["workspace:packages/sources/artex-amina"]],\
     ["@chainlink/asseto-finance-adapter", ["workspace:packages/sources/asseto-finance"]],\
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
     ["@chainlink/backed-fi-adapter", ["workspace:packages/sources/backed-fi"]],\
@@ -4404,6 +4409,23 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/artex-amina-adapter", [\
+      ["workspace:packages/sources/artex-amina", {\
+        "packageLocation": "./packages/sources/artex-amina/",\
+        "packageDependencies": [\
+          ["@chainlink/artex-amina-adapter", "workspace:packages/sources/artex-amina"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
+          ["@date-fns/utc", "npm:2.1.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["date-fns", "npm:4.1.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
