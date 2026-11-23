@@ -145,10 +145,13 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
       latest[ACCOUNTING_DATE_KEY],
       param.navDateTimestampTimezone,
     )
-    const publishTimeTimestampMs =
+    const parsedPublishTime =
       PUBLISH_TIME_UTC_KEY in latest && latest[PUBLISH_TIME_UTC_KEY]
         ? Date.parse(latest[PUBLISH_TIME_UTC_KEY])
         : undefined
+    const publishTimeTimestampMs = Number.isFinite(parsedPublishTime)
+      ? parsedPublishTime
+      : undefined
 
     return {
       statusCode: 200,

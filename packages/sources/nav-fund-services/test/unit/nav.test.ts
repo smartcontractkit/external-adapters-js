@@ -270,6 +270,30 @@ describe('NavTransport – handleRequest', () => {
     expect(cached.data).not.toHaveProperty('publishTimeTimestampMs')
   })
 
+  it('omits publishTimeTimestampMs when PublishTimeUTC is not a parseable date', async () => {
+    requester.request.mockResolvedValueOnce(FUND_DATES_RES)
+    requester.request.mockResolvedValueOnce(
+      makeStub('fundRes', {
+        response: {
+          data: { Data: [FUND_ROWS[0], { ...FUND_ROWS[1], PublishTimeUTC: 'not-a-date' }] },
+        },
+      }),
+    )
+
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: false,
+    } as typeof navInputParams.validated)
+
+    await transport.handleRequest(param)
+
+    const cached = getCachedResponse()
+    expect(cached.statusCode).toBe(200)
+    expect(cached.data.navPerShare).toBe(150)
+    expect(cached.data).not.toHaveProperty('publishTimeTimestampMs')
+  })
+
   it('queries up to the fund ToDate and skips GetFundList by default', async () => {
     // The official accounting date lags the latest available NAV (e.g. SWEEP), which must not
     // limit the query unless explicitly requested.
