@@ -60,6 +60,7 @@ export type BaseEndpointTypes = {
     Data: Record<ResultField, number> & {
       navDate: string
       globalFundID: number
+      publishTimeTimestampMs?: number
     }
   }
   Settings: typeof config.settings

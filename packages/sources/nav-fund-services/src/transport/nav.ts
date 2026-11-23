@@ -5,6 +5,7 @@ import {
   getFund,
   NAV_PER_SHARE_KEY,
   NEXT_NAV_PRICE_KEY,
+  PUBLISH_TIME_UTC_KEY,
 } from './fund'
 import { getFundDates, getFundOfficialAccountingLastAvailableDate } from './fund-dates'
 
@@ -137,12 +138,17 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
         ? row
         : latestRow,
     )
-    // Assumes UTC
+
+    // PublishTimeUTC is YYYY-MM-DDTHH:mm:ssZ; Accounting Date is MM-dd-yyyy (assumed UTC)
     const providerIndicatedTimeUnixMs = parseDateString(latest[ACCOUNTING_DATE_KEY]).getTime()
     const navDateTimestampMs = dateToTimezoneOffsetUtcMs(
       latest[ACCOUNTING_DATE_KEY],
       param.navDateTimestampTimezone,
     )
+    const publishTimeTimestampMs = latest[PUBLISH_TIME_UTC_KEY]
+      ? Date.parse(latest[PUBLISH_TIME_UTC_KEY])
+      : undefined
+
     return {
       statusCode: 200,
       result: latest[NAV_PER_SHARE_KEY],
@@ -153,6 +159,7 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
         navDate: latest[ACCOUNTING_DATE_KEY],
         endingBalance: latest[ENDING_BALANCE_KEY],
         navDateTimestampMs,
+        ...(publishTimeTimestampMs !== undefined ? { publishTimeTimestampMs } : {}),
       },
       timestamps: {
         providerDataRequestedUnixMs,
