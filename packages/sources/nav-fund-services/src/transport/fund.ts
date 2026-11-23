@@ -6,6 +6,7 @@ export const ACCOUNTING_DATE_KEY = 'Accounting Date'
 export const NAV_PER_SHARE_KEY = 'NAV Per Share'
 export const NEXT_NAV_PRICE_KEY = 'Next NAV Price'
 export const ENDING_BALANCE_KEY = 'Ending Balance'
+export const PUBLISH_TIME_UTC_KEY = 'PublishTimeUTC'
 
 interface FundResponse {
   Data: {
@@ -27,6 +28,7 @@ interface FundResponse {
     [NEXT_NAV_PRICE_KEY]: number
     [ACCOUNTING_DATE_KEY]: string
     [ENDING_BALANCE_KEY]: number
+    [PUBLISH_TIME_UTC_KEY]?: string
   }[]
 }
 
