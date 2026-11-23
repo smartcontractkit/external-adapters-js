@@ -69,12 +69,14 @@ const FUND_ROWS = [
     'Next NAV Price': 51,
     'Ending Balance': 52,
     'Accounting Date': '06-10-2025',
+    PublishTimeUTC: '2025-06-10T20:00:00Z',
   },
   {
     'NAV Per Share': 150,
     'Next NAV Price': 151,
     'Ending Balance': 152,
     'Accounting Date': '06-25-2025',
+    PublishTimeUTC: '2025-06-25T20:00:00Z',
   },
 ]
 
@@ -121,6 +123,7 @@ describe('NavTransport – handleRequest', () => {
         navDate: '06-25-2025',
         endingBalance: 152,
         navDateTimestampMs: 1750809600000,
+        publishTimeTimestampMs: Date.parse('2025-06-25T20:00:00Z'),
       },
       timestamps: expect.objectContaining({
         providerDataRequestedUnixMs: expect.any(Number),
@@ -214,12 +217,14 @@ describe('NavTransport – handleRequest', () => {
         'Next NAV Price': 142,
         'Ending Balance': 242,
         'Accounting Date': '06-30-2025',
+        PublishTimeUTC: '2025-06-30T20:00:00Z',
       },
       {
         'NAV Per Share': 43,
         'Next NAV Price': 143,
         'Ending Balance': 243,
         'Accounting Date': '07-01-2025',
+        PublishTimeUTC: '2025-07-01T20:00:00Z',
       },
     ]
     const fundRes = makeStub('fundRes', { response: { data: { Data: fundRows } } })
@@ -240,6 +245,29 @@ describe('NavTransport – handleRequest', () => {
         url: expect.stringContaining('fromDate=06-28-2025'),
       }),
     )
+  })
+
+  it('omits publishTimeTimestampMs when PublishTimeUTC is absent from the row', async () => {
+    requester.request.mockResolvedValueOnce(FUND_DATES_RES)
+    const { PublishTimeUTC: _omit, ...rowWithoutPublishTime } = FUND_ROWS[1]
+    requester.request.mockResolvedValueOnce(
+      makeStub('fundRes', {
+        response: { data: { Data: [FUND_ROWS[0], rowWithoutPublishTime] } },
+      }),
+    )
+
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: false,
+    } as typeof navInputParams.validated)
+
+    await transport.handleRequest(param)
+
+    const cached = getCachedResponse()
+    expect(cached.statusCode).toBe(200)
+    expect(cached.data.navPerShare).toBe(150)
+    expect(cached.data).not.toHaveProperty('publishTimeTimestampMs')
   })
 
   it('queries up to the fund ToDate and skips GetFundList by default', async () => {
