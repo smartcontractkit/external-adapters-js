@@ -79,7 +79,6 @@ export const getFund = async ({
     JSON.stringify(requestConfig),
     requestConfig,
   )
-  console.log(response.response.data.Data)
 
   if (
     !response.response.data ||
