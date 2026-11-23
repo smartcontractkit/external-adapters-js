@@ -160,7 +160,7 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
         navDate: latest[ACCOUNTING_DATE_KEY],
         endingBalance: latest[ENDING_BALANCE_KEY],
         navDateTimestampMs,
-        ...(publishTimeTimestampMs !== undefined ? { publishTimeTimestampMs } : {}),
+        ...(publishTimeTimestampMs !== undefined && { publishTimeTimestampMs }),
       },
       timestamps: {
         providerDataRequestedUnixMs,
