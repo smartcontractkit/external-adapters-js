@@ -22,6 +22,7 @@ export const calculatePrice = async (param: {
   sessionMarketType?: string
   sessionBoundaries: string[]
   sessionBoundariesTimeZone?: string
+  sessionScheduleCacheTtlMs?: number
   smoother: Smoother
   decimals: number
   sourceAdapter: string

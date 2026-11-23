@@ -25,7 +25,10 @@ export const mockStockQuotesWebsocketServer = (URL: string): MockWebsocketServer
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     socket.on('message', (message) => {
-      const { channels }: { channels?: string[] } = JSON.parse(String(message))
+      const { channels, symbols }: { channels?: string[]; symbols?: string[] } = JSON.parse(
+        String(message),
+      )
+      const symbol = symbols?.[0]
       if (channels?.includes('overnight.quotes')) {
         // The provider reports every overnight quote with asset "stocks" and without
         // bid/ask sizes, regardless of the asset type of the underlying symbol.
@@ -39,6 +42,36 @@ export const mockStockQuotesWebsocketServer = (URL: string): MockWebsocketServer
             bid: '1000',
             ask: '1001',
             mid: '1000.4',
+            ts: 1999999,
+          }),
+        )
+      }
+      if (channels?.includes('commodities.quotes')) {
+        return socket.send(
+          JSON.stringify({
+            type: 'quote',
+            channel: 'commodities.quotes',
+            asset: 'commodities',
+            symbol,
+            bid: '4000',
+            ask: '4001',
+            bid_size: '5',
+            ask_size: '6',
+            ts: 1999999,
+          }),
+        )
+      }
+      if (channels?.includes('forex.quotes')) {
+        return socket.send(
+          JSON.stringify({
+            type: 'quote',
+            channel: 'forex.quotes',
+            asset: 'forex',
+            symbol,
+            bid: '2000',
+            ask: '2002',
+            bid_size: '7',
+            ask_size: '8',
             ts: 1999999,
           }),
         )

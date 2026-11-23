@@ -1,5 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { issuerNames, issuers, MULTIPLIER_DECIMALS } from '../issuers'
 import { DataEngineV11Data, priceFields, targetEndpointNames } from '../lib/dataEngine'
@@ -58,6 +59,13 @@ export const inputParameters = new InputParameters(
         },
       },
     },
+    marketSessionOverride: {
+      required: false,
+      type: 'string',
+      description:
+        'Staging/test hook for the 24/7 session-start gating check: instead of resolving the current session start from the wall clock, the check gates against the NEXT start of the named session, deterministically forcing the pre-session rejection. Affects only the session-start gating check. Only the four real session statuses are accepted (UNKNOWN and WEEKEND can never match a tradinghours transition). Requests carrying this parameter are rejected with 400 unless ALLOW_MARKET_SESSION_OVERRIDE=true and ISSUER_247_SESSION_START_GATING_ENABLED=true.',
+      options: ['PRE_MARKET', 'REGULAR', 'POST_MARKET', 'OVERNIGHT'],
+    },
   },
   [
     {
@@ -93,6 +101,9 @@ export type BaseEndpointTypes = {
       rawMultipliedPrice?: string
       rawMultipliedPriceDecimals?: number
       dataEngine: DataEngineV11Data
+      // Present when 24/7 session-start gating ran: which schedule tier supplied the
+      // session start (absent when gating is off)
+      gatingSessionSource?: 'TRADINGHOURS' | 'FALLBACK'
       multiplier?: {
         issuer: string
         network?: string
@@ -113,6 +124,26 @@ export const endpoint = new AdapterEndpoint({
       issuers[data.multiplier.issuer].validate(settings, data.multiplier)
     }
     settings.SOURCE_ADAPTER_URL.get('DATA_ENGINE')
+    // The override is a staging/test hook; reject it explicitly unless it has been
+    // opted into via config, and again when the check it hooks into is off, instead
+    // of silently ignoring it (mirrors the 24/5 validation). Validated here, before
+    // any upstream call, rather than in the gate.
+    if (data.marketSessionOverride && !settings.ALLOW_MARKET_SESSION_OVERRIDE) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Parameter marketSessionOverride requires ALLOW_MARKET_SESSION_OVERRIDE=true`,
+      })
+    }
+    if (data.marketSessionOverride && !settings.ISSUER_247_SESSION_START_GATING_ENABLED) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Parameter marketSessionOverride requires ISSUER_247_SESSION_START_GATING_ENABLED=true`,
+      })
+    }
+    if (settings.ISSUER_247_SESSION_START_GATING_ENABLED) {
+      // Gating needs the tradinghours EA for its tier-1 schedule
+      settings.SOURCE_ADAPTER_URL.get('TRADING_HOURS')
+    }
     return undefined
   },
 })

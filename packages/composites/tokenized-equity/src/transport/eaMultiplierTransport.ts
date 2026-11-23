@@ -18,6 +18,7 @@ export class EAMultiplierTransport extends SmoothedPriceTransport<BaseEndpointTy
       requester: this.requester,
       sourceAdapterUrl: this.config.SOURCE_ADAPTER_URL.get(param.sourceAdapter),
       sourceAdapterParams: param.params,
+      sessionScheduleCacheTtlMs: this.sessionScheduleCacheTtlMs,
     })
 
     return Object.fromEntries(

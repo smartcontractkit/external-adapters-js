@@ -3,6 +3,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { Smoother } from '../endpoint/common'
 import { getSessionSchedule } from '../lib/session/session'
+import { parseMarketSessionOverride } from '../lib/session/sessionStart'
 import {
   WARMUP_MS as OVERNIGHT_EMA_WARMUP_MS,
   processOvernightUpdate,
@@ -19,6 +20,7 @@ export const smoothedStreamPrice = async (param: {
   streamMaxAgeSeconds?: StreamMaxAgeSeconds
   sessionStartGatingEnabled?: boolean
   allowMarketSessionOverride?: boolean
+  sessionScheduleCacheTtlMs?: number
   marketSessionOverride?: string
   url: string
   tradingHoursUrl: string
@@ -71,6 +73,7 @@ export const smoothedStreamPrice = async (param: {
           param.sessionBoundariesTimeZone,
           param.sessionMarket,
           param.sessionMarketType,
+          param.sessionScheduleCacheTtlMs,
         )
       : { transitions: undefined, fallbackTransitions: undefined, secondsFromTransition: undefined }
 
@@ -92,11 +95,7 @@ export const smoothedStreamPrice = async (param: {
         ? {
             transitions: sessionSchedule.transitions,
             fallbackTransitions: sessionSchedule.fallbackTransitions,
-            marketSessionOverride: param.marketSessionOverride
-              ? TwentyfourFiveMarketStatus[
-                  param.marketSessionOverride as keyof typeof TwentyfourFiveMarketStatus
-                ]
-              : undefined,
+            marketSessionOverride: parseMarketSessionOverride(param.marketSessionOverride),
           }
         : undefined,
       requestContext: {

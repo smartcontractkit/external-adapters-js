@@ -4,6 +4,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { getSessionSchedule } from '../../../src/lib/session/session'
 import {
   getSessionTransitions,
+  processData,
   SessionTransition,
 } from '../../../src/lib/session/tradingHoursSession'
 
@@ -30,6 +31,104 @@ const BOUNDARIES = ['04:00', '09:30', '16:00', '20:00']
 describe('getSessionTransitions', () => {
   beforeAll(() => {
     LoggerFactoryProvider.set()
+  })
+
+  it('passes the upstream phase end through as endTimeMs (tradinghours ADR-0001)', async () => {
+    const requester = requesterWith(() =>
+      Promise.resolve(
+        scheduleResponse([
+          {
+            status: 2,
+            statusString: 'REGULAR',
+            time: '2024-01-08T14:30:00.000Z',
+            endTime: '2024-01-08T21:00:00.000Z',
+          },
+        ]),
+      ),
+    )
+
+    const result = await getSessionTransitions(URL, requester, ...ARGS)
+
+    expect(result).toEqual([
+      {
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: new Date('2024-01-08T14:30:00.000Z').getTime(),
+        endTimeMs: new Date('2024-01-08T21:00:00.000Z').getTime(),
+      },
+    ])
+  })
+
+  it('leaves endTimeMs unset for a pre-endTime tradinghours (absent field)', async () => {
+    const requester = requesterWith(() =>
+      Promise.resolve(
+        scheduleResponse([
+          { status: 2, statusString: 'REGULAR', time: '2024-01-08T14:30:00.000Z' },
+        ]),
+      ),
+    )
+
+    const result = await getSessionTransitions(URL, requester, ...ARGS)
+
+    expect(result[0].endTimeMs).toBeUndefined()
+  })
+
+  it('treats an empty endTime as "no end" rather than malformed (keeps the schedule)', async () => {
+    // An empty string parses to NaN; rejecting on it would discard every start
+    // time in the schedule and send 24/5 and 24/7 gating to the fallback.
+    const requester = requesterWith(() =>
+      Promise.resolve(
+        scheduleResponse([
+          { status: 2, statusString: 'REGULAR', time: '2024-01-08T14:30:00.000Z', endTime: '' },
+        ]),
+      ),
+    )
+
+    const result = await getSessionTransitions(URL, requester, ...ARGS)
+
+    expect(result).toEqual([
+      {
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: new Date('2024-01-08T14:30:00.000Z').getTime(),
+      },
+    ])
+  })
+
+  it('smoother filtering (processData) is unchanged when transitions carry endTimeMs', async () => {
+    // The smoother must not react to the new field: same drops as before (REGULAR and
+    // Sunday overnight dropped; thin-liquidity boundaries kept).
+    const transitions: SessionTransition[] = [
+      {
+        status: TwentyfourFiveMarketStatus.OVERNIGHT,
+        timeMs: new Date('2024-01-07T20:00:00.000Z').getTime(),
+        endTimeMs: 1,
+      }, // Sunday — dropped
+      {
+        status: TwentyfourFiveMarketStatus.PRE_MARKET,
+        timeMs: new Date('2024-01-08T04:00:00.000Z').getTime(),
+        endTimeMs: 1,
+      },
+      {
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: new Date('2024-01-08T09:30:00.000Z').getTime(),
+        endTimeMs: 1,
+      }, // dropped
+      {
+        status: TwentyfourFiveMarketStatus.POST_MARKET,
+        timeMs: new Date('2024-01-08T16:00:00.000Z').getTime(),
+        endTimeMs: 1,
+      },
+      {
+        status: TwentyfourFiveMarketStatus.OVERNIGHT,
+        timeMs: new Date('2024-01-08T20:00:00.000Z').getTime(),
+        endTimeMs: 1,
+      }, // Monday — kept
+    ]
+
+    expect(processData(transitions, 'UTC')).toEqual([
+      new Date('2024-01-08T04:00:00.000Z').getTime(),
+      new Date('2024-01-08T16:00:00.000Z').getTime(),
+      new Date('2024-01-08T20:00:00.000Z').getTime(),
+    ])
   })
 
   it('returns all transitions unfiltered, including REGULAR and Sunday overnight', async () => {
@@ -61,6 +160,77 @@ describe('getSessionTransitions', () => {
 
     await expect(getSessionTransitions(URL, requester, ...ARGS)).rejects.toThrow(
       'tradinghours down',
+    )
+  })
+
+  it('processData handles the widened 5-day lookback window (older phases present)', () => {
+    // The tradinghours market-session query now reaches back 5 days, so every
+    // market-session consumer — 24/5 smoothing included — receives ~4 more days of
+    // phases. A full trading day is PRE 04:00 / REGULAR 09:30 / POST 16:00 /
+    // OVERNIGHT 20:00; the window below spans Thu 2024-01-04 .. Tue 2024-01-09
+    // (Mon 2024-01-08 is "today"), plus the Sunday 20:00 overnight.
+    const day = (
+      d: string, // YYYY-MM-DD
+    ): SessionTransition[] => [
+      {
+        status: TwentyfourFiveMarketStatus.PRE_MARKET,
+        timeMs: new Date(`${d}T04:00:00.000Z`).getTime(),
+      },
+      {
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        timeMs: new Date(`${d}T09:30:00.000Z`).getTime(),
+      },
+      {
+        status: TwentyfourFiveMarketStatus.POST_MARKET,
+        timeMs: new Date(`${d}T16:00:00.000Z`).getTime(),
+      },
+      {
+        status: TwentyfourFiveMarketStatus.OVERNIGHT,
+        timeMs: new Date(`${d}T20:00:00.000Z`).getTime(),
+      },
+    ]
+    const transitions: SessionTransition[] = [
+      ...day('2024-01-04'),
+      ...day('2024-01-05'),
+      // Weekend: only the Sunday overnight exists in a real schedule.
+      {
+        status: TwentyfourFiveMarketStatus.OVERNIGHT,
+        timeMs: new Date('2024-01-07T20:00:00.000Z').getTime(),
+      },
+      ...day('2024-01-08'),
+      ...day('2024-01-09'),
+    ]
+
+    // REGULAR is dropped everywhere and the Sunday overnight is still dropped with
+    // older days present; everything else passes through in order.
+    expect(processData(transitions, 'UTC')).toEqual([
+      new Date('2024-01-04T04:00:00.000Z').getTime(),
+      new Date('2024-01-04T16:00:00.000Z').getTime(),
+      new Date('2024-01-04T20:00:00.000Z').getTime(),
+      new Date('2024-01-05T04:00:00.000Z').getTime(),
+      new Date('2024-01-05T16:00:00.000Z').getTime(),
+      new Date('2024-01-05T20:00:00.000Z').getTime(),
+      new Date('2024-01-08T04:00:00.000Z').getTime(),
+      new Date('2024-01-08T16:00:00.000Z').getTime(),
+      new Date('2024-01-08T20:00:00.000Z').getTime(),
+      new Date('2024-01-09T04:00:00.000Z').getTime(),
+      new Date('2024-01-09T16:00:00.000Z').getTime(),
+      new Date('2024-01-09T20:00:00.000Z').getTime(),
+    ])
+
+    // The smoother's signal is secondsFromNearest over this list: the extra older
+    // boundaries are always farther from "now" than the current day's, so the 24/5
+    // smoothing result is unchanged by the wider window. Spot-check Monday pre-open
+    // (nearest = Monday 04:00 PRE_MARKET, not anything from last week) and Monday
+    // evening (nearest = Monday 20:00 OVERNIGHT).
+    const times = processData(transitions, 'UTC')
+    const nearest = (nowMs: number) =>
+      times.reduce((a, b) => (Math.abs(nowMs - b) < Math.abs(nowMs - a) ? b : a))
+    expect(nearest(new Date('2024-01-08T03:00:00.000Z').getTime())).toBe(
+      new Date('2024-01-08T04:00:00.000Z').getTime(),
+    )
+    expect(nearest(new Date('2024-01-08T21:00:00.000Z').getTime())).toBe(
+      new Date('2024-01-08T20:00:00.000Z').getTime(),
     )
   })
 })
