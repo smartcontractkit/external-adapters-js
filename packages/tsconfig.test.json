@@ -342,6 +342,9 @@
       "path": "./sources/solana-functions/tsconfig.test.json"
     },
     {
+      "path": "./sources/spglobal/tsconfig.test.json"
+    },
+    {
       "path": "./sources/spiro/tsconfig.test.json"
     },
     {
