@@ -45,7 +45,7 @@ export const config = new AdapterConfig(
       description: 'Address of Reader contract on Arbitrum',
       type: 'string',
       required: true,
-      default: '0x470fbC46bcC0f16532691Df360A07d8Bf5ee0789',
+      default: '0xAda708aFf0f1D784D28cd8Ff4d6D977fF9599e5D',
       sensitive: false,
     },
     BOTANIX_READER_CONTRACT_ADDRESS: {
