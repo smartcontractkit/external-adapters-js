@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`auth expires_in returns a 502 when the login expires_in is a negative number 1`] = `
+{
+  "errorMessage": "Unable to authenticate with the S&P token endpoint",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`auth expires_in returns a 502 when the login expires_in is a non-numeric string 1`] = `
+{
+  "errorMessage": "Unable to authenticate with the S&P token endpoint",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`auth expires_in returns a 502 when the login expires_in is a numeric string 1`] = `
+{
+  "errorMessage": "Unable to authenticate with the S&P token endpoint",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`auth expires_in returns a 502 when the login expires_in is null 1`] = `
+{
+  "errorMessage": "Unable to authenticate with the S&P token endpoint",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`auth expires_in returns a 502 when the login expires_in is zero 1`] = `
+{
+  "errorMessage": "Unable to authenticate with the S&P token endpoint",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
