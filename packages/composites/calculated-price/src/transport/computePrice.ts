@@ -236,17 +236,21 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
 
     let decimals: number | undefined
     if (decimalsField) {
-      // Extract decimals from all successful responses and verify consistency
-      const allDecimals = successfulResults
-        .map((r) => r?.response?.data?.data?.[decimalsField])
-        .filter((d): d is number => d !== undefined && !Number.isNaN(d))
+      // The exponent is applied to the median as a single scalar, so it is only meaningful
+      // if every source contributing to that median reports the same one. Require the field
+      // to be present and valid in every successful response and for all values to agree;
+      // an omission is treated as a disagreement so a single source cannot silently dictate
+      // the scale while the others' (unverified) values are still used.
+      const allDecimals = successfulResults.map((r) => r?.response?.data?.data?.[decimalsField])
+      const validDecimals = allDecimals.filter(
+        (d): d is number => typeof d === 'number' && Number.isInteger(d),
+      )
 
-      const uniqueDecimals = new Set(allDecimals)
-      if (uniqueDecimals.size !== 1) {
+      if (validDecimals.length !== successfulResults.length || new Set(validDecimals).size !== 1) {
         throw new Error(`Failed to extract consistent decimals from field "${decimalsField}"`)
       }
 
-      decimals = allDecimals[0]
+      decimals = validDecimals[0]
     }
 
     return { values, decimals }

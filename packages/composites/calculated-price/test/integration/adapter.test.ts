@@ -557,5 +557,44 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
       nock.cleanAll()
     })
+
+    it('returns failure when only some upstream responses report the decimals field', async () => {
+      const data = {
+        operand1Sources: ['ncfx', 'elwood'],
+        operand1MinAnswers: 2,
+        operand1Input: JSON.stringify({
+          from: 'LINK',
+          to: 'USD12',
+          overrides: {
+            coingecko: {
+              LINK: 'chainlink',
+            },
+          },
+        }),
+        operand2Sources: ['tiingo'],
+        operand2Input: JSON.stringify({
+          from: 'ETH',
+          to: 'USD12',
+          overrides: {
+            coingecko: {
+              ETH: 'ethereum',
+            },
+          },
+        }),
+        operation: 'multiply',
+        operand1DecimalsField: 'decimals',
+        operand2DecimalsField: 'decimals',
+        outputDecimals: 8,
+      }
+      // ncfx reports decimals but elwood omits it: the single reporter must not be allowed
+      // to dictate the exponent for the whole operand, so the request must fail closed.
+      mockDPResponseSuccess('tiingo', 10, 8)
+      mockDPResponseSuccess('ncfx', 20, 6)
+      mockDPResponseSuccess('elwood', 5)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json().errorMessage).toContain('consistent decimals')
+      nock.cleanAll()
+    })
   })
 })
