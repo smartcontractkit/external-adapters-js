@@ -2084,6 +2084,11 @@
             "internalType": "uint256",
             "name": "impactPoolAmount",
             "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lentImpactPoolAmount",
+            "type": "uint256"
           }
         ],
         "internalType": "struct MarketPoolValueInfo.Props",

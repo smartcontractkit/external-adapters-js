@@ -76,7 +76,7 @@ export const config = new AdapterConfig(
     ARBITRUM_GM_READER_CONTRACT_ADDRESS: {
       description: 'Address of GM Reader contract on Arbitrum',
       type: 'string',
-      default: '0x470fbC46bcC0f16532691Df360A07d8Bf5ee0789',
+      default: '0xAda708aFf0f1D784D28cd8Ff4d6D977fF9599e5D',
       sensitive: false,
     },
     BOTANIX_GM_READER_CONTRACT_ADDRESS: {
@@ -88,18 +88,18 @@ export const config = new AdapterConfig(
     AVALANCHE_GM_READER_CONTRACT_ADDRESS: {
       description: 'Address of GM Reader contract on Avalanche',
       type: 'string',
-      default: '0x62Cb8740E6986B29dC671B2EB596676f60590A5B',
+      default: '0x9390285097B4a1997B91F61AF756DCD2509FcD0F',
       sensitive: false,
     },
     MEGAETH_GM_READER_CONTRACT_ADDRESS: {
       description: 'Address of GM Reader contract on MegaETH',
       type: 'string',
-      default: '0x0f038EB4a38B08cd3c937a3256b51aa01904a684',
+      default: '0x12c4E1A499f2fFcB55683F682549049e29d70Cba',
     },
     ARBITRUM_GLV_READER_CONTRACT_ADDRESS: {
       description: 'Address of GLV Reader contract on Arbitrum',
       type: 'string',
-      default: '0x2C670A23f1E798184647288072e84054938B5497',
+      default: '0x51fe0b7919e1208a717E9B16a097C1C3D70eFbf6',
       sensitive: false,
     },
     BOTANIX_GLV_READER_CONTRACT_ADDRESS: {
@@ -111,13 +111,13 @@ export const config = new AdapterConfig(
     AVALANCHE_GLV_READER_CONTRACT_ADDRESS: {
       description: 'Address of GLV Reader contract on Avalanche',
       type: 'string',
-      default: '0x5C6905A3002f989E1625910ba1793d40a031f947',
+      default: '0x79B6Bf52D49d215724951c5a9A541f8A2Ee165Bc',
       sensitive: false,
     },
     MEGAETH_GLV_READER_CONTRACT_ADDRESS: {
       description: 'Address of GLV Reader contract on MegaETH',
       type: 'string',
-      default: '0x424527a588D56513cB2F5161958D83883EE8aB0f',
+      default: '0xE08885EA7860f19e5fb2AECbA892e8A6BA505C86',
     },
     ARBITRUM_TOKENS_INFO_URL: {
       description: 'URL to token metadata supported by GMX on Arbitrum',
