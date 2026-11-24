@@ -33,7 +33,7 @@ export const getToken = async (url: string, key: string, requester: Requester) =
 
   token = response?.response?.data?.access_token
   tokenExpiry = Date.now() + response?.response?.data?.expires_in * 1000
-  tokenExpiry -= ONE_MINUTE // Refresh slightly before it expires
+  tokenExpiry -= ONE_MINUTE // Refresh slightly before it expires (usually in 30 mins)
 
   if (!token) {
     throw new Error(`Failed to obtain access token: ${JSON.stringify(response?.response?.data)}`)

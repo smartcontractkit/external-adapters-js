@@ -27,7 +27,6 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'ssa',
-  aliases: [],
   transport: ssaTransport,
   inputParameters,
   requestTransforms: [
