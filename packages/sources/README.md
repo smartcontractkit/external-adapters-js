@@ -96,6 +96,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [six](./six/README.md)
 - [solactive](./solactive/README.md)
 - [solana-functions](./solana-functions/README.md)
+- [spglobal](./spglobal/README.md)
 - [spiro](./spiro/README.md)
 - [stader-labs](./stader-labs/README.md)
 - [starknet-gas-price](./starknet-gas-price/README.md)
