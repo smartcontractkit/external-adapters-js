@@ -1,6 +1,6 @@
 # GLV_TOKEN
 
-![2.2.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/glv-token/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.2.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/glv-token/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -11,7 +11,7 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     |       `ARBITRUM_RPC_URL`       |                                                                          RPC url of Arbitrum node                                                                           | string |         |                                              |
 |    ✅     |      `ARBITRUM_CHAIN_ID`       |                                                                         The chain id to connect to                                                                          | number |         |                   `42161`                    |
 |    ✅     |  `DATASTORE_CONTRACT_ADDRESS`  |                                                                       Address of Data Store contract                                                                        | string |         | `0xFD70de6b91282D8017aA4E741e9Ae325CAb992d8` |
-|    ✅     | `GLV_READER_CONTRACT_ADDRESS`  |                                                                       Address of Glv Reader Contract                                                                        | string |         | `0x2C670A23f1E798184647288072e84054938B5497` |
+|    ✅     | `GLV_READER_CONTRACT_ADDRESS`  |                                                                       Address of Glv Reader Contract                                                                        | string |         | `0x51fe0b7919e1208a717E9B16a097C1C3D70eFbf6` |
 |    ✅     |   `DATA_ENGINE_ADAPTER_URL`    |                                                                            URL of Data Engine EA                                                                            | string |         |                                              |
 |    ✅     |       `MARKET_INFO_API`        |                                                                    URL market meta data supported by Glv                                                                    | string |         |  `https://arbitrum-api.gmxinfra.io/markets`  |
 |    ✅     |        `TOKEN_INFO_API`        |                                                                   URL to token meta data supported by Glv                                                                   | string |         |  `https://arbitrum-api.gmxinfra.io/tokens`   |
