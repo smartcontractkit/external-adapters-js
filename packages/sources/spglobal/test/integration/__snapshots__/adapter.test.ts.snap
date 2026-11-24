@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute ssa endpoint should return error for invalid ssa 1`] = `
+{
+  "errorMessage": "Invalid SSA 6 for security INVALIDSSA",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute ssa endpoint should return error for invalid time 1`] = `
+{
+  "errorMessage": "Invalid last_modified_date_time NaN for security INVALIDTIME",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute ssa endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 3,
+  },
+  "result": 3,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1766102400000,
+  },
+}
+`;
