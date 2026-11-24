@@ -1,5 +1,11 @@
 # @chainlink/nav-fund-services-adapter
 
+## 1.6.0
+
+### Minor Changes
+
+- [#5624](https://github.com/smartcontractkit/external-adapters-js/pull/5624) [`030fa65`](https://github.com/smartcontractkit/external-adapters-js/commit/030fa65abdb8d188c0167f8da575cd3f527402aa) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add publishTimeTimestampMs output field and handling from API
+
 ## 1.5.0
 
 ### Minor Changes
