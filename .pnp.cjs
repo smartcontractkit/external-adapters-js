@@ -17513,10 +17513,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:4.0.0", {\
-        "packageLocation": "./.yarn/cache/base-x-npm-4.0.0-64a1f6fa5e-b25db9e07e.zip/node_modules/base-x/",\
+      ["npm:4.0.1", {\
+        "packageLocation": "./.yarn/cache/base-x-npm-4.0.1-50d20f9e5b-c9061e576f.zip/node_modules/base-x/",\
         "packageDependencies": [\
-          ["base-x", "npm:4.0.0"]\
+          ["base-x", "npm:4.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -17854,7 +17854,7 @@ const RAW_RUNTIME_STATE =
       ["npm:5.0.0", {\
         "packageLocation": "./.yarn/cache/bs58-npm-5.0.0-da02537b92-2475cb0684.zip/node_modules/bs58/",\
         "packageDependencies": [\
-          ["base-x", "npm:4.0.0"],\
+          ["base-x", "npm:4.0.1"],\
           ["bs58", "npm:5.0.0"]\
         ],\
         "linkType": "HARD"\
