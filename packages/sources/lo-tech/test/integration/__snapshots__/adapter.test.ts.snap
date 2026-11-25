@@ -31,6 +31,23 @@ exports[`websocket cme_futures endpoint should return success 1`] = `
 }
 `;
 
+exports[`websocket markprice endpoint should return the top of book mid price 1`] = `
+{
+  "data": {
+    "ask": 101,
+    "bid": 99,
+    "mid": 100,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 4040,
+    "providerIndicatedTimeUnixMs": 4048,
+  },
+}
+`;
+
 exports[`websocket stock_quotes endpoint should return success for Asian stock symbol 1`] = `
 {
   "data": {
