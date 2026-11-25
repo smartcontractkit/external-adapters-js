@@ -52,7 +52,6 @@ describe('websocket', () => {
     quote: 'USD',
     endpoint: 'forex-continuous',
   }
-  // Same shape the Datalink streams send (from/to), inverse direction of forexContinuousData
   const forexContinuousInverseData = {
     from: 'USD',
     to: 'ARS',
