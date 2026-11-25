@@ -1,5 +1,15 @@
 # @chainlink/tickerlayer-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#5618](https://github.com/smartcontractkit/external-adapters-js/pull/5618) [`fdd74fd`](https://github.com/smartcontractkit/external-adapters-js/commit/fdd74fdc97b880950ea54e1fc0bad79ef642fb16) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support futures
+
+### Patch Changes
+
+- [#5610](https://github.com/smartcontractkit/external-adapters-js/pull/5610) [`0dc83d2`](https://github.com/smartcontractkit/external-adapters-js/commit/0dc83d2e7445be41554822d05a2b2313787938a2) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support FX and Indices
+
 ## 1.2.1
 
 ### Patch Changes
