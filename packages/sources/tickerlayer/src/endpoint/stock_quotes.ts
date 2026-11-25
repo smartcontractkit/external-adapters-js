@@ -1,17 +1,27 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { wsTransport } from '../transport/stock_quotes'
 import { customInputValidation, inputParameters } from './common'
 
-export const stockQuotesInputParameters = new InputParameters({
-  ...inputParameters.definition,
-  isOvernight: {
-    default: false,
-    description: 'If true, report overnight session data',
-    type: 'boolean',
+export const stockQuotesInputParameters = new InputParameters(
+  {
+    ...inputParameters.definition,
+    isOvernight: {
+      default: false,
+      description: 'If true, report overnight session data',
+      type: 'boolean',
+    },
   },
-})
+  [
+    {
+      base: 'US:AAPL',
+      assetType: 'stocks',
+      isOvernight: true,
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof stockQuotesInputParameters.definition
@@ -23,6 +33,13 @@ export type BaseEndpointTypes = {
       bid_volume: number
       ask_price: number
       ask_volume: number
+      // For cme_futures
+      expiry_date?: number
+      roll_date?: number
+      contract_month?: number
+      price_goldman_roll?: number
+      trading_day_of_month?: number
+      price_goldman_continuous_roll?: number
     }
   }
   Settings: typeof config.settings
@@ -30,7 +47,7 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'stock_quotes',
-  aliases: ['quotes', 'forex', 'commodities'],
+  aliases: ['quotes', 'forex', 'commodities', 'cme_futures'],
   transport: wsTransport,
   inputParameters: stockQuotesInputParameters,
   customInputValidation,
@@ -46,6 +63,15 @@ export const endpoint = new AdapterEndpoint({
       }
       if (request.requestContext.requestEndpointName === 'commodities') {
         request.requestContext.data.assetType = 'commodities'
+      }
+      if (request.requestContext.requestEndpointName === 'cme_futures') {
+        if (request.requestContext.data.isOvernight) {
+          throw new AdapterInputError({
+            statusCode: 400,
+            message: 'Overnight data is not supported for cme_futures',
+          })
+        }
+        request.requestContext.data.assetType = 'futures'
       }
       // assetType is not used when isOvernight is true
       // Force a value here so that any assetType resolve to the same cache

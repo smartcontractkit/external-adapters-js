@@ -3,7 +3,7 @@ import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/
 export const mockStockWebsocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    socket.on('message', (_message) => {
+    socket.on('message', () => {
       return socket.send(
         JSON.stringify({
           type: 'trade',
@@ -29,6 +29,31 @@ export const mockStockQuotesWebsocketServer = (URL: string): MockWebsocketServer
         String(message),
       )
       const symbol = symbols?.[0]
+      if (channels?.includes('futures.quotes')) {
+        return socket.send(
+          JSON.stringify({
+            type: 'quote',
+            channel: 'futures.quotes',
+            asset: 'futures',
+            symbol: symbols?.[0],
+            bid: '5000',
+            ask: '5001',
+            bid_size: '10',
+            ask_size: '11',
+            price: '5000.5',
+            last_trade_date: '2026-12-18',
+            roll_date: '2026-11-20',
+            contract_month: '2026-12',
+            trading_day_of_month: 15,
+            trading_days_in_month: 22,
+            rolls: {
+              r5: { price: '5002' },
+              r5c: { price: '5003' },
+            },
+            ts: 1999999,
+          }),
+        )
+      }
       if (channels?.includes('overnight.quotes')) {
         // The provider reports every overnight quote with asset "stocks" and without
         // bid/ask sizes, regardless of the asset type of the underlying symbol.
