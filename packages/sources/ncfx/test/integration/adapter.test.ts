@@ -20,6 +20,7 @@ describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
   let mockWsServerForex: MockWebsocketServer | undefined
   let mockWsServerForexContinuous: MockWebsocketServer | undefined
+  let forexContinuousConnectionSubscriptions: Set<string>[] = []
   let mockWsServerMarketStatus: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
   const wsEndpoint = 'ws://localhost:9090'
@@ -51,6 +52,12 @@ describe('websocket', () => {
     quote: 'USD',
     endpoint: 'forex-continuous',
   }
+  // Same shape the Datalink streams send (from/to), inverse direction of forexContinuousData
+  const forexContinuousInverseData = {
+    from: 'USD',
+    to: 'ARS',
+    endpoint: 'forex-continuous',
+  }
   const marketStatusOpenData = {
     market: 'forex',
     endpoint: 'market-status',
@@ -79,7 +86,9 @@ describe('websocket', () => {
     mockWsServer = mockCryptoWebSocketServer(wsEndpoint)
     mockWsServerForex = mockForexWebSocketServer(wsEndpointForex)
     mockWsServerMarketStatus = mockMarketStatusWebSocketServer(wsEndpointMarketStatus)
-    mockWsServerForexContinuous = mockForexContinuousWebSocketServer(wsEndpointForexContinuous)
+    const forexContinuousMock = mockForexContinuousWebSocketServer(wsEndpointForexContinuous)
+    mockWsServerForexContinuous = forexContinuousMock.server
+    forexContinuousConnectionSubscriptions = forexContinuousMock.connectionSubscriptions
 
     const adapter = (await import('./../../src')).adapter as unknown as Adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -93,9 +102,10 @@ describe('websocket', () => {
     await testAdapter.request(cryptoDataLwbaInvariantViolation)
     await testAdapter.request(forexData)
     await testAdapter.request(forexContinuousData)
+    await testAdapter.request(forexContinuousInverseData)
     await testAdapter.request(marketStatusOpenData)
     await testAdapter.request(marketStatusClosedData)
-    await testAdapter.waitForCache(7 + Object.keys(mockForexResponse).length)
+    await testAdapter.waitForCache(8 + Object.keys(mockForexResponse).length)
   })
 
   afterAll(async () => {
@@ -168,6 +178,24 @@ describe('websocket', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(forexContinuousData)
       expect(response.json()).toMatchSnapshot()
+    })
+
+    // NCFX drops a pair's inverse on the same connection, so both directions
+    // must be live at once, each on its own connection, and neither inverted on our side.
+    it('should serve a pair and its inverse concurrently', async () => {
+      const forward = await testAdapter.request(forexContinuousData)
+      const inverse = await testAdapter.request(forexContinuousInverseData)
+
+      expect(forward.statusCode).toEqual(200)
+      expect(inverse.statusCode).toEqual(200)
+      expect(forward.json().data).toEqual({ bid: 0.000659191, mid: 0.000659222, ask: 0.000659234 })
+      expect(inverse.json().data).toEqual({ bid: 1516.9, mid: 1516.94, ask: 1516.98 })
+
+      const liveSubscriptions = forexContinuousConnectionSubscriptions.flatMap((subs) => [...subs])
+      expect(liveSubscriptions).toEqual(expect.arrayContaining(['ARS-USD', 'USD-ARS']))
+      for (const subs of forexContinuousConnectionSubscriptions) {
+        expect(subs.has('ARS-USD') && subs.has('USD-ARS')).toBe(false)
+      }
     })
 
     it('should return error (empty data)', async () => {
