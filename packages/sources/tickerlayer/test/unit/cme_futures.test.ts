@@ -142,6 +142,7 @@ describe('StockQuotesWebSocketTransport cme_futures', () => {
     roll_date: '2026-11-20',
     contract_month: '2026-12',
     trading_day_of_month: 15,
+    trading_days_in_month: 22,
     ...overrides,
   })
 
@@ -332,6 +333,11 @@ describe('StockQuotesWebSocketTransport cme_futures', () => {
     ['a missing contract_month', { contract_month: undefined }],
     ['an invalid trading_day_of_month', { trading_day_of_month: 32 }],
     ['a missing trading_day_of_month', { trading_day_of_month: undefined }],
+    ['a missing trading_days_in_month', { trading_days_in_month: undefined }],
+    [
+      'a trading_day_of_month exceeding trading_days_in_month',
+      { trading_day_of_month: 20, trading_days_in_month: 19 },
+    ],
   ])('should ignore a futures message with %s', async (_description, overrides) => {
     const symbol = 'CME:ES'
 

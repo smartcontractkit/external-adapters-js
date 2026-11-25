@@ -128,5 +128,17 @@ describe('websocket', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should reject overnight data for the cme_futures alias', async () => {
+      const dataCmeFuturesOvernight = {
+        base: 'CME:ES.C1',
+        endpoint: 'cme_futures',
+        transport: 'ws',
+        isOvernight: true,
+      }
+      const response = await testAdapter.request(dataCmeFuturesOvernight)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })

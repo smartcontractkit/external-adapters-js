@@ -45,6 +45,7 @@ export const mockStockQuotesWebsocketServer = (URL: string): MockWebsocketServer
             roll_date: '2026-11-20',
             contract_month: '2026-12',
             trading_day_of_month: 15,
+            trading_days_in_month: 22,
             rolls: {
               r5: { price: '5002' },
               r5c: { price: '5003' },

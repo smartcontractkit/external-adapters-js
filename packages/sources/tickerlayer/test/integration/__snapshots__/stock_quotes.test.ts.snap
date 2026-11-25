@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`websocket stock_quotes endpoint should reject overnight data for the cme_futures alias 1`] = `
+{
+  "error": {
+    "message": "Overnight data is not supported for cme_futures",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`websocket stock_quotes endpoint should return overnight quote regardless of the requested assetType 1`] = `
 {
   "data": {

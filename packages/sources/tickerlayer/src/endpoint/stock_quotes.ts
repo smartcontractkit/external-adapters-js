@@ -1,5 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { wsTransport } from '../transport/stock_quotes'
 import { customInputValidation, inputParameters } from './common'
@@ -64,6 +65,12 @@ export const endpoint = new AdapterEndpoint({
         request.requestContext.data.assetType = 'commodities'
       }
       if (request.requestContext.requestEndpointName === 'cme_futures') {
+        if (request.requestContext.data.isOvernight) {
+          throw new AdapterInputError({
+            statusCode: 400,
+            message: 'Overnight data is not supported for cme_futures',
+          })
+        }
         request.requestContext.data.assetType = 'futures'
       }
       // assetType is not used when isOvernight is true

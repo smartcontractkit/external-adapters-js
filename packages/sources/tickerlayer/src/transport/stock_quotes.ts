@@ -25,6 +25,7 @@ export interface WSResponse {
   roll_date?: string
   contract_month?: string
   trading_day_of_month?: number
+  trading_days_in_month?: number
   rolls?: {
     r5?: { price: string }
     r5c?: { price: string }

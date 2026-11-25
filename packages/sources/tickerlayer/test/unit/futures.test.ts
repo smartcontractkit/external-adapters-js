@@ -28,6 +28,7 @@ const makeMessage = (overrides: Partial<WSResponse> = {}): WSResponse => ({
   roll_date: '2026-11-20',
   contract_month: '2026-12',
   trading_day_of_month: 15,
+  trading_days_in_month: 22,
   ...overrides,
 })
 
@@ -216,7 +217,7 @@ describe('extractFutureFields', () => {
   })
 
   describe('trading_day_of_month', () => {
-    it.each([1, 15, 31])('should accept %i', (trading_day_of_month) => {
+    it.each([1, 15, 22])('should accept %i', (trading_day_of_month) => {
       const message = makeMessage({ trading_day_of_month })
 
       expect(extractFutureFields(message, 100, newYorkConfig)).toEqual(
@@ -224,7 +225,7 @@ describe('extractFutureFields', () => {
       )
     })
 
-    it.each([0, 32, -1])('should return an empty object for %i', (trading_day_of_month) => {
+    it.each([0, 23, 32, -1])('should return an empty object for %i', (trading_day_of_month) => {
       const message = makeMessage({ trading_day_of_month })
 
       expect(extractFutureFields(message, 100, newYorkConfig)).toEqual({})
@@ -235,6 +236,48 @@ describe('extractFutureFields', () => {
 
       expect(extractFutureFields(message, 100, newYorkConfig)).toEqual({})
     })
+  })
+
+  describe('trading_days_in_month', () => {
+    it('should accept a trading_day_of_month equal to trading_days_in_month', () => {
+      const message = makeMessage({ trading_day_of_month: 20, trading_days_in_month: 20 })
+
+      expect(extractFutureFields(message, 100, newYorkConfig)).toEqual(
+        expect.objectContaining({ trading_day_of_month: 20 }),
+      )
+    })
+
+    it('should return an empty object when trading_day_of_month exceeds trading_days_in_month', () => {
+      const message = makeMessage({ trading_day_of_month: 21, trading_days_in_month: 20 })
+
+      expect(extractFutureFields(message, 100, newYorkConfig)).toEqual({})
+    })
+
+    it('should accept a numeric string trading_days_in_month', () => {
+      const message = makeMessage({
+        trading_day_of_month: 20,
+        trading_days_in_month: '20' as unknown as number,
+      })
+
+      expect(extractFutureFields(message, 100, newYorkConfig)).toEqual(
+        expect.objectContaining({ trading_day_of_month: 20 }),
+      )
+    })
+
+    it('should return an empty object when trading_days_in_month is missing', () => {
+      const message = makeMessage({ trading_days_in_month: undefined })
+
+      expect(extractFutureFields(message, 100, newYorkConfig)).toEqual({})
+    })
+
+    it.each([[0], [-1], ['n/a' as unknown as number]])(
+      'should return an empty object when trading_days_in_month is %p',
+      (trading_days_in_month) => {
+        const message = makeMessage({ trading_days_in_month })
+
+        expect(extractFutureFields(message, 100, newYorkConfig)).toEqual({})
+      },
+    )
   })
 
   describe('goldman roll prices', () => {

@@ -8,7 +8,7 @@ export const extractFutureFields = (
   calculatedMid: number,
   config: { ROLL_DATE_TIMEZONE: string; ROLL_DATE_TIME_SECONDS: number },
 ) => {
-  const mid_price = toNumber(message.price) ?? calculatedMid
+  const mid_price = toNumber(message.price) || calculatedMid
 
   // e.g. 2026-11-20
   const expiry_date = dateToSeconds(message.last_trade_date, config.ROLL_DATE_TIMEZONE)
@@ -33,7 +33,11 @@ export const extractFutureFields = (
   }
 
   const trading_day_of_month = toNumber(message.trading_day_of_month)
-  if (trading_day_of_month === undefined || trading_day_of_month < 1 || trading_day_of_month > 31) {
+  if (
+    trading_day_of_month === undefined ||
+    trading_day_of_month < 1 ||
+    trading_day_of_month > (toNumber(message.trading_days_in_month) || 0)
+  ) {
     return {}
   }
 
