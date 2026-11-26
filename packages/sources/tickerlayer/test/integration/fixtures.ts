@@ -21,6 +21,29 @@ export const mockStockWebsocketServer = (URL: string): MockWebsocketServer => {
   return mockWsServer
 }
 
+export const mockMarkPriceWebsocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      return socket.send(
+        JSON.stringify({
+          type: 'mark_price',
+          exchange: 'pv_01',
+          contract: 'BTCUSDT',
+          channel: 'perpetuals.marks',
+          bid: '4999',
+          mid: '5000',
+          ask: '5001',
+          heartbeat_at: '2026-01-01T00:00:00.000Z',
+          timestamp: '2026-01-01T00:00:00.000Z',
+        }),
+      )
+    })
+  })
+
+  return mockWsServer
+}
+
 export const mockStockQuotesWebsocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {

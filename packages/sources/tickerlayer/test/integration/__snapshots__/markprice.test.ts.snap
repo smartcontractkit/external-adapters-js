@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket markprice endpoint should reject an invalid exchange 1`] = `
+{
+  "error": {
+    "message": "[Param: exchange] input is not one of valid options (binance,bybit,okx,hyperliquid,aster,lighter)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`websocket markprice endpoint should reject an invalid type 1`] = `
+{
+  "error": {
+    "message": "[Param: type] input is not one of valid options (top_of_book_perps,mark_price)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`websocket markprice endpoint should return success 1`] = `
+{
+  "data": {
+    "ask": 5001,
+    "bid": 4999,
+    "mid": 5000,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1767225600000,
+  },
+}
+`;

@@ -3,7 +3,7 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { BaseEndpointTypes } from '../endpoint/stock_quotes'
 import { extractFutureFields } from '../lib/futures'
-import { toNumber } from './util'
+import { buildSubscriptionMessages, toNumber } from './util'
 
 export interface WSResponse {
   type: string
@@ -132,39 +132,15 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
       builders: {
         // De-dupe subscriptions by channel & symbol so that two requests for the same symbol
         // but different isOvernight values don't interfere with each other.
-        customSubscriptionMessages: (_context, subscriptions) => {
-          const desiredKeys = new Set(subscriptions.desired.map(subscriptionKey))
-          const unsubscribes = [
-            ...new Map(subscriptions.stale.map((params) => [subscriptionKey(params), params])),
-          ]
-            .filter(([key]) => !desiredKeys.has(key))
-            .map(([, params]) => ({
-              action: 'unsubscribe',
-              channels: [channel(params)],
-              symbols: [params.base],
-            }))
-
-          const newParams = new Set(subscriptions.new.map((params) => JSON.stringify(params)))
-          const alreadySubscribedKeys = new Set(
-            subscriptions.desired
-              .filter((params) => !newParams.has(JSON.stringify(params)))
-              .map(subscriptionKey),
-          )
-
-          const subscribes = [
-            ...new Map(subscriptions.new.map((params) => [subscriptionKey(params), params])),
-          ]
-            .filter(([key]) => !alreadySubscribedKeys.has(key))
-            .map(([, params]) => ({
-              action: 'subscribe',
-              channels: [channel(params)],
-              symbols: [params.base],
-              ...(params.isOvernight && { spread: 'full' }),
-              ...(params.assetType === 'futures' && { rolls: ['all'], rolls_depth: 3 }),
-            }))
-
-          return [...unsubscribes, ...subscribes]
-        },
+        customSubscriptionMessages: (_context, subscriptions) =>
+          buildSubscriptionMessages(subscriptions, subscriptionKey, (params, action) => ({
+            action,
+            channels: [channel(params)],
+            symbols: [params.base],
+            ...(action === 'subscribe' && params.isOvernight && { spread: 'full' }),
+            ...(action === 'subscribe' &&
+              params.assetType === 'futures' && { rolls: ['all'], rolls_depth: 3 }),
+          })),
       },
     })
   }
