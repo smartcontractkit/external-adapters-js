@@ -21,45 +21,49 @@ type WsTransportTypes = BaseEndpointTypesForexContinuous & {
   }
 }
 
-export const transport = new WebSocketTransport<WsTransportTypes>({
-  url: (context) => context.adapterSettings.FOREX_CONTINUOUS_WS_API_ENDPOINT,
-  handlers: {
-    open: wsOpenHandler,
+// NCFX drops a pair's inverse when both are subscribed on the same connection (subscribing
+// USD-ARS kills ARS-USD and vice versa), so the endpoint runs multiple instances of this
+// transport, each with its own connection routed via routeForPair in the endpoint.
+export const makeForexContinuousTransport = () =>
+  new WebSocketTransport<WsTransportTypes>({
+    url: (context) => context.adapterSettings.FOREX_CONTINUOUS_WS_API_ENDPOINT,
+    handlers: {
+      open: wsOpenHandler,
 
-    message(message: WsMessage) {
-      if (handleInfoMessage(message)) {
-        return
-      }
+      message(message: WsMessage) {
+        if (handleInfoMessage(message)) {
+          return
+        }
 
-      const priceMessage = message as WsPriceMessage
-      if (
-        !priceMessage.currencyPair ||
-        !priceMessage.mid ||
-        !priceMessage.bid ||
-        !priceMessage.ask
-      ) {
-        logger.warn('WS message does not contain valid data, skipping')
-        return
-      }
+        const priceMessage = message as WsPriceMessage
+        if (
+          !priceMessage.currencyPair ||
+          !priceMessage.mid ||
+          !priceMessage.bid ||
+          !priceMessage.ask
+        ) {
+          logger.warn('WS message does not contain valid data, skipping')
+          return
+        }
 
-      const [base, quote] = priceMessage.currencyPair.split(PAIR_SEPARATOR)
-      return [
-        {
-          params: { base, quote },
-          response: {
-            result: null,
-            data: {
-              bid: priceMessage.bid || 0,
-              mid: priceMessage.mid || 0,
-              ask: priceMessage.ask || 0,
-            },
-            timestamps: {
-              providerIndicatedTimeUnixMs: parseProviderTime(priceMessage.timestamp),
+        const [base, quote] = priceMessage.currencyPair.split(PAIR_SEPARATOR)
+        return [
+          {
+            params: { base, quote },
+            response: {
+              result: null,
+              data: {
+                bid: priceMessage.bid || 0,
+                mid: priceMessage.mid || 0,
+                ask: priceMessage.ask || 0,
+              },
+              timestamps: {
+                providerIndicatedTimeUnixMs: parseProviderTime(priceMessage.timestamp),
+              },
             },
           },
-        },
-      ]
+        ]
+      },
     },
-  },
-  builders: createSubscriptionBuilders(PAIR_SEPARATOR),
-})
+    builders: createSubscriptionBuilders(PAIR_SEPARATOR),
+  })
