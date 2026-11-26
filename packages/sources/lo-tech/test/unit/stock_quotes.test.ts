@@ -63,6 +63,7 @@ describe('stock_quotes', () => {
     WS_CONNECTION_OPEN_TIMEOUT: 10_001,
     BACKGROUND_EXECUTE_MS_WS: 1_002,
     WS_HEARTBEAT_INTERVAL_MS: 30_000,
+    MAX_WS_CONNECTION_AGE_SECONDS: 3_600,
   } as unknown as BaseEndpointTypes['Settings'])
 
   const subscriptionSet = makeStub('subscriptionSet', {
