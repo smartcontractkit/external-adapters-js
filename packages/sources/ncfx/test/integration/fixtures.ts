@@ -135,11 +135,6 @@ export const mockMarketStatusResponse = {
   timestamp: '2024-06-20T20:44:09.594Z',
 }
 
-export const mockForexContinuousSubscribeResponse = {
-  Type: 'Info',
-  Message: 'Subscribed to currency pair(s) ARS-USD',
-}
-
 export const mockForexContinuousResponse = {
   timestamp: '2026-01-15 17:09:38.501',
   currencyPair: 'ARS-USD',
@@ -182,14 +177,45 @@ export const mockMarketStatusWebSocketServer = (URL: string): MockWebsocketServe
   return mockWsServer
 }
 
-export const mockForexContinuousWebSocketServer = (URL: string): MockWebsocketServer => {
-  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
-  mockWsServer.on('connection', (socket) => {
+export const mockForexContinuousInverseResponse = {
+  timestamp: '2026-01-15 17:09:38.501',
+  currencyPair: 'USD-ARS',
+  mid: 1516.94,
+  bid: 1516.9,
+  ask: 1516.98,
+}
+
+const forexContinuousResponses: Record<string, typeof mockForexContinuousResponse> = {
+  'ARS-USD': mockForexContinuousResponse,
+  'USD-ARS': mockForexContinuousInverseResponse,
+}
+
+const invertCcy = (ccy: string) => ccy.split('-').reverse().join('-')
+
+/**
+ * Emulates NCFX forex-continuous: each connection keeps its own subscription set, and
+ * subscribing to a pair drops its inverse on that same connection.
+ * `connectionSubscriptions` exposes each connection's live set so tests can check that a pair
+ * and its inverse never share a connection.
+ */
+export const mockForexContinuousWebSocketServer = (
+  URL: string,
+): { server: MockWebsocketServer; connectionSubscriptions: Set<string>[] } => {
+  const connectionSubscriptions: Set<string>[] = []
+  const server = new MockWebsocketServer(URL, { mock: false })
+  server.on('connection', (socket) => {
+    const subscriptions = new Set<string>()
+    connectionSubscriptions.push(subscriptions)
     socket.send(JSON.stringify(loginResponse))
-    socket.on('message', () => {
-      socket.send(JSON.stringify(mockForexContinuousSubscribeResponse))
-      socket.send(JSON.stringify(mockForexContinuousResponse))
+    socket.on('message', (raw) => {
+      const message = JSON.parse(raw.toString())
+      if (message.request !== 'subscribe') {
+        return
+      }
+      subscriptions.delete(invertCcy(message.ccy))
+      subscriptions.add(message.ccy)
+      socket.send(JSON.stringify(forexContinuousResponses[message.ccy]))
     })
   })
-  return mockWsServer
+  return { server, connectionSubscriptions }
 }
