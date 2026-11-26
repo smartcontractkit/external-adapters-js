@@ -6720,7 +6720,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/tickerlayer", {\
         "packageLocation": "./packages/sources/tickerlayer/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.1"],\
           ["@chainlink/tickerlayer-adapter", "workspace:packages/sources/tickerlayer"],\
           ["@date-fns/tz", "npm:1.4.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
