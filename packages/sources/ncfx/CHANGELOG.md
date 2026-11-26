@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 4.12.0
+
+### Minor Changes
+
+- [#5642](https://github.com/smartcontractkit/external-adapters-js/pull/5642) [`02fcf79`](https://github.com/smartcontractkit/external-adapters-js/commit/02fcf79d314fbb05e28ba32f078543b745b9f784) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - allow for multiple connections on the forex-continuous endpoint to handle inverse pair routing
+
 ## 4.11.1
 
 ### Patch Changes

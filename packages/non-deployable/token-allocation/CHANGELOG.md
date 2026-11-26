@@ -1,5 +1,12 @@
 # @chainlink/token-allocation-adapter
 
+## 1.15.27
+
+### Patch Changes
+
+- Updated dependencies [[`02fcf79`](https://github.com/smartcontractkit/external-adapters-js/commit/02fcf79d314fbb05e28ba32f078543b745b9f784)]:
+  - @chainlink/ncfx-adapter@4.12.0
+
 ## 1.15.26
 
 ### Patch Changes
