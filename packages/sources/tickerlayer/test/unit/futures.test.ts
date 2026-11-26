@@ -217,7 +217,7 @@ describe('extractFutureFields', () => {
   })
 
   describe('trading_day_of_month', () => {
-    it.each([1, 15, 22])('should accept %i', (trading_day_of_month) => {
+    it.each([0, 1, 15, 22])('should accept %i', (trading_day_of_month) => {
       const message = makeMessage({ trading_day_of_month })
 
       expect(extractFutureFields(message, 100, newYorkConfig)).toEqual(
@@ -225,7 +225,7 @@ describe('extractFutureFields', () => {
       )
     })
 
-    it.each([0, 23, 32, -1])('should return an empty object for %i', (trading_day_of_month) => {
+    it.each([23, 32, -1])('should return an empty object for %i', (trading_day_of_month) => {
       const message = makeMessage({ trading_day_of_month })
 
       expect(extractFutureFields(message, 100, newYorkConfig)).toEqual({})
