@@ -35,7 +35,7 @@ export const extractFutureFields = (
   const trading_day_of_month = toNumber(message.trading_day_of_month)
   if (
     trading_day_of_month === undefined ||
-    trading_day_of_month < 1 ||
+    trading_day_of_month < 0 ||
     trading_day_of_month > (toNumber(message.trading_days_in_month) || 0)
   ) {
     return {}
