@@ -7,6 +7,9 @@ export const isValidTimezone = (timezone: string): boolean => {
   return isValid(tz(timezone)(0))
 }
 
+export const getVenues = (value?: string): string[] =>
+  value ? value.split(',').map((venue) => venue.trim().toLowerCase()) : []
+
 export const config = new AdapterConfig(
   {
     REGION_API_KEY: {
@@ -34,6 +37,32 @@ export const config = new AdapterConfig(
       description: 'Lo-Tech websocket endpoint used for the `cme_futures` endpoint',
       type: 'string',
       required: false,
+      sensitive: false,
+    },
+    WS_API_ENDPOINT: {
+      description: 'Lo-Tech base websocket endpoint',
+      type: 'string',
+      default: 'wss://data.lo.tech/ws/v1',
+      sensitive: false,
+    },
+    PERPETUALS_VENUE: {
+      description: 'The comma separated list of venues used for perpetuals trading in lower case',
+      type: 'string',
+      default: 'binance,bybit,okx,hyperliquid,tradexyz',
+      validate: {
+        meta: {},
+        fn: (value) => {
+          const venues = getVenues(value)
+          if (venues.length === 0 || venues.some((venue) => venue.length === 0)) {
+            return 'PERPETUALS_VENUE cannot be empty or contain empty venues.'
+          }
+          const set = new Set(venues)
+          if (set.size !== venues.length) {
+            return 'PERPETUALS_VENUE contains duplicate venues.'
+          }
+          return
+        },
+      },
       sensitive: false,
     },
     ROLL_DATE_TIMEZONE: {

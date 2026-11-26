@@ -3,7 +3,7 @@ import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/
 export const mockWebsocketServer = (URL: string, symbol: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    socket.on('message', (_message) => {
+    socket.on('message', () => {
       return socket.send(
         JSON.stringify({
           egress_ts: Date.now() * 1000,
@@ -24,10 +24,31 @@ export const mockWebsocketServer = (URL: string, symbol: string): MockWebsocketS
   return mockWsServer
 }
 
+export const mockMarkPriceWebsocketServer = (URL: string, symbol: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      return socket.send(
+        JSON.stringify({
+          egress_ts: Date.now() * 1000,
+          data: {
+            type: 'TOP_OF_BOOK',
+            symbol,
+            bid_price: '99',
+            ask_price: '101',
+          },
+        }),
+      )
+    })
+  })
+
+  return mockWsServer
+}
+
 export const mockFuturesWebsocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
-    socket.on('message', (_message) => {
+    socket.on('message', () => {
       return socket.send(
         JSON.stringify({
           egress_ts: Date.now() * 1000,
