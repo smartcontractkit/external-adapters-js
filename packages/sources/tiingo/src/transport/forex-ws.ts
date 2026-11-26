@@ -1,6 +1,6 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/forex'
-import { TiingoWebsocketReverseMappingTransport, wsMessageContent, wsSelectUrl } from './utils'
+import { TiingoWebsocketReverseMappingTransport, wsMessageContent } from './utils'
 
 const logger = makeLogger('TiingoWebsocketReverseMappingTransport')
 
@@ -21,14 +21,9 @@ export type WsTransportTypes = BaseEndpointTypes & {
 }
 export const wsTransport: TiingoWebsocketReverseMappingTransport<WsTransportTypes, string> =
   new TiingoWebsocketReverseMappingTransport<WsTransportTypes, string>({
-    url: (context, _desiredSubs, urlConfigFunctionParameters) => {
+    url: (context) => {
       wsTransport.apiKey = context.adapterSettings.API_KEY
-      return wsSelectUrl(
-        context.adapterSettings.WS_API_ENDPOINT,
-        context.adapterSettings.SECONDARY_WS_API_ENDPOINT,
-        'fx',
-        urlConfigFunctionParameters,
-      )
+      return `${context.adapterSettings.WS_API_ENDPOINT}/fx`
     },
 
     handlers: {
