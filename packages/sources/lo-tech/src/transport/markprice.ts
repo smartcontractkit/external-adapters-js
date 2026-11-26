@@ -1,5 +1,6 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { Decimal } from 'decimal.js'
 import { BaseEndpointTypes } from '../endpoint/markprice'
 
 type WsMessage = {
@@ -58,7 +59,7 @@ export class MarkPriceSocketTransport extends WebSocketTransport<WsTransportType
           }
 
           if (message.data?.type !== 'TOP_OF_BOOK') {
-            logger.warn(`Received unsupported message: ${JSON.stringify(message)}`)
+            logger.debug(`Received unsupported message: ${JSON.stringify(message)}`)
             return
           }
 
@@ -81,7 +82,7 @@ export class MarkPriceSocketTransport extends WebSocketTransport<WsTransportType
               response: {
                 result: null,
                 data: {
-                  mid: (ask + bid) / 2,
+                  mid: new Decimal(ask).add(bid).div(2).toNumber(),
                   ask,
                   bid,
                 },

@@ -115,5 +115,15 @@ describe('websocket', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should return an error when the exchange does not match a configured venue', async () => {
+      const response = await testAdapter.request({
+        exchange: 'unknown-exchange',
+        base: symbolMarkPrice,
+        endpoint: 'markprice',
+      })
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })

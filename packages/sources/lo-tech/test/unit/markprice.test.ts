@@ -371,7 +371,7 @@ describe('markprice', () => {
     log.mockClear()
   })
 
-  it('should log warning for unsupported message type', async () => {
+  it('should log debug for unsupported message type', async () => {
     const symbol = 'S|NVDA-USDT:PERP:LINEAR'
 
     await makeSubscribedContext(symbol)
@@ -386,8 +386,8 @@ describe('markprice', () => {
     socket.send(message)
 
     expect(responseCache.write).not.toHaveBeenCalled()
-    expect(log).toHaveBeenCalledWith(`Received unsupported message: ${message}`)
-    log.mockClear()
+    expect(debugLog).toHaveBeenCalledWith(`Received unsupported message: ${message}`)
+    debugLog.mockClear()
   })
 
   it('should ignore pong message', async () => {

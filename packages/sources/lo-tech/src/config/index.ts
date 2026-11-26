@@ -46,7 +46,7 @@ export const config = new AdapterConfig(
       sensitive: false,
     },
     PERPETUALS_VENUE: {
-      description: 'The comma separated list of venues used for perpetuals trading',
+      description: 'The comma separated list of venues used for perpetuals trading in lower case',
       type: 'string',
       default: 'binance,bybit,okx,hyperliquid,tradexyz',
       validate: {
