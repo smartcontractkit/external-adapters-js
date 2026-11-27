@@ -2,6 +2,7 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { ResponseError } from './types'
 
 const logger = makeLogger('CoinMetrics Crypto error handling')
+const unsupportedAssetRegex = /\bValue\s+'([^']+)'/i
 
 export const logPossibleSolutionForKnownErrors = (error: ResponseError) => {
   if (error['type'] === 'wrong_credentials') {
@@ -18,4 +19,14 @@ export const logPossibleSolutionForKnownErrors = (error: ResponseError) => {
       1. Confirm you are using the same symbol found in the job spec with the correct case.
       2. There maybe an issue with the job spec or the Data Provider may have delisted the asset. Reach out to Chainlink Labs.`)
   }
+}
+
+export const getUnsupportedAssetFromBadParameterError = (
+  error: ResponseError,
+): string | undefined => {
+  if (error.type !== 'bad_parameter') {
+    return undefined
+  }
+
+  return error.message.match(unsupportedAssetRegex)?.[1]?.toLowerCase()
 }
