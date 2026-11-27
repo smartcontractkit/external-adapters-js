@@ -1,0 +1,284 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute failure responses should return 502 for a duplicate ISIN across pages 1`] = `
+{
+  "errorMessage": "AMINA returned 2 positions for the ISIN XS0000000001",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute failure responses should return 502 for a duplicate ISIN on one page 1`] = `
+{
+  "errorMessage": "AMINA returned 2 positions for the ISIN XS0000000001",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute failure responses should return 502 for the recorded provider error class on a positions GET 1`] = `
+{
+  "errorMessage": "Request failed with status code 400",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute failure responses should return 502 when no position has the configured ISIN 1`] = `
+{
+  "errorMessage": "No AMINA position has the ISIN XS0000000001",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute failure responses should return 502 when the login is rejected and not request positions 1`] = `
+{
+  "errorMessage": "The AMINA login request failed",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute failure responses should return 502 when the login reply has no tokens and not request positions 1`] = `
+{
+  "errorMessage": "The AMINA login request failed",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute failure responses should return 502 when the provider connection fails 1`] = `
+{
+  "errorMessage": "socket hang up",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute failure responses should return 502 when the provider returns no positions 1`] = `
+{
+  "errorMessage": "No AMINA position has the ISIN XS0000000001",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute input validation should return 400 for a non-string isin 1`] = `
+{
+  "error": {
+    "message": "[Param: isin] input type is not the expected one (string)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute input validation should return 400 for a non-string portfolio 1`] = `
+{
+  "error": {
+    "message": "[Param: portfolio] input type is not the expected one (string)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute input validation should return 400 for an absent isin 1`] = `
+{
+  "error": {
+    "message": "[Param: isin] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute input validation should return 400 for an absent portfolio 1`] = `
+{
+  "error": {
+    "message": "[Param: portfolio] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute provider requests should read page 0 then page 1 with size 20 and stop when last is true 1`] = `
+{
+  "data": {
+    "aum": 123.4567,
+    "expiresAt": 1775865600,
+    "observationsTimestamp": 1773100800,
+    "result": 123.4567,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+    "validFromTimestamp": 1773100800,
+  },
+  "result": 123.4567,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1773100800000,
+    "providerDataRequestedUnixMs": 1773100800000,
+  },
+}
+`;
+
+exports[`execute provider requests should sign every page with the documented headers and reuse one token 1`] = `
+{
+  "data": {
+    "aum": 123.4567,
+    "expiresAt": 1775865600,
+    "observationsTimestamp": 1773100800,
+    "result": 123.4567,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+    "validFromTimestamp": 1773100800,
+  },
+  "result": 123.4567,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1773100800000,
+    "providerDataRequestedUnixMs": 1773100800000,
+  },
+}
+`;
+
+exports[`execute reserves endpoint should return success 1`] = `
+{
+  "data": {
+    "aum": 123.4567,
+    "expiresAt": 1775865600,
+    "observationsTimestamp": 1773100800,
+    "result": 123.4567,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+    "validFromTimestamp": 1773100800,
+  },
+  "result": 123.4567,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1773100800000,
+    "providerDataRequestedUnixMs": 1773100800000,
+  },
+}
+`;
+
+exports[`execute reserves endpoint should use the default endpoint when the request omits it 1`] = `
+{
+  "data": {
+    "aum": 123.4567,
+    "expiresAt": 1775865600,
+    "observationsTimestamp": 1773100800,
+    "result": 123.4567,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+    "validFromTimestamp": 1773100800,
+  },
+  "result": 123.4567,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1773100800000,
+    "providerDataRequestedUnixMs": 1773100800000,
+  },
+}
+`;
+
+exports[`execute token renewal should fall back to a login when the refresh is rejected 1`] = `
+{
+  "data": {
+    "aum": 123.4567,
+    "expiresAt": 1775865600,
+    "observationsTimestamp": 1773100800,
+    "result": 123.4567,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+    "validFromTimestamp": 1773100800,
+  },
+  "result": 123.4567,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1773100800000,
+    "providerDataRequestedUnixMs": 1773100800000,
+  },
+}
+`;
+
+exports[`execute token renewal should renew a later page without re-fetching the earlier page 1`] = `
+{
+  "data": {
+    "aum": 123.4567,
+    "expiresAt": 1775865600,
+    "observationsTimestamp": 1773100800,
+    "result": 123.4567,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+    "validFromTimestamp": 1773100800,
+  },
+  "result": 123.4567,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1773100800000,
+    "providerDataRequestedUnixMs": 1773100800000,
+  },
+}
+`;
+
+exports[`execute token renewal should renew once on a page 401 and replay that page 1`] = `
+{
+  "data": {
+    "aum": 123.4567,
+    "expiresAt": 1775865600,
+    "observationsTimestamp": 1773100800,
+    "result": 123.4567,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+    "validFromTimestamp": 1773100800,
+  },
+  "result": 123.4567,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1773100800000,
+    "providerDataRequestedUnixMs": 1773100800000,
+  },
+}
+`;
+
+exports[`execute token renewal should return 502 on a second 401 without another renewal 1`] = `
+{
+  "errorMessage": "Request failed with status code 401",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
