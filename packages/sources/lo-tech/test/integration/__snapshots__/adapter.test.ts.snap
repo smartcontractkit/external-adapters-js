@@ -31,6 +31,34 @@ exports[`websocket cme_futures endpoint should return success 1`] = `
 }
 `;
 
+exports[`websocket markprice endpoint should return an error when the exchange does not match a configured venue 1`] = `
+{
+  "error": {
+    "message": "No transport found for key "unknown-exchange", must be one of ["binance","bybit","okx","hyperliquid","tradexyz"]",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`websocket markprice endpoint should return the top of book mid price 1`] = `
+{
+  "data": {
+    "ask": 101,
+    "bid": 99,
+    "mid": 100,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 4040,
+    "providerIndicatedTimeUnixMs": 4048,
+  },
+}
+`;
+
 exports[`websocket stock_quotes endpoint should return success for Asian stock symbol 1`] = `
 {
   "data": {

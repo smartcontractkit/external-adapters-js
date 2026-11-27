@@ -1,5 +1,11 @@
 # @chainlink/lo-tech-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- [#5638](https://github.com/smartcontractkit/external-adapters-js/pull/5638) [`91e9f1f`](https://github.com/smartcontractkit/external-adapters-js/commit/91e9f1f95064ebe5dd962125b748bcd867c5a7ce) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add new endpoint markprice
+
 ## 1.4.0
 
 ### Minor Changes

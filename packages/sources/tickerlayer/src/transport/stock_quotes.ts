@@ -2,6 +2,7 @@ import { WebSocketTransport } from '@chainlink/external-adapter-framework/transp
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { BaseEndpointTypes } from '../endpoint/stock_quotes'
+import { extractFutureFields } from '../lib/futures'
 import { toNumber } from './util'
 
 export interface WSResponse {
@@ -16,8 +17,20 @@ export interface WSResponse {
   bid_size: number | string
   ask_size: number | string
   ts: number
+  // error fields
   message?: string
   event?: string
+  // futures fields
+  last_trade_date?: string
+  roll_date?: string
+  contract_month?: string
+  trading_day_of_month?: number
+  trading_days_in_month?: number
+  rolls?: {
+    r5?: { price: string }
+    r5c?: { price: string }
+  }
+  price?: string
 }
 
 export type WsTransportTypes = BaseEndpointTypes & {
@@ -39,7 +52,7 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
         heartbeat(connection) {
           connection.send(JSON.stringify({ action: 'ping' }))
         },
-        message(message) {
+        message(message, context) {
           const assetTypeFromChannel = message.channel?.split('.')[0]
           if (message.type === 'error' && message.symbol && assetTypeFromChannel) {
             return [
@@ -63,8 +76,8 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
           const isOvernight = message.session == 'overnight'
           const bid_price = toNumber(message.bid)
           const ask_price = toNumber(message.ask)
-          const bid_volume = isOvernight ? 0 : toNumber(message.bid_size) || undefined
-          const ask_volume = isOvernight ? 0 : toNumber(message.ask_size) || undefined
+          const bid_volume = getVolume(message.asset, message.bid_size, isOvernight)
+          const ask_volume = getVolume(message.asset, message.ask_size, isOvernight)
           const providerIndicatedTimeUnixMs = toNumber(message.ts)
           if (
             message.type !== quotesMessageType ||
@@ -81,6 +94,16 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
 
           const mid_price = toNumber(message.mid) || (bid_price + ask_price) / 2
 
+          let futureFields = {}
+
+          if (message.asset === 'futures') {
+            futureFields = extractFutureFields(message, mid_price, context.adapterSettings)
+            if (Object.keys(futureFields).length === 0) {
+              logger.warn({ msg: 'Ignoring unexpected future message', ignoredMessage: message })
+              return
+            }
+          }
+
           return [
             {
               params: {
@@ -96,6 +119,7 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
                   ask_price,
                   bid_volume,
                   ask_volume,
+                  ...futureFields,
                 },
                 timestamps: {
                   providerIndicatedTimeUnixMs,
@@ -136,6 +160,7 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
               channels: [channel(params)],
               symbols: [params.base],
               ...(params.isOvernight && { spread: 'full' }),
+              ...(params.assetType === 'futures' && { rolls: ['all'], rolls_depth: 3 }),
             }))
 
           return [...unsubscribes, ...subscribes]
@@ -150,5 +175,8 @@ const channel = (params: TypeFromDefinition<BaseEndpointTypes['Parameters']>) =>
 
 const subscriptionKey = (params: TypeFromDefinition<BaseEndpointTypes['Parameters']>) =>
   `${channel(params)}:${params.base}`
+
+const getVolume = (asset: string, size: number | string, isOvernight: boolean) =>
+  isOvernight || asset === 'futures' ? 0 : toNumber(size) || undefined
 
 export const wsTransport = new StockQuotesWebSocketTransport()

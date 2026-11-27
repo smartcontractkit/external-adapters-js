@@ -1,5 +1,11 @@
 # @chainlink/glv-token-adapter
 
+## 2.2.2
+
+### Patch Changes
+
+- [#5627](https://github.com/smartcontractkit/external-adapters-js/pull/5627) [`95baf6b`](https://github.com/smartcontractkit/external-adapters-js/commit/95baf6bf453b29addc68abb2bc4c27d52522edad) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Default to the GMX 2.2.1 GlvReader deployment on Arbitrum
+
 ## 2.2.1
 
 ### Patch Changes

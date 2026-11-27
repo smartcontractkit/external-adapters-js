@@ -2,4 +2,4 @@
 '@chainlink/tickerlayer-adapter': patch
 ---
 
-Support FX and Indices
+Support 0 trading_day_of_month
