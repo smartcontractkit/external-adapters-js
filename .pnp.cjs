@@ -4986,7 +4986,7 @@ const RAW_RUNTIME_STATE =
           ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.7"],\
           ["@types/fast-redact", "npm:3.0.4"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/lodash", "npm:4.17.25"],\
+          ["@types/lodash", "npm:4.17.28"],\
           ["@types/lru-cache", "npm:5.1.1"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/object-hash", "npm:2.2.1"],\
@@ -17156,10 +17156,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/lodash", [\
-      ["npm:4.17.25", {\
-        "packageLocation": "./.yarn/cache/@types-lodash-npm-4.17.25-a1b18c42d0-f786e05664.zip/node_modules/@types/lodash/",\
+      ["npm:4.17.28", {\
+        "packageLocation": "./.yarn/cache/@types-lodash-npm-4.17.28-25901ad59a-8164e097e5.zip/node_modules/@types/lodash/",\
         "packageDependencies": [\
-          ["@types/lodash", "npm:4.17.25"]\
+          ["@types/lodash", "npm:4.17.28"]\
         ],\
         "linkType": "HARD"\
       }]\
